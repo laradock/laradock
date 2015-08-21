@@ -1,0 +1,54 @@
+# PHP + NGINX Container #----------------------------------
+phpn-ginx:
+  image: mahmoudz/lara-phpnginx
+  container_name: php-nginx
+  ports:
+    - "80:80"
+  volumes:
+    - ./settings/nginx:/etc/nginx/sites-available
+    - ../laravel:/var/www
+    - ./logs/nginx:/var/log/nginx
+  links:
+    - mysql
+    - redis
+    - beanstalkd
+  privileged: true
+
+# MySQL Container #----------------------------------------
+mysql:
+  image: mahmoudz/lara-mysql
+  container_name: mysql
+  ports:
+    - "3306:3306"
+  volumes_from:
+    - mysql-data
+  environment:
+    MYSQL_DATABASE: laravel-database
+    MYSQL_USER: root
+    MYSQL_PASSWORD: pass
+  privileged: true
+
+# MySQL Data Volume Container #----------------------------
+mysql-data:
+  image: mahmoudz/lara-data
+  container_name: mysql-data
+  volumes:
+    - /var/lib/mysql
+
+# Redis Container #----------------------------------------
+redis:
+  image: mahmoudz/lara-redis
+  container_name: redis
+  ports:
+    - "6379:6379"
+  privileged: true
+
+# Beanstalkd Container #-----------------------------------
+beanstalkd:
+  image: mahmoudz/lara-beanstalkd
+  container_name: beanstalkd
+  ports:
+    - "11300:11300"
+  privileged: true
+
+#----------------------------------------------------------
