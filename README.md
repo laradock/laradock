@@ -20,7 +20,7 @@
 Are you serious!!
 
 ### Why Docker not Vagrant?!
-[Vagrant](https://www.vagrantup.com) gives you Virtual Machines in minutes but Docker gives you Linux Containers in seconds.
+[Vagrant](https://www.vagrantup.com) gives you Virtual Machines in minutes while Docker gives you Linux Containers in seconds.
 
 Instead of providing a full Virtual Machines, like you get with Vagrant, Docker provides you **lightweight** Virtual Containers, that share the same kernel and allow to safely execute independent processes.
 
@@ -36,11 +36,7 @@ And it is inspired by [Laravel Homestead](http://laravel.com/docs/master/homeste
 
 
 ### Questions?
-If you have any questions please share it with us on [Gitter](https://gitter.im/laradock/starter) or email me on (mahmoud@zalt.me).
-
-
-
-
+If you have any questions please share it with us on [![Join the chat at https://gitter.im/LaraDock/starter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/LaraDock/starter?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) or email me on (mahmoud@zalt.me).
 
 
 ## Contents
@@ -69,11 +65,11 @@ Note: PHP and NGINX are in one container, I will split them whenever I see the n
 <a name="Requirements"></a>
 ## Requirements
 - Docker toolbox ([Download](https://www.docker.com/toolbox)) this includes:
+	- VirtualBox
 	- Docker Client
 	- Docker Machine
 	- Docker Compose (Required)
 	- Docker Kitematic (Not Important)
-	- VirtualBox
 - Git ([Download](https://git-scm.com/downloads))
 - Composer ([Download](https://getcomposer.org/download/))
 
@@ -119,9 +115,9 @@ Note: PHP and NGINX are in one container, I will split them whenever I see the n
 	192.168.5x.10x  laravel.dev   # (make sure to set your Docker IP)
 ```
 
-7 - Actually there's nothing you need to do here :) just run the containers and start coding. 
+7 - Finally run the containers and start coding. 
 
-*"Note: Only one time in your life, when you run this command for the first time, it will take about 10 minutes (depend on your connection speed) to download the images form the Docker Hub".*
+*"Note: Only the first you run this command will take up to 7 minutes (depend on your connection speed) to download the images to your local machine, Only once in life.*
 
 ```bash
 	docker-compose up -d
@@ -129,7 +125,7 @@ Note: PHP and NGINX are in one container, I will split them whenever I see the n
 
 8 - Open your browser and visit `http://laravel.dev`
 
-You should see this page:
+You should see a page like this:
 ![](http://s29.postimg.org/8cvh7wq2f/Screen_Shot_2015_08_21_at_9_23_19_PM.png)
 
 
@@ -150,13 +146,15 @@ docker-compose stop
 docker-compose rm -f
 ```
 
-*Note: Careful with this command as it will delete your Data Volume Container as well. (if you want to keep your Database data than you should stop each container by itself as follow):* `docker stop {container-name}`
+*Note: Careful with this command as it will delete your Data Volume Container as well. (if you want to keep your Database data than you should stop each container by itself as follow):* 
+
+`docker stop {container-name}`
 
 
 
 
 #### Delete an Image (remove the unused softwar)
-To delete an image (softwares), just edit the `laradock/docker/docker-compose.yml`
+To delete an image (software), just edit the `laradock/docker/docker-compose.yml` file.
 
 **Example:** Assume you want to stop the `Beanstalkd` Container.
 
@@ -174,7 +172,7 @@ Open the `docker-compose.yml` file, and comment out the `beanstalkd` section:
 ```
 
 #### Add an Image (add a software to run with other Containers)
-To add an image (softwares), just edit the `laradock/docker/docker-compose.yml` and add your container details, to do so you need to be familiar with the [docker compose file syntax](https://docs.docker.com/compose/yml/).
+To add an image (software), just edit the `laradock/docker/docker-compose.yml` and add your container details, to do so you need to be familiar with the [docker compose file syntax](https://docs.docker.com/compose/yml/).
 
 
 #### Edit an existing Image (change some configuration in the image)
@@ -184,9 +182,7 @@ To edit an image, and take full control of it:
 2. modify whichever `Dockfile` you want
 3. from the modified image directory run `docker build -t {your-image-name} .`
 
-If you find any bug or you have and suggestion that can improve the performance of any image, please consider contributing. Thanks in advance.
-
-
+*If you find any bug or you have and suggestion that can improve the performance of any image, please consider contributing. Thanks in advance.*
 
 
 
@@ -196,13 +192,13 @@ If you find any bug or you have and suggestion that can improve the performance 
 
 ## Contributing
 
-All contributions are Welcomed.
+All contributions are welcomed.
 
 
 
 ## Support
 
-[Issues](https://github.com/laradock/starter/issues) managed by Github.
+[Issues](https://github.com/laradock/starter/issues) on Github.
 
 
 
@@ -216,7 +212,7 @@ All contributions are Welcomed.
 
 ## License
 
-The MIT License (MIT). Please see [License File](https://github.com/laradock/starter/blob/master/LICENSE) for more information.
+[MIT License (MIT)](https://github.com/laradock/starter/blob/master/LICENSE)
 
 
 
