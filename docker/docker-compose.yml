@@ -4,7 +4,7 @@
 
 # PHP + NGINX Container #----------------------------------
 phpn-ginx:
-  image: mahmoudz/lara-phpnginx:latest
+  image: laradock/phpnginx:latest
   container_name: php-nginx
   ports:
     - "80:80"
@@ -20,7 +20,7 @@ phpn-ginx:
 
 # MySQL Container #----------------------------------------
 mysql:
-  image: mahmoudz/lara-mysql:latest
+  image: laradock/mysql:latest
   container_name: mysql
   ports:
     - "3306:3306"
@@ -34,7 +34,7 @@ mysql:
 
 # Redis Container #----------------------------------------
 redis:
-  image: mahmoudz/lara-redis:latest
+  image: laradock/redis:latest
   container_name: redis
   ports:
     - "6379:6379"
@@ -47,7 +47,7 @@ redis:
 
 # Beanstalkd Container #-----------------------------------
 beanstalkd:
-  image: mahmoudz/lara-beanstalkd:latest
+  image: laradock/beanstalkd:latest
   container_name: beanstalkd
   ports:
     - "11300:11300"
@@ -55,7 +55,7 @@ beanstalkd:
 
 # Data Volume Container #----------------------------------
 data:
-  image: mahmoudz/lara-data:latest
+  image: laradock/data:latest
   container_name: data
   volumes:
     - /var/lib/mysql
