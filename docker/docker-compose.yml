@@ -1,6 +1,10 @@
+###########################################################
+#      MAINTAINER: Mahmoud Zalt <mahmoud@zalt.me>         #
+###########################################################
+
 # PHP + NGINX Container #----------------------------------
 phpn-ginx:
-  image: mahmoudz/lara-phpnginx
+  image: mahmoudz/lara-phpnginx:latest
   container_name: php-nginx
   ports:
     - "80:80"
@@ -16,39 +20,45 @@ phpn-ginx:
 
 # MySQL Container #----------------------------------------
 mysql:
-  image: mahmoudz/lara-mysql
+  image: mahmoudz/lara-mysql:latest
   container_name: mysql
   ports:
     - "3306:3306"
   volumes_from:
-    - mysql-data
+    - data
   environment:
     MYSQL_DATABASE: laravel-database
     MYSQL_USER: root
     MYSQL_PASSWORD: pass
   privileged: true
 
-# MySQL Data Volume Container #----------------------------
-mysql-data:
-  image: mahmoudz/lara-data
-  container_name: mysql-data
-  volumes:
-    - /var/lib/mysql
-
 # Redis Container #----------------------------------------
 redis:
-  image: mahmoudz/lara-redis
+  image: mahmoudz/lara-redis:latest
   container_name: redis
   ports:
     - "6379:6379"
+  volumes_from:
+    - data
+  volumes:
+    - ./logs/redis:/var/log/redis
+  restart: always
   privileged: true
 
 # Beanstalkd Container #-----------------------------------
 beanstalkd:
-  image: mahmoudz/lara-beanstalkd
+  image: mahmoudz/lara-beanstalkd:latest
   container_name: beanstalkd
   ports:
     - "11300:11300"
   privileged: true
+
+# Data Volume Container #----------------------------------
+data:
+  image: mahmoudz/lara-data:latest
+  container_name: data
+  volumes:
+    - /var/lib/mysql
+    - /var/lib/redis
 
 #----------------------------------------------------------
