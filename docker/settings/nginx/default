@@ -5,7 +5,7 @@ server {
     root /var/www/public;
     index index.php index.html index.htm;
 
-    server_name localdock localdock.dev;
+    server_name laravel.dev;
 
     location / {
          try_files $uri $uri/ /index.php$is_args$args;
