@@ -1,5 +1,7 @@
 # LaraDock
 
+[![Join the chat at https://gitter.im/LaraDock/starter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/LaraDock/starter?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 
 [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://www.zalt.me)
 
