@@ -163,10 +163,10 @@ docker-compose rm -f
 
 
 
-#### Delete an Image (remove the unused softwar)
+#### Delete an Image (remove the unused software)
 To delete an image (software), just edit the `laradock/docker/docker-compose.yml` file.
 
-**Example:** Assume you want to stop the `Beanstalkd` Container.
+**Example:** Assume you want to remove the `Beanstalkd` Container.
 
 
 Open the `docker-compose.yml` file, and comment out the `beanstalkd` section:
@@ -201,6 +201,8 @@ To edit an image, and take full control of it:
 1. clone the LaraDock `docker-images` repository [https://github.com/LaraDock/docker-images](https://github.com/LaraDock/images)
 2. modify whichever `Dockfile` you want
 3. from the modified image directory run `docker build -t {your-image-name} .`
+
+All the images are open source and hosted on the [Docker Hub](https://hub.docker.com/u/laradock/).
 
 *If you find any bug or you have and suggestion that can improve the performance of any image, please consider contributing. Thanks in advance.*
 
