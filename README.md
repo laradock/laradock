@@ -15,7 +15,7 @@ It includes a Laravel `v5.1.10` fresh installation and a pre-configured **Docker
 
 ### What is Docker?
 
-[Docker](https://www.docker.com) is a [Linux](https://www.linux.com) container, written in [Go](http://golang.org) and based on [LXC](https://en.wikipedia.org/wiki/LXC) and [AUFS](https://en.wikipedia.org/wiki/Aufs). 
+[Docker](https://www.docker.com)  is an open-source project that automates the deployment of applications inside software containers, by providing an additional layer of abstraction and automation of [operating-system-level virtualization](https://en.wikipedia.org/wiki/Operating-system-level_virtualization) on Linux, Mac OS and Windows.
 
 ### What is Laravel?
 
