@@ -36,7 +36,7 @@ And it is inspired by [Laravel Homestead](http://laravel.com/docs/master/homeste
 
 
 ### Questions?
-If you have any questions please share it with us on [![Join the chat at https://gitter.im/LaraDock/starter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/LaraDock/starter?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) or email me on (mahmoud@zalt.me).
+If you have any questions please share it with us on [![Join the chat at https://gitter.im/LaraDock/laradock](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/LaraDock/laradock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) or email me on (mahmoud@zalt.me).
 
 
 ## Contents
@@ -82,7 +82,7 @@ Note: PHP and NGINX are in one container, I will split them whenever I see the n
 1 - To start you first need to clone the project
 
 ```bash
-	git clone https://github.com/LaraDock/starter laradock
+	git clone https://github.com/LaraDock/laradock laradock
 ```
 
 2 - Inside `laradock` there are 2 directories (Laravel and Docker) let's start with Laravel
@@ -178,7 +178,7 @@ To add an image (software), just edit the `laradock/docker/docker-compose.yml` a
 #### Edit an existing Image (change some configuration in the image)
 To edit an image, and take full control of it:
 
-1. clone the LaraDock Images repository [https://github.com/LaraDock/images](https://github.com/LaraDock/images)
+1. clone the LaraDock `docker-images` repository [https://github.com/LaraDock/docker-images](https://github.com/LaraDock/images)
 2. modify whichever `Dockfile` you want
 3. from the modified image directory run `docker build -t {your-image-name} .`
 
@@ -198,7 +198,7 @@ All contributions are welcomed.
 
 ## Support
 
-[Issues](https://github.com/laradock/starter/issues) on Github.
+[Issues](https://github.com/laradock/laradock/issues) on Github.
 
 
 
@@ -212,7 +212,7 @@ All contributions are welcomed.
 
 ## License
 
-[MIT License (MIT)](https://github.com/laradock/starter/blob/master/LICENSE)
+[MIT License (MIT)](https://github.com/laradock/laradock/blob/master/LICENSE)
 
 
 
