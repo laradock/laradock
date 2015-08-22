@@ -5,7 +5,9 @@
 
 ### What is this?
 
-**LaraDock** is a **laravel** installation `(v5.1.10)` pre-configured to work on **Docker**.
+**LaraDock** is a starter project to get you up and running with **Laravel** 5 and **Docker**. 
+
+It includes a Laravel `v5.1.10` fresh installation and a pre-configured **Docker Compose** file (containg most required **images** to run a Laravel application).
 
 
 ![](http://s11.postimg.org/uqpl3efab/laradock.jpg)
@@ -39,15 +41,6 @@ And it is inspired by [Laravel Homestead](http://laravel.com/docs/master/homeste
 If you have any questions please share it with us on [![Join the chat at https://gitter.im/LaraDock/laradock](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/LaraDock/laradock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) or email me on (mahmoud@zalt.me).
 
 
-## Contents
-
-- [Highlights](#Highlights)
-- [Requirements](#Requirements)
-- [Usage](#Usage)
-- [Documentation](#Documentation)
-
-
-
 <a name="Highlights"></a>
 ## Highlights
 
@@ -61,6 +54,15 @@ __Included Images:__
 
 Note: PHP and NGINX are in one container, I will split them whenever I see the need for it.
 	
+
+
+## Contents
+
+- [Requirements](#Requirements)
+- [Usage](#Usage)
+- [Documentation](#Documentation)
+
+
 
 <a name="Requirements"></a>
 ## Requirements
@@ -79,7 +81,7 @@ Note: PHP and NGINX are in one container, I will split them whenever I see the n
 <a name="Usage"></a>
 ## Usage
 
-1 - To start you first need to clone the project
+1 - First clone the project
 
 ```bash
 	git clone https://github.com/LaraDock/laradock laradock
@@ -97,25 +99,27 @@ Note: PHP and NGINX are in one container, I will split them whenever I see the n
 	composer install
 ```
 
-4 - Provide some permissions
+4 - On laravel's root directory `laradock/laravel`, rename the file `.env.docker` to `.env`
+
+5 - Provide some permissions (directories should be writable by the web server)
 
 ```bash
-	sudo chmod -R 777 storage && sudo chmod -R 777 bootstrap
+	sudo chmod -R 777 storage && sudo chmod -R 777 bootstrap/cache
 ```
 
-5 - Now let's start with the Docker stuff
+6 - Now let's start with the Docker stuff
 
 ```bash
 	cd ../docker
 ```
 
-6 - Edit the hosts file on your machine, to map your Docker IP to the `laravel.dev` domain, example: 
+7 - Edit the hosts file on your machine, to map your Docker IP to the `laravel.dev` domain, example: 
 
 ```bash
 	192.168.5x.10x  laravel.dev   # (make sure to set your Docker IP)
 ```
 
-7 - Finally run the containers and start coding. 
+8 - Finally run the containers and start coding. 
 
 *"Note: Only the first you run this command will take up to 7 minutes (depend on your connection speed) to download the images to your local machine, Only once in life.*
 
@@ -123,10 +127,16 @@ Note: PHP and NGINX are in one container, I will split them whenever I see the n
 	docker-compose up -d
 ```
 
-8 - Open your browser and visit `http://laravel.dev`
+9 - Open your browser and visit `http://laravel.dev`
 
 You should see a page like this:
 ![](http://s29.postimg.org/8cvh7wq2f/Screen_Shot_2015_08_21_at_9_23_19_PM.png)
+
+
+
+
+
+
 
 
 <a name="Documentation"></a>
@@ -161,7 +171,7 @@ To delete an image (software), just edit the `laradock/docker/docker-compose.yml
 
 Open the `docker-compose.yml` file, and comment out the `beanstalkd` section:
 
-```php
+```yml
 # Beanstalkd Container #-----------------------------------
 # beanstalkd:
 #  image: laradock/beanstalkd:latest
@@ -175,6 +185,16 @@ Open the `docker-compose.yml` file, and comment out the `beanstalkd` section:
 To add an image (software), just edit the `laradock/docker/docker-compose.yml` and add your container details, to do so you need to be familiar with the [docker compose file syntax](https://docs.docker.com/compose/yml/).
 
 
+#### Edit a Container (change Ports or Volumes)
+To modify a container you can simply open the `laradock/docker/docker-compose.yml` and change everything you want.
+
+Example: if you want to set the MySQL port to 3333, just replace the default port with yours:
+
+```yml
+  ports:
+    - "3333:3306"
+```
+
 #### Edit an existing Image (change some configuration in the image)
 To edit an image, and take full control of it:
 
@@ -184,8 +204,8 @@ To edit an image, and take full control of it:
 
 *If you find any bug or you have and suggestion that can improve the performance of any image, please consider contributing. Thanks in advance.*
 
-
-
+#### View the Log files 
+The Log files are stored in the `laradock/docker/logs` directory.
 
 
 
