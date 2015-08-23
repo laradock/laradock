@@ -101,6 +101,10 @@ Note: PHP and NGINX are in one container, I will split them whenever I see the n
 
 4 - On laravel's root directory `laradock/laravel`, rename the file `.env.docker` to `.env`
 
+```bash
+	sudo mv .env.docker .env
+```
+
 5 - Provide some permissions (directories should be writable by the web server)
 
 ```bash
@@ -113,11 +117,21 @@ Note: PHP and NGINX are in one container, I will split them whenever I see the n
 	cd ../docker
 ```
 
-7 - Edit the hosts file on your machine, to map your Docker IP to the `laravel.dev` domain, example: 
+7 - Edit the hosts file `/etc/hosts` on your machine, to map your `Docker IP` to the `laravel.dev` domain
 
 ```bash
-	192.168.5x.10x  laravel.dev   # (make sure to set your Docker IP)
+	sudo nano /etc/hosts
 ```
+
+`127.0.0.x          laravel.dev`
+
+
+> To find the IP address:
+> 
+> - if you are on Linux, the containers run directly on your localhost so this `127.0.0.1` will be your IP Address.
+> - if you are on MAC using **boot2docker**, run this command while boot2docker is up `boot2docker ip` to get the IP Address.
+> - if you are on Windows, check the Docker documentation for how you get the VM IP Address.
+
 
 8 - Finally run the containers and start coding. 
 
@@ -142,6 +156,10 @@ You should see a page like this:
 <a name="Documentation"></a>
 ## Documentation
 
+#### See current running Containers
+```bash
+docker ps
+```
 
 
 #### Close all running Containers
