@@ -9,6 +9,7 @@
 
 It includes a Laravel `v5.1.10` fresh installation and a pre-configured **Docker Compose** file (containg most required **images** to run a Laravel application).
 
+**Watch the demonstration video [https://www.youtube.com/watch?v=3YQsHe6oF80](https://www.youtube.com/watch?v=3YQsHe6oF80).**
 
 ![](http://s11.postimg.org/uqpl3efab/laradock.jpg)
 
@@ -46,19 +47,20 @@ If you have any questions please share it with us on [![Join the chat at https:/
 
 __Included Images:__
 
-- NGINX+PHP
-- MySQL
-- Redis
-- Beanstalked
-- Data Volume (for MySQL & Redis)
+- [NGINX+PHP](https://hub.docker.com/r/laradock/phpnginx/)
+- [MySQL](https://hub.docker.com/r/laradock/mysql/)
+- [Redis](https://hub.docker.com/r/laradock/redis/)
+- [Beanstalked](https://hub.docker.com/r/laradock/beanstalkd/)
+- [Data Volume](https://hub.docker.com/r/laradock/data/) (for MySQL & Redis)
 
-Note: PHP and NGINX are in one container, I will split them whenever I see the need for it.
+*Note: PHP and NGINX are in one container, I will split them whenever I see the need for it.*
 	
 
 
 ## Contents
 
 - [Requirements](#Requirements)
+- [Tutorial](#Tutorial)
 - [Usage](#Usage)
 - [Documentation](#Documentation)
 
@@ -77,6 +79,10 @@ Note: PHP and NGINX are in one container, I will split them whenever I see the n
 
 *Note: Git & Composer can be installed on Docker Containers if you don't want to install them on your machine. (But you have to do this yourself for now).*
 
+<a name="Tutorial"></a>
+## Tutorial
+
+What's better than a quick [video](https://www.youtube.com/watch?v=3YQsHe6oF80) ;)
 
 <a name="Usage"></a>
 ## Usage
