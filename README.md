@@ -72,7 +72,7 @@ __Included Images:__
 	- VirtualBox
 	- Docker Client
 	- Docker Machine
-	- Docker Compose (Required)
+	- Docker Compose (Required, minimum version 1.4.0)
 	- Docker Kitematic (Not Important)
 - Git ([Download](https://git-scm.com/downloads))
 - Composer ([Download](https://getcomposer.org/download/))
