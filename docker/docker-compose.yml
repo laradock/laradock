@@ -3,7 +3,7 @@
 ###########################################################
 
 # PHP + NGINX Container #----------------------------------
-phpn-ginx:
+php-nginx:
   image: laradock/phpnginx:latest
   container_name: php-nginx
   ports:
