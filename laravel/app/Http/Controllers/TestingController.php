@@ -32,10 +32,8 @@ class TestingController extends Controller
             // Testing Cache (Redis)
             Cache::pull('test');
 
-            // Testing Queue (Beanstalkd)
-            $this->dispatch(new TestingQueue());
-
             return view('welcome');
+            
         } catch(Exception $e) {
             echo $e->getMessage();
         }

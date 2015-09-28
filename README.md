@@ -135,11 +135,24 @@ What's better than a quick [video](https://www.youtube.com/watch?v=3YQsHe6oF80) 
 > To find the IP address:
 > 
 > - if you are on Linux, the containers run directly on your localhost so this `127.0.0.1` will be your IP Address.
-> - if you are on MAC using **boot2docker**, run this command while boot2docker is up `boot2docker ip` to get the IP Address.
+> - if you are on MAC and using **boot2docker**, type `boot2docker ip` when boot2docker is up.
+> - if you are on MAC and using **docker-machine**, type `docker-machine ip {VM-Name}` after starting a virtual machine.
 > - if you are on Windows, check the Docker documentation for how you get the VM IP Address.
 
+8 - Additional step for `Docker-Machine` users only. *(Skip this if you are not using `Docker-Machine`)*:
 
-8 - Finally run the containers and start coding. 
+a. Edit this file `docker/docker-compose.yml`
+
+b. Uncomment: 
+
+```yaml
+  # extra_hosts:
+  #   - "laravel.dev:xxx.xxx.xxx.xxx"
+```
+c. Replace `xxx.xxx.xxx.xxx` with your the VM IP address.
+
+
+9 - Finally run the containers and start coding. 
 
 *"Note: Only the first you run this command will take up to 7 minutes (depend on your connection speed) to download the images to your local machine, Only once in life.*
 
@@ -147,7 +160,7 @@ What's better than a quick [video](https://www.youtube.com/watch?v=3YQsHe6oF80) 
 	docker-compose up -d
 ```
 
-9 - Open your browser and visit `http://laravel.dev`
+10 - Open your browser and visit `http://laravel.dev`
 
 You should see a page like this:
 ![](http://s29.postimg.org/8cvh7wq2f/Screen_Shot_2015_08_21_at_9_23_19_PM.png)
