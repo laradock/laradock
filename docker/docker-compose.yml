@@ -15,7 +15,6 @@ php-nginx:
   links:
     - mysql
     - redis
-    - beanstalkd
   privileged: true
   # extra_hosts:
   #   - "laravel.dev:xxx.xxx.xxx.xxx"
@@ -47,14 +46,6 @@ redis:
   restart: always
   privileged: true
 
-# Beanstalkd Container #-----------------------------------
-beanstalkd:
-  image: laradock/beanstalkd:latest
-  container_name: beanstalkd
-  ports:
-    - "11300:11300"
-  privileged: true
-
 # Data Volume Container #----------------------------------
 data:
   image: laradock/data:latest
@@ -62,5 +53,13 @@ data:
   volumes:
     - /var/lib/mysql
     - /var/lib/redis
+
+# Beanstalkd Container #-----------------------------------
+# beanstalkd:
+#   image: laradock/beanstalkd:latest
+#   container_name: beanstalkd
+#   ports:
+#     - "11300:11300"
+#   privileged: true
 
 #----------------------------------------------------------
