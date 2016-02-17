@@ -10,14 +10,14 @@ php-nginx:
     - "80:80"
   volumes:
     - ./settings/nginx:/etc/nginx/sites-available
-    - ../laravel:/var/www
+    - ../:/var/www
     - ./logs/nginx:/var/log/nginx
   links:
     - mysql
     - redis
   privileged: true
-  # extra_hosts:
-  #   - "laravel.dev:xxx.xxx.xxx.xxx"
+  extra_hosts:
+    - "laravel.dev:xxx.xxx.xxx.xxx"
 
 # MySQL Container #----------------------------------------
 mysql:
@@ -28,9 +28,9 @@ mysql:
   volumes_from:
     - data
   environment:
-    MYSQL_DATABASE: laravel-database
-    MYSQL_USER: root
-    MYSQL_PASSWORD: pass
+    MYSQL_DATABASE: homestead
+    MYSQL_USER: homestead
+    MYSQL_PASSWORD: secret
   privileged: true
 
 # Redis Container #----------------------------------------
