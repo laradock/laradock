@@ -35,7 +35,7 @@ It contains pre-packaged Docker Images that provides you a wonderful development
 Seriously!!!
 
 ### Why Docker not Vagrant!?
-[Vagrant](https://www.vagrantup.com) gives you Virtual Machines in minutes while Docker gives you Linux Containers in seconds.
+[Vagrant](https://www.vagrantup.com) gives you Virtual Machines in minutes while Docker gives you Virtual Containers in seconds.
 
 Instead of providing a full Virtual Machines, like you get with Vagrant, Docker provides you **lightweight** Virtual Containers, that share the same kernel and allow to safely execute independent processes.
 
@@ -48,7 +48,7 @@ Instead of providing a full Virtual Machines, like you get with Vagrant, Docker 
 
 <a name="Requirements"></a>
 ## Requirements
-- Laravel Installation
+- Laravel ([Download](https://laravel.com/docs/master/installation))
 - Docker Toolbox ([Download](https://www.docker.com/toolbox))
 - Git ([Download](https://git-scm.com/downloads))
 - Composer ([Download](https://getcomposer.org/download/))
@@ -78,8 +78,8 @@ git clone https://github.com/LaraDock/laradock.git .
 4 - Find your Docker IP address.
 
 - If you are on Linux OS: your IP Address is `127.0.0.1` because the containers run directly on your localhost.
-- If you are on MAC or Windows OS and using the **docker-machine**: start your docker machine then type `docker-machine ip {VM-Name}` to get your IP Address. *(Default is 192.168.99.100)*
-- If you are on MAC or Windows OS and using **boot2docker**: type `boot2docker ip` when boot2docker is up, to get your IP Address.
+- If you are on MAC or Windows OS and using the **docker-machine**: start your docker machine then type `docker-machine ip {vm-name-here}`. *(The default IP is 192.168.99.100)*
+- If you are on MAC or Windows OS and using **boot2docker**: type `boot2docker ip` when boot2docker is up.
 
 5 - Open your hosts file `/etc/hosts`.
 
@@ -104,18 +104,25 @@ DB_HOST=laravel.dev
 REDIS_HOST=laravel.dev
 ```
 
-9 - Finally run the containers to start coding. 
+If you want to use Redis for Caching and/or for Sessions Management, set `CACHE_DRIVER` and `SESSION_DRIVER` to `redis` instead of the default `file`.
+
+```env
+CACHE_DRIVER=redis
+SESSION_DRIVER=redis
+```
+
+9 - Finally run the containers. Make sure you are in the `docker` folder before running this command.
 
 ```bash
 docker-compose up -d
 ```
 
-*"Note: Only the first time you run this command, it will take up to 7 minutes (depend on your connection speed) to download the images to your local machine, Only once in life.*
+*"Note: Only the first time you run this command, it will take up to 7 minutes (depend on your connection speed) to download the images to your local machine.*
 
 10 - Open your browser and visit `http://laravel.dev`
 
 
-> Debugging: if you faced an error, it might be that you forget to provide some permissions for Laravel, so try running the following command on the Laravel rood directory:
+> Debugging: in case you faced an error here, it might be that you forget to provide some permissions for Laravel, so try running the following command on the Laravel rood directory:
 `sudo chmod -R 777 storage && sudo chmod -R 777 bootstrap/cache`
 
 
@@ -201,7 +208,7 @@ __Currently Supported Docker Images:__
 
 ## Contributing
 
-All contributions are welcomed.
+This little project was built by one man who has a full time job and many responsibilities, so if you like this project and you find that it needs a bug fix or support for new software or upgrade for the current containers, or anything else.. Do not hesitate to contribute, you are more than welcome :)
 
 
 
