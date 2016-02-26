@@ -11,7 +11,7 @@
 - [Requirements](#Requirements)
 - [Usage](#Usage)
 - [Documentation](#Documentation)
-- [Supported Images](#Supports)
+- [Docker Images](#Images)
 
 ![](http://s11.postimg.org/uqpl3efab/laradock.jpg)
 
@@ -129,6 +129,21 @@ docker-compose up -d
 
 
 
+<a name="Images"></a>
+## Docker Images
+
+__Currently Supported Docker Images:__
+
+- [NGINX+PHP](https://hub.docker.com/r/laradock/phpnginx/)
+- [MySQL](https://hub.docker.com/r/laradock/mysql/)
+- [Redis](https://hub.docker.com/r/laradock/redis/)
+- [Beanstalked](https://hub.docker.com/r/laradock/beanstalkd/)
+- [Data Volume](https://hub.docker.com/r/laradock/data/) (for MySQL & Redis)
+
+You can add/edit all the images on this repository https://github.com/LaraDock/docker-images 
+
+
+
 
 <a name="Documentation"></a>
 ## Documentation
@@ -192,24 +207,13 @@ The Log files are stored in the `docker/logs` directory.
 
 
 
-<a name="Supports"></a>
-## Highlights
-
-__Currently Supported Docker Images:__
-
-- [NGINX+PHP](https://hub.docker.com/r/laradock/phpnginx/)
-- [MySQL](https://hub.docker.com/r/laradock/mysql/)
-- [Redis](https://hub.docker.com/r/laradock/redis/)
-- [Beanstalked](https://hub.docker.com/r/laradock/beanstalkd/)
-- [Data Volume](https://hub.docker.com/r/laradock/data/) (for MySQL & Redis)
-
-
-
-
 ## Contributing
 
 This little project was built by one man who has a full time job and many responsibilities, so if you like this project and you find that it needs a bug fix or support for new software or upgrade for the current containers, or anything else.. Do not hesitate to contribute, you are more than welcome :)
 
+The project consist of 2 repositories:
+- Laradock: https://github.com/LaraDock/laradock
+- Docker-Images: https://github.com/LaraDock/docker-images
 
 
 ## Support
