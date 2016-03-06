@@ -4,6 +4,15 @@
 [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://www.zalt.me)
 
 
+Like Laravel Homstead but for Docker instead of Vagrant.
+<br>
+LaraDock helps you run your **Laravel** App on **Docker** in seconds.
+
+
+
+![](http://s11.postimg.org/uqpl3efab/laradock.jpg)
+
+
 ## Contents
 
 
@@ -13,17 +22,13 @@
 - [Documentation](#Documentation)
 - [Docker Images](#Images)
 
-![](http://s11.postimg.org/uqpl3efab/laradock.jpg)
-
-
 
 <a name="Intro"></a>
-### What is LaraDock?
-
-**LaraDock** helps you run your **Laravel** App on **Docker** in seconds.
+### Intro
 
 LaraDock strives to make the development experience easier.
 It contains pre-packaged Docker Images that provides you a wonderful development environment without requiring you to install PHP, NGINX, MySQL, REDIS, and any other software on your local machine.
+
 
 
 ### What is Docker?
