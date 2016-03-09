@@ -127,7 +127,7 @@ docker-compose up -d
 10 - Open your browser and visit `http://laravel.dev`
 
 
-> Debugging: in case you faced an error here, it might be that you forget to provide some permissions for Laravel, so try running the following command on the Laravel rood directory:
+> Debugging: in case you faced an error here, it might be that you forget to provide some permissions for Laravel, so try running the following command on the Laravel root directory:
 `sudo chmod -R 777 storage && sudo chmod -R 777 bootstrap/cache`
 
 
