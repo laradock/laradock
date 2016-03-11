@@ -114,7 +114,20 @@ DB_HOST=laravel.dev
 REDIS_HOST=laravel.dev
 ```
 
-If you want to use Redis for Caching and/or for Sessions Management, set `CACHE_DRIVER` and `SESSION_DRIVER` to `redis` instead of the default `file`.
+If you don't find the `REDIS_HOST` variable in your `.env` file. Go to the database config file `config/database.php` and replace the `127.0.0.1` with `laravel.dev` for Redis like so:
+
+```php
+    'redis' => [
+        'cluster' => false,
+        'default' => [
+            'host'     => 'laravel.dev',
+            'port'     => 6379,
+            'database' => 0,
+        ],
+    ],
+```
+
+If you want to use Redis for Caching and/or for Sessions Management. Open the `.env` file and set `CACHE_DRIVER` and `SESSION_DRIVER` to `redis` instead of the default `file`.
 
 ```env
 CACHE_DRIVER=redis
