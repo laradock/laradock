@@ -117,14 +117,14 @@ REDIS_HOST=laravel.dev
 If you don't find the `REDIS_HOST` variable in your `.env` file. Go to the database config file `config/database.php` and replace the `127.0.0.1` with `laravel.dev` for Redis like so:
 
 ```php
-    'redis' => [
-        'cluster' => false,
-        'default' => [
-            'host'     => 'laravel.dev',
-            'port'     => 6379,
-            'database' => 0,
-        ],
+'redis' => [
+    'cluster' => false,
+    'default' => [
+        'host'     => 'laravel.dev',
+        'port'     => 6379,
+        'database' => 0,
     ],
+],
 ```
 
 If you want to use Redis for Caching and/or for Sessions Management. Open the `.env` file and set `CACHE_DRIVER` and `SESSION_DRIVER` to `redis` instead of the default `file`.
@@ -137,16 +137,21 @@ SESSION_DRIVER=redis
 8 - Finally run the containers. Make sure you are in the `docker` folder before running this command.
 
 ```bash
-docker-compose up -d
+docker-compose up
 ```
 
+You can run `docker-compose up -d` if you want to run the containers in the background.
+
 *"Note: Only the first time you run this command, it will take up to 5 minutes (depend on your connection speed) to download the images to your local machine.*
+
+> Debugging: in case you faced a problem with docker mahcine here, try to running this command in your current terminal session `docker-machine env {vm-name-here}` and then `eval "$(docker-machine env {vm-name-here})"`.
+
 
 9 - Open your browser and visit `http://laravel.dev`
 
 
 > Debugging: in case you faced an error here, it might be that you forget to provide some permissions for Laravel, so try running the following command on the Laravel root directory:
-`sudo chmod -R 777 storage && sudo chmod -R 777 bootstrap/cache`
+`sudo chmod -R 777 storage && sudo chmod -R 777 bootstrap/cache`.
 
 
 <br>
