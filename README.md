@@ -1,6 +1,5 @@
 # LaraDock
 
-
 [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://www.zalt.me)
 
 
@@ -9,10 +8,9 @@ Like Laravel Homstead but for Docker instead of Vagrant.
 LaraDock helps you run your **Laravel** App on **Docker** in seconds.
 
 
-
 ![](http://s11.postimg.org/uqpl3efab/laradock.jpg)
 
-
+<br>
 ## Contents
 
 
@@ -51,6 +49,23 @@ Instead of providing a full Virtual Machines, like you get with Vagrant, Docker 
 
 
 
+<br>
+<a name="Images"></a>
+## Included Software
+
+__Docker Images:__
+
+- [NGINX+PHP](https://hub.docker.com/r/laradock/phpnginx/)
+- [MySQL](https://hub.docker.com/r/laradock/mysql/)
+- [Redis](https://hub.docker.com/r/laradock/redis/)
+- [Beanstalked](https://hub.docker.com/r/laradock/beanstalkd/)
+- [Data Volume](https://hub.docker.com/r/laradock/data/) (for MySQL & Redis)
+
+You can edit these images, on this repository [https://github.com/LaraDock/docker-images ](https://github.com/LaraDock/docker-images).
+
+
+
+
 <a name="Requirements"></a>
 ## Requirements
 - Laravel ([Download](https://laravel.com/docs/master/installation))
@@ -58,51 +73,41 @@ Instead of providing a full Virtual Machines, like you get with Vagrant, Docker 
 - Git ([Download](https://git-scm.com/downloads))
 - Composer ([Download](https://getcomposer.org/download/))
 
-*Note: Git & Composer can be installed on Docker Containers if you don't want to install them on your machine. (But you have to do this yourself for now).*
-
-
+<br>
 <a name="Usage"></a>
 ## Usage
 
-1 - First install any version of Laravel, or use any of your existing Laravel projects.
+1 - Install any version of Laravel, or use any of your existing Laravel projects.
 
-2 - Open your terminal and go to your Laravel project directory.
-
-3 - Create a new folder on the root directory of your Laravel project and name it `docker` then go into it.
+2 - Clone the LaraDock repository, inside a `docker` folder, on the root directory of your Laravel project.
 
 ```bash
-mkdir docker && cd $_
+git clone https://github.com/LaraDock/laradock.git docker
 ```
 
-3 - Clone the LaraDock repository inside that `docker` folder.
-
-```bash
-git clone https://github.com/LaraDock/laradock.git .
-```
-
-4 - Find your Docker IP address.
+3 - Find your Docker IP address.
 
 - If you are on Linux OS: your IP Address is `127.0.0.1` because the containers run directly on your localhost.
-- If you are on MAC or Windows OS and using the **docker-machine**: start your docker machine then type `docker-machine ip {vm-name-here}`. *(The default IP is 192.168.99.100)*
-- If you are on MAC or Windows OS and using **boot2docker**: type `boot2docker ip` when boot2docker is up.
+- If you are on MAC or Windows and using the **docker-machine**: start your docker machine then type `docker-machine ip {vm-name-here}`. *(The default IP is 192.168.99.100)*
+- If you are on MAC or Windows and using **boot2docker**: type `boot2docker ip` when boot2docker is up.
 
-5 - Open your hosts file `/etc/hosts`.
+4 - Open your hosts file `/etc/hosts`.
 
 ```bash
 sudo nano /etc/hosts
 ```
 
-6 - Map your `Docker IP` to the `laravel.dev` domain, by adding the following to the `hosts` file. 
+5 - Map your `Docker IP` to the `laravel.dev` domain, by adding the following to the `hosts` file. 
 
 ```bash
-xxx.xxx.xxx.xxx          laravel.dev
+xxx.xxx.xxx.xxx    laravel.dev
 ```
 
 Don't forget to replace the `xxx.xxx.xxx.xxx` with your Docker IP Address.
 
-7 - Open `docker-compose.yml` file and replace the `xxx.xxx.xxx.xxx` with your Docker IP Adress as well.
+6 - From the new created `docker` folder in step 2, open the `docker-compose.yml` file to replace the `xxx.xxx.xxx.xxx` with your Docker IP Adress as well.
 
-8 - Open your Laravel's `.env` file and set the `DB_HOST` and the `REDIS_HOST` to `laravel.dev` instead of the default `127.0.0.1`.
+7 - Open your Laravel's `.env` file and set the `DB_HOST` and the `REDIS_HOST` to `laravel.dev` instead of the default `127.0.0.1`.
 
 ```env
 DB_HOST=laravel.dev
@@ -116,40 +121,22 @@ CACHE_DRIVER=redis
 SESSION_DRIVER=redis
 ```
 
-9 - Finally run the containers. Make sure you are in the `docker` folder before running this command.
+8 - Finally run the containers. Make sure you are in the `docker` folder before running this command.
 
 ```bash
 docker-compose up -d
 ```
 
-*"Note: Only the first time you run this command, it will take up to 7 minutes (depend on your connection speed) to download the images to your local machine.*
+*"Note: Only the first time you run this command, it will take up to 5 minutes (depend on your connection speed) to download the images to your local machine.*
 
-10 - Open your browser and visit `http://laravel.dev`
+9 - Open your browser and visit `http://laravel.dev`
 
 
 > Debugging: in case you faced an error here, it might be that you forget to provide some permissions for Laravel, so try running the following command on the Laravel root directory:
 `sudo chmod -R 777 storage && sudo chmod -R 777 bootstrap/cache`
 
 
-
-
-
-<a name="Images"></a>
-## Docker Images
-
-__Currently Supported Docker Images:__
-
-- [NGINX+PHP](https://hub.docker.com/r/laradock/phpnginx/)
-- [MySQL](https://hub.docker.com/r/laradock/mysql/)
-- [Redis](https://hub.docker.com/r/laradock/redis/)
-- [Beanstalked](https://hub.docker.com/r/laradock/beanstalkd/)
-- [Data Volume](https://hub.docker.com/r/laradock/data/) (for MySQL & Redis)
-
-You can add/edit all the images on this repository https://github.com/LaraDock/docker-images 
-
-
-
-
+<br>
 <a name="Documentation"></a>
 ## Documentation
 
@@ -211,7 +198,7 @@ All the images are open source and hosted on the [Docker Hub](https://hub.docker
 The Log files are stored in the `docker/logs` directory.
 
 
-
+<br>
 ## Contributing
 
 This little project was built by one man who has a full time job and many responsibilities, so if you like this project and you find that it needs a bug fix or support for new software or upgrade for the current containers, or anything else.. Do not hesitate to contribute, you are more than welcome :)
