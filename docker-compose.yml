@@ -4,7 +4,7 @@
 
 # PHP + NGINX Container #----------------------------------
 php-nginx:
-  image: laradock/phpnginx:latest
+  image: chuanty/phpnginx:7.0.4-fpm_1.8.1
   container_name: php-nginx
   ports:
     - "80:80"
@@ -15,13 +15,14 @@ php-nginx:
   links:
     - mysql
     - redis
+    - elasticsearch
   privileged: true
   extra_hosts:
     - "laravel.dev:xxx.xxx.xxx.xxx"
 
 # MySQL Container #----------------------------------------
 mysql:
-  image: laradock/mysql:latest
+  image: chuanty/mysql:5.5
   container_name: mysql
   ports:
     - "3306:3306"
@@ -35,7 +36,7 @@ mysql:
 
 # Redis Container #----------------------------------------
 redis:
-  image: laradock/redis:latest
+  image: chuanty/redis:3.0
   container_name: redis
   ports:
     - "6379:6379"
@@ -46,9 +47,17 @@ redis:
   restart: always
   privileged: true
 
+# Elasticsearch Container #--------------------------------
+elasticsearch:
+  image: chuanty/elasticsearch:2.2
+  container_name: elasticsearch
+  ports:
+    - "9200:9200"
+    - "9300:9300"
+
 # Data Volume Container #----------------------------------
 data:
-  image: laradock/data:latest
+  build: data
   container_name: data
   volumes:
     - /var/lib/mysql
