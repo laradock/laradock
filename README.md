@@ -133,7 +133,7 @@ CACHE_DRIVER=redis
 SESSION_DRIVER=redis
 ```
 
-8 - Finally run the containers. Make sure you are in the `docker` folder before running this command.
+8 - Finally run the containers. **Make sure you are in the `docker` folder** before running this command.
 
 ```bash
 docker-compose up -d
@@ -211,7 +211,7 @@ If you set `laradock/phpnginx` as your image, this will pull from `laradock/php5
 By default `docker-compose.yml` is configured to use the latest stable version of the image (latest stable realease `tag`).
 
 
-To use the latest build you can edit the `docker-compose.yml` file and replace the version at the end of the images name by `:latest`
+To use the latest build you can edit the `docker-compose.yml` file and replace the version number at the end of every image name with `:latest`
 <br>
 Example: change `image: laradock/mysql:0.1.0` to `image: laradock/mysql:latest`
 
@@ -224,13 +224,13 @@ To prevent a container (software) from running, open the `docker-compose.yml` fi
 
 <br>
 #### Add an Image (add a software to run with other Containers)
-To add an image (software), just edit the `laradock/docker/docker-compose.yml` and add your container details, to do so you need to be familiar with the [docker compose file syntax](https://docs.docker.com/compose/yml/).
+To add an image (software), just edit the `docker-compose.yml` and add your container details, to do so you need to be familiar with the [docker compose file syntax](https://docs.docker.com/compose/yml/).
 
 
 
 <br>
 #### Edit a Container (change Ports or Volumes)
-To modify a container you can simply open the `laradock/docker/docker-compose.yml` and change everything you want.
+To modify a container you can simply open the `docker-compose.yml` and change everything you want.
 
 Example: if you want to set the MySQL port to 3333, just replace the default port with yours:
 
@@ -240,22 +240,25 @@ Example: if you want to set the MySQL port to 3333, just replace the default por
 ```
 
 
+
+<br>
+#### View the Log files 
+The Log files are stored in the `docker/logs` directory.
+
+
+
 <br>
 #### Edit an existing Image (change some configuration in the image)
 To edit an image, and take full control of it:
 
-1. clone the LaraDock `docker-images` repository [https://github.com/LaraDock/docker-images](https://github.com/LaraDock/images)
-2. modify whichever `Dockfile` you want
-3. from the modified image directory run `docker build -t {your-image-name} .`
+1. Clone any Image from [https://github.com/LaraDock](https://github.com/LaraDock)
+2. Modify the `Dockfile`
+3. Run `docker build -t {your-image-name} .`
 
 All the images are open source and hosted on the [Docker Hub](https://hub.docker.com/u/laradock/).
 
 *If you find any bug or you have and suggestion that can improve the performance of any image, please consider contributing. Thanks in advance.*
 
-
-<br>
-#### View the Log files 
-The Log files are stored in the `docker/logs` directory.
 
 
 <br>
