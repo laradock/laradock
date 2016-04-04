@@ -1,10 +1,6 @@
-###########################################################
-#      MAINTAINER: Mahmoud Zalt <mahmoud@zalt.me>         #
-###########################################################
-
 # PHP + NGINX Container #----------------------------------
 php-nginx:
-  image: laradock/phpnginx:latest
+  image: laradock/phpnginx:0.1.0
   container_name: php-nginx
   ports:
     - "80:80"
@@ -21,7 +17,7 @@ php-nginx:
 
 # MySQL Container #----------------------------------------
 mysql:
-  image: laradock/mysql:latest
+  image: laradock/mysql:0.1.0
   container_name: mysql
   ports:
     - "3306:3306"
@@ -35,7 +31,7 @@ mysql:
 
 # Redis Container #----------------------------------------
 redis:
-  image: laradock/redis:latest
+  image: laradock/redis:0.1.0
   container_name: redis
   ports:
     - "6379:6379"
@@ -48,7 +44,7 @@ redis:
 
 # Data Volume Container #----------------------------------
 data:
-  image: laradock/data:latest
+  image: laradock/data:0.1.0
   container_name: data
   volumes:
     - /var/lib/mysql
@@ -56,7 +52,7 @@ data:
 
 # Beanstalkd Container #-----------------------------------
 # beanstalkd:
-#   image: laradock/beanstalkd:latest
+#   image: laradock/beanstalkd:0.1.0
 #   container_name: beanstalkd
 #   ports:
 #     - "11300:11300"
