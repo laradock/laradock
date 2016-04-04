@@ -3,6 +3,7 @@
 [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://www.zalt.me)
 
 
+
 Like Laravel Homstead but for Docker instead of Vagrant.
 <br>
 LaraDock helps you run your **Laravel** App on **Docker** in seconds.
@@ -48,22 +49,20 @@ Instead of providing a full Virtual Machines, like you get with Vagrant, Docker 
 
 
 
-
-<br>
 <a name="Images"></a>
-## Included Software
+## Supported Software (Docker Images)
 
-__Docker Images:__
-
-- [NGINX+PHP](https://hub.docker.com/r/laradock/phpnginx/)
-- [MySQL](https://hub.docker.com/r/laradock/mysql/)
-- [Redis](https://hub.docker.com/r/laradock/redis/)
-- [Beanstalked](https://hub.docker.com/r/laradock/beanstalkd/)
-- [Data Volume](https://hub.docker.com/r/laradock/data/) (for MySQL & Redis)
-
-You can edit these images, on this repository [https://github.com/LaraDock/docker-images ](https://github.com/LaraDock/docker-images).
+- PHP 5.6 / NGINX
+- PHP 5.5 / NGINX
+- MySQL
+- Redis
+- Data Volume (for MySQL & Redis)
+- Beanstalked
 
 
+The Images links on [Github](https://github.com/LaraDock)
+<br>
+The Images links on [Docker Hub](https://hub.docker.com/u/laradock/)
 
 
 <a name="Requirements"></a>
@@ -73,7 +72,7 @@ You can edit these images, on this repository [https://github.com/LaraDock/docke
 - Git ([Download](https://git-scm.com/downloads))
 - Composer ([Download](https://getcomposer.org/download/))
 
-<br>
+
 <a name="Usage"></a>
 ## Usage
 
@@ -137,14 +136,14 @@ SESSION_DRIVER=redis
 8 - Finally run the containers. Make sure you are in the `docker` folder before running this command.
 
 ```bash
-docker-compose up
+docker-compose up -d
 ```
 
-You can run `docker-compose up -d` if you want to run the containers in the background.
+You can run `docker-compose up` (without **-d**) if you don't want to run the containers in the background.
 
 *"Note: Only the first time you run this command, it will take up to 5 minutes (depend on your connection speed) to download the images to your local machine.*
 
-> Debugging: in case you faced a problem with docker mahcine here, try to running this command in your current terminal session `docker-machine env {vm-name-here}` and then `eval "$(docker-machine env {vm-name-here})"`.
+> Debugging: in case you faced a problem with the docker mahcine here, run this command in your current terminal session `eval "$(docker-machine env {vm-name-here})"`.
 
 
 9 - Open your browser and visit `http://laravel.dev`
@@ -153,6 +152,10 @@ You can run `docker-compose up -d` if you want to run the containers in the back
 > Debugging: in case you faced an error here, it might be that you forget to provide some permissions for Laravel, so try running the following command on the Laravel root directory:
 `sudo chmod -R 777 storage && sudo chmod -R 777 bootstrap/cache`.
 
+<br>
+
+
+[Follow @Mahmoud_Zalt](https://twitter.com/Mahmoud_Zalt)
 
 <br>
 <a name="Documentation"></a>
@@ -163,14 +166,14 @@ You can run `docker-compose up -d` if you want to run the containers in the back
 docker ps
 ```
 
-
+<br>
 #### Close all running Containers
 ```bash
 docker-compose stop
 ```
 
 
-
+<br>
 #### Delete all existing Containers
 ```bash
 docker-compose rm -f
@@ -182,15 +185,50 @@ docker-compose rm -f
 
 
 
+<br>
+#### Change the PHP Version
+By default **PHP 5.6** is running.
+<br>
+To change the default PHP version, simply open your `docker-compose.yml` file and edit this line:
 
+```yaml
+image: laradock/php56nginx:0.1.0
+```
+Supported versions:
+
+- (PHP 5.5.*) laradock/php55nginx:latest
+- (PHP 5.6.*) laradock/php56nginx:latest
+
+
+**Note:**
+
+If you set `laradock/phpnginx` as your image, this will pull from `laradock/php56nginx`.
+
+
+<br>
+#### Upgrade the docker images
+
+By default `docker-compose.yml` is configured to use the latest stable version of the image (latest stable realease `tag`).
+
+
+To use the latest build you can edit the `docker-compose.yml` file and replace the version at the end of the images name by `:latest`
+<br>
+Example: change `image: laradock/mysql:0.1.0` to `image: laradock/mysql:latest`
+
+
+<br>
 #### Remove Container
 To prevent a container (software) from running, open the `docker-compose.yml` file, and comment out the container section or remove it entirely.
 
 
+
+<br>
 #### Add an Image (add a software to run with other Containers)
 To add an image (software), just edit the `laradock/docker/docker-compose.yml` and add your container details, to do so you need to be familiar with the [docker compose file syntax](https://docs.docker.com/compose/yml/).
 
 
+
+<br>
 #### Edit a Container (change Ports or Volumes)
 To modify a container you can simply open the `laradock/docker/docker-compose.yml` and change everything you want.
 
@@ -201,6 +239,8 @@ Example: if you want to set the MySQL port to 3333, just replace the default por
     - "3333:3306"
 ```
 
+
+<br>
 #### Edit an existing Image (change some configuration in the image)
 To edit an image, and take full control of it:
 
@@ -212,6 +252,8 @@ All the images are open source and hosted on the [Docker Hub](https://hub.docker
 
 *If you find any bug or you have and suggestion that can improve the performance of any image, please consider contributing. Thanks in advance.*
 
+
+<br>
 #### View the Log files 
 The Log files are stored in the `docker/logs` directory.
 
@@ -221,10 +263,7 @@ The Log files are stored in the `docker/logs` directory.
 
 This little project was built by one man who has a full time job and many responsibilities, so if you like this project and you find that it needs a bug fix or support for new software or upgrade for the current containers, or anything else.. Do not hesitate to contribute, you are more than welcome :)
 
-The project consist of 2 repositories:
-- Laradock: https://github.com/LaraDock/laradock
-- Docker-Images: https://github.com/LaraDock/docker-images
-
+All Docker Images can be found at [https://github.com/LaraDock](https://github.com/LaraDock)
 
 ## Support
 
