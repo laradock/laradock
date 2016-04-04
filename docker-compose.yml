@@ -1,6 +1,6 @@
 # PHP + NGINX Container #----------------------------------
 php-nginx:
-  image: laradock/phpnginx:0.1.0
+  image: laradock/php56nginx:0.1.0
   container_name: php-nginx
   ports:
     - "80:80"
