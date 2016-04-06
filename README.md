@@ -3,10 +3,11 @@
 [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://www.zalt.me)
 
 
-
-Like Laravel Homstead but for Docker instead of Vagrant.
+LaraDock helps you run your **Laravel** App on **Docker** real quick.
 <br>
-LaraDock helps you run your **Laravel** App on **Docker** in seconds.
+It's like Laravel Homestead but for Docker instead of Vagrant.
+
+
 
 
 ![](http://s11.postimg.org/uqpl3efab/laradock.jpg)
