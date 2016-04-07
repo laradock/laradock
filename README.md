@@ -17,14 +17,31 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 
 
 - [Intro](#Intro)
+- [Supported Software (Docker Images)](#Supported-Software)
 - [Requirements](#Requirements)
 - [Usage](#Usage)
 - [Documentation](#Documentation)
-- [Docker Images](#Images)
+	- [List current running Containers](#List-current-running-Containers)
+	- [Close all running Containers](#Close-all-running-Containers)
+	- [Delete all existing Containers](#Delete-all-existing-Containers)
+	- [Change the PHP Version](#Change-the-PHP-Version)
+	- [Use Redis in Laravel](#Use-Redis-in-Laravel)
+	- [Add/Remove a Docker Container](#AddRemove-a-Docker-Container)
+	- [Add Docker Images](#Add-Docker-Images)
+	- [Edit a Docker Container](#Edit-a-Docker-Container)
+	- [View the Log files](#View-the-Log-files)
+	- [Upgrade the Docker Images](#Upgrade-the-Docker-Images)
+	- [Edit a Docker Image](#Edit-a-Docker-Image)
+
+
+
+
+
+
 
 
 <a name="Intro"></a>
-### Intro
+## Intro
 
 LaraDock strives to make the development experience easier.
 It contains pre-packaged Docker Images that provides you a wonderful development environment without requiring you to install PHP, NGINX, MySQL, REDIS, and any other software on your local machine.
@@ -45,12 +62,7 @@ Seriously!!!
 Instead of providing a full Virtual Machines, like you get with Vagrant, Docker provides you **lightweight** Virtual Containers, that share the same kernel and allow to safely execute independent processes.
 
 
-### Questions?
-[![Join the chat at https://gitter.im/LaraDock/laradock](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/LaraDock/laradock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
-
-
-
-<a name="Images"></a>
+<a name="Supported-Software"></a>
 ## Supported Software (Docker Images)
 
 - PHP 5.6 / NGINX
@@ -105,33 +117,12 @@ xxx.xxx.xxx.xxx    laravel.dev
 
 Don't forget to replace the `xxx.xxx.xxx.xxx` with your Docker IP Address.
 
-6 - From the new created `docker` folder in step 2, open the `docker-compose.yml` file to replace the `xxx.xxx.xxx.xxx` with your Docker IP Adress as well.
+6 - In the new created `docker` folder in step 2, open the `docker-compose.yml` file to replace the `xxx.xxx.xxx.xxx` with your Docker IP Adress as well.
 
-7 - Open your Laravel's `.env` file and set the `DB_HOST` and the `REDIS_HOST` to `laravel.dev` instead of the default `127.0.0.1`.
+7 - Open your Laravel's `.env` file and set the `DB_HOST` to `laravel.dev` instead of the default `127.0.0.1`.
 
 ```env
 DB_HOST=laravel.dev
-REDIS_HOST=laravel.dev
-```
-
-If you don't find the `REDIS_HOST` variable in your `.env` file. Go to the database config file `config/database.php` and replace the `127.0.0.1` with `laravel.dev` for Redis like so:
-
-```php
-'redis' => [
-    'cluster' => false,
-    'default' => [
-        'host'     => 'laravel.dev',
-        'port'     => 6379,
-        'database' => 0,
-    ],
-],
-```
-
-If you want to use Redis for Caching and/or for Sessions Management. Open the `.env` file and set `CACHE_DRIVER` and `SESSION_DRIVER` to `redis` instead of the default `file`.
-
-```env
-CACHE_DRIVER=redis
-SESSION_DRIVER=redis
 ```
 
 8 - Finally run the containers. **Make sure you are in the `docker` folder** before running this command.
@@ -162,12 +153,14 @@ You can run `docker-compose up` (without **-d**) if you don't want to run the co
 <a name="Documentation"></a>
 ## Documentation
 
-#### See current running Containers
+<a name="List-current-running-Containers"></a>
+#### List current running Containers
 ```bash
 docker ps
 ```
 
 <br>
+<a name="Close-all-running-Containers"></a>
 #### Close all running Containers
 ```bash
 docker-compose stop
@@ -175,6 +168,7 @@ docker-compose stop
 
 
 <br>
+<a name="Delete-all-existing-Containers"></a>
 #### Delete all existing Containers
 ```bash
 docker-compose rm -f
@@ -187,13 +181,14 @@ docker-compose rm -f
 
 
 <br>
+<a name="Change-the-PHP-Version"></a>
 #### Change the PHP Version
 By default **PHP 5.6** is running.
 <br>
 To change the default PHP version, simply open your `docker-compose.yml` file and edit this line:
 
 ```yaml
-image: laradock/php56nginx:0.1.0
+image: laradock/php56nginx:latest
 ```
 Supported versions:
 
@@ -201,36 +196,61 @@ Supported versions:
 - (PHP 5.6.*) laradock/php56nginx:latest
 
 
-**Note:**
-
-If you set `laradock/phpnginx` as your image, this will pull from `laradock/php56nginx`.
-
-
-<br>
-#### Upgrade the docker images
-
-By default `docker-compose.yml` is configured to use the latest stable version of the image (latest stable realease `tag`).
-
-
-To use the latest build you can edit the `docker-compose.yml` file and replace the version number at the end of every image name with `:latest`
-<br>
-Example: change `image: laradock/mysql:0.1.0` to `image: laradock/mysql:latest`
-
-
-<br>
-#### Remove Container
-To prevent a container (software) from running, open the `docker-compose.yml` file, and comment out the container section or remove it entirely.
+**Note:** If you use this `laradock/phpnginx` image, it will pull from `laradock/php56nginx`.
 
 
 
 <br>
-#### Add an Image (add a software to run with other Containers)
+<a name="Use-Redis-in-Laravel"></a>
+#### Use Redis in Laravel
+
+1 - Open your Laravel's `.env` file and set the `REDIS_HOST` to `laravel.dev` instead of the default `127.0.0.1`.
+
+```env
+REDIS_HOST=laravel.dev
+```
+
+If you don't find the `REDIS_HOST` variable in your `.env` file. Go to the database config file `config/database.php` and replace the `127.0.0.1` with `laravel.dev` for Redis like this:
+
+```php
+'redis' => [
+    'cluster' => false,
+    'default' => [
+        'host'     => 'laravel.dev',
+        'port'     => 6379,
+        'database' => 0,
+    ],
+],
+```
+
+To enable Redis Caching and/or for Sessions Management. Also from the `.env` file set `CACHE_DRIVER` and `SESSION_DRIVER` to `redis` instead of the default `file`.
+
+```env
+CACHE_DRIVER=redis
+SESSION_DRIVER=redis
+```
+
+Finally make sure you have the `predis/predis` package `(~1.0)` installed via Composer first.
+
+```shell
+composer require predis/predis:^1.0
+```
+
+
+
+
+<br>
+<a name="Add-Docker-Images"></a>
+#### Add Docker Images 
+*(add a software to run with other Containers)*
+<br>
 To add an image (software), just edit the `docker-compose.yml` and add your container details, to do so you need to be familiar with the [docker compose file syntax](https://docs.docker.com/compose/yml/).
 
 
 
 <br>
-#### Edit a Container (change Ports or Volumes)
+<a name="Edit-a-Docker-Container"></a>
+#### Edit a Docker Container (change Ports or Volumes)
 To modify a container you can simply open the `docker-compose.yml` and change everything you want.
 
 Example: if you want to set the MySQL port to 3333, just replace the default port with yours:
@@ -243,13 +263,35 @@ Example: if you want to set the MySQL port to 3333, just replace the default por
 
 
 <br>
+<a name="View-the-Log-files"></a>
 #### View the Log files 
 The Log files are stored in the `docker/logs` directory.
 
 
 
+
 <br>
-#### Edit an existing Image (change some configuration in the image)
+<a name="Upgrade-the-Docker-Images"></a>
+#### Upgrade the Docker Images
+
+By default `docker-compose.yml` is configured to use the latest stable version of the image (latest stable realease `tag`).
+
+
+To use the latest build you can edit the `docker-compose.yml` file and replace the version number at the end of every image name with `:latest`
+<br>
+Example: change `image: laradock/mysql:0.1.0` to `image: laradock/mysql:latest`
+
+
+<br>
+<a name="AddRemove-a-Docker-Container"></a>
+#### Add/Remove a Docker Container
+To prevent a container (software) from running, open the `docker-compose.yml` file, and comment out the container section or remove it entirely.
+
+
+
+<br>
+<a name="Edit-a-Docker-Image"></a>
+#### Edit a Docker Image (change some configuration in the image)
 To edit an image, and take full control of it:
 
 1. Clone any Image from [https://github.com/LaraDock](https://github.com/LaraDock)
@@ -272,6 +314,11 @@ All Docker Images can be found at [https://github.com/LaraDock](https://github.c
 ## Support
 
 [Issues](https://github.com/laradock/laradock/issues) on Github.
+
+
+
+#### Questions?
+[![Join the chat at https://gitter.im/LaraDock/laradock](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/LaraDock/laradock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
 
 
 
