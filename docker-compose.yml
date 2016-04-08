@@ -3,7 +3,7 @@ php-nginx:
   image: laradock/php56nginx:0.1.0
   container_name: php-nginx
   ports:
-    - "80:80"
+    - "8080:80"
   volumes:
     - ./settings/nginx:/etc/nginx/sites-available
     - ../:/var/www
@@ -12,29 +12,22 @@ php-nginx:
     - mysql
     - redis
   privileged: true
-  extra_hosts:
-    - "laravel.dev:xxx.xxx.xxx.xxx"
 
 # MySQL Container #----------------------------------------
 mysql:
   image: laradock/mysql:0.1.0
   container_name: mysql
-  ports:
-    - "3306:3306"
   volumes_from:
     - data
   environment:
     MYSQL_DATABASE: homestead
     MYSQL_USER: homestead
     MYSQL_PASSWORD: secret
-  privileged: true
 
 # Redis Container #----------------------------------------
 redis:
   image: laradock/redis:0.1.0
   container_name: redis
-  ports:
-    - "6379:6379"
   volumes_from:
     - data
   volumes:
@@ -54,8 +47,6 @@ data:
 # beanstalkd:
 #   image: laradock/beanstalkd:0.1.0
 #   container_name: beanstalkd
-#   ports:
-#     - "11300:11300"
 #   privileged: true
 
 #----------------------------------------------------------
