@@ -24,8 +24,9 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 	- [List current running Containers](#List-current-running-Containers)
 	- [Close all running Containers](#Close-all-running-Containers)
 	- [Delete all existing Containers](#Delete-all-existing-Containers)
-	- [Change the PHP Version](#Change-the-PHP-Version)
 	- [Use Redis in Laravel](#Use-Redis-in-Laravel)
+	- [Use custom Domain](Use-custom-Domain)
+	- [Change the PHP Version](#Change-the-PHP-Version)
 	- [Add/Remove a Docker Container](#AddRemove-a-Docker-Container)
 	- [Add Docker Images](#Add-Docker-Images)
 	- [Edit a Docker Container](#Edit-a-Docker-Container)
@@ -91,63 +92,70 @@ The Images links on [Docker Hub](https://hub.docker.com/u/laradock/)
 
 1 - Install any version of Laravel, or use any of your existing Laravel projects.
 
-2 - Clone the LaraDock repository, inside a `docker` folder, on the root directory of your Laravel project.
+<br>
+2 - Clone the LaraDock repository, inside a `docker` folder, on the root directory of your Laravel project:
 
 ```bash
 git clone https://github.com/LaraDock/laradock.git docker
 ```
 
-3 - Find your Docker IP address.
+<br>
+3 - Run a Docker Virtual host on your machine, if you haven't already:
 
-- If you are on Linux OS: your IP Address is `127.0.0.1` because the containers run directly on your localhost.
-- If you are on MAC or Windows and using the **docker-machine**: start your docker machine then type `docker-machine ip {vm-name-here}`. *(The default IP is 192.168.99.100)*
-- If you are on MAC or Windows and using **boot2docker**: type `boot2docker ip` when boot2docker is up.
+- **On Windows & MAC:** run `docker-machine start default`
 
-4 - Open your hosts file `/etc/hosts`.
+>If the host "default" does not exist, create it using:
+><br>
+>`docker-machine create -d virtualbox default`
 
-```bash
-sudo nano /etc/hosts
-```
+- **On Linux:** skip this step :) you don't need a virtual host, since Docker runs locally on your machine.
 
-5 - Map your `Docker IP` to the `laravel.dev` domain, by adding the following to the `hosts` file. 
+<br>
+4 - Find your Docker IP address:
 
-```bash
-xxx.xxx.xxx.xxx    laravel.dev
-```
+- **On Windows & MAC:** run `docker-machine ip default`
+<br>
+*(The default IP is 192.168.99.100)*
 
-Don't forget to replace the `xxx.xxx.xxx.xxx` with your Docker IP Address.
+- **On Linux:** your IP Address is `127.0.0.1`
 
-6 - In the new created `docker` folder in step 2, open the `docker-compose.yml` file to replace the `xxx.xxx.xxx.xxx` with your Docker IP Adress as well.
+> For **boot2docker** users: run `boot2docker ip` *(when boot2docker is up)*.
 
-7 - Open your Laravel's `.env` file and set the `DB_HOST` to `laravel.dev` instead of the default `127.0.0.1`.
+
+<br>
+5 - Open your Laravel's `.env` file and set the `DB_HOST` to your `{Docker-IP}` instead of the default `127.0.0.1`:
 
 ```env
-DB_HOST=laravel.dev
+DB_HOST=xxx.xxx.xxx.xxx
 ```
 
-8 - Finally run the containers. **Make sure you are in the `docker` folder** before running this command.
+> I am representing the `{Docker-IP}` with `xxx.xxx.xxx.xxx` for the purpos of this documentation.
+
+<br>
+6 - Finally let's run the containers. **Make sure you are in the `docker` folder** before running this command:
 
 ```bash
 docker-compose up -d
 ```
 
-You can run `docker-compose up` (without **-d**) if you don't want to run the containers in the background.
+*"Note: Only the first time you run this command, it will take up to 5 minutes (depend on your connection speed) to download the Docker Images to your local machine.*
 
-*"Note: Only the first time you run this command, it will take up to 5 minutes (depend on your connection speed) to download the images to your local machine.*
+> Debugging: in case you faced a problem with the docker mahcine here, run this command in your current terminal session `eval "$(docker-machine env default)"`
 
-> Debugging: in case you faced a problem with the docker mahcine here, run this command in your current terminal session `eval "$(docker-machine env {vm-name-here})"`.
-
-
-9 - Open your browser and visit `http://laravel.dev`
+<br>
+7 - Open your browser and visit your `{Docker-IP}` address (`http://xxx.xxx.xxx.xxx`).
 
 
-> Debugging: in case you faced an error here, it might be that you forget to provide some permissions for Laravel, so try running the following command on the Laravel root directory:
-`sudo chmod -R 777 storage && sudo chmod -R 777 bootstrap/cache`.
+> Debugging: in case you faced an error here, run this command from the Laravel root directory:
+`sudo chmod -R 777 storage && sudo chmod -R 777 bootstrap/cache`
 
 <br>
 
 
 [Follow @Mahmoud_Zalt](https://twitter.com/Mahmoud_Zalt)
+
+
+
 
 <br>
 <a name="Documentation"></a>
@@ -181,30 +189,10 @@ docker-compose rm -f
 
 
 <br>
-<a name="Change-the-PHP-Version"></a>
-#### Change the PHP Version
-By default **PHP 5.6** is running.
-<br>
-To change the default PHP version, simply open your `docker-compose.yml` file and edit this line:
-
-```yaml
-image: laradock/php56nginx:latest
-```
-Supported versions:
-
-- (PHP 5.5.*) laradock/php55nginx:latest
-- (PHP 5.6.*) laradock/php56nginx:latest
-
-
-**Note:** If you use this `laradock/phpnginx` image, it will pull from `laradock/php56nginx`.
-
-
-
-<br>
 <a name="Use-Redis-in-Laravel"></a>
 #### Use Redis in Laravel
 
-1 - Open your Laravel's `.env` file and set the `REDIS_HOST` to `laravel.dev` instead of the default `127.0.0.1`.
+Open your Laravel's `.env` file and set the `REDIS_HOST` to `laravel.dev` instead of the default `127.0.0.1`.
 
 ```env
 REDIS_HOST=laravel.dev
@@ -238,6 +226,71 @@ composer require predis/predis:^1.0
 
 
 
+<br>
+<a name="Use-custom-Domain"></a>
+#### Use custom Domain (instead of the Docker IP)
+
+Assuming your custom domain is `laravel.dev` and your current `Docker-IP` is `xxx.xxx.xxx.xxx`.
+
+1 - Open your `/etc/hosts` file and map your `Docker IP` to the `laravel.dev` domain, by adding the following:
+
+```bash
+xxx.xxx.xxx.xxx    laravel.dev
+```
+
+2 - Open your Laravel's `.env` file and replace the `127.0.0.1` default values with your `{Docker-IP}`.
+<br>
+Example:
+
+```env
+DB_HOST=xxx.xxx.xxx.xxx
+```
+
+3 - Open the nginx config file `docker/settings/nginx/default` and add this in the `server`:
+
+```
+server_name laravel.dev;
+```
+
+4 - Open your browser and visit `{http://laravel.dev}`
+
+
+>In case you faced any problem, try this additional step:
+>
+>Open the `docker-compose.yml` and add the following to `php-nginx:`
+>
+>```yaml
+>  extra_hosts:
+>    - "laravel.dev:xxx.xxx.xxx.xxx"
+>```
+
+<br>
+> Don't forget to replace the `xxx.xxx.xxx.xxx` with your Docker IP Address.
+
+
+
+
+<br>
+<a name="Change-the-PHP-Version"></a>
+#### Change the PHP Version
+By default **PHP 5.6** is running.
+<br>
+To change the default PHP version, simply open your `docker-compose.yml` file and edit this line:
+
+```yaml
+image: laradock/php56nginx:latest
+```
+Supported versions:
+
+- (PHP 5.5.*) laradock/php55nginx:latest
+- (PHP 5.6.*) laradock/php56nginx:latest
+
+
+**Note:** If you use this `laradock/phpnginx` image, it will pull from `laradock/php56nginx`.
+
+
+
+
 
 <br>
 <a name="Add-Docker-Images"></a>
@@ -266,6 +319,7 @@ Example: if you want to set the MySQL port to 3333, just replace the default por
 <a name="View-the-Log-files"></a>
 #### View the Log files 
 The Log files are stored in the `docker/logs` directory.
+
 
 
 
@@ -331,3 +385,4 @@ All Docker Images can be found at [https://github.com/LaraDock](https://github.c
 ## License
 
 [MIT License (MIT)](https://github.com/laradock/laradock/blob/master/LICENSE)
+[]([]())

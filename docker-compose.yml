@@ -12,8 +12,6 @@ php-nginx:
     - mysql
     - redis
   privileged: true
-  extra_hosts:
-    - "laravel.dev:xxx.xxx.xxx.xxx"
 
 # MySQL Container #----------------------------------------
 mysql:
