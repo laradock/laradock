@@ -192,19 +192,19 @@ docker-compose rm -f
 <a name="Use-Redis-in-Laravel"></a>
 #### Use Redis in Laravel
 
-Open your Laravel's `.env` file and set the `REDIS_HOST` to `laravel.dev` instead of the default `127.0.0.1`.
+Open your Laravel's `.env` file and set the `REDIS_HOST` to your `Docker-IP` instead of the default `127.0.0.1`.
 
 ```env
-REDIS_HOST=laravel.dev
+REDIS_HOST=xxx.xxx.xxx.xxx
 ```
 
-If you don't find the `REDIS_HOST` variable in your `.env` file. Go to the database config file `config/database.php` and replace the `127.0.0.1` with `laravel.dev` for Redis like this:
+If you don't find the `REDIS_HOST` variable in your `.env` file. Go to the database config file `config/database.php` and replace the `127.0.0.1` with your `Docker-IP` for Redis like this:
 
 ```php
 'redis' => [
     'cluster' => false,
     'default' => [
-        'host'     => 'laravel.dev',
+        'host'     => 'xxx.xxx.xxx.xxx',
         'port'     => 6379,
         'database' => 0,
     ],
