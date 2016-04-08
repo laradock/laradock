@@ -97,35 +97,15 @@ The Images links on [Docker Hub](https://hub.docker.com/u/laradock/)
 git clone https://github.com/LaraDock/laradock.git docker
 ```
 
-3 - Find your Docker IP address.
-
-- If you are on Linux OS: your IP Address is `127.0.0.1` because the containers run directly on your localhost.
-- If you are on MAC or Windows and using the **docker-machine**: start your docker machine then type `docker-machine ip {vm-name-here}`. *(The default IP is 192.168.99.100)*
-- If you are on MAC or Windows and using **boot2docker**: type `boot2docker ip` when boot2docker is up.
-
-4 - Open your hosts file `/etc/hosts`.
-
-```bash
-sudo nano /etc/hosts
-```
-
-5 - Map your `Docker IP` to the `laravel.dev` domain, by adding the following to the `hosts` file. 
-
-```bash
-xxx.xxx.xxx.xxx    laravel.dev
-```
-
-Don't forget to replace the `xxx.xxx.xxx.xxx` with your Docker IP Address.
-
-6 - In the new created `docker` folder in step 2, open the `docker-compose.yml` file to replace the `xxx.xxx.xxx.xxx` with your Docker IP Adress as well.
-
-7 - Open your Laravel's `.env` file and set the `DB_HOST` to `laravel.dev` instead of the default `127.0.0.1`.
+3 - Open your Laravel's `.env` file and set the `DB_HOST` to `mysql` instead of the default `127.0.0.1`. And `REDIS_HOST` to `redis`
 
 ```env
-DB_HOST=laravel.dev
+DB_HOST=mysql
+...
+REDIS_HOST=redis
 ```
 
-8 - Finally run the containers. **Make sure you are in the `docker` folder** before running this command.
+4 - Finally run the containers. **Make sure you are in the `docker` folder** before running this command.
 
 ```bash
 docker-compose up -d
@@ -138,7 +118,7 @@ You can run `docker-compose up` (without **-d**) if you don't want to run the co
 > Debugging: in case you faced a problem with the docker mahcine here, run this command in your current terminal session `eval "$(docker-machine env {vm-name-here})"`.
 
 
-9 - Open your browser and visit `http://laravel.dev`
+5 - Open your browser and visit `http://localhost:8080` (if you're on Linux) or visit `http://YOUR_DOCKER_MACHINE_IP:8080` (if you're on MAC or WIN, the default IP is 192.168.99.100 )
 
 
 > Debugging: in case you faced an error here, it might be that you forget to provide some permissions for Laravel, so try running the following command on the Laravel root directory:
