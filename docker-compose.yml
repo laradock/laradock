@@ -4,7 +4,7 @@
 
 # PHP + NGINX Container #----------------------------------
 php-nginx:
-  image: chuanty/phpnginx:7.0.4-fpm_1.8.1
+  image: chuanty/phpnginx:7.0.5-fpm_1.9.13
   container_name: php-nginx
   ports:
     - "80:80"
