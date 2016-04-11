@@ -1,6 +1,6 @@
 # PHP + NGINX Container #----------------------------------
 php-nginx:
-  image: laradock/php56nginx:0.1.0
+  image: eric28/php56nginx:latest
   container_name: php-nginx
   ports:
     - "80:80"
@@ -10,8 +10,10 @@ php-nginx:
     - ./logs/nginx:/var/log/nginx
   links:
     - mysql
-    - redis
+   # - redis
   privileged: true
+  extra_hosts:
+     - "ocoval.sigoincidencias.local:127.0.0.1"
 
 # MySQL Container #----------------------------------------
 mysql:
@@ -22,23 +24,23 @@ mysql:
   volumes_from:
     - data
   environment:
-    MYSQL_DATABASE: homestead
+    MYSQL_DATABASE: ocoval_incidencias
     MYSQL_USER: homestead
     MYSQL_PASSWORD: secret
   privileged: true
 
 # Redis Container #----------------------------------------
-redis:
-  image: laradock/redis:0.1.0
-  container_name: redis
-  ports:
-    - "6379:6379"
-  volumes_from:
-    - data
-  volumes:
-    - ./logs/redis:/var/log/redis
-  restart: always
-  privileged: true
+#redis:
+#  image: laradock/redis:0.1.0
+#  container_name: redis
+#  ports:
+#    - "6379:6379"
+#  volumes_from:
+#    - data
+#  volumes:
+#    - ./logs/redis:/var/log/redis
+#  restart: always
+#  privileged: true
 
 # Data Volume Container #----------------------------------
 data:
@@ -46,7 +48,7 @@ data:
   container_name: data
   volumes:
     - /var/lib/mysql
-    - /var/lib/redis
+#    - /var/lib/redis
 
 # Beanstalkd Container #-----------------------------------
 # beanstalkd:

@@ -1,13 +1,28 @@
 server {
-    listen 80 default_server;
-    listen [::]:80 default_server ipv6only=on;
+        listen 80;
+        listen [::]:80;
 
-    root /var/www/public;
-    index index.php index.html index.htm;
+        root /var/www/public;
+        index index.php;
 
-    location / {
-         try_files $uri $uri/ /index.php$is_args$args;
-    }
+        server_name ocoval.sigoincidencias.local;
+
+        location / {
+                # First attempt to serve request as file, then
+                # as directory, then fall back to displaying a 404.
+                try_files $uri $uri/ /index.php?$query_string;
+                #try_files $uri $uri/ =404;
+        }
+
+#        location /ciudadanos/ {
+#                alias /home/www/dev/dev_ocoval/app_ciudadanos/www/;
+#                index index-servidor.html;
+#        }
+#        location /m/ {
+#                alias /home/www/dev/dev_ocoval/app_ciudadanos/www/;
+#                index index.html;
+#       }
+
 
     location ~ \.php$ {
         try_files $uri /index.php =404;
@@ -15,9 +30,5 @@ server {
         fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         include fastcgi_params;
-    }
-
-    location ~ /\.ht {
-        deny all;
     }
 }
