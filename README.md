@@ -19,6 +19,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 - [Intro](#Intro)
 - [Supported Software (Docker Images)](#Supported-Software)
 - [Requirements](#Requirements)
+- [Installation](#Installation)
 - [Usage](#Usage)
 - [Documentation](#Documentation)
 	- [List current running Containers](#List-current-running-Containers)
@@ -33,9 +34,8 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 	- [View the Log files](#View-the-Log-files)
 	- [Upgrade the Docker Images](#Upgrade-the-Docker-Images)
 	- [Edit a Docker Image](#Edit-a-Docker-Image)
-
-
-
+	- [Find your Docker IP Address](#Find-Docker-IP-Address)
+	- [Run a Docker Virtual Host](#Run-Docker-Virtual-Host)
 
 
 
@@ -86,64 +86,50 @@ The Images links on [Docker Hub](https://hub.docker.com/u/laradock/)
 - Git ([Download](https://git-scm.com/downloads))
 - Composer ([Download](https://getcomposer.org/download/))
 
+<a name="Installation"></a>
+## Installation
 
-<a name="Usage"></a>
-## Usage
-
-1 - Install any version of Laravel, or use any of your existing Laravel projects.
-
-<br>
-2 - Clone the LaraDock repository, inside a `docker` folder, on the root directory of your Laravel project:
+1 - Clone the `LaraDock` repository, in any of your `Laravel` projects *(using this command)*:
 
 ```bash
 git clone https://github.com/LaraDock/laradock.git docker
 ```
 
-<br>
-3 - Run a Docker Virtual host on your machine, if you haven't already:
+>This should create a `docker` folder, on the root directory of your Laravel project.
 
-- **On Windows & MAC:** run `docker-machine start default`
 
->If the host "default" does not exist, create it using:
+
+<a name="Usage"></a>
+## Usage
+
+>**(Windows & MAC users)** Make sure you have a running Docker Virtual Host on your machine first. 
 ><br>
->`docker-machine create -d virtualbox default`
-
-- **On Linux:** skip this step :) you don't need a virtual host, since Docker runs locally on your machine.
-
-<br>
-4 - Find your Docker IP address:
-
-- **On Windows & MAC:** run `docker-machine ip default`
-<br>
-*(The default IP is 192.168.99.100)*
-
-- **On Linux:** your IP Address is `127.0.0.1`
-
-> For **boot2docker** users: run `boot2docker ip` *(when boot2docker is up)*.
+>[How to run a Docker Virtual Host?](#Run-Docker-Virtual-Host)
 
 
 <br>
-5 - Open your Laravel's `.env` file and set the `DB_HOST` to your `{Docker-IP}` instead of the default `127.0.0.1`:
+1 - Open your Laravel's `.env` file and set the `DB_HOST` to your `{Docker-IP}`:
 
 ```env
 DB_HOST=xxx.xxx.xxx.xxx
 ```
-
-> I am representing the `{Docker-IP}` with `xxx.xxx.xxx.xxx` for the purpos of this documentation.
+[How to find my Docker IP Address?](#Find-Docker-IP-Address)
 
 <br>
-6 - Finally let's run the containers. **Make sure you are in the `docker` folder** before running this command:
+2 - Run the containers: 
+<br>
+*(Make sure you are in the `docker` folder before running this command)*
 
 ```bash
 docker-compose up -d
 ```
 
-*"Note: Only the first time you run this command, it will take up to 5 minutes (depend on your connection speed) to download the Docker Images to your local machine.*
+*"Note: Only the first time you run this command, it will take up to 5 minutes (depend on your connection speed) to download the Docker Images on your local machine.*
 
 > Debugging: in case you faced a problem with the docker mahcine here, run this command in your current terminal session `eval "$(docker-machine env default)"`
 
 <br>
-7 - Open your browser and visit your `{Docker-IP}` address (`http://xxx.xxx.xxx.xxx`).
+3 - Open your browser and visit your `{Docker-IP}` address (`http://xxx.xxx.xxx.xxx`).
 
 
 > Debugging: in case you faced an error here, run this command from the Laravel root directory:
@@ -225,7 +211,6 @@ composer require predis/predis:^1.0
 ```
 
 
-
 <br>
 <a name="Use-custom-Domain"></a>
 #### Use custom Domain (instead of the Docker IP)
@@ -263,10 +248,6 @@ server_name laravel.dev;
 >  extra_hosts:
 >    - "laravel.dev:xxx.xxx.xxx.xxx"
 >```
-
-<br>
-> Don't forget to replace the `xxx.xxx.xxx.xxx` with your Docker IP Address.
-
 
 
 
@@ -323,7 +304,6 @@ The Log files are stored in the `docker/logs` directory.
 
 
 
-
 <br>
 <a name="Upgrade-the-Docker-Images"></a>
 #### Upgrade the Docker Images
@@ -355,6 +335,34 @@ To edit an image, and take full control of it:
 All the images are open source and hosted on the [Docker Hub](https://hub.docker.com/u/laradock/).
 
 *If you find any bug or you have and suggestion that can improve the performance of any image, please consider contributing. Thanks in advance.*
+
+
+
+<br>
+<a name="Find-Docker-IP-Address"></a>
+#### Find your Docker IP Address 
+
+- **On Windows & MAC:** run `docker-machine ip default`
+<br>
+*(The default IP is 192.168.99.100)*
+
+- **On Linux:** your IP Address is `127.0.0.1`
+
+> For **boot2docker** users: run `boot2docker ip` *(when boot2docker is up)*.
+
+
+<br>
+<a name="Run-Docker-Virtual-Host"></a>
+#### Run a Docker Virtual Host
+
+- **On Windows & MAC:** run `docker-machine start default`
+
+>If the host "default" does not exist, create it using:
+><br>
+>`docker-machine create -d virtualbox default`
+
+- **On Linux:** you don't need a virtual host, since Docker runs locally on your machine.
+
 
 
 
