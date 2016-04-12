@@ -342,26 +342,38 @@ All the images are open source and hosted on the [Docker Hub](https://hub.docker
 <a name="Find-Docker-IP-Address"></a>
 #### Find your Docker IP Address 
 
-- **On Windows & MAC:** run `docker-machine ip default`
-<br>
+**On Windows & MAC:** 
+
+```bash
+docker-machine ip default
+```
 *(The default IP is 192.168.99.100)*
 
-- **On Linux:** your IP Address is `127.0.0.1`
+**On Linux:** 
 
-> For **boot2docker** users: run `boot2docker ip` *(when boot2docker is up)*.
+Your IP Address is `127.0.0.1`
+
+> **boot2docker** users: run `boot2docker ip` *(when boot2docker is up)*.
 
 
 <br>
 <a name="Run-Docker-Virtual-Host"></a>
 #### Run a Docker Virtual Host
 
-- **On Windows & MAC:** run `docker-machine start default`
+This step is only for **Windows & MAC** users, run the default Host:
 
->If the host "default" does not exist, create it using:
-><br>
->`docker-machine create -d virtualbox default`
+```bash
+docker-machine start default
+```
 
-- **On Linux:** you don't need a virtual host, since Docker runs locally on your machine.
+
+If the host "default" does not exist, create one using the command below, else skip it:
+
+```bash
+docker-machine create -d virtualbox default
+```
+
+>**Note:** Linux users don't need a virtual host, since Docker runs locally on a the machine.
 
 
 
