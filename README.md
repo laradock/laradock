@@ -8,9 +8,7 @@ LaraDock helps you run your **Laravel** App on **Docker** real quick.
 It's like Laravel Homestead but for Docker instead of Vagrant.
 
 
-
-
-![](http://s11.postimg.org/uqpl3efab/laradock.jpg)
+![](http://s18.postimg.org/fhykchl09/new_laradock_cover.png)
 
 <br>
 ## Contents
