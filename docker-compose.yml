@@ -24,6 +24,7 @@ mysql:
   volumes_from:
     - data
   environment:
+    MYSQL_ROOT_PASSWORD: 1234
     MYSQL_DATABASE: ocoval_incidencias
     MYSQL_USER: homestead
     MYSQL_PASSWORD: secret

@@ -2,7 +2,7 @@ server {
         listen 80;
         listen [::]:80;
 
-        root /var/www/public;
+        root /var/www/incidencias/public;
         index index.php;
 
         server_name ocoval.sigoincidencias.local;
@@ -13,6 +13,34 @@ server {
                 try_files $uri $uri/ /index.php?$query_string;
                 #try_files $uri $uri/ =404;
         }
+
+         location /phpmyadmin {
+                 alias /usr/share/phpmyadmin;
+                 # Optionally set separate access and error logs for phpMyAdmin
+                 access_log /var/log/nginx/phpmyadmin_access.log;
+                 error_log /var/log/nginx/phpmyadmin_error.log;
+                 index   index.php;
+                 try_files $uri $uri/=404;
+                 # Deny some static files
+                 location ~ ^/phpmyadmin/(README|LICENSE|ChangeLog|DCO)$ {
+                         deny all;
+                 }
+                 # Deny .md files
+                 location ~ ^/phpmyadmin/(.+\.md)$ {
+                         deny all;
+                 }
+                 # Deny some directories
+                 location ~ ^/phpmyadmin/(doc|sql|setup)/ {
+                         deny all;
+                 }
+                 #FastCGI config for PhpMyAdmin
+                 location ~ /phpmyadmin/(.+\.php)$ {
+                         fastcgi_param  SCRIPT_FILENAME /usr/share/phpMyAdmin/$1;
+                            fastcgi_pass unix:/var/run/php5-fpm.sock;
+                         fastcgi_index  index.php;
+                         include        fastcgi_params;
+                 }
+         }
 
 #        location /ciudadanos/ {
 #                alias /home/www/dev/dev_ocoval/app_ciudadanos/www/;
