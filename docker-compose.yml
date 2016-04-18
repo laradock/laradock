@@ -37,7 +37,6 @@ redis:
     - data
   volumes:
     - ./logs/redis:/var/log/redis
-  restart: always
   privileged: true
 
 # Data Volume Container #----------------------------------

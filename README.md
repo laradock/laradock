@@ -32,8 +32,8 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 	- [View the Log files](#View-the-Log-files)
 	- [Upgrade the Docker Images](#Upgrade-the-Docker-Images)
 	- [Edit a Docker Image](#Edit-a-Docker-Image)
-	- [Find your Docker IP Address](#Find-Docker-IP-Address)
 	- [Run a Docker Virtual Host](#Run-Docker-Virtual-Host)
+	- [Find your Docker IP Address](#Find-Docker-IP-Address)
 
 
 
@@ -122,16 +122,15 @@ DB_HOST=xxx.xxx.xxx.xxx
 docker-compose up -d
 ```
 
-*"Note: Only the first time you run this command, it will take up to 5 minutes (depend on your connection speed) to download the Docker Images on your local machine.*
-
-> Debugging: in case you faced a problem with the docker mahcine here, run this command in your current terminal session `eval "$(docker-machine env default)"`
+>*Only the first time you run this command, it will take up to 5 minutes (depend on your connection speed) to download the Docker Images on your local machine.*
 
 <br>
 3 - Open your browser and visit your `{Docker-IP}` address (`http://xxx.xxx.xxx.xxx`).
 
 
-> Debugging: in case you faced an error here, run this command from the Laravel root directory:
-`sudo chmod -R 777 storage && sudo chmod -R 777 bootstrap/cache`
+> **Debugging**: in case you faced an error here, run this command from the Laravel root directory:
+> <br>
+> `sudo chmod -R 777 storage && sudo chmod -R 777 bootstrap/cache`
 
 <br>
 
@@ -336,6 +335,33 @@ All the images are open source and hosted on the [Docker Hub](https://hub.docker
 
 
 
+
+<br>
+<a name="Run-Docker-Virtual-Host"></a>
+#### Run a Docker Virtual Host
+
+These steps are only for **Windows & MAC** users *(Linux users don't need a virtual host)*:
+
+1 - Run the default Host:
+
+```bash
+docker-machine start default
+```
+
+* If the host "default" does not exist, create one using the command below, else skip it:
+
+* ```bash
+  docker-machine create -d virtualbox default
+  ```
+
+2 - Run this command to configure your shell:
+
+```bash
+eval $(docker-machine env)
+```
+
+
+
 <br>
 <a name="Find-Docker-IP-Address"></a>
 #### Find your Docker IP Address 
@@ -352,26 +378,6 @@ docker-machine ip default
 Your IP Address is `127.0.0.1`
 
 > **boot2docker** users: run `boot2docker ip` *(when boot2docker is up)*.
-
-
-<br>
-<a name="Run-Docker-Virtual-Host"></a>
-#### Run a Docker Virtual Host
-
-This step is only for **Windows & MAC** users, run the default Host:
-
-```bash
-docker-machine start default
-```
-
-
-If the host "default" does not exist, create one using the command below, else skip it:
-
-```bash
-docker-machine create -d virtualbox default
-```
-
->**Note:** Linux users don't need a virtual host, since Docker runs locally on a the machine.
 
 
 
