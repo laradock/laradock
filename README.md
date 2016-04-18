@@ -90,7 +90,7 @@ The Images links on [Docker Hub](https://hub.docker.com/u/laradock/)
 1 - Clone the `LaraDock` repository, in any of your `Laravel` projects *(using this command)*:
 
 ```bash
-git clone https://github.com/LaraDock/laradock.git docker
+git submodule add https://github.com/LaraDock/laradock.git docker
 ```
 
 >This should create a `docker` folder, on the root directory of your Laravel project.
