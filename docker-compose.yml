@@ -16,6 +16,8 @@ php-nginx:
     - mysql
     - redis
     - elasticsearch
+  environment:
+    - REDIS_PORT=6379
   privileged: true
   extra_hosts:
     - "laravel.dev:xxx.xxx.xxx.xxx"
