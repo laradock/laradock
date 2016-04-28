@@ -17,6 +17,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 - [Intro](#Intro)
 - [Supported Software (Docker Images)](#Supported-Software)
 - [Requirements](#Requirements)
+- [Screencast Tutorial](https://www.youtube.com/watch?v=jGkyO6Is_aI)
 - [Installation](#Installation)
 - [Usage](#Usage)
 - [Documentation](#Documentation)
@@ -86,6 +87,12 @@ The Images links on [Docker Hub](https://hub.docker.com/u/laradock/)
 
 <a name="Installation"></a>
 ## Installation
+
+What is better than watching a video tutorial!! 
+<br>
+If you prefer watch this [screencast](https://www.youtube.com/watch?v=jGkyO6Is_aI), for how to install and use this tool.
+
+<br>
 
 1 - Clone the `LaraDock` repository, in any of your `Laravel` projects:
 
