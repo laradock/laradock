@@ -1,58 +1,65 @@
-# PHP + NGINX Container #----------------------------------
-php-nginx:
-  image: laradock/php56nginx:0.1.0
-  container_name: php-nginx
-  ports:
-    - "80:80"
-  volumes:
-    - ./settings/nginx:/etc/nginx/sites-available
-    - ../:/var/www
-    - ./logs/nginx:/var/log/nginx
-  links:
-    - mysql
-    - redis
-  privileged: true
+version: '2'
+services:
 
-# MySQL Container #----------------------------------------
-mysql:
-  image: laradock/mysql:0.1.0
-  container_name: mysql
-  ports:
-    - "3306:3306"
-  volumes_from:
-    - data
-  environment:
-    MYSQL_DATABASE: homestead
-    MYSQL_USER: homestead
-    MYSQL_PASSWORD: secret
-  privileged: true
+### Nginx Server Container ##################################
 
-# Redis Container #----------------------------------------
-redis:
-  image: laradock/redis:0.1.0
-  container_name: redis
-  ports:
-    - "6379:6379"
-  volumes_from:
-    - data
-  volumes:
-    - ./logs/redis:/var/log/redis
-  privileged: true
+    nginx:
+        build: ./nginx
+        container_name: nginx
+        volumes_from:
+            - php
+        volumes:
+            - ./logs/nginx/:/var/log/nginx
+        ports:
+            - "80:80"
+        links:
+            - php
 
-# Data Volume Container #----------------------------------
-data:
-  image: laradock/data:0.1.0
-  container_name: data
-  volumes:
-    - /var/lib/mysql
-    - /var/lib/redis
+### PHP Container ###########################################
 
-# Beanstalkd Container #-----------------------------------
-# beanstalkd:
-#   image: laradock/beanstalkd:0.1.0
-#   container_name: beanstalkd
-#   ports:
-#     - "11300:11300"
-#   privileged: true
+    php:
+        build: ./php
+        container_name: php
+        volumes:
+            - ../:/var/www/laravel
+            - ./logs/php/:/usr/local/var/log
+        expose:
+            - "9000"
+        links:
+            - mysql
 
-#----------------------------------------------------------
+### MySQL Container #########################################
+
+    mysql:
+        build: ./mysql
+        container_name: mysql
+        volumes_from:
+            - data
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: homestead
+            MYSQL_USER: homestead
+            MYSQL_PASSWORD: secret
+            MYSQL_ROOT_PASSWORD: root
+
+### Redis Container #########################################
+
+    redis:
+        build: ./redis
+        container_name: redis
+        volumes_from:
+            - data
+        ports:
+            - "6379:6379"
+
+### DATA Container ##########################################
+
+    data:
+        build: ./data
+        container_name: data
+        volumes:
+            - /var/lib/mysql
+            - /var/lib/redis
+
+### Add more Containers below ###############################

@@ -15,23 +15,23 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 
 
 - [Intro](#Intro)
-- [Supported Software (Docker Images)](#Supported-Software)
+- [Default Containers](#Default-Containers)
 - [Requirements](#Requirements)
-- [Screencast Tutorial](https://www.youtube.com/watch?v=jGkyO6Is_aI)
 - [Installation](#Installation)
 - [Usage](#Usage)
 - [Documentation](#Documentation)
 	- [List current running Containers](#List-current-running-Containers)
 	- [Close all running Containers](#Close-all-running-Containers)
 	- [Delete all existing Containers](#Delete-all-existing-Containers)
+	- [Build/Re-build Containers](#Build-Re-build-Containers)
 	- [Use Redis in Laravel](#Use-Redis-in-Laravel)
 	- [Use custom Domain](Use-custom-Domain)
 	- [Change the PHP Version](#Change-the-PHP-Version)
 	- [Add/Remove a Docker Container](#AddRemove-a-Docker-Container)
-	- [Add Docker Images](#Add-Docker-Images)
+	- [Add more Software's (Docker Images)](#Add-Docker-Images)
 	- [Edit a Docker Container](#Edit-a-Docker-Container)
 	- [View the Log files](#View-the-Log-files)
-	- [Upgrade the Docker Images](#Upgrade-the-Docker-Images)
+	- [Enter a Container (SSH into a running Container)](#Enter-Container)
 	- [Edit a Docker Image](#Edit-a-Docker-Image)
 	- [Run a Docker Virtual Host](#Run-Docker-Virtual-Host)
 	- [Find your Docker IP Address](#Find-Docker-IP-Address)
@@ -62,20 +62,14 @@ Seriously!!!
 Instead of providing a full Virtual Machines, like you get with Vagrant, Docker provides you **lightweight** Virtual Containers, that share the same kernel and allow to safely execute independent processes.
 
 
-<a name="Supported-Software"></a>
-## Supported Software (Docker Images)
+<a name="Default-Containers"></a>
+## Default Containers
 
-- PHP 5.6 / NGINX
-- PHP 5.5 / NGINX
+- PHP
+- NGINX
 - MySQL
 - Redis
-- Data Volume (for MySQL & Redis)
-- Beanstalked
-
-
-The Images links on [Github](https://github.com/LaraDock)
-<br>
-The Images links on [Docker Hub](https://hub.docker.com/u/laradock/)
+- Data Volume
 
 
 <a name="Requirements"></a>
@@ -87,12 +81,6 @@ The Images links on [Docker Hub](https://hub.docker.com/u/laradock/)
 
 <a name="Installation"></a>
 ## Installation
-
-What is better than watching a video tutorial!! 
-<br>
-If you prefer watch this [screencast](https://www.youtube.com/watch?v=jGkyO6Is_aI), for how to install and use this tool.
-
-<br>
 
 1 - Clone the `LaraDock` repository, in any of your `Laravel` projects:
 
@@ -169,7 +157,6 @@ docker ps
 docker-compose stop
 ```
 
-
 <br>
 <a name="Delete-all-existing-Containers"></a>
 #### Delete all existing Containers
@@ -182,18 +169,26 @@ docker-compose rm -f
 `docker stop {container-name}`
 
 
+<br>
+<a name="Build-Re-build-Containers"></a>
+#### Build/Re-build Containers
+```bash
+docker-compose build
+```
+
+
 
 <br>
 <a name="Use-Redis-in-Laravel"></a>
 #### Use Redis in Laravel
 
-Open your Laravel's `.env` file and set the `REDIS_HOST` to your `Docker-IP` instead of the default `127.0.0.1`.
+Open your Laravel's `.env` file and set the `REDIS_HOST` to your `Docker-IP` instead of the default `127.0.0.1` IP.
 
 ```env
 REDIS_HOST=xxx.xxx.xxx.xxx
 ```
 
-If you don't find the `REDIS_HOST` variable in your `.env` file. Go to the database config file `config/database.php` and replace the `127.0.0.1` with your `Docker-IP` for Redis like this:
+If you don't find the `REDIS_HOST` variable in your `.env` file. Go to the database config file `config/database.php` and replace the default `127.0.0.1` IP with your `Docker-IP` for Redis like this:
 
 ```php
 'redis' => [
@@ -215,8 +210,14 @@ SESSION_DRIVER=redis
 
 Finally make sure you have the `predis/predis` package `(~1.0)` installed via Composer first.
 
-```shell
+```bash
 composer require predis/predis:^1.0
+```
+
+You can manually test it with:
+
+```php
+\Cache::store('redis')->put('laradock', 'awesome', 10);
 ```
 
 
@@ -240,54 +241,47 @@ Example:
 DB_HOST=xxx.xxx.xxx.xxx
 ```
 
-3 - Open the nginx config file `docker/settings/nginx/default` and add this in the `server`:
+3 - Open your browser and visit `{http://laravel.dev}`
+
+
+
+Optionally you can define the server name in the nginx config file, like this:
 
 ```
 server_name laravel.dev;
 ```
-
-4 - Open your browser and visit `{http://laravel.dev}`
-
-
->In case you faced any problem, try this additional step:
->
->Open the `docker-compose.yml` and add the following to `php-nginx:`
->
->```yaml
->  extra_hosts:
->    - "laravel.dev:xxx.xxx.xxx.xxx"
->```
 
 
 
 <br>
 <a name="Change-the-PHP-Version"></a>
 #### Change the PHP Version
-By default **PHP 5.6** is running.
+By default **PHP 7.0** is running.
 <br>
-To change the default PHP version, simply open your `docker-compose.yml` file and edit this line:
+To change the default PHP version:
 
-```yaml
-image: laradock/php56nginx:latest
+1 - Open the `dockerfile` of the `php` folder.
+
+2 - Change the PHP version number in the first line,
+
+```txt
+FROM php:7.0-fpm
 ```
-Supported versions:
 
-- (PHP 5.5.*) laradock/php55nginx:latest
-- (PHP 5.6.*) laradock/php56nginx:latest
+Supported Versions:
 
+- For (PHP 7.0.*) use `php:7.0-fpm`
+- For (PHP 5.6.*) use `php:5.6-fpm`
+- For (PHP 5.5.*) use `php:5.5-fpm`
 
-**Note:** If you use this `laradock/phpnginx` image, it will pull from `laradock/php56nginx`.
-
-
-
+For more details visit the [official PHP docker images](https://hub.docker.com/_/php/).
 
 
 <br>
 <a name="Add-Docker-Images"></a>
-#### Add Docker Images 
-*(add a software to run with other Containers)*
-<br>
-To add an image (software), just edit the `docker-compose.yml` and add your container details, to do so you need to be familiar with the [docker compose file syntax](https://docs.docker.com/compose/yml/).
+#### Add more Software's (Docker Images)
+
+To add an image (software), just edit the `docker-compose.yml` and add your container details, to do so you need to be familiar with the [docker compose file syntax](https://docs.docker.com/compose/compose-file/).
 
 
 
@@ -311,18 +305,26 @@ Example: if you want to set the MySQL port to 3333, just replace the default por
 The Log files are stored in the `docker/logs` directory.
 
 
-
-
 <br>
-<a name="Upgrade-the-Docker-Images"></a>
-#### Upgrade the Docker Images
+<a name="Enter-Container"></a>
+#### Enter a Container (SSH into a running Container)
 
-By default `docker-compose.yml` is configured to use the latest stable version of the image (latest stable realease `tag`).
+1 - first list the current running containers with `docker ps`
 
+2 - enter any container with:
 
-To use the latest build you can edit the `docker-compose.yml` file and replace the version number at the end of every image name with `:latest`
-<br>
-Example: change `image: laradock/mysql:0.1.0` to `image: laradock/mysql:latest`
+Example: enter the `php` container
+
+```bash
+docker exec -it php bash
+```
+
+Example: enter the `nginx` container
+
+```bash
+docker exec -it nginx bash
+```
+
 
 
 <br>
@@ -334,14 +336,19 @@ To prevent a container (software) from running, open the `docker-compose.yml` fi
 
 <br>
 <a name="Edit-a-Docker-Image"></a>
-#### Edit a Docker Image (change some configuration in the image)
-To edit an image, and take full control of it:
+#### Edit a Docker Image
 
-1. Clone any Image from [https://github.com/LaraDock](https://github.com/LaraDock)
-2. Modify the `Dockfile`
-3. Run `docker build -t {your-image-name} .`
+1 - Find the `dockerfile` of the image you want to edit, 
+<br>
+example for `php` it will be `docker/php/dockerfile`.
 
-All the images are open source and hosted on the [Docker Hub](https://hub.docker.com/u/laradock/).
+2 - Edit the file the way you want.
+
+3 - Re-build the container:
+
+```bash
+docker-compose build
+```
 
 *If you find any bug or you have and suggestion that can improve the performance of any image, please consider contributing. Thanks in advance.*
 
@@ -407,9 +414,8 @@ All Docker Images can be found at [https://github.com/LaraDock](https://github.c
 
 
 
-#### Questions?
-[![Join the chat at https://gitter.im/LaraDock/laradock](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/LaraDock/laradock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
-
+### Questions?
+If you have any question, send me a direct message on LaraChat, my username is `mahmoud_zalt`.
 
 
 ## Credits
