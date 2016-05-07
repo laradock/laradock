@@ -15,6 +15,10 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 
 
 - [Intro](#Intro)
+	- [What is Docker](#what-is-docker)
+	- [What is Laravel](#what-is-laravel)
+	- [Why Docker not Vagrant](#why-docker-not-vagrant)
+	- [LaraDock VS Homestead](#laradock-vs-homestead)
 - [Supported Containers](#Supported-Containers)
 - [Requirements](#Requirements)
 - [Installation](#Installation)
@@ -47,20 +51,40 @@ LaraDock strives to make the development experience easier.
 It contains pre-packaged Docker Images that provides you a wonderful development environment without requiring you to install PHP, NGINX, MySQL, REDIS, and any other software on your local machine.
 
 
-
+<a name="what-is-docker"></a>
 ### What is Docker?
 
 [Docker](https://www.docker.com)  is an open-source project that automates the deployment of applications inside software containers, by providing an additional layer of abstraction and automation of [operating-system-level virtualization](https://en.wikipedia.org/wiki/Operating-system-level_virtualization) on Linux, Mac OS and Windows.
 
+<a name="what-is-laravel"></a>
 ### What is Laravel?
 
 Seriously!!!
 
+
+<a name="why-docker-not-vagrant"></a>
 ### Why Docker not Vagrant!?
-[Vagrant](https://www.vagrantup.com) gives you Virtual Machines in minutes while Docker gives you Virtual Containers in seconds.
+
+[Vagrant](https://www.vagrantup.com) creates Virtual Machines in minutes while Docker creates Virtual Containers in seconds.
 
 Instead of providing a full Virtual Machines, like you get with Vagrant, Docker provides you **lightweight** Virtual Containers, that share the same kernel and allow to safely execute independent processes.
 
+In addition to the speed, Docker gives tens of features that cannot be achieved with Vagrant.
+
+Most importantly Docker can run on Development and on Production (same environment everywhere). While Vagrant is designed for Development only, (so you have to re-provision your server on Production every time).
+
+
+<a name="laradock-vs-homestead"></a>
+### LaraDock VS Homestead
+
+LaraDock and [Homestead](https://laravel.com/docs/master/homestead) both gives you a complete virtual development environments. (Without the need to install and configure every single software on your own Operating System).
+
+- Homestead is a tool that controls Vagrant for you (using Homestead special commands). And Vagrant manages your Virtual Machine.
+
+- LaraDock is a tool that controls Docker for you (using Docker Compose official commands). And Docker manages you Virtual Containers.
+
+Running a virtual Container is much faster than running a full virtual Machine. 
+<br>Thus **LaraDock is much faster than Homestead**.
 
 <a name="Supported-Containers"></a>
 ## Supported Containers
@@ -72,12 +96,18 @@ Instead of providing a full Virtual Machines, like you get with Vagrant, Docker 
 - Redis
 - Data Volume
 
+Cannot find your container! we would love to have it as well. Consider contributing your container and adding it to the list.
+
+
+
 <a name="Requirements"></a>
 ## Requirements
 - Laravel ([Download](https://laravel.com/docs/master/installation))
 - Docker Toolbox ([Download](https://www.docker.com/toolbox))
 - Git ([Download](https://git-scm.com/downloads))
 - Composer ([Download](https://getcomposer.org/download/))
+
+
 
 <a name="Installation"></a>
 ## Installation
@@ -95,6 +125,8 @@ git submodule add https://github.com/LaraDock/laradock.git docker
 ```
 
 >These commands should create a `docker` folder, on the root directory of your Laravel project.
+
+
 
 
 <a name="Usage"></a>
@@ -175,6 +207,8 @@ To stop single container do:
 ```php
 docker-compose stop {container-name}
 ```
+
+
 
 <br>
 <a name="Delete-all-existing-Containers"></a>
@@ -346,6 +380,8 @@ server_name laravel.dev;
 The Log files are stored in the `docker/logs` directory.
 
 
+
+
 <br>
 <a name="Enter-Container"></a>
 #### Enter a Container (SSH into a running Container)
@@ -372,6 +408,7 @@ docker exec -it nginx bash
 <a name="AddRemove-a-Docker-Container"></a>
 #### Add/Remove a Docker Container
 To prevent a container (software) from running, open the `docker-compose.yml` file, and comment out the container section or remove it entirely.
+
 
 
 
