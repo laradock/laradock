@@ -43,6 +43,20 @@ services:
             MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
 
+### PostgreSQL Container ####################################
+
+    postgres:
+        build: ./postgres
+        container_name: postgres
+        volumes_from:
+            - data
+        ports:
+            - "5432:5432"
+        environment:
+            POSTGRES_DB: homestead
+            POSTGRES_USER: homestead
+            POSTGRES_PASSWORD: secret
+
 ### Redis Container #########################################
 
     redis:
@@ -60,6 +74,7 @@ services:
         container_name: data
         volumes:
             - /var/lib/mysql
+            - /var/lib/postgresql/data
             - /var/lib/redis
 
 ### Add more Containers below ###############################
