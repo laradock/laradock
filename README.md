@@ -15,6 +15,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 
 
 - [Intro](#Intro)
+	- [Features](#features)
 	- [What is Docker](#what-is-docker)
 	- [What is Laravel](#what-is-laravel)
 	- [Why Docker not Vagrant](#why-docker-not-vagrant)
@@ -49,6 +50,24 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 
 LaraDock strives to make the development experience easier.
 It contains pre-packaged Docker Images that provides you a wonderful development environment without requiring you to install PHP, NGINX, MySQL, REDIS, and any other software on your local machine.
+
+
+<a name="features"></a>
+### Features
+
+- Easy switch between PHP versions: 7.0 - 5.6 - 5.5 - ...
+- Choose your favorite database engine: MySQL - Postgres - Redis - ...
+- Run your own combination of software's: PHP - NGINX - MySQL - ...
+- Everything runs on a separate container: PHP - NGINX - Postgres - Redis ...
+- Easy to customzie any container, with simple edit to the `dockerfile`.
+- All Images extends from the official base Image. (Trusted base Images).
+- Pre-configured Nginx for Laravel. And very easy to update.
+- Using of a Data container, to keep the Data safe and access it anytime.
+- Easy to apply configurations inside containers.
+- Clean and well structured Docker files (`dockerfile`).
+- Latest version of the Docker Compose file (`docker-compose`).
+- Everything is visible and editable.
+- Best practices everywhere.
 
 
 <a name="what-is-docker"></a>
