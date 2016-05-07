@@ -29,6 +29,16 @@ services:
             - mysql
             - postgres
 
+### DATA Container ##########################################
+
+    data:
+        build: ./data
+        container_name: data
+        volumes:
+            - /var/lib/mysql
+            - /var/lib/postgresql/data
+            - /var/lib/redis
+
 ### MySQL Container #########################################
 
     mysql:
@@ -67,15 +77,5 @@ services:
             - data
         ports:
             - "6379:6379"
-
-### DATA Container ##########################################
-
-    data:
-        build: ./data
-        container_name: data
-        volumes:
-            - /var/lib/mysql
-            - /var/lib/postgresql/data
-            - /var/lib/redis
 
 ### Add more Containers below ###############################
