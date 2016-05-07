@@ -68,9 +68,9 @@ Instead of providing a full Virtual Machines, like you get with Vagrant, Docker 
 - PHP
 - NGINX
 - MySQL
+- Postgres
 - Redis
 - Data Volume
-
 
 <a name="Requirements"></a>
 ## Requirements
@@ -114,23 +114,35 @@ DB_HOST=xxx.xxx.xxx.xxx
 [How to find my Docker IP Address?](#Find-Docker-IP-Address)
 
 <br>
-2 - Run the containers: 
+2 - Run the Containers, (you can select the software's (containers) that you wish to run)
 <br>
-*(Make sure you are in the `docker` folder before running this command)*
+*Make sure you are in the `docker` folder before running the `docker-compose` command.*
+
+> Running PHP, NGINX and MySQL:
 
 ```bash
-docker-compose up -d
+docker-compose up -d   php nginx mysql
 ```
 
->*Only the first time you run this command, it will take up to 5 minutes (depend on your connection speed) to download the Docker Images on your local machine.*
+Note: you can choose your own combination of software's (containers), another example:
+
+> Running PHP, NGINX, Postgres and Redis:
+
+```bash
+docker-compose up -d   php nginx postgres redis
+```
+
 
 <br>
 3 - Open your browser and visit your `{Docker-IP}` address (`http://xxx.xxx.xxx.xxx`).
 
 
-> **Debugging**: in case you faced an error here, run this command from the Laravel root directory:
-> <br>
-> `sudo chmod -R 777 storage && sudo chmod -R 777 bootstrap/cache`
+<br>
+**Debugging**: in case you faced an error here, run this command from the Laravel root directory:
+
+```bash
+sudo chmod -R 777 storage && sudo chmod -R 777 bootstrap/cache
+```
 
 <br>
 
@@ -172,17 +184,26 @@ docker-compose rm -f
 <br>
 <a name="Build-Re-build-Containers"></a>
 #### Build/Re-build Containers
+
+If you do any change to any `dockerfile` make sure you run this command, for the changes to take effect:
+
 ```bash
 docker-compose build
 ```
+Optionally you can specify which container to rebuild (instead of rebuilding all the containers), example rebuilding `PHP`:
 
+```bash
+docker-compose build php
+```
 
 
 <br>
 <a name="Use-Redis-in-Laravel"></a>
 #### Use Redis in Laravel
 
-Open your Laravel's `.env` file and set the `REDIS_HOST` to your `Docker-IP` instead of the default `127.0.0.1` IP.
+1 - First make sure you run the Redis Container with the `docker-compose` command.
+
+2 - Open your Laravel's `.env` file and set the `REDIS_HOST` to your `Docker-IP` instead of the default `127.0.0.1` IP.
 
 ```env
 REDIS_HOST=xxx.xxx.xxx.xxx
@@ -201,24 +222,25 @@ If you don't find the `REDIS_HOST` variable in your `.env` file. Go to the datab
 ],
 ```
 
-To enable Redis Caching and/or for Sessions Management. Also from the `.env` file set `CACHE_DRIVER` and `SESSION_DRIVER` to `redis` instead of the default `file`.
+3 - To enable Redis Caching and/or for Sessions Management. Also from the `.env` file set `CACHE_DRIVER` and `SESSION_DRIVER` to `redis` instead of the default `file`.
 
 ```env
 CACHE_DRIVER=redis
 SESSION_DRIVER=redis
 ```
 
-Finally make sure you have the `predis/predis` package `(~1.0)` installed via Composer first.
+4 - Finally make sure you have the `predis/predis` package `(~1.0)` installed via Composer first.
 
 ```bash
 composer require predis/predis:^1.0
 ```
 
-You can manually test it with:
+5 - You can manually test it from Laravel with this code:
 
 ```php
 \Cache::store('redis')->put('laradock', 'awesome', 10);
 ```
+
 
 
 <br>
