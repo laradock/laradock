@@ -25,11 +25,11 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 	- [Delete all existing Containers](#Delete-all-existing-Containers)
 	- [Build/Re-build Containers](#Build-Re-build-Containers)
 	- [Use Redis](#Use-Redis)
-	- [Use custom Domain](Use-custom-Domain)
 	- [Change the PHP Version](#Change-the-PHP-Version)
 	- [Add/Remove a Docker Container](#AddRemove-a-Docker-Container)
 	- [Add more Software's (Docker Images)](#Add-Docker-Images)
-	- [Edit a Docker Container](#Edit-a-Docker-Container)
+	- [Edit default container configuration](#Edit-Container)
+	- [Use custom Domain](Use-custom-Domain)
 	- [View the Log files](#View-the-Log-files)
 	- [Enter a Container (SSH into a running Container)](#Enter-Container)
 	- [Edit a Docker Image](#Edit-a-Docker-Image)
@@ -245,7 +245,64 @@ composer require predis/predis:^1.0
 5 - You can manually test it from Laravel with this code:
 
 ```php
-\Cache::store('redis')->put('laradock', 'awesome', 10);
+\Cache::store('redis')->put('LaraDock', 'Awesome', 10);
+```
+
+
+
+<br>
+<a name="Change-the-PHP-Version"></a>
+#### Change the PHP Version
+By default **PHP 7.0** is running.
+<br>
+To change the default PHP version:
+
+1 - Open the `dockerfile` of the `php` folder.
+
+2 - Change the PHP version number in the first line,
+
+```txt
+FROM php:7.0-fpm
+```
+
+Supported Versions:
+
+- For (PHP 7.0.*) use `php:7.0-fpm`
+- For (PHP 5.6.*) use `php:5.6-fpm`
+- For (PHP 5.5.*) use `php:5.5-fpm`
+
+For more details visit the [official PHP docker images](https://hub.docker.com/_/php/).
+
+
+
+
+<br>
+<a name="Add-Docker-Images"></a>
+#### Add more Software's (Docker Images)
+
+To add an image (software), just edit the `docker-compose.yml` and add your container details, to do so you need to be familiar with the [docker compose file syntax](https://docs.docker.com/compose/compose-file/).
+
+
+
+<br>
+<a name="Edit-Container"></a>
+#### Edit default container configuration
+Open the `docker-compose.yml` and change anything you want.
+
+Examples: 
+
+Change MySQL Database Name:
+
+```yml
+  environment:
+    MYSQL_DATABASE: laradock
+```
+
+Change Redis defaut port to 1111:
+
+```yml
+  ports:
+    - "1111:6379"
 ```
 
 
@@ -280,51 +337,6 @@ Optionally you can define the server name in the nginx config file, like this:
 server_name laravel.dev;
 ```
 
-
-
-<br>
-<a name="Change-the-PHP-Version"></a>
-#### Change the PHP Version
-By default **PHP 7.0** is running.
-<br>
-To change the default PHP version:
-
-1 - Open the `dockerfile` of the `php` folder.
-
-2 - Change the PHP version number in the first line,
-
-```txt
-FROM php:7.0-fpm
-```
-
-Supported Versions:
-
-- For (PHP 7.0.*) use `php:7.0-fpm`
-- For (PHP 5.6.*) use `php:5.6-fpm`
-- For (PHP 5.5.*) use `php:5.5-fpm`
-
-For more details visit the [official PHP docker images](https://hub.docker.com/_/php/).
-
-
-<br>
-<a name="Add-Docker-Images"></a>
-#### Add more Software's (Docker Images)
-
-To add an image (software), just edit the `docker-compose.yml` and add your container details, to do so you need to be familiar with the [docker compose file syntax](https://docs.docker.com/compose/compose-file/).
-
-
-
-<br>
-<a name="Edit-a-Docker-Container"></a>
-#### Edit a Docker Container (change Ports or Volumes)
-To modify a container you can simply open the `docker-compose.yml` and change everything you want.
-
-Example: if you want to set the MySQL port to 3333, just replace the default port with yours:
-
-```yml
-  ports:
-    - "3333:3306"
-```
 
 
 
