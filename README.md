@@ -15,7 +15,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 
 
 - [Intro](#Intro)
-- [Default Containers](#Default-Containers)
+- [Supported Containers](#Supported-Containers)
 - [Requirements](#Requirements)
 - [Installation](#Installation)
 - [Usage](#Usage)
@@ -24,7 +24,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 	- [Close all running Containers](#Close-all-running-Containers)
 	- [Delete all existing Containers](#Delete-all-existing-Containers)
 	- [Build/Re-build Containers](#Build-Re-build-Containers)
-	- [Use Redis in Laravel](#Use-Redis-in-Laravel)
+	- [Use Redis](#Use-Redis)
 	- [Use custom Domain](Use-custom-Domain)
 	- [Change the PHP Version](#Change-the-PHP-Version)
 	- [Add/Remove a Docker Container](#AddRemove-a-Docker-Container)
@@ -62,13 +62,13 @@ Seriously!!!
 Instead of providing a full Virtual Machines, like you get with Vagrant, Docker provides you **lightweight** Virtual Containers, that share the same kernel and allow to safely execute independent processes.
 
 
-<a name="Default-Containers"></a>
-## Default Containers
+<a name="Supported-Containers"></a>
+## Supported Containers
 
 - PHP
 - NGINX
 - MySQL
-- Postgres
+- PostgreSQL
 - Redis
 - Data Volume
 
@@ -132,6 +132,7 @@ Note: you can choose your own combination of software's (containers), another ex
 docker-compose up -d   php nginx postgres redis
 ```
 
+Supported Containers: `php`, `nginx`, `mysql`, `postgres`, `redis`, `data`.
 
 <br>
 3 - Open your browser and visit your `{Docker-IP}` address (`http://xxx.xxx.xxx.xxx`).
@@ -169,6 +170,12 @@ docker ps
 docker-compose stop
 ```
 
+To stop single container do:
+
+```php
+docker-compose stop {container-name}
+```
+
 <br>
 <a name="Delete-all-existing-Containers"></a>
 #### Delete all existing Containers
@@ -178,7 +185,7 @@ docker-compose rm -f
 
 *Note: Careful with this command as it will delete your Data Volume Container as well. (if you want to keep your Database data than you should stop each container by itself as follow):* 
 
-`docker stop {container-name}`
+
 
 
 <br>
@@ -198,8 +205,8 @@ docker-compose build php
 
 
 <br>
-<a name="Use-Redis-in-Laravel"></a>
-#### Use Redis in Laravel
+<a name="Use-Redis"></a>
+#### Use Redis
 
 1 - First make sure you run the Redis Container with the `docker-compose` command.
 
