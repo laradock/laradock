@@ -59,7 +59,7 @@ It contains pre-packaged Docker Images that provides you a wonderful development
 - Choose your favorite database engine: MySQL - Postgres - Redis - ...
 - Run your own combination of software's: PHP - NGINX - MySQL - ...
 - Everything runs on a separate container: PHP - NGINX - Postgres - Redis ...
-- Easy to customzie any container, with simple edit to the `dockerfile`.
+- Easy to customize any container, with simple edit to the `dockerfile`.
 - All Images extends from the official base Image. (Trusted base Images).
 - Pre-configured Nginx for Laravel. And very easy to update.
 - Using of a Data container, to keep the Data safe and access it anytime.
@@ -250,10 +250,10 @@ If you do any change to any `dockerfile` make sure you run this command, for the
 ```bash
 docker-compose build
 ```
-Optionally you can specify which container to rebuild (instead of rebuilding all the containers), example rebuilding `PHP`:
+Optionally you can specify which container to rebuild (instead of rebuilding all the containers):
 
 ```bash
-docker-compose build php
+docker-compose build {container-name}
 ```
 
 
@@ -326,7 +326,11 @@ Supported Versions:
 
 For more details visit the [official PHP docker images](https://hub.docker.com/_/php/).
 
+3 - Finally rebuild the container
 
+```bash
+docker-compose build php
+```
 
 
 <br>
