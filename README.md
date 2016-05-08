@@ -108,32 +108,26 @@ Running a virtual Container is much faster than running a full virtual Machine.
 <a name="Supported-Containers"></a>
 ## Supported Containers
 
-- PHP
+- PHP (7.0 - 5.6 - 5.5)
 - NGINX
 - MySQL
 - PostgreSQL
 - Redis
 - Data Volume
 
-Cannot find your container! we would love to have it as well. Consider contributing your container and adding it to the list.
+Cannot find your container! we would love to have it as well. Consider contributing your container and adding it to this list.
 
 
 
 <a name="Requirements"></a>
 ## Requirements
 
-- Laravel ([Download](https://laravel.com/docs/master/installation))
-- Git ([Download](https://git-scm.com/downloads))
-
-> For Windows & MAC users only:
-
-- Docker Toolbox ([Download](https://www.docker.com/toolbox))
-
-> For Linux users only:
-
-- Docker Engine ([Install](https://docs.docker.com/engine/installation/linux/ubuntulinux/#install))
-- Docker Compose ([Install](https://docs.docker.com/compose/install))
-
+| Linux                                                                                   | Windows & MAC                                           |
+|-----------------------------------------------------------------------------------------|---------------------------------------------------------|
+|                 [Laravel](https://laravel.com/docs/master/installation)                 | [Laravel](https://laravel.com/docs/master/installation) |
+|                           [Git](https://git-scm.com/downloads)                          |           [Git](https://git-scm.com/downloads)          |
+| [Docker Engine](https://docs.docker.com/engine/installation/linux/ubuntulinux/#install) |     [Docker Toolbox](https://www.docker.com/toolbox)    |
+|                [Docker Compose](https://docs.docker.com/compose/install)                |                                                         |
 
 
 <a name="Installation"></a>
@@ -159,7 +153,10 @@ git submodule add https://github.com/LaraDock/laradock.git docker
 <a name="Usage"></a>
 ## Usage
 
-0 - For **Windows & MAC** users only: make sure you have a running Docker Virtual Host on your machine. [How to run a Docker Virtual Host?](#Run-Docker-Virtual-Host). (**Linux** users don't need a Virtual Host, so skip this step).
+0 - For **Windows & MAC** users only: make sure you have a running Docker Virtual Host on your machine. 
+(**Linux** users don't need a Virtual Host, so skip this step)
+<br>
+[How to run a Docker Virtual Host?](#Run-Docker-Virtual-Host)
 
 
 <br>
