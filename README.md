@@ -139,7 +139,7 @@ Cannot find your container! we would love to have it as well. Consider contribut
 git clone https://github.com/LaraDock/laradock.git docker
 ```
 
-Instead of `git clone` you can use `git submodule add` in case you are already using Git for your Laravel project *(Recommended)*:
+You can use `git submodule add` instead of `git clone` if you are already using Git for your Laravel project *(Recommended)*:
 
 ```bash
 git submodule add https://github.com/LaraDock/laradock.git docker
@@ -154,7 +154,7 @@ git submodule add https://github.com/LaraDock/laradock.git docker
 ## Usage
 
 0 - For **Windows & MAC** users only: make sure you have a running Docker Virtual Host on your machine. 
-(**Linux** users don't need a Virtual Host, so skip this step)
+(**Linux** users don't need a Virtual Host, so skip this step).
 <br>
 [How to run a Docker Virtual Host?](#Run-Docker-Virtual-Host)
 
