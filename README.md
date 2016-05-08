@@ -58,13 +58,13 @@ It contains pre-packaged Docker Images that provides you a wonderful development
 - Easy switch between PHP versions: 7.0 - 5.6 - 5.5 - ...
 - Choose your favorite database engine: MySQL - Postgres - Redis - ...
 - Run your own combination of software's: PHP - NGINX - MySQL - ...
-- Everything runs on a separate container: PHP - NGINX - Postgres - Redis ...
+- Every software runs on a separate container: PHP - NGINX - ...
 - Easy to customize any container, with simple edit to the `dockerfile`.
-- All Images extends from the official base Image. (Trusted base Images).
+- All Images extends from an official base Image. (Trusted base Images).
 - Pre-configured Nginx for Laravel. And very easy to update.
-- Using of a Data container, to keep the Data safe and access it anytime.
+- Using of a Data container, to keep the Data safe and accessible at anytime.
 - Easy to apply configurations inside containers.
-- Clean and well structured Docker files (`dockerfile`).
+- Clean and well structured Dockerfiles (`dockerfile`).
 - Latest version of the Docker Compose file (`docker-compose`).
 - Everything is visible and editable.
 - Best practices everywhere.
@@ -121,10 +121,18 @@ Cannot find your container! we would love to have it as well. Consider contribut
 
 <a name="Requirements"></a>
 ## Requirements
+
 - Laravel ([Download](https://laravel.com/docs/master/installation))
-- Docker Toolbox ([Download](https://www.docker.com/toolbox))
 - Git ([Download](https://git-scm.com/downloads))
-- Composer ([Download](https://getcomposer.org/download/))
+
+> For Windows & MAC users only:
+
+- Docker Toolbox ([Download](https://www.docker.com/toolbox))
+
+> For Linux users only:
+
+- Docker Engine ([Install](https://docs.docker.com/engine/installation/linux/ubuntulinux/#install))
+- Docker Compose ([Install](https://docs.docker.com/compose/install))
 
 
 
@@ -151,9 +159,7 @@ git submodule add https://github.com/LaraDock/laradock.git docker
 <a name="Usage"></a>
 ## Usage
 
->**(Windows & MAC users)** Make sure you have a running Docker Virtual Host on your machine first. 
-><br>
->[How to run a Docker Virtual Host?](#Run-Docker-Virtual-Host)
+0 - For **Windows & MAC** users only: make sure you have a running Docker Virtual Host on your machine. [How to run a Docker Virtual Host?](#Run-Docker-Virtual-Host). (**Linux** users don't need a Virtual Host, so skip this step).
 
 
 <br>
