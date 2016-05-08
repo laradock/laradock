@@ -5,7 +5,6 @@ services:
 
     nginx:
         build: ./nginx
-        container_name: nginx
         volumes_from:
             - php
         volumes:
@@ -19,7 +18,6 @@ services:
 
     php:
         build: ./php
-        container_name: php
         volumes:
             - ../:/var/www/laravel
             - ./logs/php/:/usr/local/var/log
@@ -30,7 +28,6 @@ services:
 
     data:
         build: ./data
-        container_name: data
         volumes:
             - /var/lib/mysql
             - /var/lib/postgresql/data
@@ -40,7 +37,6 @@ services:
 
     mysql:
         build: ./mysql
-        container_name: mysql
         volumes_from:
             - data
         ports:
@@ -57,7 +53,6 @@ services:
 
     postgres:
         build: ./postgres
-        container_name: postgres
         volumes_from:
             - data
         ports:
@@ -73,7 +68,6 @@ services:
 
     redis:
         build: ./redis
-        container_name: redis
         volumes_from:
             - data
         ports:

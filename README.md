@@ -226,7 +226,7 @@ docker-compose stop
 
 To stop single container do:
 
-```php
+```bash
 docker-compose stop {container-name}
 ```
 
