@@ -2,7 +2,7 @@ FROM postgres:latest
 
 MAINTAINER Ben M <git@bmagg.com>
 
-VOLUME /var/lib/postgresql/data
+VOLUME /var/lib/postgres
 
 CMD ["postgres"]
 

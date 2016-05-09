@@ -31,7 +31,7 @@ services:
         build: ./data
         volumes:
             - /var/lib/mysql
-            - /var/lib/postgresql/data
+            - /var/lib/postgres
             - /var/lib/redis
 
 ### MySQL Container #########################################
