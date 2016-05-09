@@ -114,6 +114,8 @@ Running a virtual Container is much faster than running a full virtual Machine.
 - MySQL
 - PostgreSQL
 - MariaDB
+- Beanstalkd
+- Beanstalkd Console
 - Data Volume
 
 Cannot find your container! we would love to have it as well. Consider contributing your container and adding it to this list.
@@ -176,7 +178,7 @@ DB_HOST=xxx.xxx.xxx.xxx
 > Running PHP, NGINX and MySQL:
 
 ```bash
-docker-compose up -d   php nginx mysql
+docker-compose up -d   php nginx mysql redis
 ```
 
 Note: you can choose your own combination of software's (containers), another example:
@@ -184,10 +186,10 @@ Note: you can choose your own combination of software's (containers), another ex
 > Running PHP, NGINX, Postgres and Redis:
 
 ```bash
-docker-compose up -d   php nginx postgres redis
+docker-compose up -d   php nginx beanstalkd postgres
 ```
 
-Supported Containers: `nginx`, `mysql`, `redis`, `postgres`, `mariadb`, `data`, `php`.
+Supported Containers: `nginx`, `mysql`, `redis`, `postgres`, `mariadb`, `beanstalkd`, `beanstalkd-console`, `data`, `php`.
 
 <br>
 3 - Open your browser and visit your `{Docker-IP}` address (`http://xxx.xxx.xxx.xxx`).

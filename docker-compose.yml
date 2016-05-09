@@ -91,4 +91,21 @@ services:
         ports:
             - "6379:6379"
 
+### Beanstalkd Container ####################################
+
+    beanstalkd:
+        build: ./beanstalkd
+        ports:
+            - "11300:11300"
+        privileged: true
+
+### Beanstalkd-Console Container ############################
+
+    beanstalkd-console:
+        build: ./beanstalkd-console
+        ports:
+            - "2080:2080"
+        links:
+            - beanstalkd
+
 ### Add more Containers below ###############################
