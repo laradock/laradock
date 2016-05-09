@@ -32,6 +32,7 @@ services:
         volumes:
             - /var/lib/mysql
             - /var/lib/postgres
+            - /var/lib/mariadb
             - /var/lib/redis
 
 ### MySQL Container #########################################
@@ -62,6 +63,22 @@ services:
             POSTGRES_DB: homestead
             POSTGRES_USER: homestead
             POSTGRES_PASSWORD: secret
+        links:
+            - php
+
+### MariaDB Container #######################################
+
+    mariadb:  
+        build: ./mariadb
+        volumes_from:
+            - data
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: homestead
+            MYSQL_USER: homestead
+            MYSQL_PASSWORD: secret
+            MYSQL_ROOT_PASSWORD: root
         links:
             - php
 

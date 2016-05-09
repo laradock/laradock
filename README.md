@@ -1,6 +1,6 @@
 # LaraDock
 
-[![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://www.zalt.me)
+[![forthebadge](http://forthebadge.com/images/badges/built-by-developers.svg)](http://zalt.me)
 
 
 LaraDock helps you run your **Laravel** App on **Docker** real quick.
@@ -110,9 +110,10 @@ Running a virtual Container is much faster than running a full virtual Machine.
 
 - PHP (7.0 - 5.6 - 5.5)
 - NGINX
+- Redis
 - MySQL
 - PostgreSQL
-- Redis
+- MariaDB
 - Data Volume
 
 Cannot find your container! we would love to have it as well. Consider contributing your container and adding it to this list.
@@ -186,7 +187,7 @@ Note: you can choose your own combination of software's (containers), another ex
 docker-compose up -d   php nginx postgres redis
 ```
 
-Supported Containers: `php`, `nginx`, `mysql`, `postgres`, `redis`, `data`.
+Supported Containers: `nginx`, `mysql`, `redis`, `postgres`, `mariadb`, `data`, `php`.
 
 <br>
 3 - Open your browser and visit your `{Docker-IP}` address (`http://xxx.xxx.xxx.xxx`).
@@ -414,20 +415,12 @@ The Log files are stored in the `docker/logs` directory.
 
 1 - first list the current running containers with `docker ps`
 
-2 - enter any container with:
-
-Example: enter the `php` container
+2 - enter any container using:
 
 ```bash
-docker exec -it php bash
+docker exec -it {container-name-or-id} bash
 ```
-
-Example: enter the `nginx` container
-
-```bash
-docker exec -it nginx bash
-```
-
+3 - to exit a container, type `exit`.
 
 
 <br>
