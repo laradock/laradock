@@ -1,11 +1,11 @@
 version: '2'
+
 services:
 
 ### Nginx Server Container ##################################
 
     nginx:
         build: ./nginx
-        container_name: nginx
         volumes_from:
             - php
         volumes:
@@ -19,7 +19,6 @@ services:
 
     php:
         build: ./php
-        container_name: php
         volumes:
             - ../:/var/www/laravel
             - ./logs/php/:/usr/local/var/log
@@ -30,17 +29,16 @@ services:
 
     data:
         build: ./data
-        container_name: data
         volumes:
             - /var/lib/mysql
-            - /var/lib/postgresql/data
+            - /var/lib/postgres
+            - /var/lib/mariadb
             - /var/lib/redis
 
 ### MySQL Container #########################################
 
     mysql:
         build: ./mysql
-        container_name: mysql
         volumes_from:
             - data
         ports:
@@ -57,7 +55,6 @@ services:
 
     postgres:
         build: ./postgres
-        container_name: postgres
         volumes_from:
             - data
         ports:
@@ -69,14 +66,46 @@ services:
         links:
             - php
 
+### MariaDB Container #######################################
+
+    mariadb:  
+        build: ./mariadb
+        volumes_from:
+            - data
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: homestead
+            MYSQL_USER: homestead
+            MYSQL_PASSWORD: secret
+            MYSQL_ROOT_PASSWORD: root
+        links:
+            - php
+
 ### Redis Container #########################################
 
     redis:
         build: ./redis
-        container_name: redis
         volumes_from:
             - data
         ports:
             - "6379:6379"
+
+### Beanstalkd Container ####################################
+
+    beanstalkd:
+        build: ./beanstalkd
+        ports:
+            - "11300:11300"
+        privileged: true
+
+### Beanstalkd-Console Container ############################
+
+    beanstalkd-console:
+        build: ./beanstalkd-console
+        ports:
+            - "2080:2080"
+        links:
+            - beanstalkd
 
 ### Add more Containers below ###############################
