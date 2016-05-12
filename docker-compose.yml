@@ -34,6 +34,7 @@ services:
             - /var/lib/postgres
             - /var/lib/mariadb
             - /var/lib/redis
+            - /var/lib/memcached
 
 ### MySQL Container #########################################
 
@@ -107,5 +108,14 @@ services:
             - "2080:2080"
         links:
             - beanstalkd
+
+### Memcached Container #########################################
+
+    memcached:
+        build: ./memcached
+        volumes_from:
+            - data
+        ports:
+            - "11211:11211"
 
 ### Add more Containers below ###############################
