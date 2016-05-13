@@ -29,13 +29,13 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 	- [Close all running Containers](#Close-all-running-Containers)
 	- [Delete all existing Containers](#Delete-all-existing-Containers)
 	- [Build/Re-build Containers](#Build-Re-build-Containers)
-	- [Use Redis](#Use-Redis)
 	- [Change the PHP Version](#Change-the-PHP-Version)
 	- [Add/Remove a Docker Container](#AddRemove-a-Docker-Container)
 	- [Add more Software's (Docker Images)](#Add-Docker-Images)
 	- [Edit default container configuration](#Edit-Container)
 	- [Use custom Domain](Use-custom-Domain)
 	- [View the Log files](#View-the-Log-files)
+	- [Use Redis](#Use-Redis)
 	- [Enter a Container (SSH into a running Container)](#Enter-Container)
 	- [Edit a Docker Image](#Edit-a-Docker-Image)
 	- [Run a Docker Virtual Host](#Run-Docker-Virtual-Host)
@@ -52,22 +52,47 @@ LaraDock strives to make the development experience easier.
 It contains pre-packaged Docker Images that provides you a wonderful development environment without requiring you to install PHP, NGINX, MySQL, REDIS, and any other software on your local machine.
 
 
+**Usage Overview:** Run `NGINX`, `MySQL` and `Redis`.
+
+```shell
+docker-compose up -d  nginx mysql redis 
+```
+
 <a name="features"></a>
 ### Features
 
-- Easy switch between PHP versions: 7.0 - 5.6 - 5.5 - ...
-- Choose your favorite database engine: MySQL - Postgres - Redis - ...
-- Run your own combination of software's: PHP - NGINX - MySQL - ...
-- Every software runs on a separate container: PHP - NGINX - ...
+- Easy switch between PHP versions: 7.0 - 5.6 - 5.5 ...
+- Choose your favorite database engine: MySQL - Postgres - Redis ...
+- Run your own combination of software's: Memcached - MariaDB ...
+- Every software runs on a separate container: PHP - NGINX ...
 - Easy to customize any container, with simple edit to the `dockerfile`.
 - All Images extends from an official base Image. (Trusted base Images).
-- Pre-configured Nginx for Laravel. And very easy to update.
-- Using of a Data container, to keep the Data safe and accessible at anytime.
+- Pre-configured Nginx for Laravel.
+- Data container, to keep Data safe and accessible.
 - Easy to apply configurations inside containers.
 - Clean and well structured Dockerfiles (`dockerfile`).
 - Latest version of the Docker Compose file (`docker-compose`).
 - Everything is visible and editable.
-- Best practices everywhere.
+
+
+<a name="Supported-Containers"></a>
+## Supported Containers
+
+- PHP (7.0 - 5.6 - 5.5)
+- NGINX
+- MySQL
+- PostgreSQL
+- MariaDB
+- Redis
+- Memcached
+- Beanstalkd
+- Beanstalkd Console
+- Data Volume
+
+>Cannot find your container! we would love to have it as well. Consider contributing your container and adding it to this list.
+
+
+
 
 
 <a name="what-is-docker"></a>
@@ -104,21 +129,6 @@ LaraDock and [Homestead](https://laravel.com/docs/master/homestead) both gives y
 
 Running a virtual Container is much faster than running a full virtual Machine. 
 <br>Thus **LaraDock is much faster than Homestead**.
-
-<a name="Supported-Containers"></a>
-## Supported Containers
-
-- PHP (7.0 - 5.6 - 5.5)
-- NGINX
-- Redis
-- MySQL
-- PostgreSQL
-- MariaDB
-- Beanstalkd
-- Beanstalkd Console
-- Data Volume
-
-Cannot find your container! we would love to have it as well. Consider contributing your container and adding it to this list.
 
 
 
@@ -175,21 +185,21 @@ DB_HOST=xxx.xxx.xxx.xxx
 <br>
 *Make sure you are in the `docker` folder before running the `docker-compose` command.*
 
-> Running PHP, NGINX and MySQL:
+> Running PHP, NGINX, MySQL and Redis:
 
 ```bash
-docker-compose up -d   php nginx mysql redis
+docker-compose up -d  php nginx mysql redis
 ```
 
 Note: you can choose your own combination of software's (containers), another example:
 
-> Running PHP, NGINX, Postgres and Redis:
+> Running PHP, NGINX, Postgres and Memcached:
 
 ```bash
-docker-compose up -d   php nginx beanstalkd postgres
+docker-compose up -d  php nginx postgres memcached
 ```
 
-Supported Containers: `nginx`, `mysql`, `redis`, `postgres`, `mariadb`, `beanstalkd`, `beanstalkd-console`, `data`, `php`.
+Supported Containers: `nginx`, `mysql`, `redis`, `postgres`, `mariadb`, `memcached`, `beanstalkd`, `beanstalkd-console`, `data`, `php`.
 
 <br>
 3 - Open your browser and visit your `{Docker-IP}` address (`http://xxx.xxx.xxx.xxx`).
@@ -263,50 +273,6 @@ docker-compose build {container-name}
 ```
 
 
-<br>
-<a name="Use-Redis"></a>
-#### Use Redis
-
-1 - First make sure you run the Redis Container with the `docker-compose` command.
-
-2 - Open your Laravel's `.env` file and set the `REDIS_HOST` to your `Docker-IP` instead of the default `127.0.0.1` IP.
-
-```env
-REDIS_HOST=xxx.xxx.xxx.xxx
-```
-
-If you don't find the `REDIS_HOST` variable in your `.env` file. Go to the database config file `config/database.php` and replace the default `127.0.0.1` IP with your `Docker-IP` for Redis like this:
-
-```php
-'redis' => [
-    'cluster' => false,
-    'default' => [
-        'host'     => 'xxx.xxx.xxx.xxx',
-        'port'     => 6379,
-        'database' => 0,
-    ],
-],
-```
-
-3 - To enable Redis Caching and/or for Sessions Management. Also from the `.env` file set `CACHE_DRIVER` and `SESSION_DRIVER` to `redis` instead of the default `file`.
-
-```env
-CACHE_DRIVER=redis
-SESSION_DRIVER=redis
-```
-
-4 - Finally make sure you have the `predis/predis` package `(~1.0)` installed via Composer first.
-
-```bash
-composer require predis/predis:^1.0
-```
-
-5 - You can manually test it from Laravel with this code:
-
-```php
-\Cache::store('redis')->put('LaraDock', 'Awesome', 10);
-```
-
 
 
 <br>
@@ -337,6 +303,8 @@ For more details visit the [official PHP docker images](https://hub.docker.com/_
 ```bash
 docker-compose build php
 ```
+
+
 
 
 <br>
@@ -407,6 +375,55 @@ server_name laravel.dev;
 <a name="View-the-Log-files"></a>
 #### View the Log files 
 The Log files are stored in the `docker/logs` directory.
+
+
+
+
+
+<br>
+<a name="Use-Redis"></a>
+#### Use Redis
+
+1 - First make sure you run the Redis Container with the `docker-compose` command.
+
+2 - Open your Laravel's `.env` file and set the `REDIS_HOST` to your `Docker-IP` instead of the default `127.0.0.1` IP.
+
+```env
+REDIS_HOST=xxx.xxx.xxx.xxx
+```
+
+If you don't find the `REDIS_HOST` variable in your `.env` file. Go to the database config file `config/database.php` and replace the default `127.0.0.1` IP with your `Docker-IP` for Redis like this:
+
+```php
+'redis' => [
+    'cluster' => false,
+    'default' => [
+        'host'     => 'xxx.xxx.xxx.xxx',
+        'port'     => 6379,
+        'database' => 0,
+    ],
+],
+```
+
+3 - To enable Redis Caching and/or for Sessions Management. Also from the `.env` file set `CACHE_DRIVER` and `SESSION_DRIVER` to `redis` instead of the default `file`.
+
+```env
+CACHE_DRIVER=redis
+SESSION_DRIVER=redis
+```
+
+4 - Finally make sure you have the `predis/predis` package `(~1.0)` installed via Composer first.
+
+```bash
+composer require predis/predis:^1.0
+```
+
+5 - You can manually test it from Laravel with this code:
+
+```php
+\Cache::store('redis')->put('LaraDock', 'Awesome', 10);
+```
+
 
 
 
