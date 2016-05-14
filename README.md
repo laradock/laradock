@@ -282,29 +282,37 @@ By default **PHP 7.0** is running.
 <br>
 To change the default PHP version:
 
-1 - Open the `dockerfile` of the `php` folder.
+1 - Open the `docker-compose.yml`.
 
-2 - Change the PHP version number in the first line,
+2 - Search for `Dockerfile-php-70` in the PHP container section.
+
+3 - Change the version number. 
+<br>
+Example to select version 5.6 instead of 7.0 you have to replace `Dockerfile-php-70` with `Dockerfile-php-56`.
+
+Sample: 
 
 ```txt
-FROM php:7.0-fpm
+php:
+    build:
+        context: ./php
+        dockerfile: Dockerfile-php-70
 ```
 
 Supported Versions:
 
-- For (PHP 7.0.*) use `php:7.0-fpm`
-- For (PHP 5.6.*) use `php:5.6-fpm`
-- For (PHP 5.5.*) use `php:5.5-fpm`
+- For (PHP 7.0.*) use `Dockerfile-php-70`
+- For (PHP 5.6.*) use `Dockerfile-php-56`
+- For (PHP 5.5.*) use `Dockerfile-php-55`
 
-For more details visit the [official PHP docker images](https://hub.docker.com/_/php/).
 
-3 - Finally rebuild the container
+4 - Finally rebuild the container
 
 ```bash
 docker-compose build php
 ```
 
-
+For more details visit the [official PHP docker images](https://hub.docker.com/_/php/).
 
 
 <br>

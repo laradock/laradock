@@ -18,7 +18,9 @@ services:
 ### PHP Container ###########################################
 
     php:
-        build: ./php
+        build:
+            context: ./php
+            dockerfile: Dockerfile-php-70
         volumes:
             - ../:/var/www/laravel
             - ./logs/php/:/usr/local/var/log

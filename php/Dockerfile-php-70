@@ -1,5 +1,4 @@
-# You can change the PHP version from here. After changing the PHP version, check the Memcached section below because it replies on PHP 7.
-FROM php:7.0-fpm 
+FROM php:7.0-fpm
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
