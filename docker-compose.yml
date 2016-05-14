@@ -91,6 +91,19 @@ services:
             - data
         ports:
             - "6379:6379"
+        links:
+            - php
+
+### Memcached Container #####################################
+
+    memcached:
+        build: ./memcached
+        volumes_from:
+            - data
+        ports:
+            - "11211:11211"
+        links:
+            - php
 
 ### Beanstalkd Container ####################################
 
@@ -99,6 +112,8 @@ services:
         ports:
             - "11300:11300"
         privileged: true
+        links:
+            - php
 
 ### Beanstalkd-Console Container ############################
 
@@ -108,14 +123,5 @@ services:
             - "2080:2080"
         links:
             - beanstalkd
-
-### Memcached Container #########################################
-
-    memcached:
-        build: ./memcached
-        volumes_from:
-            - data
-        ports:
-            - "11211:11211"
 
 ### Add more Containers below ###############################
