@@ -15,12 +15,12 @@ services:
         links:
             - php
 
-### PHP Container ###########################################
+### PHP-FPM Container #######################################
 
-    php:
+    php-fpm:
         build:
-            context: ./php
-            dockerfile: Dockerfile-php-70
+            context: ./php-fpm
+            dockerfile: Dockerfile-70
         volumes:
             - ../:/var/www/laravel
             - ./logs/php/:/usr/local/var/log
