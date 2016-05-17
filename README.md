@@ -55,7 +55,7 @@ It contains pre-packaged Docker Images that provides you a wonderful development
 **Usage Overview:** Run `NGINX`, `MySQL` and `Redis`.
 
 ```shell
-docker-compose up -d  nginx mysql redis 
+docker-compose up  nginx mysql redis 
 ```
 
 <a name="features"></a>
@@ -89,7 +89,7 @@ docker-compose up -d  nginx mysql redis
 - Beanstalkd Console
 - Data Volume
 
->Cannot find your container! we would love to have it as well. Consider contributing your container and adding it to this list.
+>If you can't find your container, build it yourself and add it to this list. Contributions are welcomed :)
 
 
 

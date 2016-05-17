@@ -5,8 +5,8 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 ADD ./laravel.ini /usr/local/etc/php/conf.d
 ADD ./laravel.pool.conf /usr/local/etc/php-fpm.d/
 
-RUN apt-get update && apt-get install \
-    libpq-dev -y \
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
     libmemcached-dev \
     curl
 
