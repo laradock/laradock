@@ -126,4 +126,11 @@ services:
         links:
             - beanstalkd
 
+### Workspace Container #####################################
+
+    workspace:
+        build: ./workspace
+        volumes_from:
+            - data
+
 ### Add more Containers below ###############################
