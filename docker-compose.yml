@@ -7,13 +7,13 @@ services:
     nginx:
         build: ./nginx
         volumes_from:
-            - php
+            - php-fpm
         volumes:
             - ./logs/nginx/:/var/log/nginx
         ports:
             - "80:80"
         links:
-            - php
+            - php-fpm
 
 ### PHP-FPM Container #######################################
 
@@ -52,7 +52,7 @@ services:
             MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
         links:
-            - php
+            - php-fpm
 
 ### PostgreSQL Container ####################################
 
@@ -67,7 +67,7 @@ services:
             POSTGRES_USER: homestead
             POSTGRES_PASSWORD: secret
         links:
-            - php
+            - php-fpm
 
 ### MariaDB Container #######################################
 
@@ -83,7 +83,7 @@ services:
             MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
         links:
-            - php
+            - php-fpm
 
 ### Redis Container #########################################
 
@@ -94,7 +94,7 @@ services:
         ports:
             - "6379:6379"
         links:
-            - php
+            - php-fpm
 
 ### Memcached Container #####################################
 
@@ -105,7 +105,7 @@ services:
         ports:
             - "11211:11211"
         links:
-            - php
+            - php-fpm
 
 ### Beanstalkd Container ####################################
 
@@ -115,7 +115,7 @@ services:
             - "11300:11300"
         privileged: true
         links:
-            - php
+            - php-fpm
 
 ### Beanstalkd-Console Container ############################
 
