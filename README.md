@@ -249,7 +249,7 @@ docker-compose stop {container-name}
 <a name="Delete-all-existing-Containers"></a>
 #### Delete all existing Containers
 ```bash
-docker-compose rm -f
+docker-compose down
 ```
 
 *Note: Careful with this command as it will delete your Data Volume Container as well. (if you want to keep your Database data than you should stop each container by itself as follow):* 
