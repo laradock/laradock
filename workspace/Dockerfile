@@ -35,7 +35,8 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get install -y \
     git \
     curl \
-    vim
+    vim \
+    nano
 
 # Setup the Composer installer
 RUN curl -s http://getcomposer.org/installer | php \
