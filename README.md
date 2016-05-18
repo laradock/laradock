@@ -52,10 +52,10 @@ LaraDock strives to make the development experience easier.
 It contains pre-packaged Docker Images that provides you a wonderful development environment without requiring you to install PHP, NGINX, MySQL, REDIS, and any other software on your local machine.
 
 
-**Usage Overview:** Run `NGINX`, `MySQL` and `Redis`.
+**Usage Overview:** Run `NGINX` and `MySQL`.
 
 ```shell
-docker-compose up  nginx mysql redis 
+docker-compose up  nginx mysql 
 ```
 
 <a name="features"></a>
@@ -225,6 +225,12 @@ sudo chmod -R 777 storage && sudo chmod -R 777 bootstrap/cache
 ```bash
 docker ps
 ```
+You can also use the this command if you want to see only this project containers:
+
+```bash
+docker-compose ps
+```
+
 
 <br>
 <a name="Close-all-running-Containers"></a>
