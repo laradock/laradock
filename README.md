@@ -87,7 +87,8 @@ docker-compose up  nginx mysql redis
 - Memcached
 - Beanstalkd
 - Beanstalkd Console
-- Data Volume
+- Data Volume *(Databases Data Container)*
+- Application *(Application Code Container)*
 - Workspace (includes: `Git`, `Vim`, `nano`, `PHP-CLI 7.0`, `cURL`)
 
 >If you can't find your container, build it yourself and add it to this list. Contributions are welcomed :)
@@ -186,21 +187,15 @@ DB_HOST=xxx.xxx.xxx.xxx
 <br>
 *Make sure you are in the `docker` folder before running the `docker-compose` command.*
 
-> Running PHP-FPM, NGINX, MySQL, Redis and the Data Containers:
+**Example:** Running NGINX, MySQL, Redis and the workspace:
 
 ```bash
-docker-compose up -d  nginx mysql redis
+docker-compose up -d  nginx mysql redis Workspace
 ```
+*Note: the PHP-FPM, Application and Data Containers will automatically run.*
 
-Note: you can choose your own combination of software's (containers), another example:
 
-> Running PHP-FPM, NGINX, Postgres, Memcached and the Data Containers:
-
-```bash
-docker-compose up -d  nginx postgres memcached
-```
-
-Supported Containers: `nginx`, `mysql`, `redis`, `postgres`, `mariadb`, `memcached`, `beanstalkd`, `beanstalkd-console`, `data`, `php-fpm`, `workspace`.
+Supported Containers: `nginx`, `workspace`, `mysql`, `redis`, `postgres`, `mariadb`, `memcached`, `beanstalkd`, `beanstalkd-console`, `data`, `php-fpm`, `application`.
 
 <br>
 3 - Open your browser and visit your `{Docker-IP}` address (`http://xxx.xxx.xxx.xxx`).

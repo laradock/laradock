@@ -2,33 +2,27 @@ version: '2'
 
 services:
 
-### Nginx Server Container ##################################
-
-    nginx:
-        build: ./nginx
-        volumes_from:
-            - php-fpm
-        volumes:
-            - ./logs/nginx/:/var/log/nginx
-        ports:
-            - "80:80"
-            - "443:443"
-        links:
-            - php-fpm
-
 ### PHP-FPM Container #######################################
 
     php-fpm:
         build:
             context: ./php-fpm
             dockerfile: Dockerfile-70
+        volumes_from:
+            - application
         volumes:
-            - ../:/var/www/laravel
             - ./logs/php/:/usr/local/var/log
         expose:
             - "9000"
 
-### DATA Container ##########################################
+### Laravel Application Code Container ######################
+
+    application:
+        build: ./application
+        volumes:
+            - ../:/var/www/laravel
+
+### Databases Data Container ################################
 
     data:
         build: ./data
@@ -38,6 +32,20 @@ services:
             - /var/lib/mariadb
             - /var/lib/redis
             - /var/lib/memcached
+
+### Nginx Server Container ##################################
+
+    nginx:
+        build: ./nginx
+        volumes_from:
+            - application
+        volumes:
+            - ./logs/nginx/:/var/log/nginx
+        ports:
+            - "80:80"
+            - "443:443"
+        links:
+            - php-fpm
 
 ### MySQL Container #########################################
 
@@ -132,7 +140,7 @@ services:
     workspace:
         build: ./workspace
         volumes_from:
-            - data
+            - application
         tty: true
 
 ### Add more Containers below ###############################
