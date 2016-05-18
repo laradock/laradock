@@ -64,7 +64,7 @@ docker-compose up  nginx mysql redis
 - Easy switch between PHP versions: 7.0 - 5.6 - 5.5 ...
 - Choose your favorite database engine: MySQL - Postgres - Redis ...
 - Run your own combination of software's: Memcached - MariaDB ...
-- Every software runs on a separate container: PHP - NGINX ...
+- Every software runs on a separate container: PHP-FPM - NGINX ...
 - Easy to customize any container, with simple edit to the `dockerfile`.
 - All Images extends from an official base Image. (Trusted base Images).
 - Pre-configured Nginx for Laravel.
@@ -78,7 +78,7 @@ docker-compose up  nginx mysql redis
 <a name="Supported-Containers"></a>
 ## Supported Containers
 
-- PHP (7.0 - 5.6 - 5.5)
+- PHP-FPM (7.0 - 5.6 - 5.5)
 - NGINX
 - MySQL
 - PostgreSQL
@@ -88,6 +88,7 @@ docker-compose up  nginx mysql redis
 - Beanstalkd
 - Beanstalkd Console
 - Data Volume
+- Workspace (includes: `Git`, `Vim`, `nano`, `PHP-CLI 7.0`, `cURL`)
 
 >If you can't find your container, build it yourself and add it to this list. Contributions are welcomed :)
 
@@ -139,7 +140,7 @@ Running a virtual Container is much faster than running a full virtual Machine.
 |-----------------------------------------------------------------------------------------|---------------------------------------------------------|
 |                 [Laravel](https://laravel.com/docs/master/installation)                 | [Laravel](https://laravel.com/docs/master/installation) |
 |                           [Git](https://git-scm.com/downloads)                          |           [Git](https://git-scm.com/downloads)          |
-| [Docker Engine](https://docs.docker.com/engine/installation/linux/ubuntulinux/#install) |     [Docker Toolbox](https://www.docker.com/toolbox)    |
+| [Docker Engine](https://docs.docker.com/engine/installation/linux/ubuntulinux) |     [Docker Toolbox](https://www.docker.com/toolbox)    |
 |                [Docker Compose](https://docs.docker.com/compose/install)                |                                                         |
 
 
@@ -185,21 +186,21 @@ DB_HOST=xxx.xxx.xxx.xxx
 <br>
 *Make sure you are in the `docker` folder before running the `docker-compose` command.*
 
-> Running PHP, NGINX, MySQL and Redis:
+> Running PHP-FPM, NGINX, MySQL, Redis and the Data Containers:
 
 ```bash
-docker-compose up -d  php nginx mysql redis
+docker-compose up -d  nginx mysql redis
 ```
 
 Note: you can choose your own combination of software's (containers), another example:
 
-> Running PHP, NGINX, Postgres and Memcached:
+> Running PHP-FPM, NGINX, Postgres, Memcached and the Data Containers:
 
 ```bash
-docker-compose up -d  php nginx postgres memcached
+docker-compose up -d  nginx postgres memcached
 ```
 
-Supported Containers: `nginx`, `mysql`, `redis`, `postgres`, `mariadb`, `memcached`, `beanstalkd`, `beanstalkd-console`, `data`, `php`.
+Supported Containers: `nginx`, `mysql`, `redis`, `postgres`, `mariadb`, `memcached`, `beanstalkd`, `beanstalkd-console`, `data`, `php-fpm`, `workspace`.
 
 <br>
 3 - Open your browser and visit your `{Docker-IP}` address (`http://xxx.xxx.xxx.xxx`).
@@ -284,26 +285,26 @@ To change the default PHP version:
 
 1 - Open the `docker-compose.yml`.
 
-2 - Search for `Dockerfile-php-70` in the PHP container section.
+2 - Search for `Dockerfile-70` in the PHP container section.
 
 3 - Change the version number. 
 <br>
-Example to select version 5.6 instead of 7.0 you have to replace `Dockerfile-php-70` with `Dockerfile-php-56`.
+Example to select version 5.6 instead of 7.0 you have to replace `Dockerfile-70` with `Dockerfile-56`.
 
 Sample: 
 
 ```txt
-php:
+php-fpm:
     build:
-        context: ./php
-        dockerfile: Dockerfile-php-70
+        context: ./php-fpm
+        dockerfile: Dockerfile-70
 ```
 
 Supported Versions:
 
-- For (PHP 7.0.*) use `Dockerfile-php-70`
-- For (PHP 5.6.*) use `Dockerfile-php-56`
-- For (PHP 5.5.*) use `Dockerfile-php-55`
+- For (PHP 7.0.*) use `Dockerfile-70`
+- For (PHP 5.6.*) use `Dockerfile-56`
+- For (PHP 5.5.*) use `Dockerfile-55`
 
 
 4 - Finally rebuild the container
