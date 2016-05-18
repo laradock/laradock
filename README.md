@@ -16,34 +16,36 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 
 - [Intro](#Intro)
 	- [Features](#features)
+	- [Supported Containers](#Supported-Containers)
 	- [What is Docker](#what-is-docker)
 	- [What is Laravel](#what-is-laravel)
 	- [Why Docker not Vagrant](#why-docker-not-vagrant)
 	- [LaraDock VS Homestead](#laradock-vs-homestead)
-- [Supported Containers](#Supported-Containers)
 - [Requirements](#Requirements)
 - [Installation](#Installation)
 - [Usage](#Usage)
 - [Documentation](#Documentation)
-	- [List current running Containers](#List-current-running-Containers)
-	- [Close all running Containers](#Close-all-running-Containers)
-	- [Delete all existing Containers](#Delete-all-existing-Containers)
-	- [Build/Re-build Containers](#Build-Re-build-Containers)
-	- [Run Artisan Commands](#Run-Artisan-Commands)
-	- [Change the PHP-FPM Version](#Change-the-PHP-FPM-Version)
-	- [Change the PHP-CLI Version](#Change-the-PHP-CLI-Version)
-	- [Install PHP Extensions](#Install-PHP-Extensions)
-	- [Add/Remove a Docker Container](#AddRemove-a-Docker-Container)
-	- [Add more Software's (Docker Images)](#Add-Docker-Images)
-	- [Edit default container configuration](#Edit-Container)
-	- [Use custom Domain](#Use-custom-Domain)
-	- [View the Log files](#View-the-Log-files)
-	- [Use Redis](#Use-Redis)
-	- [Enter a Container (SSH into a running Container)](#Enter-Container)
-	- [Edit a Docker Image](#Edit-a-Docker-Image)
-	- [Run a Docker Virtual Host](#Run-Docker-Virtual-Host)
-	- [Find your Docker IP Address](#Find-Docker-IP-Address)
-
+	- [Docker](#Docker)
+		- [List current running Containers](#List-current-running-Containers)
+		- [Close all running Containers](#Close-all-running-Containers)
+		- [Delete all existing Containers](#Delete-all-existing-Containers)
+		- [Enter a Container (SSH into a running Container)](#Enter-Container)
+		- [Edit default container configuration](#Edit-Container)
+		- [Edit a Docker Image](#Edit-a-Docker-Image)
+		- [Build/Re-build Containers](#Build-Re-build-Containers)
+		- [Add more Software's (Docker Images)](#Add-Docker-Images)
+		- [View the Log files](#View-the-Log-files)
+	- [Laravel](#Laravel):
+		- [Run Artisan Commands](#Run-Artisan-Commands)
+		- [Use Redis](#Use-Redis)
+	- [PHP](#PHP)
+		- [Install PHP Extensions](#Install-PHP-Extensions)
+		- [Change the PHP-FPM Version](#Change-the-PHP-FPM-Version)
+		- [Change the PHP-CLI Version](#Change-the-PHP-CLI-Version)
+	- [Misc](#Misc)
+		- [Run a Docker Virtual Host](#Run-Docker-Virtual-Host)
+		- [Find your Docker IP Address](#Find-Docker-IP-Address)
+		- [Use custom Domain](#Use-custom-Domain)
 
 
 
@@ -79,7 +81,7 @@ docker-compose up  nginx mysql
 
 
 <a name="Supported-Containers"></a>
-## Supported Containers
+### Supported Containers
 
 - PHP-FPM (7.0 - 5.6 - 5.5)
 - NGINX
@@ -165,6 +167,7 @@ git submodule add https://github.com/LaraDock/laradock.git
 *If you are not already using Git for your Laravel project, you can use `git clone` instead of `git submodule`.*
 
 
+<br>
 #### B - From scratch (Install LaraDock and Laravel):
 
 *If you don't have any Laravel project yet, and you want to start your Laravel project with Docker.*
@@ -265,6 +268,13 @@ sudo chmod -R 777 storage && sudo chmod -R 777 bootstrap/cache
 <a name="Documentation"></a>
 ## Documentation
 
+
+
+<a name="Docker"></a>
+### Docker
+
+
+
 <a name="List-current-running-Containers"></a>
 #### List current running Containers
 ```bash
@@ -275,6 +285,9 @@ You can also use the this command if you want to see only this project container
 ```bash
 docker-compose ps
 ```
+
+
+
 
 
 <br>
@@ -292,6 +305,9 @@ docker-compose stop {container-name}
 
 
 
+
+
+
 <br>
 <a name="Delete-all-existing-Containers"></a>
 #### Delete all existing Containers
@@ -300,6 +316,83 @@ docker-compose down
 ```
 
 *Note: Careful with this command as it will delete your Data Volume Container as well. (if you want to keep your Database data than you should stop each container by itself as follow):* 
+
+
+
+
+
+
+
+<br>
+<a name="Enter-Container"></a>
+#### Enter a Container (SSH into a running Container)
+
+1 - first list the current running containers with `docker ps`
+
+2 - enter any container using:
+
+```bash
+docker exec -it {container-name} bash
+```
+3 - to exit a container, type `exit`.
+
+
+
+
+
+
+
+<br>
+<a name="Edit-Container"></a>
+#### Edit default container configuration
+Open the `docker-compose.yml` and change anything you want.
+
+Examples: 
+
+Change MySQL Database Name:
+
+```yml
+  environment:
+    MYSQL_DATABASE: laradock
+```
+
+Change Redis defaut port to 1111:
+
+```yml
+  ports:
+    - "1111:6379"
+```
+
+
+
+
+
+
+
+
+<br>
+<a name="Edit-a-Docker-Image"></a>
+#### Edit a Docker Image
+
+1 - Find the `dockerfile` of the image you want to edit, 
+<br>
+example for `mysql` it will be `mysql/Dockerfile`.
+
+2 - Edit the file the way you want.
+
+3 - Re-build the container:
+
+```bash
+docker-compose build mysql
+```
+
+*If you find any bug or you have and suggestion that can improve the performance of any image, please consider contributing. Thanks in advance.*
+
+
+
+
+
+
 
 
 
@@ -321,7 +414,45 @@ docker-compose build {container-name}
 
 
 
+
+
+
 <br>
+<a name="Add-Docker-Images"></a>
+#### Add more Software's (Docker Images)
+
+To add an image (software), just edit the `docker-compose.yml` and add your container details, to do so you need to be familiar with the [docker compose file syntax](https://docs.docker.com/compose/compose-file/).
+
+
+
+
+
+
+
+
+
+<br>
+<a name="View-the-Log-files"></a>
+#### View the Log files 
+The Nginx Log file is stored in the `logs/nginx` directory.
+
+However to view the logs of all the other containers (MySQL, PHP-FPM,...) you can run this:
+
+```bash
+docker logs {container-name}
+```
+
+
+
+
+
+<br>
+<a name="Laravel"></a>
+### Laravel
+
+
+
+
 <a name="Run-Artisan-Commands"></a>
 #### Run Artisan Commands
 
@@ -361,149 +492,6 @@ laravel new blog
 ```
 
 
-
-<br>
-<a name="Change-the-PHP-FPM-Version"></a>
-#### Change the PHP-FPM Version
-By default **PHP-FPM 7.0** is running.
-
->The PHP-FPM is responsible of serving your application code, you don't have to change the PHP-CLI version if you are planing to run your application on different PHP-FPM version.
-
-1 - Open the `docker-compose.yml`.
-
-2 - Search for `Dockerfile-70` in the PHP container section.
-
-3 - Change the version number. 
-<br>
-Example to select version 5.6 instead of 7.0 you have to replace `Dockerfile-70` with `Dockerfile-56`.
-
-Sample: 
-
-```txt
-php-fpm:
-    build:
-        context: ./php-fpm
-        dockerfile: Dockerfile-70
-```
-
-Supported Versions:
-
-- For (PHP 7.0.*) use `Dockerfile-70`
-- For (PHP 5.6.*) use `Dockerfile-56`
-- For (PHP 5.5.*) use `Dockerfile-55`
-
-
-4 - Finally rebuild the container
-
-```bash
-docker-compose build php
-```
-
-For more details about the PHP base image, visit the [official PHP docker images](https://hub.docker.com/_/php/).
-
-
-
-
-<br>
-<a name="Change-the-PHP-CLI-Version"></a>
-#### Change the PHP-CLI Version
-By default **PHP-CLI 7.0** is running.
-
->Note: it's not very essential to edit the PHP-CLI verion. The PHP-CLI is only used for the Artisan Commands & Composer. It doesn't serve your Application code, this is the PHP-FPM job.
-
-The PHP-CLI is installed in the Workspace container. To change the PHP-CLI version you need to edit the `workspace/Dockerfile`.
-
-Right now you have to manually edit the `Dockerfile` or create a new one like it's done for the PHP-FPM. (consider contributing).
-
-
-
-
-<br>
-<a name="Install-PHP-Extensions"></a>
-#### Install PHP Extensions
-
-Before installing PHP extensions, you have to decide whether you need for the `FPM` or `CLI` because each lives on a different container, if you need it for both you have to edit both containers.
-
-The PHP-FPM extensions should be installed in `php-fpm/Dockerfile-XX`. *(replace XX with your default PHP version number)*.
-<br>
-The PHP-CLI extensions should be installed in `workspace/Dockerfile`.
-
-
-
-<br>
-<a name="Add-Docker-Images"></a>
-#### Add more Software's (Docker Images)
-
-To add an image (software), just edit the `docker-compose.yml` and add your container details, to do so you need to be familiar with the [docker compose file syntax](https://docs.docker.com/compose/compose-file/).
-
-
-
-<br>
-<a name="Edit-Container"></a>
-#### Edit default container configuration
-Open the `docker-compose.yml` and change anything you want.
-
-Examples: 
-
-Change MySQL Database Name:
-
-```yml
-  environment:
-    MYSQL_DATABASE: laradock
-```
-
-Change Redis defaut port to 1111:
-
-```yml
-  ports:
-    - "1111:6379"
-```
-
-
-
-<br>
-<a name="Use-custom-Domain"></a>
-#### Use custom Domain (instead of the Docker IP)
-
-Assuming your custom domain is `laravel.dev` and your current `Docker-IP` is `xxx.xxx.xxx.xxx`.
-
-1 - Open your `/etc/hosts` file and map your `Docker IP` to the `laravel.dev` domain, by adding the following:
-
-```bash
-xxx.xxx.xxx.xxx    laravel.dev
-```
-
-2 - Open your Laravel's `.env` file and replace the `127.0.0.1` default values with your `{Docker-IP}`.
-<br>
-Example:
-
-```env
-DB_HOST=xxx.xxx.xxx.xxx
-```
-
-3 - Open your browser and visit `{http://laravel.dev}`
-
-
-
-Optionally you can define the server name in the nginx config file, like this:
-
-```conf
-server_name laravel.dev;
-```
-
-
-
-
-<br>
-<a name="View-the-Log-files"></a>
-#### View the Log files 
-The Nginx Log file is stored in the `logs/nginx` directory.
-
-However to view the logs of all the other containers (MySQL, PHP-FPM,...) you can run this:
-
-```bash
-docker logs {container-name}
-```
 
 
 
@@ -558,50 +546,113 @@ composer require predis/predis:^1.0
 
 
 
+
+
+
+
+
 <br>
-<a name="Enter-Container"></a>
-#### Enter a Container (SSH into a running Container)
+<a name="PHP"></a>
+### PHP
 
-1 - first list the current running containers with `docker ps`
 
-2 - enter any container using:
+
+
+
+
+<a name="Install-PHP-Extensions"></a>
+#### Install PHP Extensions
+
+Before installing PHP extensions, you have to decide whether you need for the `FPM` or `CLI` because each lives on a different container, if you need it for both you have to edit both containers.
+
+The PHP-FPM extensions should be installed in `php-fpm/Dockerfile-XX`. *(replace XX with your default PHP version number)*.
+<br>
+The PHP-CLI extensions should be installed in `workspace/Dockerfile`.
+
+
+
+
+
+
+
+
+
+<br>
+<a name="Change-the-PHP-FPM-Version"></a>
+#### Change the PHP-FPM Version
+By default **PHP-FPM 7.0** is running.
+
+>The PHP-FPM is responsible of serving your application code, you don't have to change the PHP-CLI version if you are planing to run your application on different PHP-FPM version.
+
+1 - Open the `docker-compose.yml`.
+
+2 - Search for `Dockerfile-70` in the PHP container section.
+
+3 - Change the version number. 
+<br>
+Example to select version 5.6 instead of 7.0 you have to replace `Dockerfile-70` with `Dockerfile-56`.
+
+Sample: 
+
+```txt
+php-fpm:
+    build:
+        context: ./php-fpm
+        dockerfile: Dockerfile-70
+```
+
+Supported Versions:
+
+- For (PHP 7.0.*) use `Dockerfile-70`
+- For (PHP 5.6.*) use `Dockerfile-56`
+- For (PHP 5.5.*) use `Dockerfile-55`
+
+
+4 - Finally rebuild the container
 
 ```bash
-docker exec -it {container-name} bash
-```
-3 - to exit a container, type `exit`.
-
-
-<br>
-<a name="AddRemove-a-Docker-Container"></a>
-#### Add/Remove a Docker Container
-To prevent a container (software) from running, open the `docker-compose.yml` file, and comment out the container section or remove it entirely.
-
-
-
-
-<br>
-<a name="Edit-a-Docker-Image"></a>
-#### Edit a Docker Image
-
-1 - Find the `dockerfile` of the image you want to edit, 
-<br>
-example for `php` it will be `docker/php/dockerfile`.
-
-2 - Edit the file the way you want.
-
-3 - Re-build the container:
-
-```bash
-docker-compose build
+docker-compose build php
 ```
 
-*If you find any bug or you have and suggestion that can improve the performance of any image, please consider contributing. Thanks in advance.*
+For more details about the PHP base image, visit the [official PHP docker images](https://hub.docker.com/_/php/).
+
+
+
+
+
 
 
 
 
 <br>
+<a name="Change-the-PHP-CLI-Version"></a>
+#### Change the PHP-CLI Version
+By default **PHP-CLI 7.0** is running.
+
+>Note: it's not very essential to edit the PHP-CLI verion. The PHP-CLI is only used for the Artisan Commands & Composer. It doesn't serve your Application code, this is the PHP-FPM job.
+
+The PHP-CLI is installed in the Workspace container. To change the PHP-CLI version you need to edit the `workspace/Dockerfile`.
+
+Right now you have to manually edit the `Dockerfile` or create a new one like it's done for the PHP-FPM. (consider contributing).
+
+
+
+
+
+
+
+
+
+
+
+<br>
+<a name="Misc"></a>
+### Misc
+
+
+
+
+
 <a name="Run-Docker-Virtual-Host"></a>
 #### Run a Docker Virtual Host
 
@@ -627,6 +678,10 @@ eval $(docker-machine env)
 
 
 
+
+
+
+
 <br>
 <a name="Find-Docker-IP-Address"></a>
 #### Find your Docker IP Address 
@@ -643,6 +698,48 @@ docker-machine ip default
 Your IP Address is `127.0.0.1`
 
 > **boot2docker** users: run `boot2docker ip` *(when boot2docker is up)*.
+
+
+
+
+
+
+
+<br>
+<a name="Use-custom-Domain"></a>
+#### Use custom Domain (instead of the Docker IP)
+
+Assuming your custom domain is `laravel.dev` and your current `Docker-IP` is `xxx.xxx.xxx.xxx`.
+
+1 - Open your `/etc/hosts` file and map your `Docker IP` to the `laravel.dev` domain, by adding the following:
+
+```bash
+xxx.xxx.xxx.xxx    laravel.dev
+```
+
+2 - Open your Laravel's `.env` file and replace the `127.0.0.1` default values with your `{Docker-IP}`.
+<br>
+Example:
+
+```env
+DB_HOST=xxx.xxx.xxx.xxx
+```
+
+3 - Open your browser and visit `{http://laravel.dev}`
+
+
+
+Optionally you can define the server name in the nginx config file, like this:
+
+```conf
+server_name laravel.dev;
+```
+
+
+
+
+
+
 
 
 
