@@ -26,6 +26,7 @@ RUN apt-get update \
         php7.0-mbstring \
         php7.0-mcrypt \
         php7.0-mysql \
+        php7.0-zip \
         git \
         curl \
         vim \
