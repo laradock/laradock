@@ -36,11 +36,14 @@ RUN apt-get update \
 # Install Composer
 RUN curl -s http://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/ \
-    && alias composer='/usr/local/bin/composer.phar'
+    && echo "alias composer='/usr/local/bin/composer.phar'" >> ~/.bashrc
 
-# Install Laravel Installer
+# Install the Laravel Installer
 RUN composer.phar global require "laravel/installer" \
-    && export PATH="$PATH:$HOME/.composer/vendor/bin"
+    && echo "export PATH='$PATH:$HOME/.composer/vendor/bin'" >> ~/.bashrc
+
+# Source the bashrc to apply updates
+RUN . ~/.bashrc
 
 # Clean up
 RUN apt-get autoclean && apt-get clean \
