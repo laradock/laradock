@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM phusion/baseimage:latest
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
