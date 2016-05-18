@@ -29,11 +29,12 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 	- [Close all running Containers](#Close-all-running-Containers)
 	- [Delete all existing Containers](#Delete-all-existing-Containers)
 	- [Build/Re-build Containers](#Build-Re-build-Containers)
+	- [Run Artisan Commands](#Run-Artisan-Commands)
 	- [Change the PHP Version](#Change-the-PHP-Version)
 	- [Add/Remove a Docker Container](#AddRemove-a-Docker-Container)
 	- [Add more Software's (Docker Images)](#Add-Docker-Images)
 	- [Edit default container configuration](#Edit-Container)
-	- [Use custom Domain](Use-custom-Domain)
+	- [Use custom Domain](#Use-custom-Domain)
 	- [View the Log files](#View-the-Log-files)
 	- [Use Redis](#Use-Redis)
 	- [Enter a Container (SSH into a running Container)](#Enter-Container)
@@ -318,6 +319,44 @@ docker-compose build {container-name}
 
 
 
+<br>
+<a name="Run-Artisan-Commands"></a>
+#### Run Artisan Commands
+
+You can run artisan commands and many other Terminal commands from the Workspace container.
+
+1 - Make sure you have the workspace container running.
+
+```bash
+docker-compose up -d workspace // ..and all your other containers
+```
+
+2 - Find the Workspace container name:
+
+```bash
+docker-compose ps
+```
+
+3 - Enter the Workspace container:
+
+```bash
+docker exec -it {workspace-container-name} bash
+```
+
+4 - Run anything you want :)
+
+```bash
+php artisan
+```
+```bash
+Composer update
+```
+```bash
+phpunit
+```
+```bash
+laravel new blog
+```
 
 <br>
 <a name="Change-the-PHP-Version"></a>
