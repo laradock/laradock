@@ -87,9 +87,10 @@ docker-compose up  nginx mysql
 - Memcached
 - Beanstalkd
 - Beanstalkd Console
+- Workspace (includes: Composer, PHP7-CLI , Laravel Installer, Git, Vim, Nano, cURL)
 - Data Volume *(Databases Data Container)*
 - Application *(Application Code Container)*
-- Workspace (includes: `Git`, `Vim`, `nano`, `PHP-CLI 7.0`, `cURL`)
+
 
 >If you can't find your container, build it yourself and add it to this list. Contributions are welcomed :)
 
@@ -148,19 +149,60 @@ Running a virtual Container is much faster than running a full virtual Machine.
 <a name="Installation"></a>
 ## Installation
 
-1 - Clone the `LaraDock` repository, in any of your `Laravel` projects:
+#### A] In existing Laravel Projects:
+
+1 - Clone the `LaraDock` repository, inside your `Laravel` project root direcotry:
 
 ```bash
-git clone https://github.com/LaraDock/laradock.git docker
+git submodule add https://github.com/LaraDock/laradock.git
 ```
 
-You can use `git submodule add` instead of `git clone` if you are already using Git for your Laravel project *(Recommended)*:
+2 - That's it, jump to the Usage section now.
+
+*If you are not already using Git for your Laravel project, you can use `git clone` instead of `git submodule`.*
+
+
+#### B] Starting from scratch (we will install Laravel):
+
+*If you don't have any Laravel project yet, and you want to start your Laravel project with Docker.*
+
+1 - Clone the `LaraDock` repository anywhere on your machine:
 
 ```bash
-git submodule add https://github.com/LaraDock/laradock.git docker
+git clone https://github.com/LaraDock/laradock.git
 ```
 
->These commands should create a `docker` folder, on the root directory of your Laravel project.
+2 - Go to the Uage section below and do the steps 1 and 3 then come back here.
+
+3 - Enter the Workspace container. (assuming you have the Workspace container running):
+
+```bash
+docker exec -it {Workspace-Container-Name} bash
+```
+Replace `{Workspace-Container-Name}` with your Workspace container name. To get the name type `docker-compose ps` and copy it.
+
+4 - Install Laravel anyway you like. 
+
+Example using the Laravel Installer:
+
+```bash
+laravel new my-cool-app
+```
+For more about this check out this [link](https://laravel.com/docs/master#installing-laravel).
+
+5 - Edit `docker-compose.yml` to Map the new application path:
+
+By default LaraDock assumes the Laravel application is living in the parent directory of the laradock folder. 
+
+Since the new Laravel application is in the `my-cool-app` folder, we should replace `../:/var/www/laravel` with `../my-cool-app/:/var/www/laravel`, as follow:
+
+```yaml
+    application:
+        build: ./application
+        volumes:
+            - ../my-cool-app/:/var/www/laravel
+```
+6 - Finallt go to the Usage section below again and do steps 2 and 4.
 
 
 
@@ -168,14 +210,14 @@ git submodule add https://github.com/LaraDock/laradock.git docker
 <a name="Usage"></a>
 ## Usage
 
-0 - For **Windows & MAC** users only: make sure you have a running Docker Virtual Host on your machine. 
+1 - For **Windows & MAC** users only: make sure you have a running Docker Virtual Host on your machine. 
 (**Linux** users don't need a Virtual Host, so skip this step).
 <br>
 [How to run a Docker Virtual Host?](#Run-Docker-Virtual-Host)
 
 
 <br>
-1 - Open your Laravel's `.env` file and set the `DB_HOST` to your `{Docker-IP}`:
+2 - Open your Laravel's `.env` file and set the `DB_HOST` to your `{Docker-IP}`:
 
 ```env
 DB_HOST=xxx.xxx.xxx.xxx
@@ -183,22 +225,22 @@ DB_HOST=xxx.xxx.xxx.xxx
 [How to find my Docker IP Address?](#Find-Docker-IP-Address)
 
 <br>
-2 - Run the Containers, (you can select the software's (containers) that you wish to run)
+3 - Run the Containers, (you can select the software's (containers) that you wish to run)
 <br>
-*Make sure you are in the `docker` folder before running the `docker-compose` command.*
+*Make sure you are in the `laradock` folder before running the `docker-compose` command.*
 
-**Example:** Running NGINX, MySQL, Redis and the workspace:
+**Example:** Running NGINX, MySQL, Redis and the Workspace:
 
 ```bash
-docker-compose up -d  nginx mysql redis Workspace
+docker-compose up -d  nginx mysql redis workspace
 ```
 *Note: the PHP-FPM, Application and Data Containers will automatically run.*
 
 
-Supported Containers: `nginx`, `workspace`, `mysql`, `redis`, `postgres`, `mariadb`, `memcached`, `beanstalkd`, `beanstalkd-console`, `data`, `php-fpm`, `application`.
+Supported Containers: `workspace`, `nginx`, `mysql`, `redis`, `postgres`, `mariadb`, `memcached`, `beanstalkd`, `beanstalkd-console`, `data`, `php-fpm`, `application`.
 
 <br>
-3 - Open your browser and visit your `{Docker-IP}` address (`http://xxx.xxx.xxx.xxx`).
+4 - Open your browser and visit your `{Docker-IP}` address (`http://xxx.xxx.xxx.xxx`).
 
 
 <br>
@@ -314,7 +356,7 @@ Supported Versions:
 docker-compose build php
 ```
 
-For more details visit the [official PHP docker images](https://hub.docker.com/_/php/).
+For more details about the PHP base image, visit the [official PHP docker images](https://hub.docker.com/_/php/).
 
 
 <br>
