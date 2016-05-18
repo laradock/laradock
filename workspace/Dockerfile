@@ -37,6 +37,10 @@ RUN curl -s http://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/ \
     && alias composer='/usr/local/bin/composer.phar'
 
+# Install Laravel Installer
+RUN composer.phar global require "laravel/installer" \
+    && export PATH="$PATH:$HOME/.composer/vendor/bin"
+
 # Clean up
 RUN apt-get autoclean && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
