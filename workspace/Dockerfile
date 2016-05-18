@@ -42,7 +42,10 @@ RUN curl -s http://getcomposer.org/installer | php \
 RUN composer.phar global require "laravel/installer" \
     && echo "export PATH='~/.composer/vendor/bin:$PATH'" >> ~/.bashrc
 
-# Source the bashrc to apply updates
+# Add an alias for PHPUnit
+RUN echo "alias phpunit='./vendor/bin/phpunit'" >> ~/.bashrc
+
+# Source the bash
 RUN . ~/.bashrc
 
 # Clean up

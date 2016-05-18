@@ -389,7 +389,7 @@ The Nginx Log file is stored in the `logs/nginx` directory.
 However to view the logs of all the other containers (MySQL, PHP-FPM,...) you can run this:
 
 ```bash
-docker logs {container-id}
+docker logs {container-name}
 ```
 
 
@@ -454,7 +454,7 @@ composer require predis/predis:^1.0
 2 - enter any container using:
 
 ```bash
-docker exec -it {container-name-or-id} bash
+docker exec -it {container-name} bash
 ```
 3 - to exit a container, type `exit`.
 
