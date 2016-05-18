@@ -149,7 +149,7 @@ Running a virtual Container is much faster than running a full virtual Machine.
 <a name="Installation"></a>
 ## Installation
 
-#### A] In existing Laravel Projects:
+#### A - In existing Laravel Projects:
 
 1 - Clone the `LaraDock` repository, inside your `Laravel` project root direcotry:
 
@@ -162,7 +162,7 @@ git submodule add https://github.com/LaraDock/laradock.git
 *If you are not already using Git for your Laravel project, you can use `git clone` instead of `git submodule`.*
 
 
-#### B] Starting from scratch (we will install Laravel):
+#### B - From scratch (Install LaraDock and Laravel):
 
 *If you don't have any Laravel project yet, and you want to start your Laravel project with Docker.*
 
@@ -202,7 +202,7 @@ Since the new Laravel application is in the `my-cool-app` folder, we should repl
         volumes:
             - ../my-cool-app/:/var/www/laravel
 ```
-6 - Finallt go to the Usage section below again and do steps 2 and 4.
+6 - finally go to the Usage section below again and do steps 2 and 4.
 
 
 
