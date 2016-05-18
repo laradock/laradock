@@ -30,7 +30,9 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 	- [Delete all existing Containers](#Delete-all-existing-Containers)
 	- [Build/Re-build Containers](#Build-Re-build-Containers)
 	- [Run Artisan Commands](#Run-Artisan-Commands)
-	- [Change the PHP Version](#Change-the-PHP-Version)
+	- [Change the PHP-FPM Version](#Change-the-PHP-FPM-Version)
+	- [Change the PHP-CLI Version](#Change-the-PHP-CLI-Version)
+	- [Install PHP Extensions](#Install-PHP-Extensions)
 	- [Add/Remove a Docker Container](#AddRemove-a-Docker-Container)
 	- [Add more Software's (Docker Images)](#Add-Docker-Images)
 	- [Edit default container configuration](#Edit-Container)
@@ -358,12 +360,14 @@ phpunit
 laravel new blog
 ```
 
+
+
 <br>
-<a name="Change-the-PHP-Version"></a>
-#### Change the PHP Version
-By default **PHP 7.0** is running.
-<br>
-To change the default PHP version:
+<a name="Change-the-PHP-FPM-Version"></a>
+#### Change the PHP-FPM Version
+By default **PHP-FPM 7.0** is running.
+
+>The PHP-FPM is responsible of serving your application code, you don't have to change the PHP-CLI version if you are planing to run your application on different PHP-FPM version.
 
 1 - Open the `docker-compose.yml`.
 
@@ -396,6 +400,34 @@ docker-compose build php
 ```
 
 For more details about the PHP base image, visit the [official PHP docker images](https://hub.docker.com/_/php/).
+
+
+
+
+<br>
+<a name="Change-the-PHP-CLI-Version"></a>
+#### Change the PHP-CLI Version
+By default **PHP-CLI 7.0** is running.
+
+>Note: it's not very essential to edit the PHP-CLI verion. The PHP-CLI is only used for the Artisan Commands & Composer. It doesn't serve your Application code, this is the PHP-FPM job.
+
+The PHP-CLI is installed in the Workspace container. To change the PHP-CLI version you need to edit the `workspace/Dockerfile`.
+
+Right now you have to manually edit the `Dockerfile` or create a new one like it's done for the PHP-FPM. (consider contributing).
+
+
+
+
+<br>
+<a name="Install-PHP-Extensions"></a>
+#### Install PHP Extensions
+
+Before installing PHP extensions, you have to decide whether you need for the `FPM` or `CLI` because each lives on a different container, if you need it for both you have to edit both containers.
+
+The PHP-FPM extensions should be installed in `php-fpm/Dockerfile-XX`. *(replace XX with your default PHP version number)*.
+<br>
+The PHP-CLI extensions should be installed in `workspace/Dockerfile`.
+
 
 
 <br>
