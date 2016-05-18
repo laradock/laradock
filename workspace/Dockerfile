@@ -37,9 +37,8 @@ RUN curl -s http://getcomposer.org/installer | php \
     && alias composer='/usr/local/bin/composer.phar'
 
 # Clean up
-RUN rm -r /var/lib/apt/lists/*
-
-ENTRYPOINT ["top", "-b"]
+RUN apt-get clean \
+    && rm -r /var/lib/apt/lists/*
 
 WORKDIR /var/www/laravel
 

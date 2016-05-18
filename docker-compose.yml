@@ -12,6 +12,7 @@ services:
             - ./logs/nginx/:/var/log/nginx
         ports:
             - "80:80"
+            - "443:443"
         links:
             - php-fpm
 
@@ -132,5 +133,6 @@ services:
         build: ./workspace
         volumes_from:
             - data
+        tty: true
 
 ### Add more Containers below ###############################
