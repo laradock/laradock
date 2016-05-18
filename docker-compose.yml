@@ -2,32 +2,25 @@ version: '2'
 
 services:
 
-### Nginx Server Container ##################################
+### PHP-FPM Container #######################################
 
-    nginx:
-        build: ./nginx
-        volumes_from:
-            - php
-        volumes:
-            - ./logs/nginx/:/var/log/nginx
-        ports:
-            - "80:80"
-        links:
-            - php
-
-### PHP Container ###########################################
-
-    php:
+    php-fpm:
         build:
-            context: ./php
-            dockerfile: Dockerfile-php-70
-        volumes:
-            - ../:/var/www/laravel
-            - ./logs/php/:/usr/local/var/log
+            context: ./php-fpm
+            dockerfile: Dockerfile-70
+        volumes_from:
+            - application
         expose:
             - "9000"
 
-### DATA Container ##########################################
+### Laravel Application Code Container ######################
+
+    application:
+        build: ./application
+        volumes:
+            - ../:/var/www/laravel
+
+### Databases Data Container ################################
 
     data:
         build: ./data
@@ -37,6 +30,20 @@ services:
             - /var/lib/mariadb
             - /var/lib/redis
             - /var/lib/memcached
+
+### Nginx Server Container ##################################
+
+    nginx:
+        build: ./nginx
+        volumes_from:
+            - application
+        volumes:
+            - ./logs/nginx/:/var/log/nginx
+        ports:
+            - "80:80"
+            - "443:443"
+        links:
+            - php-fpm
 
 ### MySQL Container #########################################
 
@@ -52,7 +59,7 @@ services:
             MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
         links:
-            - php
+            - php-fpm
 
 ### PostgreSQL Container ####################################
 
@@ -67,7 +74,7 @@ services:
             POSTGRES_USER: homestead
             POSTGRES_PASSWORD: secret
         links:
-            - php
+            - php-fpm
 
 ### MariaDB Container #######################################
 
@@ -83,7 +90,7 @@ services:
             MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
         links:
-            - php
+            - php-fpm
 
 ### Redis Container #########################################
 
@@ -94,7 +101,7 @@ services:
         ports:
             - "6379:6379"
         links:
-            - php
+            - php-fpm
 
 ### Memcached Container #####################################
 
@@ -105,7 +112,7 @@ services:
         ports:
             - "11211:11211"
         links:
-            - php
+            - php-fpm
 
 ### Beanstalkd Container ####################################
 
@@ -115,9 +122,9 @@ services:
             - "11300:11300"
         privileged: true
         links:
-            - php
+            - php-fpm
 
-### Beanstalkd-Console Container ############################
+### Beanstalkd Console Container ############################
 
     beanstalkd-console:
         build: ./beanstalkd-console
@@ -125,5 +132,13 @@ services:
             - "2080:2080"
         links:
             - beanstalkd
+
+### Workspace Utilities Container ###########################
+
+    workspace:
+        build: ./workspace
+        volumes_from:
+            - application
+        tty: true
 
 ### Add more Containers below ###############################
