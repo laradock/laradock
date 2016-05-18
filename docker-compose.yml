@@ -10,8 +10,6 @@ services:
             dockerfile: Dockerfile-70
         volumes_from:
             - application
-        volumes:
-            - ./logs/php/:/usr/local/var/log
         expose:
             - "9000"
 
@@ -126,7 +124,7 @@ services:
         links:
             - php-fpm
 
-### Beanstalkd-Console Container ############################
+### Beanstalkd Console Container ############################
 
     beanstalkd-console:
         build: ./beanstalkd-console
@@ -135,7 +133,7 @@ services:
         links:
             - beanstalkd
 
-### Workspace Container #####################################
+### Workspace Utilities Container ###########################
 
     workspace:
         build: ./workspace

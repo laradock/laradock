@@ -374,7 +374,7 @@ DB_HOST=xxx.xxx.xxx.xxx
 
 Optionally you can define the server name in the nginx config file, like this:
 
-```
+```conf
 server_name laravel.dev;
 ```
 
@@ -384,7 +384,14 @@ server_name laravel.dev;
 <br>
 <a name="View-the-Log-files"></a>
 #### View the Log files 
-The Log files are stored in the `docker/logs` directory.
+The Nginx Log file is stored in the `logs/nginx` directory.
+
+However to view the logs of all the other containers (MySQL, PHP-FPM,...) you can run this:
+
+```bash
+docker logs {container-id}
+```
+
 
 
 
