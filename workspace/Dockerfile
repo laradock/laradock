@@ -31,7 +31,10 @@ RUN apt-get update \
         git \
         curl \
         vim \
-        nano
+        nano \
+        nodejs \
+        nodejs-dev \
+        npm
 
 # Install Composer
 RUN curl -s http://getcomposer.org/installer | php \
@@ -41,6 +44,12 @@ RUN curl -s http://getcomposer.org/installer | php \
 # Install the Laravel Installer
 RUN composer.phar global require "laravel/installer" \
     && echo "export PATH='~/.composer/vendor/bin:$PATH'" >> ~/.bashrc
+
+# Install gulp and bower
+RUN npm install -g gulp bower
+
+# Add a symbolic link
+RUN ln -s /usr/bin/nodejs /usr/bin/node
 
 # Add an alias for PHPUnit
 RUN echo "alias phpunit='./vendor/bin/phpunit'" >> ~/.bashrc
