@@ -40,7 +40,7 @@ RUN curl -s http://getcomposer.org/installer | php \
 
 # Install the Laravel Installer
 RUN composer.phar global require "laravel/installer" \
-    && echo "export PATH='$PATH:$HOME/.composer/vendor/bin'" >> ~/.bashrc
+    && echo "export PATH='~/.composer/vendor/bin:$PATH'" >> ~/.bashrc
 
 # Source the bashrc to apply updates
 RUN . ~/.bashrc
