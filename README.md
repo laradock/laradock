@@ -92,7 +92,7 @@ docker-compose up  nginx mysql
 - Memcached
 - Beanstalkd
 - Beanstalkd Console
-- Workspace (contains: Composer, PHP7-CLI, Laravel Installer, Git, Node, Gulp, Bower, Vim, Nano and cURL)
+- Workspace (contains: Composer, PHP7-CLI, Laravel Installer, Git, Node, Gulp, Bower, SQLite,  Vim, Nano and cURL)
 - Data Volume *(Databases Data Container)*
 - Application *(Application Code Container)*
 
