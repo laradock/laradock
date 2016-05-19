@@ -42,6 +42,9 @@ RUN apt-get update && apt-get install -y \
         nodejs-dev \
         npm
 
+# Clean up, to free some space
+RUN apt-get clean
+
 # Install gulp and bower with NPM
 RUN npm install -g \
     gulp \
@@ -66,7 +69,6 @@ RUN composer.phar global require "laravel/installer" \
 RUN . ~/.bashrc
 
 # Clean up
-RUN apt-get autoclean && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 WORKDIR /var/www/laravel
