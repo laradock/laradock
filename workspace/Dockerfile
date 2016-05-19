@@ -11,14 +11,16 @@ ENV LC_CTYPE=UTF-8
 ENV LANG=en_US.UTF-8
 ENV TERM xterm
 
-# Install "software-properties-common" (for add-apt-repository) and add the "PHP 7" ppa
-RUN apt-get update \
-    && apt-get install -y software-properties-common \
-    && add-apt-repository -y ppa:ondrej/php
+# Install "software-properties-common" (for the "add-apt-repository")
+RUN apt-get update && apt-get install -y \
+    software-properties-common
 
-# Install PHP-CLI 7 and some useful Tools
-RUN apt-get update \
-    && apt-get install -y \
+# Add the "PHP 7" ppa
+RUN add-apt-repository -y \
+    ppa:ondrej/php
+
+# Install PHP-CLI 7, some PHP extentions and some useful Tools with APT
+RUN apt-get update && apt-get install -y \
         php7.0-cli \
         php7.0-common \
         php7.0-curl \
@@ -27,7 +29,11 @@ RUN apt-get update \
         php7.0-mbstring \
         php7.0-mcrypt \
         php7.0-mysql \
+        php7.0-sqlite \
+        php7.0-sqlite3 \
         php7.0-zip \
+        sqlite3 \
+        libsqlite3-dev \
         git \
         curl \
         vim \
@@ -35,6 +41,17 @@ RUN apt-get update \
         nodejs \
         nodejs-dev \
         npm
+
+# Install gulp and bower with NPM
+RUN npm install -g \
+    gulp \
+    bower
+
+# Add a symbolic link for Node
+RUN ln -s /usr/bin/nodejs /usr/bin/node
+
+# Add an alias for PHPUnit
+RUN echo "alias phpunit='./vendor/bin/phpunit'" >> ~/.bashrc
 
 # Install Composer
 RUN curl -s http://getcomposer.org/installer | php \
@@ -44,15 +61,6 @@ RUN curl -s http://getcomposer.org/installer | php \
 # Install the Laravel Installer
 RUN composer.phar global require "laravel/installer" \
     && echo "export PATH='~/.composer/vendor/bin:$PATH'" >> ~/.bashrc
-
-# Install gulp and bower
-RUN npm install -g gulp bower
-
-# Add a symbolic link
-RUN ln -s /usr/bin/nodejs /usr/bin/node
-
-# Add an alias for PHPUnit
-RUN echo "alias phpunit='./vendor/bin/phpunit'" >> ~/.bashrc
 
 # Source the bash
 RUN . ~/.bashrc
