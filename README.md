@@ -36,6 +36,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Add more Software's (Docker Images)](#Add-Docker-Images)
 		- [View the Log files](#View-the-Log-files)
 	- [Laravel](#Laravel):
+		- [Install Laravel from a Docker Container](#Install-Laravel)
 		- [Run Artisan Commands](#Run-Artisan-Commands)
 		- [Use Redis](#Use-Redis)
 	- [PHP](#PHP)
@@ -151,95 +152,51 @@ Running a virtual Container is much faster than running a full virtual Machine.
 |                [Docker Compose](https://docs.docker.com/compose/install)                |                                                         |
 
 
+
+
+
+
+
 <a name="Installation"></a>
 ## Installation
 
-#### A - In existing Laravel Projects:
 
-1 - Clone the `LaraDock` repository, inside your `Laravel` project root direcotry:
+1 - Clone the `LaraDock` repository.
+
+**A)** If you already have a Laravel project, clone this repository on your `Laravel` root direcotry:
 
 ```bash
 git submodule add https://github.com/LaraDock/laradock.git
 ```
+>If you are not already using Git for your Laravel project, you can use `git clone` instead of `git submodule`.
 
-2 - That's it, jump to the Usage section now.
-
-*If you are not already using Git for your Laravel project, you can use `git clone` instead of `git submodule`.*
-
-
-<br>
-#### B - From scratch (Install LaraDock and Laravel):
-
-*If you don't have any Laravel project yet, and you want to start your Laravel project with Docker.*
-
-1 - Clone the `LaraDock` repository anywhere on your machine:
+**B)** If you don't have a Laravel project, and you want to install Laravel from Docker, clone this repo anywhere on your machine:
 
 ```bash
 git clone https://github.com/LaraDock/laradock.git
 ```
-
-2 - Go to the Uage section below and do the steps 1, 3 and 4 then come back here.
-
-4 - Install Laravel anyway you like. 
-
-Example using the Laravel Installer:
-
-```bash
-laravel new my-cool-app
-```
-
-Example using Composer
-
-```bash
-composer create-project laravel/laravel my-cool-app "5.1.*"
-```
-
-For more about this check out this [link](https://laravel.com/docs/master#installing-laravel).
-
-5 - Edit `docker-compose.yml` to Map the new application path:
-
-By default LaraDock assumes the Laravel application is living in the parent directory of the laradock folder. 
-
-Since the new Laravel application is in the `my-cool-app` folder, we need to replace `../:/var/www/laravel` with `../my-cool-app/:/var/www/laravel`, as follow:
-
-```yaml
-    application:
-        build: ./application
-        volumes:
-            - ../my-cool-app/:/var/www/laravel
-```
-
-6 - finally go to the Usage section below again and do steps 2 and 5.
-
 
 
 
 <a name="Usage"></a>
 ## Usage
 
-1 - For **Windows & MAC** users only: make sure you have a running Docker Virtual Host on your machine. 
+
+1 - For **Windows & MAC** users only: If you are not using the native Docker-Engine `Beta`, make sure you have a running Docker Virtual Host on your machine. 
 (**Linux** users don't need a Virtual Host, so skip this step).
-<br>
+
 [How to run a Docker Virtual Host?](#Run-Docker-Virtual-Host)
 
 
 <br>
-2 - Open your Laravel's `.env` file and set the `DB_HOST` to your `{Docker-IP}`:
-
-```env
-DB_HOST=xxx.xxx.xxx.xxx
-```
-[How to find my Docker IP Address?](#Find-Docker-IP-Address)
-
-<br>
-3 - Run the Containers, (you can select the containers that you wish to run)
+2 - Run the Containers, (you can select the containers that you wish to run)
 <br>
 *Make sure you are in the `laradock` folder before running the `docker-compose` command.*
 
-**Example:** Running NGINX, MySQL and Redis:
+**Example:** Running NGINX and MySQL:
 
 ```bash
-docker-compose up -d  nginx mysql redis
+docker-compose up -d  nginx mysql
 ```
 
 *Note: the PHP-FPM, Workspace, Application and Data Containers will automatically run.*
@@ -247,9 +204,10 @@ docker-compose up -d  nginx mysql redis
 
 Supported Containers: `nginx`, `mysql`, `redis`, `postgres`, `mariadb`, `memcached`, `beanstalkd`, `beanstalkd-console`, `workspace`, `data`, `php-fpm`, `application`.
 
-<br>
 
-4 - To execute commands like (Artisan, Composer, PHPUnit, Gulp, ...) you need to nter the Workspace container.
+
+<br>
+3 - Enter the Workspace container, to execute commands like (Artisan, Composer, PHPUnit, Gulp, ...).
 
 ```bash
 docker exec -it {Workspace-Container-Name} bash
@@ -259,6 +217,23 @@ Replace `{Workspace-Container-Name}` with your Workspace container name.
 To find the containers names type `docker-compose ps`.
 
 
+
+<br>
+4 - Edit the Laravel configurations.
+
+If you don't have a Laravel project installed yet, see [How to Install Laravel in a Docker Container](#Install-Laravel).
+
+Open your Laravel's `.env` file and set the `DB_HOST` to your `{Docker-IP}`:
+
+```env
+DB_HOST=xxx.xxx.xxx.xxx
+```
+[How to find my Docker IP Address?](#Find-Docker-IP-Address)
+
+
+
+
+<br>
 5 - Open your browser and visit your `{Docker-IP}` address (`http://xxx.xxx.xxx.xxx`).
 
 
@@ -457,6 +432,48 @@ docker logs {container-name}
 <a name="Laravel"></a>
 ### Laravel
 
+
+
+
+<a name="Install-Laravel"></a>
+## Install Laravel from a Docker Container
+
+1 - First you need to enter the Workspace Container.
+
+2 - Install Laravel anyway you like.
+
+Example using the Laravel Installer:
+
+```bash
+laravel new my-cool-app
+```
+
+Example using Composer
+
+```bash
+composer create-project laravel/laravel my-cool-app "5.1.*"
+```
+
+For more about this check out this [link](https://laravel.com/docs/master#installing-laravel).
+
+
+3 - Edit `docker-compose.yml` to Map the new application path:
+
+By default LaraDock assumes the Laravel application is living in the parent directory of the laradock folder. 
+
+Since the new Laravel application is in the `my-cool-app` folder, we need to replace `../:/var/www/laravel` with `../my-cool-app/:/var/www/laravel`, as follow:
+
+```yaml
+    application:
+        build: ./application
+        volumes:
+            - ../my-cool-app/:/var/www/laravel
+```
+4 - Go to that folder and start working..
+
+```bash
+cd my-cool-app
+```
 
 
 
