@@ -46,7 +46,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Run a Docker Virtual Host](#Run-Docker-Virtual-Host)
 		- [Find your Docker IP Address](#Find-Docker-IP-Address)
 		- [Use custom Domain](#Use-custom-Domain)
-
+- [Help & Questions](#Help)
 
 
 
@@ -255,12 +255,6 @@ Supported Containers: `workspace`, `nginx`, `mysql`, `redis`, `postgres`, `maria
 ```bash
 sudo chmod -R 777 storage && sudo chmod -R 777 bootstrap/cache
 ```
-
-<br>
-
-
-[Follow @Mahmoud_Zalt](https://twitter.com/Mahmoud_Zalt)
-
 
 
 
@@ -764,27 +758,34 @@ server_name laravel.dev;
 <br>
 ## Contributing
 
-This little project was built by one man who has a full time job and many responsibilities, so if you like this project and you find that it needs a bug fix or support for new software or upgrade for the current containers, or anything else.. Do not hesitate to contribute, you are more than welcome :)
-
-All Docker Images can be found at [https://github.com/LaraDock](https://github.com/LaraDock)
+This little project was built by one man who has a full time job and many responsibilities, so if you like this project and you find that it needs a bug fix or support for new software or upgrade any container, or anything else.. Do not hesitate to contribute, you are more than welcome :)
 
 ## Support
 
-[Issues](https://github.com/laradock/laradock/issues) on Github.
+To suggest a features or report a bug, open a new [Issue](https://github.com/laradock/laradock/issues).
 
 
 
-### Questions?
-If you have any question, send me a direct message on LaraChat, my username is `mahmoud_zalt`.
+<a name="Help"></a>
+## Help & Questions
+
+If you need help with anything related to this project, shedule a live call with me on [Codementor](https://www.codementor.io/mahmoudz), I'd love to help.
+
+If you have a short question, send me a direct message on LaraChat, my username is `mahmoud_zalt`.
 
 
 ## Credits
 
 [![Mahmoud Zalt](https://img.shields.io/badge/Author-Mahmoud%20Zalt-orange.svg)](http://www.zalt.me)
 
+Twitter: [@Mahmoud_Zalt](https://twitter.com/Mahmoud_Zalt)
+<br>
+Website: [http://zalt.me](http://zalt.me)
+<br>
+Email: `mahmoud@zalt.me`
 
 
 ## License
 
-[MIT License (MIT)](https://github.com/laradock/laradock/blob/master/LICENSE)
-[]([]())
+[MIT License](https://github.com/laradock/laradock/blob/master/LICENSE)
+[]([]()) (MIT)
