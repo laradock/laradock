@@ -12,6 +12,8 @@ services:
             - application
         expose:
             - "9000"
+        links:
+            - workspace
 
 ### Laravel Application Code Container ######################
 

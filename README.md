@@ -57,10 +57,10 @@ LaraDock strives to make the development experience easier.
 It contains pre-packaged Docker Images that provides you a wonderful development environment without requiring you to install PHP, NGINX, MySQL, REDIS, and any other software on your local machine.
 
 
-**Usage Overview:** Run `NGINX` and `MySQL`.
+**Usage Overview:** Run `NGINX`, `MySQL` and `Redis`.
 
 ```shell
-docker-compose up  nginx mysql 
+docker-compose up  nginx mysql redis
 ```
 
 <a name="features"></a>
@@ -93,7 +93,7 @@ docker-compose up  nginx mysql
 - Beanstalkd
 - Beanstalkd Console
 - Workspace (contains: Composer, PHP7-CLI, Laravel Installer, Git, Node, Gulp, Bower, SQLite,  Vim, Nano and cURL)
-- Data Volume *(Databases Data Container)*
+- Data *(Databases Data Container)*
 - Application *(Application Code Container)*
 
 
@@ -178,14 +178,7 @@ git submodule add https://github.com/LaraDock/laradock.git
 git clone https://github.com/LaraDock/laradock.git
 ```
 
-2 - Go to the Uage section below and do the steps 1 and 3 then come back here.
-
-3 - Enter the Workspace container. (assuming you have the Workspace container running):
-
-```bash
-docker exec -it {Workspace-Container-Name} bash
-```
-Replace `{Workspace-Container-Name}` with your Workspace container name. To get the name type `docker-compose ps` and copy it.
+2 - Go to the Uage section below and do the steps 1, 3 and 4 then come back here.
 
 4 - Install Laravel anyway you like. 
 
@@ -194,13 +187,20 @@ Example using the Laravel Installer:
 ```bash
 laravel new my-cool-app
 ```
+
+Example using Composer
+
+```bash
+composer create-project laravel/laravel my-cool-app "5.1.*"
+```
+
 For more about this check out this [link](https://laravel.com/docs/master#installing-laravel).
 
 5 - Edit `docker-compose.yml` to Map the new application path:
 
 By default LaraDock assumes the Laravel application is living in the parent directory of the laradock folder. 
 
-Since the new Laravel application is in the `my-cool-app` folder, we should replace `../:/var/www/laravel` with `../my-cool-app/:/var/www/laravel`, as follow:
+Since the new Laravel application is in the `my-cool-app` folder, we need to replace `../:/var/www/laravel` with `../my-cool-app/:/var/www/laravel`, as follow:
 
 ```yaml
     application:
@@ -208,7 +208,8 @@ Since the new Laravel application is in the `my-cool-app` folder, we should repl
         volumes:
             - ../my-cool-app/:/var/www/laravel
 ```
-6 - finally go to the Usage section below again and do steps 2 and 4.
+
+6 - finally go to the Usage section below again and do steps 2 and 5.
 
 
 
@@ -231,22 +232,34 @@ DB_HOST=xxx.xxx.xxx.xxx
 [How to find my Docker IP Address?](#Find-Docker-IP-Address)
 
 <br>
-3 - Run the Containers, (you can select the software's (containers) that you wish to run)
+3 - Run the Containers, (you can select the containers that you wish to run)
 <br>
 *Make sure you are in the `laradock` folder before running the `docker-compose` command.*
 
-**Example:** Running NGINX, MySQL, Redis and the Workspace:
+**Example:** Running NGINX, MySQL and Redis:
 
 ```bash
-docker-compose up -d  nginx mysql redis workspace
+docker-compose up -d  nginx mysql redis
 ```
-*Note: the PHP-FPM, Application and Data Containers will automatically run.*
+
+*Note: the PHP-FPM, Workspace, Application and Data Containers will automatically run.*
 
 
-Supported Containers: `workspace`, `nginx`, `mysql`, `redis`, `postgres`, `mariadb`, `memcached`, `beanstalkd`, `beanstalkd-console`, `data`, `php-fpm`, `application`.
+Supported Containers: `nginx`, `mysql`, `redis`, `postgres`, `mariadb`, `memcached`, `beanstalkd`, `beanstalkd-console`, `workspace`, `data`, `php-fpm`, `application`.
 
 <br>
-4 - Open your browser and visit your `{Docker-IP}` address (`http://xxx.xxx.xxx.xxx`).
+
+4 - To execute commands like (Artisan, Composer, PHPUnit, Gulp, ...) you need to nter the Workspace container.
+
+```bash
+docker exec -it {Workspace-Container-Name} bash
+```
+Replace `{Workspace-Container-Name}` with your Workspace container name. 
+<br>
+To find the containers names type `docker-compose ps`.
+
+
+5 - Open your browser and visit your `{Docker-IP}` address (`http://xxx.xxx.xxx.xxx`).
 
 
 <br>
@@ -787,5 +800,4 @@ Email: `mahmoud@zalt.me`
 
 ## License
 
-[MIT License](https://github.com/laradock/laradock/blob/master/LICENSE)
-[]([]()) (MIT)
+[MIT License](https://github.com/laradock/laradock/blob/master/LICENSE) (MIT)
