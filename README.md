@@ -21,6 +21,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 	- [What is Laravel](#what-is-laravel)
 	- [Why Docker not Vagrant](#why-docker-not-vagrant)
 	- [LaraDock VS Homestead](#laradock-vs-homestead)
+- [Demo Video](#Demo)
 - [Requirements](#Requirements)
 - [Installation](#Installation)
 - [Usage](#Usage)
@@ -155,7 +156,10 @@ Running a virtual Container is much faster than running a full virtual Machine.
 
 
 
+<a name="Demo"></a>
+## Demo Video
 
+What's better than a [**Demo Video**](https://www.youtube.com/watch?v=-DamFMczwDA) :) 
 
 <a name="Installation"></a>
 ## Installation
@@ -244,6 +248,8 @@ DB_HOST=xxx.xxx.xxx.xxx
 sudo chmod -R 777 storage && sudo chmod -R 777 bootstrap/cache
 ```
 
+<br>
+If you have any problem, or need a special support. Feel free to contact me, more details in the [Help & Questions](#Help) secion.
 
 
 <br>
@@ -801,7 +807,7 @@ To suggest a features or report a bug, open a new [Issue](https://github.com/lar
 
 If you need help with anything related to this project, shedule a live call with me on [Codementor](https://www.codementor.io/mahmoudz), I'd love to help.
 
-If you have a short question, send me a direct message on LaraChat, my username is `mahmoud_zalt`.
+If you have a short question, send me a direct message on LaraChat, my username is `mahmoud_zalt`. Or send me an email on `mahmoud@zalt.me`.
 
 
 ## Credits
