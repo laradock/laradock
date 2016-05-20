@@ -90,6 +90,7 @@ docker-compose up  nginx mysql redis
 - MySQL
 - PostgreSQL
 - MariaDB
+- Neo4j
 - Redis
 - Memcached
 - Beanstalkd
@@ -206,7 +207,7 @@ docker-compose up -d  nginx mysql
 *Note: the PHP-FPM, Workspace, Application and Data Containers will automatically run.*
 
 
-Supported Containers: `nginx`, `mysql`, `redis`, `postgres`, `mariadb`, `memcached`, `beanstalkd`, `beanstalkd-console`, `workspace`, `data`, `php-fpm`, `application`.
+Supported Containers: `nginx`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `memcached`, `beanstalkd`, `beanstalkd-console`, `workspace`, `data`, `php-fpm`, `application`.
 
 
 
