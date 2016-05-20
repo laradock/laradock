@@ -1,9 +1,7 @@
-FROM neo4j:3.0
+FROM tpires/neo4j
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
-VOLUME /var/lib/neo4j
+VOLUME /var/lib/neo4j/data
 
-EXPOSE 7474 7687
-
-CMD ["neo4j"]
+EXPOSE 7474 1337

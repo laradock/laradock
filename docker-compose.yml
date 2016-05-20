@@ -32,7 +32,7 @@ services:
             - /var/lib/mariadb
             - /var/lib/redis
             - /var/lib/memcached
-            - /var/lib/neo4j
+            - /var/lib/neo4j/data
 
 ### Nginx Server Container ##################################
 
@@ -101,7 +101,9 @@ services:
         build: ./neo4j
         ports:
             - "7474:7474"
-            - "7687:7687"
+            - "1337:1337"
+        environment:
+            - NEO4J_AUTH=homestead:secret
         volumes_from:
             - data
         links:
