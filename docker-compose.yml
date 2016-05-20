@@ -32,6 +32,7 @@ services:
             - /var/lib/mariadb
             - /var/lib/redis
             - /var/lib/memcached
+            - /var/lib/neo4j
 
 ### Nginx Server Container ##################################
 
@@ -91,6 +92,18 @@ services:
             MYSQL_USER: homestead
             MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
+        links:
+            - php-fpm
+
+### Neo4j Container #########################################
+
+    neo4j:
+        build: ./neo4j
+        ports:
+            - "7474:7474"
+            - "7687:7687"
+        volumes_from:
+            - data
         links:
             - php-fpm
 
