@@ -1,4 +1,4 @@
-FROM phusion/baseimage:latest
+FROM sunfoxcz/baseimage:latest
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
