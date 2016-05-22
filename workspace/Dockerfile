@@ -12,7 +12,7 @@ ENV LANG=en_US.UTF-8
 ENV TERM xterm
 
 # Install "software-properties-common" (for the "add-apt-repository")
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get upgrade && apt-get install -y \
     software-properties-common
 
 # Add the "PHP 7" ppa
