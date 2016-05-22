@@ -246,7 +246,7 @@ DB_HOST=xxx.xxx.xxx.xxx
 **Debugging**: in case you faced an error here, run this command from the Laravel root directory:
 
 ```bash
-sudo chmod -R 777 storage && sudo chmod -R 777 bootstrap/cache
+sudo chmod -R 777 storage bootstrap/cache
 ```
 
 <br>
