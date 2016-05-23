@@ -447,21 +447,17 @@ docker logs {container-name}
 
 1 - First you need to enter the Workspace Container.
 
-2 - Install Laravel anyway you like.
-
-Example using the Laravel Installer:
-
-```bash
-laravel new my-cool-app
-```
+2 - Install Laravel.
 
 Example using Composer
 
 ```bash
-composer create-project laravel/laravel my-cool-app "5.1.*"
+composer create-project laravel/laravel my-cool-app "5.2.*"
 ```
 
-For more about this check out this [link](https://laravel.com/docs/master#installing-laravel).
+> We recommand using `composer create-project` instead of the Laravel installer, to install Laravel.
+
+For more about the Laravel installation click [here](https://laravel.com/docs/master#installing-laravel).
 
 
 3 - Edit `docker-compose.yml` to Map the new application path:
