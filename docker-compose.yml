@@ -61,8 +61,6 @@ services:
             MYSQL_USER: homestead
             MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
-        links:
-            - php-fpm
 
 ### PostgreSQL Container ####################################
 
@@ -76,8 +74,6 @@ services:
             POSTGRES_DB: homestead
             POSTGRES_USER: homestead
             POSTGRES_PASSWORD: secret
-        links:
-            - php-fpm
 
 ### MariaDB Container #######################################
 
@@ -92,8 +88,6 @@ services:
             MYSQL_USER: homestead
             MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
-        links:
-            - php-fpm
 
 ### Neo4j Container #########################################
 
@@ -106,8 +100,6 @@ services:
             - NEO4J_AUTH=homestead:secret
         volumes_from:
             - data
-        links:
-            - php-fpm
 
 ### Redis Container #########################################
 
@@ -117,8 +109,6 @@ services:
             - data
         ports:
             - "6379:6379"
-        links:
-            - php-fpm
 
 ### Memcached Container #####################################
 
