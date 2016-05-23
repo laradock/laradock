@@ -29,6 +29,7 @@ RUN apt-get update && apt-get install -y \
         php7.0-mbstring \
         php7.0-mcrypt \
         php7.0-mysql \
+        php7.0-pgsql \
         php7.0-sqlite \
         php7.0-sqlite3 \
         php7.0-zip \
