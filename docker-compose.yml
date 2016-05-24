@@ -143,7 +143,9 @@ services:
 ### Workspace Utilities Container ###########################
 
     workspace:
-        build: ./workspace
+        build:
+            context: ./workspace
+            dockerfile: Dockerfile-70
         volumes_from:
             - application
         tty: true
