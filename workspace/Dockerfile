@@ -33,6 +33,7 @@ RUN apt-get update && apt-get install -y \
         php7.0-sqlite \
         php7.0-sqlite3 \
         php7.0-zip \
+        php7.0-memcached \
         sqlite3 \
         libsqlite3-dev \
         git \
