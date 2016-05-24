@@ -716,6 +716,8 @@ eval $(docker-machine env)
 
 **On Windows & MAC:** 
 
+Run this command in your terminal:
+
 ```bash
 docker-machine ip default
 ```
@@ -723,34 +725,20 @@ If your Host name is different then `default`, you have to specify it (`docker-m
 
 *(The default IP is 192.168.99.100)*
 
+<br>
+
 > **boot2docker** users: run `boot2docker ip` *(when boot2docker is up)*.
 
 <br>
 **On Linux:** 
 
-1 - Run `ifconfig` in the terminal and follow step 2 - or grep the IP directly by the following command.
+Run this command in your terminal:
 
 ```shell
-$ ifconfig docker0 | grep 'inet' | cut -d: -f2 | awk '{ print $1}' | head -n1
+ifconfig docker0 | grep 'inet' | cut -d: -f2 | awk '{ print $1}' | head -n1
 ```
 
-2 - In the result search for `docker0`, your IP address will be next to `inet addr`.
-
-Example: (In this example your IP address is `172.17.0.1`).
-
-```shell
-docker0   Link encap:Ethernet  HWaddr 02:42:41:2d:c4:24
-          inet addr:172.17.0.1  Bcast:0.0.0.0  Mask:255.255.0.0
-          UP BROADCAST MULTICAST  MTU:1500  Metric:1
-          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0
-          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
-```
->If you have an easier way to do it, share it with us.
-
-
-
+*(The default IP is 172.17.0.1)*
 
 
 
