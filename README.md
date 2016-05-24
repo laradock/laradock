@@ -728,7 +728,11 @@ If your Host name is different then `default`, you have to specify it (`docker-m
 <br>
 **On Linux:** 
 
-1 - Run `ifconfig` in the terminal.
+1 - Run `ifconfig` in the terminal and follow step 2 - or grep the IP directly by the following command.
+
+```shell
+$ ifconfig docker0 | grep 'inet' | cut -d: -f2 | awk '{ print $1}' | head -n1
+```
 
 2 - In the result search for `docker0`, your IP address will be next to `inet addr`.
 
