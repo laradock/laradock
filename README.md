@@ -16,32 +16,39 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 
 - [Intro](#Intro)
 	- [Features](#features)
+	- [Supported Containers](#Supported-Containers)
 	- [What is Docker](#what-is-docker)
 	- [What is Laravel](#what-is-laravel)
 	- [Why Docker not Vagrant](#why-docker-not-vagrant)
 	- [LaraDock VS Homestead](#laradock-vs-homestead)
-- [Supported Containers](#Supported-Containers)
+- [Demo Video](#Demo)
 - [Requirements](#Requirements)
 - [Installation](#Installation)
 - [Usage](#Usage)
 - [Documentation](#Documentation)
-	- [List current running Containers](#List-current-running-Containers)
-	- [Close all running Containers](#Close-all-running-Containers)
-	- [Delete all existing Containers](#Delete-all-existing-Containers)
-	- [Build/Re-build Containers](#Build-Re-build-Containers)
-	- [Change the PHP Version](#Change-the-PHP-Version)
-	- [Add/Remove a Docker Container](#AddRemove-a-Docker-Container)
-	- [Add more Software's (Docker Images)](#Add-Docker-Images)
-	- [Edit default container configuration](#Edit-Container)
-	- [Use custom Domain](Use-custom-Domain)
-	- [View the Log files](#View-the-Log-files)
-	- [Use Redis](#Use-Redis)
-	- [Enter a Container (SSH into a running Container)](#Enter-Container)
-	- [Edit a Docker Image](#Edit-a-Docker-Image)
-	- [Run a Docker Virtual Host](#Run-Docker-Virtual-Host)
-	- [Find your Docker IP Address](#Find-Docker-IP-Address)
-
-
+	- [Docker](#Docker)
+		- [List current running Containers](#List-current-running-Containers)
+		- [Close all running Containers](#Close-all-running-Containers)
+		- [Delete all existing Containers](#Delete-all-existing-Containers)
+		- [Enter a Container (SSH into a running Container)](#Enter-Container)
+		- [Edit default container configuration](#Edit-Container)
+		- [Edit a Docker Image](#Edit-a-Docker-Image)
+		- [Build/Re-build Containers](#Build-Re-build-Containers)
+		- [Add more Software's (Docker Images)](#Add-Docker-Images)
+		- [View the Log files](#View-the-Log-files)
+	- [Laravel](#Laravel):
+		- [Install Laravel from a Docker Container](#Install-Laravel)
+		- [Run Artisan Commands](#Run-Artisan-Commands)
+		- [Use Redis](#Use-Redis)
+	- [PHP](#PHP)
+		- [Install PHP Extensions](#Install-PHP-Extensions)
+		- [Change the PHP-FPM Version](#Change-the-PHP-FPM-Version)
+		- [Change the PHP-CLI Version](#Change-the-PHP-CLI-Version)
+	- [Misc](#Misc)
+		- [Run a Docker Virtual Host](#Run-Docker-Virtual-Host)
+		- [Find your Docker IP Address](#Find-Docker-IP-Address)
+		- [Use custom Domain](#Use-custom-Domain)
+- [Help & Questions](#Help)
 
 
 
@@ -55,7 +62,7 @@ It contains pre-packaged Docker Images that provides you a wonderful development
 **Usage Overview:** Run `NGINX`, `MySQL` and `Redis`.
 
 ```shell
-docker-compose up -d  nginx mysql redis 
+docker-compose up  nginx mysql redis
 ```
 
 <a name="features"></a>
@@ -64,7 +71,7 @@ docker-compose up -d  nginx mysql redis
 - Easy switch between PHP versions: 7.0 - 5.6 - 5.5 ...
 - Choose your favorite database engine: MySQL - Postgres - Redis ...
 - Run your own combination of software's: Memcached - MariaDB ...
-- Every software runs on a separate container: PHP - NGINX ...
+- Every software runs on a separate container: PHP-FPM - NGINX ...
 - Easy to customize any container, with simple edit to the `dockerfile`.
 - All Images extends from an official base Image. (Trusted base Images).
 - Pre-configured Nginx for Laravel.
@@ -76,20 +83,24 @@ docker-compose up -d  nginx mysql redis
 
 
 <a name="Supported-Containers"></a>
-## Supported Containers
+### Supported Containers
 
-- PHP (7.0 - 5.6 - 5.5)
+- PHP-FPM (7.0 - 5.6 - 5.5)
 - NGINX
 - MySQL
 - PostgreSQL
 - MariaDB
+- Neo4j
 - Redis
 - Memcached
 - Beanstalkd
 - Beanstalkd Console
-- Data Volume
+- Workspace (contains: Composer, PHP7-CLI, Laravel Installer, Git, Node, Gulp, Bower, SQLite,  Vim, Nano and cURL)
+- Data *(Databases Data Container)*
+- Application *(Application Code Container)*
 
->Cannot find your container! we would love to have it as well. Consider contributing your container and adding it to this list.
+
+>If you can't find your container, build it yourself and add it to this list. Contributions are welcomed :)
 
 
 
@@ -139,100 +150,138 @@ Running a virtual Container is much faster than running a full virtual Machine.
 |-----------------------------------------------------------------------------------------|---------------------------------------------------------|
 |                 [Laravel](https://laravel.com/docs/master/installation)                 | [Laravel](https://laravel.com/docs/master/installation) |
 |                           [Git](https://git-scm.com/downloads)                          |           [Git](https://git-scm.com/downloads)          |
-| [Docker Engine](https://docs.docker.com/engine/installation/linux/ubuntulinux/#install) |     [Docker Toolbox](https://www.docker.com/toolbox)    |
+| [Docker Engine](https://docs.docker.com/engine/installation/linux/ubuntulinux) |     [Docker Toolbox](https://www.docker.com/toolbox)    |
 |                [Docker Compose](https://docs.docker.com/compose/install)                |                                                         |
 
+
+
+
+
+<a name="Demo"></a>
+## Demo Video
+
+What's better than a [**Demo Video**](https://www.youtube.com/watch?v=-DamFMczwDA) :) 
 
 <a name="Installation"></a>
 ## Installation
 
-1 - Clone the `LaraDock` repository, in any of your `Laravel` projects:
+
+1 - Clone the `LaraDock` repository.
+
+**A)** If you already have a Laravel project, clone this repository on your `Laravel` root direcotry:
 
 ```bash
-git clone https://github.com/LaraDock/laradock.git docker
+git submodule add https://github.com/LaraDock/laradock.git
 ```
+>If you are not already using Git for your Laravel project, you can use `git clone` instead of `git submodule`.
 
-You can use `git submodule add` instead of `git clone` if you are already using Git for your Laravel project *(Recommended)*:
+**B)** If you don't have a Laravel project, and you want to install Laravel from Docker, clone this repo anywhere on your machine:
 
 ```bash
-git submodule add https://github.com/LaraDock/laradock.git docker
+git clone https://github.com/LaraDock/laradock.git
 ```
-
->These commands should create a `docker` folder, on the root directory of your Laravel project.
-
 
 
 
 <a name="Usage"></a>
 ## Usage
 
-0 - For **Windows & MAC** users only: make sure you have a running Docker Virtual Host on your machine. 
+
+1 - For **Windows & MAC** users only: If you are not using the native Docker-Engine `Beta`, make sure you have a running Docker Virtual Host on your machine. 
 (**Linux** users don't need a Virtual Host, so skip this step).
-<br>
+
 [How to run a Docker Virtual Host?](#Run-Docker-Virtual-Host)
 
 
 <br>
-1 - Open your Laravel's `.env` file and set the `DB_HOST` to your `{Docker-IP}`:
+2 - Run the Containers, (you can select the containers that you wish to run)
+<br>
+*Make sure you are in the `laradock` folder before running the `docker-compose` command.*
+
+**Example:** Running NGINX and MySQL:
+
+```bash
+docker-compose up -d  nginx mysql
+```
+
+*Note: the PHP-FPM, Workspace, Application and Data Containers will automatically run.*
+
+
+Supported Containers: `nginx`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `memcached`, `beanstalkd`, `beanstalkd-console`, `workspace`, `data`, `php-fpm`, `application`.
+
+
+
+<br>
+3 - Enter the Workspace container, to execute commands like (Artisan, Composer, PHPUnit, Gulp, ...).
+
+```bash
+docker exec -it {Workspace-Container-Name} bash
+```
+Replace `{Workspace-Container-Name}` with your Workspace container name. 
+<br>
+To find the containers names type `docker-compose ps`.
+
+
+
+<br>
+4 - Edit the Laravel configurations.
+
+If you don't have a Laravel project installed yet, see [How to Install Laravel in a Docker Container](#Install-Laravel).
+
+Open your Laravel's `.env` file and set the `DB_HOST` to your `{Docker-IP}`:
 
 ```env
 DB_HOST=xxx.xxx.xxx.xxx
 ```
 [How to find my Docker IP Address?](#Find-Docker-IP-Address)
 
-<br>
-2 - Run the Containers, (you can select the software's (containers) that you wish to run)
-<br>
-*Make sure you are in the `docker` folder before running the `docker-compose` command.*
 
-> Running PHP, NGINX, MySQL and Redis:
 
-```bash
-docker-compose up -d  php nginx mysql redis
-```
-
-Note: you can choose your own combination of software's (containers), another example:
-
-> Running PHP, NGINX, Postgres and Memcached:
-
-```bash
-docker-compose up -d  php nginx postgres memcached
-```
-
-Supported Containers: `nginx`, `mysql`, `redis`, `postgres`, `mariadb`, `memcached`, `beanstalkd`, `beanstalkd-console`, `data`, `php`.
 
 <br>
-3 - Open your browser and visit your `{Docker-IP}` address (`http://xxx.xxx.xxx.xxx`).
+5 - Open your browser and visit your `{Docker-IP}` address (`http://xxx.xxx.xxx.xxx`).
 
 
 <br>
 **Debugging**: in case you faced an error here, run this command from the Laravel root directory:
 
 ```bash
-sudo chmod -R 777 storage && sudo chmod -R 777 bootstrap/cache
+sudo chmod -R 777 storage bootstrap/cache
 ```
 
 <br>
-
-
-[Follow @Mahmoud_Zalt](https://twitter.com/Mahmoud_Zalt)
-
-
+If you have any problem, or need a special support. Feel free to contact me, more details in the [Help & Questions](#Help) secion.
 
 
 <br>
 <a name="Documentation"></a>
 ## Documentation
 
+
+
+<a name="Docker"></a>
+### [Docker]
+
+
+
 <a name="List-current-running-Containers"></a>
-#### List current running Containers
+### List current running Containers
 ```bash
 docker ps
 ```
+You can also use the this command if you want to see only this project containers:
+
+```bash
+docker-compose ps
+```
+
+
+
+
 
 <br>
 <a name="Close-all-running-Containers"></a>
-#### Close all running Containers
+### Close all running Containers
 ```bash
 docker-compose stop
 ```
@@ -245,11 +294,14 @@ docker-compose stop {container-name}
 
 
 
+
+
+
 <br>
 <a name="Delete-all-existing-Containers"></a>
-#### Delete all existing Containers
+### Delete all existing Containers
 ```bash
-docker-compose rm -f
+docker-compose down
 ```
 
 *Note: Careful with this command as it will delete your Data Volume Container as well. (if you want to keep your Database data than you should stop each container by itself as follow):* 
@@ -257,67 +309,31 @@ docker-compose rm -f
 
 
 
-<br>
-<a name="Build-Re-build-Containers"></a>
-#### Build/Re-build Containers
 
-If you do any change to any `dockerfile` make sure you run this command, for the changes to take effect:
+
+
+<br>
+<a name="Enter-Container"></a>
+### Enter a Container (SSH into a running Container)
+
+1 - first list the current running containers with `docker ps`
+
+2 - enter any container using:
 
 ```bash
-docker-compose build
+docker exec -it {container-name} bash
 ```
-Optionally you can specify which container to rebuild (instead of rebuilding all the containers):
-
-```bash
-docker-compose build {container-name}
-```
+3 - to exit a container, type `exit`.
 
 
 
 
-<br>
-<a name="Change-the-PHP-Version"></a>
-#### Change the PHP Version
-By default **PHP 7.0** is running.
-<br>
-To change the default PHP version:
-
-1 - Open the `dockerfile` of the `php` folder.
-
-2 - Change the PHP version number in the first line,
-
-```txt
-FROM php:7.0-fpm
-```
-
-Supported Versions:
-
-- For (PHP 7.0.*) use `php:7.0-fpm`
-- For (PHP 5.6.*) use `php:5.6-fpm`
-- For (PHP 5.5.*) use `php:5.5-fpm`
-
-For more details visit the [official PHP docker images](https://hub.docker.com/_/php/).
-
-3 - Finally rebuild the container
-
-```bash
-docker-compose build php
-```
-
-
-
-
-<br>
-<a name="Add-Docker-Images"></a>
-#### Add more Software's (Docker Images)
-
-To add an image (software), just edit the `docker-compose.yml` and add your container details, to do so you need to be familiar with the [docker compose file syntax](https://docs.docker.com/compose/compose-file/).
 
 
 
 <br>
 <a name="Edit-Container"></a>
-#### Edit default container configuration
+### Edit default container configuration
 Open the `docker-compose.yml` and change anything you want.
 
 Examples: 
@@ -338,43 +354,173 @@ Change Redis defaut port to 1111:
 
 
 
+
+
+
+
+
 <br>
-<a name="Use-custom-Domain"></a>
-#### Use custom Domain (instead of the Docker IP)
+<a name="Edit-a-Docker-Image"></a>
+### Edit a Docker Image
 
-Assuming your custom domain is `laravel.dev` and your current `Docker-IP` is `xxx.xxx.xxx.xxx`.
+1 - Find the `dockerfile` of the image you want to edit, 
+<br>
+example for `mysql` it will be `mysql/Dockerfile`.
 
-1 - Open your `/etc/hosts` file and map your `Docker IP` to the `laravel.dev` domain, by adding the following:
+2 - Edit the file the way you want.
+
+3 - Re-build the container:
 
 ```bash
-xxx.xxx.xxx.xxx    laravel.dev
+docker-compose build mysql
 ```
 
-2 - Open your Laravel's `.env` file and replace the `127.0.0.1` default values with your `{Docker-IP}`.
+*If you find any bug or you have and suggestion that can improve the performance of any image, please consider contributing. Thanks in advance.*
+
+
+
+
+
+
+
+
+
+
 <br>
-Example:
+<a name="Build-Re-build-Containers"></a>
+### Build/Re-build Containers
 
-```env
-DB_HOST=xxx.xxx.xxx.xxx
+If you do any change to any `dockerfile` make sure you run this command, for the changes to take effect:
+
+```bash
+docker-compose build
+```
+Optionally you can specify which container to rebuild (instead of rebuilding all the containers):
+
+```bash
+docker-compose build {container-name}
 ```
 
-3 - Open your browser and visit `{http://laravel.dev}`
 
 
 
-Optionally you can define the server name in the nginx config file, like this:
 
-```
-server_name laravel.dev;
-```
+
+<br>
+<a name="Add-Docker-Images"></a>
+### Add more Software's (Docker Images)
+
+To add an image (software), just edit the `docker-compose.yml` and add your container details, to do so you need to be familiar with the [docker compose file syntax](https://docs.docker.com/compose/compose-file/).
+
+
+
+
+
 
 
 
 
 <br>
 <a name="View-the-Log-files"></a>
-#### View the Log files 
-The Log files are stored in the `docker/logs` directory.
+### View the Log files 
+The Nginx Log file is stored in the `logs/nginx` directory.
+
+However to view the logs of all the other containers (MySQL, PHP-FPM,...) you can run this:
+
+```bash
+docker logs {container-name}
+```
+
+
+
+
+
+<br>
+<a name="Laravel"></a>
+### [Laravel]
+
+
+
+
+<a name="Install-Laravel"></a>
+### Install Laravel from a Docker Container
+
+1 - First you need to enter the Workspace Container.
+
+2 - Install Laravel.
+
+Example using Composer
+
+```bash
+composer create-project laravel/laravel my-cool-app "5.2.*"
+```
+
+> We recommand using `composer create-project` instead of the Laravel installer, to install Laravel.
+
+For more about the Laravel installation click [here](https://laravel.com/docs/master#installing-laravel).
+
+
+3 - Edit `docker-compose.yml` to Map the new application path:
+
+By default LaraDock assumes the Laravel application is living in the parent directory of the laradock folder. 
+
+Since the new Laravel application is in the `my-cool-app` folder, we need to replace `../:/var/www/laravel` with `../my-cool-app/:/var/www/laravel`, as follow:
+
+```yaml
+    application:
+        build: ./application
+        volumes:
+            - ../my-cool-app/:/var/www/laravel
+```
+4 - Go to that folder and start working..
+
+```bash
+cd my-cool-app
+```
+
+
+
+<br>
+<a name="Run-Artisan-Commands"></a>
+### Run Artisan Commands
+
+You can run artisan commands and many other Terminal commands from the Workspace container.
+
+1 - Make sure you have the workspace container running.
+
+```bash
+docker-compose up -d workspace // ..and all your other containers
+```
+
+2 - Find the Workspace container name:
+
+```bash
+docker-compose ps
+```
+
+3 - Enter the Workspace container:
+
+```bash
+docker exec -it {workspace-container-name} bash
+```
+
+4 - Run anything you want :)
+
+```bash
+php artisan
+```
+```bash
+Composer update
+```
+```bash
+phpunit
+```
+```bash
+laravel new blog
+```
+
+
+
 
 
 
@@ -382,7 +528,7 @@ The Log files are stored in the `docker/logs` directory.
 
 <br>
 <a name="Use-Redis"></a>
-#### Use Redis
+### Use Redis
 
 1 - First make sure you run the Redis Container with the `docker-compose` command.
 
@@ -428,52 +574,115 @@ composer require predis/predis:^1.0
 
 
 
+
+
+
+
+
 <br>
-<a name="Enter-Container"></a>
-#### Enter a Container (SSH into a running Container)
+<a name="PHP"></a>
+### [PHP]
 
-1 - first list the current running containers with `docker ps`
 
-2 - enter any container using:
+
+
+
+
+<a name="Install-PHP-Extensions"></a>
+### Install PHP Extensions
+
+Before installing PHP extensions, you have to decide whether you need for the `FPM` or `CLI` because each lives on a different container, if you need it for both you have to edit both containers.
+
+The PHP-FPM extensions should be installed in `php-fpm/Dockerfile-XX`. *(replace XX with your default PHP version number)*.
+<br>
+The PHP-CLI extensions should be installed in `workspace/Dockerfile`.
+
+
+
+
+
+
+
+
+
+<br>
+<a name="Change-the-PHP-FPM-Version"></a>
+### Change the PHP-FPM Version
+By default **PHP-FPM 7.0** is running.
+
+>The PHP-FPM is responsible of serving your application code, you don't have to change the PHP-CLI version if you are planing to run your application on different PHP-FPM version.
+
+1 - Open the `docker-compose.yml`.
+
+2 - Search for `Dockerfile-70` in the PHP container section.
+
+3 - Change the version number. 
+<br>
+Example to select version 5.6 instead of 7.0 you have to replace `Dockerfile-70` with `Dockerfile-56`.
+
+Sample: 
+
+```txt
+php-fpm:
+    build:
+        context: ./php-fpm
+        dockerfile: Dockerfile-70
+```
+
+Supported Versions:
+
+- For (PHP 7.0.*) use `Dockerfile-70`
+- For (PHP 5.6.*) use `Dockerfile-56`
+- For (PHP 5.5.*) use `Dockerfile-55`
+
+
+4 - Finally rebuild the container
 
 ```bash
-docker exec -it {container-name-or-id} bash
-```
-3 - to exit a container, type `exit`.
-
-
-<br>
-<a name="AddRemove-a-Docker-Container"></a>
-#### Add/Remove a Docker Container
-To prevent a container (software) from running, open the `docker-compose.yml` file, and comment out the container section or remove it entirely.
-
-
-
-
-<br>
-<a name="Edit-a-Docker-Image"></a>
-#### Edit a Docker Image
-
-1 - Find the `dockerfile` of the image you want to edit, 
-<br>
-example for `php` it will be `docker/php/dockerfile`.
-
-2 - Edit the file the way you want.
-
-3 - Re-build the container:
-
-```bash
-docker-compose build
+docker-compose build php
 ```
 
-*If you find any bug or you have and suggestion that can improve the performance of any image, please consider contributing. Thanks in advance.*
+For more details about the PHP base image, visit the [official PHP docker images](https://hub.docker.com/_/php/).
+
+
+
+
+
 
 
 
 
 <br>
+<a name="Change-the-PHP-CLI-Version"></a>
+### Change the PHP-CLI Version
+By default **PHP-CLI 7.0** is running.
+
+>Note: it's not very essential to edit the PHP-CLI verion. The PHP-CLI is only used for the Artisan Commands & Composer. It doesn't serve your Application code, this is the PHP-FPM job.
+
+The PHP-CLI is installed in the Workspace container. To change the PHP-CLI version you need to edit the `workspace/Dockerfile`.
+
+Right now you have to manually edit the `Dockerfile` or create a new one like it's done for the PHP-FPM. (consider contributing).
+
+
+
+
+
+
+
+
+
+
+
+<br>
+<a name="Misc"></a>
+### [Misc]
+
+
+
+
+
 <a name="Run-Docker-Virtual-Host"></a>
-#### Run a Docker Virtual Host
+### Run a Docker Virtual Host
 
 These steps are only for **Windows & MAC** users *(Linux users don't need a virtual host)*:
 
@@ -497,22 +706,77 @@ eval $(docker-machine env)
 
 
 
+
+
+
+
 <br>
 <a name="Find-Docker-IP-Address"></a>
-#### Find your Docker IP Address 
+### Find your Docker IP Address 
 
 **On Windows & MAC:** 
+
+Run this command in your terminal:
 
 ```bash
 docker-machine ip default
 ```
+If your Host name is different then `default`, you have to specify it (`docker-machine ip my-host`).
+
 *(The default IP is 192.168.99.100)*
 
-**On Linux:** 
-
-Your IP Address is `127.0.0.1`
+<br>
 
 > **boot2docker** users: run `boot2docker ip` *(when boot2docker is up)*.
+
+<br>
+**On Linux:** 
+
+Run this command in your terminal:
+
+```shell
+ifconfig docker0 | grep 'inet' | cut -d: -f2 | awk '{ print $1}' | head -n1
+```
+
+*(The default IP is 172.17.0.1)*
+
+
+
+<br>
+<a name="Use-custom-Domain"></a>
+### Use custom Domain (instead of the Docker IP)
+
+Assuming your custom domain is `laravel.dev` and your current `Docker-IP` is `xxx.xxx.xxx.xxx`.
+
+1 - Open your `/etc/hosts` file and map your `Docker IP` to the `laravel.dev` domain, by adding the following:
+
+```bash
+xxx.xxx.xxx.xxx    laravel.dev
+```
+
+2 - Open your Laravel's `.env` file and replace the `127.0.0.1` default values with your `{Docker-IP}`.
+<br>
+Example:
+
+```env
+DB_HOST=xxx.xxx.xxx.xxx
+```
+
+3 - Open your browser and visit `{http://laravel.dev}`
+
+
+
+Optionally you can define the server name in the nginx config file, like this:
+
+```conf
+server_name laravel.dev;
+```
+
+
+
+
+
+
 
 
 
@@ -520,27 +784,33 @@ Your IP Address is `127.0.0.1`
 <br>
 ## Contributing
 
-This little project was built by one man who has a full time job and many responsibilities, so if you like this project and you find that it needs a bug fix or support for new software or upgrade for the current containers, or anything else.. Do not hesitate to contribute, you are more than welcome :)
-
-All Docker Images can be found at [https://github.com/LaraDock](https://github.com/LaraDock)
+This little project was built by one man who has a full time job and many responsibilities, so if you like this project and you find that it needs a bug fix or support for new software or upgrade any container, or anything else.. Do not hesitate to contribute, you are more than welcome :)
 
 ## Support
 
-[Issues](https://github.com/laradock/laradock/issues) on Github.
+To suggest a features or report a bug, open a new [Issue](https://github.com/laradock/laradock/issues).
 
 
 
-### Questions?
-If you have any question, send me a direct message on LaraChat, my username is `mahmoud_zalt`.
+<a name="Help"></a>
+## Help & Questions
+
+If you need help with anything related to this project, shedule a live call with me on [Codementor](https://www.codementor.io/mahmoudz), I'd love to help.
+
+If you have a short question, send me a direct message on LaraChat, my username is `mahmoud_zalt`. Or send me an email on `mahmoud@zalt.me`.
 
 
 ## Credits
 
 [![Mahmoud Zalt](https://img.shields.io/badge/Author-Mahmoud%20Zalt-orange.svg)](http://www.zalt.me)
 
+Twitter: [@Mahmoud_Zalt](https://twitter.com/Mahmoud_Zalt)
+<br>
+Website: [http://zalt.me](http://zalt.me)
+<br>
+Email: `mahmoud@zalt.me`
 
 
 ## License
 
-[MIT License (MIT)](https://github.com/laradock/laradock/blob/master/LICENSE)
-[]([]())
+[MIT License](https://github.com/laradock/laradock/blob/master/LICENSE) (MIT)

@@ -2,30 +2,27 @@ version: '2'
 
 services:
 
-### Nginx Server Container ##################################
+### PHP-FPM Container #######################################
 
-    nginx:
-        build: ./nginx
+    php-fpm:
+        build:
+            context: ./php-fpm
+            dockerfile: Dockerfile-70
         volumes_from:
-            - php
-        volumes:
-            - ./logs/nginx/:/var/log/nginx
-        ports:
-            - "80:80"
-        links:
-            - php
-
-### PHP Container ###########################################
-
-    php:
-        build: ./php
-        volumes:
-            - ../:/var/www/laravel
-            - ./logs/php/:/usr/local/var/log
+            - application
         expose:
             - "9000"
+        links:
+            - workspace
 
-### DATA Container ##########################################
+### Laravel Application Code Container ######################
+
+    application:
+        build: ./application
+        volumes:
+            - ../:/var/www/laravel
+
+### Databases Data Container ################################
 
     data:
         build: ./data
@@ -35,6 +32,21 @@ services:
             - /var/lib/mariadb
             - /var/lib/redis
             - /var/lib/memcached
+            - /var/lib/neo4j/data
+
+### Nginx Server Container ##################################
+
+    nginx:
+        build: ./nginx
+        volumes_from:
+            - application
+        volumes:
+            - ./logs/nginx/:/var/log/nginx
+        ports:
+            - "80:80"
+            - "443:443"
+        links:
+            - php-fpm
 
 ### MySQL Container #########################################
 
@@ -49,8 +61,6 @@ services:
             MYSQL_USER: homestead
             MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
-        links:
-            - php
 
 ### PostgreSQL Container ####################################
 
@@ -64,8 +74,6 @@ services:
             POSTGRES_DB: homestead
             POSTGRES_USER: homestead
             POSTGRES_PASSWORD: secret
-        links:
-            - php
 
 ### MariaDB Container #######################################
 
@@ -80,8 +88,18 @@ services:
             MYSQL_USER: homestead
             MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
-        links:
-            - php
+
+### Neo4j Container #########################################
+
+    neo4j:
+        build: ./neo4j
+        ports:
+            - "7474:7474"
+            - "1337:1337"
+        environment:
+            - NEO4J_AUTH=homestead:secret
+        volumes_from:
+            - data
 
 ### Redis Container #########################################
 
@@ -92,6 +110,17 @@ services:
         ports:
             - "6379:6379"
 
+### Memcached Container #####################################
+
+    memcached:
+        build: ./memcached
+        volumes_from:
+            - data
+        ports:
+            - "11211:11211"
+        links:
+            - php-fpm
+
 ### Beanstalkd Container ####################################
 
     beanstalkd:
@@ -99,8 +128,10 @@ services:
         ports:
             - "11300:11300"
         privileged: true
+        links:
+            - php-fpm
 
-### Beanstalkd-Console Container ############################
+### Beanstalkd Console Container ############################
 
     beanstalkd-console:
         build: ./beanstalkd-console
@@ -109,13 +140,12 @@ services:
         links:
             - beanstalkd
 
-### Memcached Container #########################################
+### Workspace Utilities Container ###########################
 
-    memcached:
-        build: ./memcached
+    workspace:
+        build: ./workspace
         volumes_from:
-            - data
-        ports:
-            - "11211:11211"
+            - application
+        tty: true
 
 ### Add more Containers below ###############################
