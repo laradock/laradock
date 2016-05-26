@@ -20,7 +20,7 @@ RUN add-apt-repository -y \
     ppa:ondrej/php
 
 # Install PHP-CLI 7, some PHP extentions and some useful Tools with APT
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --force-yes \
         php7.0-cli \
         php7.0-common \
         php7.0-curl \
