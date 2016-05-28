@@ -48,6 +48,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Run a Docker Virtual Host](#Run-Docker-Virtual-Host)
 		- [Find your Docker IP Address](#Find-Docker-IP-Address)
 		- [Use custom Domain](#Use-custom-Domain)
+		- [Debugging](#debugging)
 - [Help & Questions](#Help)
 
 
@@ -242,15 +243,11 @@ DB_HOST=xxx.xxx.xxx.xxx
 5 - Open your browser and visit your `{Docker-IP}` address (`http://xxx.xxx.xxx.xxx`).
 
 
-<br>
-**Debugging**: in case you faced an error here, run this command from the Laravel root directory:
-
-```bash
-sudo chmod -R 777 storage bootstrap/cache
-```
 
 <br>
-If you have any problem, or need a special support. Feel free to contact me, more details in the [Help & Questions](#Help) secion.
+**Debugging**: if you are facing any problem here check the [Debugging](#debugging) section.
+
+If you need a special support. Contact me, more details in the [Help & Questions](#Help) section.
 
 
 <br>
@@ -773,8 +770,23 @@ server_name laravel.dev;
 ```
 
 
+<br>
+<a name="debugging"></a>
+### Debugging
 
+*Here's a list of the common problems you might face, and the possible solutions.*
 
+#### + I see a blank (white) page instead of the Laravel 'Welcome' page!
+
+run this command from the Laravel root directory:
+
+```bash
+sudo chmod -R 777 storage bootstrap/cache
+```
+
+#### + I see "Welcome to nginx" instead of the Laravel App!
+
+use `http://127.0.0.1` instead of `http://localhost` in your browser.
 
 
 
