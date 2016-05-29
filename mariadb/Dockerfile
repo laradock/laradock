@@ -1,4 +1,4 @@
-FROM mysql:latest
+FROM mariadb:latest
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
