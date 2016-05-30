@@ -19,6 +19,9 @@ RUN docker-php-ext-install \
 RUN pecl install memcached \
     && docker-php-ext-enable memcached
 
+# Install mongodb driver
+RUN pecl install mongodb
+
 RUN usermod -u 1000 www-data
 
 WORKDIR /var/www/laravel

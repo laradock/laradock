@@ -25,7 +25,6 @@ RUN curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-m
 
 # Install mongodb driver
 RUN pecl install mongodb
-RUN echo "extension=mongodb.so" > /usr/local/etc/php/conf.d/mongo.ini
 
 RUN usermod -u 1000 www-data
 
