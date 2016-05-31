@@ -793,35 +793,29 @@ use `http://127.0.0.1` instead of `http://localhost` in your browser.
 
 
 
+
+
+
 <br>
 ## Contributing
 
 This little project was built by one man who has a full time job and many responsibilities, so if you like this project and you find that it needs a bug fix or support for new software or upgrade any container, or anything else.. Do not hesitate to contribute, you are more than welcome :)
 
-## Support
-
-To suggest a features or report a bug, open a new [Issue](https://github.com/laradock/laradock/issues).
-
-
 
 <a name="Help"></a>
 ## Help & Questions
 
-If you need help with anything related to this project, shedule a live call with me on [Codementor](https://www.codementor.io/mahmoudz), I'd love to help.
+If you need any help with Docker and Laravel, you can schedule a live call with the creator of this project at [Codementor.io](https://www.codementor.io/mahmoudz), He would love to help.
 
-If you have a short question, send me a direct message on LaraChat, my username is `mahmoud_zalt`. Or send me an email on `mahmoud@zalt.me`.
+For general questions you can open [Issues](https://github.com/laradock/laradock/issues) here on Github (We will label them as questions).
+
+Additionally, you can contact Mahmoud Zalt (the creator of this project) via a direct message on LaraChat, (his username is `mahmoud_zalt`). Or send him an email (`mahmoud@zalt.me`).
 
 
 ## Credits
 
-[![Mahmoud Zalt](https://img.shields.io/badge/Author-Mahmoud%20Zalt-orange.svg)](http://www.zalt.me)
-
-Twitter: [@Mahmoud_Zalt](https://twitter.com/Mahmoud_Zalt)
-<br>
-Website: [http://zalt.me](http://zalt.me)
-<br>
-Email: `mahmoud@zalt.me`
-
+- [Mahmoud Zalt](https://github.com/Mahmoudz) (Twitter [@Mahmoud_Zalt](https://twitter.com/Mahmoud_Zalt))
+- [Awesome list of contributors](https://github.com/LaraDock/laradock/graphs/contributors)
 
 ## License
 
