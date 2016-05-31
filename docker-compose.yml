@@ -139,6 +139,13 @@ services:
             - "2080:2080"
         links:
             - beanstalkd
+            
+### Mongo Container ############################
+
+    mongo:
+        build: ./mongo
+        ports:
+            - "27017:27017"
 
 ### Workspace Utilities Container ###########################
 
