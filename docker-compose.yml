@@ -33,6 +33,7 @@ services:
             - /var/lib/redis
             - /var/lib/memcached
             - /var/lib/neo4j/data
+            - /var/lib/mongo:/data/db
 
 ### Nginx Server Container ##################################
 
@@ -101,6 +102,15 @@ services:
         volumes_from:
             - data
 
+### MongoDB Container #######################################
+
+    mongo:
+        build: ./mongo
+        ports:
+            - "27017:27017"
+        volumes_from:
+            - data
+
 ### Redis Container #########################################
 
     redis:
@@ -139,13 +149,6 @@ services:
             - "2080:2080"
         links:
             - beanstalkd
-            
-### Mongo Container ############################
-
-    mongo:
-        build: ./mongo
-        ports:
-            - "27017:27017"
 
 ### Workspace Utilities Container ###########################
 
