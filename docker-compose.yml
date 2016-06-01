@@ -30,7 +30,6 @@ services:
             - /var/lib/mysql
             - /var/lib/postgres
             - /var/lib/mariadb
-            - /var/lib/redis
             - /var/lib/memcached
             - /var/lib/neo4j/data
 
@@ -77,7 +76,7 @@ services:
 
 ### MariaDB Container #######################################
 
-    mariadb:  
+    mariadb:
         build: ./mariadb
         volumes_from:
             - data
