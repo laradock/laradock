@@ -27,12 +27,12 @@ services:
     data:
         build: ./data
         volumes:
-            - /var/lib/mysql
-            - /var/lib/postgres
-            - /var/lib/mariadb
-            - /var/lib/redis
-            - /var/lib/memcached
-            - /var/lib/neo4j/data
+            - /var/lib/mysql:/var/lib/mysql
+            - /var/lib/postgres:/var/lib/postgres
+            - /var/lib/mariadb:/var/lib/mariadb
+            - /var/lib/memcached:/var/lib/memcached
+            - /var/lib/neo4j:/var/lib/neo4j/data
+            - /var/lib/redis:/data
 
 ### Nginx Server Container ##################################
 
@@ -77,7 +77,7 @@ services:
 
 ### MariaDB Container #######################################
 
-    mariadb:  
+    mariadb:
         build: ./mariadb
         volumes_from:
             - data
