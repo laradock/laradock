@@ -2,6 +2,10 @@ FROM redis:latest
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
-CMD [ "redis-server" ]
+#COPY redis.conf /usr/local/etc/redis/redis.conf
+
+VOLUME /data
 
 EXPOSE 6379
+
+CMD ["redis-server"]
