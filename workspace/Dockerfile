@@ -52,6 +52,9 @@ RUN npm install -g \
     gulp \
     bower
 
+# Link the global gulp to be used locally
+RUN npm link gulp
+
 # Add a symbolic link for Node
 RUN ln -s /usr/bin/nodejs /usr/bin/node
 
