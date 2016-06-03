@@ -15,9 +15,13 @@ RUN docker-php-ext-install \
     pdo_mysql \
     pdo_pgsql
 
-#Install memcached
+# Install memcached
 RUN pecl install memcached \
     && docker-php-ext-enable memcached
+
+# Install xdebug
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
 
 RUN usermod -u 1000 www-data
 
