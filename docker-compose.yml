@@ -8,6 +8,7 @@ php-nginx:
     - ./settings/nginx:/etc/nginx/sites-available
     - ../:/var/www
     - ./logs/nginx:/var/log/nginx
+    - ./settings/phpmyadmin/config.inc.php:/etc/phpmyadmin/config.inc.php
   links:
     - mysql
    # - redis
@@ -17,17 +18,16 @@ php-nginx:
 
 # MySQL Container #----------------------------------------
 mysql:
-  image: laradock/mysql:0.1.0
+  image: mysql:latest
   container_name: mysql
   ports:
     - "3306:3306"
   volumes_from:
     - data
   environment:
-    MYSQL_ROOT_PASSWORD: 1234
+    MYSQL_ROOT_PASSWORD: ""
     MYSQL_DATABASE: ocoval_incidencias
-    MYSQL_USER: homestead
-    MYSQL_PASSWORD: secret
+    MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
   privileged: true
 
 # Redis Container #----------------------------------------

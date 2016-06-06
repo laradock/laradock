@@ -42,14 +42,14 @@ server {
                  }
          }
 
-#        location /ciudadanos/ {
-#                alias /home/www/dev/dev_ocoval/app_ciudadanos/www/;
-#                index index-servidor.html;
-#        }
-#        location /m/ {
-#                alias /home/www/dev/dev_ocoval/app_ciudadanos/www/;
-#                index index.html;
-#       }
+        location /ciudadanos/ {
+                alias /var/www/app_ciudadanos/www/;
+                index index-servidor.html;
+        }
+        location /m/ {
+                alias /var/www/app_ciudadanos/www/;
+                index index.html;
+       }
 
 
     location ~ \.php$ {
