@@ -40,6 +40,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Install Laravel from a Docker Container](#Install-Laravel)
 		- [Run Artisan Commands](#Run-Artisan-Commands)
 		- [Use Redis](#Use-Redis)
+		- [Use Mongo](#Use-Mongo)
 	- [PHP](#PHP)
 		- [Install PHP Extensions](#Install-PHP-Extensions)
 		- [Change the PHP-FPM Version](#Change-the-PHP-FPM-Version)
@@ -92,6 +93,7 @@ docker-compose up  nginx mysql redis
 - PostgreSQL
 - MariaDB
 - Neo4j
+- MongoDB
 - Redis
 - Memcached
 - Beanstalkd
@@ -208,7 +210,7 @@ docker-compose up -d  nginx mysql
 *Note: the PHP-FPM, Workspace, Application and Data Containers will automatically run.*
 
 
-Supported Containers: `nginx`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `memcached`, `beanstalkd`, `beanstalkd-console`, `workspace`, `data`, `php-fpm`, `application`.
+Supported Containers: `nginx`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `memcached`, `beanstalkd`, `beanstalkd-console`, `workspace`, `data`, `php-fpm`, `application`.
 
 
 
@@ -512,9 +514,6 @@ Composer update
 ```bash
 phpunit
 ```
-```bash
-laravel new blog
-```
 
 
 
@@ -527,7 +526,11 @@ laravel new blog
 <a name="Use-Redis"></a>
 ### Use Redis
 
-1 - First make sure you run the Redis Container with the `docker-compose` command.
+1 - First make sure you run the Redis Container (`redis`) with the `docker-compose up` command.
+
+```bash
+docker-compose up -d redis
+```
 
 2 - Open your Laravel's `.env` file and set the `REDIS_HOST` to your `Docker-IP` instead of the default `127.0.0.1` IP.
 
@@ -555,7 +558,7 @@ CACHE_DRIVER=redis
 SESSION_DRIVER=redis
 ```
 
-4 - Finally make sure you have the `predis/predis` package `(~1.0)` installed via Composer first.
+4 - Finally make sure you have the `predis/predis` package `(~1.0)` installed via Composer:
 
 ```bash
 composer require predis/predis:^1.0
@@ -570,6 +573,59 @@ composer require predis/predis:^1.0
 
 
 
+
+<br>
+<a name="Use-Mongo"></a>
+### Use Mongo
+
+1 - First make sure you run the MongoDB Container (`mongo`) with the `docker-compose up` command.
+
+```bash
+docker-compose up -d mongo
+```
+
+
+2 - Add the MongoDB configurations to the `config/database.php` config file:
+
+```php
+'connections' => [
+
+    'mongodb' => [
+        'driver'   => 'mongodb',
+        'host'     => env('DB_HOST', 'localhost'),
+        'port'     => env('DB_PORT', 27017),
+        'database' => env('DB_DATABASE', 'database'),
+        'username' => '',
+        'password' => '',
+        'options'  => [
+            'database' => '',
+        ]
+    ],
+
+	// ...
+
+],
+```
+
+3 - Open your Laravel's `.env` file and update the following variables:
+
+- set the `DB_HOST` to your `Docker-IP`.
+- set the `DB_PORT` to `27017`.
+- set the `DB_DATABASE` to `database`.
+
+
+4 - Finally make sure you have the `jenssegers/mongodb` package installed via Composer and its Service Provider is added.
+
+```bash
+composer require jenssegers/mongodb
+```
+More details about this [here](https://github.com/jenssegers/laravel-mongodb#installation).
+
+5 - Test it:
+
+- First let your Models extend from the Mongo Eloquent Model. Check the [documentation](https://github.com/jenssegers/laravel-mongodb#eloquent).
+- Enter the Workspace Continer `docker exec -it laradock_workspace_1 bash`.
+- Migrate the Database `php artisan migrate`.
 
 
 
