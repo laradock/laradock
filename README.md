@@ -191,15 +191,14 @@ git clone https://github.com/LaraDock/laradock.git
 
 
 1 - For **Windows & MAC** users only: If you are not using the native Docker-Engine `Beta`, make sure you have a running Docker Virtual Host on your machine. 
+[How to run a Docker Virtual Host?](#Run-Docker-Virtual-Host)
 (**Linux** users don't need a Virtual Host, so skip this step).
 
-[How to run a Docker Virtual Host?](#Run-Docker-Virtual-Host)
-
 
 <br>
-2 - Run the Containers, (you can select the containers that you wish to run)
-<br>
-*Make sure you are in the `laradock` folder before running the `docker-compose` command.*
+2 - Run some Containers: *(Make sure you are in the `laradock` folder before running the `docker-compose` commands).*
+
+
 
 **Example:** Running NGINX and MySQL:
 
@@ -207,10 +206,14 @@ git clone https://github.com/LaraDock/laradock.git
 docker-compose up -d  nginx mysql
 ```
 
-*Note: the PHP-FPM, Workspace, Application and Data Containers will automatically run.*
+You can select your own combination of container form this list:
+
+`nginx`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `memcached`, `beanstalkd`, `beanstalkd-console`, `workspace`, `data`, `php-fpm`, `application`.
 
 
-Supported Containers: `nginx`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `memcached`, `beanstalkd`, `beanstalkd-console`, `workspace`, `data`, `php-fpm`, `application`.
+**Note**: `workspace`, `data`, `php-fpm` and `application` will run automatically in most of the cases.
+
+
 
 
 
