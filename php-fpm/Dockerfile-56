@@ -25,6 +25,9 @@ RUN pecl install memcached \
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
 
+# Install mongodb driver
+RUN pecl install mongodb
+
 RUN usermod -u 1000 www-data
 
 WORKDIR /var/www/laravel

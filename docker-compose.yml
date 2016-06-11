@@ -31,8 +31,9 @@ services:
             - /var/lib/postgres:/var/lib/postgres
             - /var/lib/mariadb:/var/lib/mariadb
             - /var/lib/memcached:/var/lib/memcached
-            - /var/lib/neo4j:/var/lib/neo4j/data
             - /var/lib/redis:/data
+            - /var/lib/neo4j:/var/lib/neo4j/data
+            - /var/lib/mongo:/data/db
 
 ### Nginx Server Container ##################################
 
@@ -98,6 +99,15 @@ services:
             - "1337:1337"
         environment:
             - NEO4J_AUTH=homestead:secret
+        volumes_from:
+            - data
+
+### MongoDB Container #######################################
+
+    mongo:
+        build: ./mongo
+        ports:
+            - "27017:27017"
         volumes_from:
             - data
 
