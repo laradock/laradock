@@ -216,13 +216,8 @@ Supported Containers: `nginx`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`,
 3 - Enter the Workspace container, to execute commands like (Artisan, Composer, PHPUnit, Gulp, ...).
 
 ```bash
-docker exec -it {Workspace-Container-Name} bash
+docker-compose exec workspace bash
 ```
-Replace `{Workspace-Container-Name}` with your Workspace container name. 
-<br>
-To find the containers names type `docker-compose ps`.
-
-
 
 <br>
 4 - Edit the Laravel configurations.
@@ -313,14 +308,12 @@ docker-compose down
 <a name="Enter-Container"></a>
 ### Enter a Container (SSH into a running Container)
 
-1 - first list the current running containers with `docker ps`
-
-2 - enter any container using:
+1 - enter any container using:
 
 ```bash
-docker exec -it {container-name} bash
+docker-compose exec workspace bash
 ```
-3 - to exit a container, type `exit`.
+2 - to exit a container, type `exit`.
 
 
 
@@ -489,19 +482,13 @@ You can run artisan commands and many other Terminal commands from the Workspace
 docker-compose up -d workspace // ..and all your other containers
 ```
 
-2 - Find the Workspace container name:
+2 - Enter the Workspace container:
 
 ```bash
-docker-compose ps
+docker-compose exec workspace bash
 ```
 
-3 - Enter the Workspace container:
-
-```bash
-docker exec -it {workspace-container-name} bash
-```
-
-4 - Run anything you want :)
+3 - Run anything you want :)
 
 ```bash
 php artisan
@@ -512,11 +499,6 @@ Composer update
 ```bash
 phpunit
 ```
-```bash
-laravel new blog
-```
-
-
 
 
 
