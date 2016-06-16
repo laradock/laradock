@@ -9,13 +9,21 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     libmemcached-dev \
     curl \
+    libpng12-dev \
+    libfreetype6-dev \
     --no-install-recommends \
     && rm -r /var/lib/apt/lists/*
+
+# configure gd library
+RUN docker-php-ext-configure gd \
+    --enable-gd-native-ttf \
+    --with-freetype-dir=/usr/include/freetype2
 
 # Install extensions using the helper script provided by the base image
 RUN docker-php-ext-install \
     pdo_mysql \
-    pdo_pgsql
+    pdo_pgsql \
+    gd
 
 # Install Memcached for php 7
 RUN curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz" \
