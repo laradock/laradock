@@ -54,6 +54,12 @@ RUN apt-get update && apt-get install -y --force-yes \
 # Clean up, to free some space
 RUN apt-get clean
 
+# Add a symbolic link for Node
+RUN ln -s /usr/bin/nodejs /usr/bin/node
+
+# Update NPM
+RUN npm install -g npm
+
 # Install gulp and bower with NPM
 RUN npm install -g \
     gulp \
@@ -61,9 +67,6 @@ RUN npm install -g \
 
 # Link the global gulp to be used locally
 RUN npm link gulp
-
-# Add a symbolic link for Node
-RUN ln -s /usr/bin/nodejs /usr/bin/node
 
 # Add an alias for PHPUnit
 RUN echo "alias phpunit='./vendor/bin/phpunit'" >> ~/.bashrc
