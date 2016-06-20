@@ -56,6 +56,7 @@ RUN apt-get clean
 
 # Install gulp and bower with NPM
 RUN npm install -g \
+    npm \
     gulp \
     bower
 
