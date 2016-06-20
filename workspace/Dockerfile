@@ -51,9 +51,6 @@ RUN apt-get update && apt-get install -y --force-yes \
         nodejs-dev \
         npm
 
-# Clean up, to free some space
-RUN apt-get clean
-
 # Install gulp and bower with NPM
 RUN npm install -g \
     gulp \
