@@ -35,6 +35,7 @@ RUN apt-get update && apt-get install -y --force-yes \
         php7.0-zip \
         php7.0-memcached \
         php7.0-gd \
+        php7.0-xdebug \
         php-dev \
         libcurl4-openssl-dev \
         libedit-dev \
@@ -65,13 +66,18 @@ RUN npm link gulp
 # Add a symbolic link for Node
 RUN ln -s /usr/bin/nodejs /usr/bin/node
 
-# Add an alias for PHPUnit
-RUN echo "alias phpunit='./vendor/bin/phpunit'" >> ~/.bashrc
+# remove load xdebug extension (only load on phpunit command)
+RUN sed -i 's/^/;/g' /etc/php/7.0/cli/conf.d/20-xdebug.ini
+
+# Add bin folder of composer to PATH.
+RUN echo "export PATH=${PATH}:/var/www/codeigniter/vendor/bin" >> ~/.bashrc
 
 # Install Composer
 RUN curl -s http://getcomposer.org/installer | php \
-    && mv composer.phar /usr/local/bin/ \
-    && echo "alias composer='/usr/local/bin/composer.phar'" >> ~/.bashrc
+    && mv composer.phar /usr/local/bin/composer
+
+# Load xdebug Zend extension with phpunit command
+RUN echo "alias phpunit='php -dzend_extension=xdebug.so /var/www/laravel/vendor/bin/phpunit'" >> ~/.bashrc
 
 # Install mongodb extension
 RUN pecl install mongodb
