@@ -56,7 +56,7 @@ RUN apt-get clean
 RUN sed -i 's/^/;/g' /etc/php/7.0/cli/conf.d/20-xdebug.ini
 
 # Add bin folder of composer to PATH.
-RUN echo "export PATH=${PATH}:/var/www/codeigniter/vendor/bin" >> ~/.bashrc
+RUN echo "export PATH=${PATH}:/var/www/laravel/vendor/bin" >> ~/.bashrc
 
 # Install Composer
 RUN curl -s http://getcomposer.org/installer | php \
