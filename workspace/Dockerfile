@@ -88,3 +88,9 @@ RUN . ~/.bashrc
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 WORKDIR /var/www/laravel
+
+# Install optional software
+ARG INSTALL_PRESTISSIMO=false
+RUN if [ "$INSTALL_PRESTISSIMO" = true ] ; then \
+        composer global require "hirak/prestissimo:^0.3"; \
+    fi

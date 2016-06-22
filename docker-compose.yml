@@ -153,7 +153,10 @@ services:
 ### Workspace Utilities Container ###########################
 
     workspace:
-        build: ./workspace
+        build:
+            context: ./workspace
+            args:
+                INSTALL_PRESTISSIMO: ${INSTALL_PRESTISSIMO}
         volumes_from:
             - application
         tty: true
