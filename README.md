@@ -494,19 +494,13 @@ You can run artisan commands and many other Terminal commands from the Workspace
 docker-compose up -d workspace // ..and all your other containers
 ```
 
-2 - Find the Workspace container name:
+2 - Enter the Workspace container:
 
 ```bash
-docker-compose ps
+docker-compose run workspace /bin/bash
 ```
 
-3 - Enter the Workspace container:
-
-```bash
-docker exec -it {workspace-container-name} bash
-```
-
-4 - Run anything you want :)
+3 - Run anything you want :)
 
 ```bash
 php artisan
@@ -517,13 +511,6 @@ Composer update
 ```bash
 phpunit
 ```
-
-
-
-
-
-
-
 
 <br>
 <a name="Use-Redis"></a>
