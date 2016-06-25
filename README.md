@@ -141,7 +141,7 @@ LaraDock and [Homestead](https://laravel.com/docs/master/homestead) both gives y
 
 - LaraDock is a tool that controls Docker for you (using Docker Compose official commands). And Docker manages you Virtual Containers.
 
-Running a virtual Container is much faster than running a full virtual Machine. 
+Running a virtual Container is much faster than running a full virtual Machine.
 <br>Thus **LaraDock is much faster than Homestead**.
 
 
@@ -163,7 +163,7 @@ Running a virtual Container is much faster than running a full virtual Machine.
 <a name="Demo"></a>
 ## Demo Video
 
-What's better than a [**Demo Video**](https://www.youtube.com/watch?v=-DamFMczwDA) :) 
+What's better than a [**Demo Video**](https://www.youtube.com/watch?v=-DamFMczwDA) :)
 
 <a name="Installation"></a>
 ## Installation
@@ -190,7 +190,7 @@ git clone https://github.com/LaraDock/laradock.git
 ## Usage
 
 
-1 - For **Windows & MAC** users only: If you are not using the native Docker-Engine `Beta`, make sure you have a running Docker Virtual Host on your machine. 
+1 - For **Windows & MAC** users only: If you are not using the native Docker-Engine `Beta`, make sure you have a running Docker Virtual Host on your machine.
 [How to run a Docker Virtual Host?](#Run-Docker-Virtual-Host)
 (**Linux** users don't need a Virtual Host, so skip this step).
 
@@ -223,7 +223,7 @@ You can select your own combination of container form this list:
 ```bash
 docker exec -it {Workspace-Container-Name} bash
 ```
-Replace `{Workspace-Container-Name}` with your Workspace container name. 
+Replace `{Workspace-Container-Name}` with your Workspace container name.
 <br>
 To find the containers names type `docker-compose ps`.
 
@@ -306,7 +306,7 @@ docker-compose stop {container-name}
 docker-compose down
 ```
 
-*Note: Careful with this command as it will delete your Data Volume Container as well. (if you want to keep your Database data than you should stop each container by itself as follow):* 
+*Note: Careful with this command as it will delete your Data Volume Container as well. (if you want to keep your Database data than you should stop each container by itself as follow):*
 
 
 
@@ -338,7 +338,7 @@ docker exec -it {container-name} bash
 ### Edit default container configuration
 Open the `docker-compose.yml` and change anything you want.
 
-Examples: 
+Examples:
 
 Change MySQL Database Name:
 
@@ -365,7 +365,7 @@ Change Redis defaut port to 1111:
 <a name="Edit-a-Docker-Image"></a>
 ### Edit a Docker Image
 
-1 - Find the `dockerfile` of the image you want to edit, 
+1 - Find the `dockerfile` of the image you want to edit,
 <br>
 example for `mysql` it will be `mysql/Dockerfile`.
 
@@ -424,7 +424,7 @@ To add an image (software), just edit the `docker-compose.yml` and add your cont
 
 <br>
 <a name="View-the-Log-files"></a>
-### View the Log files 
+### View the Log files
 The Nginx Log file is stored in the `logs/nginx` directory.
 
 However to view the logs of all the other containers (MySQL, PHP-FPM,...) you can run this:
@@ -464,7 +464,7 @@ For more about the Laravel installation click [here](https://laravel.com/docs/ma
 
 3 - Edit `docker-compose.yml` to Map the new application path:
 
-By default LaraDock assumes the Laravel application is living in the parent directory of the laradock folder. 
+By default LaraDock assumes the Laravel application is living in the parent directory of the laradock folder.
 
 Since the new Laravel application is in the `my-cool-app` folder, we need to replace `../:/var/www/laravel` with `../my-cool-app/:/var/www/laravel`, as follow:
 
@@ -497,7 +497,7 @@ docker-compose up -d workspace // ..and all your other containers
 2 - Find the Workspace container name:
 
 ```bash
-docker-compose ps		
+docker-compose ps
 ```
 
 3 - Enter the Workspace container:
@@ -665,11 +665,11 @@ By default **PHP-FPM 7.0** is running.
 
 2 - Search for `Dockerfile-70` in the PHP container section.
 
-3 - Change the version number. 
+3 - Change the version number.
 <br>
 Example to select version 5.6 instead of 7.0 you have to replace `Dockerfile-70` with `Dockerfile-56`.
 
-Sample: 
+Sample:
 
 ```txt
 php-fpm:
@@ -761,9 +761,9 @@ eval $(docker-machine env)
 
 <br>
 <a name="Find-Docker-IP-Address"></a>
-### Find your Docker IP Address 
+### Find your Docker IP Address
 
-**On Windows & MAC:** 
+**On Windows & MAC:**
 
 Run this command in your terminal:
 
@@ -779,7 +779,7 @@ If your Host name is different then `default`, you have to specify it (`docker-m
 > **boot2docker** users: run `boot2docker ip` *(when boot2docker is up)*.
 
 <br>
-**On Linux:** 
+**On Linux:**
 
 Run this command in your terminal:
 
