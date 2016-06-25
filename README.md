@@ -866,8 +866,22 @@ Additionally, you can contact Mahmoud Zalt (the creator of this project) via a d
 
 ## Credits
 
-- [Mahmoud Zalt](https://github.com/Mahmoudz) (Twitter [@Mahmoud_Zalt](https://twitter.com/Mahmoud_Zalt))
-- [Awesome list of contributors](https://github.com/LaraDock/laradock/graphs/contributors)
+**Creator:**
+
+- [Mahmoud Zalt](https://github.com/Mahmoudz)  (Twitter [@Mahmoud_Zalt](https://twitter.com/Mahmoud_Zalt))
+
+**Main Contributors:**
+
+- [Bo-Yi Wu](https://github.com/appleboy)
+- [Amin Mkh](https://github.com/AminMkh)
+- [Matthew Tonkin Dunn](https://github.com/mattythebatty)
+- [Benmag](https://github.com/benmag)
+
+**Awesome People:**
+
+- [Contributors](https://github.com/LaraDock/laradock/graphs/contributors)
+- [Supporters](https://github.com/LaraDock/laradock/issues?utf8=%E2%9C%93&q=)
+
 
 ## License
 
