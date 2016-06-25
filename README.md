@@ -221,7 +221,7 @@ You can select your own combination of container form this list:
 3 - Enter the Workspace container, to execute commands like (Artisan, Composer, PHPUnit, Gulp, ...).
 
 ```bash
-docker-compose run workspace bash
+docker exec -it {Workspace-Container-Name} bash
 ```
 Replace `{Workspace-Container-Name}` with your Workspace container name. 
 <br>
@@ -323,7 +323,7 @@ docker-compose down
 2 - enter any container using:
 
 ```bash
-docker-compose run {container-name} bash
+docker exec -it {container-name} bash
 ```
 3 - to exit a container, type `exit`.
 
@@ -494,13 +494,19 @@ You can run artisan commands and many other Terminal commands from the Workspace
 docker-compose up -d workspace // ..and all your other containers
 ```
 
-2 - Enter the Workspace container:
+2 - Find the Workspace container name:
 
 ```bash
-docker-compose run workspace /bin/bash
+docker-compose ps		
 ```
 
-3 - Run anything you want :)
+3 - Enter the Workspace container:
+
+```bash
+docker exec -it {workspace-container-name} bash
+```
+
+4 - Run anything you want :)
 
 ```bash
 php artisan
@@ -614,7 +620,7 @@ More details about this [here](https://github.com/jenssegers/laravel-mongodb#ins
 5 - Test it:
 
 - First let your Models extend from the Mongo Eloquent Model. Check the [documentation](https://github.com/jenssegers/laravel-mongodb#eloquent).
-- Enter the Workspace Continer `docker-compose run workspace bash`.
+- Enter the Workspace Container `docker exec -it laradock_workspace_1 bash`.
 - Migrate the Database `php artisan migrate`.
 
 
