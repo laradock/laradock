@@ -7,7 +7,7 @@ services:
     php-fpm:
         build:
             context: ./php-fpm
-            dockerfile: Dockerfile-55
+            dockerfile: Dockerfile-70
         volumes_from:
             - application
         expose:
