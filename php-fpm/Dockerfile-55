@@ -11,8 +11,12 @@ RUN apt-get update && apt-get install -y \
     curl \
     libpng12-dev \
     libfreetype6-dev \
+    libmcrypt-dev \
     --no-install-recommends \
     && rm -r /var/lib/apt/lists/*
+
+# install mcrypt library
+RUN docker-php-ext-install mcrypt
 
 # configure gd library
 RUN docker-php-ext-configure gd \
