@@ -11,8 +11,12 @@ RUN apt-get update && apt-get install -y \
     curl \
     libpng12-dev \
     libfreetype6-dev \
+    libssl-dev \
     --no-install-recommends \
     && rm -r /var/lib/apt/lists/*
+
+# Install mongodb driver
+RUN pecl install mongodb
 
 # configure gd library
 RUN docker-php-ext-configure gd \
@@ -32,9 +36,6 @@ RUN pecl install memcached \
 # Install xdebug
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
-
-# Install mongodb driver
-RUN pecl install mongodb
 
 RUN usermod -u 1000 www-data
 
