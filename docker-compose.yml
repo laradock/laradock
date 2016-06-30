@@ -161,4 +161,15 @@ services:
             - application
         tty: true
 
+### Workspace Ruby Container ################################
+
+    ruby:
+        build:
+            context: ./ruby
+        links:
+            - postgres
+        volumes_from:
+            - data
+        tty: true
+
 ### Add more Containers below ###############################
