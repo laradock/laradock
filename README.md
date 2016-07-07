@@ -127,7 +127,7 @@ Seriously!!!
 
 Instead of providing a full Virtual Machines, like you get with Vagrant, Docker provides you **lightweight** Virtual Containers, that share the same kernel and allow to safely execute independent processes.
 
-In addition to the speed, Docker gives tens of features that cannot be achieved with Vagrant.
+In addition to the speed, Docker gives tons of features that cannot be achieved with Vagrant.
 
 Most importantly Docker can run on Development and on Production (same environment everywhere). While Vagrant is designed for Development only, (so you have to re-provision your server on Production every time).
 
