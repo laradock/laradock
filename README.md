@@ -826,9 +826,10 @@ server_name laravel.dev;
 <br>
 <a name="Optional-Features"></a>
 ### Optional Features
-#### prestissimo
-[prestissimo](https://github.com/hirak/prestissimo) is a plugin for composer which enables parallel install functionality. You can enable prestissimo by setting `INSTALL_PRESTISSIMO=true` in the `.env` file in the Laradock directory.
+Optional features can be enabled by changing the `.env` file in the Laradock directory.
 
+#### prestissimo
+[prestissimo](https://github.com/hirak/prestissimo) is a plugin for composer which enables parallel install functionality. You can enable prestissimo by setting `INSTALL_PRESTISSIMO=true` in the `.env` file.
 
 <br>
 <a name="debugging"></a>
