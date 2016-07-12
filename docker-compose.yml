@@ -9,7 +9,7 @@ services:
             context: ./php-fpm
             dockerfile: Dockerfile-70
         volumes_from:
-            - application
+            - volumes_data
         expose:
             - "9000"
         links:
@@ -17,30 +17,30 @@ services:
 
 ### Laravel Application Code Container ######################
 
-    application:
-        build: ./application
+    volumes_source:
+        build: ./volumes/application
         volumes:
             - ../:/var/www/laravel
 
 ### Databases Data Container ################################
 
-    data:
-        build: ./data
+    volumes_data:
+        build: ./volumes/data
         volumes:
-            - ./mysql:/var/lib/mysql
-            - ./postgres:/var/lib/postgres
-            - ./mariadb:/var/lib/mariadb
-            - ./memcached:/var/lib/memcached
-            - ./redis:/data
-            - ./neo4j:/var/lib/neo4j/data
-            - ./mongo:/data/db
+            - ./data/mysql:/var/lib/mysql
+            - ./data/postgres:/var/lib/postgres
+            - ./data/mariadb:/var/lib/mariadb
+            - ./data/memcached:/var/lib/memcached
+            - ./data/redis:/data
+            - ./data/neo4j:/var/lib/neo4j/data
+            - ./data/mongo:/data/db
 
 ### Nginx Server Container ##################################
 
     nginx:
         build: ./nginx
         volumes_from:
-            - application
+            - volumes_source
         volumes:
             - ./logs/nginx/:/var/log/nginx
         ports:
@@ -54,7 +54,7 @@ services:
     mysql:
         build: ./mysql
         volumes_from:
-            - data
+            - volumes_data
         ports:
             - "3306:3306"
         environment:
@@ -68,7 +68,7 @@ services:
     postgres:
         build: ./postgres
         volumes_from:
-            - data
+            - volumes_data
         ports:
             - "5432:5432"
         environment:
@@ -81,7 +81,7 @@ services:
     mariadb:
         build: ./mariadb
         volumes_from:
-            - data
+            - volumes_data
         ports:
             - "3306:3306"
         environment:
@@ -100,7 +100,7 @@ services:
         environment:
             - NEO4J_AUTH=homestead:secret
         volumes_from:
-            - data
+            - volumes_data
 
 ### MongoDB Container #######################################
 
@@ -109,14 +109,14 @@ services:
         ports:
             - "27017:27017"
         volumes_from:
-            - data
+            - volumes_data
 
 ### Redis Container #########################################
 
     redis:
         build: ./redis
         volumes_from:
-            - data
+            - volumes_data
         ports:
             - "6379:6379"
 
@@ -125,7 +125,7 @@ services:
     memcached:
         build: ./memcached
         volumes_from:
-            - data
+            - volumes_data
         ports:
             - "11211:11211"
         links:
@@ -158,7 +158,7 @@ services:
             args:
                 - INSTALL_PRESTISSIMO=${INSTALL_PRESTISSIMO}
         volumes_from:
-            - application
+            - volumes_data
         tty: true
 
 ### Add more Containers below ###############################
