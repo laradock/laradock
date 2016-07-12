@@ -49,6 +49,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Run a Docker Virtual Host](#Run-Docker-Virtual-Host)
 		- [Find your Docker IP Address](#Find-Docker-IP-Address)
 		- [Use custom Domain](#Use-custom-Domain)
+		- [Optional Features](#Optional-Features)
 		- [Debugging](#debugging)
 - [Help & Questions](#Help)
 
@@ -820,6 +821,13 @@ Optionally you can define the server name in the nginx config file, like this:
 ```conf
 server_name laravel.dev;
 ```
+
+
+<br>
+<a name="Optional-Features"></a>
+### Optional Features
+#### prestissimo
+[prestissimo](https://github.com/hirak/prestissimo) is a plugin for composer which enables parallel install functionality. You can enable prestissimo by setting `INSTALL_PRESTISSIMO=true` in the `.env` file in the Laradock directory.
 
 
 <br>
