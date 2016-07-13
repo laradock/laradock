@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     libmemcached-dev \
     curl \
+    libjpeg-dev \
     libpng12-dev \
     libfreetype6-dev \
     libssl-dev \
@@ -25,6 +26,7 @@ RUN pecl install mongodb
 # configure gd library
 RUN docker-php-ext-configure gd \
     --enable-gd-native-ttf \
+    --with-jpeg-dir=/usr/lib \
     --with-freetype-dir=/usr/include/freetype2
 
 # Install extensions using the helper script provided by the base image
