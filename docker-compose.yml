@@ -158,7 +158,7 @@ services:
             args:
                 - INSTALL_PRESTISSIMO=${INSTALL_PRESTISSIMO}
         volumes_from:
-            - volumes_data
+            - volumes_source
         tty: true
 
 ### Add more Containers below ###############################
