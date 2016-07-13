@@ -49,6 +49,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Run a Docker Virtual Host](#Run-Docker-Virtual-Host)
 		- [Find your Docker IP Address](#Find-Docker-IP-Address)
 		- [Use custom Domain](#Use-custom-Domain)
+		- [Optional Features](#Optional-Features)
 		- [Debugging](#debugging)
 - [Help & Questions](#Help)
 
@@ -823,29 +824,34 @@ server_name laravel.dev;
 
 
 <br>
+<a name="Optional-Features"></a>
+### Optional Features
+Optional features can be enabled by changing the `.env` file in the Laradock directory.
+
+#### Prestissimo
+[Prestissimo](https://github.com/hirak/prestissimo) is a plugin for composer which enables parallel install functionality. You can enable Prestissimo by setting `INSTALL_PRESTISSIMO=true` in the `.env` file.
+
+<br>
 <a name="debugging"></a>
 ### Debugging
 
 *Here's a list of the common problems you might face, and the possible solutions.*
 
-#### + I see a blank (white) page instead of the Laravel 'Welcome' page!
+#### I see a blank (white) page instead of the Laravel 'Welcome' page!
 
-run this command from the Laravel root directory:
+Run the following command from the Laravel root directory:
 
 ```bash
 sudo chmod -R 777 storage bootstrap/cache
 ```
 
-#### + I see "Welcome to nginx" instead of the Laravel App!
+#### I see "Welcome to nginx" instead of the Laravel App!
 
-use `http://127.0.0.1` instead of `http://localhost` in your browser.
+Use `http://127.0.0.1` (or [your Docker IP](#Find-Docker-IP-Address)) instead of `http://localhost` in your browser.
 
+#### I see an error message containing `address already in use`
 
-
-
-
-
-
+Make sure the ports for the services that you are trying to run (80, 3306, etc.) are not being used already by other programs, such as a built in `apache`/`httpd` service or other development tools you have installed.
 
 
 <br>
