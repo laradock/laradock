@@ -2,19 +2,6 @@ version: '2'
 
 services:
 
-### PHP-FPM Container #######################################
-
-    php-fpm:
-        build:
-            context: ./php-fpm
-            dockerfile: Dockerfile-70
-        volumes_from:
-            - volumes_data
-        expose:
-            - "9000"
-        links:
-            - workspace
-
 ### Laravel Application Code Container ######################
 
     volumes_source:
@@ -48,6 +35,19 @@ services:
             - "443:443"
         links:
             - php-fpm
+
+### PHP-FPM Container #######################################
+
+    php-fpm:
+        build:
+            context: ./php-fpm
+            dockerfile: Dockerfile-70
+        volumes_from:
+            - volumes_source
+        expose:
+            - "9000"
+        links:
+            - workspace
 
 ### MySQL Container #########################################
 
