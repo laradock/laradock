@@ -49,7 +49,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Run a Docker Virtual Host](#Run-Docker-Virtual-Host)
 		- [Find your Docker IP Address](#Find-Docker-IP-Address)
 		- [Use custom Domain](#Use-custom-Domain)
-		- [Optional Features](#Optional-Features)
+		- [Install-Prestissimo](#Install-Prestissimo)
 		- [Debugging](#debugging)
 - [Help & Questions](#Help)
 
@@ -260,6 +260,7 @@ If you need a special support. Contact me, more details in the [Help & Questions
 <a name="Documentation"></a>
 ## Documentation
 
+**Note:** this documentation doesn't cover the Docker Beta *(Native Docker on MAC and Windows)*. However, the commands are very similar. We are planning to cover the Docker Beta soon.
 
 
 <a name="Docker"></a>
@@ -824,12 +825,10 @@ server_name laravel.dev;
 
 
 <br>
-<a name="Optional-Features"></a>
-### Optional Features
-Optional features can be enabled by changing the `.env` file in the Laradock directory.
+<a name="Install-Prestissimo"></a>
+### Install Prestissimo
 
-#### Prestissimo
-[Prestissimo](https://github.com/hirak/prestissimo) is a plugin for composer which enables parallel install functionality. You can enable Prestissimo by setting `INSTALL_PRESTISSIMO=true` in the `.env` file.
+[Prestissimo](https://github.com/hirak/prestissimo) is a plugin for composer which enables parallel install functionality. You can enable Prestissimo by setting `INSTALL_PRESTISSIMO=true` in the `docker-compose.yml` file.
 
 <br>
 <a name="debugging"></a>
@@ -878,6 +877,7 @@ Additionally, you can contact Mahmoud Zalt (the creator of this project) via a d
 
 **Main Contributors:**
 
+- [Jack Fletcher](https://github.com/Kauhat)
 - [Bo-Yi Wu](https://github.com/appleboy)
 - [Amin Mkh](https://github.com/AminMkh)
 - [Matthew Tonkin Dunn](https://github.com/mattythebatty)
