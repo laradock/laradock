@@ -7,6 +7,7 @@ LaraDock helps you run your **Laravel** App on **Docker** real quick.
 <br>
 It's like Laravel Homestead but for Docker instead of Vagrant.
 
+>With LaraDock, use Docker first and learn about it later.
 
 ![](http://s18.postimg.org/fhykchl09/new_laradock_cover.png)
 
@@ -49,7 +50,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Run a Docker Virtual Host](#Run-Docker-Virtual-Host)
 		- [Find your Docker IP Address](#Find-Docker-IP-Address)
 		- [Use custom Domain](#Use-custom-Domain)
-		- [Install-Prestissimo](#Install-Prestissimo)
+		- [Install Prestissimo](#Install-Prestissimo)
 		- [Debugging](#debugging)
 - [Help & Questions](#Help)
 
@@ -99,7 +100,7 @@ docker-compose up  nginx mysql redis
 - Memcached
 - Beanstalkd
 - Beanstalkd Console
-- Workspace (contains: Composer, PHP7-CLI, Laravel Installer, Git, Node, Gulp, Bower, SQLite,  Vim, Nano and cURL)
+- Workspace (contains: Composer, PHP7-CLI, Laravel Installer, Git, Node, Gulp, Bower, SQLite,  Vim, Nano, cURL and much more)
 - Data *(Databases Data Container)*
 - Application *(Application Code Container)*
 
@@ -113,7 +114,7 @@ docker-compose up  nginx mysql redis
 <a name="what-is-docker"></a>
 ### What is Docker?
 
-[Docker](https://www.docker.com)  is an open-source project that automates the deployment of applications inside software containers, by providing an additional layer of abstraction and automation of [operating-system-level virtualization](https://en.wikipedia.org/wiki/Operating-system-level_virtualization) on Linux, Mac OS and Windows.
+[Docker](https://www.docker.com) is an open-source project that automates the deployment of applications inside software containers, by providing an additional layer of abstraction and automation of [operating-system-level virtualization](https://en.wikipedia.org/wiki/Operating-system-level_virtualization) on Linux, Mac OS and Windows.
 
 <a name="what-is-laravel"></a>
 ### What is Laravel?
@@ -140,26 +141,21 @@ LaraDock and [Homestead](https://laravel.com/docs/master/homestead) both gives y
 
 - Homestead is a tool that controls Vagrant for you (using Homestead special commands). And Vagrant manages your Virtual Machine.
 
-- LaraDock is a tool that controls Docker for you (using Docker Compose official commands). And Docker manages you Virtual Containers.
+- LaraDock is a tool that controls Docker for you (using Docker & Docker Compose official commands). And Docker manages your Virtual Containers.
 
-Running a virtual Container is much faster than running a full virtual Machine.
-<br>Thus **LaraDock is much faster than Homestead**.
+Running a virtual Container is much faster than running a full virtual Machine. Thus **LaraDock is much faster than Homestead**.
 
 
 
 <a name="Requirements"></a>
 ## Requirements
 
-| Linux                                                                                   | Windows & MAC                                           |
-|-----------------------------------------------------------------------------------------|---------------------------------------------------------|
-|                 [Laravel](https://laravel.com/docs/master/installation)                 | [Laravel](https://laravel.com/docs/master/installation) |
-|                           [Git](https://git-scm.com/downloads)                          |           [Git](https://git-scm.com/downloads)          |
-| [Docker Engine](https://docs.docker.com/engine/installation/linux/ubuntulinux) |     [Docker Toolbox](https://www.docker.com/toolbox)    |
-|                [Docker Compose](https://docs.docker.com/compose/install)                |                                                         |
-
-
-
-
+| Linux                                                                          | Windows & MAC                                                                                 |
+|--------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
+| [Laravel](https://laravel.com/docs/master/installation)                        | [Laravel](https://laravel.com/docs/master/installation)                                       |
+| [Git](https://git-scm.com/downloads)                                           | [Git](https://git-scm.com/downloads)                                                          |
+| [Docker Engine](https://docs.docker.com/engine/installation/linux/ubuntulinux) | [Docker Toolbox](https://www.docker.com/toolbox) OR [Native Docker](https://beta.docker.com/) |
+| [Docker Compose](https://docs.docker.com/compose/install)                      |                                                                                               |
 
 <a name="Demo"></a>
 ## Demo Video
