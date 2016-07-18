@@ -30,6 +30,16 @@ RUN apk add --no-cache \
     php7-xmlreader@testing \
     php7-zlib@testing
 
+# Install PHP
+RUN apk add --no-cache php7@testing php7-phar@testing
+RUN ln -s /usr/bin/php7 /usr/bin/php
+
+# Install Node.js and NPM
+RUN apk add --no-cache nodejs
+
+# Install shell and utilities
+RUN apk add --no-cache bash curl wget
+
 # Set shell variables
 ENV LANGUAGE=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
@@ -37,19 +47,9 @@ ENV LC_CTYPE=UTF-8
 ENV LANG=en_US.UTF-8
 ENV TERM xterm
 
-# Install shell(s)
-RUN apk add --no-cache bash
-
-# Install PHP
-RUN apk add --no-cache \
-    php7@testing \
-    composer@testing
-
-# Install nodejs
-RUN apk add --no-cache nodejs
-
-WORKDIR /var/www/laravel
-CMD ["bash"]
+# Install Composer
+RUN curl -s http://getcomposer.org/installer | php \
+    && mv composer.phar /usr/local/bin/composer
 
 # Install optional software
 ARG COMPOSER_INSTALL="" 
@@ -58,3 +58,5 @@ ARG COMPOSER_INSTALL=""
 #        composer global require ${COMPOSER_INSTALL}; \
 #    fi
 
+WORKDIR /var/www/laravel
+CMD ["bash"]
