@@ -48,13 +48,13 @@ RUN apk add --no-cache \
 # Install nodejs
 RUN apk add --no-cache nodejs
 
+WORKDIR /var/www/laravel
+CMD ["bash"]
+
 # Install optional software
 ARG COMPOSER_INSTALL="" 
 
-RUN if ! [[ -z ${COMPOSER_INSTALL} ]]; then set -x & \
-        composer global require ${COMPOSER_INSTALL}; \
-    fi
+#RUN if ! [[ -z $COMPOSER_INSTALL ]]; then set -x & \
+#        composer global require ${COMPOSER_INSTALL}; \
+#    fi
 
-WORKDIR /var/www/laravel
-
-CMD ["bash"]
