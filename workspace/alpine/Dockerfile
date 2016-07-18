@@ -55,4 +55,6 @@ RUN if ! [[ -z ${COMPOSER_INSTALL} ]]; then set -x & \
         composer global require ${COMPOSER_INSTALL}; \
     fi
 
+WORKDIR /var/www/laravel
+
 CMD ["bash"]
