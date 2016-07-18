@@ -1,0 +1,41 @@
+FROM alpine:latest
+
+RUN set -x \
+    && addgroup -g 1000 -S www-data \
+    && adduser -u 1000 -D -S -G www-data www-data
+
+# Add testing repository
+RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+RUN apk upgrade
+
+# Install PHP & extensions
+RUN apk add --no-cache \
+    php5-fpm@testing \
+    php5-ctype@testing \
+    php5-curl@testing \
+    php5-dom@testing \
+    php5-gd@testing \
+    php5-iconv@testing \
+    php5-json@testing \
+    php5-mcrypt@testing \
+    php5-memcached@testing \
+    php5-mysqli@testing \
+    php5-openssl@testing \
+    php5-pdo_mysql@testing \
+    php5-pdo_pgsql@testing \
+    php5-pdo_sqlite@testing \
+    php5-phar@testing \
+    php5-posix@testing \
+    php5-sqlite3@testing \
+    php5-xdebug@testing \
+    php5-xml@testing \
+    php5-xmlreader@testing \
+    php5-zlib@testing
+
+# Copy config files
+ADD ./laravel.pool.conf /etc/php5/php-fpm.conf
+ADD ./laravel.ini /etc/php5/php.ini
+
+WORKDIR /var/www/laravel
+EXPOSE 9000
+CMD ["php-fpm"]

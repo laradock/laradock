@@ -21,13 +21,11 @@ services:
     php-fpm:
         build:
             context: ./php-fpm
-            dockerfile: Dockerfile-70
+            dockerfile: ./alpine/Dockerfile-70
         volumes_from:
             - volumes_source
         expose:
             - "9000"
-        links:
-            - workspace
 
 ### MySQL Container #########################################
 
@@ -134,9 +132,10 @@ services:
 
     workspace:
         build:
+            dockerfile: ./alpine/Dockerfile
             context: ./workspace
             args:
-                - INSTALL_PRESTISSIMO=false
+                - COMPOSER_INSTALL="hirak/prestissimo"
         volumes_from:
             - volumes_source
         tty: true
@@ -153,12 +152,12 @@ services:
     volumes_data:
         build: ./volumes/data
         volumes:
-            - /var/lib/mysql:/var/lib/mysql
-            - /var/lib/postgres:/var/lib/postgres
-            - /var/lib/mariadb:/var/lib/mariadb
-            - /var/lib/memcached:/var/lib/memcached
-            - /var/lib/redis:/data
-            - /var/lib/neo4j:/var/lib/neo4j/data
-            - /var/lib/mongo:/data/db
+            - ./data/mysql:/var/lib/mysql
+            - ./data/postgres:/var/lib/postgres
+            - ./data/mariadb:/var/lib/mariadb
+            - ./data/memcached:/var/lib/memcached
+            - ./data/redis:/data
+            - ./data/neo4j:/var/lib/neo4j/data
+            - ./data/mongo:/data/db
 
 ### Add more Containers below ###############################
