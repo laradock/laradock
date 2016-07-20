@@ -3,7 +3,9 @@ MAINTAINER Eric Pfeiffer <computerfr33k@users.noreply.github.com>
 
 LABEL caddy_version="0.9.0" architecture="amd64"
 
-RUN apk add --update openssh-client tar curl
+RUN apk update \
+ && apk upgrade \
+ && apk add tar curl
 
 RUN curl --silent --show-error --fail --location \
       --header "Accept: application/tar+gzip, application/x-gzip, application/octet-stream" -o - \

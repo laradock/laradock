@@ -167,7 +167,7 @@ services:
     caddy:
         build: ./caddy
         volumes_from:
-            - application
+            - volumes_source
         ports:
             - "80:80"
             - "443:443"
