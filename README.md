@@ -100,6 +100,7 @@ docker-compose up  nginx mysql redis
 - Memcached
 - Beanstalkd
 - Beanstalkd Console
+- Caddy
 - Workspace (contains: Composer, PHP7-CLI, Laravel Installer, Git, Node, Gulp, Bower, SQLite,  Vim, Nano, cURL and much more)
 - Data *(Databases Data Container)*
 - Application *(Application Code Container)*
@@ -205,7 +206,7 @@ docker-compose up -d  nginx mysql
 
 You can select your own combination of container form this list:
 
-`nginx`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `memcached`, `beanstalkd`, `beanstalkd-console`, `workspace`, `data`, `php-fpm`, `application`.
+`nginx`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `memcached`, `beanstalkd`, `beanstalkd-console`, `caddy`, `workspace`, `data`, `php-fpm`, `application`.
 
 
 **Note**: `workspace`, `data`, `php-fpm` and `application` will run automatically in most of the cases.
