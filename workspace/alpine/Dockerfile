@@ -1,5 +1,12 @@
 FROM alpine:latest
 
+RUN set -x \
+    && addgroup -g 1000 -S www-data \
+    && adduser -u 1000 -D -S -G www-data www-data
+
+# Install essentials
+RUN apk add --no-cache curl ca-certificates
+
 # Add testing repository
 RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 RUN apk upgrade
@@ -16,16 +23,15 @@ RUN apk add --no-cache \
     php7-mcrypt@testing \
     php7-memcached@testing \
     php7-mongodb@testing \
-    php7-mysqlnd@testing \
+    #php7-mysqlnd@testing \
     php7-openssl@testing \
+    php7-opcache@testing \
     php7-pdo_mysql@testing \
     php7-pdo_pgsql@testing \
     php7-pdo_sqlite@testing \
     php7-posix@testing \
-    php7-readline@testing \
     php7-session@testing \
     php7-sqlite3@testing \
-    php7-xdebug@testing \
     php7-xml@testing \
     php7-xmlreader@testing \
     php7-zlib@testing
@@ -34,11 +40,16 @@ RUN apk add --no-cache \
 RUN apk add --no-cache php7@testing php7-phar@testing
 RUN ln -s /usr/bin/php7 /usr/bin/php
 
-# Install Node.js and NPM
-RUN apk add --no-cache nodejs
+# Install Composer
+RUN curl -s http://getcomposer.org/installer | /usr/bin/php7 \
+    && mv composer.phar /usr/local/bin/composer
 
-# Install shell and utilities
-RUN apk add --no-cache bash curl wget
+# Install Node.js and Gulp
+RUN apk add --no-cache nodejs
+RUN npm install --global gulp-cli
+
+# Install shell & tools
+RUN apk add --no-cache bash
 
 # Set shell variables
 ENV LANGUAGE=en_US.UTF-8
@@ -46,10 +57,6 @@ ENV LC_ALL=en_US.UTF-8
 ENV LC_CTYPE=UTF-8
 ENV LANG=en_US.UTF-8
 ENV TERM xterm
-
-# Install Composer
-RUN curl -s http://getcomposer.org/installer | php \
-    && mv composer.phar /usr/local/bin/composer
 
 # Install optional software
 ARG COMPOSER_INSTALL="" 

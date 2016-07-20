@@ -1,5 +1,12 @@
 FROM alpine:latest
 
+RUN set -x \
+    && addgroup -g 1000 -S www-data \
+    && adduser -u 1000 -D -S -G www-data www-data
+
+# Install essentials
+RUN apk add --no-cache curl ca-certificates
+
 # Add testing repository
 RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 RUN apk upgrade
@@ -16,31 +23,26 @@ RUN apk add --no-cache \
     php7-mcrypt@testing \
     php7-memcached@testing \
     php7-mongodb@testing \
-    php7-mysqlnd@testing \
+    #php7-mysqlnd@testing \
     php7-openssl@testing \
+    php7-opcache@testing \
     php7-pdo_mysql@testing \
     php7-pdo_pgsql@testing \
     php7-pdo_sqlite@testing \
     php7-posix@testing \
-    php7-readline@testing \
     php7-session@testing \
     php7-sqlite3@testing \
-    php7-xdebug@testing \
     php7-xml@testing \
     php7-xmlreader@testing \
     php7-zlib@testing
 
 # Install PHP FPM
-RUN apk add --no-cache php7-fpm@testing
-
-RUN set -x \
-    && addgroup -g 1000 -S www-data \
-    && adduser -u 1000 -D -S -G www-data www-data
+RUN apk add --no-cache php7-fpm@testing php7-xdebug@testing
 
 # Copy config files
 ADD ./laravel.pool.conf /etc/php7/php-fpm.d/www.conf
 ADD ./laravel.ini /etc/php7/php.ini
 
 WORKDIR /var/www/laravel
-EXPOSE 9000
 CMD ["php-fpm7"]
+EXPOSE 9000
