@@ -1,6 +1,9 @@
 # Docs: https://caddyserver.com/docs/caddyfile
 0.0.0.0:80
 fastcgi / php-fpm:9000 php
+rewrite {
+    to /index.php?{query}
+}
 browse
 log stdout
 errors stdout
