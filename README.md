@@ -874,10 +874,13 @@ Additionally, you can contact Mahmoud Zalt (the creator of this project) via a d
 
 **Main Contributors:**
 
-- [Jack Fletcher](https://github.com/Kauhat)
-- [Bo-Yi Wu](https://github.com/appleboy)
-- [Amin Mkh](https://github.com/AminMkh)
-- [Matthew Tonkin Dunn](https://github.com/mattythebatty)
+- [Eric Pfeiffer (computerfr33k)](https://github.com/computerfr33k)
+- [Orette](https://github.com/orette)
+- [Jack Fletcher (Kauhat)](https://github.com/Kauhat)
+- [Bo-Yi Wu (appleboy)](https://github.com/appleboy)
+- [Amin Mkh (AminMkh)](https://github.com/AminMkh)
+- [Matthew Tonkin Dunn (mattythebatty)](https://github.com/mattythebatty)
+- [Zhivitsa Kirill (zhikiri)](https://github.com/zhikiri)
 - [Benmag](https://github.com/benmag)
 
 **Awesome People:**
