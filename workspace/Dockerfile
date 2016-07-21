@@ -48,7 +48,7 @@ RUN apt-get update && apt-get install -y --force-yes \
         curl \
         vim \
         nano \
-	pkg-config
+        pkg-config
 
 # Clean up, to free some space
 RUN apt-get clean
