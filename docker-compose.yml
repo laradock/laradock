@@ -16,6 +16,22 @@ services:
         links:
             - php-fpm
 
+### Caddy Server Container ##################################
+# Edit the Caddyfile if needed (./caddy/Caddyfile)
+
+    caddy:
+        build: ./caddy
+        volumes_from:
+            - volumes_source
+        ports:
+            - "80:80"
+            - "443:443"
+            - "2015:2015"
+        volumes:
+            - ./caddy/Caddyfile:/etc/Caddyfile
+        links:
+            - php-fpm
+
 ### PHP-FPM Container #######################################
 
     php-fpm:
@@ -26,8 +42,6 @@ services:
             - volumes_source
         expose:
             - "9000"
-        links:
-            - workspace
 
 ### MySQL Container #########################################
 
@@ -134,9 +148,8 @@ services:
 
     workspace:
         build:
+            dockerfile: Dockerfile
             context: ./workspace
-            args:
-                - INSTALL_PRESTISSIMO=false
         volumes_from:
             - volumes_source
         tty: true
@@ -146,7 +159,7 @@ services:
     volumes_source:
         build: ./volumes/application
         volumes:
-            - ../:/var/www/laravel
+            - ../:/var/www/laravel:z
 
 ### Databases Data Container ################################
 
@@ -160,21 +173,5 @@ services:
             - /var/lib/redis:/data
             - /var/lib/neo4j:/var/lib/neo4j/data
             - /var/lib/mongo:/data/db
-            
-### Caddy Server Container ##################################
-# Edit the Caddyfile if needed (./caddy/Caddyfile)
-
-    caddy:
-        build: ./caddy
-        volumes_from:
-            - volumes_source
-        ports:
-            - "80:80"
-            - "443:443"
-            - "2015:2015"
-        volumes:
-            - ./caddy/Caddyfile:/etc/Caddyfile
-        links:
-            - php-fpm
 
 ### Add more Containers below ###############################

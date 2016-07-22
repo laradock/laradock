@@ -661,11 +661,9 @@ By default **PHP-FPM 7.0** is running.
 >The PHP-FPM is responsible of serving your application code, you don't have to change the PHP-CLI version if you are planing to run your application on different PHP-FPM version.
 
 1 - Open the `docker-compose.yml`.
-
 2 - Search for `Dockerfile-70` in the PHP container section.
-
 3 - Change the version number.
-<br>
+
 Example to select version 5.6 instead of 7.0 you have to replace `Dockerfile-70` with `Dockerfile-56`.
 
 Sample:
@@ -677,11 +675,17 @@ php-fpm:
         dockerfile: Dockerfile-70
 ```
 
+Alternate Alpine Versions:
+
+If you are running into issues getting the standard versions of PHP-FPM up and running, you may have success using the alternate Alpine Linux versions. These versions install PHP and it's extensions via the system package manager as, so extensions are not compiled when the container is built. The initial build time for these containers may also be faster due to this difference.
+
 Supported Versions:
 
 - For (PHP 7.0.*) use `Dockerfile-70`
 - For (PHP 5.6.*) use `Dockerfile-56`
 - For (PHP 5.5.*) use `Dockerfile-55`
+- For Alpine (PHP 7.0.*) use `./alpine/Dockerfile-70`
+- For Alpine (PHP 5.6.*) use `./alpine/Dockerfile-56`
 
 
 4 - Finally rebuild the container
