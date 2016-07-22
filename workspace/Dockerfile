@@ -62,6 +62,9 @@ RUN echo "export PATH=${PATH}:/var/www/laravel/vendor/bin" >> ~/.bashrc
 RUN curl -s http://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer
 
+ADD ./composer.json /root/.composer/composer.json
+RUN composer global install
+
 # Load xdebug Zend extension with phpunit command
 RUN echo "alias phpunit='php -dzend_extension=xdebug.so /var/www/laravel/vendor/bin/phpunit'" >> ~/.bashrc
 
@@ -88,9 +91,3 @@ RUN . ~/.bashrc
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 WORKDIR /var/www/laravel
-
-# Install optional software
-ARG INSTALL_PRESTISSIMO=false
-RUN if [ "$INSTALL_PRESTISSIMO" = true ] ; then \
-        composer global require "hirak/prestissimo:^0.3"; \
-    fi

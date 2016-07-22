@@ -4,13 +4,15 @@ RUN set -x \
     && addgroup -g 1000 -S www-data \
     && adduser -u 1000 -D -S -G www-data www-data
 
+# Install essentials
+RUN apk add --no-cache curl ca-certificates
+
 # Add testing repository
 RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 RUN apk upgrade
 
-# Install PHP & extensions
+# Install common PHP extensions
 RUN apk add --no-cache \
-    php5-fpm@testing \
     php5-ctype@testing \
     php5-curl@testing \
     php5-dom@testing \
@@ -27,15 +29,17 @@ RUN apk add --no-cache \
     php5-phar@testing \
     php5-posix@testing \
     php5-sqlite3@testing \
-    php5-xdebug@testing \
     php5-xml@testing \
     php5-xmlreader@testing \
     php5-zlib@testing
+
+# Install PHP FPM
+RUN apk add --no-cache php5-fpm@testing php5-xdebug@testing
 
 # Copy config files
 ADD ./laravel.pool.conf /etc/php5/php-fpm.conf
 ADD ./laravel.ini /etc/php5/php.ini
 
 WORKDIR /var/www/laravel
+CMD ["php-fpm7"]
 EXPOSE 9000
-CMD ["php-fpm"]

@@ -23,7 +23,6 @@ RUN apk add --no-cache \
     php7-mcrypt@testing \
     php7-memcached@testing \
     php7-mongodb@testing \
-    #php7-mysqlnd@testing \
     php7-openssl@testing \
     php7-opcache@testing \
     php7-pdo_mysql@testing \
@@ -36,34 +35,37 @@ RUN apk add --no-cache \
     php7-xmlreader@testing \
     php7-zlib@testing
 
-# Install PHP
-RUN apk add --no-cache php7@testing php7-phar@testing
-RUN ln -s /usr/bin/php7 /usr/bin/php
-
-# Install Composer
-RUN curl -s http://getcomposer.org/installer | /usr/bin/php7 \
-    && mv composer.phar /usr/local/bin/composer
-
-# Install Node.js and Gulp
-RUN apk add --no-cache nodejs
-RUN npm install --global gulp-cli
-
 # Install shell & tools
-RUN apk add --no-cache bash
+RUN apk add --no-cache bash git curl vim nano
 
 # Set shell variables
 ENV LANGUAGE=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 ENV LC_CTYPE=UTF-8
 ENV LANG=en_US.UTF-8
-ENV TERM xterm
+ENV TERM xterm-256color
+
+# Install PHP
+RUN apk add --no-cache php7@testing php7-phar@testing
+RUN ln -s /usr/bin/php7 /usr/bin/php
+
+# Install Composer
+RUN curl -s http://getcomposer.org/installer | php \
+    && mv composer.phar /usr/local/bin/composer
+
+ADD ./composer.json /root/.composer/composer.json
+RUN composer global install
+
+# Install Node.js, Gulp & Bower
+RUN apk add --no-cache nodejs
+RUN npm install --global gulp-cli bower
 
 # Install optional software
-ARG COMPOSER_INSTALL="" 
+ARG COMPOSER_INSTALL=""
 
-#RUN if ! [[ -z $COMPOSER_INSTALL ]]; then set -x & \
-#        composer global require ${COMPOSER_INSTALL}; \
-#    fi
+RUN if ! [[ -z $COMPOSER_INSTALL ]]; then set -x & \
+        composer global require ${COMPOSER_INSTALL}; \
+    fi
 
 WORKDIR /var/www/laravel
 CMD ["bash"]

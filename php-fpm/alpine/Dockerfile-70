@@ -23,7 +23,6 @@ RUN apk add --no-cache \
     php7-mcrypt@testing \
     php7-memcached@testing \
     php7-mongodb@testing \
-    #php7-mysqlnd@testing \
     php7-openssl@testing \
     php7-opcache@testing \
     php7-pdo_mysql@testing \
