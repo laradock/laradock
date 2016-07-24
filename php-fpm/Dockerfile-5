@@ -1,3 +1,9 @@
+#
+#--------------------------------------------------------------------------
+# Image Setup
+#--------------------------------------------------------------------------
+#
+
 FROM php:5.6-fpm
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
@@ -5,43 +11,58 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 ADD ./laravel.ini /usr/local/etc/php/conf.d
 ADD ./laravel.pool.conf /usr/local/etc/php-fpm.d/
 
-RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    libmemcached-dev \
+RUN apt-get update
+
+#
+#--------------------------------------------------------------------------
+# Software's Installation
+#--------------------------------------------------------------------------
+#
+# Installing tools and PHP extentions using "apt", "docker-php", "pecl",
+#
+
+# Install "curl", "libmemcached-dev", "libpq-dev", "libjpeg-dev",
+#         "libpng12-dev", "libfreetype6-dev", "libssl-dev", "libmcrypt-dev",
+RUN apt-get install -y --no-install-recommends \
     curl \
+    libmemcached-dev \
+    libpq-dev \
     libjpeg-dev \
     libpng12-dev \
     libfreetype6-dev \
     libssl-dev \
-    libmcrypt-dev \
-    --no-install-recommends \
-    && rm -r /var/lib/apt/lists/*
+    libmcrypt-dev
 
-# install mcrypt library
+# Install the PHP mcrypt extention
 RUN docker-php-ext-install mcrypt
 
-# Install mongodb driver
+# Install the PHP pdo_mysql extention
+RUN docker-php-ext-install pdo_mysql
+
+# Install the PHP pdo_pgsql extention
+RUN docker-php-ext-install pdo_pgsql
+
+# Install the PHP gd library
+RUN docker-php-ext-install gd \
+    && docker-php-ext-configure gd \
+        --enable-gd-native-ttf \
+        --with-jpeg-dir=/usr/lib \
+        --with-freetype-dir=/usr/include/freetype2
+
+# Install the mongodb extention
 RUN pecl install mongodb
 
-# configure gd library
-RUN docker-php-ext-configure gd \
-    --enable-gd-native-ttf \
-    --with-jpeg-dir=/usr/lib \
-    --with-freetype-dir=/usr/include/freetype2
-
-# Install extensions using the helper script provided by the base image
-RUN docker-php-ext-install \
-    pdo_mysql \
-    pdo_pgsql \
-    gd
-
-# Install memcached
-RUN pecl install memcached \
-    && docker-php-ext-enable memcached
-
-# Install xdebug
+# Install the xdebug extention
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
+
+#
+#--------------------------------------------------------------------------
+# Final Touch
+#--------------------------------------------------------------------------
+#
+
+RUN rm -r /var/lib/apt/lists/*
 
 RUN usermod -u 1000 www-data
 
