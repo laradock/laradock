@@ -2,12 +2,14 @@
 
 [![forthebadge](http://forthebadge.com/images/badges/built-by-developers.svg)](http://zalt.me)
 
+[![Gitter](https://badges.gitter.im/LaraDock/laradock.svg)](https://gitter.im/LaraDock/laradock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 LaraDock helps you run your **Laravel** App on **Docker** real quick.
 <br>
 It's like Laravel Homestead but for Docker instead of Vagrant.
 
 >With LaraDock, use Docker first and learn about it later.
+
 
 ![](http://s18.postimg.org/fhykchl09/new_laradock_cover.png)
 
@@ -859,12 +861,11 @@ This little project was built by one man who has a full time job and many respon
 <a name="Help"></a>
 ## Help & Questions
 
-If you need any help with Docker and Laravel, you can schedule a live call with the creator of this project at [Codementor.io](https://www.codementor.io/mahmoudz), He would love to help.
+Join the chat room on [Gitter](https://gitter.im/LaraDock/laradock) and get help and support from the community. 
 
-For general questions you can open [Issues](https://github.com/laradock/laradock/issues) here on Github (We will label them as questions).
+You can as well can open an [issue](https://github.com/laradock/laradock/issues) on Github (will be labeled as Question) and discuss it with people on [Gitter](https://gitter.im/LaraDock/laradock).
 
-Additionally, you can contact Mahmoud Zalt (the creator of this project) via a direct message on LaraChat, (his username is `mahmoud_zalt`). Or send him an email (`mahmoud@zalt.me`).
-
+For special help with Docker and/or Laravel, you can schedule a live call with the creator of this project at [Codementor.io](https://www.codementor.io/mahmoudz).
 
 ## Credits
 
