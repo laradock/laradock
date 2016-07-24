@@ -11,7 +11,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 >With LaraDock, use Docker first and learn about it later.
 
 
-![](http://s18.postimg.org/fhykchl09/new_laradock_cover.png)
+![](https://s31.postimg.org/nbettdki3/lara_dock_poster_new.jpg)
 
 <br>
 ## Contents
@@ -74,10 +74,10 @@ docker-compose up  nginx mysql redis
 <a name="features"></a>
 ### Features
 
-- Easy switch between PHP versions: 7.0 - 5.6 - 5.5 ...
-- Choose your favorite database engine: MySQL - Postgres - Redis ...
-- Run your own combination of software's: Memcached - MariaDB ...
-- Every software runs on a separate container: PHP-FPM - NGINX ...
+- Easy switch between PHP versions: 7.0, 5.6, 5.5...
+- Choose your favorite database engine: MySQL, Postgres, MariaDB...
+- Run your own combination of software's: Memcached, HHVM, Beanstalkd...
+- Every software runs on a separate container: PHP-FPM, NGINX, PHP-CLI...
 - Easy to customize any container, with simple edit to the `dockerfile`.
 - All Images extends from an official base Image. (Trusted base Images).
 - Pre-configured Nginx for Laravel.
@@ -86,6 +86,7 @@ docker-compose up  nginx mysql redis
 - Clean and well structured Dockerfiles (`dockerfile`).
 - Latest version of the Docker Compose file (`docker-compose`).
 - Everything is visible and editable.
+- More to come every week..
 
 
 <a name="Supported-Containers"></a>
@@ -93,16 +94,17 @@ docker-compose up  nginx mysql redis
 
 - PHP-FPM (7.0 - 5.6 - 5.5)
 - NGINX
+- HHVM
 - MySQL
 - PostgreSQL
 - MariaDB
-- Neo4j
 - MongoDB
+- Neo4j
 - Redis
 - Memcached
+- Caddy
 - Beanstalkd
 - Beanstalkd Console
-- Caddy
 - Workspace (contains: Composer, PHP7-CLI, Laravel Installer, Git, Node, Gulp, Bower, SQLite,  Vim, Nano, cURL and much more)
 - Data *(Databases Data Container)*
 - Application *(Application Code Container)*
@@ -169,7 +171,7 @@ What's better than a [**Demo Video**](https://www.youtube.com/watch?v=-DamFMczwD
 ## Installation
 
 
-1 - Clone the `LaraDock` repository.
+1 - Clone the `LaraDock` repository:
 
 **A)** If you already have a Laravel project, clone this repository on your `Laravel` root direcotry:
 
@@ -208,7 +210,7 @@ docker-compose up -d  nginx mysql
 
 You can select your own combination of container form this list:
 
-`nginx`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `memcached`, `beanstalkd`, `beanstalkd-console`, `caddy`, `workspace`, `data`, `php-fpm`, `application`.
+`nginx`, `hhvm` ,`mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `memcached`, `beanstalkd`, `beanstalkd-console`, `caddy`, `workspace`, `data`, `php-fpm`, `application`.
 
 
 **Note**: `workspace`, `data`, `php-fpm` and `application` will run automatically in most of the cases.
