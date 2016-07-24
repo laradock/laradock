@@ -5,7 +5,10 @@ services:
 ### Nginx Server Container ##################################
 
     nginx:
-        build: ./nginx
+        build:
+            context: ./nginx
+            args:
+                - PHP_UPSTREAM=${PHP_PROCESS_MANAGER}
         volumes_from:
             - volumes_source
         volumes:
@@ -14,7 +17,7 @@ services:
             - "80:80"
             - "443:443"
         links:
-            - php-fpm
+            - ${PHP_PROCESS_MANAGER}
 
 ### PHP-FPM Container #######################################
 
@@ -22,6 +25,17 @@ services:
         build:
             context: ./php-fpm
             dockerfile: Dockerfile-70
+        volumes_from:
+            - volumes_source
+        expose:
+            - "9000"
+        links:
+            - workspace
+
+### HHVM Container ##########################################
+
+    hhvm:
+        build: ./hhvm
         volumes_from:
             - volumes_source
         expose:
