@@ -26,6 +26,7 @@ RUN apt-get update
 RUN apt-get install -y --no-install-recommends \
     curl \
     libmemcached-dev \
+    libz-dev \
     libpq-dev \
     libjpeg-dev \
     libpng12-dev \
