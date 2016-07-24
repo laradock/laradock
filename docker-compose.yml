@@ -8,7 +8,7 @@ services:
         build:
             context: ./nginx
             args:
-                - PHP_UPSTREAM=${PHP_PROCESS_MANAGER}
+                - PHP_UPSTREAM=php-fpm
         volumes_from:
             - volumes_source
         volumes:
@@ -17,7 +17,7 @@ services:
             - "80:80"
             - "443:443"
         links:
-            - ${PHP_PROCESS_MANAGER}
+            - php-fpm
 
 ### PHP-FPM Container #######################################
 
