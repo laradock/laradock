@@ -53,6 +53,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Run a Docker Virtual Host](#Run-Docker-Virtual-Host)
 		- [Find your Docker IP Address](#Find-Docker-IP-Address)
 		- [Use custom Domain](#Use-custom-Domain)
+		- [Enable Global Composer Build Install](#Enable-Global-Composer-Build-Install)
 		- [Install Prestissimo](#Install-Prestissimo)
 		- [Install Node + NVM](#Install-Node)
 		- [Debugging](#debugging)
@@ -608,7 +609,7 @@ It should be like this:
     ...
 ```
 
-2 - Re-build the containers docker-compose build workspace php-fpm
+2 - Re-build the containers `docker-compose build workspace php-fpm`
 
 
 
@@ -800,9 +801,7 @@ It should be like this:
     ...
 ```
 
-2 - Re-build the containers docker-compose build workspace php-fpm
-
-3 - Use it
+2 - Re-build the containers `docker-compose build workspace php-fpm`
 
 
 
@@ -906,17 +905,16 @@ server_name laravel.dev;
 ```
 
 
+
 <br>
-<a name="Install-Prestissimo"></a>
-### Install Prestissimo
+<a name="Enable-Global-Composer-Build-Install"></a>
+### Enable Global Composer Build Install
 
-[Prestissimo](https://github.com/hirak/prestissimo) is a plugin for composer which enables parallel install functionality. 
+To enable Running Global Composer Install during the Build:
 
-To install Prestissimo in the Workspace container
+1 - open the `docker-compose.yml` file
 
-1 - Open the `docker-compose.yml` file
-
-2 - Search for the `INSTALL_PRESTISSIMO` argument under the Workspace Container and set it to `true`
+2 - search for the `COMPOSER_GLOBAL_INSTALL` argument under the Workspace Container and set it to `true`
 
 It should be like this:
 
@@ -925,11 +923,37 @@ It should be like this:
         build:
             context: ./workspace
             args:
-                - INSTALL_PRESTISSIMO=true
+                - COMPOSER_GLOBAL_INSTALL=true
     ...
 ```
+3 - now add your dependencies to `workspace/composer.json`
 
-3 - Re-build the container docker-compose build workspace
+4 - rebuild the Workspace Container `docker-compose build workspace`
+
+
+
+
+<br>
+<a name="Install-Prestissimo"></a>
+### Install Prestissimo
+
+[Prestissimo](https://github.com/hirak/prestissimo) is a plugin for composer which enables parallel install functionality. 
+
+1 - Enable Running Global Composer Install during the Build:
+
+Click on this [Enable Global Composer Build Install](#Enable-Global-Composer-Build-Install) and do steps 1 and 2 only then continue here.
+
+2 - Add prestissimo as requirement in Composer:
+
+a - now open the `workspace/composer.json` file
+
+b - add `"hirak/prestissimo": "^0.3"` as requirement
+
+c - rebuild the Workspace Container `docker-compose build workspace`
+
+
+
+
 
 <a name="Install-Node"></a>
 ### Install Node + NVM
@@ -951,7 +975,7 @@ It should be like this:
     ...
 ```
 
-3 - Re-build the container docker-compose build workspace
+3 - Re-build the container `docker-compose build workspace`
 
 <br>
 <a name="debugging"></a>

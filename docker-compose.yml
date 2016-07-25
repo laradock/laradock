@@ -11,7 +11,7 @@ services:
                 - INSTALL_MONGO=false
                 - INSTALL_XDEBUG=false
                 - INSTALL_NODE=false
-                - INSTALL_PRESTISSIMO=false
+                - COMPOSER_GLOBAL_INSTALL=false
         volumes_from:
             - volumes_source
         tty: true

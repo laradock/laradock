@@ -59,44 +59,71 @@ RUN apt-get update && \
         nano \
     && apt-get clean
 
-# Composer: Install composer and add its bin to the PATH.
+#####################################
+# Composer:
+#####################################
+
+# Install composer and add its bin to the PATH.
 RUN curl -s http://getcomposer.org/installer | php && \
     echo "export PATH=${PATH}:/var/www/laravel/vendor/bin" >> ~/.bashrc && \
     mv composer.phar /usr/local/bin/composer
 
-ARG INSTALL_PRESTISSIMO=true
-ENV INSTALL_PRESTISSIMO ${INSTALL_PRESTISSIMO}
+# Add the composer.json
+ADD ./composer.json /root/.composer/composer.json
+
+# Check if global install need to be runned
+ARG COMPOSER_GLOBAL_INSTALL=true
+ENV COMPOSER_GLOBAL_INSTALL ${COMPOSER_GLOBAL_INSTALL}
 RUN if [ ${INSTALL_PRESTISSIMO} = true ]; then \
-    # Prestissimo: Install Prestissimo (A Composer parallel install plugin)
-    composer global require "hirak/prestissimo:^0.3" \
+    # run the install
+    composer global install \
 ;fi
 
+
+#####################################
+# MongoDB:
+#####################################
+
+# Check if Mongo needs to be installed
 ARG INSTALL_MONGO=true
 ENV INSTALL_MONGO ${INSTALL_MONGO}
 RUN if [ ${INSTALL_MONGO} = true ]; then \
-    # MongoDB: Install the mongodb extension
+    # Install the mongodb extension
     pecl install mongodb && \
-        echo "extension=mongodb.so" >> /etc/php/7.0/cli/php.ini \
+    echo "extension=mongodb.so" >> /etc/php/7.0/cli/php.ini \
 ;fi
 
+#####################################
+# xDebug:
+#####################################
+
+# Check if xDebug needs to be installed
 ARG INSTALL_XDEBUG=true
 ENV INSTALL_XDEBUG ${INSTALL_XDEBUG}
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
-    # XDebug: Load the xdebug extension only with phpunit commands
+    # Load the xdebug extension only with phpunit commands
     apt-get install -y --force-yes php7.0-xdebug && \
-        sed -i 's/^/;/g' /etc/php/7.0/cli/conf.d/20-xdebug.ini && \
-        echo "alias phpunit='php -dzend_extension=xdebug.so /var/www/laravel/vendor/bin/phpunit'" >> ~/.bashrc \
+    sed -i 's/^/;/g' /etc/php/7.0/cli/conf.d/20-xdebug.ini && \
+    echo "alias phpunit='php -dzend_extension=xdebug.so /var/www/laravel/vendor/bin/phpunit'" >> ~/.bashrc \
 ;fi
 
+#####################################
+# Node / NVM:
+#####################################
+
+# Check if NVM needs to be installed
 ARG INSTALL_NODE=true
 ENV INSTALL_NODE ${INSTALL_NODE}
 RUN if [ ${INSTALL_NODE} = true ]; then \
-    # Node: Install nvm (A Node Version Manager) and use it to install NodeJS
+    # Install nvm (A Node Version Manager)
     curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.1/install.sh | bash \
 ;fi
+# Again check if NVM needs to be installed
+# I had to split this condifiton link this because when I get it inside the above if statment is refuses to work!
 ENV if [ ${INSTALL_NODE} = true ]; then \
-    # I had to split this condifiton link this because when I get it inside the above if statment is refuses to work!
+    # Set the ENV
     NVM_DIR=/root/.nvm \
+    # Install NodeJS with NVM
     RUN . ~/.nvm/nvm.sh && \
         nvm install stable && \
         nvm use stable && \
