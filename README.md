@@ -907,7 +907,7 @@ server_name laravel.dev;
 <a name="Enable-Global-Composer-Build-Install"></a>
 ### Enable Global Composer Build Install
 
-To enable Running Global Composer Install during the Build:
+Enabling Global Composer Install during the build for the container allows you to get your composer requirements installed and available in the container after the build is done.
 
 1 - open the `docker-compose.yml` file
 
@@ -951,7 +951,7 @@ c - rebuild the Workspace Container `docker-compose build workspace`
 
 
 
-
+<br>
 <a name="Install-Node"></a>
 ### Install Node + NVM
 
