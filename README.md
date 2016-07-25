@@ -84,7 +84,6 @@ docker-compose up  nginx mysql redis
 - Easy to customize any container, with simple edit to the `dockerfile`.
 - All Images extends from an official base Image. (Trusted base Images).
 - Pre-configured Nginx for Laravel.
-- Data container, to keep Data safe and accessible.
 - Easy to apply configurations inside containers.
 - Clean and well structured Dockerfiles (`dockerfile`).
 - Latest version of the Docker Compose file (`docker-compose`).
@@ -109,8 +108,6 @@ docker-compose up  nginx mysql redis
 - Beanstalkd
 - Beanstalkd Console
 - Workspace (contains: Composer, PHP7-CLI, Laravel Installer, Git, Node, Gulp, Bower, SQLite,  Vim, Nano, cURL and much more)
-- Data *(Databases Data Container)*
-- Application *(Application Code Container)*
 
 
 >If you can't find your container, build it yourself and add it to this list. Contributions are welcomed :)
@@ -213,10 +210,10 @@ docker-compose up -d  nginx mysql
 
 You can select your own combination of container form this list:
 
-`nginx`, `hhvm` ,`mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `memcached`, `beanstalkd`, `beanstalkd-console`, `caddy`, `workspace`, `data`, `php-fpm`, `application`.
+`nginx`, `hhvm` ,`mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `memcached`, `beanstalkd`, `beanstalkd-console`, `caddy`, `workspace`, `php-fpm`.
 
 
-**Note**: `workspace`, `data`, `php-fpm` and `application` will run automatically in most of the cases.
+**Note**: `workspace` and `php-fpm` will run automatically in most of the cases, so no need to specify them in the `up` command.
 
 
 
