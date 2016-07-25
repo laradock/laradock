@@ -48,11 +48,13 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Install PHP Extensions](#Install-PHP-Extensions)
 		- [Change the PHP-FPM Version](#Change-the-PHP-FPM-Version)
 		- [Change the PHP-CLI Version](#Change-the-PHP-CLI-Version)
+		- [Install xDebug](#Install-xDebug)
 	- [Misc](#Misc)
 		- [Run a Docker Virtual Host](#Run-Docker-Virtual-Host)
 		- [Find your Docker IP Address](#Find-Docker-IP-Address)
 		- [Use custom Domain](#Use-custom-Domain)
 		- [Install Prestissimo](#Install-Prestissimo)
+		- [Install Node + NVM](#Install-Node)
 		- [Debugging](#debugging)
 - [Help & Questions](#Help)
 
@@ -577,14 +579,47 @@ composer require predis/predis:^1.0
 <a name="Use-Mongo"></a>
 ### Use Mongo
 
-1 - First make sure you run the MongoDB Container (`mongo`) with the `docker-compose up` command.
+1 - First install `mongo` in the Workspace and the PHP-FPM Containers: 
+<br>
+a) open the `docker-compose.yml` file
+<br>
+b) search for the `INSTALL_MONGO` argument under the Workspace Container 
+<br>
+c) set it to `true`
+<br>
+d) search for the `INSTALL_MONGO` argument under the PHP-FPM Container 
+<br>
+e) set it to `true`
+
+It should be like this:
+
+```yml
+    workspace:
+        build:
+            context: ./workspace
+            args:
+                - INSTALL_MONGO=true
+    ...
+    php-fpm:
+        build:
+            context: ./php-fpm
+            args:
+                - INSTALL_MONGO=true
+    ...
+```
+
+2 - Re-build the containers docker-compose build workspace php-fpm
+
+
+
+3 - Run the MongoDB Container (`mongo`) with the `docker-compose up` command.
 
 ```bash
 docker-compose up -d mongo
 ```
 
 
-2 - Add the MongoDB configurations to the `config/database.php` config file:
+4 - Add the MongoDB configurations to the `config/database.php` config file:
 
 ```php
 'connections' => [
@@ -606,21 +641,21 @@ docker-compose up -d mongo
 ],
 ```
 
-3 - Open your Laravel's `.env` file and update the following variables:
+5 - Open your Laravel's `.env` file and update the following variables:
 
 - set the `DB_HOST` to your `Docker-IP`.
 - set the `DB_PORT` to `27017`.
 - set the `DB_DATABASE` to `database`.
 
 
-4 - Finally make sure you have the `jenssegers/mongodb` package installed via Composer and its Service Provider is added.
+6 - Finally make sure you have the `jenssegers/mongodb` package installed via Composer and its Service Provider is added.
 
 ```bash
 composer require jenssegers/mongodb
 ```
 More details about this [here](https://github.com/jenssegers/laravel-mongodb#installation).
 
-5 - Test it:
+7 - Test it:
 
 - First let your Models extend from the Mongo Eloquent Model. Check the [documentation](https://github.com/jenssegers/laravel-mongodb#eloquent).
 - Enter the Workspace Container `docker exec -it laradock_workspace_1 bash`.
@@ -732,10 +767,42 @@ Right now you have to manually edit the `Dockerfile` or create a new one like it
 
 
 
+<br>
+<a name="Install-xDebug"></a>
+### Install xDebug
 
+1 - First install `xDebug` in the Workspace and the PHP-FPM Containers: 
+<br>
+a) open the `docker-compose.yml` file
+<br>
+b) search for the `INSTALL_XDEBUG` argument under the Workspace Container 
+<br>
+c) set it to `true`
+<br>
+d) search for the `INSTALL_XDEBUG` argument under the PHP-FPM Container 
+<br>
+e) set it to `true`
 
+It should be like this:
 
+```yml
+    workspace:
+        build:
+            context: ./workspace
+            args:
+                - INSTALL_XDEBUG=true
+    ...
+    php-fpm:
+        build:
+            context: ./php-fpm
+            args:
+                - INSTALL_XDEBUG=true
+    ...
+```
 
+2 - Re-build the containers docker-compose build workspace php-fpm
+
+3 - Use it
 
 
 
@@ -843,7 +910,48 @@ server_name laravel.dev;
 <a name="Install-Prestissimo"></a>
 ### Install Prestissimo
 
-[Prestissimo](https://github.com/hirak/prestissimo) is a plugin for composer which enables parallel install functionality. You can enable Prestissimo by setting `INSTALL_PRESTISSIMO=true` in the `docker-compose.yml` file.
+[Prestissimo](https://github.com/hirak/prestissimo) is a plugin for composer which enables parallel install functionality. 
+
+To install Prestissimo in the Workspace container
+
+1 - Open the `docker-compose.yml` file
+
+2 - Search for the `INSTALL_PRESTISSIMO` argument under the Workspace Container and set it to `true`
+
+It should be like this:
+
+```yml
+    workspace:
+        build:
+            context: ./workspace
+            args:
+                - INSTALL_PRESTISSIMO=true
+    ...
+```
+
+3 - Re-build the container docker-compose build workspace
+
+<a name="Install-Node"></a>
+### Install Node + NVM
+
+To install NVM and NodeJS in the Workspace container
+
+1 - Open the `docker-compose.yml` file
+
+2 - Search for the `INSTALL_NODE` argument under the Workspace Container and set it to `true`
+
+It should be like this:
+
+```yml
+    workspace:
+        build:
+            context: ./workspace
+            args:
+                - INSTALL_NODE=true
+    ...
+```
+
+3 - Re-build the container docker-compose build workspace
 
 <br>
 <a name="debugging"></a>

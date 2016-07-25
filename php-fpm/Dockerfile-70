@@ -21,8 +21,8 @@ ADD ./laravel.pool.conf /usr/local/etc/php-fpm.d/
 
 # Install "curl", "libmemcached-dev", "libpq-dev", "libjpeg-dev",
 #         "libpng12-dev", "libfreetype6-dev", "libssl-dev", "libmcrypt-dev",
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
         curl \
         libmemcached-dev \
         libz-dev \
@@ -43,18 +43,26 @@ RUN docker-php-ext-install pdo_mysql
 RUN docker-php-ext-install pdo_pgsql
 
 # Install the PHP gd library
-RUN docker-php-ext-install gd \
-    && docker-php-ext-configure gd \
+RUN docker-php-ext-install gd && \
+    docker-php-ext-configure gd \
         --enable-gd-native-ttf \
         --with-jpeg-dir=/usr/lib \
         --with-freetype-dir=/usr/include/freetype2
 
-# Install the mongodb extention
-RUN pecl install mongodb
+ARG INSTALL_MONGO=true
+ENV INSTALL_MONGO ${INSTALL_MONGO}
+RUN if [ ${INSTALL_MONGO} = true ]; then \
+    # Install the mongodb extention
+    pecl install mongodb \
+;fi
 
-# Install the xdebug extention
-RUN pecl install xdebug \
-    && docker-php-ext-enable xdebug
+ARG INSTALL_XDEBUG=true
+ENV INSTALL_XDEBUG ${INSTALL_XDEBUG}
+RUN if [ ${INSTALL_XDEBUG} = true ]; then \
+    # Install the xdebug extention
+    pecl install xdebug && \
+    docker-php-ext-enable xdebug \
+;fi
 
 # Install the memcached extention
 RUN curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz" \

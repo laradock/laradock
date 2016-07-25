@@ -2,6 +2,36 @@ version: '2'
 
 services:
 
+### Workspace Utilities Container ###########################
+
+    workspace:
+        build:
+            context: ./workspace
+            args:
+                - INSTALL_MONGO=false
+                - INSTALL_XDEBUG=false
+                - INSTALL_NODE=false
+                - INSTALL_PRESTISSIMO=false
+        volumes_from:
+            - volumes_source
+        tty: true
+
+### PHP-FPM Container #######################################
+
+    php-fpm:
+        build:
+            context: ./php-fpm
+            args:
+                - INSTALL_MONGO=false
+                - INSTALL_XDEBUG=false
+            dockerfile: Dockerfile-70
+        volumes_from:
+            - volumes_source
+        expose:
+            - "9000"
+        links:
+            - workspace
+
 ### Nginx Server Container ##################################
 
     nginx:
@@ -18,19 +48,6 @@ services:
             - "443:443"
         links:
             - php-fpm
-
-### PHP-FPM Container #######################################
-
-    php-fpm:
-        build:
-            context: ./php-fpm
-            dockerfile: Dockerfile-70
-        volumes_from:
-            - volumes_source
-        expose:
-            - "9000"
-        links:
-            - workspace
 
 ### HHVM Container ##########################################
 
@@ -144,16 +161,20 @@ services:
         links:
             - beanstalkd
 
-### Workspace Utilities Container ###########################
+### Caddy Server Container ##################################
 
-    workspace:
-        build:
-            context: ./workspace
-            args:
-                - INSTALL_PRESTISSIMO=false
+    caddy:
+        build: ./caddy
         volumes_from:
             - volumes_source
-        tty: true
+        ports:
+            - "80:80"
+            - "443:443"
+            - "2015:2015"
+        volumes:
+            - ./caddy/Caddyfile:/etc/Caddyfile
+        links:
+            - php-fpm
 
 ### Laravel Application Code Container ######################
 
@@ -174,21 +195,5 @@ services:
             - /var/lib/redis:/data
             - /var/lib/neo4j:/var/lib/neo4j/data
             - /var/lib/mongo:/data/db
-            
-### Caddy Server Container ##################################
-# Edit the Caddyfile if needed (./caddy/Caddyfile)
-
-    caddy:
-        build: ./caddy
-        volumes_from:
-            - volumes_source
-        ports:
-            - "80:80"
-            - "443:443"
-            - "2015:2015"
-        volumes:
-            - ./caddy/Caddyfile:/etc/Caddyfile
-        links:
-            - php-fpm
 
 ### Add more Containers below ###############################
