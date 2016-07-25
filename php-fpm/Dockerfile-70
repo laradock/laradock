@@ -11,8 +11,6 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 ADD ./laravel.ini /usr/local/etc/php/conf.d
 ADD ./laravel.pool.conf /usr/local/etc/php-fpm.d/
 
-RUN apt-get update
-
 #
 #--------------------------------------------------------------------------
 # Software's Installation
@@ -23,16 +21,17 @@ RUN apt-get update
 
 # Install "curl", "libmemcached-dev", "libpq-dev", "libjpeg-dev",
 #         "libpng12-dev", "libfreetype6-dev", "libssl-dev", "libmcrypt-dev",
-RUN apt-get install -y --no-install-recommends \
-    curl \
-    libmemcached-dev \
-    libz-dev \
-    libpq-dev \
-    libjpeg-dev \
-    libpng12-dev \
-    libfreetype6-dev \
-    libssl-dev \
-    libmcrypt-dev
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        curl \
+        libmemcached-dev \
+        libz-dev \
+        libpq-dev \
+        libjpeg-dev \
+        libpng12-dev \
+        libfreetype6-dev \
+        libssl-dev \
+        libmcrypt-dev
 
 # Install the PHP mcrypt extention
 RUN docker-php-ext-install mcrypt
