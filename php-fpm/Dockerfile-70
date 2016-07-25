@@ -42,12 +42,20 @@ RUN docker-php-ext-install pdo_mysql
 # Install the PHP pdo_pgsql extention
 RUN docker-php-ext-install pdo_pgsql
 
+#####################################
+# gd:
+#####################################
+
 # Install the PHP gd library
 RUN docker-php-ext-install gd && \
     docker-php-ext-configure gd \
         --enable-gd-native-ttf \
         --with-jpeg-dir=/usr/lib \
         --with-freetype-dir=/usr/include/freetype2
+
+#####################################
+# MongoDB:
+#####################################
 
 ARG INSTALL_MONGO=true
 ENV INSTALL_MONGO ${INSTALL_MONGO}
@@ -56,6 +64,10 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
     pecl install mongodb \
 ;fi
 
+#####################################
+# xDebug:
+#####################################
+
 ARG INSTALL_XDEBUG=true
 ENV INSTALL_XDEBUG ${INSTALL_XDEBUG}
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
@@ -63,6 +75,10 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     pecl install xdebug && \
     docker-php-ext-enable xdebug \
 ;fi
+
+#####################################
+# Memcached:
+#####################################
 
 # Install the memcached extention
 RUN curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz" \
