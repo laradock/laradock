@@ -74,7 +74,7 @@ ADD ./composer.json /root/.composer/composer.json
 # Check if global install need to be runned
 ARG COMPOSER_GLOBAL_INSTALL=true
 ENV COMPOSER_GLOBAL_INSTALL ${COMPOSER_GLOBAL_INSTALL}
-RUN if [ ${INSTALL_PRESTISSIMO} = true ]; then \
+RUN if [ ${COMPOSER_GLOBAL_INSTALL} = true ]; then \
     # run the install
     composer global install \
 ;fi
