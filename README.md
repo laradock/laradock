@@ -703,7 +703,7 @@ By default **PHP-FPM 7.0** is running.
 
 2 - Search for `Dockerfile-70` in the PHP container section.
 
-3 - Change the version number, by replacing `Dockerfile-70` with `Dockerfile-5`, like this:
+3 - Change the version number, by replacing `Dockerfile-70` with `Dockerfile-56`, like this:
 
 ```txt
 php-fpm:
@@ -722,16 +722,16 @@ docker-compose build php
 
 1 - Follow the steps of (Switch from PHP `7.0` to PHP `5.6`) except the last one "rebuilding container".
 
-2 - Open the `docker-compose.yml` again and make sure you are using `Dockerfile-5` like this:
+2 - Open the `docker-compose.yml` again and make sure you are using `Dockerfile-56` like this:
 
 ```txt
 php-fpm:
     build:
         context: ./php-fpm
-        dockerfile: Dockerfile-5
+        dockerfile: Dockerfile-56
 ```
 
-3 - Open `php-fpm/Dockerfile-5` file and on the first line replace the PHP version from (`FROM php:5.6-fpm`) to (`FROM php:5.5-fpm`).
+3 - Open `php-fpm/Dockerfile-56` file and on the first line replace the PHP version from (`FROM php:5.6-fpm`) to (`FROM php:5.5-fpm`).
 
 4 - Now you can rebuild the container
 
