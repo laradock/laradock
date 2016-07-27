@@ -4,7 +4,7 @@
 #--------------------------------------------------------------------------
 #
 
-FROM laradock/php-fpm:7.0
+FROM laradock/php-fpm:7.0--1.0
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
