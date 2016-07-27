@@ -4,65 +4,32 @@
 #--------------------------------------------------------------------------
 #
 
-FROM php:7.0-fpm
+FROM laradock/php-fpm:7.0
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
-ADD ./laravel.ini /usr/local/etc/php/conf.d
-ADD ./laravel.pool.conf /usr/local/etc/php-fpm.d/
+#
+#--------------------------------------------------------------------------
+# Mandatory Software's Installation
+#--------------------------------------------------------------------------
+#
+# Mandatory Software's such as ("mcrypt", "pdo_mysql", "libssl-dev", ....)
+# are installed on the base image 'laradock/php-fpm' image. If you want
+# to add more Software's or remove existing one, you need to edit the
+# base image (https://github.com/LaraDock/php-fpm).
+#
 
 #
 #--------------------------------------------------------------------------
-# Software's Installation
+# Optional Software's Installation
 #--------------------------------------------------------------------------
 #
-# Installing tools and PHP extentions using "apt", "docker-php", "pecl",
+# Optional Software's will only be installed if you set them to `true`
+# in the `docker-compose.yml` before the build.
 #
-
-# Install "curl", "libmemcached-dev", "libpq-dev", "libjpeg-dev",
-#         "libpng12-dev", "libfreetype6-dev", "libssl-dev", "libmcrypt-dev",
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        curl \
-        libmemcached-dev \
-        libz-dev \
-        libpq-dev \
-        libjpeg-dev \
-        libpng12-dev \
-        libfreetype6-dev \
-        libssl-dev \
-        libmcrypt-dev
-
-# Install the PHP mcrypt extention
-RUN docker-php-ext-install mcrypt
-
-# Install the PHP pdo_mysql extention
-RUN docker-php-ext-install pdo_mysql
-
-# Install the PHP pdo_pgsql extention
-RUN docker-php-ext-install pdo_pgsql
-
-#####################################
-# gd:
-#####################################
-
-# Install the PHP gd library
-RUN docker-php-ext-install gd && \
-    docker-php-ext-configure gd \
-        --enable-gd-native-ttf \
-        --with-jpeg-dir=/usr/lib \
-        --with-freetype-dir=/usr/include/freetype2
-
-#####################################
-# MongoDB:
-#####################################
-
-ARG INSTALL_MONGO=true
-ENV INSTALL_MONGO ${INSTALL_MONGO}
-RUN if [ ${INSTALL_MONGO} = true ]; then \
-    # Install the mongodb extention
-    pecl install mongodb \
-;fi
+#   - INSTALL_XDEBUG=           false
+#   - INSTALL_MONGO=            false
+#
 
 #####################################
 # xDebug:
@@ -77,29 +44,24 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
 ;fi
 
 #####################################
-# Memcached:
+# MongoDB:
 #####################################
 
-# Install the memcached extention
-RUN curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz" \
-    && mkdir -p memcached \
-    && tar -C memcached -zxvf /tmp/memcached.tar.gz --strip 1 \
-    && ( \
-        cd memcached \
-        && phpize \
-        && ./configure \
-        && make -j$(nproc) \
-        && make install \
-    ) \
-    && rm -r memcached \
-    && rm /tmp/memcached.tar.gz \
-    && docker-php-ext-enable memcached
+ARG INSTALL_MONGO=true
+ENV INSTALL_MONGO ${INSTALL_MONGO}
+RUN if [ ${INSTALL_MONGO} = true ]; then \
+    # Install the mongodb extention
+    pecl install mongodb \
+;fi
 
 #
 #--------------------------------------------------------------------------
 # Final Touch
 #--------------------------------------------------------------------------
 #
+
+ADD ./laravel.ini /usr/local/etc/php/conf.d
+ADD ./laravel.pool.conf /usr/local/etc/php-fpm.d/
 
 RUN rm -r /var/lib/apt/lists/*
 
