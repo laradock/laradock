@@ -227,6 +227,8 @@ You can select your own combination of container form this list:
 docker exec -it {Workspace-Container-Name} bash
 ```
 Replace `{Workspace-Container-Name}` with your Workspace container name.
+<br />
+Add `--user=laradock` to have files created as your host's user. (don't forget to change the PUID (User id) and PGID (group id) variables in docker-compose.yml).
 <br>
 To find the containers names type `docker-compose ps`.
 
@@ -657,7 +659,7 @@ More details about this [here](https://github.com/jenssegers/laravel-mongodb#ins
 7 - Test it:
 
 - First let your Models extend from the Mongo Eloquent Model. Check the [documentation](https://github.com/jenssegers/laravel-mongodb#eloquent).
-- Enter the Workspace Container `docker exec -it laradock_workspace_1 bash`.
+- Enter the Workspace Container `docker exec -it --user=laradock laradock_workspace_1 bash`.
 - Migrate the Database `php artisan migrate`.
 
 
