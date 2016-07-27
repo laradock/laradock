@@ -61,11 +61,24 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
 ;fi
 
 #####################################
+# Non-Root User:
+#####################################
+
+# Add a non-root user to prevent files being created with root permissions on host machine.
+ARG PUID=1000
+ARG PGID=1000
+RUN groupadd -g $PGID laradock && \
+    useradd -u $PUID -g laradock -m laradock
+    
+# Now switch to our laradock user for the rest of user setup
+USER laradock
+
+#####################################
 # Composer:
 #####################################
 
 # Add the composer.json
-ADD ./composer.json /root/.composer/composer.json
+ADD ./composer.json /home/laradock/.composer/composer.json
 
 # Check if global install need to be runned
 ARG COMPOSER_GLOBAL_INSTALL=true
@@ -84,19 +97,27 @@ ARG INSTALL_NODE=true
 ENV INSTALL_NODE ${INSTALL_NODE}
 RUN if [ ${INSTALL_NODE} = true ]; then \
     # Install nvm (A Node Version Manager)
-    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.1/install.sh | bash \
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.3/install.sh | bash \
 ;fi
 # Again check if NVM needs to be installed
-# I had to split this condifiton link this because when I get it inside the above if statment is refuses to work!
+# I had to split this condition link this because when I get it inside the above if statement is refuses to work!
 ENV if [ ${INSTALL_NODE} = true ]; then \
     # Set the ENV
-    NVM_DIR=/root/.nvm \
+    NVM_DIR=/home/laradock/.nvm \
     # Install NodeJS with NVM
     RUN . ~/.nvm/nvm.sh && \
         nvm install stable && \
         nvm use stable && \
         nvm alias stable && \
         npm install -g gulp bower \
+;fi
+
+# Wouldn't execute when added to the RUN statement in the above block
+# Source NVM when loading bash since ~/.profile isn't loaded on non-login shell
+RUN if [ ${INSTALL_NODE} = true ]; then \
+    echo "" >> ~/.bashrc && \
+    echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.bashrc && \
+    echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm' >> ~/.bashrc \
 ;fi
 
 #
@@ -106,6 +127,7 @@ ENV if [ ${INSTALL_NODE} = true ]; then \
 #
 
 # Clean up
+USER root
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
