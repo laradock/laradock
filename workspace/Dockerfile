@@ -4,7 +4,7 @@
 #--------------------------------------------------------------------------
 #
 
-FROM laradock/workspace:1.0.0
+FROM laradock/workspace:1.0
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
