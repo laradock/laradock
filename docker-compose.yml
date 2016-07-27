@@ -10,7 +10,7 @@ services:
             args:
                 - INSTALL_MONGO=false
                 - INSTALL_XDEBUG=false
-                - INSTALL_NODE=true
+                - INSTALL_NODE=false
                 - COMPOSER_GLOBAL_INSTALL=false
                 - PUID=1000
                 - PGID=1000
