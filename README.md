@@ -88,13 +88,14 @@ docker-compose up  nginx mysql redis
 - Clean and well structured Dockerfiles (`dockerfile`).
 - Latest version of the Docker Compose file (`docker-compose`).
 - Everything is visible and editable.
+- Fast Images Builds.
 - More to come every week..
 
 
 <a name="Supported-Containers"></a>
 ### Supported Containers
 
-- PHP-FPM (7.0 - 5.6 - 5.5)
+- PHP-FPM
 - NGINX
 - HHVM
 - MySQL
@@ -107,7 +108,7 @@ docker-compose up  nginx mysql redis
 - Caddy
 - Beanstalkd
 - Beanstalkd Console
-- Workspace (contains: Composer, PHP7-CLI, Laravel Installer, Git, Node, Gulp, Bower, SQLite,  Vim, Nano, cURL and much more)
+- Workspace (contains: Composer, PHP7-CLI, Laravel Installer, Git, Node, Gulp, SQLite,  Vim, Nano, cURL...)
 
 
 >If you can't find your container, build it yourself and add it to this list. Contributions are welcomed :)
@@ -718,30 +719,27 @@ php-fpm:
 docker-compose build php
 ```
 
+> For more details about the PHP base image, visit the [official PHP docker images](https://hub.docker.com/_/php/).
+
+
 #### B) Switch from PHP `7.0` or `5.6` to PHP `5.5`
 
-1 - Follow the steps of (Switch from PHP `7.0` to PHP `5.6`) except the last one "rebuilding container".
+We do not natively support PHP 5.5 anymore, but you can get it in few steps:
 
-2 - Open the `docker-compose.yml` again and make sure you are using `Dockerfile-56` like this:
+1 - Clone `https://github.com/LaraDock/php-fpm`.
 
-```txt
-php-fpm:
-    build:
-        context: ./php-fpm
-        dockerfile: Dockerfile-56
-```
+3 - Rename `Dockerfile-56` to `Dockerfile-55`.
 
-3 - Open `php-fpm/Dockerfile-56` file and on the first line replace the PHP version from (`FROM php:5.6-fpm`) to (`FROM php:5.5-fpm`).
+3 - Edit the file `FROM php:5.6-fpm` to `FROM php:5.5-fpm`.
 
-4 - Now you can rebuild the container
+4 - Build an image from `Dockerfile-55`.
 
-```bash
-docker-compose build php
-```
+5 - Open the `docker-compose.yml` file.
 
-<br>
+6 - Point `php-fpm` to your `Dockerfile-55` file.
 
-For more details about the PHP base image, visit the [official PHP docker images](https://hub.docker.com/_/php/).
+
+
 
 
 
