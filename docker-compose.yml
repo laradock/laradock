@@ -51,6 +51,23 @@ services:
         links:
             - php-fpm
 
+### Apache Server Container ##################################
+
+    apache2:
+        build:
+            context: ./apache2
+            args:
+                - PHP_SOCKET="php-fpm:9000"
+        volumes_from:
+            - volumes_source
+        volumes:
+            - ./logs/apache2:/var/log/apache2
+        ports:
+            - "80:80"
+            - "443:443"
+        links:
+            - php-fpm
+
 ### HHVM Container ##########################################
 
     hhvm:

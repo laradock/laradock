@@ -211,7 +211,7 @@ docker-compose up -d  nginx mysql
 
 You can select your own combination of container form this list:
 
-`nginx`, `hhvm` ,`mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `memcached`, `beanstalkd`, `beanstalkd-console`, `caddy`, `workspace`, `php-fpm`.
+`apache2`, `caddy`, `nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `memcached`, `beanstalkd`, `beanstalkd-console`, `workspace`.
 
 
 **Note**: `workspace` and `php-fpm` will run automatically in most of the cases, so no need to specify them in the `up` command.
@@ -580,15 +580,15 @@ composer require predis/predis:^1.0
 <a name="Use-Mongo"></a>
 ### Use Mongo
 
-1 - First install `mongo` in the Workspace and the PHP-FPM Containers: 
+1 - First install `mongo` in the Workspace and the PHP-FPM Containers:
 <br>
 a) open the `docker-compose.yml` file
 <br>
-b) search for the `INSTALL_MONGO` argument under the Workspace Container 
+b) search for the `INSTALL_MONGO` argument under the Workspace Container
 <br>
 c) set it to `true`
 <br>
-d) search for the `INSTALL_MONGO` argument under the PHP-FPM Container 
+d) search for the `INSTALL_MONGO` argument under the PHP-FPM Container
 <br>
 e) set it to `true`
 
@@ -769,15 +769,15 @@ Right now you have to manually edit the `Dockerfile` or create a new one like it
 <a name="Install-xDebug"></a>
 ### Install xDebug
 
-1 - First install `xDebug` in the Workspace and the PHP-FPM Containers: 
+1 - First install `xDebug` in the Workspace and the PHP-FPM Containers:
 <br>
 a) open the `docker-compose.yml` file
 <br>
-b) search for the `INSTALL_XDEBUG` argument under the Workspace Container 
+b) search for the `INSTALL_XDEBUG` argument under the Workspace Container
 <br>
 c) set it to `true`
 <br>
-d) search for the `INSTALL_XDEBUG` argument under the PHP-FPM Container 
+d) search for the `INSTALL_XDEBUG` argument under the PHP-FPM Container
 <br>
 e) set it to `true`
 
@@ -934,7 +934,7 @@ It should be like this:
 <a name="Install-Prestissimo"></a>
 ### Install Prestissimo
 
-[Prestissimo](https://github.com/hirak/prestissimo) is a plugin for composer which enables parallel install functionality. 
+[Prestissimo](https://github.com/hirak/prestissimo) is a plugin for composer which enables parallel install functionality.
 
 1 - Enable Running Global Composer Install during the Build:
 
@@ -1006,7 +1006,7 @@ This little project was built by one man who has a full time job and many respon
 <a name="Help"></a>
 ## Help & Questions
 
-Join the chat room on [Gitter](https://gitter.im/LaraDock/laradock) and get help and support from the community. 
+Join the chat room on [Gitter](https://gitter.im/LaraDock/laradock) and get help and support from the community.
 
 You can as well can open an [issue](https://github.com/laradock/laradock/issues) on Github (will be labeled as Question) and discuss it with people on [Gitter](https://gitter.im/LaraDock/laradock).
 
