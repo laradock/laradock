@@ -19,7 +19,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 
 - [Intro](#Intro)
 	- [Features](#features)
-	- [Supported Containers](#Supported-Containers)
+	- [Supported Software's](#Supported-Containers)
 	- [What is Docker](#what-is-docker)
 	- [What is Laravel](#what-is-laravel)
 	- [Why Docker not Vagrant](#why-docker-not-vagrant)
@@ -93,25 +93,31 @@ docker-compose up  nginx mysql redis
 
 
 <a name="Supported-Containers"></a>
-### Supported Containers
+### Supported Software's (Containers)
 
-- PHP-FPM
-- NGINX
-- HHVM
-- MySQL
-- PostgreSQL
-- MariaDB
-- MongoDB
-- Neo4j
-- Redis
-- Memcached
-- Caddy
-- Beanstalkd
-- Beanstalkd Console
-- Workspace (contains: Composer, PHP7-CLI, Laravel Installer, Git, Node, Gulp, SQLite,  Vim, Nano, cURL...)
+- **Database Engines:**
+	- MySQL
+	- PostgreSQL
+	- MariaDB
+	- MongoDB
+	- Neo4j
+- **Cache Engines:**
+	- Redis
+	- Memcached
+- **PHP Servers:**
+	- NGINX
+	- Apache2
+	- Caddy
+- **PHP Compilers:**
+	- PHP-FPM
+	- HHVM
+- **Message Queueing Systems:**
+	- Beanstalkd (+ Beanstalkd Console)
+- **Tools:**
+	- Workspace (PHP7-CLI, Composer, Git, Node, Gulp, SQLite, Vim, Nano, cURL...)
 
 
->If you can't find your container, build it yourself and add it to this list. Contributions are welcomed :)
+>If you can't find your Software, build it yourself and add it to this list. Contributions are welcomed :)
 
 
 
@@ -209,9 +215,9 @@ git clone https://github.com/LaraDock/laradock.git
 docker-compose up -d  nginx mysql
 ```
 
-You can select your own combination of container form this list:
+You can select your own combination of Containers form the list below:
 
-`apache2`, `caddy`, `nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `memcached`, `beanstalkd`, `beanstalkd-console`, `workspace`.
+`nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `workspace`.
 
 
 **Note**: `workspace` and `php-fpm` will run automatically in most of the cases, so no need to specify them in the `up` command.
