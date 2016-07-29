@@ -70,9 +70,6 @@ ARG PGID=1000
 RUN groupadd -g $PGID laradock && \
     useradd -u $PUID -g laradock -m laradock
     
-# Now switch to our laradock user for the rest of user setup
-USER laradock
-
 #####################################
 # Composer:
 #####################################
@@ -81,7 +78,6 @@ USER laradock
 COPY ./composer.json /home/laradock/.composer/composer.json
 
 # Make sure that ~/.composer belongs to laradock
-USER root
 RUN chown -R laradock:laradock /home/laradock/.composer
 USER laradock
 
