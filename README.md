@@ -67,11 +67,20 @@ LaraDock strives to make the development experience easier.
 It contains pre-packaged Docker Images that provides you a wonderful development environment without requiring you to install PHP, NGINX, MySQL, REDIS, and any other software on your local machine.
 
 
-**Usage Overview:** Run `NGINX`, `MySQL` and `Redis`.
+**Usage Overview:** 
 
-```shell
-docker-compose up nginx mysql redis
-```
+Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL` and `Redis`. Then run `Laravel`.
+
+1. Get LaraDock inside your Laravel project: 
+<br>
+`git clone https://github.com/LaraDock/laradock.git`.
+2. Enter the laradock folder and run only these Containers: 
+<br>
+`docker-compose up -d nginx mysql redis`
+3. Open your `.env` file and set `DB_HOST` to `mysql` and `REDIS_HOST` to `redis`.
+4. Open your browser and visit the localhost: `http://localdock`
+
+
 
 <a name="features"></a>
 ### Features
