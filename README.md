@@ -55,7 +55,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Install Prestissimo](#Install-Prestissimo)
 		- [Install Node + NVM](#Install-Node)
 		- [Debugging](#debugging)
-		- [Upgrading Docker](#upgrading)
+		- [Upgrading LaraDock](#upgrading-laradock)
 - [Help & Questions](#Help)
 
 
@@ -205,15 +205,19 @@ git clone https://github.com/LaraDock/laradock.git
 ## Usage
 
 
->**Note:**
+**Read Before starting:**
+
+If you are using **Docker Toolbox** (VM), do one of the following:
+
+- Upgrade to Docker [Native](https://www.docker.com/products/docker) for Mac/Windows (Recommended). Check out [Upgrading Laradock](#upgrading-laradock)
+- Use LaraDock v3.* (Visit the `LaraDock-ToolBox` [Branch](https://github.com/LaraDock/laradock/tree/LaraDock-ToolBox)).
+
+
+If you are using **Docker Native** (For Mac/Windows) or even for Linux, continue this documentation normally since LaraDock v4 and above is just for that.
+
+
+
 <br>
->LaraDock version 4 and above is customized only for **Docker Native** (For Mac/Windows).
-<br>
->LaraDock version 3 and below is customized only for **Docker Toolbox** (VirtualBox VM). If you are still using the "Docker Toolbox" you might need to check the branch `LaraDock-ToolBox`.
-
-
-
-
 <br>
 1 - Run Containers: *(Make sure you are in the `laradock` folder before running the `docker-compose` commands).*
 
@@ -948,19 +952,20 @@ Make sure the ports for the services that you are trying to run (80, 3306, etc.)
 
 
 <br>
-<a name="upgrading"></a>
-### Upgrading Docker
+<a name="upgrading-laradock"></a>
+### Upgrading LaraDock
 
-#### From Docker Toolbox (VirtualBox) to Docker for Mac/Windows (Native)
+
+Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requires upgrading LaraDock from v3.* to v4.*:
 
 1. Stop the docker vm `docker-machine stop {default}`
 2. Install Docker for [Mac](https://docs.docker.com/docker-for-mac/) or [Windows](https://docs.docker.com/docker-for-windows/).
-3. Upgrade LaraDock to `v4.*.*`.
+3. Upgrade LaraDock to `v4.*.*` (`git pull origin master`)
 4. Use LaraDock as you used to do: `docker-compose up -d nginx mysql`.
 
-**Note:** If you face any problem with the last step above: rebuild all your containers "Warnning Containers Data might be lost!" 
+**Note:** If you face any problem with the last step above: rebuild all your containers 
 `docker-compose build --no-cache`
-
+"Warnning Containers Data might be lost!"
 
 
 
