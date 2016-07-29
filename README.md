@@ -50,13 +50,12 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Change the PHP-CLI Version](#Change-the-PHP-CLI-Version)
 		- [Install xDebug](#Install-xDebug)
 	- [Misc](#Misc)
-		- [Run a Docker Virtual Host](#Run-Docker-Virtual-Host)
-		- [Find your Docker IP Address](#Find-Docker-IP-Address)
 		- [Use custom Domain](#Use-custom-Domain)
 		- [Enable Global Composer Build Install](#Enable-Global-Composer-Build-Install)
 		- [Install Prestissimo](#Install-Prestissimo)
 		- [Install Node + NVM](#Install-Node)
 		- [Debugging](#debugging)
+		- [Upgrading Docker](#upgrading)
 - [Help & Questions](#Help)
 
 
@@ -71,7 +70,7 @@ It contains pre-packaged Docker Images that provides you a wonderful development
 **Usage Overview:** Run `NGINX`, `MySQL` and `Redis`.
 
 ```shell
-docker-compose up  nginx mysql redis
+docker-compose up nginx mysql redis
 ```
 
 <a name="features"></a>
@@ -159,20 +158,27 @@ Running a virtual Container is much faster than running a full virtual Machine. 
 
 
 
-<a name="Requirements"></a>
-## Requirements
 
-| Linux                                                                          | Windows & MAC                                                                                 |
-|--------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
-| [Laravel](https://laravel.com/docs/master/installation)                        | [Laravel](https://laravel.com/docs/master/installation)                                       |
-| [Git](https://git-scm.com/downloads)                                           | [Git](https://git-scm.com/downloads)                                                          |
-| [Docker Engine](https://docs.docker.com/engine/installation/linux/ubuntulinux) | [Docker Toolbox](https://www.docker.com/toolbox) OR [Native Docker](https://beta.docker.com/) |
-| [Docker Compose](https://docs.docker.com/compose/install)                      |                                                                                               |
 
 <a name="Demo"></a>
 ## Demo Video
 
-What's better than a [**Demo Video**](https://www.youtube.com/watch?v=-DamFMczwDA) :)
+What's better than a **Demo Video**:
+
+- LaraDock v4.0 (Coming soon..)
+- LaraDock [v2.2](https://www.youtube.com/watch?v=-DamFMczwDA)
+- LaraDock [v0.3](https://www.youtube.com/watch?v=jGkyO6Is_aI)
+- LaraDock [v0.1](https://www.youtube.com/watch?v=3YQsHe6oF80)
+
+
+
+<a name="Requirements"></a>
+## Requirements
+
+- [Git](https://git-scm.com/downloads)                                           
+- [Docker](https://www.docker.com/products/docker/)
+
+
 
 <a name="Installation"></a>
 ## Installation
@@ -199,13 +205,17 @@ git clone https://github.com/LaraDock/laradock.git
 ## Usage
 
 
-1 - For **Windows & MAC** users only: If you are not using the native Docker-Engine `Beta`, make sure you have a running Docker Virtual Host on your machine.
-[How to run a Docker Virtual Host?](#Run-Docker-Virtual-Host)
-(**Linux** users don't need a Virtual Host, so skip this step).
+>**Note:**
+<br>
+>LaraDock version 4 and above is customized only for **Docker Native** (For Mac/Windows).
+<br>
+>LaraDock version 3 and below is customized only for **Docker Toolbox** (VirtualBox VM). If you are still using the "Docker Toolbox" you might need to check the branch `LaraDock-ToolBox`.
+
+
 
 
 <br>
-2 - Run some Containers: *(Make sure you are in the `laradock` folder before running the `docker-compose` commands).*
+1 - Run Containers: *(Make sure you are in the `laradock` folder before running the `docker-compose` commands).*
 
 
 
@@ -224,39 +234,34 @@ You can select your own combination of Containers form the list below:
 
 
 
-
-
 <br>
-3 - Enter the Workspace container, to execute commands like (Artisan, Composer, PHPUnit, Gulp, ...).
+2 - Enter the Workspace container, to execute commands like (Artisan, Composer, PHPUnit, Gulp, ...).
 
 ```bash
-docker exec -it {Workspace-Container-Name} bash
+docker-compose exec workspace bash
 ```
-Replace `{Workspace-Container-Name}` with your Workspace container name.
 <br />
-Add `--user=laradock` to have files created as your host's user. (don't forget to change the PUID (User id) and PGID (group id) variables in docker-compose.yml).
-<br>
-To find the containers names type `docker-compose ps`.
+Add `--user=laradock` (example `docker-compose exec --user=laradock workspace bash`) to have files created as your host's user. (you can change the PUID (User id) and PGID (group id) variables from the `docker-compose.yml`).
 
 
 
 <br>
-4 - Edit the Laravel configurations.
+3 - Edit the Laravel configurations.
 
 If you don't have a Laravel project installed yet, see [How to Install Laravel in a Docker Container](#Install-Laravel).
 
-Open your Laravel's `.env` file and set the `DB_HOST` to your `{Docker-IP}`:
+Open your Laravel's `.env` file and set the `DB_HOST` to your `mysql`:
 
 ```env
-DB_HOST=xxx.xxx.xxx.xxx
+DB_HOST=mysql
 ```
-[How to find my Docker IP Address?](#Find-Docker-IP-Address)
+
 
 
 
 
 <br>
-5 - Open your browser and visit your `{Docker-IP}` address (`http://xxx.xxx.xxx.xxx`).
+4 - Open your browser and visit your localhost address (`http://localhost/`).
 
 
 
@@ -269,8 +274,6 @@ If you need a special support. Contact me, more details in the [Help & Questions
 <br>
 <a name="Documentation"></a>
 ## Documentation
-
-**Note:** this documentation doesn't cover the Docker Beta *(Native Docker on MAC and Windows)*. However, the commands are very similar. We are planning to cover the Docker Beta soon.
 
 
 <a name="Docker"></a>
@@ -335,8 +338,15 @@ docker-compose down
 2 - enter any container using:
 
 ```bash
-docker exec -it {container-name} bash
+docker-composer exec {container-name} bash
 ```
+
+*Example: enter MySQL container*
+
+```bash
+docker-compose exec mysql bash
+```
+
 3 - to exit a container, type `exit`.
 
 
@@ -388,10 +398,7 @@ example for `mysql` it will be `mysql/Dockerfile`.
 ```bash
 docker-compose build mysql
 ```
-
-*If you find any bug or you have and suggestion that can improve the performance of any image, please consider contributing. Thanks in advance.*
-
-
+More info on Containers rebuilding [here](#Build-Re-build-Containers).
 
 
 
@@ -415,6 +422,7 @@ Optionally you can specify which container to rebuild (instead of rebuilding all
 docker-compose build {container-name}
 ```
 
+You might use the `--no-cache` option if you want full rebuilding (`docker-compose build --no-cache {container-name}`).
 
 
 
@@ -492,6 +500,8 @@ Since the new Laravel application is in the `my-cool-app` folder, we need to rep
 cd my-cool-app
 ```
 
+5 - Go back to the laraDock installation steps to see how to edit the `.env` file.
+
 
 
 <br>
@@ -515,8 +525,11 @@ docker-compose ps
 3 - Enter the Workspace container:
 
 ```bash
-docker exec -it {workspace-container-name} bash
+docker-compose exec workspace bash
 ```
+
+Add `--user=laradock` (example `docker-compose exec --user=laradock workspace bash`) to have files created as your host's user.
+
 
 4 - Run anything you want :)
 
@@ -540,19 +553,19 @@ phpunit
 docker-compose up -d redis
 ```
 
-2 - Open your Laravel's `.env` file and set the `REDIS_HOST` to your `Docker-IP` instead of the default `127.0.0.1` IP.
+2 - Open your Laravel's `.env` file and set the `REDIS_HOST` to `redis`
 
 ```env
-REDIS_HOST=xxx.xxx.xxx.xxx
+REDIS_HOST=redis
 ```
 
-If you don't find the `REDIS_HOST` variable in your `.env` file. Go to the database config file `config/database.php` and replace the default `127.0.0.1` IP with your `Docker-IP` for Redis like this:
+If you don't find the `REDIS_HOST` variable in your `.env` file. Go to the database config file `config/database.php` and replace the default `127.0.0.1` IP with `redis` for Redis like this:
 
 ```php
 'redis' => [
     'cluster' => false,
     'default' => [
-        'host'     => 'xxx.xxx.xxx.xxx',
+        'host'     => 'redis',
         'port'     => 6379,
         'database' => 0,
     ],
@@ -650,7 +663,7 @@ docker-compose up -d mongo
 
 5 - Open your Laravel's `.env` file and update the following variables:
 
-- set the `DB_HOST` to your `Docker-IP`.
+- set the `DB_HOST` to your `mongo`.
 - set the `DB_PORT` to `27017`.
 - set the `DB_DATABASE` to `database`.
 
@@ -665,7 +678,7 @@ More details about this [here](https://github.com/jenssegers/laravel-mongodb#ins
 7 - Test it:
 
 - First let your Models extend from the Mongo Eloquent Model. Check the [documentation](https://github.com/jenssegers/laravel-mongodb#eloquent).
-- Enter the Workspace Container `docker exec -it --user=laradock laradock_workspace_1 bash`.
+- Enter the Workspace Container.
 - Migrate the Database `php artisan migrate`.
 
 
@@ -813,92 +826,19 @@ It should be like this:
 ### [Misc]
 
 
-
-
-
-<a name="Run-Docker-Virtual-Host"></a>
-### Run a Docker Virtual Host
-
-These steps are only for **Windows & MAC** users *(Linux users don't need a virtual host)*:
-
-1 - Run the default Host:
-
-```bash
-docker-machine start default
-```
-
-* If the host "default" does not exist, create one using the command below, else skip it:
-
-* ```bash
-  docker-machine create -d virtualbox default
-  ```
-
-2 - Run this command to configure your shell:
-
-```bash
-eval $(docker-machine env)
-```
-
-
-
-
-
-
-
-<br>
-<a name="Find-Docker-IP-Address"></a>
-### Find your Docker IP Address
-
-**On Windows & MAC:**
-
-Run this command in your terminal:
-
-```bash
-docker-machine ip default
-```
-If your Host name is different then `default`, you have to specify it (`docker-machine ip my-host`).
-
-*(The default IP is 192.168.99.100)*
-
-<br>
-
-> **boot2docker** users: run `boot2docker ip` *(when boot2docker is up)*.
-
-<br>
-**On Linux:**
-
-Run this command in your terminal:
-
-```shell
-ifconfig docker0 | grep 'inet' | cut -d: -f2 | awk '{ print $1}' | head -n1
-```
-
-*(The default IP is 172.17.0.1)*
-
-
-
 <br>
 <a name="Use-custom-Domain"></a>
 ### Use custom Domain (instead of the Docker IP)
 
-Assuming your custom domain is `laravel.dev` and your current `Docker-IP` is `xxx.xxx.xxx.xxx`.
+Assuming your custom domain is `laravel.dev`
 
-1 - Open your `/etc/hosts` file and map your `Docker IP` to the `laravel.dev` domain, by adding the following:
+1 - Open your `/etc/hosts` file and map your localhost address `127.0.0.1` to the `laravel.dev` domain, by adding the following:
 
 ```bash
-xxx.xxx.xxx.xxx    laravel.dev
+127.0.0.1    laravel.dev
 ```
 
-2 - Open your Laravel's `.env` file and replace the `127.0.0.1` default values with your `{Docker-IP}`.
-<br>
-Example:
-
-```env
-DB_HOST=xxx.xxx.xxx.xxx
-```
-
-3 - Open your browser and visit `{http://laravel.dev}`
-
+2 - Open your browser and visit `{http://laravel.dev}`
 
 
 Optionally you can define the server name in the nginx config file, like this:
@@ -980,6 +920,8 @@ It should be like this:
 
 3 - Re-build the container `docker-compose build workspace`
 
+
+
 <br>
 <a name="debugging"></a>
 ### Debugging
@@ -1001,6 +943,29 @@ Use `http://127.0.0.1` (or [your Docker IP](#Find-Docker-IP-Address)) instead of
 #### I see an error message containing `address already in use`
 
 Make sure the ports for the services that you are trying to run (80, 3306, etc.) are not being used already by other programs, such as a built in `apache`/`httpd` service or other development tools you have installed.
+
+
+
+
+<br>
+<a name="upgrading"></a>
+### Upgrading Docker
+
+#### From Docker Toolbox (VirtualBox) to Docker for Mac/Windows (Native)
+
+1. Stop the docker vm `docker-machine stop {default}`
+2. Install Docker for [Mac](https://docs.docker.com/docker-for-mac/) or [Windows](https://docs.docker.com/docker-for-windows/).
+3. Upgrade LaraDock to `v4.*.*`.
+4. Use LaraDock as you used to do: `docker-compose up -d nginx mysql`.
+
+**Note:** If you face any problem with the last step above: rebuild all your containers "Warnning Containers Data might be lost!" 
+`docker-compose build --no-cache`
+
+
+
+
+
+
 
 
 <br>
