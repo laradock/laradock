@@ -78,9 +78,14 @@ USER laradock
 #####################################
 
 # Add the composer.json
-ADD ./composer.json /home/laradock/.composer/composer.json
+COPY ./composer.json /home/laradock/.composer/composer.json
 
-# Check if global install need to be runned
+# Make sure that ~/.composer belongs to laradock
+USER root
+RUN chown -R laradock:laradock /home/laradock/.composer
+USER laradock
+
+# Check if global install need to be ran
 ARG COMPOSER_GLOBAL_INSTALL=true
 ENV COMPOSER_GLOBAL_INSTALL ${COMPOSER_GLOBAL_INSTALL}
 RUN if [ ${COMPOSER_GLOBAL_INSTALL} = true ]; then \
