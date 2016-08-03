@@ -987,6 +987,7 @@ Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requ
 
 This little project was built by one man who has a full time job and many responsibilities, so if you like this project and you find that it needs a bug fix or support for new software or upgrade any container, or anything else.. Do not hesitate to contribute, you are more than welcome :)
 
+#### Read our [Contribution Guidelines](https://github.com/LaraDock/laradock/blob/master/CONTRIBUTING.md)
 
 <a name="Help"></a>
 ## Help & Questions

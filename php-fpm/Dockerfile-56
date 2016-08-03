@@ -3,6 +3,12 @@
 # Image Setup
 #--------------------------------------------------------------------------
 #
+# To edit the 'php-fpm' base Image, visit its repository on Github
+#    https://github.com/LaraDock/php-fpm
+#
+# To change its version, see the available Tags on the Docker Hub:
+#    https://hub.docker.com/r/laradock/php-fpm/tags/
+#
 
 FROM laradock/php-fpm:5.6--1.0
 

@@ -3,6 +3,12 @@
 # Image Setup
 #--------------------------------------------------------------------------
 #
+# To edit the 'workspace' base Image, visit its repository on Github
+#    https://github.com/LaraDock/workspace
+#
+# To change its version, see the available Tags on the Docker Hub:
+#    https://hub.docker.com/r/laradock/workspace/tags/
+#
 
 FROM laradock/workspace:1.0
 
