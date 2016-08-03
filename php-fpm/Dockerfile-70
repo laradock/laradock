@@ -10,7 +10,7 @@
 #    https://hub.docker.com/r/laradock/php-fpm/tags/
 #
 
-FROM laradock/php-fpm:7.0--1.0
+FROM laradock/php-fpm:7.0--1.1
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
