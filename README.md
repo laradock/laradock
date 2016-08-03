@@ -351,7 +351,7 @@ docker-compose down
 2 - enter any container using:
 
 ```bash
-docker-composer exec {container-name} bash
+docker-compose exec {container-name} bash
 ```
 
 *Example: enter MySQL container*
