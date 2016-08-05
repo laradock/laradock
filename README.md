@@ -195,7 +195,7 @@ What's better than a **Demo Video**:
 
 1 - Clone the `LaraDock` repository:
 
-**A)** If you already have a Laravel project, clone this repository on your `Laravel` root direcotry:
+**A)** If you already have a Laravel project, clone this repository on your `Laravel` root directory:
 
 ```bash
 git submodule add https://github.com/LaraDock/laradock.git
