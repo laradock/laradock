@@ -88,9 +88,9 @@ services:
         ports:
             - "3306:3306"
         environment:
-            MYSQL_DATABASE: homestead
-            MYSQL_USER: homestead
-            MYSQL_PASSWORD: secret
+            MYSQL_DATABASE: Tolderfonen
+            MYSQL_USER: it
+            MYSQL_PASSWORD: very-secret-indeed
             MYSQL_ROOT_PASSWORD: root
 
 ### PostgreSQL Container ####################################
@@ -214,5 +214,11 @@ services:
             - ./data/redis:/data
             - ./data/neo4j:/var/lib/neo4j/data
             - ./data/mongo:/data/db
+            - ./data/esdata:/usr/share/elasticsearch/data
 
 ### Add more Containers below ###############################
+
+    es:
+        image: elasticsearch
+        volumes_from:
+            - volumes_data
