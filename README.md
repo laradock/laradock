@@ -1006,6 +1006,9 @@ For special help with Docker and/or Laravel, you can schedule a live call with t
 
 **Main Contributors:**
 
+- [Suteepat (tianissimo)](https://github.com/tianissimo)
+- [David (davidavz)](https://github.com/davidavz)
+- [Lialosiu](https://github.com/lialosiu)
 - [Eric Pfeiffer (computerfr33k)](https://github.com/computerfr33k)
 - [Orette](https://github.com/orette)
 - [Jack Fletcher (Kauhat)](https://github.com/Kauhat)
