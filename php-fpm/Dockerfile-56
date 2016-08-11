@@ -35,6 +35,7 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 #
 #   - INSTALL_XDEBUG=           false
 #   - INSTALL_MONGO=            false
+#   - INSTALL_MEMCACHED=        false
 #
 
 #####################################
@@ -58,6 +59,18 @@ ENV INSTALL_MONGO ${INSTALL_MONGO}
 RUN if [ ${INSTALL_MONGO} = true ]; then \
     # Install the mongodb extention
     pecl install mongodb \
+;fi
+
+#####################################
+# PHP Memcached:
+#####################################
+
+ARG INSTALL_MEMCACHED=true
+ENV INSTALL_MEMCACHED ${INSTALL_MEMCACHED}
+RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
+    # Install the php memcached extension
+    pecl install memcached && \
+    docker-php-ext-enable memcached \
 ;fi
 
 #
