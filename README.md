@@ -49,6 +49,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Change the PHP-FPM Version](#Change-the-PHP-FPM-Version)
 		- [Change the PHP-CLI Version](#Change-the-PHP-CLI-Version)
 		- [Install xDebug](#Install-xDebug)
+		    - [Setup for PHPStorm](#Install-xDebug-PHPStorm)
 	- [Misc](#Misc)
 		- [Use custom Domain](#Use-custom-Domain)
 		- [Enable Global Composer Build Install](#Enable-Global-Composer-Build-Install)
@@ -832,6 +833,11 @@ It should be like this:
 
 2 - Re-build the containers `docker-compose build workspace php-fpm`
 
+<a name="Install-xDebug-PHPStorm"></a>
+#### PHPStorm
+[laravel-laradock-phpstorm](https://github.com/LarryEitel/laravel-laradock-phpstorm) is a project that demonstrates how to set up `LaraDock` with `PHPStorm` for **remote debugging**. It includes many configuration screenshots.
+
+The developer is inviting refinements with a goal of ultimately merging this functionality in to LaraDock.
 
 
 <br>
