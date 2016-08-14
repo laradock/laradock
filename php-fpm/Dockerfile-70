@@ -35,6 +35,7 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 #
 #   - INSTALL_XDEBUG=           false
 #   - INSTALL_MONGO=            false
+#   - INSTALL_ZIP_ARCHIVE=      false
 #
 
 #####################################
@@ -59,6 +60,18 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
     # Install the mongodb extention
     pecl install mongodb \
 ;fi
+
+#####################################
+# ZipArchive:
+#####################################
+
+ARG INSTALL_ZIP_ARCHIVE=true
+ENV INSTALL_ZIP_ARCHIVE ${INSTALL_ZIP_ARCHIVE}
+RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
+    # Install the zip extention
+    pecl install zip \
+;fi
+
 
 #
 #--------------------------------------------------------------------------
