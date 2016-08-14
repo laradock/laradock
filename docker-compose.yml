@@ -26,6 +26,7 @@ services:
             args:
                 - INSTALL_MONGO=false
                 - INSTALL_XDEBUG=false
+                - INSTALL_ZIP_ARCHIVE=false
             dockerfile: Dockerfile-70
         volumes_from:
             - volumes_source
