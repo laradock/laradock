@@ -1,96 +1,136 @@
-FROM phusion/baseimage:latest
+#
+#--------------------------------------------------------------------------
+# Image Setup
+#--------------------------------------------------------------------------
+#
+# To edit the 'workspace' base Image, visit its repository on Github
+#    https://github.com/LaraDock/workspace
+#
+# To change its version, see the available Tags on the Docker Hub:
+#    https://hub.docker.com/r/laradock/workspace/tags/
+#
+
+FROM laradock/workspace:1.1
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
-RUN DEBIAN_FRONTEND=noninteractive
-RUN locale-gen en_US.UTF-8
+#
+#--------------------------------------------------------------------------
+# Mandatory Software's Installation
+#--------------------------------------------------------------------------
+#
+# Mandatory Software's such as ("php7.0-cli", "git", "vim", ....) are
+# installed on the base image 'laradock/workspace' image. If you want
+# to add more Software's or remove existing one, you need to edit the
+# base image (https://github.com/LaraDock/workspace).
+#
 
-ENV LANGUAGE=en_US.UTF-8
-ENV LC_ALL=en_US.UTF-8
-ENV LC_CTYPE=UTF-8
-ENV LANG=en_US.UTF-8
-ENV TERM xterm
+#
+#--------------------------------------------------------------------------
+# Optional Software's Installation
+#--------------------------------------------------------------------------
+#
+# Optional Software's will only be installed if you set them to `true`
+# in the `docker-compose.yml` before the build.
+#
+#   - INSTALL_XDEBUG=           false
+#   - INSTALL_MONGO=            false
+#   - COMPOSER_GLOBAL_INSTALL=  false
+#   - INSTALL_NODE=             false
+#
 
-# Install "software-properties-common" (for the "add-apt-repository")
-RUN apt-get update && apt-get install -y \
-    software-properties-common
+#####################################
+# xDebug:
+#####################################
 
-# Add the "PHP 7" ppa
-RUN add-apt-repository -y \
-    ppa:ondrej/php
+# Check if xDebug needs to be installed
+ARG INSTALL_XDEBUG=true
+ENV INSTALL_XDEBUG ${INSTALL_XDEBUG}
+RUN if [ ${INSTALL_XDEBUG} = true ]; then \
+    # Load the xdebug extension only with phpunit commands
+    apt-get install -y --force-yes php7.0-xdebug && \
+    sed -i 's/^/;/g' /etc/php/7.0/cli/conf.d/20-xdebug.ini && \
+    echo "alias phpunit='php -dzend_extension=xdebug.so /var/www/laravel/vendor/bin/phpunit'" >> ~/.bashrc \
+;fi
 
-# Install PHP-CLI 7, some PHP extentions and some useful Tools with APT
-RUN apt-get update && apt-get install -y --force-yes \
-        php7.0-cli \
-        php7.0-common \
-        php7.0-curl \
-        php7.0-json \
-        php7.0-xml \
-        php7.0-mbstring \
-        php7.0-mcrypt \
-        php7.0-mysql \
-        php7.0-pgsql \
-        php7.0-sqlite \
-        php7.0-sqlite3 \
-        php7.0-zip \
-        php7.0-memcached \
-        php7.0-gd \
-        php7.0-xdebug \
-        php-dev \
-        libcurl4-openssl-dev \
-        libedit-dev \
-        libssl-dev \
-        libxml2-dev \
-        xz-utils \
-        sqlite3 \
-        libsqlite3-dev \
-        git \
-        curl \
-        vim \
-        nano
+#####################################
+# MongoDB:
+#####################################
 
-# Clean up, to free some space
-RUN apt-get clean
+# Check if Mongo needs to be installed
+ARG INSTALL_MONGO=true
+ENV INSTALL_MONGO ${INSTALL_MONGO}
+RUN if [ ${INSTALL_MONGO} = true ]; then \
+    # Install the mongodb extension
+    pecl install mongodb && \
+    echo "extension=mongodb.so" >> /etc/php/7.0/cli/php.ini \
+;fi
 
-# remove load xdebug extension (only load on phpunit command)
-RUN sed -i 's/^/;/g' /etc/php/7.0/cli/conf.d/20-xdebug.ini
+#####################################
+# Non-Root User:
+#####################################
 
-# Add bin folder of composer to PATH.
-RUN echo "export PATH=${PATH}:/var/www/laravel/vendor/bin" >> ~/.bashrc
+# Add a non-root user to prevent files being created with root permissions on host machine.
+ARG PUID=1000
+ARG PGID=1000
+RUN groupadd -g $PGID laradock && \
+    useradd -u $PUID -g laradock -m laradock
 
-# Install Composer
-RUN curl -s http://getcomposer.org/installer | php \
-    && mv composer.phar /usr/local/bin/composer
+#####################################
+# Composer:
+#####################################
 
-# Load xdebug Zend extension with phpunit command
-RUN echo "alias phpunit='php -dzend_extension=xdebug.so /var/www/laravel/vendor/bin/phpunit'" >> ~/.bashrc
+# Add the composer.json
+COPY ./composer.json /home/laradock/.composer/composer.json
 
-# Install mongodb extension
-RUN pecl install mongodb
-RUN echo "extension=mongodb.so" >> /etc/php/7.0/cli/php.ini
+# Make sure that ~/.composer belongs to laradock
+RUN chown -R laradock:laradock /home/laradock/.composer
+USER laradock
 
-# Install nvm (Node Version Manager)
-RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.1/install.sh | bash
+# Check if global install need to be ran
+ARG COMPOSER_GLOBAL_INSTALL=true
+ENV COMPOSER_GLOBAL_INSTALL ${COMPOSER_GLOBAL_INSTALL}
+RUN if [ ${COMPOSER_GLOBAL_INSTALL} = true ]; then \
+    # run the install
+    composer global install \
+;fi
 
-ENV NVM_DIR=/root/.nvm
+#####################################
+# Node / NVM:
+#####################################
 
-# Install stable node
-RUN . ~/.nvm/nvm.sh \
-    && nvm install stable \
-    && nvm use stable \
-    && nvm alias stable \
-    && npm install -g gulp bower
+# Check if NVM needs to be installed
+ARG INSTALL_NODE=true
+ENV INSTALL_NODE ${INSTALL_NODE}
+ENV NVM_DIR /home/laradock/.nvm
+RUN if [ ${INSTALL_NODE} = true ]; then \
+    # Install nvm (A Node Version Manager)
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.3/install.sh | bash && \
+        . ~/.nvm/nvm.sh && \
+        nvm install stable && \
+        nvm use stable && \
+        nvm alias stable && \
+        npm install -g gulp bower \
+;fi
 
-# Source the bash
-RUN . ~/.bashrc
+# Wouldn't execute when added to the RUN statement in the above block
+# Source NVM when loading bash since ~/.profile isn't loaded on non-login shell
+RUN if [ ${INSTALL_NODE} = true ]; then \
+    echo "" >> ~/.bashrc && \
+    echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.bashrc && \
+    echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm' >> ~/.bashrc \
+;fi
+
+#
+#--------------------------------------------------------------------------
+# Final Touch
+#--------------------------------------------------------------------------
+#
 
 # Clean up
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+USER root
+RUN apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+# Set default work directory
 WORKDIR /var/www/laravel
-
-# Install optional software
-ARG INSTALL_PRESTISSIMO=false
-RUN if [ "$INSTALL_PRESTISSIMO" = true ] ; then \
-        composer global require "hirak/prestissimo:^0.3"; \
-    fi

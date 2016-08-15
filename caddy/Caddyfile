@@ -1,0 +1,17 @@
+# Docs: https://caddyserver.com/docs/caddyfile
+0.0.0.0:80
+root /var/www/laravel/public
+fastcgi / php-fpm:9000 php {
+    index index.php
+}
+rewrite {
+    r .*
+    ext /
+    to /index.php?{query}
+}
+browse
+log stdout
+errors stderr
+# Uncomment to enable TLS (HTTPS)
+# Change the first list to listen on port 443 when enabling TLS
+#tls self_signed
