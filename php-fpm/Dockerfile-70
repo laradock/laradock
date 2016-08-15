@@ -45,7 +45,7 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 ARG INSTALL_XDEBUG=true
 ENV INSTALL_XDEBUG ${INSTALL_XDEBUG}
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
-    # Install the xdebug extention
+    # Install the xdebug extension
     pecl install xdebug && \
     docker-php-ext-enable xdebug \
 ;fi
@@ -57,8 +57,9 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
 ARG INSTALL_MONGO=true
 ENV INSTALL_MONGO ${INSTALL_MONGO}
 RUN if [ ${INSTALL_MONGO} = true ]; then \
-    # Install the mongodb extention
-    pecl install mongodb \
+    # Install the mongodb extension
+    pecl install mongodb && \
+    docker-php-ext-enable mongodb \
 ;fi
 
 #####################################
@@ -68,8 +69,9 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
 ARG INSTALL_ZIP_ARCHIVE=true
 ENV INSTALL_ZIP_ARCHIVE ${INSTALL_ZIP_ARCHIVE}
 RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
-    # Install the zip extention
-    pecl install zip \
+    # Install the zip extension
+    pecl install zip && \
+    docker-php-ext-enable zip \
 ;fi
 
 
