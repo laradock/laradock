@@ -16,6 +16,11 @@ services:
                 - PGID=1000
         volumes_from:
             - volumes_source
+        extra_hosts:
+            # IMPORTANT: Replace with your Docker Host IP
+            # this will be appended to /etc/hosts
+            # Note that this IP can perhaps be better injected via .env
+            - "dockerhost:10.0.75.1"
         tty: true
 
 ### PHP-FPM Container #######################################
@@ -34,6 +39,17 @@ services:
             - "9000"
         links:
             - workspace
+        extra_hosts:
+            # IMPORTANT: Replace with your Docker Host IP
+            # this will be appended to /etc/hosts
+            # Note that this IP can perhaps be better injected via .env
+            - "dockerhost:10.0.75.1"
+        environment:
+            # IMPORTANT: You must have a Remote Interpreter entry matching this name
+            # In settings, search for interpreter...
+            # PHP > Languages & Frameworks > PHP > Interpreter > click on [...]
+            # Need to have a Remote Interpreter named 'laravel'
+            - PHP_IDE_CONFIG="serverName=laravel"
 
 ### Nginx Server Container ##################################
 
