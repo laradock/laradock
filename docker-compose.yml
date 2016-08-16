@@ -219,6 +219,18 @@ services:
         build: ./volumes/application
         volumes:
             - ../:/var/www/laravel
+            - ../../cpo/:/var/www/cpo
+
+            # By default, site_a and site_b are mirroring the parent Laravel app.
+            # This is because the nginx container has these domains
+            # enabled to demonstrate how to support multiple sites
+            - ../:/var/www/site_a
+            - ../:/var/www/site_b
+
+            # This demonstrates example of where you may mount sites
+            # - ../../site_a/:/var/www/site_a
+            # - ../../site_b/:/var/www/site_b
+
 
 ### Databases Data Container ################################
 
