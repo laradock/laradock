@@ -98,6 +98,20 @@ RUN if [ ${COMPOSER_GLOBAL_INSTALL} = true ]; then \
 ;fi
 
 #####################################
+# Drush:
+#####################################
+ENV DRUSH_VERSION 8.1.2
+
+# Install Drush 8 with the phar file.
+USER root
+RUN curl -fsSL -o /usr/local/bin/drush "https://github.com/drush-ops/drush/releases/download/$DRUSH_VERSION/drush.phar" && \
+  chmod +x /usr/local/bin/drush
+
+#Check if drush works for the laradock user
+USER laradock
+RUN drush core-status
+
+#####################################
 # Node / NVM:
 #####################################
 
