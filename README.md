@@ -58,7 +58,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Install Prestissimo](#Install-Prestissimo)
 		- [Install Node + NVM](#Install-Node)
 		- [Debugging](#debugging)
-		- [Upgrading LaraDock](#upgrading-laradock)
+		    - [Upgrading LaraDock](#upgrading-laradock)
 - [Help & Questions](#Help)
 
 
