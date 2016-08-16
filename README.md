@@ -49,6 +49,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Change the PHP-FPM Version](#Change-the-PHP-FPM-Version)
 		- [Change the PHP-CLI Version](#Change-the-PHP-CLI-Version)
 		- [Install xDebug](#Install-xDebug)
+		- [Start/Stop xDebug](#Controll-xDebug)
 	- [Misc](#Misc)
 		- [Use custom Domain](#Use-custom-Domain)
 		- [Enable Global Composer Build Install](#Enable-Global-Composer-Build-Install)
@@ -833,6 +834,24 @@ It should be like this:
 2 - Re-build the containers `docker-compose build workspace php-fpm`
 
 
+For information on how to configure xDebug with your IDE and work it out, check this [Repository](https://github.com/LarryEitel/laravel-laradock-phpstorm).
+
+
+<br>
+<a name="Controll-xDebug"></a>
+### Start/Stop xDebug:
+
+By installing xDebug, you are enabling it to run on startup by default.
+
+To controll the behavior of xDebug (in the `php-fpm` Container), you can run the following commands from the LaraDock root folder:
+
+- Stop xDebug from running by default: `./xdebugPhpFpm stop`.
+- Start xDebug by default: `./xdebugPhpFpm start`.
+- See the status: `./xdebugPhpFpm status`.
+
+
+
+
 
 <br>
 <a name="Misc"></a>
@@ -957,12 +976,10 @@ Use `http://127.0.0.1` instead of `http://localhost` in your browser.
 
 Make sure the ports for the services that you are trying to run (80, 3306, etc.) are not being used already by other programs, such as a built in `apache`/`httpd` service or other development tools you have installed.
 
-#### Stopping and Starting xdebug
 
-By default, if you have chosen to install xDebug, it will be running/enabled on startup. 
-- To stop xdebug in the `php-fpm` container, from your laradock folder, run: `./xdebugPhpFpm stop`.
-- To start, run: `./xdebugPhpFpm start`.
-- To see php -v, run: `./xdebugPhpFpm status`.
+
+
+
 
 <br>
 <a name="upgrading-laradock"></a>
@@ -1010,6 +1027,7 @@ For special help with Docker and/or Laravel, you can schedule a live call with t
 
 **Main Contributors:**
 
+- [Larry Eitel (LarryEitel)](https://github.com/LarryEitel)
 - [Suteepat (tianissimo)](https://github.com/tianissimo)
 - [David (davidavz)](https://github.com/davidavz)
 - [Lialosiu](https://github.com/lialosiu)
