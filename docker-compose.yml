@@ -11,6 +11,7 @@ services:
                 - INSTALL_MONGO=false
                 - INSTALL_XDEBUG=false
                 - INSTALL_NODE=false
+                - INSTALL_DRUSH=false
                 - COMPOSER_GLOBAL_INSTALL=false
                 - PUID=1000
                 - PGID=1000
@@ -33,6 +34,7 @@ services:
                 - INSTALL_XDEBUG=false
                 - INSTALL_ZIP_ARCHIVE=false
                 - INSTALL_MEMCACHED=false
+                - INSTALL_OPCACHE=false
             dockerfile: Dockerfile-70
         volumes_from:
             - volumes_source
