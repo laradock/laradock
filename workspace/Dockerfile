@@ -37,7 +37,7 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 #   - INSTALL_MONGO=            false
 #   - COMPOSER_GLOBAL_INSTALL=  false
 #   - INSTALL_NODE=             false
-#   - INSTALL_drush=            false
+#   - INSTALL_DRUSH=            false
 #
 
 #####################################
