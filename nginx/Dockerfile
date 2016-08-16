@@ -3,7 +3,7 @@ FROM nginx:alpine
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
 ADD nginx.conf /etc/nginx/
-ADD laravel.conf /etc/nginx/conf.d/laravel.conf
+COPY sites/*.conf /etc/nginx/sites-available/
 
 ARG PHP_UPSTREAM=php-fpm
 
