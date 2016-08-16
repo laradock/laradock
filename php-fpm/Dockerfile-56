@@ -92,8 +92,12 @@ RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
 #####################################
 # Opcache:
 #####################################
-RUN docker-php-ext-install opcache
-RUN docker-php-ext-enable opcache
+ARG INSTALL_OPCACHE=true
+ENV INSTALL_OPCACHE ${INSTALL_OPCACHE}
+RUN if [ ${INSTALL_OPCACHE} = true ]; then \
+    docker-php-ext-install opcache && \
+    docker-php-ext-enable opcache \
+;fi
 
 
 #
