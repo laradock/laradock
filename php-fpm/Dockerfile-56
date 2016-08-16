@@ -36,6 +36,7 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 #   - INSTALL_XDEBUG=           false
 #   - INSTALL_MONGO=            false
 #   - INSTALL_ZIP_ARCHIVE=      false
+#   - INSTALL_MEMCACHED=        false
 #
 
 #####################################
@@ -72,6 +73,18 @@ RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
     # Install the zip extension
     pecl install zip && \
     docker-php-ext-enable zip \
+;fi
+
+#####################################
+# PHP Memcached:
+#####################################
+
+ARG INSTALL_MEMCACHED=true
+ENV INSTALL_MEMCACHED ${INSTALL_MEMCACHED}
+RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
+    # Install the php memcached extension
+    pecl install memcached && \
+    docker-php-ext-enable memcached \
 ;fi
 
 
