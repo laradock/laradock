@@ -957,8 +957,12 @@ Use `http://127.0.0.1` instead of `http://localhost` in your browser.
 
 Make sure the ports for the services that you are trying to run (80, 3306, etc.) are not being used already by other programs, such as a built in `apache`/`httpd` service or other development tools you have installed.
 
+#### Stopping and Starting xdebug
 
-
+By default, if you have chosen to install xDebug, it will be running/enabled on startup. 
+- To stop xdebug in the `php-fpm` container, from your laradock folder, run: `./xdebugPhpFpm stop`.
+- To start, run: `./xdebugPhpFpm start`.
+- To see php -v, run: `./xdebugPhpFpm status`.
 
 <br>
 <a name="upgrading-laradock"></a>
