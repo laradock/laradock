@@ -50,6 +50,8 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     pecl install xdebug && \
     docker-php-ext-enable xdebug \
 ;fi
+# ADD for REMOTE debugging
+COPY ./xdebug_settings_only.ini /usr/local/etc/php/conf.d/xdebug_settings_only.ini
 
 #####################################
 # MongoDB:
