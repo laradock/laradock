@@ -49,7 +49,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Change the PHP-FPM Version](#Change-the-PHP-FPM-Version)
 		- [Change the PHP-CLI Version](#Change-the-PHP-CLI-Version)
 		- [Install xDebug](#Install-xDebug)
-		- [Start/Stop xDebug](#Controll-xDebug)
+		    - [Start/Stop xDebug](#Controll-xDebug)
 	- [Production](#Production)
 		- [Setup Laravel and Docker on Digital Ocean](#Digital-Ocean)
 	- [Misc](#Misc)
@@ -58,7 +58,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Install Prestissimo](#Install-Prestissimo)
 		- [Install Node + NVM](#Install-Node)
 		- [Debugging](#debugging)
-		    - [Upgrading LaraDock](#upgrading-laradock)
+		- [Upgrading LaraDock](#upgrading-laradock)
 - [Help & Questions](#Help)
 
 
