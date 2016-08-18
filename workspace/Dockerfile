@@ -65,7 +65,7 @@ COPY ./xdebug_settings_only.ini /etc/php/7.0/cli/conf.d/xdebug_settings_only.ini
 ADD insecure_id_rsa /tmp/id_rsa
 ADD insecure_id_rsa.pub /tmp/id_rsa.pub
 ARG INSTALL_WORKSPACE_SSH=true
-ENV INSTALL_WORKSPACE_SSH ${INSTALL_SSH}
+ENV INSTALL_WORKSPACE_SSH ${INSTALL_WORKSPACE_SSH}
 RUN if [ ${INSTALL_WORKSPACE_SSH} = true ]; then \
     rm -f /etc/service/sshd/down && \
     cat /tmp/id_rsa.pub >> /root/.ssh/authorized_keys \
