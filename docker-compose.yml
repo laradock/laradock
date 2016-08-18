@@ -12,6 +12,7 @@ services:
                 - INSTALL_XDEBUG=false
                 - INSTALL_NODE=false
                 - COMPOSER_GLOBAL_INSTALL=false
+                - INSTALL_WORKSPACE_SSH=false
                 - PUID=1000
                 - PGID=1000
         volumes_from:
