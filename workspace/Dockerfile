@@ -54,7 +54,7 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     echo "alias phpunit='php -dzend_extension=xdebug.so /var/www/laravel/vendor/bin/phpunit'" >> ~/.bashrc \
 ;fi
 # ADD for REMOTE debugging
-COPY ./xdebug_settings_only.ini /etc/php/7.0/cli/conf.d/xdebug_settings_only.ini
+COPY ./xdebug.ini /etc/php/7.0/cli/conf.d/xdebug.ini
 
 #####################################
 # MongoDB:

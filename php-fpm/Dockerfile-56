@@ -32,11 +32,8 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 #
 # Optional Software's will only be installed if you set them to `true`
 # in the `docker-compose.yml` before the build.
-#
-#   - INSTALL_XDEBUG=           false
-#   - INSTALL_MONGO=            false
-#   - INSTALL_ZIP_ARCHIVE=      false
-#   - INSTALL_MEMCACHED=        false
+# Example:
+#   - INSTALL_ZIP_ARCHIVE=true
 #
 
 #####################################
@@ -50,8 +47,9 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     pecl install xdebug && \
     docker-php-ext-enable xdebug \
 ;fi
-# ADD for REMOTE debugging
-COPY ./xdebug_settings_only.ini /usr/local/etc/php/conf.d/xdebug_settings_only.ini
+
+# Copy xdebug configration for remote debugging
+COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 #####################################
 # MongoDB:
@@ -98,7 +96,6 @@ RUN if [ ${INSTALL_OPCACHE} = true ]; then \
     docker-php-ext-install opcache && \
     docker-php-ext-enable opcache \
 ;fi
-
 
 #
 #--------------------------------------------------------------------------
