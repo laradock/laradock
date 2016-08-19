@@ -1,5 +1,3 @@
-
-
 # Contributing to LaraDock
 
 Your contribution is more than welcome. Let's keep LaraDock amazing.
