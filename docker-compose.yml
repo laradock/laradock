@@ -8,8 +8,8 @@ services:
         build:
             context: ./workspace
             args:
-                - INSTALL_MONGO=false
                 - INSTALL_XDEBUG=false
+                - INSTALL_MONGO=false
                 - INSTALL_NODE=false
                 - INSTALL_DRUSH=false
                 - COMPOSER_GLOBAL_INSTALL=false
@@ -18,9 +18,7 @@ services:
         volumes_from:
             - volumes_source
         extra_hosts:
-            # IMPORTANT: Replace with your Docker Host IP
-            # this will be appended to /etc/hosts
-            # Note that this IP can perhaps be better injected via .env
+            # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
             - "dockerhost:10.0.75.1"
         tty: true
 
@@ -30,8 +28,8 @@ services:
         build:
             context: ./php-fpm
             args:
-                - INSTALL_MONGO=false
                 - INSTALL_XDEBUG=false
+                - INSTALL_MONGO=false
                 - INSTALL_ZIP_ARCHIVE=false
                 - INSTALL_MEMCACHED=false
                 - INSTALL_OPCACHE=false
@@ -43,15 +41,10 @@ services:
         links:
             - workspace
         extra_hosts:
-            # IMPORTANT: Replace with your Docker Host IP
-            # this will be appended to /etc/hosts
-            # Note that this IP can perhaps be better injected via .env
+            # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
             - "dockerhost:10.0.75.1"
         environment:
-            # IMPORTANT: You must have a Remote Interpreter entry matching this name
-            # In settings, search for interpreter...
-            # PHP > Languages & Frameworks > PHP > Interpreter > click on [...]
-            # Need to have a Remote Interpreter named 'laravel'
+            # IMPORTANT: Set the Remote Interpreter entry matching name to `laravel`
             - PHP_IDE_CONFIG="serverName=laravel"
 
 ### Nginx Server Container ##################################
@@ -221,17 +214,9 @@ services:
         build: ./volumes/application
         volumes:
             - ../:/var/www/laravel
-
-            # By default, site_a and site_b are mirroring the parent Laravel app.
-            # This is because the nginx container has these domains
-            # enabled to demonstrate how to support multiple sites
-            - ../:/var/www/site_a
-            - ../:/var/www/site_b
-
-            # This demonstrates example of where you may mount sites
+            # Demonstration of how to mount multiple sites
             # - ../../site_a/:/var/www/site_a
             # - ../../site_b/:/var/www/site_b
-
 
 ### Databases Data Container ################################
 

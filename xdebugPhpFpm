@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# NOTE: At the moment, this has only been confirmed to work PHP 7
+# NOTE: At the moment, this has only been confirmed to work with PHP 7
 
 
 # Grab full name of php-fpm container
