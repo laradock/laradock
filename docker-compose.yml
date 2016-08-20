@@ -163,6 +163,18 @@ services:
         ports:
             - "6379:6379"
 
+### Aerospike Container #########################################
+
+    aerospike:
+        build: ./aerospike
+        volumes_from:
+            - volumes_data
+        ports:
+            - "3000:3000"
+            - "3001:3001"
+            - "3002:3002"
+            - "3003:3003"
+
 ### Memcached Container #####################################
 
     memcached:
@@ -230,5 +242,6 @@ services:
             - ./data/redis:/data
             - ./data/neo4j:/var/lib/neo4j/data
             - ./data/mongo:/data/db
+            - ./data/aerospike:/opt/aerospike/data
 
 ### Add more Containers below ###############################
