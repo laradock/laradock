@@ -49,6 +49,9 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Change the PHP-FPM Version](#Change-the-PHP-FPM-Version)
 		- [Change the PHP-CLI Version](#Change-the-PHP-CLI-Version)
 		- [Install xDebug](#Install-xDebug)
+		    - [Start/Stop xDebug](#Controll-xDebug)
+	- [Production](#Production)
+		- [Setup Laravel and Docker on Digital Ocean](#Digital-Ocean)
 	- [Misc](#Misc)
 		- [Use custom Domain](#Use-custom-Domain)
 		- [Enable Global Composer Build Install](#Enable-Global-Composer-Build-Install)
@@ -290,7 +293,7 @@ If you need a special support. Contact me, more details in the [Help & Questions
 
 
 <a name="Docker"></a>
-### [Docker]
+
 
 
 
@@ -472,7 +475,6 @@ docker logs {container-name}
 
 <br>
 <a name="Laravel"></a>
-### [Laravel]
 
 
 
@@ -701,7 +703,6 @@ More details about this [here](https://github.com/jenssegers/laravel-mongodb#ins
 
 <br>
 <a name="PHP"></a>
-### [PHP]
 
 
 
@@ -833,10 +834,51 @@ It should be like this:
 2 - Re-build the containers `docker-compose build workspace php-fpm`
 
 
+For information on how to configure xDebug with your IDE and work it out, check this [Repository](https://github.com/LarryEitel/laravel-laradock-phpstorm).
+
+
+<br>
+<a name="Controll-xDebug"></a>
+### Start/Stop xDebug:
+
+By installing xDebug, you are enabling it to run on startup by default.
+
+To controll the behavior of xDebug (in the `php-fpm` Container), you can run the following commands from the LaraDock root folder:
+
+- Stop xDebug from running by default: `./xdebugPhpFpm stop`.
+- Start xDebug by default: `./xdebugPhpFpm start`.
+- See the status: `./xdebugPhpFpm status`.
+
+
+
+
+
+<br>
+<a name="Production"></a>
+
+
+
+
+<br>
+<a name="Digital-Ocean"></a>
+### Setup Laravel and Docker on Digital Ocean
+
+####[Full Giude Here](https://github.com/LaraDock/laradock/blob/master/_guides/digital_ocean.md)
+
+
+
+
+
+
+
+
+
 
 <br>
 <a name="Misc"></a>
-### [Misc]
+
+
+
 
 
 <br>
@@ -960,6 +1002,8 @@ Make sure the ports for the services that you are trying to run (80, 3306, etc.)
 
 
 
+
+
 <br>
 <a name="upgrading-laradock"></a>
 ### Upgrading LaraDock
@@ -987,7 +1031,7 @@ Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requ
 
 This little project was built by one man who has a full time job and many responsibilities, so if you like this project and you find that it needs a bug fix or support for new software or upgrade any container, or anything else.. Do not hesitate to contribute, you are more than welcome :)
 
-#### Read our [Contribution Guidelines](https://github.com/LaraDock/laradock/blob/master/CONTRIBUTING.md)
+#### Read our [Contribution Guidelines](https://github.com/LaraDock/laradock/blob/master/_guides/contributing.md)
 
 <a name="Help"></a>
 ## Help & Questions
@@ -1006,6 +1050,8 @@ For special help with Docker and/or Laravel, you can schedule a live call with t
 
 **Main Contributors:**
 
+- [MidasCodeBreaker](https://github.com/midascodebreaker)
+- [Larry Eitel (LarryEitel)](https://github.com/LarryEitel)
 - [Suteepat (tianissimo)](https://github.com/tianissimo)
 - [David (davidavz)](https://github.com/davidavz)
 - [Lialosiu](https://github.com/lialosiu)
