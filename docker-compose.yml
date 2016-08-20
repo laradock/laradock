@@ -12,6 +12,7 @@ services:
                 - INSTALL_MONGO=false
                 - INSTALL_NODE=false
                 - INSTALL_DRUSH=false
+                - INSTALL_AEROSPIKE_EXTENSION=false
                 - COMPOSER_GLOBAL_INSTALL=false
                 - PUID=1000
                 - PGID=1000
@@ -33,6 +34,7 @@ services:
                 - INSTALL_ZIP_ARCHIVE=false
                 - INSTALL_MEMCACHED=false
                 - INSTALL_OPCACHE=false
+                - INSTALL_AEROSPIKE_EXTENSION=false
             dockerfile: Dockerfile-70
         volumes_from:
             - volumes_source
@@ -163,7 +165,7 @@ services:
         ports:
             - "6379:6379"
 
-### Aerospike Container #########################################
+### Aerospike c Container #########################################
 
     aerospike:
         build: ./aerospike
@@ -174,6 +176,8 @@ services:
             - "3001:3001"
             - "3002:3002"
             - "3003:3003"
+        volumes_from:
+            - workspace
 
 ### Memcached Container #####################################
 

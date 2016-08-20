@@ -140,6 +140,28 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
     echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm' >> ~/.bashrc \
 ;fi
 
+#####################################
+# PHP Aerospike:
+#####################################
+USER root
+ARG INSTALL_AEROSPIKE_EXTENSION=true
+ENV INSTALL_AEROSPIKE_EXTENSION ${INSTALL_AEROSPIKE_EXTENSION}
+# Copy aerospike configration for remote debugging
+COPY ./aerospike.ini /etc/php/7.0/cli/conf.d/aerospike.ini
+RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = true ]; then \
+    # Install the php aerospike extension
+    curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/luciano-jr/aerospike-client-php/archive/master.tar.gz" \
+    && mkdir -p aerospike-client-php \
+    && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
+    && ( \
+        cd aerospike-client-php/src/aerospike \
+        && phpize \
+        && ./build.sh \
+        && make install \
+    ) \
+    && rm /tmp/aerospike-client-php.tar.gz \
+;fi
+
 #
 #--------------------------------------------------------------------------
 # Final Touch
