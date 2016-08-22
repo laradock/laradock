@@ -209,6 +209,25 @@ services:
         links:
             - php-fpm
 
+### phpMyAdmin Container ##################################
+
+    phpmyadmin:
+        build: ./phpmyadmin
+        environment:
+            PMA_ARBITRARY: 1
+            MYSQL_USER: homestead
+            MYSQL_PASSWORD: secret
+            MYSQL_ROOT_PASSWORD: root
+        volumes_from:
+            - volumes_data
+        ports:
+            - "8000:80"
+        links:
+            # for mysql container
+            - "mysql:db"
+            # for mariadb container
+            # - "mariadb:db"
+
 ### Laravel Application Code Container ######################
 
     volumes_source:
@@ -231,5 +250,6 @@ services:
             - ./data/redis:/data
             - ./data/neo4j:/var/lib/neo4j/data
             - ./data/mongo:/data/db
+            - ./data/sessions:/sessions
 
 ### Add more Containers below ###############################
