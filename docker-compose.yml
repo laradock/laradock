@@ -245,7 +245,6 @@ services:
         volumes:
             - ./data/mysql:/var/lib/mysql
             - ./data/postgres:/var/lib/postgres
-            - ./data/mariadb:/var/lib/mariadb
             - ./data/memcached:/var/lib/memcached
             - ./data/redis:/data
             - ./data/neo4j:/var/lib/neo4j/data
