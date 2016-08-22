@@ -13,6 +13,7 @@ services:
                 - INSTALL_NODE=false
                 - INSTALL_DRUSH=false
                 - COMPOSER_GLOBAL_INSTALL=false
+                - INSTALL_WORKSPACE_SSH=false
                 - PUID=1000
                 - PGID=1000
         volumes_from:
