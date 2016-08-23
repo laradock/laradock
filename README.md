@@ -126,6 +126,7 @@ Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL` and `Red
 	- Beanstalkd (+ Beanstalkd Console)
 - **Tools:**
 	- Workspace (PHP7-CLI, Composer, Git, Node, Gulp, SQLite, Vim, Nano, cURL...)
+	- phpMyAdmin
 
 
 >If you can't find your Software, build it yourself and add it to this list. Contributions are welcomed :)
@@ -243,7 +244,7 @@ docker-compose up -d  nginx mysql
 
 You can select your own combination of Containers form the list below:
 
-`nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `workspace`.
+`nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `workspace`, `phpmyadmin`.
 
 
 **Note**: `workspace` and `php-fpm` will run automatically in most of the cases, so no need to specify them in the `up` command.
