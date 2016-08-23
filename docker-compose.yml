@@ -221,7 +221,7 @@ services:
         volumes_from:
             - volumes_data
         ports:
-            - "8000:80"
+            - "8080:80"
         links:
             # for mysql container
             - "mysql:db"
