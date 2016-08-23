@@ -188,7 +188,7 @@ What's better than a **Demo Video**:
 <a name="Requirements"></a>
 ## Requirements
 
-- [Git](https://git-scm.com/downloads)                                           
+- [Git](https://git-scm.com/downloads)
 - [Docker](https://www.docker.com/products/docker/)
 
 
@@ -493,7 +493,7 @@ Example using Composer
 composer create-project laravel/laravel my-cool-app "5.2.*"
 ```
 
-> We recommand using `composer create-project` instead of the Laravel installer, to install Laravel.
+> We recommend using `composer create-project` instead of the Laravel installer, to install Laravel.
 
 For more about the Laravel installation click [here](https://laravel.com/docs/master#installing-laravel).
 
