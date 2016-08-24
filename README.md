@@ -44,6 +44,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Run Artisan Commands](#Run-Artisan-Commands)
 		- [Use Redis](#Use-Redis)
 		- [Use Mongo](#Use-Mongo)
+		- [Use phpMyAdmin](#Use-phpMyAdmin)
 	- [PHP](#PHP)
 		- [Install PHP Extensions](#Install-PHP-Extensions)
 		- [Change the PHP-FPM Version](#Change-the-PHP-FPM-Version)
@@ -52,8 +53,6 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		    - [Start/Stop xDebug](#Controll-xDebug)
 	- [Production](#Production)
 		- [Setup Laravel and Docker on Digital Ocean](#Digital-Ocean)
-	- [Database](#Database)
-		- [Use phpMyAdmin](#Use-phpMyAdmin)
 	- [Misc](#Misc)
 		- [Use custom Domain](#Use-custom-Domain)
 		- [Enable Global Composer Build Install](#Enable-Global-Composer-Build-Install)
@@ -705,6 +704,26 @@ More details about this [here](https://github.com/jenssegers/laravel-mongodb#ins
 
 
 <br>
+<a name="Use-phpMyAdmin"></a>
+### Use phpMyAdmin
+
+1 - Run the phpMyAdmin Container (`phpmyadmin`) with the `docker-compose up` command. Example:
+
+```bash
+# use with mysql
+docker-compose up -d mysql phpmyadmin
+
+# use with mariadb
+docker-compose up -d mariadb phpmyadmin
+```
+
+2 - Open your browser and visit the localhost on port **8080**:  `http://localhost:8080`
+
+
+
+
+
+<br>
 <a name="PHP"></a>
 
 
@@ -867,26 +886,6 @@ To controll the behavior of xDebug (in the `php-fpm` Container), you can run the
 ### Setup Laravel and Docker on Digital Ocean
 
 ####[Full Giude Here](https://github.com/LaraDock/laradock/blob/master/_guides/digital_ocean.md)
-
-
-
-<br>
-<a name="Database"></a>
-
-<br>
-<a name="Use-phpMyAdmin"></a>
-### Use phpMyAdmin
-
-1 - First make sure you run the phpMyAdmin Container (`phpmyadmin`) with the `docker-compose up` command.
-
-```bash
-# use mysql
-docker-compose up -d mysql phpmyadmin
-# use mariadb
-docker-compose up -d mariadb phpmyadmin
-```
-
-2 - Open your browser and visit the localhost: `http://localhost:8080`
 
 
 
