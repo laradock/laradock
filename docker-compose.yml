@@ -13,6 +13,7 @@ services:
                 - INSTALL_NODE=false
                 - INSTALL_DRUSH=false
                 - COMPOSER_GLOBAL_INSTALL=false
+                - INSTALL_WORKSPACE_SSH=false
                 - PUID=1000
                 - PGID=1000
         volumes_from:
@@ -208,6 +209,25 @@ services:
         links:
             - php-fpm
 
+### phpMyAdmin Container ##################################
+
+    phpmyadmin:
+        build: ./phpmyadmin
+        environment:
+            PMA_ARBITRARY: 1
+            MYSQL_USER: homestead
+            MYSQL_PASSWORD: secret
+            MYSQL_ROOT_PASSWORD: root
+        volumes_from:
+            - volumes_data
+        ports:
+            - "8080:80"
+        links:
+            # for mysql container
+            - "mysql:db"
+            # for mariadb container
+            # - "mariadb:db"
+
 ### Laravel Application Code Container ######################
 
     volumes_source:
@@ -225,10 +245,10 @@ services:
         volumes:
             - ./data/mysql:/var/lib/mysql
             - ./data/postgres:/var/lib/postgres
-            - ./data/mariadb:/var/lib/mariadb
             - ./data/memcached:/var/lib/memcached
             - ./data/redis:/data
             - ./data/neo4j:/var/lib/neo4j/data
             - ./data/mongo:/data/db
+            - ./data/sessions:/sessions
 
 ### Add more Containers below ###############################

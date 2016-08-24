@@ -126,6 +126,7 @@ Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL` and `Red
 	- Beanstalkd (+ Beanstalkd Console)
 - **Tools:**
 	- Workspace (PHP7-CLI, Composer, Git, Node, Gulp, SQLite, Vim, Nano, cURL...)
+	- phpMyAdmin
 
 
 >If you can't find your Software, build it yourself and add it to this list. Contributions are welcomed :)
@@ -187,7 +188,7 @@ What's better than a **Demo Video**:
 <a name="Requirements"></a>
 ## Requirements
 
-- [Git](https://git-scm.com/downloads)                                           
+- [Git](https://git-scm.com/downloads)
 - [Docker](https://www.docker.com/products/docker/)
 
 
@@ -243,7 +244,7 @@ docker-compose up -d  nginx mysql
 
 You can select your own combination of Containers form the list below:
 
-`nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `workspace`.
+`nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `workspace`, `phpmyadmin`.
 
 
 **Note**: `workspace` and `php-fpm` will run automatically in most of the cases, so no need to specify them in the `up` command.
@@ -492,7 +493,7 @@ Example using Composer
 composer create-project laravel/laravel my-cool-app "5.2.*"
 ```
 
-> We recommand using `composer create-project` instead of the Laravel installer, to install Laravel.
+> We recommend using `composer create-project` instead of the Laravel installer, to install Laravel.
 
 For more about the Laravel installation click [here](https://laravel.com/docs/master#installing-laravel).
 
