@@ -44,11 +44,15 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Run Artisan Commands](#Run-Artisan-Commands)
 		- [Use Redis](#Use-Redis)
 		- [Use Mongo](#Use-Mongo)
+		- [Use phpMyAdmin](#Use-phpMyAdmin)
 	- [PHP](#PHP)
 		- [Install PHP Extensions](#Install-PHP-Extensions)
 		- [Change the PHP-FPM Version](#Change-the-PHP-FPM-Version)
 		- [Change the PHP-CLI Version](#Change-the-PHP-CLI-Version)
 		- [Install xDebug](#Install-xDebug)
+		    - [Start/Stop xDebug](#Controll-xDebug)
+	- [Production](#Production)
+		- [Setup Laravel and Docker on Digital Ocean](#Digital-Ocean)
 	- [Misc](#Misc)
 		- [Use custom Domain](#Use-custom-Domain)
 		- [Enable Global Composer Build Install](#Enable-Global-Composer-Build-Install)
@@ -123,6 +127,7 @@ Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL` and `Red
 	- Beanstalkd (+ Beanstalkd Console)
 - **Tools:**
 	- Workspace (PHP7-CLI, Composer, Git, Node, Gulp, SQLite, Vim, Nano, cURL...)
+	- phpMyAdmin
 
 
 >If you can't find your Software, build it yourself and add it to this list. Contributions are welcomed :)
@@ -184,7 +189,7 @@ What's better than a **Demo Video**:
 <a name="Requirements"></a>
 ## Requirements
 
-- [Git](https://git-scm.com/downloads)                                           
+- [Git](https://git-scm.com/downloads)
 - [Docker](https://www.docker.com/products/docker/)
 
 
@@ -240,7 +245,7 @@ docker-compose up -d  nginx mysql
 
 You can select your own combination of Containers form the list below:
 
-`nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `workspace`.
+`nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `workspace`, `phpmyadmin`.
 
 
 **Note**: `workspace` and `php-fpm` will run automatically in most of the cases, so no need to specify them in the `up` command.
@@ -290,7 +295,7 @@ If you need a special support. Contact me, more details in the [Help & Questions
 
 
 <a name="Docker"></a>
-### [Docker]
+
 
 
 
@@ -472,7 +477,6 @@ docker logs {container-name}
 
 <br>
 <a name="Laravel"></a>
-### [Laravel]
 
 
 
@@ -490,7 +494,7 @@ Example using Composer
 composer create-project laravel/laravel my-cool-app "5.2.*"
 ```
 
-> We recommand using `composer create-project` instead of the Laravel installer, to install Laravel.
+> We recommend using `composer create-project` instead of the Laravel installer, to install Laravel.
 
 For more about the Laravel installation click [here](https://laravel.com/docs/master#installing-laravel).
 
@@ -700,8 +704,27 @@ More details about this [here](https://github.com/jenssegers/laravel-mongodb#ins
 
 
 <br>
+<a name="Use-phpMyAdmin"></a>
+### Use phpMyAdmin
+
+1 - Run the phpMyAdmin Container (`phpmyadmin`) with the `docker-compose up` command. Example:
+
+```bash
+# use with mysql
+docker-compose up -d mysql phpmyadmin
+
+# use with mariadb
+docker-compose up -d mariadb phpmyadmin
+```
+
+2 - Open your browser and visit the localhost on port **8080**:  `http://localhost:8080`
+
+
+
+
+
+<br>
 <a name="PHP"></a>
-### [PHP]
 
 
 
@@ -833,10 +856,44 @@ It should be like this:
 2 - Re-build the containers `docker-compose build workspace php-fpm`
 
 
+For information on how to configure xDebug with your IDE and work it out, check this [Repository](https://github.com/LarryEitel/laravel-laradock-phpstorm).
+
+
+<br>
+<a name="Controll-xDebug"></a>
+### Start/Stop xDebug:
+
+By installing xDebug, you are enabling it to run on startup by default.
+
+To controll the behavior of xDebug (in the `php-fpm` Container), you can run the following commands from the LaraDock root folder:
+
+- Stop xDebug from running by default: `./xdebugPhpFpm stop`.
+- Start xDebug by default: `./xdebugPhpFpm start`.
+- See the status: `./xdebugPhpFpm status`.
+
+
+
+
+
+<br>
+<a name="Production"></a>
+
+
+
+
+<br>
+<a name="Digital-Ocean"></a>
+### Setup Laravel and Docker on Digital Ocean
+
+####[Full Giude Here](https://github.com/LaraDock/laradock/blob/master/_guides/digital_ocean.md)
+
+
 
 <br>
 <a name="Misc"></a>
-### [Misc]
+
+
+
 
 
 <br>
@@ -960,6 +1017,8 @@ Make sure the ports for the services that you are trying to run (80, 3306, etc.)
 
 
 
+
+
 <br>
 <a name="upgrading-laradock"></a>
 ### Upgrading LaraDock
@@ -987,7 +1046,7 @@ Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requ
 
 This little project was built by one man who has a full time job and many responsibilities, so if you like this project and you find that it needs a bug fix or support for new software or upgrade any container, or anything else.. Do not hesitate to contribute, you are more than welcome :)
 
-#### Read our [Contribution Guidelines](https://github.com/LaraDock/laradock/blob/master/CONTRIBUTING.md)
+#### Read our [Contribution Guidelines](https://github.com/LaraDock/laradock/blob/master/_guides/contributing.md)
 
 <a name="Help"></a>
 ## Help & Questions
@@ -1006,6 +1065,11 @@ For special help with Docker and/or Laravel, you can schedule a live call with t
 
 **Main Contributors:**
 
+- [MidasCodeBreaker](https://github.com/midascodebreaker)
+- [Larry Eitel (LarryEitel)](https://github.com/LarryEitel)
+- [Suteepat (tianissimo)](https://github.com/tianissimo)
+- [David (davidavz)](https://github.com/davidavz)
+- [Lialosiu](https://github.com/lialosiu)
 - [Eric Pfeiffer (computerfr33k)](https://github.com/computerfr33k)
 - [Orette](https://github.com/orette)
 - [Jack Fletcher (Kauhat)](https://github.com/Kauhat)

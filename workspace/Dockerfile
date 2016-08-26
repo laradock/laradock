@@ -10,7 +10,7 @@
 #    https://hub.docker.com/r/laradock/workspace/tags/
 #
 
-FROM laradock/workspace:1.0
+FROM laradock/workspace:1.1
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
@@ -37,6 +37,7 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 #   - INSTALL_MONGO=            false
 #   - COMPOSER_GLOBAL_INSTALL=  false
 #   - INSTALL_NODE=             false
+#   - INSTALL_DRUSH=            false
 #
 
 #####################################
@@ -52,6 +53,30 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     sed -i 's/^/;/g' /etc/php/7.0/cli/conf.d/20-xdebug.ini && \
     echo "alias phpunit='php -dzend_extension=xdebug.so /var/www/laravel/vendor/bin/phpunit'" >> ~/.bashrc \
 ;fi
+# ADD for REMOTE debugging
+COPY ./xdebug.ini /etc/php/7.0/cli/conf.d/xdebug.ini
+
+
+#####################################
+# ssh:
+#####################################
+
+# Check if ssh needs to be installed
+# See: https://github.com/phusion/baseimage-docker#enabling_ssh
+ADD insecure_id_rsa /tmp/id_rsa
+ADD insecure_id_rsa.pub /tmp/id_rsa.pub
+ARG INSTALL_WORKSPACE_SSH=true
+ENV INSTALL_WORKSPACE_SSH ${INSTALL_WORKSPACE_SSH}
+RUN if [ ${INSTALL_WORKSPACE_SSH} = true ]; then \
+    rm -f /etc/service/sshd/down && \
+    cat /tmp/id_rsa.pub >> /root/.ssh/authorized_keys \
+        && cat /tmp/id_rsa.pub >> /root/.ssh/id_rsa.pub \
+        && cat /tmp/id_rsa >> /root/.ssh/id_rsa \
+        && rm -f /tmp/id_rsa* \
+        && chmod 644 /root/.ssh/authorized_keys /root/.ssh/id_rsa.pub \
+    && chmod 400 /root/.ssh/id_rsa \
+;fi
+
 
 #####################################
 # MongoDB:
@@ -75,7 +100,7 @@ ARG PUID=1000
 ARG PGID=1000
 RUN groupadd -g $PGID laradock && \
     useradd -u $PUID -g laradock -m laradock
-    
+
 #####################################
 # Composer:
 #####################################
@@ -96,23 +121,33 @@ RUN if [ ${COMPOSER_GLOBAL_INSTALL} = true ]; then \
 ;fi
 
 #####################################
+# Drush:
+#####################################
+USER root
+ENV DRUSH_VERSION 8.1.2
+ARG INSTALL_DRUSH=true
+ENV INSTALL_DRUSH ${INSTALL_DRUSH}
+RUN if [ ${INSTALL_DRUSH} = true ]; then \
+    # Install Drush 8 with the phar file.
+    curl -fsSL -o /usr/local/bin/drush https://github.com/drush-ops/drush/releases/download/$DRUSH_VERSION/drush.phar | bash && \
+    chmod +x /usr/local/bin/drush && \
+    drush core-status \
+;fi
+
+USER laradock
+
+#####################################
 # Node / NVM:
 #####################################
 
 # Check if NVM needs to be installed
 ARG INSTALL_NODE=true
 ENV INSTALL_NODE ${INSTALL_NODE}
+ENV NVM_DIR /home/laradock/.nvm
 RUN if [ ${INSTALL_NODE} = true ]; then \
     # Install nvm (A Node Version Manager)
-    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.3/install.sh | bash \
-;fi
-# Again check if NVM needs to be installed
-# I had to split this condition link this because when I get it inside the above if statement is refuses to work!
-ENV if [ ${INSTALL_NODE} = true ]; then \
-    # Set the ENV
-    NVM_DIR=/home/laradock/.nvm \
-    # Install NodeJS with NVM
-    RUN . ~/.nvm/nvm.sh && \
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.3/install.sh | bash && \
+        . ~/.nvm/nvm.sh && \
         nvm install stable && \
         nvm use stable && \
         nvm alias stable && \

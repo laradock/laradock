@@ -8,14 +8,19 @@ services:
         build:
             context: ./workspace
             args:
-                - INSTALL_MONGO=false
                 - INSTALL_XDEBUG=false
+                - INSTALL_MONGO=false
                 - INSTALL_NODE=false
+                - INSTALL_DRUSH=false
                 - COMPOSER_GLOBAL_INSTALL=false
+                - INSTALL_WORKSPACE_SSH=false
                 - PUID=1000
                 - PGID=1000
         volumes_from:
             - volumes_source
+        extra_hosts:
+            # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
+            - "dockerhost:40.69.44.123"
         tty: true
 
 ### PHP-FPM Container #######################################
@@ -24,8 +29,11 @@ services:
         build:
             context: ./php-fpm
             args:
-                - INSTALL_MONGO=false
                 - INSTALL_XDEBUG=false
+                - INSTALL_MONGO=false
+                - INSTALL_ZIP_ARCHIVE=false
+                - INSTALL_MEMCACHED=false
+                - INSTALL_OPCACHE=false
             dockerfile: Dockerfile-70
         volumes_from:
             - volumes_source
@@ -33,6 +41,12 @@ services:
             - "9000"
         links:
             - workspace
+        extra_hosts:
+            # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
+            - "dockerhost:40.69.44.123"
+        environment:
+            # IMPORTANT: Set the Remote Interpreter entry matching name to `laravel`
+            - PHP_IDE_CONFIG="serverName=laravel"
 
 ### Nginx Server Container ##################################
 
@@ -195,12 +209,34 @@ services:
         links:
             - php-fpm
 
+### phpMyAdmin Container ##################################
+
+    phpmyadmin:
+        build: ./phpmyadmin
+        environment:
+            PMA_ARBITRARY: 1
+            MYSQL_USER: homestead
+            MYSQL_PASSWORD: secret
+            MYSQL_ROOT_PASSWORD: root
+        volumes_from:
+            - volumes_data
+        ports:
+            - "8080:80"
+        links:
+            # for mysql container
+            - "mysql:db"
+            # for mariadb container
+            # - "mariadb:db"
+
 ### Laravel Application Code Container ######################
 
     volumes_source:
         build: ./volumes/application
         volumes:
             - ../:/var/www/laravel
+            # Demonstration of how to mount multiple sites
+            # - ../../site_a/:/var/www/site_a
+            # - ../../site_b/:/var/www/site_b
 
 ### Databases Data Container ################################
 
@@ -209,11 +245,11 @@ services:
         volumes:
             - ./data/mysql:/var/lib/mysql
             - ./data/postgres:/var/lib/postgres
-            - ./data/mariadb:/var/lib/mariadb
             - ./data/memcached:/var/lib/memcached
             - ./data/redis:/data
             - ./data/neo4j:/var/lib/neo4j/data
             - ./data/mongo:/data/db
+            - ./data/sessions:/sessions
             - ./data/esdata:/usr/share/elasticsearch/data
 
 ### Add more Containers below ###############################

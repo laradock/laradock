@@ -1,5 +1,3 @@
-
-
 # Contributing to LaraDock
 
 Your contribution is more than welcome. Let's keep LaraDock amazing.
@@ -54,9 +52,21 @@ Help us to maximize the effort we can spend fixing issues and adding new
 features, by not reporting duplicate issues.
 
 
+### Before Submitting a Pull Request (PR)
 
-### Submitting a Pull Request (PR)
-Before you submit your pull request consider the following guidelines:
+Always Test everything and make sure its working:
+
+- Pull the latest updates (or fork of you don’t have permission)
+- Before editing anything:
+    - Test building the container (docker-compose build --no-cache container-name) build with no cache first.
+    - Test running the container with some other containers in real app and see of everything is working fine.
+- Now edit the container (edit section by section and test rebuilding the container after every edited section)
+    - Testing building the container (docker-compose build container-name) with no errors.
+    - Test it in real App.
+
+
+### Submitting a PR
+Consider the following guidelines:
 
 * Search [GitHub](https://github.com/LaraDock/laradock/pulls) for an open or closed Pull Request that relates to your submission. You don't want to duplicate effort.
 
@@ -93,7 +103,7 @@ git push origin my-fix-branch -f
 
 
 
-### After your pull request is merged
+### After your PR is merged
 
 After your pull request is merged, you can safely delete your branch and pull the changes
 from the main (upstream) repository:
