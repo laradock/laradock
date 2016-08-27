@@ -959,6 +959,7 @@ Docker或Laravel的特别帮助，你可以在[Codementor.io](https://www.codeme
 
 **主要 贡献者:**
 
+- [Zhqagp](https://github.com/zhqagp)
 - [Suteepat (tianissimo)](https://github.com/tianissimo)
 - [David (davidavz)](https://github.com/davidavz)
 - [Lialosiu](https://github.com/lialosiu)
