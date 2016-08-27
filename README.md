@@ -13,10 +13,14 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 
 ![](https://s31.postimg.org/nbettdki3/lara_dock_poster_new.jpg)
 
+
+
 <br>
 ## Contents
 
-
+- [Readme Languages](#)
+	- [English (Default)](#)
+	- [Chinese](https://github.com/LaraDock/laradock/blob/master/README-zh.md)
 - [Intro](#Intro)
 	- [Features](#features)
 	- [Supported Software's](#Supported-Containers)
@@ -190,7 +194,7 @@ What's better than a **Demo Video**:
 ## Requirements
 
 - [Git](https://git-scm.com/downloads)
-- [Docker](https://www.docker.com/products/docker/)
+- [Docker](https://www.docker.com/products/docker/) `>= 1.12`
 
 
 
@@ -1065,6 +1069,8 @@ For special help with Docker and/or Laravel, you can schedule a live call with t
 
 **Main Contributors:**
 
+- [Zhqagp](https://github.com/zhqagp)
+- [Tim B (tjb328)](https://github.com/tjb328)
 - [MidasCodeBreaker](https://github.com/midascodebreaker)
 - [Larry Eitel (LarryEitel)](https://github.com/LarryEitel)
 - [Suteepat (tianissimo)](https://github.com/tianissimo)
