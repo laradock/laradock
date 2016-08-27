@@ -16,6 +16,7 @@ services:
                 - INSTALL_WORKSPACE_SSH=false
                 - PUID=1000
                 - PGID=1000
+                - NODE_VERSION=stable
         volumes_from:
             - volumes_source
         extra_hosts:
