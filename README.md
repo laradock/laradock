@@ -1002,6 +1002,8 @@ It should be like this:
 
 *Here's a list of the common problems you might face, and the possible solutions.*
 
+
+
 #### I see a blank (white) page instead of the Laravel 'Welcome' page!
 
 Run the following command from the Laravel root directory:
@@ -1010,14 +1012,25 @@ Run the following command from the Laravel root directory:
 sudo chmod -R 777 storage bootstrap/cache
 ```
 
+
 #### I see "Welcome to nginx" instead of the Laravel App!
 
 Use `http://127.0.0.1` instead of `http://localhost` in your browser.
+
+
 
 #### I see an error message containing `address already in use`
 
 Make sure the ports for the services that you are trying to run (80, 3306, etc.) are not being used already by other programs, such as a built in `apache`/`httpd` service or other development tools you have installed.
 
+
+
+#### I get Nginx error 404 Not Found on Windows.
+
+1. Go to docker Settings on your Windows machine. 
+2. Click on the `Shared Drives` tab and check the drive that contains your project files.
+3. Enter your windows username and password.
+4. Go to the `reset` tab and click restart docker.
 
 
 
