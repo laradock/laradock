@@ -185,6 +185,21 @@ services:
         links:
             - php-fpm
 
+### RabbitMQ Container ####################################
+
+    rabbitmq:
+        build: ./rabbitmq
+        ports:
+            - "5672:5672"
+            - "15671:15671"
+            - "8080:15672"
+        privileged: true
+        environment:
+            RABBITMQ_DEFAULT_USER: guest
+            RABBITMQ_DEFAULT_PASS: guest
+        links:
+            - php-fpm
+
 ### Beanstalkd Console Container ############################
 
     beanstalkd-console:
