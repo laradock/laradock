@@ -233,7 +233,7 @@ services:
 ### Laravel Application Code Container ######################
 
     volumes_source:
-        build: ./volumes/application
+        image: tianon/true
         volumes:
             - ../:/var/www/laravel
             # Demonstration of how to mount multiple sites
@@ -243,7 +243,7 @@ services:
 ### Databases Data Container ################################
 
     volumes_data:
-        build: ./volumes/data
+        image: tianon/true
         volumes:
             - ./data/mysql:/var/lib/mysql
             - ./data/postgres:/var/lib/postgres
