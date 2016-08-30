@@ -141,16 +141,18 @@ USER laradock
 #####################################
 
 # Check if NVM needs to be installed
+ARG NODE_VERSION=stable
+ENV NODE_VERSION ${NODE_VERSION}
 ARG INSTALL_NODE=true
 ENV INSTALL_NODE ${INSTALL_NODE}
 ENV NVM_DIR /home/laradock/.nvm
 RUN if [ ${INSTALL_NODE} = true ]; then \
     # Install nvm (A Node Version Manager)
-    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.3/install.sh | bash && \
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.6/install.sh | bash && \
         . ~/.nvm/nvm.sh && \
-        nvm install stable && \
-        nvm use stable && \
-        nvm alias stable && \
+        nvm install ${NODE_VERSION} && \
+        nvm use ${NODE_VERSION} && \
+        nvm alias ${NODE_VERSION} && \
         npm install -g gulp bower \
 ;fi
 
