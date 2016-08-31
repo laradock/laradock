@@ -64,6 +64,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Install Node + NVM](#Install-Node)
 		- [Debugging](#debugging)
 		- [Upgrading LaraDock](#upgrading-laradock)
+		- [Remove LaraDock-built containers and images](#wipe-laradock)
 - [Help & Questions](#Help)
 
 
@@ -1052,6 +1053,8 @@ Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requ
 **Note:** If you face any problem with the last step above: rebuild all your containers 
 `docker-compose build --no-cache`
 "Warnning Containers Data might be lost!"
+
+
 
 <br>
 <a name="wipe-laradock"></a>
