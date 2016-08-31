@@ -1064,7 +1064,7 @@ Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requ
 
 When upgrading LaraDock or switching branches to run or test different configurations, it can be useful to completely remove all containers and images that were built with docker-compose **WITHOUT** removing [laradock docker hub images](https://hub.docker.com/u/laradock/). The following is a bash function that you may find useful for this. 
 
-Place the following in your `~/.bashrc`. Be sure to `source ~/.bashrc` afterward.
+Place the following in your `~/.bashrc` or `~/.bash_profile` depending on which one is run on opening a new terminal.
 
 ```
 # remove laravel* containers
