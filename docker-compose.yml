@@ -170,8 +170,8 @@ services:
     aerospike:
         build: ./aerospike
         volumes_from:
-            - volumes_data
             - workspace
+            - volumes_data
         ports:
             - "3000:3000"
             - "3001:3001"
