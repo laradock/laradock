@@ -1089,7 +1089,7 @@ dcleanlaradockfunction()
 alias dcleanlaradock=dcleanlaradockfunction
 ```
 
-**IMPORTANT!!!** This script will also delete all laradock application and data volumes!
+**IMPORTANT!!!** This script will delete all laradock containers and images!
 
 
 
