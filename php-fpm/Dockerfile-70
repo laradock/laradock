@@ -41,7 +41,6 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 #####################################
 
 ARG INSTALL_XDEBUG=true
-ENV INSTALL_XDEBUG ${INSTALL_XDEBUG}
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     # Install the xdebug extension
     pecl install xdebug && \
@@ -56,7 +55,6 @@ COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 #####################################
 
 ARG INSTALL_MONGO=true
-ENV INSTALL_MONGO ${INSTALL_MONGO}
 RUN if [ ${INSTALL_MONGO} = true ]; then \
     # Install the mongodb extension
     pecl install mongodb && \
@@ -68,7 +66,6 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
 #####################################
 
 ARG INSTALL_ZIP_ARCHIVE=true
-ENV INSTALL_ZIP_ARCHIVE ${INSTALL_ZIP_ARCHIVE}
 RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
     # Install the zip extension
     pecl install zip && \
@@ -80,7 +77,6 @@ RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
 #####################################
 
 ARG INSTALL_MEMCACHED=true
-ENV INSTALL_MEMCACHED ${INSTALL_MEMCACHED}
 RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
     # Install the php memcached extension
     curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz" \
@@ -124,7 +120,6 @@ RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = true ]; then \
 # Opcache:
 #####################################
 ARG INSTALL_OPCACHE=true
-ENV INSTALL_OPCACHE ${INSTALL_OPCACHE}
 RUN if [ ${INSTALL_OPCACHE} = true ]; then \
     docker-php-ext-install opcache && \
     docker-php-ext-enable opcache \
