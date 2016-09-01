@@ -120,6 +120,7 @@ Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL` and `Red
 - **Cache Engines:**
 	- Redis
 	- Memcached
+	- Aerospike
 - **PHP Servers:**
 	- NGINX
 	- Apache2
@@ -250,7 +251,7 @@ docker-compose up -d  nginx mysql
 
 You can select your own combination of Containers form the list below:
 
-`nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `rabbitmq`, `workspace`, `phpmyadmin`.
+`nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `rabbitmq`, `workspace`, `phpmyadmin`, `aerospike`.
 
 
 **Note**: `workspace` and `php-fpm` will run automatically in most of the cases, so no need to specify them in the `up` command.
@@ -995,7 +996,40 @@ It should be like this:
 
 3 - Re-build the container `docker-compose build workspace`
 
+<br>
+<a name="Install-Aerospike-Extension"></a>
+### Install Aerospike extension
 
+1 - First install `aerospike` in the Workspace and the PHP-FPM Containers:
+<br>
+a) open the `docker-compose.yml` file
+<br>
+b) search for the `INSTALL_AEROSPIKE_EXTENSION` argument under the Workspace Container
+<br>
+c) set it to `true`
+<br>
+d) search for the `INSTALL_AEROSPIKE_EXTENSION` argument under the PHP-FPM Container
+<br>
+e) set it to `true`
+
+It should be like this:
+
+```yml
+    workspace:
+        build:
+            context: ./workspace
+            args:
+                - INSTALL_AEROSPIKE_EXTENSION=true
+    ...
+    php-fpm:
+        build:
+            context: ./php-fpm
+            args:
+                - INSTALL_AEROSPIKE_EXTENSION=true
+    ...
+```
+
+2 - Re-build the containers `docker-compose build workspace php-fpm`
 
 <br>
 <a name="debugging"></a>
