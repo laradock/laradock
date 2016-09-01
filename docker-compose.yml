@@ -171,13 +171,13 @@ services:
         build: ./aerospike
         volumes_from:
             - volumes_data
+            - workspace
         ports:
             - "3000:3000"
             - "3001:3001"
             - "3002:3002"
             - "3003:3003"
-        volumes_from:
-            - workspace
+            
 
 ### Memcached Container #####################################
 
