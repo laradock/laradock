@@ -32,7 +32,6 @@ $root@midascode:~# docker
 $root@midascode:~# apt-get install git
 $root@midascode:~# git clone https://github.com/laravel/laravel
 $root@midascode:~# cd laravel
-$root@midascode:~/laravel# git checkout develop
 $root@midascode:~/laravel/ git submodule add https://github.com/LaraDock/laradock.git
 $root@midascode:~/laravel/ cd laradock
 ```

@@ -16,11 +16,14 @@ services:
                 - INSTALL_WORKSPACE_SSH=false
                 - PUID=1000
                 - PGID=1000
+                - NODE_VERSION=stable
         volumes_from:
             - volumes_source
         extra_hosts:
             # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
             - "dockerhost:10.0.75.1"
+        ports:
+           - "22:22"
         tty: true
 
 ### PHP-FPM Container #######################################
@@ -44,6 +47,8 @@ services:
         extra_hosts:
             # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
             - "dockerhost:10.0.75.1"
+        ports:
+            - "22:22"
         environment:
             # IMPORTANT: Set the Remote Interpreter entry matching name to `laravel`
             - PHP_IDE_CONFIG="serverName=laravel"
@@ -185,6 +190,21 @@ services:
         links:
             - php-fpm
 
+### RabbitMQ Container ####################################
+
+    rabbitmq:
+        build: ./rabbitmq
+        ports:
+            - "5672:5672"
+            - "15671:15671"
+            - "8080:15672"
+        privileged: true
+        environment:
+            RABBITMQ_DEFAULT_USER: guest
+            RABBITMQ_DEFAULT_PASS: guest
+        links:
+            - php-fpm
+
 ### Beanstalkd Console Container ############################
 
     beanstalkd-console:
@@ -206,6 +226,7 @@ services:
             - "2015:2015"
         volumes:
             - ./caddy/Caddyfile:/etc/Caddyfile
+            - ./logs/caddy:/var/log/caddy
         links:
             - php-fpm
 
@@ -231,7 +252,7 @@ services:
 ### Laravel Application Code Container ######################
 
     volumes_source:
-        build: ./volumes/application
+        image: tianon/true
         volumes:
             - ../:/var/www/laravel
             # Demonstration of how to mount multiple sites
@@ -241,7 +262,7 @@ services:
 ### Databases Data Container ################################
 
     volumes_data:
-        build: ./volumes/data
+        image: tianon/true
         volumes:
             - ./data/mysql:/var/lib/mysql
             - ./data/postgres:/var/lib/postgres
