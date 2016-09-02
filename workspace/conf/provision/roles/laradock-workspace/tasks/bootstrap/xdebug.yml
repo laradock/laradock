@@ -1,0 +1,18 @@
+---
+
+- name: Install XDebug
+  apt: name=php7.0-xdebug state=latest
+  when: INSTALL_XDEBUG
+
+- name: Configure XDebug Settings
+  lineinfile: dest="{{ item.dest }}" regexp="{{ item.regexp }}" line="{{ item.line }}"
+  with_items:
+    - dest: "/etc/php/7.0/cli/conf.d/20-xdebug.ini"
+      regexp: "^zend_extension=xdebug.so"
+      line: ";zend_extension=xdebug.so"
+    - dest: "/home/laradock/.bashrc"
+      regexp: "alias phpunit='php -dzend_extension=xdebug.so /var/www/laravel/vendor/bin/phpunit'"
+      line: "alias phpunit='php -dzend_extension=xdebug.so /var/www/laravel/vendor/bin/phpunit'"
+  when: INSTALL_XDEBUG
+  
+- action: setup

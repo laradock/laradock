@@ -1,0 +1,13 @@
+---
+  
+- name: Install Drush
+  get_url:
+    dest: "/usr/local/bin/drush"
+    url: "https://github.com/drush-ops/drush/releases/download/{{ DRUSH_VERSION }}/drush.phar"
+    force: yes
+    mode: "u=rwx,g=rx,o=rx"
+  when:
+    - INSTALL_DRUSH
+    - DRUSH_VERSION is defined
+  
+- action: setup

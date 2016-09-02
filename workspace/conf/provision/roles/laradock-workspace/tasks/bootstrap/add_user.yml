@@ -1,0 +1,28 @@
+---
+
+- name: Create Application group
+  group:
+    name: "laradock"
+    gid: "{{ APPLICATION_GID }}"
+  when: APPLICATION_GID is defined
+
+- name: Create application user
+  user:
+    name: "laradock"
+    uid: "{{ APPLICATION_UID }}"
+    group: "laradock"
+    shell: /bin/bash
+  when: APPLICATION_UID is defined
+  
+- name: Init bashrc
+  lineinfile:
+    dest: "/home/laradock/.bashrc"
+    mode: 0770
+    owner: laradock
+    group: laradock
+    create: yes
+    regexp: "export TERM=xterm"
+    line: "export TERM=xterm"
+  when: APPLICATION_UID is defined
+
+- action: setup

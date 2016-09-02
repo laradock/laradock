@@ -1,0 +1,33 @@
+---
+
+- name: Install OpenSSH Client & Server
+  apt: name="{{ item }}" state=latest
+  with_items:
+    - openssh-server
+    - openssh-client
+  when: INSTALL_WORKSPACE_SSH
+  
+- name: Enable SSH server
+  lineinfile:
+    regexp: "^autostart ="
+    dest: "/opt/docker/etc/supervisor.d/ssh.conf"
+    line: "autostart = true"
+  when: INSTALL_WORKSPACE_SSH
+  
+- name: Init ssh privilege separation directory
+  file:
+    path: "/var/run/sshd"
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+    recurse: yes
+
+- name: Enable Insecure SSH Key
+  authorized_key: user={{ item }} key="{{ lookup('file', '/opt/docker/extras/insecure_id_rsa.pub') }}"
+  with_items:
+    - laradock
+    - root
+  when: INSTALL_WORKSPACE_SSH
+
+- action: setup
