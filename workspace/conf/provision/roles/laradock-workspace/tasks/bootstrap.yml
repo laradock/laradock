@@ -7,3 +7,8 @@
 - include: bootstrap/drush.yml
 - include: bootstrap/insecure_ssh.yml
 - include: bootstrap/nodejs.yml
+- include: bootstrap/aerospike.yml
+
+
+# Run Cleanup Last
+- include: bootstrap/cleanup.yml
