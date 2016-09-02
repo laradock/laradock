@@ -1,0 +1,29 @@
+---
+
+- name: Download Aerospike extension
+  get_url:
+    url: "https://github.com/luciano-jr/aerospike-client-php/archive/master.tar.gz"
+    dest: /tmp/aerospike-master.tar.gz
+  register: aerospike
+  when: INSTALL_AEROSPIKE
+
+- name: Extract Aerospike
+  unarchive:
+    src: /tmp/aerospike-master.tar.gz
+    dest: /tmp
+  register: aerospike
+  when: aerospike|success
+
+- name: Build Extension
+  shell: phpize && ./build.sh && make install chdir=/tmp/aerospike-client-php-master/src/aerospike
+  register: aerospike
+  when: aerospike|success
+
+- name: Install Extension
+  template:
+    src: aerospike.ini
+    dest: /etc/php/7.0/cli/conf.d/20-aerospike.ini
+  register: aerospike
+  when: aerospike|success
+
+- action: setup

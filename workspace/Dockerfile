@@ -9,4 +9,6 @@ CMD ["supervisord"]
 COPY conf/ /opt/docker/
 
 RUN /opt/docker/bin/provision run --tag bootstrap --role laradock-workspace \
-    && /opt/docker/bin/bootstrap.sh
+    && /opt/docker/bin/bootstrap.sh \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

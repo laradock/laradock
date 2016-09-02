@@ -1,0 +1,14 @@
+---
+
+- name: Filesystem cleanup [Debian family]
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_fileglob:
+    - /tmp/*
+    - /var/tmp/*
+    - /var/cache/apt/archives/*.deb
+    - /var/cache/apt/archives/partial/*
+    - /var/cache/debconf/*-old
+    - /var/lib/apt/lists/*
+  when: ansible_os_family == "Debian"
