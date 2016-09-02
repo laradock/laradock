@@ -1,0 +1,41 @@
+---
+
+- name: Create Composer directory
+  file:
+    group: laradock
+    owner: laradock
+    path: /home/laradock/.composer
+    state: directory
+    
+- name: Copy global composer.json file to laradock user
+  copy:
+    src: /opt/docker/extras/composer.json
+    dest: /home/laradock/.composer/composer.json
+    owner: laradock
+    group: laradock
+    mode: 0755
+    force: yes
+    
+- name: Run Composer Global Install
+  composer:
+    command: install
+    working_dir: /home/laradock/.composer
+  when: COMPOSER_GLOBAL_INSTALL
+    
+- name: Add composer global to PATH
+  blockinfile:
+    dest: /home/laradock/.bashrc
+    block: |
+      PATH=$PATH:$HOME/.composer/vendor/bin
+    
+  
+- name: Fix Permissions for Composer global install
+  file:
+    group: laradock
+    owner: laradock
+    path: "/home/laradock/.composer"
+    recurse: yes
+    state: directory
+  when: COMPOSER_GLOBAL_INSTALL
+  
+- action: setup

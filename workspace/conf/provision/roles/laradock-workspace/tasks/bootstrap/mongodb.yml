@@ -1,0 +1,7 @@
+---
+
+- name: Install MongoDB
+  apt: name="php-mongodb" state=latest
+  when: INSTALL_MONGO
+  
+- action: setup

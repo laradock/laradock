@@ -1,0 +1,9 @@
+---
+
+- include: bootstrap/add_user.yml
+- include: bootstrap/xdebug.yml
+- include: bootstrap/mongodb.yml
+- include: bootstrap/php-composer.yml
+- include: bootstrap/drush.yml
+- include: bootstrap/insecure_ssh.yml
+- include: bootstrap/nodejs.yml
