@@ -49,6 +49,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Use Redis](#Use-Redis)
 		- [Use Mongo](#Use-Mongo)
 		- [Use phpMyAdmin](#Use-phpMyAdmin)
+		- [Use pgAdmin](#Use-pgAdmin)
 	- [PHP](#PHP)
 		- [Install PHP Extensions](#Install-PHP-Extensions)
 		- [Change the PHP-FPM Version](#Change-the-PHP-FPM-Version)
@@ -134,6 +135,7 @@ Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL` and `Red
 - **Tools:**
 	- Workspace (PHP7-CLI, Composer, Git, Node, Gulp, SQLite, Vim, Nano, cURL...)
 	- phpMyAdmin
+	- pgAdmin
 
 
 >If you can't find your Software, build it yourself and add it to this list. Contributions are welcomed :)
@@ -251,7 +253,7 @@ docker-compose up -d  nginx mysql
 
 You can select your own combination of Containers form the list below:
 
-`nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `rabbitmq`, `workspace`, `phpmyadmin`, `aerospike`.
+`nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `rabbitmq`, `workspace`, `phpmyadmin`, `aerospike`, `pgadmin`.
 
 
 **Note**: `workspace` and `php-fpm` will run automatically in most of the cases, so no need to specify them in the `up` command.
@@ -726,7 +728,17 @@ docker-compose up -d mariadb phpmyadmin
 2 - Open your browser and visit the localhost on port **8080**:  `http://localhost:8080`
 
 
+<br>
+<a name="Use-pgAdmin"></a>
+### Use pgAdmin
 
+1 - Run the pgAdmin Container (`pgadmin`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d postgres pgadmin
+```
+
+2 - Open your browser and visit the localhost on port **5050**:  `http://localhost:5050`
 
 
 <br>

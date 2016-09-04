@@ -263,6 +263,15 @@ services:
             # for mariadb container
             # - "mariadb:db"
 
+### pgAdmin Container ##################################
+
+    pgadmin:
+        build: ./pgadmin
+        ports:
+            - "5050:5050"
+        links:
+            - postgres
+
 ### Laravel Application Code Container ######################
 
     volumes_source:
