@@ -49,8 +49,6 @@ services:
         extra_hosts:
             # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
             - "dockerhost:10.0.75.1"
-        ports:
-            - "22:22"
         environment:
             # IMPORTANT: Set the Remote Interpreter entry matching name to `laravel`
             - PHP_IDE_CONFIG="serverName=laravel"
@@ -265,6 +263,15 @@ services:
             # for mariadb container
             # - "mariadb:db"
 
+### pgAdmin Container ##################################
+
+    pgadmin:
+        build: ./pgadmin
+        ports:
+            - "5050:5050"
+        links:
+            - postgres
+
 ### Laravel Application Code Container ######################
 
     volumes_source:
@@ -281,7 +288,7 @@ services:
         image: tianon/true
         volumes:
             - ./data/mysql:/var/lib/mysql
-            - ./data/postgres:/var/lib/postgres
+            - ./data/postgres:/var/lib/postgresql/data
             - ./data/memcached:/var/lib/memcached
             - ./data/redis:/data
             - ./data/neo4j:/var/lib/neo4j/data
