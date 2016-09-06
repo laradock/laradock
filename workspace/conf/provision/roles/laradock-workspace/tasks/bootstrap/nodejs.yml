@@ -1,0 +1,31 @@
+---
+
+- name: Install Node.js Repository GPG Key
+  apt_key:
+    url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
+    state: present
+  when: INSTALL_NODE
+
+- name: Add Node.js Repository
+  apt_repository:
+    repo: 'deb https://deb.nodesource.com/node_{{ NODE_VERSION }} xenial main'
+    state: present
+  when: INSTALL_NODE
+
+- name: Install Node.js
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_items:
+    - nodejs
+  when: INSTALL_NODE
+  
+- name: Install Grunt & Bower
+  npm:
+    name: "{{ item }}"
+    global: yes
+  with_items:
+    - grunt
+    - bower
+  when: INSTALL_NODE

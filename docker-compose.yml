@@ -5,27 +5,16 @@ services:
 ### Workspace Utilities Container ###########################
 
     workspace:
+        # Software arguments have moved to ./workspace/conf/provision/variables.yml
         build:
             context: ./workspace
-            args:
-                - INSTALL_XDEBUG=false
-                - INSTALL_MONGO=false
-                - INSTALL_NODE=false
-                - INSTALL_DRUSH=false
-                - INSTALL_AEROSPIKE_EXTENSION=false
-                - COMPOSER_GLOBAL_INSTALL=false
-                - INSTALL_WORKSPACE_SSH=false
-                - PUID=1000
-                - PGID=1000
-                - NODE_VERSION=stable
         volumes_from:
             - volumes_source
         extra_hosts:
             # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
             - "dockerhost:10.0.75.1"
         ports:
-           - "22:22"
-        tty: true
+            - "2222:22"
 
 ### PHP-FPM Container #######################################
 
@@ -44,8 +33,6 @@ services:
             - volumes_source
         expose:
             - "9000"
-        links:
-            - workspace
         extra_hosts:
             # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
             - "dockerhost:10.0.75.1"
