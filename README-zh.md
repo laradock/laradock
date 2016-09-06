@@ -219,7 +219,7 @@ docker-compose up -d  nginx mysql
 `nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `workspace`.
 
 
-**说明**: `workspace` 和 `php-fpm` 将运行在大部分实例中, 所有不用在命令中 `up`加上它们.
+**说明**: `workspace` 和 `php-fpm` 将运行在大部分实例中, 所以不需要在 `up` 命令中加上它们.
 
 
 
