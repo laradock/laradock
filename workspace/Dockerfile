@@ -154,7 +154,7 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
         nvm install ${NODE_VERSION} && \
         nvm use ${NODE_VERSION} && \
         nvm alias ${NODE_VERSION} && \
-        npm install -g gulp bower \
+        npm install -g gulp bower vue-cli \
 ;fi
 
 # Wouldn't execute when added to the RUN statement in the above block
