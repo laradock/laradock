@@ -234,6 +234,7 @@ services:
         build: ./caddy
         volumes_from:
             - volumes_source
+            - volumes_data
         ports:
             - "80:80"
             - "443:443"
@@ -272,6 +273,18 @@ services:
         links:
             - postgres
 
+### ElasticSearch Container ##################################
+
+    elasticsearch:
+        build: ./elasticsearch
+        volumes_from:
+            - volumes_data
+        ports:
+            - "9200:9200"
+            - "9300:9300"
+        links:
+            - php-fpm
+
 ### Laravel Application Code Container ######################
 
     volumes_source:
@@ -295,5 +308,7 @@ services:
             - ./data/mongo:/data/db
             - ./data/aerospike:/opt/aerospike/data
             - ./data/sessions:/sessions
+            - ./data/caddy:/root/.caddy
+            - ./data/elasticsearch/data:/usr/share/elasticsearch/data
 
 ### Add more Containers below ###############################

@@ -154,7 +154,7 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
         nvm install ${NODE_VERSION} && \
         nvm use ${NODE_VERSION} && \
         nvm alias ${NODE_VERSION} && \
-        npm install -g gulp bower \
+        npm install -g gulp bower vue-cli \
 ;fi
 
 # Wouldn't execute when added to the RUN statement in the above block
@@ -185,6 +185,9 @@ RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = true ]; then \
         && make install \
     ) \
     && rm /tmp/aerospike-client-php.tar.gz \
+;fi
+RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = false ]; then \
+    rm /etc/php/7.0/cli/conf.d/aerospike.ini \
 ;fi
 
 #

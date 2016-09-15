@@ -50,6 +50,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Use Mongo](#Use-Mongo)
 		- [Use phpMyAdmin](#Use-phpMyAdmin)
 		- [Use pgAdmin](#Use-pgAdmin)
+		- [Use ElasticSearch](#Use-ElasticSearch)
 	- [PHP](#PHP)
 		- [Install PHP Extensions](#Install-PHP-Extensions)
 		- [Change the PHP-FPM Version](#Change-the-PHP-FPM-Version)
@@ -136,6 +137,7 @@ Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL` and `Red
 	- Workspace (PHP7-CLI, Composer, Git, Node, Gulp, SQLite, Vim, Nano, cURL...)
 	- phpMyAdmin
 	- pgAdmin
+	- ElasticSearch
 
 
 >If you can't find your Software, build it yourself and add it to this list. Contributions are welcomed :)
@@ -253,7 +255,7 @@ docker-compose up -d  nginx mysql
 
 You can select your own combination of Containers form the list below:
 
-`nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `rabbitmq`, `workspace`, `phpmyadmin`, `aerospike`, `pgadmin`.
+`nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `rabbitmq`, `workspace`, `phpmyadmin`, `aerospike`, `pgadmin`, `elasticsearch`.
 
 
 **Note**: `workspace` and `php-fpm` will run automatically in most of the cases, so no need to specify them in the `up` command.
@@ -739,6 +741,19 @@ docker-compose up -d postgres pgadmin
 ```
 
 2 - Open your browser and visit the localhost on port **5050**:  `http://localhost:5050`
+
+
+<br>
+<a name="Use-ElasticSearch"></a>
+### Use ElasticSearch
+
+1 - Run the ElasticSearch Container (`elasticsearch`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d elasticsearch
+```
+
+2 - Open your browser and visit the localhost on port **9200**:  `http://localhost:9200`
 
 
 <br>
