@@ -234,6 +234,7 @@ services:
         build: ./caddy
         volumes_from:
             - volumes_source
+            - volumes_data
         ports:
             - "80:80"
             - "443:443"
@@ -307,6 +308,7 @@ services:
             - ./data/mongo:/data/db
             - ./data/aerospike:/opt/aerospike/data
             - ./data/sessions:/sessions
+            - ./data/caddy:/root/.caddy
             - ./data/elasticsearch/data:/usr/share/elasticsearch/data
 
 ### Add more Containers below ###############################
