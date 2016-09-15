@@ -64,6 +64,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Enable Global Composer Build Install](#Enable-Global-Composer-Build-Install)
 		- [Install Prestissimo](#Install-Prestissimo)
 		- [Install Node + NVM](#Install-Node)
+		- [Install wkhtmltopdf](#Install-wkhtmltopdf)
 		- [Debugging](#debugging)
 		- [Upgrading LaraDock](#upgrading-laradock)
 - [Help & Questions](#Help)
@@ -1024,6 +1025,35 @@ It should be like this:
 3 - Re-build the container `docker-compose build workspace`
 
 <br>
+
+<a name="Install-wkhtmltopdf"></a>
+### Install wkhtmltopdf
+
+To install wkhtmltopdf to easily generate PDFs through laravel
+
+1 - Open the `docker-compose.yml` file
+
+2 - Search for the `INSTALL_WKHTMLTOPDF` argument under the php-fpm Container and set it to `true`
+
+It should be like this:
+
+```yml
+    php-fpm:
+        build:
+            context: ./php-fpm
+            args:
+                ...
+                - INSTALL_WKHTMLTOPDF=true
+                ...
+            dockerfile: Dockerfile-70
+```
+
+3 - Re-build the container `docker-compose build php-fpm`
+
+4 - Just install @barryvdh's [Snappy PDF Wrapper](https://github.com/barryvdh/laravel-snappy) via composer and you're ready to go.
+
+<br>
+
 <a name="Install-Aerospike-Extension"></a>
 ### Install Aerospike extension
 

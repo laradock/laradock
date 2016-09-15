@@ -38,6 +38,7 @@ services:
                 - INSTALL_ZIP_ARCHIVE=false
                 - INSTALL_MEMCACHED=false
                 - INSTALL_OPCACHE=false
+                - INSTALL_WKHTMLTOPDF=false
                 - INSTALL_AEROSPIKE_EXTENSION=false
             dockerfile: Dockerfile-70
         volumes_from:
