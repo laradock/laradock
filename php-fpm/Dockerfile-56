@@ -114,6 +114,9 @@ RUN if [ ${INSTALL_OPCACHE} = true ]; then \
     docker-php-ext-enable opcache \
 ;fi
 
+# Copy opcache configration
+COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+
 #
 #--------------------------------------------------------------------------
 # Final Touch
