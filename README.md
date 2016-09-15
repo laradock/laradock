@@ -135,8 +135,8 @@ Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL` and `Red
 	- RabbitMQ (+ RabbitMQ Console)
 - **Tools:**
 	- Workspace (PHP7-CLI, Composer, Git, Node, Gulp, SQLite, Vim, Nano, cURL...)
-	- phpMyAdmin
-	- pgAdmin
+	- PhpMyAdmin
+	- PgAdmin
 	- ElasticSearch
 
 
@@ -189,7 +189,7 @@ Running a virtual Container is much faster than running a full virtual Machine. 
 
 What's better than a **Demo Video**:
 
-- LaraDock v4.0 (Coming soon..)
+- LaraDock v4.* (Coming soon..)
 - LaraDock [v2.2](https://www.youtube.com/watch?v=-DamFMczwDA)
 - LaraDock [v0.3](https://www.youtube.com/watch?v=jGkyO6Is_aI)
 - LaraDock [v0.1](https://www.youtube.com/watch?v=3YQsHe6oF80)
@@ -1144,6 +1144,8 @@ For special help with Docker and/or Laravel, you can schedule a live call with t
 
 **Main Contributors:**
 
+- [Francis Lavoie (francislavoie)](https://github.com/francislavoie)
+- [luciano-jr](https://github.com/luciano-jr)
 - [Zhqagp](https://github.com/zhqagp)
 - [Tim B (tjb328)](https://github.com/tjb328)
 - [MidasCodeBreaker](https://github.com/midascodebreaker)
