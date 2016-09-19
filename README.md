@@ -269,6 +269,12 @@ You can select your own combination of Containers form the list below:
 docker-compose exec workspace bash
 ```
 <br />
+<br>
+2a - Alternatively, Windows Powershell users can execute the following command to enter a running container.
+```bash
+docker exec -it {container-id} bash
+```
+<br />
 Add `--user=laradock` (example `docker-compose exec --user=laradock workspace bash`) to have files created as your host's user. (you can change the PUID (User id) and PGID (group id) variables from the `docker-compose.yml`).
 
 
