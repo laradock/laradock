@@ -8,12 +8,12 @@ services:
         build:
             context: ./workspace
             args:
-                - INSTALL_XDEBUG=false
+                - INSTALL_XDEBUG=true
                 - INSTALL_MONGO=false
-                - INSTALL_NODE=false
+                - INSTALL_NODE=true
                 - INSTALL_DRUSH=false
                 - INSTALL_AEROSPIKE_EXTENSION=false
-                - COMPOSER_GLOBAL_INSTALL=false
+                - COMPOSER_GLOBAL_INSTALL=true
                 - INSTALL_WORKSPACE_SSH=false
                 - PUID=1000
                 - PGID=1000
@@ -24,7 +24,7 @@ services:
             # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
             - "dockerhost:10.0.75.1"
         ports:
-           - "22:22"
+           - "23:22"
         tty: true
 
 ### PHP-FPM Container #######################################
@@ -33,17 +33,19 @@ services:
         build:
             context: ./php-fpm
             args:
-                - INSTALL_XDEBUG=false
+                - INSTALL_XDEBUG=true
                 - INSTALL_MONGO=false
-                - INSTALL_ZIP_ARCHIVE=false
-                - INSTALL_MEMCACHED=false
-                - INSTALL_OPCACHE=false
+                - INSTALL_ZIP_ARCHIVE=true
+                - INSTALL_MEMCACHED=true
+                - INSTALL_OPCACHE=true
                 - INSTALL_AEROSPIKE_EXTENSION=false
             dockerfile: Dockerfile-70
         volumes_from:
             - volumes_source
         expose:
             - "9000"
+        ports:
+            - "29000:9000"
         links:
             - workspace
         extra_hosts:
@@ -65,8 +67,8 @@ services:
         volumes:
             - ./logs/nginx/:/var/log/nginx
         ports:
-            - "80:80"
-            - "443:443"
+            - "20080:80"
+            - "20443:443"
         links:
             - php-fpm
 
@@ -82,8 +84,8 @@ services:
         volumes:
             - ./logs/apache2:/var/log/apache2
         ports:
-            - "80:80"
-            - "443:443"
+            - "20080:80"
+            - "20443:443"
         links:
             - php-fpm
 
@@ -105,11 +107,11 @@ services:
         volumes_from:
             - volumes_data
         ports:
-            - "3306:3306"
+            - "23306:3306"
         environment:
-            MYSQL_DATABASE: homestead
-            MYSQL_USER: homestead
-            MYSQL_PASSWORD: secret
+            MYSQL_DATABASE: lara
+            MYSQL_USER: dbuser
+            MYSQL_PASSWORD: password
             MYSQL_ROOT_PASSWORD: root
 
 ### PostgreSQL Container ####################################
@@ -119,11 +121,11 @@ services:
         volumes_from:
             - volumes_data
         ports:
-            - "5432:5432"
+            - "25432:5432"
         environment:
-            POSTGRES_DB: homestead
-            POSTGRES_USER: homestead
-            POSTGRES_PASSWORD: secret
+            POSTGRES_DB: lara
+            POSTGRES_USER: dbuser
+            POSTGRES_PASSWORD: password
 
 ### MariaDB Container #######################################
 
@@ -132,11 +134,11 @@ services:
         volumes_from:
             - volumes_data
         ports:
-            - "3306:3306"
+            - "23306:3306"
         environment:
-            MYSQL_DATABASE: homestead
-            MYSQL_USER: homestead
-            MYSQL_PASSWORD: secret
+            MYSQL_DATABASE: lara
+            MYSQL_USER: dbuser
+            MYSQL_PASSWORD: password
             MYSQL_ROOT_PASSWORD: root
 
 ### Neo4j Container #########################################
@@ -167,7 +169,7 @@ services:
         volumes_from:
             - volumes_data
         ports:
-            - "6379:6379"
+            - "26379:6379"
 
 ### Aerospike c Container #########################################
 
@@ -190,7 +192,7 @@ services:
         volumes_from:
             - volumes_data
         ports:
-            - "11211:11211"
+            - "21211:11211"
         links:
             - php-fpm
 
@@ -251,8 +253,8 @@ services:
         build: ./phpmyadmin
         environment:
             PMA_ARBITRARY: 1
-            MYSQL_USER: homestead
-            MYSQL_PASSWORD: secret
+            MYSQL_USER: dbuser
+            MYSQL_PASSWORD: password
             MYSQL_ROOT_PASSWORD: root
         volumes_from:
             - volumes_data
