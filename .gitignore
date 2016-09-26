@@ -1,1 +1,4 @@
+.idea
 /logs
+/data
+.env
