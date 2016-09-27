@@ -23,7 +23,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 	- [Chinese](https://github.com/LaraDock/laradock/blob/master/README-zh.md)
 - [Intro](#Intro)
 	- [Features](#features)
-	- [Supported Software's](#Supported-Containers)
+	- [Supported Software](#Supported-Containers)
 	- [What is Docker](#what-is-docker)
 	- [What is Laravel](#what-is-laravel)
 	- [Why Docker not Vagrant](#why-docker-not-vagrant)
@@ -41,7 +41,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Edit default container configuration](#Edit-Container)
 		- [Edit a Docker Image](#Edit-a-Docker-Image)
 		- [Build/Re-build Containers](#Build-Re-build-Containers)
-		- [Add more Software's (Docker Images)](#Add-Docker-Images)
+		- [Add more Software (Docker Images)](#Add-Docker-Images)
 		- [View the Log files](#View-the-Log-files)
 	- [Laravel](#Laravel):
 		- [Install Laravel from a Docker Container](#Install-Laravel)
@@ -97,7 +97,7 @@ Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL` and `Red
 
 - Easy switch between PHP versions: 7.0, 5.6, 5.5...
 - Choose your favorite database engine: MySQL, Postgres, MariaDB...
-- Run your own combination of software's: Memcached, HHVM, Beanstalkd...
+- Run your own combination of software: Memcached, HHVM, Beanstalkd...
 - Every software runs on a separate container: PHP-FPM, NGINX, PHP-CLI...
 - Easy to customize any container, with simple edit to the `dockerfile`.
 - All Images extends from an official base Image. (Trusted base Images).
@@ -111,7 +111,7 @@ Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL` and `Red
 
 
 <a name="Supported-Containers"></a>
-### Supported Software's (Containers)
+### Supported Software (Containers)
 
 - **Database Engines:**
 	- MySQL
@@ -464,7 +464,7 @@ You might use the `--no-cache` option if you want full rebuilding (`docker-compo
 
 <br>
 <a name="Add-Docker-Images"></a>
-### Add more Software's (Docker Images)
+### Add more Software (Docker Images)
 
 To add an image (software), just edit the `docker-compose.yml` and add your container details, to do so you need to be familiar with the [docker compose file syntax](https://docs.docker.com/compose/compose-file/).
 
