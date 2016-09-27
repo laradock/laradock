@@ -34,10 +34,8 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 # in the `docker-compose.yml` before the build.
 #
 #   - INSTALL_XDEBUG=           false
-#   - INSTALL_MONGO=            false
 #   - COMPOSER_GLOBAL_INSTALL=  false
 #   - INSTALL_NODE=             false
-#   - INSTALL_DRUSH=            false
 #
 
 #####################################
@@ -78,20 +76,6 @@ RUN if [ ${INSTALL_WORKSPACE_SSH} = true ]; then \
     && chmod 400 /root/.ssh/id_rsa \
 ;fi
 
-
-#####################################
-# MongoDB:
-#####################################
-
-# Check if Mongo needs to be installed
-ARG INSTALL_MONGO=true
-ENV INSTALL_MONGO ${INSTALL_MONGO}
-RUN if [ ${INSTALL_MONGO} = true ]; then \
-    # Install the mongodb extension
-    pecl install mongodb && \
-    echo "extension=mongodb.so" >> /etc/php/7.0/cli/php.ini \
-;fi
-
 #####################################
 # Non-Root User:
 #####################################
@@ -122,22 +106,6 @@ RUN if [ ${COMPOSER_GLOBAL_INSTALL} = true ]; then \
 ;fi
 
 #####################################
-# Drush:
-#####################################
-USER root
-ENV DRUSH_VERSION 8.1.2
-ARG INSTALL_DRUSH=true
-ENV INSTALL_DRUSH ${INSTALL_DRUSH}
-RUN if [ ${INSTALL_DRUSH} = true ]; then \
-    # Install Drush 8 with the phar file.
-    curl -fsSL -o /usr/local/bin/drush https://github.com/drush-ops/drush/releases/download/$DRUSH_VERSION/drush.phar | bash && \
-    chmod +x /usr/local/bin/drush && \
-    drush core-status \
-;fi
-
-USER laradock
-
-#####################################
 # Node / NVM:
 #####################################
 
@@ -163,31 +131,6 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
     echo "" >> ~/.bashrc && \
     echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.bashrc && \
     echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm' >> ~/.bashrc \
-;fi
-
-#####################################
-# PHP Aerospike:
-#####################################
-USER root
-ARG INSTALL_AEROSPIKE_EXTENSION=true
-ENV INSTALL_AEROSPIKE_EXTENSION ${INSTALL_AEROSPIKE_EXTENSION}
-# Copy aerospike configration for remote debugging
-COPY ./aerospike.ini /etc/php/7.0/cli/conf.d/aerospike.ini
-RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = true ]; then \
-    # Install the php aerospike extension
-    curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/luciano-jr/aerospike-client-php/archive/master.tar.gz" \
-    && mkdir -p aerospike-client-php \
-    && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
-    && ( \
-        cd aerospike-client-php/src/aerospike \
-        && phpize \
-        && ./build.sh \
-        && make install \
-    ) \
-    && rm /tmp/aerospike-client-php.tar.gz \
-;fi
-RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = false ]; then \
-    rm /etc/php/7.0/cli/conf.d/aerospike.ini \
 ;fi
 
 #

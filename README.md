@@ -114,39 +114,18 @@ Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL` and `Red
 ### Supported Software's (Containers)
 
 - **Database Engines:**
-	- MySQL
 	- PostgreSQL
-	- MariaDB
-	- MongoDB
-	- Neo4j
 - **Cache Engines:**
 	- Redis
 	- Memcached
-	- Aerospike
 - **PHP Servers:**
 	- NGINX
-	- Apache2
-	- Caddy
 - **PHP Compilers:**
 	- PHP-FPM
-	- HHVM
-- **Message Queueing Systems:**
-	- Beanstalkd (+ Beanstalkd Console)
-	- RabbitMQ (+ RabbitMQ Console)
 - **Tools:**
 	- Workspace (PHP7-CLI, Composer, Git, Node, Gulp, SQLite, Vim, Nano, cURL...)
-	- PhpMyAdmin
-	- PgAdmin
-	- ElasticSearch
 
 
->If you can't find your Software, build it yourself and add it to this list. Contributions are welcomed :)
-
-
-
-
-
-<a name="what-is-docker"></a>
 ### What is Docker?
 
 [Docker](https://www.docker.com) is an open-source project that automates the deployment of applications inside software containers, by providing an additional layer of abstraction and automation of [operating-system-level virtualization](https://en.wikipedia.org/wiki/Operating-system-level_virtualization) on Linux, Mac OS and Windows.
