@@ -1144,9 +1144,10 @@ For special help with Docker and/or Laravel, you can schedule a live call with t
 
 ## Credits
 
-**Creator:**
+**Admins:**
 
-- [Mahmoud Zalt](https://github.com/Mahmoudz)  (Twitter [@Mahmoud_Zalt](https://twitter.com/Mahmoud_Zalt))
+- [Mahmoud Zalt](https://github.com/Mahmoudz) **Creator** (Twitter [@Mahmoud_Zalt](https://twitter.com/Mahmoud_Zalt))
+- [Bo-Yi Wu (appleboy)](https://github.com/appleboy)
 
 **Main Contributors:**
 
@@ -1162,7 +1163,6 @@ For special help with Docker and/or Laravel, you can schedule a live call with t
 - [Eric Pfeiffer (computerfr33k)](https://github.com/computerfr33k)
 - [Orette](https://github.com/orette)
 - [Jack Fletcher (Kauhat)](https://github.com/Kauhat)
-- [Bo-Yi Wu (appleboy)](https://github.com/appleboy)
 - [Amin Mkh (AminMkh)](https://github.com/AminMkh)
 - [Matthew Tonkin Dunn (mattythebatty)](https://github.com/mattythebatty)
 - [Zhivitsa Kirill (zhikiri)](https://github.com/zhikiri)
@@ -1172,7 +1172,6 @@ For special help with Docker and/or Laravel, you can schedule a live call with t
 
 - [Contributors](https://github.com/LaraDock/laradock/graphs/contributors)
 - [Supporters](https://github.com/LaraDock/laradock/issues?utf8=%E2%9C%93&q=)
-
 
 ## License
 
