@@ -104,8 +104,6 @@ services:
         build: ./mysql
         volumes_from:
             - volumes_data
-        ports:
-            - "3306:3306"
         environment:
             MYSQL_DATABASE: homestead
             MYSQL_USER: homestead
@@ -131,8 +129,6 @@ services:
         build: ./mariadb
         volumes_from:
             - volumes_data
-        ports:
-            - "3306:3306"
         environment:
             MYSQL_DATABASE: homestead
             MYSQL_USER: homestead
