@@ -60,6 +60,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 	- [Production](#Production)
 		- [Setup Laravel and Docker on Digital Ocean](#Digital-Ocean)
 	- [Misc](#Misc)
+		- [Cron jobs](#CronJobs)
 		- [Use custom Domain](#Use-custom-Domain)
 		- [Enable Global Composer Build Install](#Enable-Global-Composer-Build-Install)
 		- [Install Prestissimo](#Install-Prestissimo)
@@ -936,6 +937,17 @@ To controll the behavior of xDebug (in the `php-fpm` Container), you can run the
 
 
 <br>
+
+<a name="CronJobs"></a>
+### Adding cron jobs
+
+Add a root file containing the cron jobs in `workspace/crontab`.
+
+```
+# workspace/crontab/root
+* * * * * root echo "Every Minute" > /var/log/cron.log 2>&1
+```
+
 <a name="Use-custom-Domain"></a>
 ### Use custom Domain (instead of the Docker IP)
 
