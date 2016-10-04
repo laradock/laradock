@@ -941,10 +941,12 @@ To controll the behavior of xDebug (in the `php-fpm` Container), you can run the
 <a name="CronJobs"></a>
 ### Adding cron jobs
 
-Add a root file containing the cron jobs in `workspace/crontab`.
+You can add your cron jobs to `workspace/crontab/root` after the `php artisan` line.
 
 ```
-# workspace/crontab/root
+* * * * * php /var/www/laravel/artisan schedule:run >> /dev/null 2>&1
+
+# Custom cron
 * * * * * root echo "Every Minute" > /var/log/cron.log 2>&1
 ```
 
