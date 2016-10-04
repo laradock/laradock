@@ -198,6 +198,12 @@ RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = false ]; then \
     rm /etc/php/7.0/cli/conf.d/aerospike.ini \
 ;fi
 
+#####################################
+# Crontab
+#####################################
+USER root
+COPY ./crontab /var/spool/cron/crontabs
+
 #
 #--------------------------------------------------------------------------
 # Final Touch
