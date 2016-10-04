@@ -924,7 +924,7 @@ To controll the behavior of xDebug (in the `php-fpm` Container), you can run the
 <a name="Digital-Ocean"></a>
 ### Setup Laravel and Docker on Digital Ocean
 
-####[Full Giude Here](https://github.com/LaraDock/laradock/blob/master/_guides/digital_ocean.md)
+####[Full Guide Here](https://github.com/LaraDock/laradock/blob/master/_guides/digital_ocean.md)
 
 
 
