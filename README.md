@@ -1133,6 +1133,9 @@ This little project was built by one man who has a full time job and many respon
 
 #### Read the [Contribution Guidelines](https://github.com/LaraDock/laradock/blob/master/CONTRIBUTING.md).
 
+
+
+
 <a name="Help"></a>
 ## Help & Questions
 
@@ -1142,33 +1145,40 @@ You can as well can open an [issue](https://github.com/laradock/laradock/issues)
 
 For special help with Docker and/or Laravel, you can schedule a live call with the creator of this project at [Codementor.io](https://www.codementor.io/mahmoudz).
 
+
+
+
 ## Credits
+
+**Creator:**
+
+- [Mahmoud Zalt](https://github.com/Mahmoudz)  [ [Twitter](https://twitter.com/Mahmoud_Zalt) | [Linkedin](https://www.linkedin.com/in/mahmoudzalt) | [Facebook](https://www.facebook.com/mr.mahmoudzalt) ]
 
 **Admins:**
 
-- [Mahmoud Zalt](https://github.com/Mahmoudz) **Creator** (Twitter [@Mahmoud_Zalt](https://twitter.com/Mahmoud_Zalt))
-- [Bo-Yi Wu (appleboy)](https://github.com/appleboy)
+- [Bo-Yi Wu](https://github.com/appleboy) (appleboy)
+- [Philippe Trépanier](https://github.com/philtrep) (philtrep)
 
 **Main Contributors:**
 
-- [Francis Lavoie (francislavoie)](https://github.com/francislavoie)
+- [Francis Lavoie](https://github.com/francislavoie) (francislavoie)
 - [luciano-jr](https://github.com/luciano-jr)
 - [Zhqagp](https://github.com/zhqagp)
-- [Tim B (tjb328)](https://github.com/tjb328)
+- [Tim B.](https://github.com/tjb328) (tjb328)
 - [MidasCodeBreaker](https://github.com/midascodebreaker)
-- [Larry Eitel (LarryEitel)](https://github.com/LarryEitel)
-- [Suteepat (tianissimo)](https://github.com/tianissimo)
-- [David (davidavz)](https://github.com/davidavz)
+- [Larry Eitel](https://github.com/LarryEitel)
+- [Suteepat](https://github.com/tianissimo) (tianissimo)
+- [David](https://github.com/davidavz) (davidavz)
 - [Lialosiu](https://github.com/lialosiu)
-- [Eric Pfeiffer (computerfr33k)](https://github.com/computerfr33k)
+- [Eric Pfeiffer](https://github.com/computerfr33k) (computerfr33k)
 - [Orette](https://github.com/orette)
-- [Jack Fletcher (Kauhat)](https://github.com/Kauhat)
-- [Amin Mkh (AminMkh)](https://github.com/AminMkh)
-- [Matthew Tonkin Dunn (mattythebatty)](https://github.com/mattythebatty)
-- [Zhivitsa Kirill (zhikiri)](https://github.com/zhikiri)
+- [Jack Fletcher](https://github.com/Kauhat) (Kauhat)
+- [Amin Mkh](https://github.com/AminMkh)
+- [Matthew Tonkin Dunn](https://github.com/mattythebatty) (mattythebatty)
+- [Zhivitsa Kirill](https://github.com/zhikiri) (zhikiri)
 - [Benmag](https://github.com/benmag)
 
-**Awesome People:**
+**Other Contributors & Supporters:**
 
 - [Contributors](https://github.com/LaraDock/laradock/graphs/contributors)
 - [Supporters](https://github.com/LaraDock/laradock/issues?utf8=%E2%9C%93&q=)

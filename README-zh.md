@@ -957,21 +957,6 @@ Docker或Laravel的特别帮助，你可以在[Codementor.io](https://www.codeme
 
 - [Mahmoud Zalt](https://github.com/Mahmoudz)  (Twitter [@Mahmoud_Zalt](https://twitter.com/Mahmoud_Zalt))
 
-**主要 贡献者:**
-
-- [Zhqagp](https://github.com/zhqagp)
-- [Suteepat (tianissimo)](https://github.com/tianissimo)
-- [David (davidavz)](https://github.com/davidavz)
-- [Lialosiu](https://github.com/lialosiu)
-- [Eric Pfeiffer (computerfr33k)](https://github.com/computerfr33k)
-- [Orette](https://github.com/orette)
-- [Jack Fletcher (Kauhat)](https://github.com/Kauhat)
-- [Bo-Yi Wu (appleboy)](https://github.com/appleboy)
-- [Amin Mkh (AminMkh)](https://github.com/AminMkh)
-- [Matthew Tonkin Dunn (mattythebatty)](https://github.com/mattythebatty)
-- [Zhivitsa Kirill (zhikiri)](https://github.com/zhikiri)
-- [Benmag](https://github.com/benmag)
-
 **优秀的人:**
 
 - [Contributors](https://github.com/LaraDock/laradock/graphs/contributors)
