@@ -165,6 +165,14 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
     echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm' >> ~/.bashrc \
 ;fi
 
+# Add NVM binaries to root's .bashrc
+USER root
+RUN if [ ${INSTALL_NODE} = true ]; then \
+    echo "" >> ~/.bashrc && \
+    echo 'export NVM_DIR="/home/laradock/.nvm"' >> ~/.bashrc && \
+    echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm' >> ~/.bashrc \
+;fi
+
 #####################################
 # PHP Aerospike:
 #####################################
@@ -189,6 +197,12 @@ RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = true ]; then \
 RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = false ]; then \
     rm /etc/php/7.0/cli/conf.d/aerospike.ini \
 ;fi
+
+#####################################
+# Crontab
+#####################################
+USER root
+COPY ./crontab /var/spool/cron/crontabs
 
 #
 #--------------------------------------------------------------------------
