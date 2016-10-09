@@ -104,6 +104,22 @@ services:
         build: ./mysql
         volumes_from:
             - volumes_data
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: homestead
+            MYSQL_USER: homestead
+            MYSQL_PASSWORD: secret
+            MYSQL_ROOT_PASSWORD: root
+
+### MariaDB Container #######################################
+
+    mariadb:
+        build: ./mariadb
+        volumes_from:
+            - volumes_data
+        ports:
+            - "3306:3306"
         environment:
             MYSQL_DATABASE: homestead
             MYSQL_USER: homestead
@@ -122,18 +138,6 @@ services:
             POSTGRES_DB: homestead
             POSTGRES_USER: homestead
             POSTGRES_PASSWORD: secret
-
-### MariaDB Container #######################################
-
-    mariadb:
-        build: ./mariadb
-        volumes_from:
-            - volumes_data
-        environment:
-            MYSQL_DATABASE: homestead
-            MYSQL_USER: homestead
-            MYSQL_PASSWORD: secret
-            MYSQL_ROOT_PASSWORD: root
 
 ### Neo4j Container #########################################
 
@@ -177,7 +181,7 @@ services:
             - "3001:3001"
             - "3002:3002"
             - "3003:3003"
-            
+
 
 ### Memcached Container #####################################
 
