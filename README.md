@@ -58,6 +58,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Install xDebug](#Install-xDebug)
 		    - [Start/Stop xDebug](#Controll-xDebug)
 	- [Production](#Production)
+		- [Prepare LaraDock for Production](#LaraDock-for-Production)
 		- [Setup Laravel and Docker on Digital Ocean](#Digital-Ocean)
 	- [Misc](#Misc)
 		- [Cron jobs](#CronJobs)
@@ -923,6 +924,26 @@ To controll the behavior of xDebug (in the `php-fpm` Container), you can run the
 
 
 <br>
+<a name="LaraDock-for-Production"></a>
+### Prepare LaraDock for Production
+
+It's recommended for production to create a custom `docker-compose.yml` file. For that reason LaraDock is shipped with `production-docker-compose.yml` which should contain only the containers you are planning to run on production (usage exampe: `docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...`). 
+
+Note: The Database (MySQL/MariaDB/...) ports should not be forwarded on production, because Docker will automatically publish the port on the host, which is quite insecure, unless specifically told not to. So make sure to remove these lines:
+
+```
+ports:
+    - "3306:3306"
+```
+
+To learn more about how Docker publishes ports, please read [this excellent post on the subject](https://fralef.me/docker-and-iptables.html).
+
+
+
+
+
+
+<br>
 <a name="Digital-Ocean"></a>
 ### Setup Laravel and Docker on Digital Ocean
 
@@ -954,14 +975,12 @@ You can add your cron jobs to `workspace/crontab/root` after the `php artisan` l
 <a name="MySQL-access-from-host"></a>
 ### MySQL access from host
 
-You can forward the MySQL/MariaDB port to your host by adding the lines
+You can forward the MySQL/MariaDB port to your host by making sure these lines are added to the `mysql` or `mariadb` section of the `docker-compose.yml` or in your [environment specific Compose](https://docs.docker.com/compose/extends/) file.
+
 ```
 ports:
     - "3306:3306"
 ```
-To the `mysql` or `mariadb` section of the LaraDock `docker-compose.yml` or in your [environment specific Compose](https://docs.docker.com/compose/extends/) file.
-
-The MySQL port is not forwarded by default because Docker will automatically publish the port on the host, which is quite insecure, unless specifically told not to. To learn more about how Docker publishes ports, please read [this excellent post on the subject](https://fralef.me/docker-and-iptables.html).
 
 <a name="Use-custom-Domain"></a>
 ### Use custom Domain (instead of the Docker IP)
