@@ -208,6 +208,7 @@ What's better than a **Demo Video**:
 <a name="Installation"></a>
 ## Installation
 
+
 Clone the `LaraDock` repository:
 
 **A)** If you already have a Laravel project, clone this repository on your `Laravel` root directory:
@@ -253,12 +254,13 @@ If you are using **Docker Native** (For Mac/Windows) or even for Linux, continue
 docker-compose up -d  nginx mysql
 ```
 
+**Note**: The `workspace` and `php-fpm` will run automatically in most of the cases, so no need to specify them in the `up` command. If you couldn't find them running then you need specify them as follow: `docker-compose up -d nginx php-fpm mysql workspace`.
+
+
 You can select your own combination of Containers form the list below:
 
 `nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `rabbitmq`, `workspace`, `phpmyadmin`, `aerospike`, `pgadmin`, `elasticsearch`.
 
-
-**Note**: `workspace` and `php-fpm` will run automatically in most of the cases, so no need to specify them in the `up` command.
 
 
 
@@ -268,14 +270,13 @@ You can select your own combination of Containers form the list below:
 ```bash
 docker-compose exec workspace bash
 ```
-<br />
-<br>
-2a - Alternatively, Windows Powershell users can execute the following command to enter a running container.
+Alternatively, for Windows Powershell users: execute the following command to enter any running container:
+
 ```bash
-docker exec -it {container-id} bash
+docker exec -it {workspace-container-id} bash
 ```
-<br />
-Add `--user=laradock` (example `docker-compose exec --user=laradock workspace bash`) to have files created as your host's user. (you can change the PUID (User id) and PGID (group id) variables from the `docker-compose.yml`).
+
+**Note:** You can add `--user=laradock` (example `docker-compose exec --user=laradock workspace bash`) to have files created as your host's user. (you can change the PUID (User id) and PGID (group id) variables from the `docker-compose.yml`).
 
 
 
@@ -1165,7 +1166,7 @@ For special help with Docker and/or Laravel, you can schedule a live call with t
 
 **Creator:**
 
-- [Mahmoud Zalt](https://github.com/Mahmoudz)  [ [Twitter](https://twitter.com/Mahmoud_Zalt) | [Linkedin](https://www.linkedin.com/in/mahmoudzalt) | [Facebook](https://www.facebook.com/mr.mahmoudzalt) ]
+- [Mahmoud Zalt](https://github.com/Mahmoudz)  [ [Twitter](https://twitter.com/Mahmoud_Zalt) | [Personal Site](http://zalt.me) | [Linkedin](https://www.linkedin.com/in/mahmoudzalt) ]
 
 **Admins:**
 
