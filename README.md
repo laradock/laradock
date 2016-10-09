@@ -208,8 +208,7 @@ What's better than a **Demo Video**:
 <a name="Installation"></a>
 ## Installation
 
-
-1 - Clone the `LaraDock` repository:
+Clone the `LaraDock` repository:
 
 **A)** If you already have a Laravel project, clone this repository on your `Laravel` root directory:
 
