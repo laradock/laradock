@@ -77,9 +77,7 @@ COPY ./crontab /var/spool/cron/crontabs
 # xDebug:
 #####################################
 
-# Check if xDebug needs to be installed
 ARG INSTALL_XDEBUG=false
-ENV INSTALL_XDEBUG ${INSTALL_XDEBUG}
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     # Load the xdebug extension only with phpunit commands
     apt-get update && \

@@ -897,6 +897,13 @@ It should be like this:
 
 2 - Re-build the containers `docker-compose build workspace php-fpm`
 
+3 - Open `laradock/workspace/xdebug.ini` and/or `laradock/php-fpm/xdebug.ini` and enable at least the following configs:
+
+```
+xdebug.remote_autostart=1
+xdebug.remote_enable=1
+xdebug.remote_connect_back=1
+```
 
 For information on how to configure xDebug with your IDE and work it out, check this [Repository](https://github.com/LarryEitel/laravel-laradock-phpstorm).
 
