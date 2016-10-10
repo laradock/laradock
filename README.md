@@ -220,12 +220,28 @@ git submodule add https://github.com/LaraDock/laradock.git
 ```
 >If you are not already using Git for your Laravel project, you can use `git clone` instead of `git submodule`.
 
+Note: In this case the folder structure will be like this (recommended):
+
+```
+- project1
+	- laradock
+- project2
+	- laradock
+```
+
 **B)** If you don't have a Laravel project, and you want to install Laravel from Docker, clone this repo anywhere on your machine:
 
 ```bash
 git clone https://github.com/LaraDock/laradock.git
 ```
+Note: In this case the folder structure will be like this:
 
+```
+- projects
+	- laradock
+	- project1
+	- project2
+```
 
 
 <a name="Usage"></a>
