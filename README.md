@@ -192,8 +192,8 @@ Running a virtual Container is much faster than running a full virtual Machine. 
 
 What's better than a **Demo Video**:
 
-- LaraDock v4.* (Coming soon..)
-- LaraDock [v2.2](https://www.youtube.com/watch?v=-DamFMczwDA)
+- LaraDock [v4.*](https://www.youtube.com/watch?v=TQii1jDa96Y)
+- LaraDock [v2.*](https://www.youtube.com/watch?v=-DamFMczwDA)
 - LaraDock [v0.3](https://www.youtube.com/watch?v=jGkyO6Is_aI)
 - LaraDock [v0.1](https://www.youtube.com/watch?v=3YQsHe6oF80)
 
@@ -229,6 +229,8 @@ Note: In this case the folder structure will be like this (recommended):
 	- laradock
 ```
 
+<br>
+
 **B)** If you don't have a Laravel project, and you want to install Laravel from Docker, clone this repo anywhere on your machine:
 
 ```bash
@@ -243,6 +245,7 @@ Note: In this case the folder structure will be like this:
 	- project2
 ```
 
+**Note:** if you are using this folder structure don't forget to edit the `docker-compose.yml` file to map to your Laravel directory once you have it (example: `- ../project1/:/var/www/laravel`). "You will need to stop and re-run your docker-compose command for the changes to take place".
 
 <a name="Usage"></a>
 ## Usage
