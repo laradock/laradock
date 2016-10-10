@@ -291,9 +291,6 @@ services:
         image: tianon/true
         volumes:
             - ../:/var/www/laravel
-            # Demonstration of how to mount multiple sites
-            # - ../../site_a/:/var/www/site_a
-            # - ../../site_b/:/var/www/site_b
 
 ### Databases Data Container ################################
 
