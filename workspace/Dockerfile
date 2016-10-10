@@ -45,7 +45,7 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 #####################################
 
 # Check if xDebug needs to be installed
-ARG INSTALL_XDEBUG=true
+ARG INSTALL_XDEBUG=false
 ENV INSTALL_XDEBUG ${INSTALL_XDEBUG}
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     # Load the xdebug extension only with phpunit commands
@@ -66,7 +66,7 @@ COPY ./xdebug.ini /etc/php/7.0/cli/conf.d/xdebug.ini
 # See: https://github.com/phusion/baseimage-docker#enabling_ssh
 ADD insecure_id_rsa /tmp/id_rsa
 ADD insecure_id_rsa.pub /tmp/id_rsa.pub
-ARG INSTALL_WORKSPACE_SSH=true
+ARG INSTALL_WORKSPACE_SSH=false
 ENV INSTALL_WORKSPACE_SSH ${INSTALL_WORKSPACE_SSH}
 RUN if [ ${INSTALL_WORKSPACE_SSH} = true ]; then \
     rm -f /etc/service/sshd/down && \
@@ -84,7 +84,7 @@ RUN if [ ${INSTALL_WORKSPACE_SSH} = true ]; then \
 #####################################
 
 # Check if Mongo needs to be installed
-ARG INSTALL_MONGO=true
+ARG INSTALL_MONGO=false
 ENV INSTALL_MONGO ${INSTALL_MONGO}
 RUN if [ ${INSTALL_MONGO} = true ]; then \
     # Install the mongodb extension
@@ -114,7 +114,7 @@ RUN chown -R laradock:laradock /home/laradock/.composer
 USER laradock
 
 # Check if global install need to be ran
-ARG COMPOSER_GLOBAL_INSTALL=true
+ARG COMPOSER_GLOBAL_INSTALL=false
 ENV COMPOSER_GLOBAL_INSTALL ${COMPOSER_GLOBAL_INSTALL}
 RUN if [ ${COMPOSER_GLOBAL_INSTALL} = true ]; then \
     # run the install
@@ -126,7 +126,7 @@ RUN if [ ${COMPOSER_GLOBAL_INSTALL} = true ]; then \
 #####################################
 USER root
 ENV DRUSH_VERSION 8.1.2
-ARG INSTALL_DRUSH=true
+ARG INSTALL_DRUSH=false
 ENV INSTALL_DRUSH ${INSTALL_DRUSH}
 RUN if [ ${INSTALL_DRUSH} = true ]; then \
     # Install Drush 8 with the phar file.
@@ -144,7 +144,7 @@ USER laradock
 # Check if NVM needs to be installed
 ARG NODE_VERSION=stable
 ENV NODE_VERSION ${NODE_VERSION}
-ARG INSTALL_NODE=true
+ARG INSTALL_NODE=false
 ENV INSTALL_NODE ${INSTALL_NODE}
 ENV NVM_DIR /home/laradock/.nvm
 RUN if [ ${INSTALL_NODE} = true ]; then \
@@ -177,7 +177,7 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
 # PHP Aerospike:
 #####################################
 USER root
-ARG INSTALL_AEROSPIKE_EXTENSION=true
+ARG INSTALL_AEROSPIKE_EXTENSION=false
 ENV INSTALL_AEROSPIKE_EXTENSION ${INSTALL_AEROSPIKE_EXTENSION}
 # Copy aerospike configration for remote debugging
 COPY ./aerospike.ini /etc/php/7.0/cli/conf.d/aerospike.ini
