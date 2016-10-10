@@ -192,8 +192,8 @@ Running a virtual Container is much faster than running a full virtual Machine. 
 
 What's better than a **Demo Video**:
 
-- LaraDock v4.* (Coming soon..)
-- LaraDock [v2.2](https://www.youtube.com/watch?v=-DamFMczwDA)
+- LaraDock [v4.*](https://www.youtube.com/watch?v=TQii1jDa96Y)
+- LaraDock [v2.*](https://www.youtube.com/watch?v=-DamFMczwDA)
 - LaraDock [v0.3](https://www.youtube.com/watch?v=jGkyO6Is_aI)
 - LaraDock [v0.1](https://www.youtube.com/watch?v=3YQsHe6oF80)
 
