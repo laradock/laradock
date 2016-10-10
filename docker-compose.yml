@@ -18,6 +18,7 @@ services:
                 - PUID=1000
                 - PGID=1000
                 - NODE_VERSION=stable
+                - TZ=UTC
         volumes_from:
             - volumes_source
         extra_hosts:

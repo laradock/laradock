@@ -61,6 +61,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Prepare LaraDock for Production](#LaraDock-for-Production)
 		- [Setup Laravel and Docker on Digital Ocean](#Digital-Ocean)
 	- [Misc](#Misc)
+		- [Change the timezone](#Change-the-timezone)
 		- [Cron jobs](#CronJobs)
 		- [MySQL access from host](#MySQL-access-from-host)
 		- [Use custom Domain](#Use-custom-Domain)
@@ -985,6 +986,24 @@ To learn more about how Docker publishes ports, please read [this excellent post
 
 <br>
 
+<a name="Change-the-timezone"></a>
+### Change the timezone
+
+To change the timezone for the `workspace` container, modify the `TZ` build argument in the Docker Compose file to one in the [TZ database](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
+
+For example, if I want the timezone to be `New York`:
+
+```yml
+	workspace:
+		build:
+			context: ./workspace
+			args:
+				- TZ=America/New_York
+	...
+```
+
+We also recommend [setting the timezone in Laravel](http://www.camroncade.com/managing-timezones-with-laravel/).
+
 <a name="CronJobs"></a>
 ### Adding cron jobs
 
@@ -996,6 +1015,8 @@ You can add your cron jobs to `workspace/crontab/root` after the `php artisan` l
 # Custom cron
 * * * * * root echo "Every Minute" > /var/log/cron.log 2>&1
 ```
+
+Make sure you [change the timezone](#Change-the-timezone) if you don't want to use the default (UTC).
 
 <a name="MySQL-access-from-host"></a>
 ### MySQL access from host
