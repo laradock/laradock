@@ -34,6 +34,7 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 # in the `docker-compose.yml` before the build.
 # Example:
 #   - INSTALL_ZIP_ARCHIVE=true
+#   - ...
 #
 
 #####################################

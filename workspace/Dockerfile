@@ -32,65 +32,10 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 #
 # Optional Software's will only be installed if you set them to `true`
 # in the `docker-compose.yml` before the build.
+# Example:
+#   - INSTALL_NODE=false
+#   - ...
 #
-#   - INSTALL_XDEBUG=           false
-#   - INSTALL_MONGO=            false
-#   - COMPOSER_GLOBAL_INSTALL=  false
-#   - INSTALL_NODE=             false
-#   - INSTALL_DRUSH=            false
-#
-
-#####################################
-# xDebug:
-#####################################
-
-# Check if xDebug needs to be installed
-ARG INSTALL_XDEBUG=false
-ENV INSTALL_XDEBUG ${INSTALL_XDEBUG}
-RUN if [ ${INSTALL_XDEBUG} = true ]; then \
-    # Load the xdebug extension only with phpunit commands
-    apt-get update && \
-    apt-get install -y --force-yes php7.0-xdebug && \
-    sed -i 's/^/;/g' /etc/php/7.0/cli/conf.d/20-xdebug.ini && \
-    echo "alias phpunit='php -dzend_extension=xdebug.so /var/www/laravel/vendor/bin/phpunit'" >> ~/.bashrc \
-;fi
-# ADD for REMOTE debugging
-COPY ./xdebug.ini /etc/php/7.0/cli/conf.d/xdebug.ini
-
-
-#####################################
-# ssh:
-#####################################
-
-# Check if ssh needs to be installed
-# See: https://github.com/phusion/baseimage-docker#enabling_ssh
-ADD insecure_id_rsa /tmp/id_rsa
-ADD insecure_id_rsa.pub /tmp/id_rsa.pub
-ARG INSTALL_WORKSPACE_SSH=false
-ENV INSTALL_WORKSPACE_SSH ${INSTALL_WORKSPACE_SSH}
-RUN if [ ${INSTALL_WORKSPACE_SSH} = true ]; then \
-    rm -f /etc/service/sshd/down && \
-    cat /tmp/id_rsa.pub >> /root/.ssh/authorized_keys \
-        && cat /tmp/id_rsa.pub >> /root/.ssh/id_rsa.pub \
-        && cat /tmp/id_rsa >> /root/.ssh/id_rsa \
-        && rm -f /tmp/id_rsa* \
-        && chmod 644 /root/.ssh/authorized_keys /root/.ssh/id_rsa.pub \
-    && chmod 400 /root/.ssh/id_rsa \
-;fi
-
-
-#####################################
-# MongoDB:
-#####################################
-
-# Check if Mongo needs to be installed
-ARG INSTALL_MONGO=false
-ENV INSTALL_MONGO ${INSTALL_MONGO}
-RUN if [ ${INSTALL_MONGO} = true ]; then \
-    # Install the mongodb extension
-    pecl install mongodb && \
-    echo "extension=mongodb.so" >> /etc/php/7.0/cli/php.ini \
-;fi
 
 #####################################
 # Non-Root User:
@@ -119,6 +64,62 @@ ENV COMPOSER_GLOBAL_INSTALL ${COMPOSER_GLOBAL_INSTALL}
 RUN if [ ${COMPOSER_GLOBAL_INSTALL} = true ]; then \
     # run the install
     composer global install \
+;fi
+
+#####################################
+# Crontab
+#####################################
+USER root
+
+COPY ./crontab /var/spool/cron/crontabs
+
+#####################################
+# xDebug:
+#####################################
+
+# Check if xDebug needs to be installed
+ARG INSTALL_XDEBUG=false
+ENV INSTALL_XDEBUG ${INSTALL_XDEBUG}
+RUN if [ ${INSTALL_XDEBUG} = true ]; then \
+    # Load the xdebug extension only with phpunit commands
+    apt-get update && \
+    apt-get install -y --force-yes php7.0-xdebug && \
+    sed -i 's/^/;/g' /etc/php/7.0/cli/conf.d/20-xdebug.ini && \
+    echo "alias phpunit='php -dzend_extension=xdebug.so /var/www/laravel/vendor/bin/phpunit'" >> ~/.bashrc \
+;fi
+# ADD for REMOTE debugging
+COPY ./xdebug.ini /etc/php/7.0/cli/conf.d/xdebug.ini
+
+#####################################
+# ssh:
+#####################################
+ARG INSTALL_WORKSPACE_SSH=false
+ENV INSTALL_WORKSPACE_SSH ${INSTALL_WORKSPACE_SSH}
+
+ADD insecure_id_rsa /tmp/id_rsa
+ADD insecure_id_rsa.pub /tmp/id_rsa.pub
+
+RUN if [ ${INSTALL_WORKSPACE_SSH} = true ]; then \
+    rm -f /etc/service/sshd/down && \
+    cat /tmp/id_rsa.pub >> /root/.ssh/authorized_keys \
+        && cat /tmp/id_rsa.pub >> /root/.ssh/id_rsa.pub \
+        && cat /tmp/id_rsa >> /root/.ssh/id_rsa \
+        && rm -f /tmp/id_rsa* \
+        && chmod 644 /root/.ssh/authorized_keys /root/.ssh/id_rsa.pub \
+    && chmod 400 /root/.ssh/id_rsa \
+;fi
+
+#####################################
+# MongoDB:
+#####################################
+
+# Check if Mongo needs to be installed
+ARG INSTALL_MONGO=false
+ENV INSTALL_MONGO ${INSTALL_MONGO}
+RUN if [ ${INSTALL_MONGO} = true ]; then \
+    # Install the mongodb extension
+    pecl install mongodb && \
+    echo "extension=mongodb.so" >> /etc/php/7.0/cli/php.ini \
 ;fi
 
 #####################################
@@ -167,6 +168,7 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
 
 # Add NVM binaries to root's .bashrc
 USER root
+
 RUN if [ ${INSTALL_NODE} = true ]; then \
     echo "" >> ~/.bashrc && \
     echo 'export NVM_DIR="/home/laradock/.nvm"' >> ~/.bashrc && \
@@ -177,10 +179,13 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
 # PHP Aerospike:
 #####################################
 USER root
-ARG INSTALL_AEROSPIKE_EXTENSION=false
+
+ARG INSTALL_AEROSPIKE_EXTENSION=true
 ENV INSTALL_AEROSPIKE_EXTENSION ${INSTALL_AEROSPIKE_EXTENSION}
+
 # Copy aerospike configration for remote debugging
 COPY ./aerospike.ini /etc/php/7.0/cli/conf.d/aerospike.ini
+
 RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = true ]; then \
     # Install the php aerospike extension
     curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/luciano-jr/aerospike-client-php/archive/master.tar.gz" \
@@ -194,15 +199,10 @@ RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = true ]; then \
     ) \
     && rm /tmp/aerospike-client-php.tar.gz \
 ;fi
+
 RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = false ]; then \
     rm /etc/php/7.0/cli/conf.d/aerospike.ini \
 ;fi
-
-#####################################
-# Crontab
-#####################################
-USER root
-COPY ./crontab /var/spool/cron/crontabs
 
 #
 #--------------------------------------------------------------------------
