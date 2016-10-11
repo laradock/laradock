@@ -28,9 +28,43 @@ RUN apt-get install -y software-properties-common && \
 RUN apt-get -y install php7.0 php7.0-gd php7.0-ldap \
     php7.0-sqlite php7.0-pgsql php-pear php7.0-mysql \
     php7.0-mcrypt php7.0-xmlrpc php7.0-fpm php7.0-cli php7.0-curl \
-    php7.0-json php7.0-odbc php7.0-tidy php7.0-zip php7.0-imap \
-    php7.0-memcached php7.0-redis php7.0-intl php7.0-pgsql \
-    php7.0-mongodb php7.0-sybase
+    php7.0-json php7.0-odbc php7.0-tidy php7.0-imap \
+    php7.0-redis php7.0-intl php7.0-pgsql \
+    php7.0-sybase sendmail supervisor \
+    && mkdir /run/php
+
+
+
+#####################################
+# MongoDB:
+#####################################
+
+ARG INSTALL_MONGO=false
+RUN if [ ${INSTALL_MONGO} = true ]; then \
+    # Install the mongodb extension
+    apt-get -y install php7.0-mongodb \
+;fi
+
+#####################################
+# ZipArchive:
+#####################################
+
+ARG INSTALL_ZIP_ARCHIVE=false
+RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
+    # Install the zip extension
+    apt-get -y install php7.0-zip \
+;fi
+
+#####################################
+# PHP Memcached:
+#####################################
+
+ARG INSTALL_MEMCACHED=false
+RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
+    # Install the php memcached extension
+    apt-get -y install php7.0-memcached \
+;fi
+
 
 #
 #--------------------------------------------------------------------------
@@ -38,21 +72,17 @@ RUN apt-get -y install php7.0 php7.0-gd php7.0-ldap \
 #--------------------------------------------------------------------------
 #
 
-RUN sed -i '/daemonize /c \
-daemonize = no' /etc/php5/fpm/php-fpm.conf
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN sed -i '/^listen /c \
-listen = 0.0.0.0:9000' /etc/php7/fpm/pool.d/www.conf
+RUN sed -i -e 's/listen = \/run\/php\/php7.0-fpm.sock/listen = 0.0.0.0:9000/g' /etc/php/7.0/fpm/pool.d/www.conf \
+    && sed -i -e 's/;daemonize = yes/daemonize = no/g' /etc/php/7.0/fpm/php-fpm.conf
 
-RUN sed -i 's/^listen.allowed_clients/;listen.allowed_clients/' /etc/php7/fpm/pool.d/www.conf
-
-
-RUN rm -r /var/lib/apt/lists/*
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN usermod -u 1000 www-data
 
 WORKDIR /var/www/laravel
 
-CMD ["php-fpm"]
+CMD ["/usr/bin/supervisord"]
 
 EXPOSE 9000
