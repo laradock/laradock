@@ -29,8 +29,8 @@ RUN apt-get -y install php7.0 php7.0-gd php7.0-ldap \
     php7.0-sqlite php7.0-pgsql php-pear php7.0-mysql \
     php7.0-mcrypt php7.0-xmlrpc php7.0-fpm php7.0-cli php7.0-curl \
     php7.0-json php7.0-odbc php7.0-tidy php7.0-imap \
-     php7.0-redis php7.0-intl php7.0-pgsql \
-     php7.0-sybase
+    php7.0-redis php7.0-intl php7.0-pgsql \
+    php7.0-sybase
 
 
 #####################################
@@ -72,7 +72,8 @@ RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
 
 
 
-ADD ./laravel.pool.conf /etc/php/7.0/fpm/pool.d/
+RUN sed -i '/^listen /c \
+listen = 0.0.0.0:9000' /etc/php/7.0/fpm/pool.d/www.conf
 
 
 RUN rm -r /var/lib/apt/lists/*
