@@ -72,7 +72,7 @@ RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
 
 
 
-ADD ./laravel.pool.conf /etc/php/7.0/fpm/pool.d/www.conf
+ADD ./laravel.pool.conf /etc/php/7.0/fpm/pool.d/
 
 
 RUN rm -r /var/lib/apt/lists/*
