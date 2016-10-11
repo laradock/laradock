@@ -31,7 +31,7 @@ services:
 
     php-fpm:
         build:
-            context: ./php-fpm
+            context: ./php-fpm-ubuntu
             args:
                 - INSTALL_XDEBUG=false
                 - INSTALL_MONGO=false
@@ -39,7 +39,7 @@ services:
                 - INSTALL_MEMCACHED=false
                 - INSTALL_OPCACHE=false
                 - INSTALL_AEROSPIKE_EXTENSION=false
-            dockerfile: Dockerfile-70
+            dockerfile: Dockerfile
         volumes_from:
             - volumes_source
         expose:
