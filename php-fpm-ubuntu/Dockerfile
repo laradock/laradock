@@ -40,7 +40,7 @@ RUN apt-get -y install php7.0 php7.0-gd php7.0-ldap \
 ARG INSTALL_MONGO=false
 RUN if [ ${INSTALL_MONGO} = true ]; then \
     # Install the mongodb extension
-    RUN apt-get -y install php7.0-mongodb
+    RUN apt-get -y install php7.0-mongodb \
 ;fi
 
 #####################################
@@ -50,7 +50,7 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
 ARG INSTALL_ZIP_ARCHIVE=false
 RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
     # Install the zip extension
-    RUN apt-get -y install php7.0-zip
+    RUN apt-get -y install php7.0-zip \
 ;fi
 
 #####################################
@@ -60,7 +60,7 @@ RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
 ARG INSTALL_MEMCACHED=false
 RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
     # Install the php memcached extension
-    RUN apt-get -y install php7.0-memcached
+    RUN apt-get -y install php7.0-memcached \
 ;fi
 
 
