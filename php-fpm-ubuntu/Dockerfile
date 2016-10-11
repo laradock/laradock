@@ -69,8 +69,10 @@ RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
 # Final Touch
 #--------------------------------------------------------------------------
 #
+USER root
 
-
+RUN sed -i '/daemonize /c \
+daemonize = no' /etc/php/7.0/fpm/php-fpm.conf
 
 RUN sed -i '/^listen /c \
 listen = 0.0.0.0:9000' /etc/php/7.0/fpm/pool.d/www.conf
