@@ -81,6 +81,6 @@ RUN usermod -u 1000 www-data
 
 WORKDIR /var/www/laravel
 
-CMD ["php-fpm"]
+CMD ["php7.0-fpm"]
 
 EXPOSE 9000
