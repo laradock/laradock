@@ -30,7 +30,9 @@ RUN apt-get -y install php7.0 php7.0-gd php7.0-ldap \
     php7.0-mcrypt php7.0-xmlrpc php7.0-fpm php7.0-cli php7.0-curl \
     php7.0-json php7.0-odbc php7.0-tidy php7.0-imap \
     php7.0-redis php7.0-intl php7.0-pgsql \
-    php7.0-sybase
+    php7.0-sybase sendmail supervisor \
+    && mkdir /run/php \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 
 #####################################
@@ -69,21 +71,16 @@ RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
 # Final Touch
 #--------------------------------------------------------------------------
 #
-USER root
 
-RUN sed -i '/daemonize /c \
-daemonize = no' /etc/php/7.0/fpm/php-fpm.conf
+RUN sed -i -e 's/listen = \/run\/php\/php7.0-fpm.sock/listen = 0.0.0.0:9000/g' /etc/php/7.0/fpm/pool.d/www.conf \
+    && sed -i -e 's/;daemonize = yes/daemonize = no/g' /etc/php/7.0/fpm/php-fpm.conf
 
-RUN sed -i '/^listen /c \
-listen = 0.0.0.0:9000' /etc/php/7.0/fpm/pool.d/www.conf
-
-
-RUN rm -r /var/lib/apt/lists/*
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN usermod -u 1000 www-data
 
 WORKDIR /var/www/laravel
 
-CMD ["/usr/sbin/php-fpm7.0","-F"]
+CMD ["/usr/bin/supervisord"]
 
 EXPOSE 9000
