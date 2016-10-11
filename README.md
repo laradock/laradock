@@ -421,15 +421,17 @@ Examples:
 Change MySQL Database Name:
 
 ```yml
-  environment:
-    MYSQL_DATABASE: laradock
+    environment:
+        MYSQL_DATABASE: laradock
+    ...
 ```
 
 Change Redis defaut port to 1111:
 
 ```yml
-  ports:
-    - "1111:6379"
+    ports:
+        - "1111:6379"
+    ...
 ```
 
 
@@ -548,6 +550,7 @@ Since the new Laravel application is in the `my-cool-app` folder, we need to rep
         build: ./application
         volumes:
             - ../my-cool-app/:/var/www/laravel
+    ...
 ```
 4 - Go to that folder and start working..
 
@@ -824,11 +827,12 @@ By default **PHP-FPM 7.0** is running.
 
 3 - Change the version number, by replacing `Dockerfile-70` with `Dockerfile-56`, like this:
 
-```txt
-php-fpm:
-    build:
-        context: ./php-fpm
-        dockerfile: Dockerfile-70
+```yml
+    php-fpm:
+        build:
+            context: ./php-fpm
+            dockerfile: Dockerfile-70
+    ...
 ```
 
 4 - Finally rebuild the container
@@ -994,12 +998,12 @@ To change the timezone for the `workspace` container, modify the `TZ` build argu
 For example, if I want the timezone to be `New York`:
 
 ```yml
-	workspace:
-		build:
-			context: ./workspace
-			args:
-				- TZ=America/New_York
-	...
+    workspace:
+        build:
+            context: ./workspace
+            args:
+                - TZ=America/New_York
+    ...
 ```
 
 We also recommend [setting the timezone in Laravel](http://www.camroncade.com/managing-timezones-with-laravel/).
