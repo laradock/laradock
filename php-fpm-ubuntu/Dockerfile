@@ -30,7 +30,7 @@ RUN apt-get -y install php7.0 php7.0-gd php7.0-ldap \
     php7.0-mcrypt php7.0-xmlrpc php7.0-fpm php7.0-cli php7.0-curl \
     php7.0-json php7.0-odbc php7.0-tidy php7.0-zip php7.0-imap \
     php7.0-memcached php7.0-redis php7.0-intl php7.0-pgsql \
-    php7.0-mongodb php7.0-db_lib
+    php7.0-mongodb php7.0-sybase
 
 #
 #--------------------------------------------------------------------------
@@ -38,8 +38,14 @@ RUN apt-get -y install php7.0 php7.0-gd php7.0-ldap \
 #--------------------------------------------------------------------------
 #
 
-ADD ./laravel.ini /usr/local/etc/php/conf.d
-ADD ./laravel.pool.conf /usr/local/etc/php-fpm.d/
+RUN sed -i '/daemonize /c \
+daemonize = no' /etc/php5/fpm/php-fpm.conf
+
+RUN sed -i '/^listen /c \
+listen = 0.0.0.0:9000' /etc/php7/fpm/pool.d/www.conf
+
+RUN sed -i 's/^listen.allowed_clients/;listen.allowed_clients/' /etc/php7/fpm/pool.d/www.conf
+
 
 RUN rm -r /var/lib/apt/lists/*
 
