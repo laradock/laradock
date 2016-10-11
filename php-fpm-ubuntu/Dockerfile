@@ -3,6 +3,12 @@ MAINTAINER Pavel Litvyak <pvlltvk@gmail.com>
 
 ENV DEBIAN_FRONTEND noninteractive
 
+RUN locale-gen en_US.UTF-8
+ENV LANG       en_US.UTF-8
+ENV LC_ALL     en_US.UTF-8
+
+RUN apt-get update
+
 #
 #---------------------------------------------------
 # First Setting up locale to include utf8 charset
