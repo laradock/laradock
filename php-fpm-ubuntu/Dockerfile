@@ -31,8 +31,8 @@ RUN apt-get -y install php7.0 php7.0-gd php7.0-ldap \
     php7.0-json php7.0-odbc php7.0-tidy php7.0-imap \
     php7.0-redis php7.0-intl php7.0-pgsql \
     php7.0-sybase sendmail supervisor \
-    && mkdir /run/php \
-    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    && mkdir /run/php
+
 
 
 #####################################
@@ -71,6 +71,8 @@ RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
 # Final Touch
 #--------------------------------------------------------------------------
 #
+
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN sed -i -e 's/listen = \/run\/php\/php7.0-fpm.sock/listen = 0.0.0.0:9000/g' /etc/php/7.0/fpm/pool.d/www.conf \
     && sed -i -e 's/;daemonize = yes/daemonize = no/g' /etc/php/7.0/fpm/php-fpm.conf
