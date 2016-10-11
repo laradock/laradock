@@ -1,0 +1,46 @@
+FROM ubuntu:14.04
+MAINTAINER Pavel Litvyak <pvlltvk@gmail.com>
+
+ENV DEBIAN_FRONTEND noninteractive
+
+#
+#---------------------------------------------------
+# First Setting up locale to include utf8 charset
+#---------------------------------------------------
+#
+#
+#
+RUN apt-get install -y language-pack-en-base
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
+
+
+RUN apt-get install -y software-properties-common && \
+    add-apt-repository -y ppa:ondrej/php && \
+    apt-get update
+
+RUN apt-get -y install php7.0 php7.0-gd php7.0-ldap \
+    php7.0-sqlite php7.0-pgsql php-pear php7.0-mysql \
+    php7.0-mcrypt php7.0-xmlrpc php7.0-fpm php7.0-cli php7.0-curl \
+    php7.0-json php7.0-odbc php7.0-tidy php7.0-zip php7.0-imap \
+    php7.0-memcached php7.0-redis php7.0-intl php7.0-pgsql \
+    php7.0-mongodb
+
+#
+#--------------------------------------------------------------------------
+# Final Touch
+#--------------------------------------------------------------------------
+#
+
+ADD ./laravel.ini /usr/local/etc/php/conf.d
+ADD ./laravel.pool.conf /usr/local/etc/php-fpm.d/
+
+RUN rm -r /var/lib/apt/lists/*
+
+RUN usermod -u 1000 www-data
+
+WORKDIR /var/www/laravel
+
+CMD ["php-fpm"]
+
+EXPOSE 9000
