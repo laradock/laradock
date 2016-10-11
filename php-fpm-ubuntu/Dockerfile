@@ -38,13 +38,9 @@ RUN apt-get -y install php7.0 php7.0-gd php7.0-ldap \
 #--------------------------------------------------------------------------
 #
 
-RUN sed -i '/daemonize /c \
-daemonize = no' /etc/php5/fpm/php-fpm.conf
 
-RUN sed -i '/^listen /c \
-listen = 0.0.0.0:9000' /etc/php7/fpm/pool.d/www.conf
 
-RUN sed -i 's/^listen.allowed_clients/;listen.allowed_clients/' /etc/php7/fpm/pool.d/www.conf
+ADD ./laravel.pool.conf /etc/php/7.0/fpm/pool.d/www.conf
 
 
 RUN rm -r /var/lib/apt/lists/*
