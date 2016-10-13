@@ -307,7 +307,7 @@ services:
             - ./data/elasticsearch/data:/usr/share/elasticsearch/data
 
 ### Selenium Chrome container ###################################
-    chrome-standalone:
+    selenium-chrome:
         image: selenium/standalone-chrome
         ports:
             - "4444:4444"
@@ -316,7 +316,7 @@ services:
 
 
 ### Selenium Firefox container ###################################
-    chrome-standalone:
+    selenium-firefox:
         image: selenium/standalone-firefox
         ports:
             - "4444:4444"
