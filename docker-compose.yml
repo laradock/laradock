@@ -8,22 +8,23 @@ services:
         build:
             context: ./workspace
             args:
-                - INSTALL_XDEBUG=false
-                - INSTALL_MONGO=false
-                - INSTALL_NODE=true
-                - INSTALL_DRUSH=false
-                - INSTALL_AEROSPIKE_EXTENSION=false
-                - COMPOSER_GLOBAL_INSTALL=false
-                - INSTALL_WORKSPACE_SSH=false
-                - PUID=1000
-                - PGID=1000
-                - NODE_VERSION=stable
-                - TZ=UTC
+                - INSTALL_XDEBUG=${EXTERNAL_PORT}
+                - INSTALL_MONGO=${INSTALL_MONGO}
+                - INSTALL_NODE=${INSTALL_NODE}
+                - INSTALL_DRUSH=${INSTALL_DRUSH}
+                - INSTALL_AEROSPIKE_EXTENSION=${INSTALL_AEROSPIKE_EXTENSION}
+                - COMPOSER_GLOBAL_INSTALL=${COMPOSER_GLOBAL_INSTALL}
+                - INSTALL_WORKSPACE_SSH=${INSTALL_WORKSPACE_SSH}
+                - PUID=${PUID}
+                - PGID=${PGID}
+                - NODE_VERSION=${NODE_VERSION}
+                - TZ=${TZ}
         volumes_from:
             - volumes_source
         extra_hosts:
             # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
             - "dockerhost:10.0.75.1"
+            - "TNSERVER:${TNSERVER}"
         ports:
            - "2200:22"
         tty: true
