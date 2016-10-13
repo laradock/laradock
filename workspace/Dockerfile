@@ -182,6 +182,30 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
 ;fi
 
 #####################################
+# YARN:
+#####################################
+
+USER laradock
+
+ARG INSTALL_YARN=false
+ENV INSTALL_YARN ${INSTALL_YARN}
+
+RUN if [ ${INSTALL_YARN} = true ]; then \
+    curl -o- -L https://yarnpkg.com/install.sh | bash && \
+        echo "" >> ~/.bashrc && \
+        echo 'export PATH="$HOME/.yarn/bin:$PATH"' >> ~/.bashrc \
+;fi
+
+# Add YARN binaries to root's .bashrc
+USER root
+
+RUN if [ ${INSTALL_YARN} = true ]; then \
+    echo "" >> ~/.bashrc && \
+    echo 'export YARN_DIR="/home/laradock/.yarn"' >> ~/.bashrc && \
+    echo 'export PATH="$YARN_DIR/bin:$PATH"' >> ~/.bashrc \
+;fi
+
+#####################################
 # PHP Aerospike:
 #####################################
 USER root
