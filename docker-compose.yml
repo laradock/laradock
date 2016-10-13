@@ -306,4 +306,39 @@ services:
             - ./data/caddy:/root/.caddy
             - ./data/elasticsearch/data:/usr/share/elasticsearch/data
 
+### Selenium Chrome container ###################################
+    chrome-standalone:
+        image: selenium/standalone-chrome
+        ports:
+            - "4444:4444"
+        links:
+            - workspace
+
+
+### Selenium Firefox container ###################################
+    chrome-standalone:
+        image: selenium/standalone-firefox
+        ports:
+            - "4444:4444"
+        links:
+            - workspace
+
+### Selenium Hub with firefox and chrome ###################################
+    selenium-hub:
+        image: selenium/hub
+        ports:
+            - "4444:4444"
+        links:
+            - workspace
+    firefox:
+        image: selenium/node-firefox
+        links:
+            - hub
+    chrome:
+        image: selenium/node-chrome
+        links:
+            - hub
+
+
+
 ### Add more Containers below ###############################
