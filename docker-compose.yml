@@ -11,6 +11,7 @@ services:
                 - INSTALL_XDEBUG=false
                 - INSTALL_MONGO=false
                 - INSTALL_NODE=false
+                - INSTALL_YARN=false
                 - INSTALL_DRUSH=false
                 - INSTALL_AEROSPIKE_EXTENSION=false
                 - COMPOSER_GLOBAL_INSTALL=false
