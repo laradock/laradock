@@ -25,12 +25,12 @@ RUN apt-get install -y software-properties-common && \
     add-apt-repository -y ppa:ondrej/php && \
     apt-get update
 
-RUN apt-get -y install php7.0 php7.0-gd php7.0-ldap \
-    php7.0-sqlite php7.0-pgsql php-pear php7.0-mysql \
-    php7.0-mcrypt php7.0-xmlrpc php7.0-fpm php7.0-cli php7.0-curl \
-    php7.0-json php7.0-odbc php7.0-tidy php7.0-imap \
-    php7.0-redis php7.0-intl php7.0-pgsql \
-    php7.0-sybase sendmail supervisor \
+RUN apt-get -y install php${PHP_VER} php${PHP_VER}-gd php${PHP_VER}-ldap \
+    php${PHP_VER}-sqlite php${PHP_VER}-pgsql php-pear php${PHP_VER}-mysql \
+    php${PHP_VER}-mcrypt php${PHP_VER}-xmlrpc php${PHP_VER}-fpm php${PHP_VER}-cli php${PHP_VER}-curl \
+    php${PHP_VER}-json php${PHP_VER}-odbc php${PHP_VER}-tidy php${PHP_VER}-imap \
+    php${PHP_VER}-redis php${PHP_VER}-intl php${PHP_VER}-pgsql \
+    php${PHP_VER}-sybase sendmail supervisor \
     && mkdir /run/php
 
 
@@ -42,7 +42,7 @@ RUN apt-get -y install php7.0 php7.0-gd php7.0-ldap \
 ARG INSTALL_MONGO=false
 RUN if [ ${INSTALL_MONGO} = true ]; then \
     # Install the mongodb extension
-    apt-get -y install php7.0-mongodb \
+    apt-get -y install php${PHP_VER}-mongodb \
 ;fi
 
 #####################################
@@ -52,7 +52,7 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
 ARG INSTALL_ZIP_ARCHIVE=false
 RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
     # Install the zip extension
-    apt-get -y install php7.0-zip \
+    apt-get -y install php${PHP_VER}-zip \
 ;fi
 
 #####################################
@@ -62,7 +62,7 @@ RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
 ARG INSTALL_MEMCACHED=false
 RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
     # Install the php memcached extension
-    apt-get -y install php7.0-memcached \
+    apt-get -y install php${PHP_VER}-memcached \
 ;fi
 
 
@@ -74,8 +74,8 @@ RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN sed -i -e 's/listen = \/run\/php\/php7.0-fpm.sock/listen = 0.0.0.0:9000/g' /etc/php/7.0/fpm/pool.d/www.conf \
-    && sed -i -e 's/;daemonize = yes/daemonize = no/g' /etc/php/7.0/fpm/php-fpm.conf
+RUN sed -i -e 's/listen = \/run\/php\/php'"${PHP_VER}"'-fpm.sock/listen = 0.0.0.0:9000/g' /etc/php/${PHP_VER}/fpm/pool.d/www.conf \
+    && sed -i -e 's/;daemonize = yes/daemonize = no/g' /etc/php/${PHP_VER}/fpm/php-fpm.conf
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 

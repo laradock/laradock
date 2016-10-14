@@ -35,9 +35,10 @@ services:
         build:
             context: ./php-fpm-ubuntu
             args:
-                - INSTALL_MONGO=true
-                - INSTALL_ZIP_ARCHIVE=true
-                - INSTALL_MEMCACHED=true
+                - PHP_VER=${PHP_VER}
+                - INSTALL_MONGO=${INSTALL_MONGO}
+                - INSTALL_ZIP_ARCHIVE=${INSTALL_ZIP_ARCHIVE}
+                - INSTALL_MEMCACHED=${INSTALL_MEMCACHED}
             dockerfile: Dockerfile
         volumes_from:
             - volumes_source
@@ -50,7 +51,7 @@ services:
             - "dockerhost:10.0.75.1"
         environment:
             # IMPORTANT: Set the Remote Interpreter entry matching name to `laravel`
-            - PHP_IDE_CONFIG="serverName=laravel"
+            - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
 
 ### Nginx Server Container ##################################
 
@@ -58,7 +59,7 @@ services:
         build:
             context: ./nginx
             args:
-                - PHP_UPSTREAM=php-fpm
+                - PHP_UPSTREAM=${PHP_UPSTREAM}
         volumes_from:
             - volumes_source
         volumes:
@@ -75,7 +76,7 @@ services:
         build:
             context: ./apache2
             args:
-                - PHP_SOCKET="php-fpm:9000"
+                - PHP_SOCKET=${PHP_SOCKET}
         volumes_from:
             - volumes_source
         volumes:
