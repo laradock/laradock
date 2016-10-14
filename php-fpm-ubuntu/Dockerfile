@@ -25,6 +25,7 @@ RUN apt-get install -y software-properties-common && \
     add-apt-repository -y ppa:ondrej/php && \
     apt-get update
 
+ARG PHP_VER=5.6
 RUN apt-get -y install php${PHP_VER} php${PHP_VER}-gd php${PHP_VER}-ldap \
     php${PHP_VER}-sqlite php${PHP_VER}-pgsql php-pear php${PHP_VER}-mysql \
     php${PHP_VER}-mcrypt php${PHP_VER}-xmlrpc php${PHP_VER}-fpm php${PHP_VER}-cli php${PHP_VER}-curl \
