@@ -326,7 +326,6 @@ services:
 
 ### Volumes Setup ###########################################
 
-
 volumes:
     mysql:
         driver: "local"
