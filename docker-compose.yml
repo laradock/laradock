@@ -78,7 +78,7 @@ services:
         build:
             context: ./apache2
             args:
-                - PHP_SOCKET="php-fpm:9000"
+                - PHP_SOCKET=php-fpm:9000
         volumes_from:
             - volumes_source
         volumes:

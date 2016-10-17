@@ -2,7 +2,7 @@ FROM webdevops/apache:ubuntu-16.04
 
 MAINTAINER Eric Pfeiffer <computerfr33k@users.noreply.github.com>
 
-ARG PHP_SOCKET="php-fpm:9000"
+ARG PHP_SOCKET=$PHP_SOCKET
 
 ENV WEB_PHP_SOCKET=$PHP_SOCKET
 
