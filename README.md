@@ -1221,6 +1221,12 @@ Make sure the ports for the services that you are trying to run (80, 3306, etc.)
 3. Enter your windows username and password.
 4. Go to the `reset` tab and click restart docker.
 
+#### I get Mysql connection refused
+
+This error is sometimes happens because your Laravel application isn't running on the container localhost IP (Which is 127.0.0.1). Steps to fix it:
+
+1. Check your running Laravel application IP by dumping `Request::ip()` variable using `dd(Request::ip())` anywhere on your application. The result is the IP of your Laravel container.
+2. Change the `DB_HOST` variable on env with the IP that you received from previous step.
 
 
 
