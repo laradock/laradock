@@ -143,6 +143,9 @@ Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL` and `Red
 	- PhpMyAdmin
 	- PgAdmin
 	- ElasticSearch
+	- Selenium Standalone (Chrome)
+	- Selenium Standalone (Firefox)
+	- Selenium Grid (One firefox and chrome instance each)
 
 
 >If you can't find your Software, build it yourself and add it to this list. Contributions are welcomed :)
@@ -281,7 +284,7 @@ docker-compose up -d  nginx mysql
 
 You can select your own combination of Containers form the list below:
 
-`nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `rabbitmq`, `workspace`, `phpmyadmin`, `aerospike`, `pgadmin`, `elasticsearch`.
+`nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `rabbitmq`, `workspace`, `phpmyadmin`, `aerospike`, `pgadmin`, `elasticsearch` , `selenium-chrome`,`selenium-firefox`,`selenium-hub`.
 
 
 

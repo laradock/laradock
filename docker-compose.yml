@@ -8,40 +8,38 @@ services:
         build:
             context: ./workspace
             args:
-                - INSTALL_XDEBUG=false
-                - INSTALL_MONGO=false
-                - INSTALL_NODE=false
-                - INSTALL_YARN=false
-                - INSTALL_DRUSH=false
-                - INSTALL_AEROSPIKE_EXTENSION=false
-                - COMPOSER_GLOBAL_INSTALL=false
-                - INSTALL_WORKSPACE_SSH=false
-                - PUID=1000
-                - PGID=1000
-                - NODE_VERSION=stable
-                - TZ=UTC
+                - INSTALL_XDEBUG=${INSTALL_XDEBUG}
+                - INSTALL_MONGO=${INSTALL_MONGO}
+                - INSTALL_NODE=${INSTALL_NODE}
+                - INSTALL_DRUSH=${INSTALL_DRUSH}
+                - INSTALL_AEROSPIKE_EXTENSION=${INSTALL_AEROSPIKE_EXTENSION}
+                - COMPOSER_GLOBAL_INSTALL=${COMPOSER_GLOBAL_INSTALL}
+                - INSTALL_WORKSPACE_SSH=${INSTALL_WORKSPACE_SSH}
+                - PUID=${PUID}
+                - PGID=${PGID}
+                - NODE_VERSION=${NODE_VERSION}
+                - TZ=${TZ}
+
         volumes_from:
             - volumes_source
         extra_hosts:
             # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
             - "dockerhost:10.0.75.1"
+            - "TNSERVER:${TNSERVER}"
         ports:
-           - "22:22"
+           - "2200:22"
         tty: true
 
 ### PHP-FPM Container #######################################
 
     php-fpm:
         build:
-            context: ./php-fpm
+            context: ./php-fpm-ubuntu
             args:
-                - INSTALL_XDEBUG=false
-                - INSTALL_MONGO=false
-                - INSTALL_ZIP_ARCHIVE=false
-                - INSTALL_MEMCACHED=false
-                - INSTALL_OPCACHE=false
-                - INSTALL_AEROSPIKE_EXTENSION=false
-            dockerfile: Dockerfile-70
+                - INSTALL_MONGO=${INSTALL_MONGO}
+                - INSTALL_ZIP_ARCHIVE=${INSTALL_ZIP_ARCHIVE}
+                - INSTALL_MEMCACHED=${INSTALL_MEMCACHED}
+            dockerfile: Dockerfile
         volumes_from:
             - volumes_source
         expose:
@@ -51,9 +49,10 @@ services:
         extra_hosts:
             # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
             - "dockerhost:10.0.75.1"
+            - "TNSERVER:${TNSERVER}"
         environment:
             # IMPORTANT: Set the Remote Interpreter entry matching name to `laravel`
-            - PHP_IDE_CONFIG="serverName=laravel"
+            - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
 
 ### Nginx Server Container ##################################
 
@@ -61,7 +60,7 @@ services:
         build:
             context: ./nginx
             args:
-                - PHP_UPSTREAM=php-fpm
+                - PHP_UPSTREAM=${PHP_UPSTREAM}
         volumes_from:
             - volumes_source
         volumes:
@@ -78,7 +77,7 @@ services:
         build:
             context: ./apache2
             args:
-                - PHP_SOCKET=php-fpm:9000
+                - PHP_SOCKET=${PHP_SOCKET}
         volumes_from:
             - volumes_source
         volumes:
@@ -309,5 +308,40 @@ services:
             - ./data/sessions:/sessions
             - ./data/caddy:/root/.caddy
             - ./data/elasticsearch/data:/usr/share/elasticsearch/data
+
+### Selenium Chrome container ###################################
+    selenium-chrome:
+        image: selenium/standalone-chrome
+        ports:
+            - "4444:4444"
+        links:
+            - workspace
+
+
+### Selenium Firefox container ###################################
+    selenium-firefox:
+        image: selenium/standalone-firefox
+        ports:
+            - "4444:4444"
+        links:
+            - workspace
+
+### Selenium Hub with firefox and chrome ###################################
+    selenium-hub:
+        image: selenium/hub
+        ports:
+            - "4444:4444"
+        links:
+            - workspace
+    firefox:
+        image: selenium/node-firefox
+        links:
+            - selenium-hub
+    chrome:
+        image: selenium/node-chrome
+        links:
+            - selenium-hub
+
+
 
 ### Add more Containers below ###############################
