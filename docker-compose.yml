@@ -35,7 +35,7 @@ services:
     php-fpm:
         build:
             context: ./php-fpm-ubuntu
-            args:s
+            args:
                 - INSTALL_MONGO=${INSTALL_MONGO}
                 - INSTALL_ZIP_ARCHIVE=${INSTALL_ZIP_ARCHIVE}
                 - INSTALL_MEMCACHED=${INSTALL_MEMCACHED}
