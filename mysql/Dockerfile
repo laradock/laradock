@@ -1,4 +1,4 @@
-FROM mysql:latest
+FROM mysql:5.6
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 

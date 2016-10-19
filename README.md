@@ -68,6 +68,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Enable Global Composer Build Install](#Enable-Global-Composer-Build-Install)
 		- [Install Prestissimo](#Install-Prestissimo)
 		- [Install Node + NVM](#Install-Node)
+		- [Install Node + YARN](#Install-Yarn)
 		- [Debugging](#debugging)
 		- [Upgrading LaraDock](#upgrading-laradock)
 - [Help & Questions](#Help)
@@ -1129,6 +1130,30 @@ It should be like this:
 3 - Re-build the container `docker-compose build workspace`
 
 <br>
+<a name="Install-Yarn"></a>
+### Install Node + YARN
+
+Yarn is a new package manager for JavaScript. It is so faster than npm, which you can find [here](http://yarnpkg.com/en/compare).To install NodeJS and [Yarn](https://yarnpkg.com/) in the Workspace container:
+
+1 - Open the `docker-compose.yml` file
+
+2 - Search for the `INSTALL_NODE` and `INSTALL_YARN` argument under the Workspace Container and set it to `true`
+
+It should be like this:
+
+```yml
+    workspace:
+        build:
+            context: ./workspace
+            args:
+                - INSTALL_NODE=true
+                - INSTALL_YARN=true
+    ...
+```
+
+3 - Re-build the container `docker-compose build workspace`
+
+<br>
 <a name="Install-Aerospike-Extension"></a>
 ### Install Aerospike extension
 
@@ -1199,6 +1224,12 @@ Make sure the ports for the services that you are trying to run (80, 3306, etc.)
 3. Enter your windows username and password.
 4. Go to the `reset` tab and click restart docker.
 
+#### I get Mysql connection refused
+
+This error is sometimes happens because your Laravel application isn't running on the container localhost IP (Which is 127.0.0.1). Steps to fix it:
+
+1. Check your running Laravel application IP by dumping `Request::ip()` variable using `dd(Request::ip())` anywhere on your application. The result is the IP of your Laravel container.
+2. Change the `DB_HOST` variable on env with the IP that you received from previous step.
 
 
 

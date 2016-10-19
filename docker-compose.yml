@@ -19,6 +19,7 @@ services:
                 - PGID=${PGID}
                 - NODE_VERSION=${NODE_VERSION}
                 - TZ=${TZ}
+
         volumes_from:
             - volumes_source
         extra_hosts:
