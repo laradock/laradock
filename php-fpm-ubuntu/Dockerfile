@@ -63,7 +63,7 @@ RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
 ARG INSTALL_MEMCACHED=false
 RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
     # Install the php memcached extension
-    pecl install memcached \
+    pecl install memcache \
 ;fi
 
 
