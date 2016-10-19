@@ -23,7 +23,7 @@ ENV LANGUAGE en_US.UTF-8
 
 RUN apt-get install -y software-properties-common && \
     add-apt-repository -y ppa:ondrej/php && \
-    apt-get update
+    apt-get update 
 
 
 RUN apt-get -y install php7.0 php7.0-gd php7.0-ldap \
