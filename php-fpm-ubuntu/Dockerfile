@@ -53,7 +53,7 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
 ARG INSTALL_ZIP_ARCHIVE=false
 RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
     # Install the zip extension
-    apt-get -y install php7.0-zip \
+    pecl install zip \
 ;fi
 
 #####################################
