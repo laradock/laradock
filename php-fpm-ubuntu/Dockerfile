@@ -23,7 +23,7 @@ ENV LANGUAGE en_US.UTF-8
 
 RUN apt-get install -y software-properties-common && \
     add-apt-repository -y ppa:ondrej/php && \
-    apt-get update 
+    apt-get update
 
 
 RUN apt-get -y install php7.0 php7.0-gd php7.0-ldap \
@@ -63,7 +63,7 @@ RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
 ARG INSTALL_MEMCACHED=false
 RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
     # Install the php memcached extension
-    apt-get -y install php7.0-memcached \
+    pecl install memcached \
 ;fi
 
 
