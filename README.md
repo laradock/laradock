@@ -37,7 +37,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [List current running Containers](#List-current-running-Containers)
 		- [Close all running Containers](#Close-all-running-Containers)
 		- [Delete all existing Containers](#Delete-all-existing-Containers)
-		- [Enter a Container (SSH into a running Container)](#Enter-Container)
+		- [Enter a Container (run commands in a running Container)](#Enter-Container)
 		- [Edit default container configuration](#Edit-Container)
 		- [Edit a Docker Image](#Edit-a-Docker-Image)
 		- [Build/Re-build Containers](#Build-Re-build-Containers)
@@ -63,6 +63,7 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 	- [Misc](#Misc)
 		- [Change the timezone](#Change-the-timezone)
 		- [Cron jobs](#CronJobs)
+		- [Access workspace via ssh](#Workspace-ssh)
 		- [MySQL access from host](#MySQL-access-from-host)
 		- [Use custom Domain](#Use-custom-Domain)
 		- [Enable Global Composer Build Install](#Enable-Global-Composer-Build-Install)
@@ -388,7 +389,7 @@ docker-compose down
 
 <br>
 <a name="Enter-Container"></a>
-### Enter a Container (SSH into a running Container)
+### Enter a Container (run commands in a running Container)
 
 1 - first list the current running containers with `docker ps`
 
@@ -1022,6 +1023,20 @@ You can add your cron jobs to `workspace/crontab/root` after the `php artisan` l
 ```
 
 Make sure you [change the timezone](#Change-the-timezone) if you don't want to use the default (UTC).
+
+<a name="Workspace-ssh"></a>
+### Access workspace via ssh
+ 
+You can access the `workspace` container through `localhost:2222` by setting the `INSTALL_WORKSPACE_SSH` build argument to `true`.
+
+To change the default forwarded port for ssh:
+
+```yml
+    workspace:
+		ports:
+			- "2222:22" # Edit this line
+    ...
+```
 
 <a name="MySQL-access-from-host"></a>
 ### MySQL access from host
