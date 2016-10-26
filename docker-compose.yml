@@ -309,5 +309,6 @@ services:
             - ./data/sessions:/sessions
             - ./data/caddy:/root/.caddy
             - ./data/elasticsearch/data:/usr/share/elasticsearch/data
+            - ./data/elasticsearch/pkugins:/usr/share/elasticsearch/pkugins
 
 ### Add more Containers below ###############################

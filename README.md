@@ -788,6 +788,19 @@ docker-compose up -d elasticsearch
 
 2 - Open your browser and visit the localhost on port **9200**:  `http://localhost:9200`
 
+### Install ElasticSearch Plugin
+
+1 - Install the ElasticSearch plugin like [delete-by-query](https://www.elastic.co/guide/en/elasticsearch/plugins/current/plugins-delete-by-query.html).
+
+```bash
+docker exec {container-name} /usr/share/elasticsearch/bin/plugin install delete-by-query
+```
+
+2 - Restart elasticsearch container
+
+```bash
+docker restart {container-name}
+```
 
 <br>
 <a name="PHP"></a>
