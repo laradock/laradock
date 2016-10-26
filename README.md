@@ -952,7 +952,7 @@ For information on how to configure xDebug with your IDE and work it out, check 
 
 By installing xDebug, you are enabling it to run on startup by default.
 
-To controll the behavior of xDebug (in the `php-fpm` Container), you can run the following commands from the LaraDock root folder:
+To controll the behavior of xDebug (in the `php-fpm` Container), you can run the following commands from the LaraDock root folder, (at the same prompt where you run docker-compose):
 
 - Stop xDebug from running by default: `./xdebugPhpFpm stop`.
 - Start xDebug by default: `./xdebugPhpFpm start`.
