@@ -192,8 +192,8 @@ ENV INSTALL_YARN ${INSTALL_YARN}
 
 RUN if [ ${INSTALL_YARN} = true ]; then \
     curl -o- -L https://yarnpkg.com/install.sh | bash && \
-        echo "" >> ~/.bashrc && \
-        echo 'export PATH="$HOME/.yarn/bin:$PATH"' >> ~/.bashrc \
+    echo "" >> ~/.bashrc && \
+    echo 'export PATH="$HOME/.yarn/bin:$PATH"' >> ~/.bashrc \
 ;fi
 
 # Add YARN binaries to root's .bashrc
