@@ -2,6 +2,14 @@ version: '2'
 
 services:
 
+### Applications Code Container ######################
+
+    volumes_source:
+        image: tianon/true
+        volumes:
+            - ../:/var/www
+#            - ../sample/:/var/www/sample
+
 ### Workspace Utilities Container ###########################
 
     workspace:
@@ -288,19 +296,13 @@ services:
         links:
             - php-fpm
 
-### Laravel Application Code Container ######################
-
-    volumes_source:
-        image: tianon/true
-        volumes:
-            - ../:/var/www/laravel
-
 ### Databases Data Container ################################
 
     volumes_data:
         image: tianon/true
         volumes:
             - ./data/mysql:/var/lib/mysql
+            - ./databases:/docker-entrypoint-initdb.d
             - ./data/postgres:/var/lib/postgresql/data
             - ./data/memcached:/var/lib/memcached
             - ./data/redis:/data
