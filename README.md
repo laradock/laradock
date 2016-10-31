@@ -60,6 +60,7 @@ Laradock is configured to run Laravel Apps by default, and it can be modifyed to
 		- [Cron jobs](#CronJobs)
 		- [Access workspace via ssh](#Workspace-ssh)
 		- [MySQL access from host](#MySQL-access-from-host)
+		- [MySQL root access](#MySQL-root-access)
 		- [Use custom Domain](#Use-custom-Domain)
 		- [Enable Global Composer Build Install](#Enable-Global-Composer-Build-Install)
 		- [Install Prestissimo](#Install-Prestissimo)
@@ -1095,6 +1096,21 @@ You can forward the MySQL/MariaDB port to your host by making sure these lines a
 ports:
     - "3306:3306"
 ```
+
+<a name="MySQL-root-access"></a>
+### MySQL root access
+
+The default username and password for the root mysql user are `root` and `root `.
+
+1 - Enter the mysql contaier: `docker-compose exec mysql bash`.
+
+2 - Enter mysql: `mysql -uroot -proot` for non root access use `mysql -uhomestead -psecret`.
+
+3 - See all users: `SELECT User FROM mysql.user;`
+
+4 - Run any commands `show databases`, `show tables`, `select * from.....`.
+
+
 
 <a name="Use-custom-Domain"></a>
 ### Use custom Domain (instead of the Docker IP)
