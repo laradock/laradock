@@ -41,6 +41,7 @@ services:
                 - INSTALL_MEMCACHED=false
                 - INSTALL_OPCACHE=false
                 - INSTALL_AEROSPIKE_EXTENSION=false
+                - CODEIGNITER=false
             dockerfile: Dockerfile-70
         volumes_from:
             - volumes_source

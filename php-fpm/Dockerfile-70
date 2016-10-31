@@ -129,6 +129,16 @@ RUN if [ ${INSTALL_OPCACHE} = true ]; then \
 # Copy opcache configration
 COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
+#####################################
+# Codeigniter Modifications:
+#####################################
+
+ARG CODEIGNITER=false
+RUN if [ ${CODEIGNITER} = true ]; then \
+    # Install Codeigniter PHP extentions requirements
+     docker-php-ext-install mysqli && \
+     docker-php-ext-install tokenizer \
+;fi
 
 #
 #--------------------------------------------------------------------------

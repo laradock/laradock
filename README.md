@@ -1,21 +1,15 @@
-# LaraDock
+# Laradock
 
 [![forthebadge](http://forthebadge.com/images/badges/built-by-developers.svg)](http://zalt.me)
 
 [![Gitter](https://badges.gitter.im/LaraDock/laradock.svg)](https://gitter.im/LaraDock/laradock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-LaraDock helps you run your **Laravel** App on **Docker** real quick.
-<br>
-It's like Laravel Homestead but for Docker instead of Vagrant.
+Laradock is a Docker PHP development environment. It facilitate running **PHP** Apps on **Docker**. 
 
->With LaraDock, use Docker first and learn about it later.
+Laradock is configured to run Laravel Apps by default, and it can be modifyed to run all kinds of PHP Apps (Symfony, Codeigniter, Wordpress, Drupal...).
 
+>Use Docker first and learn about it later.
 
-![](https://s31.postimg.org/nbettdki3/lara_dock_poster_new.jpg)
-
-
-
-<br>
 ## Contents
 
 - [Readme Languages](#)
@@ -25,9 +19,8 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 	- [Features](#features)
 	- [Supported Software](#Supported-Containers)
 	- [What is Docker](#what-is-docker)
-	- [What is Laravel](#what-is-laravel)
 	- [Why Docker not Vagrant](#why-docker-not-vagrant)
-	- [LaraDock VS Homestead](#laradock-vs-homestead)
+	- [Laradock VS Homestead](#laradock-vs-homestead)
 - [Demo Video](#Demo)
 - [Requirements](#Requirements)
 - [Installation](#Installation)
@@ -43,14 +36,6 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 		- [Build/Re-build Containers](#Build-Re-build-Containers)
 		- [Add more Software (Docker Images)](#Add-Docker-Images)
 		- [View the Log files](#View-the-Log-files)
-	- [Laravel](#Laravel):
-		- [Install Laravel from a Docker Container](#Install-Laravel)
-		- [Run Artisan Commands](#Run-Artisan-Commands)
-		- [Use Redis](#Use-Redis)
-		- [Use Mongo](#Use-Mongo)
-		- [Use phpMyAdmin](#Use-phpMyAdmin)
-		- [Use pgAdmin](#Use-pgAdmin)
-		- [Use ElasticSearch](#Use-ElasticSearch)
 	- [PHP](#PHP)
 		- [Install PHP Extensions](#Install-PHP-Extensions)
 		- [Change the PHP-FPM Version](#Change-the-PHP-FPM-Version)
@@ -60,6 +45,16 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 	- [Production](#Production)
 		- [Prepare LaraDock for Production](#LaraDock-for-Production)
 		- [Setup Laravel and Docker on Digital Ocean](#Digital-Ocean)
+	- [Laravel](#Laravel):
+		- [Install Laravel from a Docker Container](#Install-Laravel)
+		- [Run Artisan Commands](#Run-Artisan-Commands)
+		- [Use Redis](#Use-Redis)
+		- [Use Mongo](#Use-Mongo)
+		- [Use phpMyAdmin](#Use-phpMyAdmin)
+		- [Use pgAdmin](#Use-pgAdmin)
+		- [Use ElasticSearch](#Use-ElasticSearch)
+	- [Codeigniter](#Codeigniter):
+		- [Install Codeigniter](#Install-Codeigniter)
 	- [Misc](#Misc)
 		- [Change the timezone](#Change-the-timezone)
 		- [Cron jobs](#CronJobs)
@@ -79,8 +74,9 @@ It's like Laravel Homestead but for Docker instead of Vagrant.
 <a name="Intro"></a>
 ## Intro
 
-LaraDock strives to make the development experience easier.
-It contains pre-packaged Docker Images that provides you a wonderful development environment without requiring you to install PHP, NGINX, MySQL, REDIS, and any other software on your local machine.
+Laradock strives to make the PHP development experience easier and faster.
+
+It contains pre-packaged Docker Images that provides you a wonderful *development* environment without requiring you to install PHP, NGINX, MySQL, REDIS, and any other software on your machines.
 
 
 **Usage Overview:** 
@@ -140,7 +136,7 @@ Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL` and `Red
 	- Beanstalkd (+ Beanstalkd Console)
 	- RabbitMQ (+ RabbitMQ Console)
 - **Tools:**
-	- Workspace (PHP7-CLI, Composer, Git, Node, Gulp, SQLite, Vim, Nano, cURL...)
+	- Workspace (PHP7-CLI, Composer, Git, Node, Gulp, SQLite, xDebug, Vim...)
 	- PhpMyAdmin
 	- PgAdmin
 	- ElasticSearch
@@ -157,11 +153,6 @@ Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL` and `Red
 
 [Docker](https://www.docker.com) is an open-source project that automates the deployment of applications inside software containers, by providing an additional layer of abstraction and automation of [operating-system-level virtualization](https://en.wikipedia.org/wiki/Operating-system-level_virtualization) on Linux, Mac OS and Windows.
 
-<a name="what-is-laravel"></a>
-### What is Laravel?
-
-Seriously!!!
-
 
 <a name="why-docker-not-vagrant"></a>
 ### Why Docker not Vagrant!?
@@ -176,9 +167,11 @@ Most importantly Docker can run on Development and on Production (same environme
 
 
 <a name="laradock-vs-homestead"></a>
-### LaraDock VS Homestead
+### Laradock VS Homestead (For Laravel Developers)
 
-LaraDock and [Homestead](https://laravel.com/docs/master/homestead) both gives you a complete virtual development environments. (Without the need to install and configure every single software on your own Operating System).
+> Laradock It's like Laravel Homestead but for Docker instead of Vagrant.
+
+Laradock and [Homestead](https://laravel.com/docs/master/homestead) both gives you a complete virtual development environments. (Without the need to install and configure every single software on your own Operating System).
 
 - Homestead is a tool that controls Vagrant for you (using Homestead special commands). And Vagrant manages your Virtual Machine.
 
@@ -304,16 +297,15 @@ docker exec -it {workspace-container-id} bash
 
 
 <br>
-3 - Edit the Laravel configurations.
+3 - Edit your project configurations.
 
-If you don't have a Laravel project installed yet, see [How to Install Laravel in a Docker Container](#Install-Laravel).
-
-Open your Laravel's `.env` file and set the `DB_HOST` to your `mysql`:
+Open your `.env` file and set the `DB_HOST` to `mysql`:
 
 ```env
 DB_HOST=mysql
 ```
 
+*If you are using Laravel and you don't have it installed yet, see [How to Install Laravel in a Docker Container](#Install-Laravel).*
 
 
 
@@ -512,6 +504,213 @@ However to view the logs of all the other containers (MySQL, PHP-FPM,...) you ca
 ```bash
 docker logs {container-name}
 ```
+
+
+
+
+
+
+
+
+<br>
+<a name="PHP"></a>
+
+
+
+
+
+
+<a name="Install-PHP-Extensions"></a>
+### Install PHP Extensions
+
+Before installing PHP extensions, you have to decide whether you need for the `FPM` or `CLI` because each lives on a different container, if you need it for both you have to edit both containers.
+
+The PHP-FPM extensions should be installed in `php-fpm/Dockerfile-XX`. *(replace XX with your default PHP version number)*.
+<br>
+The PHP-CLI extensions should be installed in `workspace/Dockerfile`.
+
+
+
+
+
+
+
+
+
+<br>
+<a name="Change-the-PHP-FPM-Version"></a>
+### Change the (PHP-FPM) Version
+By default **PHP-FPM 7.0** is running.
+
+>The PHP-FPM is responsible of serving your application code, you don't have to change the PHP-CLI version if you are planing to run your application on different PHP-FPM version.
+
+#### A) Switch from PHP `7.0` to PHP `5.6`
+
+1 - Open the `docker-compose.yml`.
+
+2 - Search for `Dockerfile-70` in the PHP container section.
+
+3 - Change the version number, by replacing `Dockerfile-70` with `Dockerfile-56`, like this:
+
+```yml
+    php-fpm:
+        build:
+            context: ./php-fpm
+            dockerfile: Dockerfile-70
+    ...
+```
+
+4 - Finally rebuild the container
+
+```bash
+docker-compose build php
+```
+
+> For more details about the PHP base image, visit the [official PHP docker images](https://hub.docker.com/_/php/).
+
+
+#### B) Switch from PHP `7.0` or `5.6` to PHP `5.5`
+
+We do not natively support PHP 5.5 anymore, but you can get it in few steps:
+
+1 - Clone `https://github.com/LaraDock/php-fpm`.
+
+3 - Rename `Dockerfile-56` to `Dockerfile-55`.
+
+3 - Edit the file `FROM php:5.6-fpm` to `FROM php:5.5-fpm`.
+
+4 - Build an image from `Dockerfile-55`.
+
+5 - Open the `docker-compose.yml` file.
+
+6 - Point `php-fpm` to your `Dockerfile-55` file.
+
+
+
+
+
+
+
+
+
+
+
+
+<br>
+<a name="Change-the-PHP-CLI-Version"></a>
+### Change the PHP-CLI Version
+By default **PHP-CLI 7.0** is running.
+
+>Note: it's not very essential to edit the PHP-CLI verion. The PHP-CLI is only used for the Artisan Commands & Composer. It doesn't serve your Application code, this is the PHP-FPM job.
+
+The PHP-CLI is installed in the Workspace container. To change the PHP-CLI version you need to edit the `workspace/Dockerfile`.
+
+Right now you have to manually edit the `Dockerfile` or create a new one like it's done for the PHP-FPM. (consider contributing).
+
+
+
+
+<br>
+<a name="Install-xDebug"></a>
+### Install xDebug
+
+1 - First install `xDebug` in the Workspace and the PHP-FPM Containers:
+<br>
+a) open the `docker-compose.yml` file
+<br>
+b) search for the `INSTALL_XDEBUG` argument under the Workspace Container
+<br>
+c) set it to `true`
+<br>
+d) search for the `INSTALL_XDEBUG` argument under the PHP-FPM Container
+<br>
+e) set it to `true`
+
+It should be like this:
+
+```yml
+    workspace:
+        build:
+            context: ./workspace
+            args:
+                - INSTALL_XDEBUG=true
+    ...
+    php-fpm:
+        build:
+            context: ./php-fpm
+            args:
+                - INSTALL_XDEBUG=true
+    ...
+```
+
+2 - Re-build the containers `docker-compose build workspace php-fpm`
+
+3 - Open `laradock/workspace/xdebug.ini` and/or `laradock/php-fpm/xdebug.ini` and enable at least the following configs:
+
+```
+xdebug.remote_autostart=1
+xdebug.remote_enable=1
+xdebug.remote_connect_back=1
+```
+
+For information on how to configure xDebug with your IDE and work it out, check this [Repository](https://github.com/LarryEitel/laravel-laradock-phpstorm).
+
+
+<br>
+<a name="Controll-xDebug"></a>
+### Start/Stop xDebug:
+
+By installing xDebug, you are enabling it to run on startup by default.
+
+To controll the behavior of xDebug (in the `php-fpm` Container), you can run the following commands from the LaraDock root folder, (at the same prompt where you run docker-compose):
+
+- Stop xDebug from running by default: `./xdebugPhpFpm stop`.
+- Start xDebug by default: `./xdebugPhpFpm start`.
+- See the status: `./xdebugPhpFpm status`.
+
+
+
+
+
+<br>
+<a name="Production"></a>
+
+
+
+
+<br>
+<a name="LaraDock-for-Production"></a>
+### Prepare LaraDock for Production
+
+It's recommended for production to create a custom `docker-compose.yml` file. For that reason LaraDock is shipped with `production-docker-compose.yml` which should contain only the containers you are planning to run on production (usage exampe: `docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...`). 
+
+Note: The Database (MySQL/MariaDB/...) ports should not be forwarded on production, because Docker will automatically publish the port on the host, which is quite insecure, unless specifically told not to. So make sure to remove these lines:
+
+```
+ports:
+    - "3306:3306"
+```
+
+To learn more about how Docker publishes ports, please read [this excellent post on the subject](https://fralef.me/docker-and-iptables.html).
+
+
+
+
+
+
+<br>
+<a name="Digital-Ocean"></a>
+### Setup Laravel and Docker on Digital Ocean
+
+####[Full Guide Here](https://github.com/LaraDock/laradock/blob/master/_guides/digital_ocean.md)
+
+
+
+
+
+
+
+
 
 
 
@@ -802,23 +1001,6 @@ docker exec {container-name} /usr/share/elasticsearch/bin/plugin install delete-
 docker restart {container-name}
 ```
 
-<br>
-<a name="PHP"></a>
-
-
-
-
-
-
-<a name="Install-PHP-Extensions"></a>
-### Install PHP Extensions
-
-Before installing PHP extensions, you have to decide whether you need for the `FPM` or `CLI` because each lives on a different container, if you need it for both you have to edit both containers.
-
-The PHP-FPM extensions should be installed in `php-fpm/Dockerfile-XX`. *(replace XX with your default PHP version number)*.
-<br>
-The PHP-CLI extensions should be installed in `workspace/Dockerfile`.
-
 
 
 
@@ -828,171 +1010,24 @@ The PHP-CLI extensions should be installed in `workspace/Dockerfile`.
 
 
 <br>
-<a name="Change-the-PHP-FPM-Version"></a>
-### Change the (PHP-FPM) Version
-By default **PHP-FPM 7.0** is running.
-
->The PHP-FPM is responsible of serving your application code, you don't have to change the PHP-CLI version if you are planing to run your application on different PHP-FPM version.
-
-#### A) Switch from PHP `7.0` to PHP `5.6`
-
-1 - Open the `docker-compose.yml`.
-
-2 - Search for `Dockerfile-70` in the PHP container section.
-
-3 - Change the version number, by replacing `Dockerfile-70` with `Dockerfile-56`, like this:
-
-```yml
-    php-fpm:
-        build:
-            context: ./php-fpm
-            dockerfile: Dockerfile-70
-    ...
-```
-
-4 - Finally rebuild the container
-
-```bash
-docker-compose build php
-```
-
-> For more details about the PHP base image, visit the [official PHP docker images](https://hub.docker.com/_/php/).
-
-
-#### B) Switch from PHP `7.0` or `5.6` to PHP `5.5`
-
-We do not natively support PHP 5.5 anymore, but you can get it in few steps:
-
-1 - Clone `https://github.com/LaraDock/php-fpm`.
-
-3 - Rename `Dockerfile-56` to `Dockerfile-55`.
-
-3 - Edit the file `FROM php:5.6-fpm` to `FROM php:5.5-fpm`.
-
-4 - Build an image from `Dockerfile-55`.
-
-5 - Open the `docker-compose.yml` file.
-
-6 - Point `php-fpm` to your `Dockerfile-55` file.
-
-
-
-
-
-
-
-
-
-
-
-
+<a name="Codeigniter"></a>
 <br>
-<a name="Change-the-PHP-CLI-Version"></a>
-### Change the PHP-CLI Version
-By default **PHP-CLI 7.0** is running.
-
->Note: it's not very essential to edit the PHP-CLI verion. The PHP-CLI is only used for the Artisan Commands & Composer. It doesn't serve your Application code, this is the PHP-FPM job.
-
-The PHP-CLI is installed in the Workspace container. To change the PHP-CLI version you need to edit the `workspace/Dockerfile`.
-
-Right now you have to manually edit the `Dockerfile` or create a new one like it's done for the PHP-FPM. (consider contributing).
 
 
 
+<a name="Install-Codeigniter"></a>
+### Install Codeigniter
 
-<br>
-<a name="Install-xDebug"></a>
-### Install xDebug
+To install Codeigniter 3 on Laradock all you have to do is the following simple steps:
 
-1 - First install `xDebug` in the Workspace and the PHP-FPM Containers:
-<br>
-a) open the `docker-compose.yml` file
-<br>
-b) search for the `INSTALL_XDEBUG` argument under the Workspace Container
-<br>
-c) set it to `true`
-<br>
-d) search for the `INSTALL_XDEBUG` argument under the PHP-FPM Container
-<br>
-e) set it to `true`
+1 - Open the `docker-compose.yml` file.
 
-It should be like this:
+2 - Change `CODEIGNITER=false` to `CODEIGNITER=true`.
 
-```yml
-    workspace:
-        build:
-            context: ./workspace
-            args:
-                - INSTALL_XDEBUG=true
-    ...
-    php-fpm:
-        build:
-            context: ./php-fpm
-            args:
-                - INSTALL_XDEBUG=true
-    ...
-```
-
-2 - Re-build the containers `docker-compose build workspace php-fpm`
-
-3 - Open `laradock/workspace/xdebug.ini` and/or `laradock/php-fpm/xdebug.ini` and enable at least the following configs:
-
-```
-xdebug.remote_autostart=1
-xdebug.remote_enable=1
-xdebug.remote_connect_back=1
-```
-
-For information on how to configure xDebug with your IDE and work it out, check this [Repository](https://github.com/LarryEitel/laravel-laradock-phpstorm).
-
-
-<br>
-<a name="Controll-xDebug"></a>
-### Start/Stop xDebug:
-
-By installing xDebug, you are enabling it to run on startup by default.
-
-To controll the behavior of xDebug (in the `php-fpm` Container), you can run the following commands from the LaraDock root folder, (at the same prompt where you run docker-compose):
-
-- Stop xDebug from running by default: `./xdebugPhpFpm stop`.
-- Start xDebug by default: `./xdebugPhpFpm start`.
-- See the status: `./xdebugPhpFpm status`.
+3 - Re-build your PHP-FPM Container `docker-compose build php-fpm`.
 
 
 
-
-
-<br>
-<a name="Production"></a>
-
-
-
-
-<br>
-<a name="LaraDock-for-Production"></a>
-### Prepare LaraDock for Production
-
-It's recommended for production to create a custom `docker-compose.yml` file. For that reason LaraDock is shipped with `production-docker-compose.yml` which should contain only the containers you are planning to run on production (usage exampe: `docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...`). 
-
-Note: The Database (MySQL/MariaDB/...) ports should not be forwarded on production, because Docker will automatically publish the port on the host, which is quite insecure, unless specifically told not to. So make sure to remove these lines:
-
-```
-ports:
-    - "3306:3306"
-```
-
-To learn more about how Docker publishes ports, please read [this excellent post on the subject](https://fralef.me/docker-and-iptables.html).
-
-
-
-
-
-
-<br>
-<a name="Digital-Ocean"></a>
-### Setup Laravel and Docker on Digital Ocean
-
-####[Full Guide Here](https://github.com/LaraDock/laradock/blob/master/_guides/digital_ocean.md)
 
 
 

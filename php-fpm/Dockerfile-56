@@ -108,6 +108,7 @@ RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = true ]; then \
 #####################################
 # Opcache:
 #####################################
+
 ARG INSTALL_OPCACHE=false
 RUN if [ ${INSTALL_OPCACHE} = true ]; then \
     docker-php-ext-install opcache && \
@@ -116,6 +117,17 @@ RUN if [ ${INSTALL_OPCACHE} = true ]; then \
 
 # Copy opcache configration
 COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+
+#####################################
+# Codeigniter Modifications:
+#####################################
+
+ARG CODEIGNITER=false
+RUN if [ ${CODEIGNITER} = true ]; then \
+    # Install Codeigniter PHP extentions requirements
+     docker-php-ext-install mysqli && \
+     docker-php-ext-install tokenizer \
+;fi
 
 #
 #--------------------------------------------------------------------------
