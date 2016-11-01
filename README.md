@@ -267,7 +267,7 @@ git clone https://github.com/LaraDock/laradock.git
 2 - Edit the `docker-compose.yml` file to map to your projects directories:
 
 ```
-    volumes_source:
+    applications:
         image: tianon/true
         volumes:
             - ../project1/:/var/www/project1
@@ -420,8 +420,6 @@ docker-compose stop {container-name}
 ```bash
 docker-compose down
 ```
-
-*Note: Careful with this command as it will delete your Data Volume Container as well. (if you want to keep your Database data than you should stop each container by itself as follow):*
 
 
 
@@ -798,7 +796,7 @@ Since the new Laravel application is in the `my-cool-app` folder, we need to rep
 
 ```yaml
     application:
-        build: ./application
+		 image: tianon/true
         volumes:
             - ../my-cool-app/:/var/www
     ...
