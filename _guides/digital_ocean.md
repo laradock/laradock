@@ -58,10 +58,10 @@ docker-compose exec workspace bash
 #### Install laravel Dependencies, Add .env , generate Key and give proper permission certain folder
 
 ```
-$ root@0e77851d27d3:/var/www/laravel# composer install
-$ root@0e77851d27d3:/var/www/laravel# cp .env.example .env
-$ root@0e77851d27d3:/var/www/laravel# php artisan key:generate
-$ root@0e77851d27d3:/var/www/laravel# exit
+$ root@0e77851d27d3:/var/www# composer install
+$ root@0e77851d27d3:/var/www# cp .env.example .env
+$ root@0e77851d27d3:/var/www# php artisan key:generate
+$ root@0e77851d27d3:/var/www# exit
 $root@midascode:~/laravel/laradock# cd ..
 $root@midascode:~/laravel# sudo chmod -R 777 storage bootstrap/cache
 ```
@@ -141,13 +141,13 @@ Remove 0.0.0.0:80
 
 ```
 0.0.0.0:80
-root /var/www/laravel/public
+root /var/www/public
 ``` 
 and replace with your https://yourdomain.com
 
 ```
 https://yourdomain.com
-root /var/www/laravel/public
+root /var/www/public
 ```
 uncomment tls 
 

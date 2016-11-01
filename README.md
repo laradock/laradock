@@ -794,13 +794,13 @@ For more about the Laravel installation click [here](https://laravel.com/docs/ma
 
 By default LaraDock assumes the Laravel application is living in the parent directory of the laradock folder.
 
-Since the new Laravel application is in the `my-cool-app` folder, we need to replace `../:/var/www/laravel` with `../my-cool-app/:/var/www/laravel`, as follow:
+Since the new Laravel application is in the `my-cool-app` folder, we need to replace `../:/var/www` with `../my-cool-app/:/var/www`, as follow:
 
 ```yaml
     application:
         build: ./application
         volumes:
-            - ../my-cool-app/:/var/www/laravel
+            - ../my-cool-app/:/var/www
     ...
 ```
 4 - Go to that folder and start working..
@@ -1114,7 +1114,7 @@ We also recommend [setting the timezone in Laravel](http://www.camroncade.com/ma
 You can add your cron jobs to `workspace/crontab/root` after the `php artisan` line.
 
 ```
-* * * * * php /var/www/laravel/artisan schedule:run >> /dev/null 2>&1
+* * * * * php /var/www/artisan schedule:run >> /dev/null 2>&1
 
 # Custom cron
 * * * * * root echo "Every Minute" > /var/log/cron.log 2>&1
