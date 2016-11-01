@@ -302,7 +302,6 @@ services:
         image: tianon/true
         volumes:
             - ./data/mysql:/var/lib/mysql
-            - ./databases:/docker-entrypoint-initdb.d
             - ./data/postgres:/var/lib/postgresql/data
             - ./data/memcached:/var/lib/memcached
             - ./data/redis:/data
