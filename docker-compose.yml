@@ -2,7 +2,7 @@ version: '2'
 
 services:
 
-### Applications Code Container ######################
+### Applications Code Container #############################
 
     volumes_source:
         image: tianon/true
@@ -81,7 +81,7 @@ services:
         links:
             - php-fpm
 
-### Apache Server Container ##################################
+### Apache Server Container #################################
 
     apache2:
         build:
@@ -113,8 +113,8 @@ services:
 
     mysql:
         build: ./mysql
-        volumes_from:
-            - volumes_data
+        volumes:
+            - mysql:/var/lib/mysql
         ports:
             - "3306:3306"
         environment:
@@ -127,8 +127,8 @@ services:
 
     mariadb:
         build: ./mariadb
-        volumes_from:
-            - volumes_data
+        volumes:
+            - mariadb
         ports:
             - "3306:3306"
         environment:
@@ -141,8 +141,8 @@ services:
 
     postgres:
         build: ./postgres
-        volumes_from:
-            - volumes_data
+        volumes:
+            - postgres:/var/lib/postgresql/data
         ports:
             - "5432:5432"
         environment:
@@ -159,8 +159,8 @@ services:
             - "1337:1337"
         environment:
             - NEO4J_AUTH=homestead:secret
-        volumes_from:
-            - volumes_data
+        volumes:
+            - neo4j:/var/lib/neo4j/data
 
 ### MongoDB Container #######################################
 
@@ -168,25 +168,26 @@ services:
         build: ./mongo
         ports:
             - "27017:27017"
-        volumes_from:
-            - volumes_data
+        volumes:
+            - mongo:/data/db
 
 ### Redis Container #########################################
 
     redis:
         build: ./redis
-        volumes_from:
-            - volumes_data
+        volumes:
+            - redis:/data
         ports:
             - "6379:6379"
 
-### Aerospike c Container #########################################
+### Aerospike c Container ###################################
 
     aerospike:
         build: ./aerospike
         volumes_from:
             - workspace
-            - volumes_data
+        volumes:
+            - aerospike:/opt/aerospike/data
         ports:
             - "3000:3000"
             - "3001:3001"
@@ -198,8 +199,8 @@ services:
 
     memcached:
         build: ./memcached
-        volumes_from:
-            - volumes_data
+        volumes:
+            - memcached:/var/lib/memcached
         ports:
             - "11211:11211"
         links:
@@ -215,7 +216,7 @@ services:
         links:
             - php-fpm
 
-### RabbitMQ Container ####################################
+### RabbitMQ Container ######################################
 
     rabbitmq:
         build: ./rabbitmq
@@ -245,7 +246,8 @@ services:
         build: ./caddy
         volumes_from:
             - volumes_source
-            - volumes_data
+        volumes:
+            - caddy:/root/.caddy
         ports:
             - "80:80"
             - "443:443"
@@ -256,7 +258,7 @@ services:
         links:
             - php-fpm
 
-### phpMyAdmin Container ##################################
+### phpMyAdmin Container ####################################
 
     phpmyadmin:
         build: ./phpmyadmin
@@ -265,8 +267,8 @@ services:
             MYSQL_USER: homestead
             MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
-        volumes_from:
-            - volumes_data
+        volumes:
+            - phpmyadmin
         ports:
             - "8080:80"
         links:
@@ -275,7 +277,7 @@ services:
             # for mariadb container
             # - "mariadb:db"
 
-### pgAdmin Container ##################################
+### pgAdmin Container #######################################
 
     pgadmin:
         build: ./pgadmin
@@ -284,33 +286,45 @@ services:
         links:
             - postgres
 
-### ElasticSearch Container ##################################
+### ElasticSearch Container #################################
 
     elasticsearch:
         build: ./elasticsearch
-        volumes_from:
-            - volumes_data
+        volumes:
+            - elasticsearch-data:/usr/share/elasticsearch/data
+            - elasticsearch-pkugins:/usr/share/elasticsearch/data
         ports:
             - "9200:9200"
             - "9300:9300"
         links:
             - php-fpm
 
-### Databases Data Container ################################
+### Volumes Setup ###########################################
 
-    volumes_data:
-        image: tianon/true
-        volumes:
-            - ./data/mysql:/var/lib/mysql
-            - ./data/postgres:/var/lib/postgresql/data
-            - ./data/memcached:/var/lib/memcached
-            - ./data/redis:/data
-            - ./data/neo4j:/var/lib/neo4j/data
-            - ./data/mongo:/data/db
-            - ./data/aerospike:/opt/aerospike/data
-            - ./data/sessions:/sessions
-            - ./data/caddy:/root/.caddy
-            - ./data/elasticsearch/data:/usr/share/elasticsearch/data
-            - ./data/elasticsearch/pkugins:/usr/share/elasticsearch/pkugins
-
-### Add more Containers below ###############################
+volumes:
+    mysql:
+        driver: "local"
+    postgres:
+        driver: "local"
+    memcached:
+        driver: "local"
+    redis:
+        driver: "local"
+    neo4j:
+        driver: "local"
+    mariadb:
+        driver: "local"
+    mongo:
+        driver: "local"
+    phpmyadmin:
+        driver: "local"
+    aerospike:
+        driver: "local"
+    caddy:
+        driver: "local"
+    elasticsearch-data:
+        driver: "local"
+    elasticsearch-pkugins:
+        driver: "local"
+    sessions:    ## nothing is connected to this (- ./data/sessions:/sessions)
+        driver: "local"
