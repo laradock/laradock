@@ -246,4 +246,4 @@ RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Set default work directory
-WORKDIR /var/www/laravel
+WORKDIR /var/www

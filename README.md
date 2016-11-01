@@ -60,6 +60,7 @@ Laradock is configured to run Laravel Apps by default, and it can be modifyed to
 		- [Cron jobs](#CronJobs)
 		- [Access workspace via ssh](#Workspace-ssh)
 		- [MySQL access from host](#MySQL-access-from-host)
+		- [MySQL root access](#MySQL-root-access)
 		- [Use custom Domain](#Use-custom-Domain)
 		- [Enable Global Composer Build Install](#Enable-Global-Composer-Build-Install)
 		- [Install Prestissimo](#Install-Prestissimo)
@@ -206,17 +207,22 @@ What's better than a **Demo Video**:
 <a name="Installation"></a>
 ## Installation
 
+Choose the setup the best suits your needs.
 
-Clone the `LaraDock` repository:
+#### A) Setup for Single Project:
+*(In case you want a Docker environment for each project)*
 
-**A)** If you already have a Laravel project, clone this repository on your `Laravel` root directory:
+##### A.1) Setup environment in existing Project:
+*(In case you already have a project, and you want to setup an environemnt to run it)*
+
+1 - Clone this repository on your project root directory:
 
 ```bash
 git submodule add https://github.com/LaraDock/laradock.git
 ```
->If you are not already using Git for your Laravel project, you can use `git clone` instead of `git submodule`.
+>If you are not already using Git for your PHP project, you can use `git clone` instead of `git submodule`.
 
-Note: In this case the folder structure will be like this (recommended):
+Note: In this case the folder structure will be like this:
 
 ```
 - project1
@@ -225,9 +231,10 @@ Note: In this case the folder structure will be like this (recommended):
 	- laradock
 ```
 
-<br>
+##### A.2) Setup environment first then create project:
+*(In case you don't have a project, and you want to create your project inside the Docker environment)*
 
-**B)** If you don't have a Laravel project, and you want to install Laravel from Docker, clone this repo anywhere on your machine:
+1 - Clone this repository anywhere on your machine:
 
 ```bash
 git clone https://github.com/LaraDock/laradock.git
@@ -237,11 +244,54 @@ Note: In this case the folder structure will be like this:
 ```
 - projects
 	- laradock
-	- project1
-	- project2
+	- myProject
 ```
 
-**Note:** if you are using this folder structure don't forget to edit the `docker-compose.yml` file to map to your Laravel directory once you have it (example: `- ../project1/:/var/www/laravel`). "You will need to stop and re-run your docker-compose command for the changes to take place".
+2 - Edit the `docker-compose.yml` file to map to your project directory once you have it (example: `- ../myProject:/var/www`). 
+
+3 - Stop and re-run your docker-compose command for the changes to take place.
+
+```
+docker-compose stop && docker-compose up -d XXXX YYYY ZZZZ ....
+```
+
+
+#### B) Setup for Multiple Projects:
+
+1 - Clone this repository anywhere on your machine:
+
+```bash
+git clone https://github.com/LaraDock/laradock.git
+```
+
+2 - Edit the `docker-compose.yml` file to map to your projects directories:
+
+```
+    volumes_source:
+        image: tianon/true
+        volumes:
+            - ../project1/:/var/www/project1
+            - ../project2/:/var/www/project2
+```
+
+3 - You can access all sites by visiting `http://localhost/project1/public` and `http://localhost/project2/public` but of course that's not very useful so let's setup nginx quickly.
+
+
+4 - Go to `nginx/sites` and copy `sample.conf.example` to `project1.conf` then to `project2.conf`
+
+5 - Open the `project1.conf` file and edit the `server_name` and the `root` as follow:
+
+```
+    server_name project1.dev;
+    root /var/www/project1/public;
+```
+Do the same for each project `project2.conf`, `project3.conf`,...
+
+6 - Create your project Databases **To Be Continue..**
+
+
+
+
 
 <a name="Usage"></a>
 ## Usage
@@ -267,7 +317,7 @@ If you are using **Docker Toolbox** (VM), do one of the following:
 **Example:** Running NGINX and MySQL:
 
 ```bash
-docker-compose up -d  nginx mysql
+docker-compose up -d nginx mysql
 ```
 
 **Note**: The `workspace` and `php-fpm` will run automatically in most of the cases, so no need to specify them in the `up` command. If you couldn't find them running then you need specify them as follow: `docker-compose up -d nginx php-fpm mysql workspace`.
@@ -305,7 +355,7 @@ Open your `.env` file and set the `DB_HOST` to `mysql`:
 DB_HOST=mysql
 ```
 
-*If you are using Laravel and you don't have it installed yet, see [How to Install Laravel in a Docker Container](#Install-Laravel).*
+*If you want to use Laravel and you don't have it installed yet, see [How to Install Laravel in a Docker Container](#Install-Laravel).*
 
 
 
@@ -1095,6 +1145,21 @@ You can forward the MySQL/MariaDB port to your host by making sure these lines a
 ports:
     - "3306:3306"
 ```
+
+<a name="MySQL-root-access"></a>
+### MySQL root access
+
+The default username and password for the root mysql user are `root` and `root `.
+
+1 - Enter the mysql contaier: `docker-compose exec mysql bash`.
+
+2 - Enter mysql: `mysql -uroot -proot` for non root access use `mysql -uhomestead -psecret`.
+
+3 - See all users: `SELECT User FROM mysql.user;`
+
+4 - Run any commands `show databases`, `show tables`, `select * from.....`.
+
+
 
 <a name="Use-custom-Domain"></a>
 ### Use custom Domain (instead of the Docker IP)
