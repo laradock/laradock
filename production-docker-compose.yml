@@ -45,12 +45,12 @@ services:
         links:
             - workspace
 
-### Laravel Application Code Container ######################
+### Application Code Container ######################
 
     volumes_source:
         image: tianon/true
         volumes:
-            - ../:/var/www/laravel
+            - ../:/var/www
 
 ### Databases Data Container ################################
 

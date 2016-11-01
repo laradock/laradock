@@ -6,11 +6,11 @@ ARG PHP_SOCKET=php-fpm:9000
 
 ENV WEB_PHP_SOCKET=$PHP_SOCKET
 
-ENV WEB_DOCUMENT_ROOT=/var/www/laravel/public
+ENV WEB_DOCUMENT_ROOT=/var/www/public
 
 EXPOSE 80 443
 
-WORKDIR /var/www/laravel/public
+WORKDIR /var/www/public
 
 ENTRYPOINT ["/opt/docker/bin/entrypoint.sh"]
 
