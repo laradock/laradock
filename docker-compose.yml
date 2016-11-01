@@ -4,7 +4,7 @@ services:
 
 ### Applications Code Container #############################
 
-    volumes_source:
+    applications:
         image: tianon/true
         volumes:
             - ../:/var/www
@@ -29,7 +29,7 @@ services:
                 - NODE_VERSION=stable
                 - TZ=UTC
         volumes_from:
-            - volumes_source
+            - applications
         extra_hosts:
             # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
             - "dockerhost:10.0.75.1"
@@ -52,7 +52,7 @@ services:
                 - CODEIGNITER=false
             dockerfile: Dockerfile-70
         volumes_from:
-            - volumes_source
+            - applications
         expose:
             - "9000"
         links:
@@ -72,7 +72,7 @@ services:
             args:
                 - PHP_UPSTREAM=php-fpm
         volumes_from:
-            - volumes_source
+            - applications
         volumes:
             - ./logs/nginx/:/var/log/nginx
         ports:
@@ -89,7 +89,7 @@ services:
             args:
                 - PHP_SOCKET=php-fpm:9000
         volumes_from:
-            - volumes_source
+            - applications
         volumes:
             - ./logs/apache2:/var/log/apache2
         ports:
@@ -103,7 +103,7 @@ services:
     hhvm:
         build: ./hhvm
         volumes_from:
-            - volumes_source
+            - applications
         expose:
             - "9000"
         links:
@@ -245,7 +245,7 @@ services:
     caddy:
         build: ./caddy
         volumes_from:
-            - volumes_source
+            - applications
         volumes:
             - caddy:/root/.caddy
         ports:
