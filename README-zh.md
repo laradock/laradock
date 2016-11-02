@@ -7,9 +7,7 @@
 LaraDock能够帮你在**Docker**上快速搭建**Laravel**应用。
 <br>
 就像Laravel Homestead一样，但是Docker替换了Vagrant。
->先在Docker上使用LaraDock，然后再学习它们。
-
-![](https://s31.postimg.org/nbettdki3/lara_dock_poster_new.jpg)
+> 先在使用 LaraDock，然后再学习它们。
 
 <br>
 ## 目录
