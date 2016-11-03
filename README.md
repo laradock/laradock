@@ -287,7 +287,13 @@ git clone https://github.com/LaraDock/laradock.git
 ```
 Do the same for each project `project2.conf`, `project3.conf`,...
 
-6 - Create your project Databases **To Be Continue..**
+6 - Add the domains to the **hosts** files.
+
+```
+127.0.0.1  project1.dev
+```
+
+7 - Create your project Databases. Right now you have to do it manually by entering your DB container, until we automate it soon.
 
 
 
