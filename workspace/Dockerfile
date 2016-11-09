@@ -191,6 +191,7 @@ ARG INSTALL_YARN=false
 ENV INSTALL_YARN ${INSTALL_YARN}
 
 RUN if [ ${INSTALL_YARN} = true ]; then \
+    export PATH=$PATH:/home/laradock/.nvm/versions/node/v7.1.0/bin && \
     curl -o- -L https://yarnpkg.com/install.sh | bash && \
     echo "" >> ~/.bashrc && \
     echo 'export PATH="$HOME/.yarn/bin:$PATH"' >> ~/.bashrc \
