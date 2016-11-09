@@ -121,7 +121,6 @@ Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL` and `Red
 	- MySQL
 	- PostgreSQL
 	- MariaDB
-	- MongoDB
 	- Neo4j
 - **Cache Engines:**
 	- Redis
