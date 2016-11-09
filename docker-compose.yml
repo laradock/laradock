@@ -36,6 +36,8 @@ services:
         ports:
            - "2222:22"
         tty: true
+        environment:
+            - PATH=$PATH:/home/laradock/.yarn/bin:/var/www/vendor/bin:/home/laradock/.nvm/versions/node/v7.1.0/bin
 
 ### PHP-FPM Container #######################################
 
