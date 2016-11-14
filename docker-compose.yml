@@ -280,8 +280,6 @@ services:
             MYSQL_USER: homestead
             MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
-        volumes:
-            - phpmyadmin
         ports:
             - "8080:80"
         links:
