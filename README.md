@@ -61,6 +61,7 @@ Laradock is configured to run Laravel Apps by default, and it can be modifyed to
 		- [Access workspace via ssh](#Workspace-ssh)
 		- [MySQL access from host](#MySQL-access-from-host)
 		- [MySQL root access](#MySQL-root-access)
+		- [Change MySQL port](#Change-MySQL-port)
 		- [Use custom Domain](#Use-custom-Domain)
 		- [Enable Global Composer Build Install](#Enable-Global-Composer-Build-Install)
 		- [Install Prestissimo](#Install-Prestissimo)
@@ -1164,6 +1165,17 @@ The default username and password for the root mysql user are `root` and `root `
 4 - Run any commands `show databases`, `show tables`, `select * from.....`.
 
 
+<a name="Change-MySQL-port"></a>
+### Change MySQL port
+
+Modify the `mysql/my.cnf` file to set your port number, `1234` is used as an example.
+
+```
+[mysqld] 
+port=1234
+```
+
+If you need <a href="#MySQL-access-from-host">MySQL access from your host</a>, do not forget to change the internal port number (`"3306:3306"` -> `"3306:1234"`) in the docker-compose config file.
 
 <a name="Use-custom-Domain"></a>
 ### Use custom Domain (instead of the Docker IP)
