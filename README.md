@@ -1352,9 +1352,9 @@ Use `http://127.0.0.1` instead of `http://localhost` in your browser.
 
 
 
-#### I see an error message containing `address already in use`
+#### I see an error message containing `address already in use` or `port is already allocated`
 
-Make sure the ports for the services that you are trying to run (80, 3306, etc.) are not being used already by other programs, such as a built in `apache`/`httpd` service or other development tools you have installed.
+Make sure the ports for the services that you are trying to run (22, 80, 443, 3306, etc.) are not being used already by other programs on the host, such as a built in `apache`/`httpd` service or other development tools you have installed.
 
 
 
