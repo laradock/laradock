@@ -75,6 +75,7 @@ services:
             - applications
         volumes:
             - ./logs/nginx/:/var/log/nginx
+            - ./nginx/sites/:/etc/nginx/sites-available
         ports:
             - "80:80"
             - "443:443"
