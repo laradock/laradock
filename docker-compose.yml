@@ -112,17 +112,16 @@ services:
 ### MySQL Container #########################################
 
     mysql:
-        build: 
-            context: ./mysql
-            args:
-                - MYSQL_DATABASE=homestead
-                - MYSQL_USER=homestead
-                - MYSQL_PASSWORD=secret
-                - MYSQL_ROOT_PASSWORD=root
+        build: ./mysql
         volumes:
             - mysql:/var/lib/mysql
         ports:
             - "3306:3306"
+        environment:
+            MYSQL_DATABASE: homestead
+            MYSQL_USER: homestead
+            MYSQL_PASSWORD: secret
+            MYSQL_ROOT_PASSWORD: root
 
 ### MariaDB Container #######################################
 
