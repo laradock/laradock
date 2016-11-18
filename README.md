@@ -1331,7 +1331,18 @@ It should be like this:
 
 <br>
 <a name="debugging"></a>
-### Debugging
+
+### PHPStorm
+Remote debug Laravel web and phpunit tests.
+
+####[Full Guide Here](https://github.com/LaraDock/laradock/blob/master/_guides/phpstorm.md)
+
+
+<br>
+<a name="Misc"></a>
+
+### Miscellaneous
+
 
 *Here's a list of the common problems you might face, and the possible solutions.*
 
