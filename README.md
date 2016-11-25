@@ -214,7 +214,7 @@ Choose the setup the best suits your needs.
 *(In case you want a Docker environment for each project)*
 
 ##### A.1) Setup environment in existing Project:
-*(In case you already have a project, and you want to setup an environemnt to run it)*
+*(In case you already have a project, and you want to setup an environment to run it)*
 
 1 - Clone this repository on your project root directory:
 
