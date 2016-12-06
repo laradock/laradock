@@ -69,6 +69,7 @@ Laradock is configured to run Laravel Apps by default, and it can be modifyed to
 		- [Install Node + YARN](#Install-Yarn)
 		- [Debugging](#debugging)
 		- [Upgrading LaraDock](#upgrading-laradock)
+		- [Remove LaraDock-built containers and images](#wipe-laradock)
 - [Help & Questions](#Help)
 
 
@@ -1407,7 +1408,40 @@ Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requ
 
 
 
+<br>
+<a name="wipe-laradock"></a>
 
+### Remove LaraDock-built containers and images
+
+
+When upgrading LaraDock or switching branches to run or test different configurations, it can be useful to completely remove all containers and images that were built with docker-compose **WITHOUT** removing [laradock docker hub images](https://hub.docker.com/u/laradock/). The following is a bash function that you may find useful for this. 
+
+Place the following in your `~/.bashrc` or `~/.bash_profile` depending on which one is run on opening a new terminal.
+
+```
+# remove laravel* containers
+# remove laravel_* images
+dcleanlaradockfunction()
+{
+	echo 'Removing ALL containers associated with laradock'
+	docker ps -a | awk '{ print $1,$2 }' | grep laradock | awk '{print $1}' | xargs -I {} docker rm {}
+
+	# remove ALL images associated with laradock_
+	# does NOT delete laradock/* which are hub images
+	echo 'Removing ALL images associated with laradock_'
+	docker images | awk '{print $1,$2,$3}' | grep laradock_ | awk '{print $3}' | xargs -I {} docker rmi {}
+
+	echo 'Listing all laradock docker hub images...'
+	docker images | grep laradock
+
+	echo 'dcleanlaradock completed'
+}
+# associate the above function with an alias
+# so can recall/lookup by typing 'alias'
+alias dcleanlaradock=dcleanlaradockfunction
+```
+
+**IMPORTANT!!!** This script will delete all laradock containers and images!
 
 
 
