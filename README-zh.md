@@ -7,9 +7,7 @@
 LaraDock能够帮你在**Docker**上快速搭建**Laravel**应用。
 <br>
 就像Laravel Homestead一样，但是Docker替换了Vagrant。
->先在Docker上使用LaraDock，然后再学习它们。
-
-![](https://s31.postimg.org/nbettdki3/lara_dock_poster_new.jpg)
+> 先在使用 LaraDock，然后再学习它们。
 
 <br>
 ## 目录
@@ -471,13 +469,13 @@ composer create-project laravel/laravel my-cool-app "5.2.*"
 系统默认LaraDock假定Laravel应用在LaraDock的父级目录中
 By default LaraDock assumes the Laravel application is living in the parent directory of the laradock folder.
 
-自新Laravel应用在 `my-cool-app` 目录中, 我们需要用 `../my-cool-app/:/var/www/laravel`替换 `../:/var/www/laravel` , 如下:
+自新Laravel应用在 `my-cool-app` 目录中, 我们需要用 `../my-cool-app/:/var/www`替换 `../:/var/www` , 如下:
 
 ```yaml
     application:
         build: ./application
         volumes:
-            - ../my-cool-app/:/var/www/laravel
+            - ../my-cool-app/:/var/www
 ```
 4 - 进入目录下继续工作..
 
@@ -956,21 +954,6 @@ Docker或Laravel的特别帮助，你可以在[Codementor.io](https://www.codeme
 **创始人:**
 
 - [Mahmoud Zalt](https://github.com/Mahmoudz)  (Twitter [@Mahmoud_Zalt](https://twitter.com/Mahmoud_Zalt))
-
-**主要 贡献者:**
-
-- [Zhqagp](https://github.com/zhqagp)
-- [Suteepat (tianissimo)](https://github.com/tianissimo)
-- [David (davidavz)](https://github.com/davidavz)
-- [Lialosiu](https://github.com/lialosiu)
-- [Eric Pfeiffer (computerfr33k)](https://github.com/computerfr33k)
-- [Orette](https://github.com/orette)
-- [Jack Fletcher (Kauhat)](https://github.com/Kauhat)
-- [Bo-Yi Wu (appleboy)](https://github.com/appleboy)
-- [Amin Mkh (AminMkh)](https://github.com/AminMkh)
-- [Matthew Tonkin Dunn (mattythebatty)](https://github.com/mattythebatty)
-- [Zhivitsa Kirill (zhikiri)](https://github.com/zhikiri)
-- [Benmag](https://github.com/benmag)
 
 **优秀的人:**
 

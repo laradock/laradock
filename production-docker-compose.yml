@@ -1,0 +1,62 @@
+version: '2'
+
+services:
+
+### Workspace Utilities Container ###########################
+
+    workspace:
+        build:
+            context: ./workspace
+            args:
+                - INSTALL_XDEBUG=false
+                - INSTALL_MONGO=false
+                - INSTALL_NODE=false
+                - INSTALL_YARN=false
+                - INSTALL_DRUSH=false
+                - INSTALL_AEROSPIKE_EXTENSION=false
+                - COMPOSER_GLOBAL_INSTALL=false
+                - INSTALL_WORKSPACE_SSH=false
+                - PUID=1000
+                - PGID=1000
+                - NODE_VERSION=stable
+        volumes_from:
+            - volumes_source
+        ports:
+           - "22:22"
+        tty: true
+
+### PHP-FPM Container #######################################
+
+    php-fpm:
+        build:
+            context: ./php-fpm
+            args:
+                - INSTALL_XDEBUG=false
+                - INSTALL_MONGO=false
+                - INSTALL_ZIP_ARCHIVE=false
+                - INSTALL_MEMCACHED=false
+                - INSTALL_OPCACHE=false
+                - INSTALL_AEROSPIKE_EXTENSION=false
+            dockerfile: Dockerfile-70
+        volumes_from:
+            - volumes_source
+        expose:
+            - "9000"
+        links:
+            - workspace
+
+### Application Code Container ######################
+
+    volumes_source:
+        image: tianon/true
+        volumes:
+            - ../:/var/www
+
+### Databases Data Container ################################
+
+    volumes_data:
+        image: tianon/true
+        volumes:
+#            - ./data/mysql:/var/lib/mysql
+
+### Add All your Software Containers below ###############################
