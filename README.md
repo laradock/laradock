@@ -173,7 +173,7 @@ Most importantly Docker can run on Development and on Production (same environme
 
 > Laradock It's like Laravel Homestead but for Docker instead of Vagrant.
 
-Laradock and [Homestead](https://laravel.com/docs/master/homestead) both gives you a complete virtual development environments. (Without the need to install and configure every single software on your own Operating System).
+Laradock and [Homestead](https://laravel.com/docs/master/homestead) both give you complete virtual development environments. (Without the need to install and configure every single software on your own Operating System).
 
 - Homestead is a tool that controls Vagrant for you (using Homestead special commands). And Vagrant manages your Virtual Machine.
 
