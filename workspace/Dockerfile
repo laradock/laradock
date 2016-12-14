@@ -236,6 +236,23 @@ RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = false ]; then \
 ;fi
 
 #####################################
+# PHP V8JS:
+#####################################
+USER root
+
+ARG INSTALL_V8JS_EXTENSION=false
+ENV INSTALL_V8JS_EXTENSION ${INSTALL_V8JS_EXTENSION}
+
+RUN if [ ${INSTALL_V8JS_EXTENSION} = true ]; then \
+    # Install the php V8JS extension
+    add-apt-repository -y ppa:pinepain/libv8-5.4 \
+    && apt-get update \
+    && apt-get install -y php-dev php-pear libv8-5.4 \
+    && pecl install v8js \
+    && echo "extension=v8js.so" >> /etc/php/7.0/cli/php.ini \
+;fi
+
+#####################################
 # Non-root user : PHPUnit path
 #####################################
 
