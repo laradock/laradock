@@ -37,6 +37,18 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 #
 
 #####################################
+# SOAP:
+#####################################
+
+ARG INSTALL_SOAP=false
+RUN if [ ${INSTALL_SOAP} = true ]; then \
+    # Install the soap extension
+    apt-get -y update && \
+    apt-get -y install libxml2-dev && \ 
+    docker-php-ext-install soap && \
+;fi
+
+#####################################
 # xDebug:
 #####################################
 
