@@ -29,6 +29,7 @@ services:
                 - PGID=1000
                 - NODE_VERSION=stable
                 - TZ=UTC
+            # dockerfile: Dockerfile-71
         volumes_from:
             - applications
         extra_hosts:
