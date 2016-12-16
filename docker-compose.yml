@@ -28,6 +28,7 @@ services:
                 - PUID=1000
                 - PGID=1000
                 - NODE_VERSION=stable
+                - YARN_VERSION=latest
                 - TZ=UTC
         volumes_from:
             - applications
