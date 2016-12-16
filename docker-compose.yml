@@ -262,14 +262,12 @@ services:
 
     caddy:
         build: ./caddy
-        volumes_from:
-            - applications
-        volumes:
-            - caddy:/root/.caddy
         ports:
             - "80:80"
             - "443:443"
             - "2015:2015"
+        volumes_from:
+            - applications
         volumes:
             - ./caddy/Caddyfile:/etc/Caddyfile
             - ./logs/caddy:/var/log/caddy
