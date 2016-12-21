@@ -10,7 +10,7 @@
 #    https://hub.docker.com/r/laradock/workspace/tags/
 #
 
-FROM laradock/workspace:1.2
+FROM laradock/workspace:1.3
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
