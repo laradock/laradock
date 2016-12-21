@@ -306,7 +306,7 @@ services:
         build: ./elasticsearch
         volumes:
             - elasticsearch-data:/usr/share/elasticsearch/data
-            - elasticsearch-pkugins:/usr/share/elasticsearch/data
+            - elasticsearch-plugins:/usr/share/elasticsearch/data
         ports:
             - "9200:9200"
             - "9300:9300"
@@ -338,7 +338,7 @@ volumes:
         driver: "local"
     elasticsearch-data:
         driver: "local"
-    elasticsearch-pkugins:
+    elasticsearch-plugins:
         driver: "local"
     sessions:    ## nothing is connected to this (- ./data/sessions:/sessions)
         driver: "local"
