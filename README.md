@@ -619,7 +619,7 @@ By default **PHP-FPM 7.0** is running.
 4 - Finally rebuild the container
 
 ```bash
-docker-compose build php
+docker-compose build php-fpm
 ```
 
 > For more details about the PHP base image, visit the [official PHP docker images](https://hub.docker.com/_/php/).
