@@ -86,6 +86,12 @@ RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
 ;fi
 
 #####################################
+# PHP Intl:
+#####################################
+
+RUN apt-get install -y libicu-dev && pecl install intl && docker-php-ext-install intl
+
+#####################################
 # PHP Memcached:
 #####################################
 
