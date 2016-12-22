@@ -267,7 +267,15 @@ USER laradock
 
 RUN echo "" >> ~/.bashrc && \
     echo 'export PATH="/var/www/vendor/bin:$PATH"' >> ~/.bashrc
+	
+#####################################
+# Laravel Artisan Alias
+#####################################
+USER root
 
+RUN echo "" >> ~/.bashrc && \
+	echo 'alias art="php artisan"' >> ~/.bashrc
+	
 #
 #--------------------------------------------------------------------------
 # Final Touch
