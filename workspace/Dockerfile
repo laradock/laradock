@@ -274,7 +274,7 @@ RUN echo "" >> ~/.bashrc && \
 USER root
 
 RUN echo "" >> ~/.bashrc && \
-	echo 'alias art="php artisan"' >> ~/.bashrc
+    echo 'alias art="php artisan"' >> ~/.bashrc
 	
 #
 #--------------------------------------------------------------------------
