@@ -1354,6 +1354,8 @@ It should be like this:
 
 4 - Re-build the containers `docker-compose build workspace`
 
+####[Laravel Envoy Documentation Here](https://laravel.com/docs/5.3/envoy)
+
 <br>
 <a name="debugging"></a>
 
