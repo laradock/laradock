@@ -25,7 +25,7 @@ services:
                 - INSTALL_V8JS_EXTENSION=false
                 - COMPOSER_GLOBAL_INSTALL=false
                 - INSTALL_WORKSPACE_SSH=false
-                - INSTALL_LARAVEL_ENVOY=true
+                - INSTALL_LARAVEL_ENVOY=false
                 - PUID=1000
                 - PGID=1000
                 - NODE_VERSION=stable
