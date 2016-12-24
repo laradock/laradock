@@ -267,7 +267,17 @@ USER laradock
 
 RUN echo "" >> ~/.bashrc && \
     echo 'export PATH="/var/www/vendor/bin:$PATH"' >> ~/.bashrc
-	
+    
+#####################################
+# Non-root user : Laravel Envoy
+#####################################
+USER laradock
+
+RUN echo "" >> ~/.bashrc && \
+    echo 'export PATH="~/.composer/vendor/bin:$PATH"' >> ~/.bashrc
+    
+RUN composer global require "laravel/envoy=~1.0"
+
 #####################################
 # Laravel Artisan Alias
 #####################################
