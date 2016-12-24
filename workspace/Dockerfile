@@ -275,7 +275,22 @@ USER root
 
 RUN echo "" >> ~/.bashrc && \
     echo 'alias art="php artisan"' >> ~/.bashrc
-	
+
+#####################################
+# Laravel Envoy:
+#####################################
+USER laradock
+
+ARG INSTALL_LARAVEL_ENVOY=true
+ENV INSTALL_LARAVEL_ENVOY ${INSTALL_LARAVEL_ENVOY}
+
+RUN if [ ${INSTALL_LARAVEL_ENVOY} = true ]; then \
+    # Install the Laravel Envoy
+    echo "" >> ~/.bashrc && \
+    echo 'export PATH="~/.composer/vendor/bin:$PATH"' >> ~/.bashrc \
+    && composer global require "laravel/envoy=~1.0" \
+;fi
+
 #
 #--------------------------------------------------------------------------
 # Final Touch
