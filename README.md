@@ -1331,6 +1331,32 @@ It should be like this:
 2 - Re-build the containers `docker-compose build workspace php-fpm`
 
 <br>
+<a name="Install-Laravel-Envoy"></a>
+### Install Laravel Envoy (Envoy Task Runner)
+
+1 - Open the `docker-compose.yml` file
+<br>
+2 - Search for the `INSTALL_LARAVEL_ENVOY` argument under the Workspace Container
+<br>
+3 - Set it to `true`
+<br>
+
+It should be like this:
+
+```yml
+    workspace:
+        build:
+            context: ./workspace
+            args:
+                - INSTALL_LARAVEL_ENVOY=true
+    ...
+```
+
+4 - Re-build the containers `docker-compose build workspace`
+
+####[Laravel Envoy Documentation Here](https://laravel.com/docs/5.3/envoy)
+
+<br>
 <a name="debugging"></a>
 
 ### PHPStorm
