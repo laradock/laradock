@@ -190,6 +190,15 @@ services:
             - "27017:27017"
         volumes:
             - mongo:/data/db
+            
+### RethinkDB Container #######################################
+
+    rethinkdb:
+        build: ./rethinkdb
+        ports:
+            - "8090:8080"
+        volumes:
+            - rethinkdb:/data/rethinkdb_data
 
 ### Redis Container #########################################
 
@@ -331,6 +340,8 @@ volumes:
     mariadb:
         driver: "local"
     mongo:
+        driver: "local"
+    rethinkdb:
         driver: "local"
     phpmyadmin:
         driver: "local"

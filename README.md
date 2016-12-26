@@ -124,6 +124,7 @@ Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL` and `Red
 	- MariaDB
 	- MongoDB
 	- Neo4j
+	- RethinkDB
 - **Cache Engines:**
 	- Redis
 	- Memcached
@@ -139,7 +140,7 @@ Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL` and `Red
 	- Beanstalkd (+ Beanstalkd Console)
 	- RabbitMQ (+ RabbitMQ Console)
 - **Tools:**
-	- Workspace (PHP7-CLI, Composer, Git, Node, Gulp, SQLite, xDebug, Vim...)
+	- Workspace (PHP7-CLI, Composer, Git, Node, Gulp, SQLite, xDebug, Envoy, Vim...)
 	- PhpMyAdmin
 	- PgAdmin
 	- ElasticSearch
@@ -1357,6 +1358,46 @@ It should be like this:
 ####[Laravel Envoy Documentation Here](https://laravel.com/docs/5.3/envoy)
 
 <br>
+<a name="Use-RethinkDB"></a>
+### Use RethinkDB Container
+
+The RethinkDB is an open-source Database for Real-time Web ([RethinkDB](https://rethinkdb.com/)).
+A package ([Laravel RethinkDB](https://github.com/duxet/laravel-rethinkdb)) is being developed and was released a version for Laravel 5.2 (experimental).
+
+1 - Run the RethinkDB Container (`rethinkdb`) with the `docker-compose up` command.
+
+```bash
+docker-compose up -d rethinkdb
+```
+
+2 - Access the RethinkDB Administration Console [http://localhost:8090/#tables](http://localhost:8090/#tables) for create a database called `database`.
+
+3 - Add the RethinkDB configurations to the `config/database.php` configuration file:
+
+```php
+'connections' => [
+	
+	'rethinkdb' => [
+		'name'      => 'rethinkdb',
+		'driver'    => 'rethinkdb',
+		'host'      => env('DB_HOST', 'rethinkdb'),
+		'port'      => env('DB_PORT', 28015),
+		'database'  => env('DB_DATABASE', 'test'),            
+	]
+	
+	// ...
+
+],
+```
+
+4 - Open your Laravel's `.env` file and update the following variables:
+
+- set the `DB_CONNECTION` to your `rethinkdb`.
+- set the `DB_HOST` to `rethinkdb`.
+- set the `DB_PORT` to `28015`.
+- set the `DB_DATABASE` to `database`.
+
+<br>
 <a name="debugging"></a>
 
 ### PHPStorm
@@ -1504,6 +1545,7 @@ For special help with Docker and/or Laravel, you can schedule a live call with t
 - [Matthew Tonkin Dunn](https://github.com/mattythebatty) (mattythebatty)
 - [Zhivitsa Kirill](https://github.com/zhikiri) (zhikiri)
 - [Benmag](https://github.com/benmag)
+- [Cristian Mello](https://github.com/cristiancmello) (cristiancmello)
 
 **Other Contributors & Supporters:**
 
