@@ -1543,6 +1543,7 @@ For special help with Docker and/or Laravel, you can schedule a live call with t
 - [Matthew Tonkin Dunn](https://github.com/mattythebatty) (mattythebatty)
 - [Zhivitsa Kirill](https://github.com/zhikiri) (zhikiri)
 - [Benmag](https://github.com/benmag)
+- [Cristian Mello](https://github.com/cristiancmello)
 
 **Other Contributors & Supporters:**
 
