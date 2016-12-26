@@ -1370,7 +1370,9 @@ A package ([Laravel RethinkDB](https://github.com/duxet/laravel-rethinkdb)) is b
 docker-compose up -d rethinkdb
 ```
 
-2 - Add the RethinkDB configurations to the `config/database.php` configuration file:
+2 - Access the RethinkDB Administration Console [http://localhost:8090/#tables](http://localhost:8090/#tables) for create a database called `database`.
+
+3 - Add the RethinkDB configurations to the `config/database.php` configuration file:
 
 ```php
 'connections' => [
@@ -1388,7 +1390,7 @@ docker-compose up -d rethinkdb
 ],
 ```
 
-3 - Open your Laravel's `.env` file and update the following variables:
+4 - Open your Laravel's `.env` file and update the following variables:
 
 - set the `DB_CONNECTION` to your `rethinkdb`.
 - set the `DB_HOST` to `rethinkdb`.
