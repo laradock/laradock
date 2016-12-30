@@ -10,7 +10,7 @@
 #    https://hub.docker.com/r/laradock/workspace/tags/
 #
 
-FROM laradock/workspace:1.2
+FROM laradock/workspace:1.3
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
@@ -46,7 +46,7 @@ ARG PUID=1000
 ARG PGID=1000
 RUN groupadd -g $PGID laradock && \
     useradd -u $PUID -g laradock -m laradock
-    
+
 #####################################
 # Set Timezone
 #####################################
@@ -125,7 +125,7 @@ ENV INSTALL_MONGO ${INSTALL_MONGO}
 RUN if [ ${INSTALL_MONGO} = true ]; then \
     # Install the mongodb extension
     pecl install mongodb && \
-    echo "extension=mongodb.so" >> /etc/php/7.0/cli/php.ini \
+    echo "extension=mongodb.so" >> /etc/php/7.0/cli/conf.d/30-mongodb.ini \
 ;fi
 
 #####################################
@@ -189,10 +189,16 @@ USER laradock
 
 ARG INSTALL_YARN=false
 ENV INSTALL_YARN ${INSTALL_YARN}
+ARG YARN_VERSION=latest
+ENV YARN_VERSION ${YARN_VERSION}
 
 RUN if [ ${INSTALL_YARN} = true ]; then \
     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && \
-    curl -o- -L https://yarnpkg.com/install.sh | bash && \
+    if [ ${YARN_VERSION} = "latest" ]; then \
+        curl -o- -L https://yarnpkg.com/install.sh | bash; \
+    else \
+        curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version ${YARN_VERSION}; \
+    fi && \
     echo "" >> ~/.bashrc && \
     echo 'export PATH="$HOME/.yarn/bin:$PATH"' >> ~/.bashrc \
 ;fi
@@ -236,6 +242,23 @@ RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = false ]; then \
 ;fi
 
 #####################################
+# PHP V8JS:
+#####################################
+USER root
+
+ARG INSTALL_V8JS_EXTENSION=false
+ENV INSTALL_V8JS_EXTENSION ${INSTALL_V8JS_EXTENSION}
+
+RUN if [ ${INSTALL_V8JS_EXTENSION} = true ]; then \
+    # Install the php V8JS extension
+    add-apt-repository -y ppa:pinepain/libv8-5.4 \
+    && apt-get update \
+    && apt-get install -y php-dev php-pear libv8-5.4 \
+    && pecl install v8js \
+    && echo "extension=v8js.so" >> /etc/php/7.0/cli/php.ini \
+;fi
+
+#####################################
 # Non-root user : PHPUnit path
 #####################################
 
@@ -244,6 +267,29 @@ USER laradock
 
 RUN echo "" >> ~/.bashrc && \
     echo 'export PATH="/var/www/vendor/bin:$PATH"' >> ~/.bashrc
+
+#####################################
+# Laravel Artisan Alias
+#####################################
+USER root
+
+RUN echo "" >> ~/.bashrc && \
+    echo 'alias art="php artisan"' >> ~/.bashrc
+
+#####################################
+# Laravel Envoy:
+#####################################
+USER laradock
+
+ARG INSTALL_LARAVEL_ENVOY=true
+ENV INSTALL_LARAVEL_ENVOY ${INSTALL_LARAVEL_ENVOY}
+
+RUN if [ ${INSTALL_LARAVEL_ENVOY} = true ]; then \
+    # Install the Laravel Envoy
+    echo "" >> ~/.bashrc && \
+    echo 'export PATH="~/.composer/vendor/bin:$PATH"' >> ~/.bashrc \
+    && composer global require "laravel/envoy=~1.0" \
+;fi
 
 #
 #--------------------------------------------------------------------------
