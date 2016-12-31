@@ -53,6 +53,7 @@ Laradock is configured to run Laravel Apps by default, and it can be modified to
 		- [Use phpMyAdmin](#Use-phpMyAdmin)
 		- [Use pgAdmin](#Use-pgAdmin)
 		- [Use ElasticSearch](#Use-ElasticSearch)
+		- [Use Selenium](#Use-Selenium)
 	- [CodeIgniter](#CodeIgniter):
 		- [Install CodeIgniter](#Install-CodeIgniter)
 	- [Misc](#Misc)
@@ -1058,7 +1059,17 @@ docker exec {container-name} /usr/share/elasticsearch/bin/plugin install delete-
 docker restart {container-name}
 ```
 
+<br>
+<a name="Use-Selenium"></a>
+### Use Selenium
 
+1 - Run the Selenium Container (`selenium`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d selenium
+```
+
+2 - Open your browser and visit the localhost on port **4444** at the following URL:  `http://localhost:4444/wd/hub`
 
 
 
