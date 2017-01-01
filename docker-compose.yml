@@ -324,6 +324,13 @@ services:
         links:
             - php-fpm
 
+### Selenium Container #########################################
+
+    selenium:
+        build: ./selenium
+        ports:
+            - "4444:4444"
+
 ### Volumes Setup ###########################################
 
 volumes:
