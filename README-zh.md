@@ -469,7 +469,7 @@ composer create-project laravel/laravel my-cool-app "5.2.*"
 系统默认LaraDock假定Laravel应用在LaraDock的父级目录中
 By default LaraDock assumes the Laravel application is living in the parent directory of the laradock folder.
 
-自新Laravel应用在 `my-cool-app` 目录中, 我们需要用 `../my-cool-app/:/var/www`替换 `../:/var/www` , 如下:
+更新Laravel应用在 `my-cool-app` 目录中, 我们需要用 `../my-cool-app/:/var/www`替换 `../:/var/www` , 如下:
 
 ```yaml
     application:
