@@ -135,7 +135,7 @@ services:
     mariadb:
         build: ./mariadb
         volumes:
-            - mysql:/var/lib/mysql
+            - mariadb:/var/lib/mysql
         ports:
             - "3306:3306"
         environment:
