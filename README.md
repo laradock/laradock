@@ -1667,6 +1667,12 @@ Make sure the ports for the services that you are trying to run (22, 80, 443, 33
 
 
 
+#### The time in my services does not match the current time
+
+1. Make sure you've [changed the timezone](#Change-the-timezone).
+2. Stop and rebuild the containers (`docker-compose up -d --build <services>`)
+
+
 
 
 #### I get Mysql connection refused
