@@ -26,6 +26,7 @@ services:
                 - COMPOSER_GLOBAL_INSTALL=false
                 - INSTALL_WORKSPACE_SSH=false
                 - INSTALL_LARAVEL_ENVOY=false
+                - INSTALL_LINUXBREW=false
                 - PUID=1000
                 - PGID=1000
                 - NODE_VERSION=stable
@@ -118,7 +119,7 @@ services:
 ### MySQL Container #########################################
 
     mysql:
-        build: 
+        build:
             context: ./mysql
             args:
                 - MYSQL_DATABASE=homestead
@@ -190,7 +191,7 @@ services:
             - "27017:27017"
         volumes:
             - mongo:/data/db
-            
+
 ### RethinkDB Container #######################################
 
     rethinkdb:

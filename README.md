@@ -4,7 +4,7 @@
 
 [![Gitter](https://badges.gitter.im/LaraDock/laradock.svg)](https://gitter.im/LaraDock/laradock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-Laradock is a Docker PHP development environment. It facilitate running **PHP** Apps on **Docker**. 
+Laradock is a Docker PHP development environment. It facilitate running **PHP** Apps on **Docker**.
 
 >Use Docker first and learn about it later.
 
@@ -87,6 +87,7 @@ Laradock is configured to run Laravel Apps by default, and it can be modified to
 		- [Install Prestissimo](#Install-Prestissimo)
 		- [Install Node + NVM](#Install-Node)
 		- [Install Node + YARN](#Install-Yarn)
+		- [Install Linuxbrew](#Install-Brew)
 		- [Debugging](#debugging)
 		- [Upgrading LaraDock](#upgrading-laradock)
 - [Related Projects](#related-projects)
@@ -101,13 +102,13 @@ Laradock is configured to run Laravel Apps by default, and it can be modified to
 
 Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL`, `Redis` and `Beanstalkd`:
 
-1 - Clone Laradock inside your PHP project: 
+1 - Clone Laradock inside your PHP project:
 
 ```shell
 git clone https://github.com/Laradock/laradock.git
 ```
 
-2 - Enter the laradock folder and run this command: 
+2 - Enter the laradock folder and run this command:
 
 ```shell
 docker-compose up -d nginx mysql redis beanstalkd
@@ -316,7 +317,7 @@ Note: In this case the folder structure will be like this:
 	- myProject
 ```
 
-2 - Edit the `docker-compose.yml` file to map to your project directory once you have it (example: `- ../myProject:/var/www`). 
+2 - Edit the `docker-compose.yml` file to map to your project directory once you have it (example: `- ../myProject:/var/www`).
 
 3 - Stop and re-run your docker-compose command for the changes to take place.
 
@@ -798,7 +799,7 @@ To control the behavior of xDebug (in the `php-fpm` Container), you can run the 
 <a name="LaraDock-for-Production"></a>
 ### Prepare LaraDock for Production
 
-It's recommended for production to create a custom `docker-compose.yml` file. For that reason, LaraDock is shipped with `production-docker-compose.yml` which should contain only the containers you are planning to run on production (usage exampe: `docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...`). 
+It's recommended for production to create a custom `docker-compose.yml` file. For that reason, LaraDock is shipped with `production-docker-compose.yml` which should contain only the containers you are planning to run on production (usage exampe: `docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...`).
 
 Note: The Database (MySQL/MariaDB/...) ports should not be forwarded on production, because Docker will automatically publish the port on the host, which is quite insecure, unless specifically told not to. So make sure to remove these lines:
 
@@ -1213,15 +1214,15 @@ docker-compose up -d rethinkdb
 
 ```php
 'connections' => [
-	
+
 	'rethinkdb' => [
 		'name'      => 'rethinkdb',
 		'driver'    => 'rethinkdb',
 		'host'      => env('DB_HOST', 'rethinkdb'),
 		'port'      => env('DB_PORT', 28015),
-		'database'  => env('DB_DATABASE', 'test'),            
+		'database'  => env('DB_DATABASE', 'test'),
 	]
-	
+
 	// ...
 
 ],
@@ -1319,7 +1320,7 @@ Make sure you [change the timezone](#Change-the-timezone) if you don't want to u
 <br>
 <a name="Workspace-ssh"></a>
 ### Access workspace via ssh
- 
+
 You can access the `workspace` container through `localhost:2222` by setting the `INSTALL_WORKSPACE_SSH` build argument to `true`.
 
 To change the default forwarded port for ssh:
@@ -1378,7 +1379,7 @@ The default username and password for the root mysql user are `root` and `root `
 Modify the `mysql/my.cnf` file to set your port number, `1234` is used as an example.
 
 ```
-[mysqld] 
+[mysqld]
 port=1234
 ```
 
@@ -1525,6 +1526,34 @@ It should be like this:
 
 
 <br>
+<a name="Install-Linuxbrew"></a>
+### Install Linuxbrew
+
+Linuxbrew is a package manager for Linux. It is the Linux version of MacOS Homebrew and can be found [here](http://linuxbrew.sh). To install Linuxbrew in the Workspace container:
+
+1 - Open the `docker-compose.yml` file
+
+2 - Search for the `INSTALL_LINUXBREW` argument under the Workspace Container and set it to `true`
+
+It should be like this:
+
+```yml
+    workspace:
+        build:
+            context: ./workspace
+            args:
+                - INSTALL_LINUXBREW=true
+    ...
+```
+
+3 - Re-build the container `docker-compose build workspace`
+
+
+
+
+
+
+<br>
 <a name="Install-Aerospike-Extension"></a>
 ### Install Aerospike extension
 
@@ -1659,7 +1688,7 @@ Make sure the ports for the services that you are trying to run (22, 80, 443, 33
 
 #### I get Nginx error 404 Not Found on Windows.
 
-1. Go to docker Settings on your Windows machine. 
+1. Go to docker Settings on your Windows machine.
 2. Click on the `Shared Drives` tab and check the drive that contains your project files.
 3. Enter your windows username and password.
 4. Go to the `reset` tab and click restart docker.
@@ -1701,7 +1730,7 @@ Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requ
 3. Upgrade LaraDock to `v4.*.*` (`git pull origin master`)
 4. Use LaraDock as you used to do: `docker-compose up -d nginx mysql`.
 
-**Note:** If you face any problem with the last step above: rebuild all your containers 
+**Note:** If you face any problem with the last step above: rebuild all your containers
 `docker-compose build --no-cache`
 "Warnning Containers Data might be lost!"
 
