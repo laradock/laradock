@@ -47,6 +47,7 @@ services:
             context: ./php-fpm
             args:
                 - INSTALL_XDEBUG=false
+                - INSTALL_PHPREDIS=false
                 - INSTALL_SOAP=false
                 - INSTALL_MONGO=false
                 - INSTALL_ZIP_ARCHIVE=false
