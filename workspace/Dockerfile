@@ -80,6 +80,7 @@ RUN if [ ${COMPOSER_GLOBAL_INSTALL} = true ]; then \
 USER root
 
 COPY ./crontab /etc/cron.d
+RUN chmod -R 644 /etc/cron.d
 
 #####################################
 # xDebug:
