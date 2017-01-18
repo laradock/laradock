@@ -87,7 +87,8 @@ Laradock is configured to run Laravel Apps by default, and it can be modified to
 		- [Install Prestissimo](#Install-Prestissimo)
 		- [Install Node + NVM](#Install-Node)
 		- [Install Node + YARN](#Install-Yarn)
-		- [Install Linuxbrew](#Install-Brew)
+		- [Install Linuxbrew](#Install-Linuxbrew)
+		- [Common Terminal Aliases](#Common-Aliases)
 		- [Debugging](#debugging)
 		- [Upgrading LaraDock](#upgrading-laradock)
 - [Related Projects](#related-projects)
@@ -189,12 +190,14 @@ That's it! enjoy :)
 		- PHP7-CLI
 		- Composer
 		- Git
+		- Linuxbrew
 		- Node
 		- Gulp
 		- SQLite
 		- xDebug
 		- Envoy
 		- Vim
+		- Yarn
 		- ... Many other supported tools are not documented. (Will be updated soon)
 
 >If you can't find your Software, build it yourself and add it to this list. Contributions are welcomed :)
@@ -410,7 +413,8 @@ You can select your own combination of Containers form the list below:
 ```bash
 docker-compose exec workspace bash
 ```
-Alternatively, for Windows Powershell users: execute the following command to enter any running container:
+
+Alternativey, for Windows Powershell users: execute the following command to enter any running container:
 
 ```bash
 docker exec -it {workspace-container-id} bash
@@ -1548,6 +1552,17 @@ It should be like this:
 
 3 - Re-build the container `docker-compose build workspace`
 
+
+
+
+
+<br>
+<a name="Common-Aliases"></a>
+<br>
+### Common Terminal Aliases
+When you start your docker container, Laradock will copy the `aliases.sh` file located in the `laradock/workspace` directory and add sourcing to the container `~/.bashrc` file.
+
+You are free to modify the `aliases.sh` as you see fit, adding your own aliases (or function macros) to suit your requirements.
 
 
 

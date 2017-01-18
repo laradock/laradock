@@ -83,6 +83,17 @@ COPY ./crontab /etc/cron.d
 RUN chmod -R 644 /etc/cron.d
 
 #####################################
+# User Aliases
+#####################################
+USER root
+
+COPY ./aliases.sh /home/laradock/aliases.sh
+RUN echo "" >> ~/.bashrc
+RUN echo "# Load Custom Aliases" >> ~/.bashrc
+RUN echo "source /home/laradock/aliases.sh" >> ~/.bashrc
+RUN echo "" >> ~/.bashrc
+
+#####################################
 # xDebug:
 #####################################
 
