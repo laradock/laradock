@@ -54,6 +54,7 @@ services:
                 - INSTALL_BCMATH=false
                 - INSTALL_MEMCACHED=false
                 - INSTALL_OPCACHE=false
+		- INSTALL_EXIF=false
                 - INSTALL_AEROSPIKE_EXTENSION=false
                 - CODEIGNITER=false
             dockerfile: Dockerfile-70
