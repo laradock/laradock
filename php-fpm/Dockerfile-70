@@ -60,6 +60,17 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     docker-php-ext-enable xdebug \
 ;fi
 
+#####################################
+# PHP REDIS EXTENSION FOR PHP 7.0
+#####################################
+ARG INSTALL_PHPREDIS=false
+RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
+    # Install Php Redis Extension
+    pecl install -o -f redis \
+    &&  rm -rf /tmp/pear \
+    &&  docker-php-ext-enable redis \
+;fi
+
 # Copy xdebug configration for remote debugging
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
@@ -116,6 +127,18 @@ RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
     && rm /tmp/memcached.tar.gz \
     && docker-php-ext-enable memcached \
 ;fi
+
+#####################################
+# Exif:
+#####################################
+
+ARG INSTALL_EXIF=false
+RUN if [ ${INSTALL_EXIF} = true ]; then \
+    # Enable Exif PHP extentions requirements
+    docker-php-ext-install exif && \
+    docker-php-ext-enable exif \
+;fi
+
 
 #####################################
 # PHP Aerospike:

@@ -79,7 +79,19 @@ RUN if [ ${COMPOSER_GLOBAL_INSTALL} = true ]; then \
 #####################################
 USER root
 
-COPY ./crontab /var/spool/cron/crontabs
+COPY ./crontab /etc/cron.d
+RUN chmod -R 644 /etc/cron.d
+
+#####################################
+# User Aliases
+#####################################
+USER root
+
+COPY ./aliases.sh /home/laradock/aliases.sh
+RUN echo "" >> ~/.bashrc
+RUN echo "# Load Custom Aliases" >> ~/.bashrc
+RUN echo "source /home/laradock/aliases.sh" >> ~/.bashrc
+RUN echo "" >> ~/.bashrc
 
 #####################################
 # xDebug:
@@ -289,6 +301,39 @@ RUN if [ ${INSTALL_LARAVEL_ENVOY} = true ]; then \
     echo "" >> ~/.bashrc && \
     echo 'export PATH="~/.composer/vendor/bin:$PATH"' >> ~/.bashrc \
     && composer global require "laravel/envoy=~1.0" \
+;fi
+
+#####################################
+# Linuxbrew:
+#####################################
+USER root
+
+ARG INSTALL_LINUXBREW=true
+ENV INSTALL_LINUXBREW ${INSTALL_LINUXBREW}
+
+RUN if [ ${INSTALL_LINUXBREW} = true ]; then \
+
+    # Preparation
+    apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y build-essential make cmake scons curl git \
+      ruby autoconf automake autoconf-archive \
+      gettext libtool flex bison \
+      libbz2-dev libcurl4-openssl-dev \
+      libexpat-dev libncurses-dev && \
+
+    # Install the Linuxbrew
+    git clone https://github.com/Homebrew/linuxbrew.git ~/.linuxbrew && \
+
+    echo "" >> ~/.bashrc && \
+    echo 'export PKG_CONFIG_PATH"=/usr/local/lib/pkgconfig:/usr/local/lib64/pkgconfig:/usr/lib64/pkgconfig:/usr/lib/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib64/pkgconfig:/usr/share/pkgconfig:$PKG_CONFIG_PATH"' >> ~/.bashrc && \
+
+    # Setup linuxbrew
+    echo 'export LINUXBREWHOME="$HOME/.linuxbrew"' >> ~/.bashrc && \
+    echo 'export PATH="$LINUXBREWHOME/bin:$PATH"' >> ~/.bashrc && \
+    echo 'export MANPATH="$LINUXBREWHOME/man:$MANPATH"' >> ~/.bashrc && \
+    echo 'export PKG_CONFIG_PATH="$LINUXBREWHOME/lib64/pkgconfig:$LINUXBREWHOME/lib/pkgconfig:$PKG_CONFIG_PATH"' >> ~/.bashrc && \
+    echo 'export LD_LIBRARY_PATH="$LINUXBREWHOME/lib64:$LINUXBREWHOME/lib:$LD_LIBRARY_PATH"' >> ~/.bashrc \
 ;fi
 
 #

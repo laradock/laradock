@@ -26,6 +26,7 @@ services:
                 - COMPOSER_GLOBAL_INSTALL=false
                 - INSTALL_WORKSPACE_SSH=false
                 - INSTALL_LARAVEL_ENVOY=false
+                - INSTALL_LINUXBREW=false
                 - PUID=1000
                 - PGID=1000
                 - NODE_VERSION=stable
@@ -53,6 +54,7 @@ services:
                 - INSTALL_BCMATH=false
                 - INSTALL_MEMCACHED=false
                 - INSTALL_OPCACHE=false
+                - INSTALL_EXIF=false
                 - INSTALL_AEROSPIKE_EXTENSION=false
                 - CODEIGNITER=false
             dockerfile: Dockerfile-70
@@ -118,7 +120,7 @@ services:
 ### MySQL Container #########################################
 
     mysql:
-        build: 
+        build:
             context: ./mysql
             args:
                 - MYSQL_DATABASE=homestead
@@ -135,7 +137,7 @@ services:
     mariadb:
         build: ./mariadb
         volumes:
-            - mysql:/var/lib/mysql
+            - mariadb:/var/lib/mysql
         ports:
             - "3306:3306"
         environment:
@@ -190,7 +192,7 @@ services:
             - "27017:27017"
         volumes:
             - mongo:/data/db
-            
+
 ### RethinkDB Container #######################################
 
     rethinkdb:
