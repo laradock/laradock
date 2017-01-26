@@ -4,11 +4,28 @@
 
 [![Gitter](https://badges.gitter.im/LaraDock/laradock.svg)](https://gitter.im/LaraDock/laradock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-Laradock is a Docker PHP development environment. It facilitate running **PHP** Apps on **Docker**. 
+Laradock is a Docker PHP development environment. It facilitate running **PHP** Apps on **Docker**.
+
+>Use Docker first and learn about it later.
+
+
+
+
+
+
+<a name="Intro"></a>
+## Intro
+
+Laradock strives to make the PHP development experience easier and faster.
+
+It contains pre-packaged Docker Images that provides you a wonderful *development* environment without requiring you to install PHP, NGINX, MySQL, REDIS, and any other software on your machines.
 
 Laradock is configured to run Laravel Apps by default, and it can be modified to run all kinds of PHP Apps (Symfony, CodeIgniter, Wordpress, Drupal...).
 
->Use Docker first and learn about it later.
+
+
+
+
 
 ## Contents
 
@@ -50,9 +67,12 @@ Laradock is configured to run Laravel Apps by default, and it can be modified to
 		- [Run Artisan Commands](#Run-Artisan-Commands)
 		- [Use Redis](#Use-Redis)
 		- [Use Mongo](#Use-Mongo)
-		- [Use phpMyAdmin](#Use-phpMyAdmin)
-		- [Use pgAdmin](#Use-pgAdmin)
+		- [Use PhpMyAdmin](#Use-phpMyAdmin)
+		- [Use PgAdmin](#Use-pgAdmin)
+		- [Use Beanstalkd](#Use-Beanstalkd)
 		- [Use ElasticSearch](#Use-ElasticSearch)
+		- [Use Selenium](#Use-Selenium)
+		- [Use RethinkDB](#Use-RethinkDB)
 	- [CodeIgniter](#CodeIgniter):
 		- [Install CodeIgniter](#Install-CodeIgniter)
 	- [Misc](#Misc)
@@ -67,6 +87,8 @@ Laradock is configured to run Laravel Apps by default, and it can be modified to
 		- [Install Prestissimo](#Install-Prestissimo)
 		- [Install Node + NVM](#Install-Node)
 		- [Install Node + YARN](#Install-Yarn)
+		- [Install Linuxbrew](#Install-Linuxbrew)
+		- [Common Terminal Aliases](#Common-Aliases)
 		- [Debugging](#debugging)
 		- [Upgrading LaraDock](#upgrading-laradock)
 - [Related Projects](#related-projects)
@@ -74,26 +96,40 @@ Laradock is configured to run Laravel Apps by default, and it can be modified to
 
 
 
-<a name="Intro"></a>
-## Intro
-
-Laradock strives to make the PHP development experience easier and faster.
-
-It contains pre-packaged Docker Images that provides you a wonderful *development* environment without requiring you to install PHP, NGINX, MySQL, REDIS, and any other software on your machines.
 
 
-**Usage Overview:** 
 
-Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL` and `Redis`. Then run `Laravel`.
+### Quick Overview:
 
-1. Get LaraDock inside your Laravel project: 
-<br>
-`git clone https://github.com/LaraDock/laradock.git`.
-2. Enter the laradock folder and run only these Containers: 
-<br>
-`docker-compose up -d nginx mysql redis`
-3. Open your `.env` file and set `DB_HOST` to `mysql` and `REDIS_HOST` to `redis`.
-4. Open your browser and visit the localhost: `http://localdock`
+Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL`, `Redis` and `Beanstalkd`:
+
+1 - Clone Laradock inside your PHP project:
+
+```shell
+git clone https://github.com/Laradock/laradock.git
+```
+
+2 - Enter the laradock folder and run this command:
+
+```shell
+docker-compose up -d nginx mysql redis beanstalkd
+```
+
+3 - Open your `.env` file and set the following:
+
+```shell
+DB_HOST=mysql
+REDIS_HOST=redis
+QUEUE_HOST=beanstalkd
+```
+
+4 - Open your browser and visi localhost: `http://localhost`.
+
+```shell
+That's it! enjoy :)
+```
+
+
 
 
 
@@ -115,6 +151,10 @@ Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL` and `Red
 - More to come every week..
 
 
+
+
+
+
 <a name="Supported-Containers"></a>
 ### Supported Software (Containers)
 
@@ -124,6 +164,7 @@ Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL` and `Red
 	- MariaDB
 	- MongoDB
 	- Neo4j
+	- RethinkDB
 - **Cache Engines:**
 	- Redis
 	- Memcached
@@ -136,16 +177,31 @@ Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL` and `Red
 	- PHP-FPM
 	- HHVM
 - **Message Queueing Systems:**
-	- Beanstalkd (+ Beanstalkd Console)
-	- RabbitMQ (+ RabbitMQ Console)
+	- Beanstalkd
+	- Beanstalkd Console
+	- RabbitMQ
+	- RabbitMQ Console
 - **Tools:**
-	- Workspace (PHP7-CLI, Composer, Git, Node, Gulp, SQLite, xDebug, Vim...)
 	- PhpMyAdmin
 	- PgAdmin
 	- ElasticSearch
-
+	- Selenium
+	- Workspace
+		- PHP7-CLI
+		- Composer
+		- Git
+		- Linuxbrew
+		- Node
+		- Gulp
+		- SQLite
+		- xDebug
+		- Envoy
+		- Vim
+		- Yarn
+		- ... Many other supported tools are not documented. (Will be updated soon)
 
 >If you can't find your Software, build it yourself and add it to this list. Contributions are welcomed :)
+
 
 
 
@@ -155,6 +211,10 @@ Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL` and `Red
 ### What is Docker?
 
 [Docker](https://www.docker.com) is an open-source project that automates the deployment of applications inside software containers, by providing an additional layer of abstraction and automation of [operating-system-level virtualization](https://en.wikipedia.org/wiki/Operating-system-level_virtualization) on Linux, Mac OS and Windows.
+
+
+
+
 
 
 <a name="why-docker-not-vagrant"></a>
@@ -167,6 +227,10 @@ Instead of providing a full Virtual Machines, like you get with Vagrant, Docker 
 In addition to the speed, Docker gives tons of features that cannot be achieved with Vagrant.
 
 Most importantly Docker can run on Development and on Production (same environment everywhere). While Vagrant is designed for Development only, (so you have to re-provision your server on Production every time).
+
+
+
+
 
 
 <a name="laradock-vs-homestead"></a>
@@ -186,6 +250,7 @@ Running a virtual Container is much faster than running a full virtual Machine. 
 
 
 
+
 <a name="Demo"></a>
 ## Demo Video
 
@@ -198,11 +263,17 @@ What's better than a **Demo Video**:
 
 
 
+
+
+
 <a name="Requirements"></a>
 ## Requirements
 
 - [Git](https://git-scm.com/downloads)
 - [Docker](https://www.docker.com/products/docker/) `>= 1.12`
+
+
+
 
 
 
@@ -249,7 +320,7 @@ Note: In this case the folder structure will be like this:
 	- myProject
 ```
 
-2 - Edit the `docker-compose.yml` file to map to your project directory once you have it (example: `- ../myProject:/var/www`). 
+2 - Edit the `docker-compose.yml` file to map to your project directory once you have it (example: `- ../myProject:/var/www`).
 
 3 - Stop and re-run your docker-compose command for the changes to take place.
 
@@ -301,9 +372,9 @@ Do the same for each project `project2.conf`, `project3.conf`,...
 
 
 
+
 <a name="Usage"></a>
 ## Usage
-
 
 **Read Before starting:**
 
@@ -333,9 +404,7 @@ docker-compose up -d nginx mysql
 
 You can select your own combination of Containers form the list below:
 
-`nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `rabbitmq`, `workspace`, `phpmyadmin`, `aerospike`, `pgadmin`, `elasticsearch`.
-
-
+`nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `rabbitmq`, `workspace`, `phpmyadmin`, `aerospike`, `pgadmin`, `elasticsearch`, `rethinkdb`.
 
 
 <br>
@@ -344,15 +413,14 @@ You can select your own combination of Containers form the list below:
 ```bash
 docker-compose exec workspace bash
 ```
-Alternatively, for Windows Powershell users: execute the following command to enter any running container:
+
+Alternativey, for Windows Powershell users: execute the following command to enter any running container:
 
 ```bash
 docker exec -it {workspace-container-id} bash
 ```
 
 **Note:** You can add `--user=laradock` (example `docker-compose exec --user=laradock workspace bash`) to have files created as your host's user. (you can change the PUID (User id) and PGID (group id) variables from the `docker-compose.yml`).
-
-
 
 <br>
 3 - Edit your project configurations.
@@ -365,13 +433,8 @@ DB_HOST=mysql
 
 *If you want to use Laravel and you don't have it installed yet, see [How to Install Laravel in a Docker Container](#Install-Laravel).*
 
-
-
-
 <br>
 4 - Open your browser and visit your localhost address (`http://localhost/`).
-
-
 
 <br>
 **Debugging**: if you are facing any problem here check the [Debugging](#debugging) section.
@@ -379,12 +442,22 @@ DB_HOST=mysql
 If you need a special support. Contact me, more details in the [Help & Questions](#Help) section.
 
 
+
+
+
+
 <br>
 <a name="Documentation"></a>
 ## Documentation
 
 
+
+
+
+
 <a name="Docker"></a>
+
+
 
 
 
@@ -399,6 +472,7 @@ You can also use the following command if you want to see only this project cont
 ```bash
 docker-compose ps
 ```
+
 
 
 
@@ -434,7 +508,6 @@ docker-compose down
 
 
 
-
 <br>
 <a name="Enter-Container"></a>
 ### Enter a Container (run commands in a running Container)
@@ -454,7 +527,6 @@ docker-compose exec mysql bash
 ```
 
 3 - To exit a container, type `exit`.
-
 
 
 
@@ -489,8 +561,6 @@ Change Redis defaut port to 1111:
 
 
 
-
-
 <br>
 <a name="Edit-a-Docker-Image"></a>
 ### Edit a Docker Image
@@ -507,8 +577,6 @@ example for `mysql` it will be `mysql/Dockerfile`.
 docker-compose build mysql
 ```
 More info on Containers rebuilding [here](#Build-Re-build-Containers).
-
-
 
 
 
@@ -536,14 +604,12 @@ You might use the `--no-cache` option if you want full rebuilding (`docker-compo
 
 
 
+
 <br>
 <a name="Add-Docker-Images"></a>
 ### Add more Software (Docker Images)
 
 To add an image (software), just edit the `docker-compose.yml` and add your container details, to do so you need to be familiar with the [docker compose file syntax](https://docs.docker.com/compose/compose-file/).
-
-
-
 
 
 
@@ -560,8 +626,6 @@ However to view the logs of all the other containers (MySQL, PHP-FPM,...) you ca
 ```bash
 docker logs {container-name}
 ```
-
-
 
 
 
@@ -590,15 +654,13 @@ The PHP-CLI extensions should be installed in `workspace/Dockerfile`.
 
 
 
-
-
-
 <br>
 <a name="Change-the-PHP-FPM-Version"></a>
 ### Change the (PHP-FPM) Version
 By default **PHP-FPM 7.0** is running.
 
 >The PHP-FPM is responsible of serving your application code, you don't have to change the PHP-CLI version if you are planning to run your application on different PHP-FPM version.
+
 
 #### A) Switch from PHP `7.0` to PHP `5.6`
 
@@ -646,12 +708,6 @@ We do not natively support PHP 5.5 anymore, but you can get it in few steps:
 
 
 
-
-
-
-
-
-
 <br>
 <a name="Change-the-PHP-CLI-Version"></a>
 ### Change the PHP-CLI Version
@@ -662,6 +718,8 @@ By default **PHP-CLI 7.0** is running.
 The PHP-CLI is installed in the Workspace container. To change the PHP-CLI version you need to edit the `workspace/Dockerfile`.
 
 Right now you have to manually edit the `Dockerfile` or create a new one like it's done for the PHP-FPM. (consider contributing).
+
+
 
 
 
@@ -712,6 +770,10 @@ xdebug.remote_connect_back=1
 For information on how to configure xDebug with your IDE and work it out, check this [Repository](https://github.com/LarryEitel/laravel-laradock-phpstorm).
 
 
+
+
+
+
 <br>
 <a name="Control-xDebug"></a>
 ### Start/Stop xDebug:
@@ -728,8 +790,11 @@ To control the behavior of xDebug (in the `php-fpm` Container), you can run the 
 
 
 
+
 <br>
 <a name="Production"></a>
+
+
 
 
 
@@ -738,7 +803,7 @@ To control the behavior of xDebug (in the `php-fpm` Container), you can run the 
 <a name="LaraDock-for-Production"></a>
 ### Prepare LaraDock for Production
 
-It's recommended for production to create a custom `docker-compose.yml` file. For that reason, LaraDock is shipped with `production-docker-compose.yml` which should contain only the containers you are planning to run on production (usage exampe: `docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...`). 
+It's recommended for production to create a custom `docker-compose.yml` file. For that reason, LaraDock is shipped with `production-docker-compose.yml` which should contain only the containers you are planning to run on production (usage exampe: `docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...`).
 
 Note: The Database (MySQL/MariaDB/...) ports should not be forwarded on production, because Docker will automatically publish the port on the host, which is quite insecure, unless specifically told not to. So make sure to remove these lines:
 
@@ -765,15 +830,10 @@ To learn more about how Docker publishes ports, please read [this excellent post
 
 
 
-
-
-
-
-
-
-
 <br>
 <a name="Laravel"></a>
+
+
 
 
 
@@ -819,6 +879,9 @@ cd my-cool-app
 
 
 
+
+
+
 <br>
 <a name="Run-Artisan-Commands"></a>
 ### Run Artisan Commands
@@ -857,6 +920,11 @@ Composer update
 ```bash
 phpunit
 ```
+
+
+
+
+
 
 <br>
 <a name="Use-Redis"></a>
@@ -905,6 +973,7 @@ composer require predis/predis:^1.0
 ```php
 \Cache::store('redis')->put('LaraDock', 'Awesome', 10);
 ```
+
 
 
 
@@ -1003,7 +1072,7 @@ More details about this [here](https://github.com/jenssegers/laravel-mongodb#ins
 
 <br>
 <a name="Use-phpMyAdmin"></a>
-### Use phpMyAdmin
+### Use PhpMyAdmin
 
 1 - Run the phpMyAdmin Container (`phpmyadmin`) with the `docker-compose up` command. Example:
 
@@ -1018,9 +1087,13 @@ docker-compose up -d mariadb phpmyadmin
 2 - Open your browser and visit the localhost on port **8080**:  `http://localhost:8080`
 
 
+
+
+
+
 <br>
 <a name="Use-pgAdmin"></a>
-### Use pgAdmin
+### Use PgAdmin
 
 1 - Run the pgAdmin Container (`pgadmin`) with the `docker-compose up` command. Example:
 
@@ -1031,11 +1104,57 @@ docker-compose up -d postgres pgadmin
 2 - Open your browser and visit the localhost on port **5050**:  `http://localhost:5050`
 
 
+
+
+
+
+<br>
+<a name="Use-Beanstalkd"></a>
+### Use Beanstalkd
+
+1 - Run the Beanstalkd Container:
+
+```bash
+docker-compose up -d beanstalkd
+```
+
+2 - Configure Laravel to connect to that container by editing the `config/queue.php` config file.
+
+a. first set `beanstalkd` as default queue driver
+b. set the queue host to beanstalkd : `QUEUE_HOST=beanstalkd`
+
+*beanstalkd is now available on default port `11300`.*
+
+3 - Require the dependecy package [pda/pheanstalk](https://github.com/pda/pheanstalk) using composer.
+
+
+Optionally you can use the Beanstalkd Console Container to manage your Queues from a web interface.
+
+1 - Run the Beanstalkd Console Container:
+
+```bash
+docker-compose up -d beanstalkd-console
+```
+
+2 - Open your browser and visit `http://localhost:2080/`
+
+3 - Add the server
+
+- Host: beanstalkd
+- Port: 11300
+
+4 - Done.
+
+
+
+
+
+
 <br>
 <a name="Use-ElasticSearch"></a>
 ### Use ElasticSearch
 
-1 - Run the ElasticSearch Container (`elasticsearch`) with the `docker-compose up` command. Example:
+1 - Run the ElasticSearch Container (`elasticsearch`) with the `docker-compose up` command:
 
 ```bash
 docker-compose up -d elasticsearch
@@ -1043,7 +1162,8 @@ docker-compose up -d elasticsearch
 
 2 - Open your browser and visit the localhost on port **9200**:  `http://localhost:9200`
 
-### Install ElasticSearch Plugin
+
+#### Install ElasticSearch Plugin
 
 1 - Install the ElasticSearch plugin like [delete-by-query](https://www.elastic.co/guide/en/elasticsearch/plugins/current/plugins-delete-by-query.html).
 
@@ -1062,15 +1182,77 @@ docker restart {container-name}
 
 
 
+<br>
+<a name="Use-Selenium"></a>
+### Use Selenium
+
+1 - Run the Selenium Container (`selenium`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d selenium
+```
+
+2 - Open your browser and visit the localhost on port **4444** at the following URL:  `http://localhost:4444/wd/hub`
+
+
+
+
+
+
+<br>
+<a name="Use-RethinkDB"></a>
+### Use RethinkDB
+
+The RethinkDB is an open-source Database for Real-time Web ([RethinkDB](https://rethinkdb.com/)).
+A package ([Laravel RethinkDB](https://github.com/duxet/laravel-rethinkdb)) is being developed and was released a version for Laravel 5.2 (experimental).
+
+1 - Run the RethinkDB Container (`rethinkdb`) with the `docker-compose up` command.
+
+```bash
+docker-compose up -d rethinkdb
+```
+
+2 - Access the RethinkDB Administration Console [http://localhost:8090/#tables](http://localhost:8090/#tables) for create a database called `database`.
+
+3 - Add the RethinkDB configurations to the `config/database.php` configuration file:
+
+```php
+'connections' => [
+
+	'rethinkdb' => [
+		'name'      => 'rethinkdb',
+		'driver'    => 'rethinkdb',
+		'host'      => env('DB_HOST', 'rethinkdb'),
+		'port'      => env('DB_PORT', 28015),
+		'database'  => env('DB_DATABASE', 'test'),
+	]
+
+	// ...
+
+],
+```
+
+4 - Open your Laravel's `.env` file and update the following variables:
+
+- set the `DB_CONNECTION` to your `rethinkdb`.
+- set the `DB_HOST` to `rethinkdb`.
+- set the `DB_PORT` to `28015`.
+- set the `DB_DATABASE` to `database`.
+
+
+
 
 
 
 <br>
 <a name="CodeIgniter"></a>
+
+
+
+
+
+
 <br>
-
-
-
 <a name="Install-CodeIgniter"></a>
 ### Install CodeIgniter
 
@@ -1094,8 +1276,8 @@ To install CodeIgniter 3 on Laradock all you have to do is the following simple 
 
 
 
-<br>
 
+<br>
 <a name="Change-the-timezone"></a>
 ### Change the timezone
 
@@ -1114,6 +1296,12 @@ For example, if I want the timezone to be `New York`:
 
 We also recommend [setting the timezone in Laravel](http://www.camroncade.com/managing-timezones-with-laravel/).
 
+
+
+
+
+
+<br>
 <a name="CronJobs"></a>
 ### Adding cron jobs
 
@@ -1128,9 +1316,15 @@ You can add your cron jobs to `workspace/crontab/root` after the `php artisan` l
 
 Make sure you [change the timezone](#Change-the-timezone) if you don't want to use the default (UTC).
 
+
+
+
+
+
+<br>
 <a name="Workspace-ssh"></a>
 ### Access workspace via ssh
- 
+
 You can access the `workspace` container through `localhost:2222` by setting the `INSTALL_WORKSPACE_SSH` build argument to `true`.
 
 To change the default forwarded port for ssh:
@@ -1142,6 +1336,12 @@ To change the default forwarded port for ssh:
     ...
 ```
 
+
+
+
+
+
+<br>
 <a name="MySQL-access-from-host"></a>
 ### MySQL access from host
 
@@ -1152,6 +1352,12 @@ ports:
     - "3306:3306"
 ```
 
+
+
+
+
+
+<br>
 <a name="MySQL-root-access"></a>
 ### MySQL root access
 
@@ -1166,18 +1372,29 @@ The default username and password for the root mysql user are `root` and `root `
 4 - Run any commands `show databases`, `show tables`, `select * from.....`.
 
 
+
+
+
+
+<br>
 <a name="Change-MySQL-port"></a>
 ### Change MySQL port
 
 Modify the `mysql/my.cnf` file to set your port number, `1234` is used as an example.
 
 ```
-[mysqld] 
+[mysqld]
 port=1234
 ```
 
 If you need <a href="#MySQL-access-from-host">MySQL access from your host</a>, do not forget to change the internal port number (`"3306:3306"` -> `"3306:1234"`) in the docker-compose configuration file.
 
+
+
+
+
+
+<br>
 <a name="Use-custom-Domain"></a>
 ### Use custom Domain (instead of the Docker IP)
 
@@ -1197,6 +1414,9 @@ Optionally you can define the server name in the nginx configuration file, like 
 ```conf
 server_name laravel.dev;
 ```
+
+
+
 
 
 
@@ -1227,6 +1447,8 @@ It should be like this:
 
 
 
+
+
 <br>
 <a name="Install-Prestissimo"></a>
 ### Install Prestissimo
@@ -1244,6 +1466,8 @@ a - Now open the `workspace/composer.json` file
 b - Add `"hirak/prestissimo": "^0.3"` as requirement
 
 c - Re-build the Workspace Container `docker-compose build workspace`
+
+
 
 
 
@@ -1271,6 +1495,11 @@ It should be like this:
 
 3 - Re-build the container `docker-compose build workspace`
 
+
+
+
+
+
 <br>
 <a name="Install-Yarn"></a>
 ### Install Node + YARN
@@ -1294,6 +1523,50 @@ It should be like this:
 ```
 
 3 - Re-build the container `docker-compose build workspace`
+
+
+
+
+
+
+<br>
+<a name="Install-Linuxbrew"></a>
+### Install Linuxbrew
+
+Linuxbrew is a package manager for Linux. It is the Linux version of MacOS Homebrew and can be found [here](http://linuxbrew.sh). To install Linuxbrew in the Workspace container:
+
+1 - Open the `docker-compose.yml` file
+
+2 - Search for the `INSTALL_LINUXBREW` argument under the Workspace Container and set it to `true`
+
+It should be like this:
+
+```yml
+    workspace:
+        build:
+            context: ./workspace
+            args:
+                - INSTALL_LINUXBREW=true
+    ...
+```
+
+3 - Re-build the container `docker-compose build workspace`
+
+
+
+
+
+<br>
+<a name="Common-Aliases"></a>
+<br>
+### Common Terminal Aliases
+When you start your docker container, Laradock will copy the `aliases.sh` file located in the `laradock/workspace` directory and add sourcing to the container `~/.bashrc` file.
+
+You are free to modify the `aliases.sh` as you see fit, adding your own aliases (or function macros) to suit your requirements.
+
+
+
+
 
 <br>
 <a name="Install-Aerospike-Extension"></a>
@@ -1330,8 +1603,49 @@ It should be like this:
 
 2 - Re-build the containers `docker-compose build workspace php-fpm`
 
+
+
+
+
+
+<br>
+<a name="Install-Laravel-Envoy"></a>
+### Install Laravel Envoy (Envoy Task Runner)
+
+1 - Open the `docker-compose.yml` file
+<br>
+2 - Search for the `INSTALL_LARAVEL_ENVOY` argument under the Workspace Container
+<br>
+3 - Set it to `true`
+<br>
+
+It should be like this:
+
+```yml
+    workspace:
+        build:
+            context: ./workspace
+            args:
+                - INSTALL_LARAVEL_ENVOY=true
+    ...
+```
+
+4 - Re-build the containers `docker-compose build workspace`
+
+####[Laravel Envoy Documentation Here](https://laravel.com/docs/5.3/envoy)
+
+
+
+
+
+
 <br>
 <a name="debugging"></a>
+
+
+
+
+
 
 ### PHPStorm
 Remote debug Laravel web and phpunit tests.
@@ -1342,10 +1656,17 @@ Remote debug Laravel web and phpunit tests.
 <br>
 <a name="Misc"></a>
 
+
+
+
+
+
 ### Miscellaneous
 
-
 *Here's a list of the common problems you might face, and the possible solutions.*
+
+
+
 
 
 
@@ -1358,9 +1679,16 @@ sudo chmod -R 777 storage bootstrap/cache
 ```
 
 
+
+
+
+
 #### I see "Welcome to nginx" instead of the Laravel App!
 
 Use `http://127.0.0.1` instead of `http://localhost` in your browser.
+
+
+
 
 
 
@@ -1370,12 +1698,26 @@ Make sure the ports for the services that you are trying to run (22, 80, 443, 33
 
 
 
+
+
+
 #### I get Nginx error 404 Not Found on Windows.
 
-1. Go to docker Settings on your Windows machine. 
+1. Go to docker Settings on your Windows machine.
 2. Click on the `Shared Drives` tab and check the drive that contains your project files.
 3. Enter your windows username and password.
 4. Go to the `reset` tab and click restart docker.
+
+
+
+
+#### The time in my services does not match the current time
+
+1. Make sure you've [changed the timezone](#Change-the-timezone).
+2. Stop and rebuild the containers (`docker-compose up -d --build <services>`)
+
+
+
 
 #### I get Mysql connection refused
 
@@ -1390,10 +1732,11 @@ This error sometimes happens because your Laravel application isn't running on t
 
 
 
+
+
 <br>
 <a name="upgrading-laradock"></a>
 ### Upgrading LaraDock
-
 
 Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requires upgrading LaraDock from v3.* to v4.*:
 
@@ -1402,10 +1745,9 @@ Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requ
 3. Upgrade LaraDock to `v4.*.*` (`git pull origin master`)
 4. Use LaraDock as you used to do: `docker-compose up -d nginx mysql`.
 
-**Note:** If you face any problem with the last step above: rebuild all your containers 
+**Note:** If you face any problem with the last step above: rebuild all your containers
 `docker-compose build --no-cache`
 "Warnning Containers Data might be lost!"
-
 
 
 
@@ -1418,6 +1760,11 @@ Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requ
 This little project was built by one man who has a full time job and many responsibilities, so if you like this project and you find that it needs a bug fix or support for new software or upgrade any container, or anything else, do not hesitate to contribute, you are more than welcome :)
 
 #### Read the [Contribution Guidelines](https://github.com/LaraDock/laradock/blob/master/CONTRIBUTING.md).
+
+
+
+
+
 
 <br>
 <a name="related-projects"></a>
@@ -1436,6 +1783,11 @@ These Docker Compose projects have piqued our interest:
 
 If you want your project listed here, please open an issue.
 
+
+
+
+
+
 <br>
 <a name="Help"></a>
 ## Help & Questions
@@ -1449,40 +1801,25 @@ For special help with Docker and/or Laravel, you can schedule a live call with t
 
 
 
+
+
 ## Credits
 
-**Creator:**
+**Super Admins:**
 
-- [Mahmoud Zalt](https://github.com/Mahmoudz)  [ [Twitter](https://twitter.com/Mahmoud_Zalt) | [Personal Site](http://zalt.me) | [Linkedin](https://www.linkedin.com/in/mahmoudzalt) ]
-
-**Admins:**
-
+- [Mahmoud Zalt](https://github.com/Mahmoudz) (mahmoudz)  [ [Twitter](https://twitter.com/Mahmoud_Zalt) | [Personal Site](http://zalt.me) | [Linkedin](https://www.linkedin.com/in/mahmoudzalt) ]
 - [Bo-Yi Wu](https://github.com/appleboy) (appleboy)
 - [Philippe Trépanier](https://github.com/philtrep) (philtrep)
+- YOU?! Join Us.
 
-**Main Contributors:**
-
-- [Francis Lavoie](https://github.com/francislavoie) (francislavoie)
-- [luciano-jr](https://github.com/luciano-jr)
-- [Zhqagp](https://github.com/zhqagp)
-- [Tim B.](https://github.com/tjb328) (tjb328)
-- [MidasCodeBreaker](https://github.com/midascodebreaker)
-- [Larry Eitel](https://github.com/LarryEitel)
-- [Suteepat](https://github.com/tianissimo) (tianissimo)
-- [David](https://github.com/davidavz) (davidavz)
-- [Lialosiu](https://github.com/lialosiu)
-- [Eric Pfeiffer](https://github.com/computerfr33k) (computerfr33k)
-- [Orette](https://github.com/orette)
-- [Jack Fletcher](https://github.com/Kauhat) (Kauhat)
-- [Amin Mkh](https://github.com/AminMkh)
-- [Matthew Tonkin Dunn](https://github.com/mattythebatty) (mattythebatty)
-- [Zhivitsa Kirill](https://github.com/zhikiri) (zhikiri)
-- [Benmag](https://github.com/benmag)
-
-**Other Contributors & Supporters:**
+**Amazing Contributors:**
 
 - [Contributors](https://github.com/LaraDock/laradock/graphs/contributors)
-- [Supporters](https://github.com/LaraDock/laradock/issues?utf8=%E2%9C%93&q=)
+
+
+
+
+
 
 ## License
 
