@@ -85,13 +85,19 @@ RUN chmod -R 644 /etc/cron.d
 #####################################
 # User Aliases
 #####################################
-USER root
 
+USER laradock
 COPY ./aliases.sh /home/laradock/aliases.sh
-RUN echo "" >> ~/.bashrc
-RUN echo "# Load Custom Aliases" >> ~/.bashrc
-RUN echo "source /home/laradock/aliases.sh" >> ~/.bashrc
-RUN echo "" >> ~/.bashrc
+RUN echo "" >> ~/.bashrc && \
+    echo "# Load Custom Aliases" >> ~/.bashrc && \
+    echo "source /home/laradock/aliases.sh" >> ~/.bashrc && \
+    echo "" >> ~/.bashrc
+    
+USER root
+RUN echo "" >> ~/.bashrc && \
+    echo "# Load Custom Aliases" >> ~/.bashrc && \
+    echo "source /home/laradock/aliases.sh" >> ~/.bashrc && \
+    echo "" >> ~/.bashrc
 
 #####################################
 # xDebug:
