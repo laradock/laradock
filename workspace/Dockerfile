@@ -308,7 +308,7 @@ ENV INSTALL_LARAVEL_ENVOY ${INSTALL_LARAVEL_ENVOY}
 
 RUN if [ ${INSTALL_LARAVEL_ENVOY} = true ]; then \
     # Install the Laravel Envoy
-    composer global require "laravel/envoy=~1.0"
+    composer global require "laravel/envoy=~1.0" \
 ;fi
 
 #####################################
