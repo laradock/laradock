@@ -312,6 +312,19 @@ RUN if [ ${INSTALL_LARAVEL_ENVOY} = true ]; then \
 ;fi
 
 #####################################
+# Deployer:
+#####################################
+USER laradock
+
+ARG INSTALL_DEPLOYER=true
+ENV INSTALL_DEPLOYER ${INSTALL_DEPLOYER}
+
+RUN if [ ${INSTALL_DEPLOYER} = true ]; then \
+    # Install the Deployer
+    composer global require "deployer/deployer" \
+;fi
+
+#####################################
 # Linuxbrew:
 #####################################
 USER root
