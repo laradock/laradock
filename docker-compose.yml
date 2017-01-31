@@ -26,6 +26,7 @@ services:
                 - COMPOSER_GLOBAL_INSTALL=false
                 - INSTALL_WORKSPACE_SSH=false
                 - INSTALL_LARAVEL_ENVOY=false
+                - INSTALL_DEPLOYER=false
                 - INSTALL_LINUXBREW=false
                 - PUID=1000
                 - PGID=1000

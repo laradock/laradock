@@ -89,6 +89,7 @@ Laradock is configured to run Laravel Apps by default, and it can be modified to
 		- [Install Node + YARN](#Install-Yarn)
 		- [Install Linuxbrew](#Install-Linuxbrew)
 		- [Common Terminal Aliases](#Common-Aliases)
+		- [Install Deployer](#Install-Deployer)
 		- [Debugging](#debugging)
 		- [Upgrading LaraDock](#upgrading-laradock)
 - [Related Projects](#related-projects)
@@ -196,6 +197,7 @@ That's it! enjoy :)
 		- SQLite
 		- xDebug
 		- Envoy
+		- Deployer
 		- Vim
 		- Yarn
 		- ... Many other supported tools are not documented. (Will be updated soon)
@@ -1637,14 +1639,39 @@ It should be like this:
 
 
 
+<br>
+
+<a name="Install-Deployer"></a>
+### Install Deployer (Deployment tool for PHP)
+
+1 - Open the `docker-compose.yml` file
+<br>
+2 - Search for the `INSTALL_DEPLOYER` argument under the Workspace Container
+<br>
+3 - Set it to `true`
+<br>
+
+It should be like this:
+
+```yml
+    workspace:
+        build:
+            context: ./workspace
+            args:
+                - INSTALL_DEPLOYER=true
+    ...
+```
+
+4 - Re-build the containers `docker-compose build workspace`
+
+####[Deployer Documentation Here](https://deployer.org/docs)
+
 
 
 <br>
+
+
 <a name="debugging"></a>
-
-
-
-
 
 
 ### PHPStorm
