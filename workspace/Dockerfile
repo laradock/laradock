@@ -316,7 +316,7 @@ RUN if [ ${INSTALL_LARAVEL_ENVOY} = true ]; then \
 #####################################
 USER laradock
 
-ARG INSTALL_DEPLOYER=true
+ARG INSTALL_DEPLOYER=false
 ENV INSTALL_DEPLOYER ${INSTALL_DEPLOYER}
 
 RUN if [ ${INSTALL_DEPLOYER} = true ]; then \
