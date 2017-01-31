@@ -89,6 +89,7 @@ Laradock is configured to run Laravel Apps by default, and it can be modified to
 		- [Install Node + YARN](#Install-Yarn)
 		- [Install Linuxbrew](#Install-Linuxbrew)
 		- [Common Terminal Aliases](#Common-Aliases)
+		- [Install Deployer](#Install-Deployer)
 		- [Debugging](#debugging)
 		- [Upgrading LaraDock](#upgrading-laradock)
 - [Related Projects](#related-projects)
@@ -196,6 +197,7 @@ That's it! enjoy :)
 		- SQLite
 		- xDebug
 		- Envoy
+		- Deployer
 		- Vim
 		- Yarn
 		- ... Many other supported tools are not documented. (Will be updated soon)
