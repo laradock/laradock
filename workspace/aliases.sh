@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 # Colors used for status updates
 ESC_SEQ="\x1b["
