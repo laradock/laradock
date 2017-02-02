@@ -945,7 +945,7 @@ b) add a new service container by simply copy-paste this section below PHP-FPM c
         context: ./php-fpm
         dockerfile: Dockerfile-70 # or Dockerfile-56, choose your PHP-FPM container setting
       volumes_from:
-        - application
+        - applications
       command: php artisan queue:work
 ```
 2 - Start everything up
