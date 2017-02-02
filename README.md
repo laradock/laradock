@@ -65,6 +65,7 @@ Laradock is configured to run Laravel Apps by default, and it can be modified to
 	- [Laravel](#Laravel):
 		- [Install Laravel from a Docker Container](#Install-Laravel)
 		- [Run Artisan Commands](#Run-Artisan-Commands)
+		- [Run Laravel Queue Worker](#Run-Laravel-Queue-Worker)
 		- [Use Redis](#Use-Redis)
 		- [Use Mongo](#Use-Mongo)
 		- [Use PhpMyAdmin](#Use-phpMyAdmin)
@@ -927,6 +928,31 @@ phpunit
 
 
 
+
+<br>
+<a name="Run-Laravel-Queue-Worker"></a>
+### Run Laravel Queue Worker
+
+1 - First add `php-worker` container. It will be similar as like PHP-FPM Containter.
+<br>
+a) open the `docker-compose.yml` file
+<br>
+b) add a new service container by simply copy-paste this section below PHP-FPM container
+
+```yaml
+    php-worker:
+      build:
+        context: ./php-fpm
+        dockerfile: Dockerfile-70 # or Dockerfile-56, choose your PHP-FPM container setting
+      volumes_from:
+        - application
+      command: php artisan queue:work
+```
+2 - Start everything up
+
+```bash
+docker-compose up -d php-worker
+```
 
 <br>
 <a name="Use-Redis"></a>
