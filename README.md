@@ -1837,7 +1837,8 @@ For special help with Docker and/or Laravel, you can schedule a live call with t
 - [Mahmoud Zalt](https://github.com/Mahmoudz) (mahmoudz)  [ [Twitter](https://twitter.com/Mahmoud_Zalt) | [Personal Site](http://zalt.me) | [Linkedin](https://www.linkedin.com/in/mahmoudzalt) ]
 - [Bo-Yi Wu](https://github.com/appleboy) (appleboy)
 - [Philippe Trépanier](https://github.com/philtrep) (philtrep)
-- YOU?! Join Us.
+- [Mike Erickson](https://github.com/mikeerickson) (mikeerickson)
+- Join Us!
 
 **Amazing Contributors:**
 
