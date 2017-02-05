@@ -59,6 +59,7 @@ Laradock is configured to run Laravel Apps by default, and it can be modified to
 		- [Change the PHP-CLI Version](#Change-the-PHP-CLI-Version)
 		- [Install xDebug](#Install-xDebug)
 		    - [Start/Stop xDebug](#Control-xDebug)
+		- [Install Deployer](#Install-Deployer)
 	- [Production](#Production)
 		- [Prepare LaraDock for Production](#LaraDock-for-Production)
 		- [Setup Laravel and Docker on Digital Ocean](#Digital-Ocean)
@@ -90,12 +91,14 @@ Laradock is configured to run Laravel Apps by default, and it can be modified to
 		- [Install Node + YARN](#Install-Yarn)
 		- [Install Linuxbrew](#Install-Linuxbrew)
 		- [Common Terminal Aliases](#Common-Aliases)
-		- [Install Deployer](#Install-Deployer)
-		- [Debugging](#debugging)
+		- [Install Aerospike extension](#Install-Aerospike-Extension)
+		- [Install Laravel Envoy](#Install-Laravel-Envoy)
+		- [PHPStorm Debugging Guide](#phpstorm-debugging)
+		- [Keep track of your Laradock changes](#keep-tracking-Laradock)
 		- [Upgrading LaraDock](#upgrading-laradock)
+	- [Common Problems](#Common-Problems)
 - [Related Projects](#related-projects)
 - [Help & Questions](#Help)
-
 
 
 
@@ -279,7 +282,6 @@ What's better than a **Demo Video**:
 
 
 
-
 <a name="Installation"></a>
 ## Installation
 
@@ -294,11 +296,14 @@ Choose the setup the best suits your needs.
 1 - Clone this repository on your project root directory:
 
 ```bash
-git submodule add https://github.com/LaraDock/laradock.git
+git submodule add https://github.com/Laradock/laradock.git
 ```
->If you are not already using Git for your PHP project, you can use `git clone` instead of `git submodule`.
 
-Note: In this case the folder structure will be like this:
+*Note 1: If you are not yet using Git for your PHP project, you can use `git clone https://github.com/Laradock/laradock.git` instead.*
+
+*Note 2: To keep track of your Laradock changes, between your projects and also keep Laradock updated. [Check this](#keep-tracking-Laradock)*
+
+*Note 3: In this case the folder structure will be like this:*
 
 ```
 - project1
@@ -789,6 +794,36 @@ To control the behavior of xDebug (in the `php-fpm` Container), you can run the 
 - Start xDebug by default: `./xdebugPhpFpm start`.
 - See the status: `./xdebugPhpFpm status`.
 
+
+
+
+
+
+<br>
+<a name="Install-Deployer"></a>
+### Install Deployer (Deployment tool for PHP)
+
+1 - Open the `docker-compose.yml` file
+<br>
+2 - Search for the `INSTALL_DEPLOYER` argument under the Workspace Container
+<br>
+3 - Set it to `true`
+<br>
+
+It should be like this:
+
+```yml
+    workspace:
+        build:
+            context: ./workspace
+            args:
+                - INSTALL_DEPLOYER=true
+    ...
+```
+
+4 - Re-build the containers `docker-compose build workspace`
+
+######[Deployer Documentation Here](https://deployer.org/docs)
 
 
 
@@ -1299,6 +1334,7 @@ To install CodeIgniter 3 on Laradock all you have to do is the following simple 
 
 <br>
 <a name="Misc"></a>
+## Miscellaneous
 
 
 
@@ -1660,127 +1696,36 @@ It should be like this:
 
 4 - Re-build the containers `docker-compose build workspace`
 
-####[Laravel Envoy Documentation Here](https://laravel.com/docs/5.3/envoy)
+######[Laravel Envoy Documentation Here](https://laravel.com/docs/5.3/envoy)
 
 
 
 
-<br>
-
-<a name="Install-Deployer"></a>
-### Install Deployer (Deployment tool for PHP)
-
-1 - Open the `docker-compose.yml` file
-<br>
-2 - Search for the `INSTALL_DEPLOYER` argument under the Workspace Container
-<br>
-3 - Set it to `true`
-<br>
-
-It should be like this:
-
-```yml
-    workspace:
-        build:
-            context: ./workspace
-            args:
-                - INSTALL_DEPLOYER=true
-    ...
-```
-
-4 - Re-build the containers `docker-compose build workspace`
-
-####[Deployer Documentation Here](https://deployer.org/docs)
 
 
 
 <br>
-
-
-<a name="debugging"></a>
-
-
-### PHPStorm
+<a name="phpstorm-debugging"></a>
+### PHPStorm Debugging Guide
 Remote debug Laravel web and phpunit tests.
 
-####[Full Guide Here](https://github.com/LaraDock/laradock/blob/master/_guides/phpstorm.md)
+######[Debugging Guide Here](https://github.com/LaraDock/laradock/blob/master/_guides/phpstorm.md)
 
 
-<br>
-<a name="Misc"></a>
-
-
-
-
-
-
-### Miscellaneous
-
-*Here's a list of the common problems you might face, and the possible solutions.*
 
 
 
 
 
 
-#### I see a blank (white) page instead of the Laravel 'Welcome' page!
+<br>
+<a name="keep-tracking-Laradock"></a>
+### Keep track of your Laradock changes
 
-Run the following command from the Laravel root directory:
-
-```bash
-sudo chmod -R 777 storage bootstrap/cache
-```
-
-
-
-
-
-
-#### I see "Welcome to nginx" instead of the Laravel App!
-
-Use `http://127.0.0.1` instead of `http://localhost` in your browser.
-
-
-
-
-
-
-#### I see an error message containing `address already in use` or `port is already allocated`
-
-Make sure the ports for the services that you are trying to run (22, 80, 443, 3306, etc.) are not being used already by other programs on the host, such as a built in `apache`/`httpd` service or other development tools you have installed.
-
-
-
-
-
-
-#### I get Nginx error 404 Not Found on Windows.
-
-1. Go to docker Settings on your Windows machine.
-2. Click on the `Shared Drives` tab and check the drive that contains your project files.
-3. Enter your windows username and password.
-4. Go to the `reset` tab and click restart docker.
-
-
-
-
-#### The time in my services does not match the current time
-
-1. Make sure you've [changed the timezone](#Change-the-timezone).
-2. Stop and rebuild the containers (`docker-compose up -d --build <services>`)
-
-
-
-
-#### I get Mysql connection refused
-
-This error sometimes happens because your Laravel application isn't running on the container localhost IP (Which is 127.0.0.1). Steps to fix it:
-
-* Option A
-  1. Check your running Laravel application IP by dumping `Request::ip()` variable using `dd(Request::ip())` anywhere on your application. The result is the IP of your Laravel container.
-  2. Change the `DB_HOST` variable on env with the IP that you received from previous step.
-* Option B
-   1. Change the `DB_HOST` value to the same name as the mysql docker container. The Laradock docker-compose file currently has this as `mysql`
+1. Fork the Lardock repository.
+2. Use that fork as a submodule.
+3. Commit all your changes to your fork.
+4. Pull new stuff from the main repo from time to time.
 
 
 
@@ -1801,6 +1746,84 @@ Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requ
 **Note:** If you face any problem with the last step above: rebuild all your containers
 `docker-compose build --no-cache`
 "Warnning Containers Data might be lost!"
+
+
+
+
+
+
+<br>
+<a name="Common-Problems"></a>
+## Common Problems 
+
+*Here's a list of the common problems you might face, and the possible solutions.*
+
+
+
+
+
+
+<br>
+#### I see a blank (white) page instead of the Laravel 'Welcome' page!
+
+Run the following command from the Laravel root directory:
+
+```bash
+sudo chmod -R 777 storage bootstrap/cache
+```
+
+
+
+
+
+<br>
+#### I see "Welcome to nginx" instead of the Laravel App!
+
+Use `http://127.0.0.1` instead of `http://localhost` in your browser.
+
+
+
+
+
+<br>
+#### I see an error message containing `address already in use` or `port is already allocated`
+
+Make sure the ports for the services that you are trying to run (22, 80, 443, 3306, etc.) are not being used already by other programs on the host, such as a built in `apache`/`httpd` service or other development tools you have installed.
+
+
+
+
+
+<br>
+#### I get Nginx error 404 Not Found on Windows.
+
+1. Go to docker Settings on your Windows machine.
+2. Click on the `Shared Drives` tab and check the drive that contains your project files.
+3. Enter your windows username and password.
+4. Go to the `reset` tab and click restart docker.
+
+
+
+
+<br>
+#### The time in my services does not match the current time
+
+1. Make sure you've [changed the timezone](#Change-the-timezone).
+2. Stop and rebuild the containers (`docker-compose up -d --build <services>`)
+
+
+
+<br>
+#### I get Mysql connection refused
+
+This error sometimes happens because your Laravel application isn't running on the container localhost IP (Which is 127.0.0.1). Steps to fix it:
+
+* Option A
+  1. Check your running Laravel application IP by dumping `Request::ip()` variable using `dd(Request::ip())` anywhere on your application. The result is the IP of your Laravel container.
+  2. Change the `DB_HOST` variable on env with the IP that you received from previous step.
+* Option B
+   1. Change the `DB_HOST` value to the same name as the mysql docker container. The Laradock docker-compose file currently has this as `mysql`
+
 
 
 
