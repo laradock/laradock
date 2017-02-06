@@ -794,6 +794,8 @@ To control the behavior of xDebug (in the `php-fpm` Container), you can run the 
 - Start xDebug by default: `./xdebugPhpFpm start`.
 - See the status: `./xdebugPhpFpm status`.
 
+Note: If `./xdebugPhpFpm` doesnt execute and gives `Permission Denied` error the problem can be that file `xdebugPhpFpm` doesnt have execution access.
+  This can be fixed by running `chmod` command  with desired access permissions.
 
 
 
