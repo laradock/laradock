@@ -18,9 +18,9 @@ Laradock is a Docker PHP development environment. It facilitate running **PHP** 
 
 Laradock strives to make the PHP development experience easier and faster.
 
-It contains pre-packaged Docker Images that provides you a wonderful *development* environment without requiring you to install PHP, NGINX, MySQL, REDIS, and any other software on your machines.
+It contains pre-packaged Docker Images that provides you a wonderful *development* environment without requiring you to install PHP, NGINX, MySQL, Redis, and any other software on your machines.
 
-Laradock is configured to run Laravel Apps by default, and it can be modified to run all kinds of PHP Apps (Symfony, CodeIgniter, Wordpress, Drupal...).
+Laradock is configured to run Laravel Apps by default, and it can be modified to run all kinds of PHP Apps (Symfony, CodeIgniter, WordPress, Drupal...).
 
 
 
@@ -31,7 +31,7 @@ Laradock is configured to run Laravel Apps by default, and it can be modified to
 
 - [Readme Languages](#)
 	- [English (Default)](#)
-	- [Chinese](https://github.com/LaraDock/laradock/blob/master/README-zh.md)
+	- [Chinese](https://github.com/laradock/laradock/blob/master/README-zh.md)
 - [Intro](#Intro)
 	- [Features](#features)
 	- [Supported Software](#Supported-Containers)
@@ -61,7 +61,7 @@ Laradock is configured to run Laravel Apps by default, and it can be modified to
 		    - [Start/Stop xDebug](#Control-xDebug)
 		- [Install Deployer](#Install-Deployer)
 	- [Production](#Production)
-		- [Prepare LaraDock for Production](#LaraDock-for-Production)
+		- [Prepare Laradock for Production](#Laradock-for-Production)
 		- [Setup Laravel and Docker on Digital Ocean](#Digital-Ocean)
 	- [Laravel](#Laravel):
 		- [Install Laravel from a Docker Container](#Install-Laravel)
@@ -79,7 +79,7 @@ Laradock is configured to run Laravel Apps by default, and it can be modified to
 		- [Install CodeIgniter](#Install-CodeIgniter)
 	- [Misc](#Misc)
 		- [Change the timezone](#Change-the-timezone)
-		- [Cron jobs](#CronJobs)
+		- [Adding cron jobs](#CronJobs)
 		- [Access workspace via ssh](#Workspace-ssh)
 		- [MySQL access from host](#MySQL-access-from-host)
 		- [MySQL root access](#MySQL-root-access)
@@ -95,7 +95,7 @@ Laradock is configured to run Laravel Apps by default, and it can be modified to
 		- [Install Laravel Envoy](#Install-Laravel-Envoy)
 		- [PHPStorm Debugging Guide](#phpstorm-debugging)
 		- [Keep track of your Laradock changes](#keep-tracking-Laradock)
-		- [Upgrading LaraDock](#upgrading-laradock)
+		- [Upgrading Laradock](#upgrading-laradock)
 	- [Common Problems](#Common-Problems)
 - [Related Projects](#related-projects)
 - [Help & Questions](#Help)
@@ -106,7 +106,7 @@ Laradock is configured to run Laravel Apps by default, and it can be modified to
 
 ### Quick Overview:
 
-Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL`, `Redis` and `Beanstalkd`:
+Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL`, `Redis` and `beanstalkd`:
 
 1 - Clone Laradock inside your PHP project:
 
@@ -128,7 +128,7 @@ REDIS_HOST=redis
 QUEUE_HOST=beanstalkd
 ```
 
-4 - Open your browser and visi localhost: `http://localhost`.
+4 - Open your browser and visit localhost: `http://localhost`.
 
 ```shell
 That's it! enjoy :)
@@ -145,11 +145,11 @@ That's it! enjoy :)
 - Choose your favorite database engine: MySQL, Postgres, MariaDB...
 - Run your own combination of software: Memcached, HHVM, Beanstalkd...
 - Every software runs on a separate container: PHP-FPM, NGINX, PHP-CLI...
-- Easy to customize any container, with simple edit to the `dockerfile`.
+- Easy to customize any container, with simple edit to the `Dockerfile`.
 - All Images extends from an official base Image. (Trusted base Images).
-- Pre-configured Nginx for Laravel.
+- Pre-configured NGINX for Laravel.
 - Easy to apply configurations inside containers.
-- Clean and well structured Dockerfiles (`dockerfile`).
+- Clean and well structured Dockerfiles (`Dockerfile`).
 - Latest version of the Docker Compose file (`docker-compose`).
 - Everything is visible and editable.
 - Fast Images Builds.
@@ -181,7 +181,7 @@ That's it! enjoy :)
 - **PHP Compilers:**
 	- PHP-FPM
 	- HHVM
-- **Message Queueing Systems:**
+- **Message Queuing Systems:**
 	- Beanstalkd
 	- Beanstalkd Console
 	- RabbitMQ
@@ -248,9 +248,9 @@ Laradock and [Homestead](https://laravel.com/docs/master/homestead) both give yo
 
 - Homestead is a tool that controls Vagrant for you (using Homestead special commands). And Vagrant manages your Virtual Machine.
 
-- LaraDock is a tool that controls Docker for you (using Docker & Docker Compose official commands). And Docker manages your Virtual Containers.
+- Laradock is a tool that controls Docker for you (using Docker & Docker Compose official commands). And Docker manages your Virtual Containers.
 
-Running a virtual Container is much faster than running a full virtual Machine. Thus **LaraDock is much faster than Homestead**.
+Running a virtual container is much faster than running a full virtual Machine. Thus **Laradock is much faster than Homestead**.
 
 
 
@@ -262,10 +262,10 @@ Running a virtual Container is much faster than running a full virtual Machine. 
 
 What's better than a **Demo Video**:
 
-- LaraDock [v4.*](https://www.youtube.com/watch?v=TQii1jDa96Y)
-- LaraDock [v2.*](https://www.youtube.com/watch?v=-DamFMczwDA)
-- LaraDock [v0.3](https://www.youtube.com/watch?v=jGkyO6Is_aI)
-- LaraDock [v0.1](https://www.youtube.com/watch?v=3YQsHe6oF80)
+- Laradock [v4.*](https://www.youtube.com/watch?v=TQii1jDa96Y)
+- Laradock [v2.*](https://www.youtube.com/watch?v=-DamFMczwDA)
+- Laradock [v0.3](https://www.youtube.com/watch?v=jGkyO6Is_aI)
+- Laradock [v0.1](https://www.youtube.com/watch?v=3YQsHe6oF80)
 
 
 
@@ -318,7 +318,7 @@ git submodule add https://github.com/Laradock/laradock.git
 1 - Clone this repository anywhere on your machine:
 
 ```bash
-git clone https://github.com/LaraDock/laradock.git
+git clone https://github.com/laradock/laradock.git
 ```
 Note: In this case the folder structure will be like this:
 
@@ -342,7 +342,7 @@ docker-compose stop && docker-compose up -d XXXX YYYY ZZZZ ....
 1 - Clone this repository anywhere on your machine:
 
 ```bash
-git clone https://github.com/LaraDock/laradock.git
+git clone https://github.com/laradock/laradock.git
 ```
 
 2 - Edit the `docker-compose.yml` file to map to your projects directories:
@@ -355,7 +355,7 @@ git clone https://github.com/LaraDock/laradock.git
             - ../project2/:/var/www/project2
 ```
 
-3 - You can access all sites by visiting `http://localhost/project1/public` and `http://localhost/project2/public` but of course that's not very useful so let's setup nginx quickly.
+3 - You can access all sites by visiting `http://localhost/project1/public` and `http://localhost/project2/public` but of course that's not very useful so let's setup NGINX quickly.
 
 
 4 - Go to `nginx/sites` and copy `sample.conf.example` to `project1.conf` then to `project2.conf`
@@ -389,11 +389,11 @@ Do the same for each project `project2.conf`, `project3.conf`,...
 If you are using **Docker Toolbox** (VM), do one of the following:
 
 - Upgrade to Docker [Native](https://www.docker.com/products/docker) for Mac/Windows (Recommended). Check out [Upgrading Laradock](#upgrading-laradock)
-- Use LaraDock v3.* (Visit the `LaraDock-ToolBox` [Branch](https://github.com/LaraDock/laradock/tree/LaraDock-ToolBox)).
+- Use Laradock v3.* (Visit the `Laradock-ToolBox` [Branch](https://github.com/laradock/laradock/tree/LaraDock-ToolBox)).
 
 <br>
 
->**Warning:** If you used an older version of LaraDock it's highly recommended to rebuild the containers you need to use [see how you rebuild a container](#Build-Re-build-Containers) in order to prevent errors as much as possible.
+>**Warning:** If you used an older version of Laradock it's highly recommended to rebuild the containers you need to use [see how you rebuild a container](#Build-Re-build-Containers) in order to prevent errors as much as possible.
 
 <br>
 
@@ -422,7 +422,7 @@ You can select your own combination of Containers form the list below:
 docker-compose exec workspace bash
 ```
 
-Alternativey, for Windows Powershell users: execute the following command to enter any running container:
+Alternatively, for Windows PowerShell users: execute the following command to enter any running container:
 
 ```bash
 docker exec -it {workspace-container-id} bash
@@ -534,7 +534,7 @@ docker-compose exec {container-name} bash
 docker-compose exec mysql bash
 ```
 
-*Example: enter to mysql prompt within MySQL container*
+*Example: enter to MySQL prompt within MySQL container*
 
 ```bash
 docker-compose exec mysql mysql -u homestead -psecret
@@ -562,7 +562,7 @@ Change MySQL Database Name:
     ...
 ```
 
-Change Redis defaut port to 1111:
+Change Redis default port to 1111:
 
 ```yml
     ports:
@@ -579,7 +579,7 @@ Change Redis defaut port to 1111:
 <a name="Edit-a-Docker-Image"></a>
 ### Edit a Docker Image
 
-1 - Find the `dockerfile` of the image you want to edit,
+1 - Find the `Dockerfile` of the image you want to edit,
 <br>
 example for `mysql` it will be `mysql/Dockerfile`.
 
@@ -601,7 +601,7 @@ More info on Containers rebuilding [here](#Build-Re-build-Containers).
 <a name="Build-Re-build-Containers"></a>
 ### Build/Re-build Containers
 
-If you do any change to any `dockerfile` make sure you run this command, for the changes to take effect:
+If you do any change to any `Dockerfile` make sure you run this command, for the changes to take effect:
 
 ```bash
 docker-compose build
@@ -633,7 +633,7 @@ To add an image (software), just edit the `docker-compose.yml` and add your cont
 <br>
 <a name="View-the-Log-files"></a>
 ### View the Log files
-The Nginx Log file is stored in the `logs/nginx` directory.
+The NGINX Log file is stored in the `logs/nginx` directory.
 
 However to view the logs of all the other containers (MySQL, PHP-FPM,...) you can run this:
 
@@ -705,7 +705,7 @@ docker-compose build php-fpm
 
 We do not natively support PHP 5.5 anymore, but you can get it in few steps:
 
-1 - Clone `https://github.com/LaraDock/php-fpm`.
+1 - Clone `https://github.com/laradock/php-fpm`.
 
 3 - Rename `Dockerfile-56` to `Dockerfile-55`.
 
@@ -773,7 +773,7 @@ It should be like this:
 
 2 - Re-build the containers `docker-compose build workspace php-fpm`
 
-3 - Open `laradock/workspace/xdebug.ini` and/or `laradock/php-fpm/xdebug.ini` and enable at least the following configs:
+3 - Open `laradock/workspace/xdebug.ini` and/or `laradock/php-fpm/xdebug.ini` and enable at least the following configurations:
 
 ```
 xdebug.remote_autostart=1
@@ -794,7 +794,7 @@ For information on how to configure xDebug with your IDE and work it out, check 
 
 By installing xDebug, you are enabling it to run on startup by default.
 
-To control the behavior of xDebug (in the `php-fpm` Container), you can run the following commands from the LaraDock root folder, (at the same prompt where you run docker-compose):
+To control the behavior of xDebug (in the `php-fpm` Container), you can run the following commands from the Laradock root folder, (at the same prompt where you run docker-compose):
 
 - Stop xDebug from running by default: `./xdebugPhpFpm stop`.
 - Start xDebug by default: `./xdebugPhpFpm start`.
@@ -845,10 +845,10 @@ It should be like this:
 
 
 <br>
-<a name="LaraDock-for-Production"></a>
-### Prepare LaraDock for Production
+<a name="Laradock-for-Production"></a>
+### Prepare Laradock for Production
 
-It's recommended for production to create a custom `docker-compose.yml` file. For that reason, LaraDock is shipped with `production-docker-compose.yml` which should contain only the containers you are planning to run on production (usage exampe: `docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...`).
+It's recommended for production to create a custom `docker-compose.yml` file. For that reason, Laradock is shipped with `production-docker-compose.yml` which should contain only the containers you are planning to run on production (usage example: `docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...`).
 
 Note: The Database (MySQL/MariaDB/...) ports should not be forwarded on production, because Docker will automatically publish the port on the host, which is quite insecure, unless specifically told not to. So make sure to remove these lines:
 
@@ -868,7 +868,7 @@ To learn more about how Docker publishes ports, please read [this excellent post
 <a name="Digital-Ocean"></a>
 ### Setup Laravel and Docker on Digital Ocean
 
-####[Full Guide Here](https://github.com/LaraDock/laradock/blob/master/_guides/digital_ocean.md)
+####[Full Guide Here](https://github.com/laradock/laradock/blob/master/_guides/digital_ocean.md)
 
 
 
@@ -903,7 +903,7 @@ For more about the Laravel installation click [here](https://laravel.com/docs/ma
 
 3 - Edit `docker-compose.yml` to Map the new application path:
 
-By default, LaraDock assumes the Laravel application is living in the parent directory of the laradock folder.
+By default, Laradock assumes the Laravel application is living in the parent directory of the laradock folder.
 
 Since the new Laravel application is in the `my-cool-app` folder, we need to replace `../:/var/www` with `../my-cool-app/:/var/www`, as follow:
 
@@ -920,7 +920,7 @@ Since the new Laravel application is in the `my-cool-app` folder, we need to rep
 cd my-cool-app
 ```
 
-5 - Go back to the LaraDock installation steps to see how to edit the `.env` file.
+5 - Go back to the Laradock installation steps to see how to edit the `.env` file.
 
 
 
@@ -975,7 +975,7 @@ phpunit
 <a name="Run-Laravel-Queue-Worker"></a>
 ### Run Laravel Queue Worker
 
-1 - First add `php-worker` container. It will be similar as like PHP-FPM Containter.
+1 - First add `php-worker` container. It will be similar as like PHP-FPM Container.
 <br>
 a) open the `docker-compose.yml` file
 <br>
@@ -1195,7 +1195,7 @@ b. set the queue host to beanstalkd : `QUEUE_HOST=beanstalkd`
 
 *beanstalkd is now available on default port `11300`.*
 
-3 - Require the dependecy package [pda/pheanstalk](https://github.com/pda/pheanstalk) using composer.
+3 - Require the dependency package [pda/pheanstalk](https://github.com/pda/pheanstalk) using composer.
 
 
 Optionally you can use the Beanstalkd Console Container to manage your Queues from a web interface.
@@ -1432,9 +1432,9 @@ ports:
 <a name="MySQL-root-access"></a>
 ### MySQL root access
 
-The default username and password for the root mysql user are `root` and `root `.
+The default username and password for the root MySQL user are `root` and `root `.
 
-1 - Enter the mysql contaier: `docker-compose exec mysql bash`.
+1 - Enter the MySQL container: `docker-compose exec mysql bash`.
 
 2 - Enter mysql: `mysql -uroot -proot` for non root access use `mysql -uhomestead -psecret`.
 
@@ -1480,7 +1480,7 @@ Assuming your custom domain is `laravel.dev`
 2 - Open your browser and visit `{http://laravel.dev}`
 
 
-Optionally you can define the server name in the nginx configuration file, like this:
+Optionally you can define the server name in the NGINX configuration file, like this:
 
 ```conf
 server_name laravel.dev;
@@ -1716,7 +1716,7 @@ It should be like this:
 ### PHPStorm Debugging Guide
 Remote debug Laravel web and phpunit tests.
 
-######[Debugging Guide Here](https://github.com/LaraDock/laradock/blob/master/_guides/phpstorm.md)
+######[Debugging Guide Here](https://github.com/laradock/laradock/blob/master/_guides/phpstorm.md)
 
 
 
@@ -1729,10 +1729,10 @@ Remote debug Laravel web and phpunit tests.
 <a name="keep-tracking-Laradock"></a>
 ### Keep track of your Laradock changes
 
-1. Fork the Lardock repository.
+1. Fork the Laradock repository.
 2. Use that fork as a submodule.
 3. Commit all your changes to your fork.
-4. Pull new stuff from the main repo from time to time.
+4. Pull new stuff from the main repository from time to time.
 
 
 
@@ -1741,18 +1741,18 @@ Remote debug Laravel web and phpunit tests.
 
 <br>
 <a name="upgrading-laradock"></a>
-### Upgrading LaraDock
+### Upgrading Laradock
 
-Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requires upgrading LaraDock from v3.* to v4.*:
+Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requires upgrading Laradock from v3.* to v4.*:
 
-1. Stop the docker vm `docker-machine stop {default}`
+1. Stop the docker VM `docker-machine stop {default}`
 2. Install Docker for [Mac](https://docs.docker.com/docker-for-mac/) or [Windows](https://docs.docker.com/docker-for-windows/).
-3. Upgrade LaraDock to `v4.*.*` (`git pull origin master`)
-4. Use LaraDock as you used to do: `docker-compose up -d nginx mysql`.
+3. Upgrade Laradock to `v4.*.*` (`git pull origin master`)
+4. Use Laradock as you used to do: `docker-compose up -d nginx mysql`.
 
 **Note:** If you face any problem with the last step above: rebuild all your containers
 `docker-compose build --no-cache`
-"Warnning Containers Data might be lost!"
+"Warning Containers Data might be lost!"
 
 
 
@@ -1802,7 +1802,7 @@ Make sure the ports for the services that you are trying to run (22, 80, 443, 33
 
 
 <br>
-#### I get Nginx error 404 Not Found on Windows.
+#### I get NGINX error 404 Not Found on Windows.
 
 1. Go to docker Settings on your Windows machine.
 2. Click on the `Shared Drives` tab and check the drive that contains your project files.
@@ -1821,7 +1821,7 @@ Make sure the ports for the services that you are trying to run (22, 80, 443, 33
 
 
 <br>
-#### I get Mysql connection refused
+#### I get MySQL connection refused
 
 This error sometimes happens because your Laravel application isn't running on the container localhost IP (Which is 127.0.0.1). Steps to fix it:
 
@@ -1829,7 +1829,7 @@ This error sometimes happens because your Laravel application isn't running on t
   1. Check your running Laravel application IP by dumping `Request::ip()` variable using `dd(Request::ip())` anywhere on your application. The result is the IP of your Laravel container.
   2. Change the `DB_HOST` variable on env with the IP that you received from previous step.
 * Option B
-   1. Change the `DB_HOST` value to the same name as the mysql docker container. The Laradock docker-compose file currently has this as `mysql`
+   1. Change the `DB_HOST` value to the same name as the MySQL docker container. The Laradock docker-compose file currently has this as `mysql`
 
 
 
@@ -1842,7 +1842,7 @@ This error sometimes happens because your Laravel application isn't running on t
 
 This little project was built by one man who has a full time job and many responsibilities, so if you like this project and you find that it needs a bug fix or support for new software or upgrade any container, or anything else, do not hesitate to contribute, you are more than welcome :)
 
-#### Read the [Contribution Guidelines](https://github.com/LaraDock/laradock/blob/master/CONTRIBUTING.md).
+#### Read the [Contribution Guidelines](https://github.com/laradock/laradock/blob/master/CONTRIBUTING.md).
 
 
 
@@ -1853,9 +1853,9 @@ This little project was built by one man who has a full time job and many respon
 <a name="related-projects"></a>
 ## Related Projects
 
-LaraDock related projects:
-* [LaraDock CLI](https://github.com/lorinlee/laradock-cli) by [LorinLee](https://github.com/lorinlee)
-* [LaraDock Env](https://github.com/bagart/laradock_env) by [BAGArt](https://github.com/bagart)
+Laradock related projects:
+* [Laradock CLI](https://github.com/lorinlee/laradock-cli) by [LorinLee](https://github.com/lorinlee)
+* [Laradock Env](https://github.com/bagart/laradock_env) by [BAGArt](https://github.com/bagart)
 * [Klaradock](https://github.com/poyhsiao/Klaradock) by [Kim Hsiao](https://github.com/poyhsiao)
 * [Ansible Laradock Kubernetes](https://github.com/sifat-rahim/ansible-laradock-kubernetes) by [Sifat Rahim](https://github.com/sifat-rahim)
 
@@ -1877,7 +1877,7 @@ If you want your project listed here, please open an issue.
 
 Join the chat room on [Gitter](https://gitter.im/LaraDock/laradock) and get help and support from the community.
 
-You can as well can open an [issue](https://github.com/laradock/laradock/issues) on Github (will be labeled as Question) and discuss it with people on [Gitter](https://gitter.im/LaraDock/laradock).
+You can as well can open an [issue](https://github.com/laradock/laradock/issues) on GitHub (will be labeled as Question) and discuss it with people on [Gitter](https://gitter.im/LaraDock/laradock).
 
 For special help with Docker and/or Laravel, you can schedule a live call with the creator of this project at [Codementor.io](https://www.codementor.io/mahmoudz).
 
@@ -1890,7 +1890,7 @@ For special help with Docker and/or Laravel, you can schedule a live call with t
 
 **Super Admins:**
 
-- [Mahmoud Zalt](https://github.com/Mahmoudz) (mahmoudz)  [ [Twitter](https://twitter.com/Mahmoud_Zalt) | [Personal Site](http://zalt.me) | [Linkedin](https://www.linkedin.com/in/mahmoudzalt) ]
+- [Mahmoud Zalt](https://github.com/Mahmoudz) (mahmoudz)  [ [Twitter](https://twitter.com/Mahmoud_Zalt) | [Personal Site](http://zalt.me) | [LinkedIn](https://www.linkedin.com/in/mahmoudzalt) ]
 - [Bo-Yi Wu](https://github.com/appleboy) (appleboy)
 - [Philippe Trépanier](https://github.com/philtrep) (philtrep)
 - [Mike Erickson](https://github.com/mikeerickson) (mikeerickson)
@@ -1898,7 +1898,7 @@ For special help with Docker and/or Laravel, you can schedule a live call with t
 
 **Amazing Contributors:**
 
-- [Contributors](https://github.com/LaraDock/laradock/graphs/contributors)
+- [Contributors](https://github.com/laradock/laradock/graphs/contributors)
 
 
 

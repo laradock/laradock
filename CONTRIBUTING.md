@@ -1,11 +1,11 @@
-# Contributing to LaraDock
+# Contributing to Laradock
 
-Your contribution is more than welcome. Let's keep LaraDock amazing.
+Your contribution is more than welcome. Let's keep Laradock amazing.
 
 
 ### Got a Question or Problem?
 
-If you have questions about how to use LaraDock, please direct your questions to the discussion on [Gitter](https://gitter.im/LaraDock/laradock). If you believe your question could help others, then consider opening an [Issue](https://github.com/laradock/laradock/issues) (it will be labeled as Question).
+If you have questions about how to use Laradock, please direct your questions to the discussion on [Gitter](https://gitter.im/LaraDock/laradock). If you believe your question could help others, then consider opening an [Issue](https://github.com/laradock/laradock/issues) (it will be labeled as Question).
 
 ### Found an Issue?
 If you find a bug in the source code or a mistake in the documentation, you can help us by
@@ -38,9 +38,9 @@ You can request a new feature by submitting an [Issue](https://github.com/larado
 * Edit the files you want to update.
 
 * **Note:** If you want to edit the base image of the `Workspace` or the `php-fpm` Containers, 
-you need to edit their Dockerfiles from their Github repositories. For more info read their Dockerfiles comment on the LaraDock repository.
+you need to edit their Dockerfiles from their GitHub repositories. For more info read their Dockerfiles comment on the Laradock repository.
 
-* Make sure to update the `Readme` incase you made any changes.
+* Make sure to update the `Readme` in case you made any changes.
 
 ## Issue/PR Submission Guidelines
 
@@ -68,7 +68,7 @@ Always Test everything and make sure its working:
 ### Submitting a PR
 Consider the following guidelines:
 
-* Search [GitHub](https://github.com/LaraDock/laradock/pulls) for an open or closed Pull Request that relates to your submission. You don't want to duplicate effort.
+* Search [GitHub](https://github.com/laradock/laradock/pulls) for an open or closed Pull Request that relates to your submission. You don't want to duplicate effort.
 
 * Make your changes in a new git branch:
 
