@@ -67,7 +67,7 @@ LaraDock努力简化创建开发环境过程。
 
 1. 将LaraDock放到你的Laravel项目中：
 <br>
-`git clone https://github.com/LaraDock/laradock.git`.
+`git clone https://github.com/laradock/laradock.git`.
 2. 进入LaraDock目录，然后运行这些容器。
 <br>
 `docker-compose up -d nginx mysql redis`
@@ -177,7 +177,7 @@ Homestead 是一个工具,为你控制虚拟机(使用Homestead特殊命令)。V
 **A)** 如果你已经有一个Laravel项目,克隆这个仓库在到`Laravel`根目录
 
 ```bash
-git submodule add https://github.com/LaraDock/laradock.git
+git submodule add https://github.com/laradock/laradock.git
 ```
 >如果你不是使用Git管理Laravel项目,您可以使用 `git clone` 而不是`git submodule`。
 
@@ -185,7 +185,7 @@ git submodule add https://github.com/LaraDock/laradock.git
 **B)** 如果你没有一个Laravel项目,你想Docker安装Laravel,克隆这个源在您的机器任何地方上:
 
 ```bash
-git clone https://github.com/LaraDock/laradock.git
+git clone https://github.com/laradock/laradock.git
 ```
 
 
@@ -196,8 +196,8 @@ git clone https://github.com/LaraDock/laradock.git
 
 **请在开始之前阅读:**
 如果你正在使用**Docker Toolbox** (VM)，选择以下任何一个方法：
-- 更新到Docker [Native](https://www.docker.com/products/docker) Mac/Windows版本 (建议). 查看 [Upgrading Laradock](#upgrading-laradock)
-- 使用 LaraDock v3.* (访问 `LaraDock-ToolBox` [分支](https://github.com/LaraDock/laradock/tree/LaraDock-ToolBox)).
+- 更新到Docker [Native](https://www.docker.com/products/docker) Mac/Windows版本 (建议). 查看 [Upgrading LaraDock](#upgrading-laradock)
+- 使用 LaraDock v3.* (访问 `LaraDock-ToolBox` [分支](https://github.com/laradock/laradock/tree/LaraDock-ToolBox)).
 如果您使用的是**Docker Native**(Mac / Windows版本)甚至是Linux版本,通常可以继续阅读这个文档，LaraDock v4以上版本将仅支持**Docker Native**。
 
 <br>
@@ -720,7 +720,7 @@ docker-compose build php
 #### B) 切换版本 PHP `7.0` 或 `5.6` 到 PHP `5.5`
 我们已不在本地支持PHP5.5，但是你按照以下步骤获取：
 
-1 - 克隆 `https://github.com/LaraDock/php-fpm`.
+1 - 克隆 `https://github.com/laradock/php-fpm`.
 
 3 - 重命名 `Dockerfile-56` 为 `Dockerfile-55`.
 
@@ -938,7 +938,7 @@ sudo chmod -R 777 storage bootstrap/cache
 ## 贡献
 这个小项目是由一个有一个全职工作和很多的职责的人建立的,所以如果你喜欢这个项目,并且发现它需要一个bug修复或支持或新软件或升级任何容器,或其他任何. . 你是非常欢迎，欢迎毫不不犹豫地贡献吧:)
 
-#### 阅读我们的 [贡献说明](https://github.com/LaraDock/laradock/blob/master/CONTRIBUTING.md)
+#### 阅读我们的 [贡献说明](https://github.com/laradock/laradock/blob/master/CONTRIBUTING.md)
 
 <a name="Help"></a>
 ## 帮助 & 问题
@@ -957,8 +957,8 @@ Docker或Laravel的特别帮助，你可以在[Codementor.io](https://www.codeme
 
 **优秀的人:**
 
-- [Contributors](https://github.com/LaraDock/laradock/graphs/contributors)
-- [Supporters](https://github.com/LaraDock/laradock/issues?utf8=%E2%9C%93&q=)
+- [Contributors](https://github.com/laradock/laradock/graphs/contributors)
+- [Supporters](https://github.com/laradock/laradock/issues?utf8=%E2%9C%93&q=)
 
 
 ## 许可证
