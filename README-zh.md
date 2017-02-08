@@ -1,13 +1,13 @@
-# Laradock
+# LaraDock
 
 [![forthebadge](http://forthebadge.com/images/badges/built-by-developers.svg)](http://zalt.me)
 
 [![Gitter](https://badges.gitter.im/LaraDock/laradock.svg)](https://gitter.im/LaraDock/laradock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-Laradock能够帮你在**Docker**上快速搭建**Laravel**应用。
+LaraDock能够帮你在**Docker**上快速搭建**Laravel**应用。
 <br>
 就像Laravel Homestead一样，但是Docker替换了Vagrant。
-> 先在使用 Laradock，然后再学习它们。
+> 先在使用 LaraDock，然后再学习它们。
 
 <br>
 ## 目录
@@ -18,7 +18,7 @@ Laradock能够帮你在**Docker**上快速搭建**Laravel**应用。
 	- [What is Docker](#what-is-docker)
 	- [What is Laravel](#what-is-laravel)
 	- [Why Docker not Vagrant](#why-docker-not-vagrant)
-	- [Laradock VS Homestead](#laradock-vs-homestead)
+	- [LaraDock VS Homestead](#laradock-vs-homestead)
 - [Demo Video](#Demo)
 - [Requirements](#Requirements)
 - [Installation](#Installation)
@@ -50,14 +50,14 @@ Laradock能够帮你在**Docker**上快速搭建**Laravel**应用。
 		- [Install Prestissimo](#Install-Prestissimo)
 		- [Install Node + NVM](#Install-Node)
 		- [Debugging](#debugging)
-		- [Upgrading Laradock](#upgrading-laradock)
+		- [Upgrading LaraDock](#upgrading-laradock)
 - [Help & Questions](#Help)
 
 
 
 <a name="Intro"></a>
 ## 介绍
-Laradock努力简化创建开发环境过程。
+LaraDock努力简化创建开发环境过程。
 它包含预包装Docker镜像，提供你一个美妙的开发环境而不需要安装PHP,NGINX,MySQL和其他任何软件在你本地机器上。
 
 **使用概览：**
@@ -65,10 +65,10 @@ Laradock努力简化创建开发环境过程。
 
 让我们了解使用它安装`NGINX`, `PHP`, `Composer`, `MySQL` 和 `Redis`，然后运行`Laravel`
 
-1. 将Laradock放到你的Laravel项目中：
+1. 将LaraDock放到你的Laravel项目中：
 <br>
 `git clone https://github.com/laradock/laradock.git`.
-2. 进入Laradock目录，然后运行这些容器。
+2. 进入LaraDock目录，然后运行这些容器。
 <br>
 `docker-compose up -d nginx mysql redis`
 3. 打开你的`.env`文件，然后设置`mysql`的`DB_HOST` 和  `redis`的`REDIS_HOST`。
@@ -139,13 +139,13 @@ Laradock努力简化创建开发环境过程。
 最重要的是Docker可以运行在开发和生产(相同环境无处不在)。Vagrant是专为开发,(所以在生产环境你必须每一次重建您的服务器)。
 
 <a name="laradock-vs-homestead"></a>
-### Laradock Homestead 对比
+### LaraDock Homestead 对比
 
-Laradock and [Homestead](https://laravel.com/docs/master/homestead) 给你一个完整的虚拟开发环境。(不需要安装和配置软件在你自己的每一个操作系统)。
+LaraDock and [Homestead](https://laravel.com/docs/master/homestead) 给你一个完整的虚拟开发环境。(不需要安装和配置软件在你自己的每一个操作系统)。
 
 Homestead 是一个工具,为你控制虚拟机(使用Homestead特殊命令)。Vagrant可以管理你的管理虚容器。
 
-运行一个虚拟容器比运行一整个虚拟机快多了**Laradock 比 Homestead快多了**
+运行一个虚拟容器比运行一整个虚拟机快多了**LaraDock 比 Homestead快多了**
 
 
 
@@ -153,10 +153,10 @@ Homestead 是一个工具,为你控制虚拟机(使用Homestead特殊命令)。V
 ## 演示视频
 还有什么比**演示视频**好：
 
-- Laradock v4.0 (即将到来的...)
-- Laradock [v2.2](https://www.youtube.com/watch?v=-DamFMczwDA)
-- Laradock [v0.3](https://www.youtube.com/watch?v=jGkyO6Is_aI)
-- Laradock [v0.1](https://www.youtube.com/watch?v=3YQsHe6oF80)
+- LaraDock v4.0 (即将到来的...)
+- LaraDock [v2.2](https://www.youtube.com/watch?v=-DamFMczwDA)
+- LaraDock [v0.3](https://www.youtube.com/watch?v=jGkyO6Is_aI)
+- LaraDock [v0.1](https://www.youtube.com/watch?v=3YQsHe6oF80)
 
 
 
@@ -172,7 +172,7 @@ Homestead 是一个工具,为你控制虚拟机(使用Homestead特殊命令)。V
 ## 安装
 
 
-1 - 克隆 `Laradock` 仓库:
+1 - 克隆 `LaraDock` 仓库:
 
 **A)** 如果你已经有一个Laravel项目,克隆这个仓库在到`Laravel`根目录
 
@@ -196,9 +196,9 @@ git clone https://github.com/laradock/laradock.git
 
 **请在开始之前阅读:**
 如果你正在使用**Docker Toolbox** (VM)，选择以下任何一个方法：
-- 更新到Docker [Native](https://www.docker.com/products/docker) Mac/Windows版本 (建议). 查看 [Upgrading Laradock](#upgrading-laradock)
-- 使用 Laradock v3.* (访问 `Laradock-ToolBox` [分支](https://github.com/laradock/laradock/tree/LaraDock-ToolBox)).
-如果您使用的是**Docker Native**(Mac / Windows版本)甚至是Linux版本,通常可以继续阅读这个文档，Laradock v4以上版本将仅支持**Docker Native**。
+- 更新到Docker [Native](https://www.docker.com/products/docker) Mac/Windows版本 (建议). 查看 [Upgrading LaraDock](#upgrading-laradock)
+- 使用 LaraDock v3.* (访问 `LaraDock-ToolBox` [分支](https://github.com/laradock/laradock/tree/LaraDock-ToolBox)).
+如果您使用的是**Docker Native**(Mac / Windows版本)甚至是Linux版本,通常可以继续阅读这个文档，LaraDock v4以上版本将仅支持**Docker Native**。
 
 <br>
 <br>
@@ -466,8 +466,8 @@ composer create-project laravel/laravel my-cool-app "5.2.*"
 
 
 3 - 编辑 `docker-compose.yml` 映射新的应用目录:
-系统默认Laradock假定Laravel应用在Laradock的父级目录中
-By default Laradock assumes the Laravel application is living in the parent directory of the laradock folder.
+系统默认LaraDock假定Laravel应用在LaraDock的父级目录中
+By default LaraDock assumes the Laravel application is living in the parent directory of the laradock folder.
 
 更新Laravel应用在 `my-cool-app` 目录中, 我们需要用 `../my-cool-app/:/var/www`替换 `../:/var/www` , 如下:
 
@@ -483,7 +483,7 @@ By default Laradock assumes the Laravel application is living in the parent dire
 cd my-cool-app
 ```
 
-5 - 回到Laradock安装步骤,看看如何编辑`env`的文件。
+5 - 回到LaraDock安装步骤,看看如何编辑`env`的文件。
 
 <br>
 <a name="Run-Artisan-Commands"></a>
@@ -914,15 +914,15 @@ sudo chmod -R 777 storage bootstrap/cache
 
 <br>
 <a name="upgrading-laradock"></a>
-### Laradock 升级
+### LaraDock 升级
 
 
-从Docker Toolbox (VirtualBox)移动到Docker Native (for Mac/Windows)，需要从 Laradock v3.* 升级到 v4.*:
+从Docker Toolbox (VirtualBox)移动到Docker Native (for Mac/Windows)，需要从 LaraDock v3.* 升级到 v4.*:
 
 1. 停止Docker虚拟机 `docker-machine stop {default}`
 2. 安装 Docker [Mac](https://docs.docker.com/docker-for-mac/) 或 [Windows](https://docs.docker.com/docker-for-windows/).
-3. 升级 Laradock 到 `v4.*.*` (`git pull origin master`)
-4. 像之前一样使用Laradock: `docker-compose up -d nginx mysql`.
+3. 升级 LaraDock 到 `v4.*.*` (`git pull origin master`)
+4. 像之前一样使用LaraDock: `docker-compose up -d nginx mysql`.
 
 **说明:** 如果你面临任何上面的问题的最后一步:重建你所有的容器
 `docker-compose build --no-cache`
