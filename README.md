@@ -41,6 +41,7 @@ Laradock is configured to run Laravel Apps by default, and it can be modified to
 - [Demo Video](#Demo)
 - [Requirements](#Requirements)
 - [Installation](#Installation)
+- [Improve speed on MacOS](#Speed-MacOS)
 - [Usage](#Usage)
 - [Documentation](#Documentation)
 	- [Docker](#Docker)
@@ -377,9 +378,48 @@ Do the same for each project `project2.conf`, `project3.conf`,...
 7 - Create your project Databases. Right now you have to do it manually by entering your DB container, until we automate it soon.
 
 
+<a name="Speed-MacOS"></a>
+## Improve speed on MacOS
 
+Sharing code into Docker containers with osxfs have very poor performance compared to Linux. You can get around the issue you have two options:
+ - Share files with NFS (simpler, no duplication of files)
+ - Sync files in a native volume (potentially better performances)
+ 
+Luckily they are tools ready to use.
+ 
+### How to share files using d4m-nfs
 
+[d4m-nfs](ttps://github.com/IFSight/d4m-nfs) let you use NFS instead of osxfs for mounted volume.
 
+ 1. Update docker File Sharing preferences. You should have only /tmp.
+ 2. Restart docker.
+ 3. Clone d4m-nfs repository in your home directory
+  ```bash
+    $ git clone https://github.com/IFSight/d4m-nfs ~/d4m-nfs
+  ```
+ 4. Edit/create the file ~/d4m-nfs/etc/d4m-nfs-mounts.txt with this configuration:
+ ```
+/Users:/Users
+/Volumes:/Volumes
+/private:/private
+ ```
+ 5. Empty the file /etc/exports and clean it up if required (there may be collisions if you come from Vagrant or if you already executed the d4m-nfs.sh script)
+ 6. Run the d4m-nfs.sh script
+  ```bash
+ ~/d4m-nfs/d4m-nfs.sh
+  ```
+  
+That's it! Now you just have to bring your container up with docker compose. For example:
+
+```bash
+docker-compose up -d nginx mysql
+```
+  
+### How to sync files using docker-sync
+
+[docker-sync](https://github.com/EugenMayer/docker-sync) let you sync (1-way or 2-way sync) your local folder with a native volume.
+
+Instructions will follow when fully tested.
 
 <a name="Usage"></a>
 ## Usage
