@@ -42,6 +42,7 @@ services:
         ports:
            - "2222:22"
         tty: true
+        command: php artisan queue:work
 
 ### PHP-FPM Container #######################################
 
