@@ -127,6 +127,10 @@ RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = true ]; then \
     && rm /tmp/aerospike-client-php.tar.gz \
 ;fi
 
+RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = false ]; then \
+    rm /usr/local/etc/php/conf.d/aerospike.ini \
+;fi
+
 #####################################
 # Opcache:
 #####################################
