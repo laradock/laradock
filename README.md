@@ -1752,38 +1752,55 @@ Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requ
 "Warning Containers Data might be lost!"
 
 
+
+
+<br>
 <a name="Speed-MacOS"></a>
 ### Improve speed on MacOS
 
 Sharing code into Docker containers with osxfs have very poor performance compared to Linux. You can get around this issue by using NFS to share your files betwen your host and your container.
   
-#### How to share files using NFS (d4m-nfs)
+> How to share files using NFS (d4m-nfs)
 
 [d4m-nfs](https://github.com/IFSight/d4m-nfs) automatically mount NFS volume instead of osxfs one.
 
- 1. Update docker File Sharing preferences. You should have only /tmp.
- 2. Restart docker.
- 3. Clone d4m-nfs repository in your home directory
-  ```bash
-    $ git clone https://github.com/IFSight/d4m-nfs ~/d4m-nfs
-  ```
- 4. Edit/create the file ~/d4m-nfs/etc/d4m-nfs-mounts.txt with this configuration:
- ```
+1) Update the Docker [File Sharing] preferences:
+
+Click on the Docker Icon > Preferences > (remove everything form the list except `/tmp`). 
+ 
+2) Restart Docker.
+
+3) Clone the [d4m-nfs](https://github.com/IFSight/d4m-nfs) repository to your `home` directory.
+
+```bash
+git clone https://github.com/IFSight/d4m-nfs ~/d4m-nfs
+```
+
+4) Create (or edit) the file `~/d4m-nfs/etc/d4m-nfs-mounts.txt`, and write the follwing configuration in it:
+
+```txt
 /Users:/Users
 /Volumes:/Volumes
 /private:/private
- ```
- 5. Empty the file /etc/exports and clean it up if required (there may be collisions if you come from Vagrant or if you already executed the d4m-nfs.sh script)
- 6. Run the d4m-nfs.sh script
-  ```bash
- ~/d4m-nfs/d4m-nfs.sh
-  ```
-  
-That's it! Now you just have to bring your container up with docker compose. For example:
+```
+
+5) Create (or edit) the file `/etc/exports`, make sure it exists and is empty. (There may be collisions if you come from Vagrant or if you already executed the `d4m-nfs.sh` script before).
+
+
+6) Run the `d4m-nfs.sh` script:
+
+```bash
+~/d4m-nfs/d4m-nfs.sh
+```
+
+That's it! Run your containers.. Example:
 
 ```bash
 docker-compose up -d nginx mysql
 ```
+
+**Note:** If you faced any errors, try restarting Docker, and make sure you have no spaces in the `d4m-nfs-mounts.txt` file, and your `/etc/exports` file is clear.
+
 
 
 <br>
