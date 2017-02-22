@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Related-projects on Laradock Docs</title>
+    <link>http://laradock.io/related-projects/index.xml</link>
+    <description>Recent content in Related-projects on Laradock Docs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="http://laradock.io/related-projects/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Related Projects</title>
+      <link>http://laradock.io/related-projects/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://laradock.io/related-projects/</guid>
+      <description>&lt;p&gt;LaraDock related projects:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/lorinlee/laradock-cli&#34;&gt;LaraDock CLI&lt;/a&gt; by &lt;a href=&#34;https://github.com/lorinlee&#34;&gt;LorinLee&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/bagart/laradock_env&#34;&gt;LaraDock Env&lt;/a&gt; by &lt;a href=&#34;https://github.com/bagart&#34;&gt;BAGArt&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/poyhsiao/Klaradock&#34;&gt;Klaradock&lt;/a&gt; by &lt;a href=&#34;https://github.com/poyhsiao&#34;&gt;Kim Hsiao&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/sifat-rahim/ansible-laradock-kubernetes&#34;&gt;Ansible Laradock Kubernetes&lt;/a&gt; by &lt;a href=&#34;https://github.com/sifat-rahim&#34;&gt;Sifat Rahim&lt;/a&gt;
+These Docker Compose projects have piqued our interest:&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/ojhaujjwal/magedock&#34;&gt;MageDock&lt;/a&gt; by &lt;a href=&#34;https://github.com/ojhaujjwal&#34;&gt;Ujjwal Ojha&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/scudelletti/rubydev-dock&#34;&gt;RubyDev-Dock&lt;/a&gt; by &lt;a href=&#34;https://github.com/scudelletti&#34;&gt;Diogo Scudelletti&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/Osedea/nodock&#34;&gt;NoDock&lt;/a&gt; by &lt;a href=&#34;https://github.com/Osedea&#34;&gt;Osedea&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;If you want your project listed here, please open an issue.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
