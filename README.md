@@ -4,7 +4,7 @@
 
 [![forthebadge](http://forthebadge.com/images/badges/built-by-developers.svg)](http://zalt.me)
 
-LaraDock is a Docker PHP development environment. It facilitate running **PHP** Apps on **Docker**.
+Laradock is a Docker PHP development environment that facilitate running **PHP** Apps on **Docker**.
 
 
 
