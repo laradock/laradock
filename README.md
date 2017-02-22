@@ -730,8 +730,27 @@ The PHP-CLI is installed in the Workspace container. To change the PHP-CLI versi
 
 Right now you have to manually edit the `Dockerfile` or create a new one like it's done for the PHP-FPM. (consider contributing).
 
+<br>
+<a name="Install PHP Redis Extension"></a>
+### Install PHP Redis on Php 7
+1 - Open 'docker-compose.yml' file
+<br>
+2 - Set `INSTALL_PHPREDIS` argument to `true`  under PHP-FPM container
+<br>
+```
+php-fpm:
+    build:
+        context: ./php-fpm
+        args:
+            - INSTALL_PHPREDIS=true
 
-
+```
+3 - Re-Build the Container `docker-compose build php-fpm`
+4 - Check if PhpRedis Extension is installed properly , If You See OK then You Have Installed it Successfully!
+```
+docker exec -it laradock_php-fpm_1 bash
+php -r "if (new Redis() == true){echo \"OK \r\n\"; }"
+```
 
 
 
