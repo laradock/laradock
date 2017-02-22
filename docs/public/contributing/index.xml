@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Contributings on Laradock Docs</title>
+    <link>http://laradock.io/contributing/index.xml</link>
+    <description>Recent content in Contributings on Laradock Docs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="http://laradock.io/contributing/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Contributing</title>
+      <link>http://laradock.io/contributing/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://laradock.io/contributing/</guid>
+      <description>
+
+&lt;h2 id=&#34;guidelines:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Guidelines&lt;/h2&gt;
+
+&lt;p&gt;Your contribution is more than welcome.&lt;/p&gt;
+
+&lt;h3 id=&#34;got-a-question-or-problem:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Got a Question or Problem?&lt;/h3&gt;
+
+&lt;p&gt;If you have questions about how to use LaraDock, please direct your questions to the discussion on &lt;a href=&#34;https://gitter.im/LaraDock/laradock&#34;&gt;Gitter&lt;/a&gt;. If you believe your question could help others, then consider opening an &lt;a href=&#34;https://github.com/laradock/laradock/issues&#34;&gt;Issue&lt;/a&gt; (it will be labeled as Question).&lt;/p&gt;
+
+&lt;h3 id=&#34;found-an-issue:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Found an Issue?&lt;/h3&gt;
+
+&lt;p&gt;If you find a bug in the source code or a mistake in the documentation, you can help us by
+submitting an &lt;a href=&#34;https://github.com/laradock/laradock/issues&#34;&gt;Issue&lt;/a&gt;. Even better you can submit a Pull Request with a fix.&lt;/p&gt;
+
+&lt;h3 id=&#34;want-a-feature:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Want a Feature?&lt;/h3&gt;
+
+&lt;p&gt;You can request a new feature by submitting an &lt;a href=&#34;https://github.com/laradock/laradock/issues&#34;&gt;Issue&lt;/a&gt; (it will be labeled as Feature Suggestion). If you would like to implement a new feature then consider submitting a Pull Request.&lt;/p&gt;
+
+&lt;h2 id=&#34;coding-guidelines:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Coding Guidelines&lt;/h2&gt;
+
+&lt;h3 id=&#34;support-new-software:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Support new Software&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Create folder with the software name.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Add a &lt;code&gt;Dockerfile&lt;/code&gt;, write your code there.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;You may add additional files in the software folder.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Add the software to the &lt;code&gt;docker-compose.yml&lt;/code&gt; file.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Make sure you follow our commenting style.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Add the software in the &lt;code&gt;Readme&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;edit-existing-software:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Edit existing Software&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Open the software (container) folder.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Edit the files you want to update.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; If you want to edit the base image of the &lt;code&gt;Workspace&lt;/code&gt; or the &lt;code&gt;php-fpm&lt;/code&gt; Containers,
+you need to edit their Dockerfiles from their GitHub repositories. For more info read their Dockerfiles comment on the LaraDock repository.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Make sure to update the &lt;code&gt;Readme&lt;/code&gt; in case you made any changes.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;issue-pr-submission-guidelines:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Issue/PR Submission Guidelines&lt;/h2&gt;
+
+&lt;h3 id=&#34;submitting-an-issue:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Submitting an Issue&lt;/h3&gt;
+
+&lt;p&gt;Before you submit your issue search the archive, maybe your question was already answered.&lt;/p&gt;
+
+&lt;p&gt;If your issue appears to be a bug, and hasn&#39;t been reported, open a new issue.
+Help us to maximize the effort we can spend fixing issues and adding new
+features, by not reporting duplicate issues.&lt;/p&gt;
+
+&lt;h3 id=&#34;before-submitting-a-pull-request-pr:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Before Submitting a Pull Request (PR)&lt;/h3&gt;
+
+&lt;p&gt;Always Test everything and make sure its working:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Pull the latest updates (or fork of you don’t have permission)&lt;/li&gt;
+&lt;li&gt;Before editing anything:
+
+&lt;ul&gt;
+&lt;li&gt;Test building the container (docker-compose build --no-cache container-name) build with no cache first.&lt;/li&gt;
+&lt;li&gt;Test running the container with some other containers in real app and see of everything is working fine.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Now edit the container (edit section by section and test rebuilding the container after every edited section)
+
+&lt;ul&gt;
+&lt;li&gt;Testing building the container (docker-compose build container-name) with no errors.&lt;/li&gt;
+&lt;li&gt;Test it in real App.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;submitting-a-pr:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Submitting a PR&lt;/h3&gt;
+
+&lt;p&gt;Consider the following guidelines:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Search &lt;a href=&#34;https://github.com/laradock/laradock/pulls&#34;&gt;GitHub&lt;/a&gt; for an open or closed Pull Request that relates to your submission. You don&#39;t want to duplicate effort.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Make your changes in a new git branch:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt; git checkout -b my-fix-branch master
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Commit your changes using a descriptive commit message.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Push your branch to GitHub:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;git push origin my-fix-branch
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;In GitHub, send a pull request to &lt;code&gt;laradock:master&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;If we suggest changes then:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Make the required updates.&lt;/li&gt;
+&lt;li&gt;Commit your changes to your branch (e.g. &lt;code&gt;my-fix-branch&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;Push the changes to your GitHub repository (this will update your Pull Request).&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;If the PR gets too outdated we may ask you to rebase and force push to update the PR:&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;git rebase master -i
+git push origin my-fix-branch -f
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;WARNING. Squashing or reverting commits and forced push thereafter may remove GitHub comments on code that were previously made by you and others in your commits.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;after-your-pr-is-merged:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;After your PR is merged&lt;/h3&gt;
+
+&lt;p&gt;After your pull request is merged, you can safely delete your branch and pull the changes
+from the main (upstream) repository:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Delete the remote branch on GitHub either through the GitHub web UI or your local shell as follows:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;git push origin --delete my-fix-branch
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Check out the master branch:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;git checkout master -f
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Delete the local branch:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;git branch -D my-fix-branch
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Update your master with the latest upstream version:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;git pull --ff upstream master
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;happy-coding:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Happy Coding :)&lt;/h3&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

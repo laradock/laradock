@@ -9,18 +9,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=10" />
-    <title>Getting started - Laradock Docs</title>
+    <title>Help &amp; Questions - Laradock Docs</title>
     <meta name="generator" content="Hugo 0.18.1" />
 
     
     <meta name="description" content="Laradock documentations.">
     
-    <link rel="canonical" href="http://laradock.io/getting-started/">
+    <link rel="canonical" href="http://laradock.io/help/">
     
     <meta name="author" content="Mahmoud Zalt">
     
 
-    <meta property="og:url" content="http://laradock.io/getting-started/">
+    <meta property="og:url" content="http://laradock.io/help/">
     <meta property="og:title" content="Laradock Docs">
     <meta property="og:image" content="http://laradock.io/images/logo.png">
     <meta name="apple-mobile-web-app-title" content="Laradock Docs">
@@ -97,7 +97,7 @@
     </div>
     <div class="stretch">
       <div class="title">
-        Getting started
+        Help &amp; Questions
       </div>
     </div>
 
@@ -198,14 +198,11 @@
 
 
 
-<a class="current" title="Getting started" href="http://laradock.io/getting-started/">
+<a  title="Getting started" href="http://laradock.io/getting-started/">
 	
 	Getting started
 </a>
 
-
-<ul id="scrollspy">
-</ul>
 
 
   
@@ -255,11 +252,14 @@
 
 
 
-<a  title="Help &amp; Questions" href="http://laradock.io/help/">
+<a class="current" title="Help &amp; Questions" href="http://laradock.io/help/">
 	
 	Help &amp; Questions
 </a>
 
+
+<ul id="scrollspy">
+</ul>
 
 
   
@@ -332,172 +332,11 @@
 
 	<article class="article">
 		<div class="wrapper">
-			<h1>Getting started </h1>
+			<h1>Help &amp; Questions </h1>
 
-			
+			<p>Join the chat room on <a href="https://gitter.im/LaraDock/laradock">Gitter</a> and get help and support from the community.</p>
 
-<p><a name="Requirements"></a></p>
-
-<h2 id="requirements:d680e8a854a7cbad6d490c445cba2eba">Requirements</h2>
-
-<ul>
-<li><a href="https://git-scm.com/downloads">Git</a></li>
-<li><a href="https://www.docker.com/products/docker/">Docker</a> <code>&gt;= 1.12</code></li>
-</ul>
-
-<p><a name="Installation"></a></p>
-
-<h2 id="installation:d680e8a854a7cbad6d490c445cba2eba">Installation</h2>
-
-<p>Choose the setup the best suits your needs.</p>
-
-<h4 id="a-setup-for-single-project:d680e8a854a7cbad6d490c445cba2eba">A) Setup for Single Project:</h4>
-
-<p><em>(In case you want a Docker environment for each project)</em></p>
-
-<h5 id="a-1-setup-environment-in-existing-project:d680e8a854a7cbad6d490c445cba2eba">A.1) Setup environment in existing Project:</h5>
-
-<p><em>(In case you already have a project, and you want to setup an environment to run it)</em></p>
-
-<p>1 - Clone this repository on your project root directory:</p>
-
-<pre><code class="language-bash">git submodule add https://github.com/Laradock/laradock.git
-</code></pre>
-
-<p><em>Note 1: If you are not yet using Git for your PHP project, you can use <code>git clone https://github.com/Laradock/laradock.git</code> instead.</em></p>
-
-<p><em>Note 2: To keep track of your LaraDock changes, between your projects and also keep LaraDock updated. <a href="#keep-tracking-LaraDock">Check this</a></em></p>
-
-<p><em>Note 3: In this case the folder structure will be like this:</em></p>
-
-<pre><code>- project1
-	- laradock
-- project2
-	- laradock
-</code></pre>
-
-<h5 id="a-2-setup-environment-first-then-create-project:d680e8a854a7cbad6d490c445cba2eba">A.2) Setup environment first then create project:</h5>
-
-<p><em>(In case you don't have a project, and you want to create your project inside the Docker environment)</em></p>
-
-<p>1 - Clone this repository anywhere on your machine:</p>
-
-<pre><code class="language-bash">git clone https://github.com/laradock/laradock.git
-</code></pre>
-
-<p>Note: In this case the folder structure will be like this:</p>
-
-<pre><code>- projects
-	- laradock
-	- myProject
-</code></pre>
-
-<p>2 - Edit the <code>docker-compose.yml</code> file to map to your project directory once you have it (example: <code>- ../myProject:/var/www</code>).</p>
-
-<p>3 - Stop and re-run your docker-compose command for the changes to take place.</p>
-
-<pre><code>docker-compose stop &amp;&amp; docker-compose up -d XXXX YYYY ZZZZ ....
-</code></pre>
-
-<h4 id="b-setup-for-multiple-projects:d680e8a854a7cbad6d490c445cba2eba">B) Setup for Multiple Projects:</h4>
-
-<p>1 - Clone this repository anywhere on your machine:</p>
-
-<pre><code class="language-bash">git clone https://github.com/laradock/laradock.git
-</code></pre>
-
-<p>2 - Edit the <code>docker-compose.yml</code> file to map to your projects directories:</p>
-
-<pre><code>    applications:
-        image: tianon/true
-        volumes:
-            - ../project1/:/var/www/project1
-            - ../project2/:/var/www/project2
-</code></pre>
-
-<p>3 - You can access all sites by visiting <code>http://localhost/project1/public</code> and <code>http://localhost/project2/public</code> but of course that's not very useful so let's setup NGINX quickly.</p>
-
-<p>4 - Go to <code>nginx/sites</code> and copy <code>sample.conf.example</code> to <code>project1.conf</code> then to <code>project2.conf</code></p>
-
-<p>5 - Open the <code>project1.conf</code> file and edit the <code>server_name</code> and the <code>root</code> as follow:</p>
-
-<pre><code>    server_name project1.dev;
-    root /var/www/project1/public;
-</code></pre>
-
-<p>Do the same for each project <code>project2.conf</code>, <code>project3.conf</code>,...</p>
-
-<p>6 - Add the domains to the <strong>hosts</strong> files.</p>
-
-<pre><code>127.0.0.1  project1.dev
-</code></pre>
-
-<p>7 - Create your project Databases. Right now you have to do it manually by entering your DB container, until we automate it soon.</p>
-
-<p><a name="Usage"></a></p>
-
-<h2 id="usage:d680e8a854a7cbad6d490c445cba2eba">Usage</h2>
-
-<p><strong>Read Before starting:</strong></p>
-
-<p>If you are using <strong>Docker Toolbox</strong> (VM), do one of the following:</p>
-
-<ul>
-<li>Upgrade to Docker <a href="https://www.docker.com/products/docker">Native</a> for Mac/Windows (Recommended). Check out <a href="#upgrading-laradock">Upgrading LaraDock</a></li>
-<li>Use LaraDock v3.* (Visit the <code>LaraDock-ToolBox</code> <a href="https://github.com/laradock/laradock/tree/LaraDock-ToolBox">Branch</a>).</li>
-</ul>
-
-<p><br></p>
-
-<blockquote>
-<p><strong>Warning:</strong> If you used an older version of LaraDock it's highly recommended to rebuild the containers you need to use <a href="#Build-Re-build-Containers">see how you rebuild a container</a> in order to prevent errors as much as possible.</p>
-</blockquote>
-
-<p><br></p>
-
-<p>1 - Run Containers: <em>(Make sure you are in the <code>laradock</code> folder before running the <code>docker-compose</code> commands).</em></p>
-
-<p><strong>Example:</strong> Running NGINX and MySQL:</p>
-
-<pre><code class="language-bash">docker-compose up -d nginx mysql
-</code></pre>
-
-<p><strong>Note</strong>: The <code>workspace</code> and <code>php-fpm</code> will run automatically in most of the cases, so no need to specify them in the <code>up</code> command. If you couldn't find them running then you need specify them as follow: <code>docker-compose up -d nginx php-fpm mysql workspace</code>.</p>
-
-<p>You can select your own combination of Containers form the list below:</p>
-
-<p><code>nginx</code>, <code>hhvm</code>, <code>php-fpm</code>, <code>mysql</code>, <code>redis</code>, <code>postgres</code>, <code>mariadb</code>, <code>neo4j</code>, <code>mongo</code>, <code>apache2</code>, <code>caddy</code>, <code>memcached</code>, <code>beanstalkd</code>, <code>beanstalkd-console</code>, <code>rabbitmq</code>, <code>workspace</code>, <code>phpmyadmin</code>, <code>aerospike</code>, <code>pgadmin</code>, <code>elasticsearch</code>, <code>rethinkdb</code>.</p>
-
-<p><br>
-2 - Enter the Workspace container, to execute commands like (Artisan, Composer, PHPUnit, Gulp, ...).</p>
-
-<pre><code class="language-bash">docker-compose exec workspace bash
-</code></pre>
-
-<p>Alternatively, for Windows PowerShell users: execute the following command to enter any running container:</p>
-
-<pre><code class="language-bash">docker exec -it {workspace-container-id} bash
-</code></pre>
-
-<p><strong>Note:</strong> You can add <code>--user=laradock</code> (example <code>docker-compose exec --user=laradock workspace bash</code>) to have files created as your host's user. (you can change the PUID (User id) and PGID (group id) variables from the <code>docker-compose.yml</code>).</p>
-
-<p><br>
-3 - Edit your project configurations.</p>
-
-<p>Open your <code>.env</code> file and set the <code>DB_HOST</code> to <code>mysql</code>:</p>
-
-<pre><code class="language-env">DB_HOST=mysql
-</code></pre>
-
-<p><em>If you want to use Laravel and you don't have it installed yet, see <a href="#Install-Laravel">How to Install Laravel in a Docker Container</a>.</em></p>
-
-<p><br>
-4 - Open your browser and visit your localhost address (<code>http://localhost/</code>).</p>
-
-<p><br>
-<strong>Debugging</strong>: if you are facing any problem here check the <a href="#debugging">Debugging</a> section.</p>
-
-<p>If you need a special support. Contact me, more details in the <a href="#Help">Help &amp; Questions</a> section.</p>
+<p>You can as well can open an <a href="https://github.com/laradock/laradock/issues">issue</a> on Github (will be labeled as Question) and discuss it with people on <a href="https://gitter.im/LaraDock/laradock">Gitter</a>.</p>
 
 
 			<aside class="copyright" role="note">
@@ -514,18 +353,34 @@
 <nav class="pagination" aria-label="Footer">
   <div class="previous">
   
+      <a href="http://laradock.io/related-projects/" title="Related Projects">
+        <span class="direction">
+          Previous
+        </span>
+        <div class="page">
+          <div class="button button-previous" role="button" aria-label="Previous">
+            <i class="icon icon-back"></i>
+          </div>
+          <div class="stretch">
+            <div class="title">
+              Related Projects
+            </div>
+          </div>
+        </div>
+      </a>
+  
   </div>
 
   <div class="next">
   
-      <a href="http://laradock.io/documentation/" title="Documentation">
+      <a href="http://laradock.io/contributing/" title="Contributing">
         <span class="direction">
           Next
         </span>
         <div class="page">
           <div class="stretch">
             <div class="title">
-              Documentation
+              Contributing
             </div>
           </div>
           <div class="button button-next" role="button" aria-label="Next">
