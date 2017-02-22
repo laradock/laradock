@@ -180,9 +180,9 @@
 
 
 
-<a  title="Introduction" href="http://laradock.io/">
+<a  title="Overview" href="http://laradock.io/">
 	
-	Introduction
+	Overview
 </a>
 
 
@@ -198,9 +198,9 @@
 
 
 
-<a  title="Getting started" href="http://laradock.io/getting-started/">
+<a  title="Getting Started" href="http://laradock.io/getting-started/">
 	
-	Getting started
+	Getting Started
 </a>
 
 
@@ -340,7 +340,7 @@
 
 <p><a name="List-current-running-Containers"></a></p>
 
-<h2 id="list-current-running-containers:d680e8a854a7cbad6d490c445cba2eba">List current running Containers</h2>
+<h2 id="list-current-running-containers">List current running Containers</h2>
 
 <pre><code class="language-bash">docker ps
 </code></pre>
@@ -353,7 +353,7 @@
 <p><br>
 <a name="Close-all-running-Containers"></a></p>
 
-<h2 id="close-all-running-containers:d680e8a854a7cbad6d490c445cba2eba">Close all running Containers</h2>
+<h2 id="close-all-running-containers">Close all running Containers</h2>
 
 <pre><code class="language-bash">docker-compose stop
 </code></pre>
@@ -366,7 +366,7 @@
 <p><br>
 <a name="Delete-all-existing-Containers"></a></p>
 
-<h2 id="delete-all-existing-containers:d680e8a854a7cbad6d490c445cba2eba">Delete all existing Containers</h2>
+<h2 id="delete-all-existing-containers">Delete all existing Containers</h2>
 
 <pre><code class="language-bash">docker-compose down
 </code></pre>
@@ -374,7 +374,7 @@
 <p><br>
 <a name="Enter-Container"></a></p>
 
-<h2 id="enter-a-container-run-commands-in-a-running-container:d680e8a854a7cbad6d490c445cba2eba">Enter a Container (run commands in a running Container)</h2>
+<h2 id="enter-a-container-run-commands-in-a-running-container">Enter a Container (run commands in a running Container)</h2>
 
 <p>1 - First list the current running containers with <code>docker ps</code></p>
 
@@ -398,7 +398,7 @@
 <p><br>
 <a name="Edit-Container"></a></p>
 
-<h2 id="edit-default-container-configuration:d680e8a854a7cbad6d490c445cba2eba">Edit default container configuration</h2>
+<h2 id="edit-default-container-configuration">Edit default container configuration</h2>
 
 <p>Open the <code>docker-compose.yml</code> and change anything you want.</p>
 
@@ -421,7 +421,7 @@
 <p><br>
 <a name="Edit-a-Docker-Image"></a></p>
 
-<h2 id="edit-a-docker-image:d680e8a854a7cbad6d490c445cba2eba">Edit a Docker Image</h2>
+<h2 id="edit-a-docker-image">Edit a Docker Image</h2>
 
 <p>1 - Find the <code>Dockerfile</code> of the image you want to edit,
 <br>
@@ -439,7 +439,7 @@ example for <code>mysql</code> it will be <code>mysql/Dockerfile</code>.</p>
 <p><br>
 <a name="Build-Re-build-Containers"></a></p>
 
-<h2 id="build-re-build-containers:d680e8a854a7cbad6d490c445cba2eba">Build/Re-build Containers</h2>
+<h2 id="build-re-build-containers">Build/Re-build Containers</h2>
 
 <p>If you do any change to any <code>Dockerfile</code> make sure you run this command, for the changes to take effect:</p>
 
@@ -456,18 +456,18 @@ example for <code>mysql</code> it will be <code>mysql/Dockerfile</code>.</p>
 <p><br>
 <a name="Add-Docker-Images"></a></p>
 
-<h2 id="add-more-software-docker-images:d680e8a854a7cbad6d490c445cba2eba">Add more Software (Docker Images)</h2>
+<h2 id="add-more-software-docker-images">Add more Software (Docker Images)</h2>
 
 <p>To add an image (software), just edit the <code>docker-compose.yml</code> and add your container details, to do so you need to be familiar with the <a href="https://docs.docker.com/compose/compose-file/">docker compose file syntax</a>.</p>
 
 <p><br>
 <a name="View-the-Log-files"></a></p>
 
-<h2 id="view-the-log-files:d680e8a854a7cbad6d490c445cba2eba">View the Log files</h2>
+<h2 id="view-the-log-files">View the Log files</h2>
 
 <p>The NGINX Log file is stored in the <code>logs/nginx</code> directory.</p>
 
-<p>However to view the logs of all the other containers (MySQL, PHP-FPM,...) you can run this:</p>
+<p>However to view the logs of all the other containers (MySQL, PHP-FPM,&hellip;) you can run this:</p>
 
 <pre><code class="language-bash">docker logs {container-name}
 </code></pre>
@@ -477,7 +477,7 @@ example for <code>mysql</code> it will be <code>mysql/Dockerfile</code>.</p>
 
 <p><a name="Install-PHP-Extensions"></a></p>
 
-<h2 id="install-php-extensions:d680e8a854a7cbad6d490c445cba2eba">Install PHP Extensions</h2>
+<h2 id="install-php-extensions">Install PHP Extensions</h2>
 
 <p>Before installing PHP extensions, you have to decide whether you need for the <code>FPM</code> or <code>CLI</code> because each lives on a different container, if you need it for both you have to edit both containers.</p>
 
@@ -488,15 +488,15 @@ The PHP-CLI extensions should be installed in <code>workspace/Dockerfile</code>.
 <p><br>
 <a name="Change-the-PHP-FPM-Version"></a></p>
 
-<h2 id="change-the-php-fpm-version:d680e8a854a7cbad6d490c445cba2eba">Change the (PHP-FPM) Version</h2>
+<h2 id="change-the-php-fpm-version">Change the (PHP-FPM) Version</h2>
 
 <p>By default <strong>PHP-FPM 7.0</strong> is running.</p>
 
 <blockquote>
-<p>The PHP-FPM is responsible of serving your application code, you don't have to change the PHP-CLI version if you are planning to run your application on different PHP-FPM version.</p>
+<p>The PHP-FPM is responsible of serving your application code, you don&rsquo;t have to change the PHP-CLI version if you are planning to run your application on different PHP-FPM version.</p>
 </blockquote>
 
-<h3 id="a-switch-from-php-7-0-to-php-5-6:d680e8a854a7cbad6d490c445cba2eba">A) Switch from PHP <code>7.0</code> to PHP <code>5.6</code></h3>
+<h3 id="a-switch-from-php-7-0-to-php-5-6">A) Switch from PHP <code>7.0</code> to PHP <code>5.6</code></h3>
 
 <p>1 - Open the <code>docker-compose.yml</code>.</p>
 
@@ -520,7 +520,7 @@ The PHP-CLI extensions should be installed in <code>workspace/Dockerfile</code>.
 <p>For more details about the PHP base image, visit the <a href="https://hub.docker.com/_/php/">official PHP docker images</a>.</p>
 </blockquote>
 
-<h3 id="b-switch-from-php-7-0-or-5-6-to-php-5-5:d680e8a854a7cbad6d490c445cba2eba">B) Switch from PHP <code>7.0</code> or <code>5.6</code> to PHP <code>5.5</code></h3>
+<h3 id="b-switch-from-php-7-0-or-5-6-to-php-5-5">B) Switch from PHP <code>7.0</code> or <code>5.6</code> to PHP <code>5.5</code></h3>
 
 <p>We do not natively support PHP 5.5 anymore, but you can get it in few steps:</p>
 
@@ -539,22 +539,22 @@ The PHP-CLI extensions should be installed in <code>workspace/Dockerfile</code>.
 <p><br>
 <a name="Change-the-PHP-CLI-Version"></a></p>
 
-<h2 id="change-the-php-cli-version:d680e8a854a7cbad6d490c445cba2eba">Change the PHP-CLI Version</h2>
+<h2 id="change-the-php-cli-version">Change the PHP-CLI Version</h2>
 
 <p>By default <strong>PHP-CLI 7.0</strong> is running.</p>
 
 <blockquote>
-<p>Note: it's not very essential to edit the PHP-CLI version. The PHP-CLI is only used for the Artisan Commands &amp; Composer. It doesn't serve your Application code, this is the PHP-FPM job.</p>
+<p>Note: it&rsquo;s not very essential to edit the PHP-CLI version. The PHP-CLI is only used for the Artisan Commands &amp; Composer. It doesn&rsquo;t serve your Application code, this is the PHP-FPM job.</p>
 </blockquote>
 
 <p>The PHP-CLI is installed in the Workspace container. To change the PHP-CLI version you need to edit the <code>workspace/Dockerfile</code>.</p>
 
-<p>Right now you have to manually edit the <code>Dockerfile</code> or create a new one like it's done for the PHP-FPM. (consider contributing).</p>
+<p>Right now you have to manually edit the <code>Dockerfile</code> or create a new one like it&rsquo;s done for the PHP-FPM. (consider contributing).</p>
 
 <p><br>
 <a name="Install-xDebug"></a></p>
 
-<h2 id="install-xdebug:d680e8a854a7cbad6d490c445cba2eba">Install xDebug</h2>
+<h2 id="install-xdebug">Install xDebug</h2>
 
 <p>1 - First install <code>xDebug</code> in the Workspace and the PHP-FPM Containers:
 <br>
@@ -598,7 +598,7 @@ xdebug.remote_connect_back=1
 <p><br>
 <a name="Control-xDebug"></a></p>
 
-<h2 id="start-stop-xdebug:d680e8a854a7cbad6d490c445cba2eba">Start/Stop xDebug:</h2>
+<h2 id="start-stop-xdebug">Start/Stop xDebug:</h2>
 
 <p>By installing xDebug, you are enabling it to run on startup by default.</p>
 
@@ -610,12 +610,12 @@ xdebug.remote_connect_back=1
 <li>See the status: <code>./xdebugPhpFpm status</code>.</li>
 </ul>
 
-<p>Note: If <code>./xdebugPhpFpm</code> doesn't execute and gives <code>Permission Denied</code> error the problem can be that file <code>xdebugPhpFpm</code> doesn't have execution access. This can be fixed by running <code>chmod</code> command  with desired access permissions.</p>
+<p>Note: If <code>./xdebugPhpFpm</code> doesn&rsquo;t execute and gives <code>Permission Denied</code> error the problem can be that file <code>xdebugPhpFpm</code> doesn&rsquo;t have execution access. This can be fixed by running <code>chmod</code> command  with desired access permissions.</p>
 
 <p><br>
 <a name="Install-Deployer"></a></p>
 
-<h2 id="install-deployer-deployment-tool-for-php:d680e8a854a7cbad6d490c445cba2eba">Install Deployer (Deployment tool for PHP)</h2>
+<h2 id="install-deployer-deployment-tool-for-php">Install Deployer (Deployment tool for PHP)</h2>
 
 <p>1 - Open the <code>docker-compose.yml</code> file
 <br>
@@ -636,7 +636,7 @@ xdebug.remote_connect_back=1
 
 <p>4 - Re-build the containers <code>docker-compose build workspace</code></p>
 
-<h4 id="deployer-documentation-here-https-deployer-org-docs:d680e8a854a7cbad6d490c445cba2eba"><a href="https://deployer.org/docs">Deployer Documentation Here</a></h4>
+<h4 id="deployer-documentation-here-https-deployer-org-docs"><a href="https://deployer.org/docs">Deployer Documentation Here</a></h4>
 
 <p><br>
 <a name="Production"></a></p>
@@ -644,11 +644,11 @@ xdebug.remote_connect_back=1
 <p><br>
 <a name="LaraDock-for-Production"></a></p>
 
-<h2 id="prepare-laradock-for-production:d680e8a854a7cbad6d490c445cba2eba">Prepare LaraDock for Production</h2>
+<h2 id="prepare-laradock-for-production">Prepare LaraDock for Production</h2>
 
-<p>It's recommended for production to create a custom <code>docker-compose.yml</code> file. For that reason, LaraDock is shipped with <code>production-docker-compose.yml</code> which should contain only the containers you are planning to run on production (usage example: <code>docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...</code>).</p>
+<p>It&rsquo;s recommended for production to create a custom <code>docker-compose.yml</code> file. For that reason, LaraDock is shipped with <code>production-docker-compose.yml</code> which should contain only the containers you are planning to run on production (usage example: <code>docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...</code>).</p>
 
-<p>Note: The Database (MySQL/MariaDB/...) ports should not be forwarded on production, because Docker will automatically publish the port on the host, which is quite insecure, unless specifically told not to. So make sure to remove these lines:</p>
+<p>Note: The Database (MySQL/MariaDB/&hellip;) ports should not be forwarded on production, because Docker will automatically publish the port on the host, which is quite insecure, unless specifically told not to. So make sure to remove these lines:</p>
 
 <pre><code>ports:
     - &quot;3306:3306&quot;
@@ -659,16 +659,16 @@ xdebug.remote_connect_back=1
 <p><br>
 <a name="Digital-Ocean"></a></p>
 
-<h2 id="setup-laravel-and-docker-on-digital-ocean:d680e8a854a7cbad6d490c445cba2eba">Setup Laravel and Docker on Digital Ocean</h2>
+<h2 id="setup-laravel-and-docker-on-digital-ocean">Setup Laravel and Docker on Digital Ocean</h2>
 
-<h3 id="full-guide-here-https-github-com-laradock-laradock-blob-master-guides-digital-ocean-md:d680e8a854a7cbad6d490c445cba2eba"><a href="https://github.com/laradock/laradock/blob/master/_guides/digital_ocean.md">Full Guide Here</a></h3>
+<h3 id="full-guide-here-https-github-com-laradock-laradock-blob-master-guides-digital-ocean-md"><a href="https://github.com/laradock/laradock/blob/master/_guides/digital_ocean.md">Full Guide Here</a></h3>
 
 <p><br>
 <a name="Laravel"></a></p>
 
 <p><a name="Install-Laravel"></a></p>
 
-<h2 id="install-laravel-from-a-docker-container:d680e8a854a7cbad6d490c445cba2eba">Install Laravel from a Docker Container</h2>
+<h2 id="install-laravel-from-a-docker-container">Install Laravel from a Docker Container</h2>
 
 <p>1 - First you need to enter the Workspace Container.</p>
 
@@ -708,7 +708,7 @@ xdebug.remote_connect_back=1
 <p><br>
 <a name="Run-Artisan-Commands"></a></p>
 
-<h2 id="run-artisan-commands:d680e8a854a7cbad6d490c445cba2eba">Run Artisan Commands</h2>
+<h2 id="run-artisan-commands">Run Artisan Commands</h2>
 
 <p>You can run artisan commands and many other Terminal commands from the Workspace container.</p>
 
@@ -727,7 +727,7 @@ xdebug.remote_connect_back=1
 <pre><code class="language-bash">docker-compose exec workspace bash
 </code></pre>
 
-<p>Add <code>--user=laradock</code> (example <code>docker-compose exec --user=laradock workspace bash</code>) to have files created as your host's user.</p>
+<p>Add <code>--user=laradock</code> (example <code>docker-compose exec --user=laradock workspace bash</code>) to have files created as your host&rsquo;s user.</p>
 
 <p>4 - Run anything you want :)</p>
 
@@ -743,7 +743,7 @@ xdebug.remote_connect_back=1
 <p><br>
 <a name="Run-Laravel-Queue-Worker"></a></p>
 
-<h2 id="run-laravel-queue-worker:d680e8a854a7cbad6d490c445cba2eba">Run Laravel Queue Worker</h2>
+<h2 id="run-laravel-queue-worker">Run Laravel Queue Worker</h2>
 
 <p>1 - First add <code>php-worker</code> container. It will be similar as like PHP-FPM Container.
 <br>
@@ -768,19 +768,19 @@ b) add a new service container by simply copy-paste this section below PHP-FPM c
 <p><br>
 <a name="Use-Redis"></a></p>
 
-<h2 id="use-redis:d680e8a854a7cbad6d490c445cba2eba">Use Redis</h2>
+<h2 id="use-redis">Use Redis</h2>
 
 <p>1 - First make sure you run the Redis Container (<code>redis</code>) with the <code>docker-compose up</code> command.</p>
 
 <pre><code class="language-bash">docker-compose up -d redis
 </code></pre>
 
-<p>2 - Open your Laravel's <code>.env</code> file and set the <code>REDIS_HOST</code> to <code>redis</code></p>
+<p>2 - Open your Laravel&rsquo;s <code>.env</code> file and set the <code>REDIS_HOST</code> to <code>redis</code></p>
 
 <pre><code class="language-env">REDIS_HOST=redis
 </code></pre>
 
-<p>If you don't find the <code>REDIS_HOST</code> variable in your <code>.env</code> file. Go to the database configuration file <code>config/database.php</code> and replace the default <code>127.0.0.1</code> IP with <code>redis</code> for Redis like this:</p>
+<p>If you don&rsquo;t find the <code>REDIS_HOST</code> variable in your <code>.env</code> file. Go to the database configuration file <code>config/database.php</code> and replace the default <code>127.0.0.1</code> IP with <code>redis</code> for Redis like this:</p>
 
 <pre><code class="language-php">'redis' =&gt; [
     'cluster' =&gt; false,
@@ -811,7 +811,7 @@ SESSION_DRIVER=redis
 <p><br>
 <a name="Use-Mongo"></a></p>
 
-<h2 id="use-mongo:d680e8a854a7cbad6d490c445cba2eba">Use Mongo</h2>
+<h2 id="use-mongo">Use Mongo</h2>
 
 <p>1 - First install <code>mongo</code> in the Workspace and the PHP-FPM Containers:
 <br>
@@ -869,7 +869,7 @@ e) set it to <code>true</code></p>
 ],
 </code></pre>
 
-<p>5 - Open your Laravel's <code>.env</code> file and update the following variables:</p>
+<p>5 - Open your Laravel&rsquo;s <code>.env</code> file and update the following variables:</p>
 
 <ul>
 <li>set the <code>DB_HOST</code> to your <code>mongo</code>.</li>
@@ -895,7 +895,7 @@ e) set it to <code>true</code></p>
 <p><br>
 <a name="Use-phpMyAdmin"></a></p>
 
-<h2 id="use-phpmyadmin:d680e8a854a7cbad6d490c445cba2eba">Use PhpMyAdmin</h2>
+<h2 id="use-phpmyadmin">Use PhpMyAdmin</h2>
 
 <p>1 - Run the phpMyAdmin Container (<code>phpmyadmin</code>) with the <code>docker-compose up</code> command. Example:</p>
 
@@ -911,7 +911,7 @@ docker-compose up -d mariadb phpmyadmin
 <p><br>
 <a name="Use-pgAdmin"></a></p>
 
-<h2 id="use-pgadmin:d680e8a854a7cbad6d490c445cba2eba">Use PgAdmin</h2>
+<h2 id="use-pgadmin">Use PgAdmin</h2>
 
 <p>1 - Run the pgAdmin Container (<code>pgadmin</code>) with the <code>docker-compose up</code> command. Example:</p>
 
@@ -923,7 +923,7 @@ docker-compose up -d mariadb phpmyadmin
 <p><br>
 <a name="Use-Beanstalkd"></a></p>
 
-<h2 id="use-beanstalkd:d680e8a854a7cbad6d490c445cba2eba">Use Beanstalkd</h2>
+<h2 id="use-beanstalkd">Use Beanstalkd</h2>
 
 <p>1 - Run the Beanstalkd Container:</p>
 
@@ -960,7 +960,7 @@ b. set the queue host to beanstalkd : <code>QUEUE_HOST=beanstalkd</code></p>
 <p><br>
 <a name="Use-ElasticSearch"></a></p>
 
-<h2 id="use-elasticsearch:d680e8a854a7cbad6d490c445cba2eba">Use ElasticSearch</h2>
+<h2 id="use-elasticsearch">Use ElasticSearch</h2>
 
 <p>1 - Run the ElasticSearch Container (<code>elasticsearch</code>) with the <code>docker-compose up</code> command:</p>
 
@@ -969,7 +969,7 @@ b. set the queue host to beanstalkd : <code>QUEUE_HOST=beanstalkd</code></p>
 
 <p>2 - Open your browser and visit the localhost on port <strong>9200</strong>:  <code>http://localhost:9200</code></p>
 
-<h3 id="install-elasticsearch-plugin:d680e8a854a7cbad6d490c445cba2eba">Install ElasticSearch Plugin</h3>
+<h3 id="install-elasticsearch-plugin">Install ElasticSearch Plugin</h3>
 
 <p>1 - Install the ElasticSearch plugin like <a href="https://www.elastic.co/guide/en/elasticsearch/plugins/current/plugins-delete-by-query.html">delete-by-query</a>.</p>
 
@@ -984,7 +984,7 @@ b. set the queue host to beanstalkd : <code>QUEUE_HOST=beanstalkd</code></p>
 <p><br>
 <a name="Use-Selenium"></a></p>
 
-<h2 id="use-selenium:d680e8a854a7cbad6d490c445cba2eba">Use Selenium</h2>
+<h2 id="use-selenium">Use Selenium</h2>
 
 <p>1 - Run the Selenium Container (<code>selenium</code>) with the <code>docker-compose up</code> command. Example:</p>
 
@@ -996,7 +996,7 @@ b. set the queue host to beanstalkd : <code>QUEUE_HOST=beanstalkd</code></p>
 <p><br>
 <a name="Use-RethinkDB"></a></p>
 
-<h2 id="use-rethinkdb:d680e8a854a7cbad6d490c445cba2eba">Use RethinkDB</h2>
+<h2 id="use-rethinkdb">Use RethinkDB</h2>
 
 <p>The RethinkDB is an open-source Database for Real-time Web (<a href="https://rethinkdb.com/">RethinkDB</a>).
 A package (<a href="https://github.com/duxet/laravel-rethinkdb">Laravel RethinkDB</a>) is being developed and was released a version for Laravel 5.2 (experimental).</p>
@@ -1025,7 +1025,7 @@ A package (<a href="https://github.com/duxet/laravel-rethinkdb">Laravel RethinkD
 ],
 </code></pre>
 
-<p>4 - Open your Laravel's <code>.env</code> file and update the following variables:</p>
+<p>4 - Open your Laravel&rsquo;s <code>.env</code> file and update the following variables:</p>
 
 <ul>
 <li>set the <code>DB_CONNECTION</code> to your <code>rethinkdb</code>.</li>
@@ -1040,7 +1040,7 @@ A package (<a href="https://github.com/duxet/laravel-rethinkdb">Laravel RethinkD
 <p><br>
 <a name="Install-CodeIgniter"></a></p>
 
-<h2 id="install-codeigniter:d680e8a854a7cbad6d490c445cba2eba">Install CodeIgniter</h2>
+<h2 id="install-codeigniter">Install CodeIgniter</h2>
 
 <p>To install CodeIgniter 3 on LaraDock all you have to do is the following simple steps:</p>
 
@@ -1053,12 +1053,12 @@ A package (<a href="https://github.com/duxet/laravel-rethinkdb">Laravel RethinkD
 <p><br>
 <a name="Misc"></a></p>
 
-<h2 id="miscellaneous:d680e8a854a7cbad6d490c445cba2eba">Miscellaneous</h2>
+<h2 id="miscellaneous">Miscellaneous</h2>
 
 <p><br>
 <a name="Change-the-timezone"></a></p>
 
-<h2 id="change-the-timezone:d680e8a854a7cbad6d490c445cba2eba">Change the timezone</h2>
+<h2 id="change-the-timezone">Change the timezone</h2>
 
 <p>To change the timezone for the <code>workspace</code> container, modify the <code>TZ</code> build argument in the Docker Compose file to one in the <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">TZ database</a>.</p>
 
@@ -1077,7 +1077,7 @@ A package (<a href="https://github.com/duxet/laravel-rethinkdb">Laravel RethinkD
 <p><br>
 <a name="CronJobs"></a></p>
 
-<h2 id="adding-cron-jobs:d680e8a854a7cbad6d490c445cba2eba">Adding cron jobs</h2>
+<h2 id="adding-cron-jobs">Adding cron jobs</h2>
 
 <p>You can add your cron jobs to <code>workspace/crontab/root</code> after the <code>php artisan</code> line.</p>
 
@@ -1087,12 +1087,12 @@ A package (<a href="https://github.com/duxet/laravel-rethinkdb">Laravel RethinkD
 * * * * * root echo &quot;Every Minute&quot; &gt; /var/log/cron.log 2&gt;&amp;1
 </code></pre>
 
-<p>Make sure you <a href="#Change-the-timezone">change the timezone</a> if you don't want to use the default (UTC).</p>
+<p>Make sure you <a href="#Change-the-timezone">change the timezone</a> if you don&rsquo;t want to use the default (UTC).</p>
 
 <p><br>
 <a name="Workspace-ssh"></a></p>
 
-<h2 id="access-workspace-via-ssh:d680e8a854a7cbad6d490c445cba2eba">Access workspace via ssh</h2>
+<h2 id="access-workspace-via-ssh">Access workspace via ssh</h2>
 
 <p>You can access the <code>workspace</code> container through <code>localhost:2222</code> by setting the <code>INSTALL_WORKSPACE_SSH</code> build argument to <code>true</code>.</p>
 
@@ -1107,7 +1107,7 @@ A package (<a href="https://github.com/duxet/laravel-rethinkdb">Laravel RethinkD
 <p><br>
 <a name="MySQL-access-from-host"></a></p>
 
-<h2 id="mysql-access-from-host:d680e8a854a7cbad6d490c445cba2eba">MySQL access from host</h2>
+<h2 id="mysql-access-from-host">MySQL access from host</h2>
 
 <p>You can forward the MySQL/MariaDB port to your host by making sure these lines are added to the <code>mysql</code> or <code>mariadb</code> section of the <code>docker-compose.yml</code> or in your <a href="https://docs.docker.com/compose/extends/">environment specific Compose</a> file.</p>
 
@@ -1118,7 +1118,7 @@ A package (<a href="https://github.com/duxet/laravel-rethinkdb">Laravel RethinkD
 <p><br>
 <a name="MySQL-root-access"></a></p>
 
-<h2 id="mysql-root-access:d680e8a854a7cbad6d490c445cba2eba">MySQL root access</h2>
+<h2 id="mysql-root-access">MySQL root access</h2>
 
 <p>The default username and password for the root MySQL user are <code>root</code> and <code>root</code>.</p>
 
@@ -1133,7 +1133,7 @@ A package (<a href="https://github.com/duxet/laravel-rethinkdb">Laravel RethinkD
 <p><br>
 <a name="Change-MySQL-port"></a></p>
 
-<h2 id="change-mysql-port:d680e8a854a7cbad6d490c445cba2eba">Change MySQL port</h2>
+<h2 id="change-mysql-port">Change MySQL port</h2>
 
 <p>Modify the <code>mysql/my.cnf</code> file to set your port number, <code>1234</code> is used as an example.</p>
 
@@ -1146,7 +1146,7 @@ port=1234
 <p><br>
 <a name="Use-custom-Domain"></a></p>
 
-<h2 id="use-custom-domain-instead-of-the-docker-ip:d680e8a854a7cbad6d490c445cba2eba">Use custom Domain (instead of the Docker IP)</h2>
+<h2 id="use-custom-domain-instead-of-the-docker-ip">Use custom Domain (instead of the Docker IP)</h2>
 
 <p>Assuming your custom domain is <code>laravel.dev</code></p>
 
@@ -1165,7 +1165,7 @@ port=1234
 <p><br>
 <a name="Enable-Global-Composer-Build-Install"></a></p>
 
-<h2 id="enable-global-composer-build-install:d680e8a854a7cbad6d490c445cba2eba">Enable Global Composer Build Install</h2>
+<h2 id="enable-global-composer-build-install">Enable Global Composer Build Install</h2>
 
 <p>Enabling Global Composer Install during the build for the container allows you to get your composer requirements installed and available in the container after the build is done.</p>
 
@@ -1190,7 +1190,7 @@ port=1234
 <p><br>
 <a name="Install-Prestissimo"></a></p>
 
-<h2 id="install-prestissimo:d680e8a854a7cbad6d490c445cba2eba">Install Prestissimo</h2>
+<h2 id="install-prestissimo">Install Prestissimo</h2>
 
 <p><a href="https://github.com/hirak/prestissimo">Prestissimo</a> is a plugin for composer which enables parallel install functionality.</p>
 
@@ -1209,7 +1209,7 @@ port=1234
 <p><br>
 <a name="Install-Node"></a></p>
 
-<h2 id="install-node-nvm:d680e8a854a7cbad6d490c445cba2eba">Install Node + NVM</h2>
+<h2 id="install-node-nvm">Install Node + NVM</h2>
 
 <p>To install NVM and NodeJS in the Workspace container</p>
 
@@ -1232,7 +1232,7 @@ port=1234
 <p><br>
 <a name="Install-Yarn"></a></p>
 
-<h2 id="install-node-yarn:d680e8a854a7cbad6d490c445cba2eba">Install Node + YARN</h2>
+<h2 id="install-node-yarn">Install Node + YARN</h2>
 
 <p>Yarn is a new package manager for JavaScript. It is so faster than npm, which you can find <a href="http://yarnpkg.com/en/compare">here</a>.To install NodeJS and <a href="https://yarnpkg.com/">Yarn</a> in the Workspace container:</p>
 
@@ -1256,7 +1256,7 @@ port=1234
 <p><br>
 <a name="Install-Linuxbrew"></a></p>
 
-<h2 id="install-linuxbrew:d680e8a854a7cbad6d490c445cba2eba">Install Linuxbrew</h2>
+<h2 id="install-linuxbrew">Install Linuxbrew</h2>
 
 <p>Linuxbrew is a package manager for Linux. It is the Linux version of MacOS Homebrew and can be found <a href="http://linuxbrew.sh">here</a>. To install Linuxbrew in the Workspace container:</p>
 
@@ -1280,7 +1280,7 @@ port=1234
 <a name="Common-Aliases"></a>
 <br></p>
 
-<h2 id="common-terminal-aliases:d680e8a854a7cbad6d490c445cba2eba">Common Terminal Aliases</h2>
+<h2 id="common-terminal-aliases">Common Terminal Aliases</h2>
 
 <p>When you start your docker container, LaraDock will copy the <code>aliases.sh</code> file located in the <code>laradock/workspace</code> directory and add sourcing to the container <code>~/.bashrc</code> file.</p>
 
@@ -1289,7 +1289,7 @@ port=1234
 <p><br>
 <a name="Install-Aerospike-Extension"></a></p>
 
-<h2 id="install-aerospike-extension:d680e8a854a7cbad6d490c445cba2eba">Install Aerospike extension</h2>
+<h2 id="install-aerospike-extension">Install Aerospike extension</h2>
 
 <p>1 - First install <code>aerospike</code> in the Workspace and the PHP-FPM Containers:
 <br>
@@ -1324,7 +1324,7 @@ e) set it to <code>true</code></p>
 <p><br>
 <a name="Install-Laravel-Envoy"></a></p>
 
-<h2 id="install-laravel-envoy-envoy-task-runner:d680e8a854a7cbad6d490c445cba2eba">Install Laravel Envoy (Envoy Task Runner)</h2>
+<h2 id="install-laravel-envoy-envoy-task-runner">Install Laravel Envoy (Envoy Task Runner)</h2>
 
 <p>1 - Open the <code>docker-compose.yml</code> file
 <br>
@@ -1345,21 +1345,21 @@ e) set it to <code>true</code></p>
 
 <p>4 - Re-build the containers <code>docker-compose build workspace</code></p>
 
-<h4 id="laravel-envoy-documentation-here-https-laravel-com-docs-5-3-envoy:d680e8a854a7cbad6d490c445cba2eba"><a href="https://laravel.com/docs/5.3/envoy">Laravel Envoy Documentation Here</a></h4>
+<h4 id="laravel-envoy-documentation-here-https-laravel-com-docs-5-3-envoy"><a href="https://laravel.com/docs/5.3/envoy">Laravel Envoy Documentation Here</a></h4>
 
 <p><br>
 <a name="phpstorm-debugging"></a></p>
 
-<h2 id="phpstorm-debugging-guide:d680e8a854a7cbad6d490c445cba2eba">PHPStorm Debugging Guide</h2>
+<h2 id="phpstorm-debugging-guide">PHPStorm Debugging Guide</h2>
 
 <p>Remote debug Laravel web and phpunit tests.</p>
 
-<h4 id="debugging-guide-here-https-github-com-laradock-laradock-blob-master-guides-phpstorm-md:d680e8a854a7cbad6d490c445cba2eba"><a href="https://github.com/laradock/laradock/blob/master/_guides/phpstorm.md">Debugging Guide Here</a></h4>
+<h4 id="debugging-guide-here-https-github-com-laradock-laradock-blob-master-guides-phpstorm-md"><a href="https://github.com/laradock/laradock/blob/master/_guides/phpstorm.md">Debugging Guide Here</a></h4>
 
 <p><br>
 <a name="keep-tracking-LaraDock"></a></p>
 
-<h2 id="keep-track-of-your-laradock-changes:d680e8a854a7cbad6d490c445cba2eba">Keep track of your LaraDock changes</h2>
+<h2 id="keep-track-of-your-laradock-changes">Keep track of your LaraDock changes</h2>
 
 <ol>
 <li>Fork the LaraDock repository.</li>
@@ -1371,7 +1371,7 @@ e) set it to <code>true</code></p>
 <p><br>
 <a name="upgrading-laradock"></a></p>
 
-<h2 id="upgrading-laradock:d680e8a854a7cbad6d490c445cba2eba">Upgrading LaraDock</h2>
+<h2 id="upgrading-laradock">Upgrading LaraDock</h2>
 
 <p>Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requires upgrading LaraDock from v3.* to v4.*:</p>
 
@@ -1384,12 +1384,12 @@ e) set it to <code>true</code></p>
 
 <p><strong>Note:</strong> If you face any problem with the last step above: rebuild all your containers
 <code>docker-compose build --no-cache</code>
-&quot;Warning Containers Data might be lost!&quot;</p>
+&ldquo;Warning Containers Data might be lost!&rdquo;</p>
 
 <p><br>
 <a name="Speed-MacOS"></a></p>
 
-<h2 id="improve-speed-on-macos:d680e8a854a7cbad6d490c445cba2eba">Improve speed on MacOS</h2>
+<h2 id="improve-speed-on-macos">Improve speed on MacOS</h2>
 
 <p>Sharing code into Docker containers with osxfs have very poor performance compared to Linux. You can get around this issue by using NFS to share your files betwen your host and your container.</p>
 
@@ -1424,7 +1424,7 @@ e) set it to <code>true</code></p>
 <pre><code class="language-bash">~/d4m-nfs/d4m-nfs.sh
 </code></pre>
 
-<p>That's it! Run your containers.. Example:</p>
+<p>That&rsquo;s it! Run your containers.. Example:</p>
 
 <pre><code class="language-bash">docker-compose up -d nginx mysql
 </code></pre>
@@ -1434,13 +1434,13 @@ e) set it to <code>true</code></p>
 <p><br>
 <a name="Common-Problems"></a></p>
 
-<h2 id="common-problems:d680e8a854a7cbad6d490c445cba2eba">Common Problems</h2>
+<h2 id="common-problems">Common Problems</h2>
 
-<p><em>Here's a list of the common problems you might face, and the possible solutions.</em></p>
+<p><em>Here&rsquo;s a list of the common problems you might face, and the possible solutions.</em></p>
 
 <p><br></p>
 
-<h3 id="i-see-a-blank-white-page-instead-of-the-laravel-welcome-page:d680e8a854a7cbad6d490c445cba2eba">I see a blank (white) page instead of the Laravel 'Welcome' page!</h3>
+<h3 id="i-see-a-blank-white-page-instead-of-the-laravel-welcome-page">I see a blank (white) page instead of the Laravel &lsquo;Welcome&rsquo; page!</h3>
 
 <p>Run the following command from the Laravel root directory:</p>
 
@@ -1449,19 +1449,19 @@ e) set it to <code>true</code></p>
 
 <p><br></p>
 
-<h3 id="i-see-welcome-to-nginx-instead-of-the-laravel-app:d680e8a854a7cbad6d490c445cba2eba">I see &quot;Welcome to nginx&quot; instead of the Laravel App!</h3>
+<h3 id="i-see-welcome-to-nginx-instead-of-the-laravel-app">I see &ldquo;Welcome to nginx&rdquo; instead of the Laravel App!</h3>
 
 <p>Use <code>http://127.0.0.1</code> instead of <code>http://localhost</code> in your browser.</p>
 
 <p><br></p>
 
-<h3 id="i-see-an-error-message-containing-address-already-in-use-or-port-is-already-allocated:d680e8a854a7cbad6d490c445cba2eba">I see an error message containing <code>address already in use</code> or <code>port is already allocated</code></h3>
+<h3 id="i-see-an-error-message-containing-address-already-in-use-or-port-is-already-allocated">I see an error message containing <code>address already in use</code> or <code>port is already allocated</code></h3>
 
 <p>Make sure the ports for the services that you are trying to run (22, 80, 443, 3306, etc.) are not being used already by other programs on the host, such as a built in <code>apache</code>/<code>httpd</code> service or other development tools you have installed.</p>
 
 <p><br></p>
 
-<h3 id="i-get-nginx-error-404-not-found-on-windows:d680e8a854a7cbad6d490c445cba2eba">I get NGINX error 404 Not Found on Windows.</h3>
+<h3 id="i-get-nginx-error-404-not-found-on-windows">I get NGINX error 404 Not Found on Windows.</h3>
 
 <ol>
 <li>Go to docker Settings on your Windows machine.</li>
@@ -1472,18 +1472,18 @@ e) set it to <code>true</code></p>
 
 <p><br></p>
 
-<h3 id="the-time-in-my-services-does-not-match-the-current-time:d680e8a854a7cbad6d490c445cba2eba">The time in my services does not match the current time</h3>
+<h3 id="the-time-in-my-services-does-not-match-the-current-time">The time in my services does not match the current time</h3>
 
 <ol>
-<li>Make sure you've <a href="#Change-the-timezone">changed the timezone</a>.</li>
+<li>Make sure you&rsquo;ve <a href="#Change-the-timezone">changed the timezone</a>.</li>
 <li>Stop and rebuild the containers (<code>docker-compose up -d --build &lt;services&gt;</code>)</li>
 </ol>
 
 <p><br></p>
 
-<h3 id="i-get-mysql-connection-refused:d680e8a854a7cbad6d490c445cba2eba">I get MySQL connection refused</h3>
+<h3 id="i-get-mysql-connection-refused">I get MySQL connection refused</h3>
 
-<p>This error sometimes happens because your Laravel application isn't running on the container localhost IP (Which is 127.0.0.1). Steps to fix it:</p>
+<p>This error sometimes happens because your Laravel application isn&rsquo;t running on the container localhost IP (Which is 127.0.0.1). Steps to fix it:</p>
 
 <ul>
 <li>Option A
@@ -1514,7 +1514,7 @@ e) set it to <code>true</code></p>
 <nav class="pagination" aria-label="Footer">
   <div class="previous">
   
-      <a href="http://laradock.io/getting-started/" title="Getting started">
+      <a href="http://laradock.io/getting-started/" title="Getting Started">
         <span class="direction">
           Previous
         </span>
@@ -1524,7 +1524,7 @@ e) set it to <code>true</code></p>
           </div>
           <div class="stretch">
             <div class="title">
-              Getting started
+              Getting Started
             </div>
           </div>
         </div>

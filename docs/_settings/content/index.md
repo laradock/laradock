@@ -1,7 +1,7 @@
 ---
-title: Welcome to Laradock
+title: Overview
 type: index
-weight: 0
+weight: 1
 ---
 
 LaraDock strives to make the PHP development experience easier and faster.

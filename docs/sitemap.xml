@@ -2,6 +2,10 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://laradock.io/</loc>
+  </url>
+  
+  <url>
     <loc>http://laradock.io/getting-started/</loc>
   </url>
   
@@ -58,10 +62,6 @@
   <url>
     <loc>http://laradock.io/related-projects/</loc>
     <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://laradock.io/</loc>
   </url>
   
 </urlset>

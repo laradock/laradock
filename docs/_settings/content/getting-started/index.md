@@ -1,13 +1,11 @@
 ---
-date: 2017
-title: Getting started
-weight: 10
+title: Getting Started
+type: index
+weight: 2
 ---
 
 
 
-
-<a name="Requirements"></a>
 ## Requirements
 
 - [Git](https://git-scm.com/downloads)
@@ -16,8 +14,6 @@ weight: 10
 
 
 
-
-<a name="Installation"></a>
 ## Installation
 
 Choose the setup the best suits your needs.
@@ -114,8 +110,6 @@ Do the same for each project `project2.conf`, `project3.conf`,...
 
 
 
-
-<a name="Usage"></a>
 ## Usage
 
 **Read Before starting:**
@@ -182,13 +176,4 @@ DB_HOST=mysql
 **Debugging**: if you are facing any problem here check the [Debugging](#debugging) section.
 
 If you need a special support. Contact me, more details in the [Help & Questions](#Help) section.
-
-
-
-
-
-
-
-
-
 

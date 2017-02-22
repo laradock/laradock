@@ -1,7 +1,7 @@
 ---
 title: Contributing
 type: index
-weight: 50
+weight: 6
 ---
 
 

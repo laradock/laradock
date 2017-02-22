@@ -1,7 +1,7 @@
 ---
 title: Documentation
 type: index
-weight: 20
+weight: 3
 ---
 
 
@@ -1308,15 +1308,15 @@ Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requ
 ## Improve speed on MacOS
 
 Sharing code into Docker containers with osxfs have very poor performance compared to Linux. You can get around this issue by using NFS to share your files betwen your host and your container.
-  
+
 > How to share files using NFS (d4m-nfs)
 
 [d4m-nfs](https://github.com/IFSight/d4m-nfs) automatically mount NFS volume instead of osxfs one.
 
 1) Update the Docker [File Sharing] preferences:
 
-Click on the Docker Icon > Preferences > (remove everything form the list except `/tmp`). 
- 
+Click on the Docker Icon > Preferences > (remove everything form the list except `/tmp`).
+
 2) Restart Docker.
 
 3) Clone the [d4m-nfs](https://github.com/IFSight/d4m-nfs) repository to your `home` directory.
@@ -1354,7 +1354,7 @@ docker-compose up -d nginx mysql
 
 <br>
 <a name="Common-Problems"></a>
-## Common Problems 
+## Common Problems
 
 *Here's a list of the common problems you might face, and the possible solutions.*
 

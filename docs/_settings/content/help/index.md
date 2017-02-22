@@ -1,7 +1,7 @@
 ---
 title: Help & Questions
 type: index
-weight: 40
+weight: 5
 ---
 
 Join the chat room on [Gitter](https://gitter.im/LaraDock/laradock) and get help and support from the community.

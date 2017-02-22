@@ -47,44 +47,44 @@ googleAnalytics = ""
 # ------- MENU START -----------------------------------------
 
 [[menu.main]]
-	name   = "Introduction"
+	name   = "Overview"
 	url    = "/"
-	weight = 0
+	weight = 1
 
 [[menu.main]]
-	name   = "Getting started"
+	name   = "Getting Started"
 	url    = "getting-started/"
-	weight = 10
+	weight = 2
 
 [[menu.main]]
 	name   = "Documentation"
 	url    = "documentation/"
-	weight = 20
+	weight = 3
 
 [[menu.main]]
 	name   = "Related Projects"
 	url    = "related-projects/"
-	weight = 30
+	weight = 4
 
 [[menu.main]]
 	name   = "Help & Questions"
 	url    = "help/"
-	weight = 40
+	weight = 5
 
 [[menu.main]]
 	name   = "Contributing"
 	url    = "contributing/"
-	weight = 50
+	weight = 6
 
 [[menu.main]]
 	name   = "License"
 	url    = "license/"
-	weight = 60
+	weight = 7
 
 # ------- MENU END -----------------------------------------
 
 [blackfriday]
-	smartypants	= false
-	fractions = false
-	smartDashes = false
-	plainIDAnchors = false
+	smartypants	= true
+	fractions = true
+	smartDashes = true
+	plainIDAnchors = true
