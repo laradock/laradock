@@ -530,6 +530,11 @@ docker-compose exec {container-name} bash
 ```bash
 docker-compose exec mysql bash
 ```
+*Example: enter directly into mysql within MySQL container*
+
+```bash
+docker-compose exec mysql mysql -u homestead -psecret
+```
 
 *Example: enter to MySQL prompt within MySQL container*
 
