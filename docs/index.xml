@@ -1566,8 +1566,6 @@ from the main (upstream) repository:&lt;/p&gt;
       <guid>http://laradock.io/</guid>
       <description>
 
-&lt;h2 id=&#34;intro:d680e8a854a7cbad6d490c445cba2eba&#34;&gt;Intro&lt;/h2&gt;
-
 &lt;p&gt;LaraDock strives to make the PHP development experience easier and faster.&lt;/p&gt;
 
 &lt;p&gt;It contains pre-packaged Docker Images that provides you a wonderful &lt;em&gt;development&lt;/em&gt; environment without requiring you to install PHP, NGINX, MySQL, Redis, and any other software on your machines.&lt;/p&gt;

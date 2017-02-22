@@ -4,10 +4,6 @@ type: index
 weight: 0
 ---
 
-
-
-## Intro
-
 LaraDock strives to make the PHP development experience easier and faster.
 
 It contains pre-packaged Docker Images that provides you a wonderful *development* environment without requiring you to install PHP, NGINX, MySQL, Redis, and any other software on your machines.
