@@ -22,7 +22,7 @@
 
     <meta property="og:url" content="http://laradock.io/">
     <meta property="og:title" content="Laradock Docs">
-    <meta property="og:image" content="http://laradock.io/images/logo.png">
+    
     <meta name="apple-mobile-web-app-title" content="Laradock Docs">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -55,13 +55,13 @@
     
     
     
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu&#43;Mono">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Doctarine:400,700|Source&#43;Code&#43;Pro">
     <style>
       body, input {
-        font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        font-family: 'Doctarine', Helvetica, Arial, sans-serif;
       }
       pre, code {
-        font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        font-family: 'Source Code Pro', 'Courier New', 'Courier', monospace;
       }
     </style>
 
@@ -136,10 +136,6 @@
   <a href="https://github.com/laradock/laradock" class="project">
     <div class="banner">
       
-        <div class="logo">
-          <img src="http://laradock.io/images/logo.png">
-        </div>
-      
       <div class="name">
         <strong>Laradock Docs </strong>
         
@@ -183,14 +179,11 @@
 
 
 
-<a class="current" title="Overview" href="http://laradock.io/">
+<a  title="Introduction" href="http://laradock.io/introduction/">
 	
-	Overview
+	Introduction
 </a>
 
-
-<ul id="scrollspy">
-</ul>
 
 
   
@@ -336,7 +329,7 @@
 	<article class="article">
 		<div class="wrapper">
 			
-				<h1>Overview </h1>
+				<h1>Introduction </h1>
 
 				
 
@@ -346,7 +339,7 @@
 
 <p>LaraDock is configured to run Laravel Apps by default, and it can be modified to run all kinds of PHP Apps (Symfony, CodeIgniter, WordPress, Drupal&hellip;).</p>
 
-<h2 id="quick-overview">Quick Overview:</h2>
+<h2 id="quick-overview">Quick Overview</h2>
 
 <p>Let&rsquo;s see how easy it is to install <code>NGINX</code>, <code>PHP</code>, <code>Composer</code>, <code>MySQL</code>, <code>Redis</code> and <code>beanstalkd</code>:</p>
 
@@ -2051,6 +2044,10 @@ from the main (upstream) repository:</p>
 				<p><a href="https://github.com/laradock/laradock/blob/master/LICENSE">MIT License</a> (MIT)</p>
 
 			
+				<h1>Welcome </h1>
+
+				
+			
 
 			<aside class="copyright" role="note">
 				
@@ -2154,6 +2151,38 @@ from the main (upstream) repository:</p>
       }
     </script>
 
+    
+      <script>
+        (function(i,s,o,g,r,a,m){
+          i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||
+          []).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;
+          m.parentNode.insertBefore(a,m)
+        })(window, document,
+          'script', '//www.google-analytics.com/analytics.js', 'ga');
+         
+        ga('create', 'UA-37514928-9', 'auto');
+        ga('set', 'anonymizeIp', true);
+        ga('send', 'pageview');
+         
+        var buttons = document.querySelectorAll('a');
+        Array.prototype.map.call(buttons, function(item) {
+          if (item.host != document.location.host) {
+            item.addEventListener('click', function() {
+              var action = item.getAttribute('data-action') || 'follow';
+              ga('send', 'event', 'outbound', action, item.href);
+            });
+          }
+        });
+         
+        var query = document.querySelector('.query');
+        query.addEventListener('blur', function() {
+          if (this.value) {
+            var path = document.location.pathname;
+            ga('send', 'pageview', path + '?q=' + this.value);
+          }
+        });
+      </script>
     
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>

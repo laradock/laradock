@@ -19,7 +19,7 @@ googleAnalytics = "UA-37514928-9"
 	repo_url = "https://github.com/laradock/laradock"
 
 	version = ""
-	logo = "images/logo.png"
+	logo = ""
 	favicon = ""
 
 	permalink = "#"
@@ -47,8 +47,8 @@ googleAnalytics = "UA-37514928-9"
 # ------- MENU START -----------------------------------------
 
 [[menu.main]]
-	name   = "Overview"
-	url    = "/"
+	name   = "Introduction"
+	url    = "introduction/"
 	weight = 1
 
 [[menu.main]]

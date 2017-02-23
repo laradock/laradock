@@ -9,11 +9,11 @@
     <atom:link href="http://laradock.io/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>Overview</title>
-      <link>http://laradock.io/</link>
+      <title>Introduction</title>
+      <link>http://laradock.io/introduction/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://laradock.io/</guid>
+      <guid>http://laradock.io/introduction/</guid>
       <description>
 
 &lt;p&gt;LaraDock strives to make the PHP development experience easier and faster.&lt;/p&gt;
@@ -22,7 +22,7 @@
 
 &lt;p&gt;LaraDock is configured to run Laravel Apps by default, and it can be modified to run all kinds of PHP Apps (Symfony, CodeIgniter, WordPress, Drupal&amp;hellip;).&lt;/p&gt;
 
-&lt;h2 id=&#34;quick-overview&#34;&gt;Quick Overview:&lt;/h2&gt;
+&lt;h2 id=&#34;quick-overview&#34;&gt;Quick Overview&lt;/h2&gt;
 
 &lt;p&gt;Let&amp;rsquo;s see how easy it is to install &lt;code&gt;NGINX&lt;/code&gt;, &lt;code&gt;PHP&lt;/code&gt;, &lt;code&gt;Composer&lt;/code&gt;, &lt;code&gt;MySQL&lt;/code&gt;, &lt;code&gt;Redis&lt;/code&gt; and &lt;code&gt;beanstalkd&lt;/code&gt;:&lt;/p&gt;
 
@@ -1756,6 +1756,15 @@ from the main (upstream) repository:&lt;/p&gt;
       <guid>http://laradock.io/license/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://github.com/laradock/laradock/blob/master/LICENSE&#34;&gt;MIT License&lt;/a&gt; (MIT)&lt;/p&gt;
 </description>
+    </item>
+    
+    <item>
+      <title>Welcome</title>
+      <link>http://laradock.io/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://laradock.io/</guid>
+      <description></description>
     </item>
     
   </channel>
