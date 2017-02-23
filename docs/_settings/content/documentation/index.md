@@ -5,17 +5,6 @@ weight: 3
 ---
 
 
-
-
-
-
-<a name="Docker"></a>
-
-
-
-
-
-
 <a name="List-current-running-Containers"></a>
 ## List current running Containers
 ```bash
@@ -352,6 +341,7 @@ Note: If `./xdebugPhpFpm` doesn't execute and gives `Permission Denied` error th
 
 
 
+
 <br>
 <a name="Install-Deployer"></a>
 ## Install Deployer (Deployment tool for PHP)
@@ -376,7 +366,7 @@ It should be like this:
 
 4 - Re-build the containers `docker-compose build workspace`
 
-#### [Deployer Documentation Here](https://deployer.org/docs)
+[**Deployer Documentation Here**](https://deployer.org/docs)
 
 
 
@@ -541,6 +531,10 @@ b) add a new service container by simply copy-paste this section below PHP-FPM c
 ```bash
 docker-compose up -d php-worker
 ```
+
+
+
+
 
 <br>
 <a name="Use-Redis"></a>
@@ -1249,7 +1243,7 @@ It should be like this:
 
 4 - Re-build the containers `docker-compose build workspace`
 
-#### [Laravel Envoy Documentation Here](https://laravel.com/docs/5.3/envoy)
+[**Laravel Envoy Documentation Here**](https://laravel.com/docs/5.3/envoy)
 
 
 
@@ -1262,8 +1256,7 @@ It should be like this:
 ## PHPStorm Debugging Guide
 Remote debug Laravel web and phpunit tests.
 
-#### [Debugging Guide Here](https://github.com/laradock/laradock/blob/master/_guides/phpstorm.md)
-
+[**Debugging Guide Here**](https://github.com/laradock/laradock/blob/master/_guides/phpstorm.md)
 
 
 
@@ -1285,6 +1278,7 @@ Remote debug Laravel web and phpunit tests.
 
 
 
+
 <br>
 <a name="upgrading-laradock"></a>
 ## Upgrading LaraDock
@@ -1299,6 +1293,9 @@ Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requ
 **Note:** If you face any problem with the last step above: rebuild all your containers
 `docker-compose build --no-cache`
 "Warning Containers Data might be lost!"
+
+
+
 
 
 
@@ -1352,6 +1349,10 @@ docker-compose up -d nginx mysql
 
 
 
+
+
+
+
 <br>
 <a name="Common-Problems"></a>
 ## Common Problems
@@ -1363,8 +1364,9 @@ docker-compose up -d nginx mysql
 
 
 
+
 <br>
-### I see a blank (white) page instead of the Laravel 'Welcome' page!
+## I see a blank (white) page instead of the Laravel 'Welcome' page!
 
 Run the following command from the Laravel root directory:
 
@@ -1377,7 +1379,7 @@ sudo chmod -R 777 storage bootstrap/cache
 
 
 <br>
-### I see "Welcome to nginx" instead of the Laravel App!
+## I see "Welcome to nginx" instead of the Laravel App!
 
 Use `http://127.0.0.1` instead of `http://localhost` in your browser.
 
@@ -1386,7 +1388,7 @@ Use `http://127.0.0.1` instead of `http://localhost` in your browser.
 
 
 <br>
-### I see an error message containing `address already in use` or `port is already allocated`
+## I see an error message containing `address already in use` or `port is already allocated`
 
 Make sure the ports for the services that you are trying to run (22, 80, 443, 3306, etc.) are not being used already by other programs on the host, such as a built in `apache`/`httpd` service or other development tools you have installed.
 
@@ -1395,7 +1397,7 @@ Make sure the ports for the services that you are trying to run (22, 80, 443, 33
 
 
 <br>
-### I get NGINX error 404 Not Found on Windows.
+## I get NGINX error 404 Not Found on Windows.
 
 1. Go to docker Settings on your Windows machine.
 2. Click on the `Shared Drives` tab and check the drive that contains your project files.
@@ -1405,16 +1407,19 @@ Make sure the ports for the services that you are trying to run (22, 80, 443, 33
 
 
 
+
 <br>
-### The time in my services does not match the current time
+## The time in my services does not match the current time
 
 1. Make sure you've [changed the timezone](#Change-the-timezone).
 2. Stop and rebuild the containers (`docker-compose up -d --build <services>`)
 
 
 
+
+
 <br>
-### I get MySQL connection refused
+## I get MySQL connection refused
 
 This error sometimes happens because your Laravel application isn't running on the container localhost IP (Which is 127.0.0.1). Steps to fix it:
 
@@ -1423,9 +1428,3 @@ This error sometimes happens because your Laravel application isn't running on t
   2. Change the `DB_HOST` variable on env with the IP that you received from previous step.
 * Option B
    1. Change the `DB_HOST` value to the same name as the MySQL docker container. The LaraDock docker-compose file currently has this as `mysql`
-
-
-
-
-
-

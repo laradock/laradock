@@ -4,12 +4,13 @@ type: index
 weight: 2
 ---
 
-
-
 ## Requirements
 
 - [Git](https://git-scm.com/downloads)
 - [Docker](https://www.docker.com/products/docker/) `>= 1.12`
+
+
+
 
 
 
@@ -110,6 +111,9 @@ Do the same for each project `project2.conf`, `project3.conf`,...
 
 
 
+
+
+
 ## Usage
 
 **Read Before starting:**
@@ -126,7 +130,6 @@ If you are using **Docker Toolbox** (VM), do one of the following:
 <br>
 
 1 - Run Containers: *(Make sure you are in the `laradock` folder before running the `docker-compose` commands).*
-
 
 
 **Example:** Running NGINX and MySQL:
@@ -176,4 +179,3 @@ DB_HOST=mysql
 **Debugging**: if you are facing any problem here check the [Debugging](#debugging) section.
 
 If you need a special support. Contact me, more details in the [Help & Questions](#Help) section.
-

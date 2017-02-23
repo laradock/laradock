@@ -32,8 +32,8 @@ googleAnalytics = ""
 	highlight_css  = ""
 
 	[params.palette]
-    	primary = "red"
-    	accent  = "teal"
+    	primary = "purple"
+    	accent  = "deep-purple"
 
     [params.font]
     	text = "Ubuntu"
@@ -88,3 +88,4 @@ googleAnalytics = ""
 	fractions = true
 	smartDashes = true
 	plainIDAnchors = true
+

@@ -4,7 +4,6 @@ type: index
 weight: 4
 ---
 
-
 LaraDock related projects:
 
 * [LaraDock CLI](https://github.com/lorinlee/laradock-cli) by [LorinLee](https://github.com/lorinlee)
@@ -17,4 +16,3 @@ These Docker Compose projects have piqued our interest:
 * [NoDock](https://github.com/Osedea/nodock) by [Osedea](https://github.com/Osedea)
 
 If you want your project listed here, please open an issue.
-

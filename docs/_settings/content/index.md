@@ -106,9 +106,6 @@ What's better than a **Demo Video**:
 - LaraDock [v0.1](https://www.youtube.com/watch?v=3YQsHe6oF80)
 
 
-### Laradock v4 Video
-
-{{< youtube TQii1jDa96Y >}}
 
 
 
@@ -130,6 +127,7 @@ What's better than a **Demo Video**:
 - Everything is visible and editable.
 - Fast Images Builds.
 - More to come every week..
+
 
 
 
@@ -183,7 +181,6 @@ What's better than a **Demo Video**:
 		- ... Many other supported tools are not documented. (Will be updated soon)
 
 >If you can't find your Software, build it yourself and add it to this list. Contributions are welcomed :)
-
 
 
 

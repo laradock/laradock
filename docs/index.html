@@ -74,7 +74,7 @@
     
 
   </head>
-  <body class="palette-primary-red palette-accent-teal">
+  <body class="palette-primary-purple palette-accent-deep-purple">
 
 
 
@@ -421,14 +421,6 @@ QUEUE_HOST=beanstalkd
 <li>LaraDock <a href="https://www.youtube.com/watch?v=3YQsHe6oF80">v0.1</a></li>
 </ul>
 
-<h3 id="laradock-v4-video">Laradock v4 Video</h3>
-
-
-<div style="position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;">
-  <iframe src="//www.youtube.com/embed/TQii1jDa96Y" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" allowfullscreen frameborder="0"></iframe>
- </div>
-
-
 <p><a name="features"></a></p>
 
 <h2 id="features">Features</h2>
@@ -697,8 +689,6 @@ QUEUE_HOST=beanstalkd
 				<h1>Documentation </h1>
 
 				
-
-<p><a name="Docker"></a></p>
 
 <p><a name="List-current-running-Containers"></a></p>
 
@@ -998,7 +988,7 @@ xdebug.remote_connect_back=1
 
 <p>4 - Re-build the containers <code>docker-compose build workspace</code></p>
 
-<h4 id="deployer-documentation-here-https-deployer-org-docs"><a href="https://deployer.org/docs">Deployer Documentation Here</a></h4>
+<p><a href="https://deployer.org/docs"><strong>Deployer Documentation Here</strong></a></p>
 
 <p><br>
 <a name="Production"></a></p>
@@ -1707,7 +1697,7 @@ e) set it to <code>true</code></p>
 
 <p>4 - Re-build the containers <code>docker-compose build workspace</code></p>
 
-<h4 id="laravel-envoy-documentation-here-https-laravel-com-docs-5-3-envoy"><a href="https://laravel.com/docs/5.3/envoy">Laravel Envoy Documentation Here</a></h4>
+<p><a href="https://laravel.com/docs/5.3/envoy"><strong>Laravel Envoy Documentation Here</strong></a></p>
 
 <p><br>
 <a name="phpstorm-debugging"></a></p>
@@ -1716,7 +1706,7 @@ e) set it to <code>true</code></p>
 
 <p>Remote debug Laravel web and phpunit tests.</p>
 
-<h4 id="debugging-guide-here-https-github-com-laradock-laradock-blob-master-guides-phpstorm-md"><a href="https://github.com/laradock/laradock/blob/master/_guides/phpstorm.md">Debugging Guide Here</a></h4>
+<p><a href="https://github.com/laradock/laradock/blob/master/_guides/phpstorm.md"><strong>Debugging Guide Here</strong></a></p>
 
 <p><br>
 <a name="keep-tracking-LaraDock"></a></p>
@@ -1802,7 +1792,7 @@ e) set it to <code>true</code></p>
 
 <p><br></p>
 
-<h3 id="i-see-a-blank-white-page-instead-of-the-laravel-welcome-page">I see a blank (white) page instead of the Laravel &lsquo;Welcome&rsquo; page!</h3>
+<h2 id="i-see-a-blank-white-page-instead-of-the-laravel-welcome-page">I see a blank (white) page instead of the Laravel &lsquo;Welcome&rsquo; page!</h2>
 
 <p>Run the following command from the Laravel root directory:</p>
 
@@ -1811,19 +1801,19 @@ e) set it to <code>true</code></p>
 
 <p><br></p>
 
-<h3 id="i-see-welcome-to-nginx-instead-of-the-laravel-app">I see &ldquo;Welcome to nginx&rdquo; instead of the Laravel App!</h3>
+<h2 id="i-see-welcome-to-nginx-instead-of-the-laravel-app">I see &ldquo;Welcome to nginx&rdquo; instead of the Laravel App!</h2>
 
 <p>Use <code>http://127.0.0.1</code> instead of <code>http://localhost</code> in your browser.</p>
 
 <p><br></p>
 
-<h3 id="i-see-an-error-message-containing-address-already-in-use-or-port-is-already-allocated">I see an error message containing <code>address already in use</code> or <code>port is already allocated</code></h3>
+<h2 id="i-see-an-error-message-containing-address-already-in-use-or-port-is-already-allocated">I see an error message containing <code>address already in use</code> or <code>port is already allocated</code></h2>
 
 <p>Make sure the ports for the services that you are trying to run (22, 80, 443, 3306, etc.) are not being used already by other programs on the host, such as a built in <code>apache</code>/<code>httpd</code> service or other development tools you have installed.</p>
 
 <p><br></p>
 
-<h3 id="i-get-nginx-error-404-not-found-on-windows">I get NGINX error 404 Not Found on Windows.</h3>
+<h2 id="i-get-nginx-error-404-not-found-on-windows">I get NGINX error 404 Not Found on Windows.</h2>
 
 <ol>
 <li>Go to docker Settings on your Windows machine.</li>
@@ -1834,7 +1824,7 @@ e) set it to <code>true</code></p>
 
 <p><br></p>
 
-<h3 id="the-time-in-my-services-does-not-match-the-current-time">The time in my services does not match the current time</h3>
+<h2 id="the-time-in-my-services-does-not-match-the-current-time">The time in my services does not match the current time</h2>
 
 <ol>
 <li>Make sure you&rsquo;ve <a href="#Change-the-timezone">changed the timezone</a>.</li>
@@ -1843,7 +1833,7 @@ e) set it to <code>true</code></p>
 
 <p><br></p>
 
-<h3 id="i-get-mysql-connection-refused">I get MySQL connection refused</h3>
+<h2 id="i-get-mysql-connection-refused">I get MySQL connection refused</h2>
 
 <p>This error sometimes happens because your Laravel application isn&rsquo;t running on the container localhost IP (Which is 127.0.0.1). Steps to fix it:</p>
 
@@ -1949,7 +1939,7 @@ submitting an <a href="https://github.com/laradock/laradock/issues">Issue</a>. E
 <li><p>Edit the files you want to update.</p></li>
 
 <li><p><strong>Note:</strong> If you want to edit the base image of the <code>Workspace</code> or the <code>php-fpm</code> Containers,
-you need to edit their Dockerfiles from their GitHub repositories. For more info read their Dockerfiles comment on the LaraDock repository.</p></li>
+you need to edit their Docker-files from their GitHub repositories. For more info read their Dockerfiles comment on the LaraDock repository.</p></li>
 
 <li><p>Make sure to update the <code>Readme</code> in case you made any changes.</p></li>
 </ul>

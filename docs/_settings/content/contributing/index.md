@@ -62,7 +62,7 @@ Laradock uses [Hugo](https://gohugo.io/) as website generator tool, with the [Ma
 * Edit the files you want to update.
 
 * **Note:** If you want to edit the base image of the `Workspace` or the `php-fpm` Containers, 
-you need to edit their Dockerfiles from their GitHub repositories. For more info read their Dockerfiles comment on the LaraDock repository.
+you need to edit their Docker-files from their GitHub repositories. For more info read their Dockerfiles comment on the LaraDock repository.
 
 * Make sure to update the `Readme` in case you made any changes.
 

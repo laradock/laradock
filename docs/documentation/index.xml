@@ -16,8 +16,6 @@
       <guid>http://laradock.io/documentation/</guid>
       <description>
 
-&lt;p&gt;&lt;a name=&#34;Docker&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-
 &lt;p&gt;&lt;a name=&#34;List-current-running-Containers&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;list-current-running-containers&#34;&gt;List current running Containers&lt;/h2&gt;
@@ -316,7 +314,7 @@ xdebug.remote_connect_back=1
 
 &lt;p&gt;4 - Re-build the containers &lt;code&gt;docker-compose build workspace&lt;/code&gt;&lt;/p&gt;
 
-&lt;h4 id=&#34;deployer-documentation-here-https-deployer-org-docs&#34;&gt;&lt;a href=&#34;https://deployer.org/docs&#34;&gt;Deployer Documentation Here&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;&lt;a href=&#34;https://deployer.org/docs&#34;&gt;&lt;strong&gt;Deployer Documentation Here&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;
 &lt;a name=&#34;Production&#34;&gt;&lt;/a&gt;&lt;/p&gt;
@@ -1025,7 +1023,7 @@ e) set it to &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;4 - Re-build the containers &lt;code&gt;docker-compose build workspace&lt;/code&gt;&lt;/p&gt;
 
-&lt;h4 id=&#34;laravel-envoy-documentation-here-https-laravel-com-docs-5-3-envoy&#34;&gt;&lt;a href=&#34;https://laravel.com/docs/5.3/envoy&#34;&gt;Laravel Envoy Documentation Here&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;&lt;a href=&#34;https://laravel.com/docs/5.3/envoy&#34;&gt;&lt;strong&gt;Laravel Envoy Documentation Here&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;
 &lt;a name=&#34;phpstorm-debugging&#34;&gt;&lt;/a&gt;&lt;/p&gt;
@@ -1034,7 +1032,7 @@ e) set it to &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;Remote debug Laravel web and phpunit tests.&lt;/p&gt;
 
-&lt;h4 id=&#34;debugging-guide-here-https-github-com-laradock-laradock-blob-master-guides-phpstorm-md&#34;&gt;&lt;a href=&#34;https://github.com/laradock/laradock/blob/master/_guides/phpstorm.md&#34;&gt;Debugging Guide Here&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/laradock/laradock/blob/master/_guides/phpstorm.md&#34;&gt;&lt;strong&gt;Debugging Guide Here&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;
 &lt;a name=&#34;keep-tracking-LaraDock&#34;&gt;&lt;/a&gt;&lt;/p&gt;
@@ -1120,7 +1118,7 @@ e) set it to &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
-&lt;h3 id=&#34;i-see-a-blank-white-page-instead-of-the-laravel-welcome-page&#34;&gt;I see a blank (white) page instead of the Laravel &amp;lsquo;Welcome&amp;rsquo; page!&lt;/h3&gt;
+&lt;h2 id=&#34;i-see-a-blank-white-page-instead-of-the-laravel-welcome-page&#34;&gt;I see a blank (white) page instead of the Laravel &amp;lsquo;Welcome&amp;rsquo; page!&lt;/h2&gt;
 
 &lt;p&gt;Run the following command from the Laravel root directory:&lt;/p&gt;
 
@@ -1129,19 +1127,19 @@ e) set it to &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
-&lt;h3 id=&#34;i-see-welcome-to-nginx-instead-of-the-laravel-app&#34;&gt;I see &amp;ldquo;Welcome to nginx&amp;rdquo; instead of the Laravel App!&lt;/h3&gt;
+&lt;h2 id=&#34;i-see-welcome-to-nginx-instead-of-the-laravel-app&#34;&gt;I see &amp;ldquo;Welcome to nginx&amp;rdquo; instead of the Laravel App!&lt;/h2&gt;
 
 &lt;p&gt;Use &lt;code&gt;http://127.0.0.1&lt;/code&gt; instead of &lt;code&gt;http://localhost&lt;/code&gt; in your browser.&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
-&lt;h3 id=&#34;i-see-an-error-message-containing-address-already-in-use-or-port-is-already-allocated&#34;&gt;I see an error message containing &lt;code&gt;address already in use&lt;/code&gt; or &lt;code&gt;port is already allocated&lt;/code&gt;&lt;/h3&gt;
+&lt;h2 id=&#34;i-see-an-error-message-containing-address-already-in-use-or-port-is-already-allocated&#34;&gt;I see an error message containing &lt;code&gt;address already in use&lt;/code&gt; or &lt;code&gt;port is already allocated&lt;/code&gt;&lt;/h2&gt;
 
 &lt;p&gt;Make sure the ports for the services that you are trying to run (22, 80, 443, 3306, etc.) are not being used already by other programs on the host, such as a built in &lt;code&gt;apache&lt;/code&gt;/&lt;code&gt;httpd&lt;/code&gt; service or other development tools you have installed.&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
-&lt;h3 id=&#34;i-get-nginx-error-404-not-found-on-windows&#34;&gt;I get NGINX error 404 Not Found on Windows.&lt;/h3&gt;
+&lt;h2 id=&#34;i-get-nginx-error-404-not-found-on-windows&#34;&gt;I get NGINX error 404 Not Found on Windows.&lt;/h2&gt;
 
 &lt;ol&gt;
 &lt;li&gt;Go to docker Settings on your Windows machine.&lt;/li&gt;
@@ -1152,7 +1150,7 @@ e) set it to &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
-&lt;h3 id=&#34;the-time-in-my-services-does-not-match-the-current-time&#34;&gt;The time in my services does not match the current time&lt;/h3&gt;
+&lt;h2 id=&#34;the-time-in-my-services-does-not-match-the-current-time&#34;&gt;The time in my services does not match the current time&lt;/h2&gt;
 
 &lt;ol&gt;
 &lt;li&gt;Make sure you&amp;rsquo;ve &lt;a href=&#34;#Change-the-timezone&#34;&gt;changed the timezone&lt;/a&gt;.&lt;/li&gt;
@@ -1161,7 +1159,7 @@ e) set it to &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
-&lt;h3 id=&#34;i-get-mysql-connection-refused&#34;&gt;I get MySQL connection refused&lt;/h3&gt;
+&lt;h2 id=&#34;i-get-mysql-connection-refused&#34;&gt;I get MySQL connection refused&lt;/h2&gt;
 
 &lt;p&gt;This error sometimes happens because your Laravel application isn&amp;rsquo;t running on the container localhost IP (Which is 127.0.0.1). Steps to fix it:&lt;/p&gt;
 

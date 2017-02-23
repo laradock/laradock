@@ -74,7 +74,7 @@ submitting an &lt;a href=&#34;https://github.com/laradock/laradock/issues&#34;&g
 &lt;li&gt;&lt;p&gt;Edit the files you want to update.&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; If you want to edit the base image of the &lt;code&gt;Workspace&lt;/code&gt; or the &lt;code&gt;php-fpm&lt;/code&gt; Containers,
-you need to edit their Dockerfiles from their GitHub repositories. For more info read their Dockerfiles comment on the LaraDock repository.&lt;/p&gt;&lt;/li&gt;
+you need to edit their Docker-files from their GitHub repositories. For more info read their Dockerfiles comment on the LaraDock repository.&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;Make sure to update the &lt;code&gt;Readme&lt;/code&gt; in case you made any changes.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
