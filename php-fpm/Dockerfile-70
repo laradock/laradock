@@ -24,7 +24,15 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 # to add more Software's or remove existing one, you need to edit the
 # base image (https://github.com/LaraDock/php-fpm).
 #
+RUN \
+    apt-get update && \
+    apt-get install libldap2-dev -y && \
+    rm -rf /var/lib/apt/lists/* && \
+    docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
+    docker-php-ext-install ldap
 
+#RUN apt-get install -y --force-yes php7.0-ldap php7.0-soap php7.0-sybase freetds-common libsybdb5
+#RUN sed -i 's,; max_input_vars = 1000, max_input_vars = 9999999,g' /etc/php/7.0/fpm/php.ini
 #
 #--------------------------------------------------------------------------
 # Optional Software's Installation
