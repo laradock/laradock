@@ -125,8 +125,8 @@ services:
         build:
             context: ./mysql
             args:
-                - MYSQL_DATABASE=homestead
-                - MYSQL_USER=homestead
+                - MYSQL_DATABASE=default
+                - MYSQL_USER=default
                 - MYSQL_PASSWORD=secret
                 - MYSQL_ROOT_PASSWORD=root
         volumes:
