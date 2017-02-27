@@ -365,8 +365,8 @@ services:
         environment:
             # IMPORTANT: Set the Remote Interpreter entry matching name to `laravel`
             - PHP_IDE_CONFIG=serverName=laravel
-        container_name: php_worker
-        command: php artisan queue:work --sleep=3 --tries=3 --timeout=60
+        container_name: php-worker
+        command: php artisan queue:work --sleep=1 --tries=3 --timeout=60
 
 ### Selenium Container #########################################
 
