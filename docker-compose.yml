@@ -32,7 +32,7 @@ services:
                 - PGID=${WORKSPACE_PGID}
                 - NODE_VERSION=${WORKSPACE_NODE_VERSION}
                 - YARN_VERSION=${WORKSPACE_TIMEZONE}
-                - TZ=${WORKSPACE_TIMEZONE=UTC}
+                - TZ=${WORKSPACE_TIMEZONE}
         volumes_from:
             - applications
         extra_hosts:
