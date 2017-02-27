@@ -7,8 +7,7 @@ services:
     applications:
         image: tianon/true
         volumes:
-            - ../:/var/www
-#            - ../sample/:/var/www/sample
+          - ${APPLICATIONS_HOST_DIR}:/var/www
 
 ### Workspace Utilities Container ###########################
 
