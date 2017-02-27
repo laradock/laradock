@@ -82,9 +82,9 @@ services:
                 - PHP_UPSTREAM=php-fpm
         volumes_from:
             - applications
-        volumes:
-            - ./logs/nginx/:/var/log/nginx
-            - ./nginx/sites/:/etc/nginx/sites-available
+        volumes:            
+            - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
+            - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
         ports:
             - "80:80"
             - "443:443"
