@@ -1,4 +1,4 @@
-# Laradock - Laravel APPS - <CloudLab>
+# Laradock - Laravel APPS - CloudLab
 
 > Laravel Ready Docker-Compose
 
