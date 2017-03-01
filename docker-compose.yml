@@ -182,7 +182,7 @@ services:
             - "7474:7474"
             - "1337:1337"
         environment:
-            - NEO4J_AUTH=homestead:secret
+            - NEO4J_AUTH=default:secret
         volumes:
             - neo4j:/var/lib/neo4j/data
 
