@@ -296,7 +296,7 @@ services:
         build: ./phpmyadmin
         environment:
             PMA_ARBITRARY: 1
-            MYSQL_USER: homestead
+            MYSQL_USER: default
             MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
         ports:
