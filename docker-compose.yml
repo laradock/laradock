@@ -104,8 +104,8 @@ services:
         volumes:
             - ./logs/apache2:/var/log/apache2
         ports:
-            - "80:80"
-            - "443:443"
+            - "$SERVER_PORT:80"
+            - "$SERVER_SSL_PORT:443"
         links:
             - php-fpm
 
@@ -126,14 +126,14 @@ services:
         build:
             context: ./mysql
             args:
-                - MYSQL_DATABASE=homestead
-                - MYSQL_USER=homestead
-                - MYSQL_PASSWORD=secret
+                - MYSQL_DATABASE=$DB_DATABASE
+                - MYSQL_USER=$DB_USERNAME
+                - MYSQL_PASSWORD=$DB_PASSWORD
                 - MYSQL_ROOT_PASSWORD=root
         volumes:
             - mysql:/var/lib/mysql
         ports:
-            - "3306:3306"
+            - "$DB_PORT:3306"
 
 ### MariaDB Container #######################################
 
@@ -144,9 +144,9 @@ services:
         ports:
             - "3306:3306"
         environment:
-            MYSQL_DATABASE: homestead
-            MYSQL_USER: homestead
-            MYSQL_PASSWORD: secret
+            MYSQL_DATABASE: $DB_DATABASE
+            MYSQL_USER: $DB_USERNAME
+            MYSQL_PASSWORD: $DB_PASSWORD
             MYSQL_ROOT_PASSWORD: root
 
 ### PostgreSQL Container ####################################
@@ -158,9 +158,9 @@ services:
         ports:
             - "5432:5432"
         environment:
-            POSTGRES_DB: homestead
-            POSTGRES_USER: homestead
-            POSTGRES_PASSWORD: secret
+            POSTGRES_DB: $DB_DATABASE
+            POSTGRES_USER: $DB_USERNAME
+            POSTGRES_PASSWORD: $DB_PASSWORD
 
 ### PostgreSQL PostGis Container ############################
 
@@ -171,9 +171,9 @@ services:
         ports:
             - "5432:5432"
         environment:
-            POSTGRES_DB: homestead
-            POSTGRES_USER: homestead
-            POSTGRES_PASSWORD: secret
+            POSTGRES_DB: $DB_DATABASE
+            POSTGRES_USER: $DB_USERNAME
+            POSTGRES_PASSWORD: $DB_PASSWORD
 
 ### Neo4j Container #########################################
 
@@ -297,8 +297,8 @@ services:
         build: ./phpmyadmin
         environment:
             PMA_ARBITRARY: 1
-            MYSQL_USER: homestead
-            MYSQL_PASSWORD: secret
+            MYSQL_USER: $DB_USERNAME
+            MYSQL_PASSWORD: $DB_PASSWORD
             MYSQL_ROOT_PASSWORD: root
         ports:
             - "8080:80"
