@@ -143,8 +143,8 @@ services:
         ports:
             - "3306:3306"
         environment:
-            MYSQL_DATABASE: homestead
-            MYSQL_USER: homestead
+            MYSQL_DATABASE: default
+            MYSQL_USER: default
             MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
 
@@ -157,8 +157,8 @@ services:
         ports:
             - "5432:5432"
         environment:
-            POSTGRES_DB: homestead
-            POSTGRES_USER: homestead
+            POSTGRES_DB: default
+            POSTGRES_USER: default
             POSTGRES_PASSWORD: secret
 
 ### PostgreSQL PostGis Container ############################
@@ -170,8 +170,8 @@ services:
         ports:
             - "5432:5432"
         environment:
-            POSTGRES_DB: homestead
-            POSTGRES_USER: homestead
+            POSTGRES_DB: default
+            POSTGRES_USER: default
             POSTGRES_PASSWORD: secret
 
 ### Neo4j Container #########################################
