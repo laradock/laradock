@@ -74,6 +74,16 @@ services:
             # IMPORTANT: Set the Remote Interpreter entry matching name to `laravel`
             - PHP_IDE_CONFIG=serverName=laravel
 
+### PHP-WORKER Container #######################################
+
+    php-worker:
+        build:
+            context: ./php-fpm
+            dockerfile: Dockerfile-70 # or Dockerfile-56, choose your PHP-FPM container setting
+        volumes_from:
+            - applications
+        command: php artisan queue:work
+
 ### Nginx Server Container ##################################
 
     nginx:
