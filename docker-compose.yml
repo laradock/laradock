@@ -455,6 +455,11 @@ services:
         - frontend
         - backend
 
+### Net-Tools Container #######################################
+
+    net-tools:
+        build: ./net-tools
+
 ### ElasticSearch Container #################################
 
     elasticsearch:
