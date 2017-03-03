@@ -21,6 +21,7 @@ Tools available:
     gulp
     bower
     install (makes this script global)
+    init (download latest laradock release into current project)
     run (runs any available system command)
 
 Examples (do it inside project's directory):

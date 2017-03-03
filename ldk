@@ -8,6 +8,25 @@
 # Version: 0.1.0
 #####################################################
 
+command=$1
+
+
+case $command in
+    init)
+        echo "Checking latest release..."
+        if [ ! -d "${PWD}/.laradock" ];
+        then
+            mkdir .laradock
+        fi
+        release_url=`wget -qO- https://api.github.com/repos/laradock/laradock/tags | sed -n '/tarball_url/p' | head -n 1 | sed -e 's/.*tarball_url.*\(http.*\)".*/\1/'`
+        echo "Using Laradock ${release_url##*/} release."
+
+        echo "Downloading..."
+        wget -qO- $release_url | tar xz --directory=${PWD}/.laradock --strip-components=1
+        echo "Done."
+        exit 0
+esac
+
 if [ -d "${PWD}/.laradock" ];
 then
     script_dir="${PWD}/.laradock"
@@ -17,6 +36,7 @@ else
         script_dir="${PWD}/../.laradock"
     else
         echo "Warning! Laradock not found for this project."
+        echo "Maybe you want to use 'ldk init' to download and install Laradock?"
         exit 1
     fi
 fi
