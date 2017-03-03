@@ -37,6 +37,18 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 #
 
 #####################################
+# SOAP:
+#####################################
+
+ARG INSTALL_SOAP=false
+RUN if [ ${INSTALL_SOAP} = true ]; then \
+    # Install the soap extension
+    apt-get -y update && \
+    apt-get -y install libxml2-dev php-soap && \ 
+    docker-php-ext-install soap \
+;fi
+
+#####################################
 # xDebug:
 #####################################
 
@@ -73,13 +85,23 @@ RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
 ;fi
 
 #####################################
+# bcmath:
+#####################################
+
+ARG INSTALL_BCMATH=false
+RUN if [ ${INSTALL_BCMATH} = true ]; then \
+    # Install the bcmath extension
+    docker-php-ext-install bcmath \
+;fi
+
+#####################################
 # PHP Memcached:
 #####################################
 
 ARG INSTALL_MEMCACHED=false
 RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
     # Install the php memcached extension
-    pecl install memcached && \
+    pecl install memcached-2.2.0 && \
     docker-php-ext-enable memcached \
 ;fi
 
@@ -103,6 +125,7 @@ RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = true ]; then \
         && make install \
     ) \
     && rm /tmp/aerospike-client-php.tar.gz \
+    && docker-php-ext-enable aerospike \
 ;fi
 
 #####################################

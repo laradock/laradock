@@ -17,16 +17,22 @@ services:
             context: ./workspace
             args:
                 - INSTALL_XDEBUG=false
+                - INSTALL_SOAP=false
                 - INSTALL_MONGO=false
                 - INSTALL_NODE=false
                 - INSTALL_YARN=false
                 - INSTALL_DRUSH=false
                 - INSTALL_AEROSPIKE_EXTENSION=false
+                - INSTALL_V8JS_EXTENSION=false
                 - COMPOSER_GLOBAL_INSTALL=false
                 - INSTALL_WORKSPACE_SSH=false
+                - INSTALL_LARAVEL_ENVOY=false
+                - INSTALL_DEPLOYER=false
+                - INSTALL_LINUXBREW=false
                 - PUID=1000
                 - PGID=1000
                 - NODE_VERSION=stable
+                - YARN_VERSION=latest
                 - TZ=UTC
         volumes_from:
             - applications
@@ -44,10 +50,14 @@ services:
             context: ./php-fpm
             args:
                 - INSTALL_XDEBUG=false
+                - INSTALL_SOAP=false
                 - INSTALL_MONGO=false
                 - INSTALL_ZIP_ARCHIVE=false
+                - INSTALL_BCMATH=false
+                - INSTALL_PHPREDIS=false
                 - INSTALL_MEMCACHED=false
                 - INSTALL_OPCACHE=false
+                - INSTALL_EXIF=false
                 - INSTALL_AEROSPIKE_EXTENSION=false
                 - CODEIGNITER=false
             dockerfile: Dockerfile-70
@@ -75,6 +85,7 @@ services:
             - applications
         volumes:
             - ./logs/nginx/:/var/log/nginx
+            - ./nginx/sites/:/etc/nginx/sites-available
         ports:
             - "80:80"
             - "443:443"
@@ -112,23 +123,24 @@ services:
 ### MySQL Container #########################################
 
     mysql:
-        build: ./mysql
+        build:
+            context: ./mysql
+            args:
+                - MYSQL_DATABASE=homestead
+                - MYSQL_USER=homestead
+                - MYSQL_PASSWORD=secret
+                - MYSQL_ROOT_PASSWORD=root
         volumes:
             - mysql:/var/lib/mysql
         ports:
             - "3306:3306"
-        environment:
-            MYSQL_DATABASE: homestead
-            MYSQL_USER: homestead
-            MYSQL_PASSWORD: secret
-            MYSQL_ROOT_PASSWORD: root
 
 ### MariaDB Container #######################################
 
     mariadb:
         build: ./mariadb
         volumes:
-            - mariadb
+            - mariadb:/var/lib/mysql
         ports:
             - "3306:3306"
         environment:
@@ -141,6 +153,19 @@ services:
 
     postgres:
         build: ./postgres
+        volumes:
+            - postgres:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+        environment:
+            POSTGRES_DB: homestead
+            POSTGRES_USER: homestead
+            POSTGRES_PASSWORD: secret
+
+### PostgreSQL PostGis Container ############################
+
+    postgres-postgis:
+        build: ./postgres-postgis
         volumes:
             - postgres:/var/lib/postgresql/data
         ports:
@@ -170,6 +195,15 @@ services:
             - "27017:27017"
         volumes:
             - mongo:/data/db
+
+### RethinkDB Container #######################################
+
+    rethinkdb:
+        build: ./rethinkdb
+        ports:
+            - "8090:8080"
+        volumes:
+            - rethinkdb:/data/rethinkdb_data
 
 ### Redis Container #########################################
 
@@ -244,17 +278,16 @@ services:
 
     caddy:
         build: ./caddy
-        volumes_from:
-            - applications
-        volumes:
-            - caddy:/root/.caddy
         ports:
             - "80:80"
             - "443:443"
             - "2015:2015"
+        volumes_from:
+            - applications
         volumes:
             - ./caddy/Caddyfile:/etc/Caddyfile
             - ./logs/caddy:/var/log/caddy
+            - caddy:/root/.caddy
         links:
             - php-fpm
 
@@ -267,8 +300,6 @@ services:
             MYSQL_USER: homestead
             MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
-        volumes:
-            - phpmyadmin
         ports:
             - "8080:80"
         links:
@@ -292,18 +323,27 @@ services:
         build: ./elasticsearch
         volumes:
             - elasticsearch-data:/usr/share/elasticsearch/data
-            - elasticsearch-pkugins:/usr/share/elasticsearch/data
+            - elasticsearch-plugins:/usr/share/elasticsearch/data
         ports:
             - "9200:9200"
             - "9300:9300"
         links:
             - php-fpm
 
+### Mailhog Container #########################################
+
     mailhog:
         build: ./mailhog
         ports:
             - "1025:1025"
             - "8025:8025"
+
+### Selenium Container #########################################
+
+    selenium:
+        build: ./selenium
+        ports:
+            - "4444:4444"
 
 ### Volumes Setup ###########################################
 
@@ -322,6 +362,8 @@ volumes:
         driver: "local"
     mongo:
         driver: "local"
+    rethinkdb:
+        driver: "local"
     phpmyadmin:
         driver: "local"
     aerospike:
@@ -330,7 +372,7 @@ volumes:
         driver: "local"
     elasticsearch-data:
         driver: "local"
-    elasticsearch-pkugins:
+    elasticsearch-plugins:
         driver: "local"
     sessions:    ## nothing is connected to this (- ./data/sessions:/sessions)
         driver: "local"
