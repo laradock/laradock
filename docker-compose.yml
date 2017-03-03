@@ -120,6 +120,15 @@ services:
         links:
             - workspace
 
+### MailHog Container #######################################
+
+    mailhog:
+        build: ./mailhog
+        ports:
+            - "8025:8025"
+        links:
+            - php-fpm
+
 ### MySQL Container #########################################
 
     mysql:

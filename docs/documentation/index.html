@@ -988,6 +988,27 @@ b. set the queue host to beanstalkd : <code>QUEUE_HOST=beanstalkd</code></p>
 <p>2 - Open your browser and visit the localhost on port <strong>4444</strong> at the following URL:  <code>http://localhost:4444/wd/hub</code></p>
 
 <p><br>
+<a name="Use-MailHog"></a><p>
+
+<h2 id="use-mailhog">Use MailHog</h2>
+
+<p>MailHog is an email testing tool for developers</p>
+
+<p>1 - Run the MailHog Container (<code>mailhog</code>) with the <code>docker-compose up</code> command.</p>
+
+<pre><code class="language-bash">docker-compose up -d mailhog</code></pre>
+
+<p>2 - Configure your application's SMTP settings to use MailHog e.g <code>.env</code></p>
+
+<pre><code class="language-bash">
+MAIL_DRIVER=smtp
+MAIL_HOST=mailhog
+MAIL_PORT=1025
+</code></pre>
+
+<p>3- Access the MailHog UI <a href="http://localhost:8025">http://localhost:8025</a></p>
+
+<p><br>
 <a name="Use-RethinkDB"></a></p>
 
 <h2 id="use-rethinkdb">Use RethinkDB</h2>
