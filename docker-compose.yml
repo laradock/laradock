@@ -29,6 +29,7 @@ services:
                 - INSTALL_LARAVEL_ENVOY=false
                 - INSTALL_DEPLOYER=false
                 - INSTALL_LINUXBREW=false
+                - INSTALL_MC=false
                 - PUID=1000
                 - PGID=1000
                 - NODE_VERSION=stable
@@ -119,6 +120,18 @@ services:
             - "9000"
         links:
             - workspace
+
+### Minio Container #########################################
+
+    minio:
+        build: ./minio
+        volumes:
+            - minio:/export
+        ports:
+          - "9000:9000"
+        environment:
+          MINIO_ACCESS_KEY: access
+          MINIO_SECRET_KEY: secretkey
 
 ### MySQL Container #########################################
 
@@ -353,6 +366,8 @@ volumes:
     mariadb:
         driver: "local"
     mongo:
+        driver: "local"
+    minio:
         driver: "local"
     rethinkdb:
         driver: "local"
