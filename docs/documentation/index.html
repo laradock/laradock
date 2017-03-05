@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=10" />
     <title>Documentation - Laradock Docs</title>
-    <meta name="generator" content="Hugo 0.19" />
+    <meta name="generator" content="Hugo 0.18.1" />
 
     
     <meta name="description" content="Laradock documentations.">
@@ -1027,36 +1027,6 @@ A package (<a href="https://github.com/duxet/laravel-rethinkdb">Laravel RethinkD
 <li>set the <code>DB_PORT</code> to <code>28015</code>.</li>
 <li>set the <code>DB_DATABASE</code> to <code>database</code>.</li>
 </ul>
-
-<p><br>
-<a name="Use-Minio"></a></p>
-
-<h2 id="use-minio">Use Minio</h2>
-
-<p>1 - Configure Minio:
-  - On the workspace container, change <code>INSTALL_MC</code> to true to get the client
-  - Set <code>MINIO_ACCESS_KEY</code> and <code>MINIO_ACCESS_SECRET</code> if you wish to set proper keys</p>
-
-<p>2 - Run the Minio Container (<code>minio</code>) with the <code>docker-compose up</code> command. Example:</p>
-
-<pre><code class="language-bash">docker-compose up -d minio
-</code></pre>
-
-<p>3 - Open your browser and visit the localhost on port <strong>9000</strong> at the following URL:  <code>http://localhost:9000</code></p>
-
-<p>4 - Create a bucket either through the webui or using the mc client:</p>
-
-<pre><code class="language-bash">  mc mb minio/bucket
-</code></pre>
-
-<p>5 - When configuring your other clients use the following details:</p>
-
-<pre><code>  S3_HOST=http://minio
-  S3_KEY=access
-  S3_SECRET=secretkey
-  S3_REGION=us-east-1
-  S3_BUCKET=bucket
-</code></pre>
 
 <p><br>
 <a name="CodeIgniter"></a></p>

@@ -167,7 +167,6 @@ QUEUE_HOST=beanstalkd
 &lt;li&gt;PgAdmin&lt;/li&gt;
 &lt;li&gt;ElasticSearch&lt;/li&gt;
 &lt;li&gt;Selenium&lt;/li&gt;
-&lt;li&gt;Minio&lt;/li&gt;
 &lt;li&gt;Workspace
 
 &lt;ul&gt;
