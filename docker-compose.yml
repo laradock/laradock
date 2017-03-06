@@ -56,9 +56,9 @@ services:
                 - INSTALL_PHPREDIS=${PHP_FPM_INSTALL_PHPREDIS}
                 - INSTALL_MEMCACHED=${PHP_FPM_INSTALL_MEMCACHED}
                 - INSTALL_OPCACHE=${PHP_FPM_INSTALL_OPCACHE}
-                - INSTALL_EXIF=${PHP_FPM_DOCKER_FILE}
-                - INSTALL_AEROSPIKE_EXTENSION=${PHP_FPM_DOCKER_FILE}
-                - CODEIGNITER=${PHP_FPM_DOCKER_FILE}
+                - INSTALL_EXIF=${PHP_FPM_INSTALL_EXIF}
+                - INSTALL_AEROSPIKE_EXTENSION=${PHP_FPM_INSTALL_AEROSPIKE_EXTENSION}
+                - CODEIGNITER=${PHP_FPM_CODEIGNITER}
             dockerfile: ${PHP_FPM_DOCKER_FILE}
         volumes_from:
             - applications
