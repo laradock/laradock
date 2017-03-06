@@ -336,6 +336,9 @@ services:
         build: ./selenium
         ports:
             - "4444:4444"
+        volumes:
+            # see https://github.com/SeleniumHQ/docker-selenium#running-the-images
+            - /dev/shm:/dev/shm
 
 ### Volumes Setup ###########################################
 
