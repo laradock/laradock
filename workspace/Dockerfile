@@ -113,7 +113,7 @@ RUN echo "" >> ~/.bashrc && \
     echo "# Load Custom Aliases" >> ~/.bashrc && \
     echo "source /home/laradock/aliases.sh" >> ~/.bashrc && \
     echo "" >> ~/.bashrc
-    
+
 USER root
 RUN echo "" >> ~/.bashrc && \
     echo "# Load Custom Aliases" >> ~/.bashrc && \
@@ -373,6 +373,22 @@ RUN if [ ${INSTALL_LINUXBREW} = true ]; then \
     echo 'export PKG_CONFIG_PATH="$LINUXBREWHOME/lib64/pkgconfig:$LINUXBREWHOME/lib/pkgconfig:$PKG_CONFIG_PATH"' >> ~/.bashrc && \
     echo 'export LD_LIBRARY_PATH="$LINUXBREWHOME/lib64:$LINUXBREWHOME/lib:$LD_LIBRARY_PATH"' >> ~/.bashrc \
 ;fi
+
+#####################################
+# Minio:
+#####################################
+USER root
+ARG INSTALL_MC=false
+ENV INSTALL_MC ${INSTALL_MC}
+
+COPY mc/config.json /root/.mc/config.json
+
+RUN if [ ${INSTALL_MC} = true ]; then\
+    curl -fsSL -o /usr/local/bin/mc https://dl.minio.io/client/mc/release/linux-amd64/mc && \
+    chmod +x /usr/local/bin/mc \
+;fi
+
+USER laradock
 
 #
 #--------------------------------------------------------------------------
