@@ -17,6 +17,7 @@ services:
             context: ./workspace
             args:
                 - INSTALL_XDEBUG=false
+                - INSTALL_SOAP=false
                 - INSTALL_MONGO=false
                 - INSTALL_NODE=false
                 - INSTALL_YARN=false
@@ -26,7 +27,9 @@ services:
                 - COMPOSER_GLOBAL_INSTALL=false
                 - INSTALL_WORKSPACE_SSH=false
                 - INSTALL_LARAVEL_ENVOY=false
+                - INSTALL_DEPLOYER=false
                 - INSTALL_LINUXBREW=false
+                - INSTALL_MC=false
                 - PUID=1000
                 - PGID=1000
                 - NODE_VERSION=stable
@@ -52,6 +55,7 @@ services:
                 - INSTALL_MONGO=false
                 - INSTALL_ZIP_ARCHIVE=false
                 - INSTALL_BCMATH=false
+                - INSTALL_PHPREDIS=false
                 - INSTALL_MEMCACHED=false
                 - INSTALL_OPCACHE=false
                 - INSTALL_EXIF=false
@@ -116,6 +120,18 @@ services:
             - "9000"
         links:
             - workspace
+
+### Minio Container #########################################
+
+    minio:
+        build: ./minio
+        volumes:
+            - minio:/export
+        ports:
+          - "9000:9000"
+        environment:
+          MINIO_ACCESS_KEY: access
+          MINIO_SECRET_KEY: secretkey
 
 ### MySQL Container #########################################
 
@@ -284,6 +300,7 @@ services:
         volumes:
             - ./caddy/Caddyfile:/etc/Caddyfile
             - ./logs/caddy:/var/log/caddy
+            - caddy:/root/.caddy
         links:
             - php-fpm
 
@@ -349,6 +366,8 @@ volumes:
     mariadb:
         driver: "local"
     mongo:
+        driver: "local"
+    minio:
         driver: "local"
     rethinkdb:
         driver: "local"
