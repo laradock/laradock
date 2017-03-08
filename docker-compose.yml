@@ -7,12 +7,12 @@ services:
     applications:
         image: tianon/true
         volumes:
-            - ../:/var/www
+            - ../lavie:/var/www/lavie
 #            - ../sample/:/var/www/sample
 
 ### Workspace Utilities Container ###########################
 
-    workspace:
+    workspace_v:
         build:
             context: ./workspace
             args:
@@ -41,12 +41,12 @@ services:
             # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
             - "dockerhost:10.0.75.1"
         ports:
-           - "2222:22"
+           - "2223:22"
         tty: true
 
 ### PHP-FPM Container #######################################
 
-    php-fpm:
+    php-fpm_v:
         build:
             context: ./php-fpm
             args:
@@ -65,9 +65,9 @@ services:
         volumes_from:
             - applications
         expose:
-            - "9000"
+            - "9001"
         links:
-            - workspace
+            - workspace_v
         extra_hosts:
             # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
             - "dockerhost:10.0.75.1"
@@ -77,21 +77,21 @@ services:
 
 ### Nginx Server Container ##################################
 
-    nginx:
+    nginx_v:
         build:
             context: ./nginx
             args:
-                - PHP_UPSTREAM=php-fpm
+                - PHP_UPSTREAM=php-fpm_v
         volumes_from:
             - applications
         volumes:
             - ./logs/nginx/:/var/log/nginx
             - ./nginx/sites/:/etc/nginx/sites-available
         ports:
-            - "80:80"
-            - "443:443"
+            - "81:80"
+            - "444:444"
         links:
-            - php-fpm
+            - php-fpm_v
 
 ### Apache Server Container #################################
 
@@ -99,7 +99,7 @@ services:
         build:
             context: ./apache2
             args:
-                - PHP_SOCKET=php-fpm:9000
+                - PHP_SOCKET=php-fpm_v:9000
         volumes_from:
             - applications
         volumes:
@@ -108,7 +108,7 @@ services:
             - "80:80"
             - "443:443"
         links:
-            - php-fpm
+            - php-fpm_v
 
 ### HHVM Container ##########################################
 
@@ -119,7 +119,7 @@ services:
         expose:
             - "9000"
         links:
-            - workspace
+            - workspace_v
 
 ### Minio Container #########################################
 
@@ -135,7 +135,7 @@ services:
 
 ### MySQL Container #########################################
 
-    mysql:
+    mysql_v:
         build:
             context: ./mysql
             args:
@@ -146,7 +146,7 @@ services:
         volumes:
             - mysql:/var/lib/mysql
         ports:
-            - "3306:3306"
+            - "3307:3307"
 
 ### MariaDB Container #######################################
 
@@ -232,7 +232,7 @@ services:
     aerospike:
         build: ./aerospike
         volumes_from:
-            - workspace
+            - workspace_v
         volumes:
             - aerospike:/opt/aerospike/data
         ports:
@@ -251,7 +251,7 @@ services:
         ports:
             - "11211:11211"
         links:
-            - php-fpm
+            - php-fpm_v
 
 ### Beanstalkd Container ####################################
 
@@ -261,7 +261,7 @@ services:
             - "11300:11300"
         privileged: true
         links:
-            - php-fpm
+            - php-fpm_v
 
 ### RabbitMQ Container ######################################
 
@@ -276,7 +276,7 @@ services:
             RABBITMQ_DEFAULT_USER: guest
             RABBITMQ_DEFAULT_PASS: guest
         links:
-            - php-fpm
+            - php-fpm_v
 
 ### Beanstalkd Console Container ############################
 
@@ -302,11 +302,11 @@ services:
             - ./logs/caddy:/var/log/caddy
             - caddy:/root/.caddy
         links:
-            - php-fpm
+            - php-fpm_v
 
 ### phpMyAdmin Container ####################################
 
-    phpmyadmin:
+    phpmyadmin_v:
         build: ./phpmyadmin
         environment:
             PMA_ARBITRARY: 1
@@ -314,10 +314,10 @@ services:
             MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
         ports:
-            - "8080:80"
+            - "8080:81"
         links:
             # for mysql container
-            - "mysql:db"
+            - "mysql_v:db"
             # for mariadb container
             # - "mariadb:db"
 
@@ -341,7 +341,7 @@ services:
             - "9200:9200"
             - "9300:9300"
         links:
-            - php-fpm
+            - php-fpm_v
 
 ### Selenium Container #########################################
 
