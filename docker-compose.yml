@@ -20,7 +20,7 @@ services:
                 - INSTALL_XDEBUG=false
                 - INSTALL_SOAP=true
                 - INSTALL_MONGO=false
-                - INSTALL_NODE=false
+                - INSTALL_NODE=true
                 - INSTALL_YARN=false
                 - INSTALL_DRUSH=false
                 - INSTALL_AEROSPIKE_EXTENSION=false
@@ -62,6 +62,8 @@ services:
                 - INSTALL_EXIF=false
                 - INSTALL_AEROSPIKE_EXTENSION=false
                 - CODEIGNITER=false
+                - LDAP=true
+                - MSSQL=true
             dockerfile: Dockerfile-70
         volumes_from:
             - applications
@@ -76,7 +78,16 @@ services:
             # IMPORTANT: Set the Remote Interpreter entry matching name to `laravel`
             - PHP_IDE_CONFIG=serverName=laravel
         container_name: php-fpm
-
+### PHP Worker Container #################################
+    php-worker:
+        build:
+            context: ./php-worker
+        volumes:
+            - ../:/var/www/laravel
+        links:
+            - workspace
+        container_name: php-worker
+        
 ### Nginx Server Container ##################################
 
     nginx:
@@ -337,37 +348,6 @@ services:
             - "9300:9300"
         links:
             - php-fpm
-
-### PHP Worker to send mails and other Broadcasting stuff #################################
-    php-worker:
-        build:
-            context: ./php-fpm
-            args:
-                - INSTALL_XDEBUG=false
-                - INSTALL_SOAP=true
-                - INSTALL_MONGO=false
-                - INSTALL_ZIP_ARCHIVE=false
-                - INSTALL_BCMATH=false
-                - INSTALL_PHPREDIS=false
-                - INSTALL_MEMCACHED=false
-                - INSTALL_OPCACHE=false
-                - INSTALL_EXIF=false
-                - INSTALL_AEROSPIKE_EXTENSION=false
-                - CODEIGNITER=false
-            dockerfile: Dockerfile-70
-        volumes_from:
-            - applications
-        links:
-            - workspace
-        extra_hosts:
-            # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
-            - "dockerhost:192.168.99.100"
-        environment:
-            # IMPORTANT: Set the Remote Interpreter entry matching name to `laravel`
-            - PHP_IDE_CONFIG=serverName=laravel
-        container_name: php-worker
-        command: php artisan queue:work --sleep=1 --tries=3 --timeout=60
-
 ### Selenium Container #########################################
 
     selenium:
