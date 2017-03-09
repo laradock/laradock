@@ -165,6 +165,7 @@ What's better than a **Demo Video**:
 	- PgAdmin
 	- ElasticSearch
 	- Selenium
+	- Minio
 	- Workspace
 		- PHP7-CLI
 		- Composer
