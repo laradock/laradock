@@ -104,6 +104,7 @@ services:
             - applications
         volumes:
             - ./logs/apache2:/var/log/apache2
+            - ./apache2/sites:/etc/apache2/sites-available
         ports:
             - "80:80"
             - "443:443"
