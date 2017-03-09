@@ -7,7 +7,7 @@ services:
     applications:
         image: tianon/true
         volumes:
-          - ${APPLICATIONS_HOST_DIR}:/var/www
+          - ${APPLICATIONS_HOST_DIR}:/var/www     
 
 ### Workspace Utilities Container ###########################
 
@@ -57,8 +57,9 @@ services:
                 - INSTALL_MEMCACHED=${PHP_FPM_INSTALL_MEMCACHED}
                 - INSTALL_OPCACHE=${PHP_FPM_INSTALL_OPCACHE}
                 - INSTALL_EXIF=${PHP_FPM_INSTALL_EXIF}
-                - INSTALL_AEROSPIKE_EXTENSION=${PHP_FPM_INSTALL_AEROSPIKE_EXTENSION}
-                - CODEIGNITER=${PHP_FPM_CODEIGNITER}
+                - INSTALL_AEROSPIKE_EXTENSION=${PHP_FPM_INSTALL_AEROSPIKE_EXTENSION}                
+                - INSTALL_MYSQLI=${PHP_FPM_INSTALL_MYSQLI}
+                - INSTALL_TOKENIZER=${PHP_FPM_INSTALL_TOKENIZER}
             dockerfile: ${PHP_FPM_DOCKER_FILE}
         volumes_from:
             - applications
