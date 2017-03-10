@@ -304,9 +304,9 @@ services:
           - "8080:80"
         links:
           # for mysql container
-          # - "mysql:db"
+          - "mysql:db"
           # for mariadb container
-          - "mariadb:db"
+          # - "mariadb:db"
 
 ### pgAdmin Container #######################################
 
