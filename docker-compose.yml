@@ -15,7 +15,7 @@ services:
     workspace:
         build:
             context: ./workspace
-            args:
+            args:              
               - INSTALL_XDEBUG=false
               - INSTALL_SOAP=false
               - INSTALL_MONGO=false
@@ -119,6 +119,18 @@ services:
           - "9000"
         links:
           - workspace
+
+### Minio Container #########################################
+
+    minio:
+        build: ./minio
+        volumes:
+            - minio:/export
+        ports:
+          - "9000:9000"
+        environment:
+          MINIO_ACCESS_KEY: access
+          MINIO_SECRET_KEY: secretkey
 
 ### MySQL Container #########################################
 
@@ -336,6 +348,9 @@ services:
         build: ./selenium
         ports:
           - "4444:4444"
+        volumes:
+          # see https://github.com/SeleniumHQ/docker-selenium#running-the-images
+          - /dev/shm:/dev/shm
 
 ### Volumes Setup ###########################################
 
@@ -353,6 +368,8 @@ volumes:
     mariadb:
         driver: "local"
     mongo:
+        driver: "local"
+    minio:
         driver: "local"
     rethinkdb:
         driver: "local"
