@@ -1,20 +1,20 @@
 <nav aria-label="Navigation">
-  <a href="{{ with .Site.Params.repo_url }}{{ . }}{{ else }}{{ .Site.BaseURL }}{{ end }}" class="project">
-    <div class="banner">
-      {{ with .Site.Params.logo }}
-        <div class="logo">
-          <img src="{{ $.Site.BaseURL }}{{ . }}">
-        </div>
-      {{ end }}
-      <div class="name">
-        <strong>{{ .Site.Title }} {{ with .Site.Params.version }}<span class="version">{{ . }}</span>{{ end }}</strong>
-        {{ with .Scratch.Get "repo_id" }}
-          <br>
-          {{ . }}
-        {{ end }}
-      </div>
-    </div>
-  </a>
+  <!--<a href="{{ with .Site.Params.repo_url }}{{ . }}{{ else }}{{ .Site.BaseURL }}{{ end }}" class="project">-->
+    <!--<div class="banner">-->
+      <!--{{ with .Site.Params.logo }}-->
+        <!--<div class="logo">-->
+          <!--<img src="{{ $.Site.BaseURL }}{{ . }}">-->
+        <!--</div>-->
+      <!--{{ end }}-->
+      <!--<div class="name">-->
+        <!--<strong>{{ .Site.Title }} {{ with .Site.Params.version }}<span class="version">{{ . }}</span>{{ end }}</strong>-->
+        <!--{{ with .Scratch.Get "repo_id" }}-->
+          <!--<br>-->
+          <!--{{ . }}-->
+        <!--{{ end }}-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</a>-->
 
   <div class="scrollable">
     <div class="wrapper">
@@ -43,8 +43,8 @@
         {{ end }}
 
         {{ if isset .Site.Params "author" }}
-        <hr>
-        <span class="section">The author</span>
+        <!--<hr>-->
+        <!--<span class="section">The author</span>-->
         
         <ul>
           {{ with .Site.Social.twitter }}
@@ -55,13 +55,13 @@
           </li>
           {{ end }}
 
-          {{ with .Site.Social.github }}
-          <li>
-            <a href="https://github.com/{{ . }}" target="_blank" title="@{{ . }} on GitHub">
-              @{{ . }} on GitHub
-            </a>
-          </li>
-          {{ end }}
+          <!--{{ with .Site.Social.github }}-->
+          <!--<li>-->
+            <!--<a href="https://github.com/{{ . }}" target="_blank" title="@{{ . }} on GitHub">-->
+              <!--@{{ . }} on GitHub-->
+            <!--</a>-->
+          <!--</li>-->
+          <!--{{ end }}-->
 
           {{ with .Site.Social.email }}
           <li>
