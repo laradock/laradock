@@ -160,6 +160,7 @@ RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = true ]; then \
         && make install \
     ) \
     && rm /tmp/aerospike-client-php.tar.gz \
+    && docker-php-ext-enable aerospike \
 ;fi
 
 #####################################

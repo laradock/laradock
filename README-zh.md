@@ -153,7 +153,7 @@ Homestead 是一个工具,为你控制虚拟机(使用Homestead特殊命令)。V
 ## 演示视频
 还有什么比**演示视频**好：
 
-- LaraDock v4.0 (即将到来的...)
+- LaraDock [v4.0](https://www.youtube.com/watch?v=TQii1jDa96Y)
 - LaraDock [v2.2](https://www.youtube.com/watch?v=-DamFMczwDA)
 - LaraDock [v0.3](https://www.youtube.com/watch?v=jGkyO6Is_aI)
 - LaraDock [v0.1](https://www.youtube.com/watch?v=3YQsHe6oF80)

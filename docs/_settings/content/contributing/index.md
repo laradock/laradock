@@ -1,23 +1,47 @@
-# Contributing to LaraDock
+---
+title: Contributing
+type: index
+weight: 6
+---
 
-Your contribution is more than welcome. Let's keep LaraDock amazing.
 
+Your contribution is more than welcome.
 
-### Got a Question or Problem?
+## Got a Question or Problem?
 
 If you have questions about how to use LaraDock, please direct your questions to the discussion on [Gitter](https://gitter.im/LaraDock/laradock). If you believe your question could help others, then consider opening an [Issue](https://github.com/laradock/laradock/issues) (it will be labeled as Question).
 
-### Found an Issue?
+## Found an Issue?
 If you find a bug in the source code or a mistake in the documentation, you can help us by
 submitting an [Issue](https://github.com/laradock/laradock/issues). Even better you can submit a Pull Request with a fix.
 
-### Want a Feature?
+## Want a Feature?
 You can request a new feature by submitting an [Issue](https://github.com/laradock/laradock/issues) (it will be labeled as Feature Suggestion). If you would like to implement a new feature then consider submitting a Pull Request.
+
+
+## Edit the documentation
+
+Laradock uses [Hugo](https://gohugo.io/) as website generator tool, with the [Material Docs theme](http://themes.gohugo.io/theme/material-docs/). You might need to check their docs quickly.
+
+
+1. Install [Hugo](https://gohugo.io/) on your machine.
+2. Clone laradock.
+3. Go to `/docs`.
+4. Delete everything except the `_settings` folder & the `CNAME` file.
+5. Open `docs/_settings` from your terminal and run `hugo serve` to host the website locally.
+6. Open the `docs/_settings/content` and search for the folder of the section you want to edit.
+7. In each secion there's an `index.md` file, that's the file you need to edit.
+8. To edit the sidebar (in case you are adding new section) go to `docs/_settings/config.toml` and add the section there.
+9. After done editing, run the this command `hugo` to generate the updated site inside the `docs` folder.
+10. Go back to the project root directory, commit and push..
+
+
+
 
 
 ## Coding Guidelines
 
-### Support new Software
+## Support new Software
 
 * Create folder with the software name.
 
@@ -31,20 +55,20 @@ You can request a new feature by submitting an [Issue](https://github.com/larado
 
 * Add the software in the `Readme`.
 
-### Edit existing Software
+## Edit existing Software
 
 * Open the software (container) folder.
 
 * Edit the files you want to update.
 
 * **Note:** If you want to edit the base image of the `Workspace` or the `php-fpm` Containers, 
-you need to edit their Dockerfiles from their GitHub repositories. For more info read their Dockerfiles comment on the LaraDock repository.
+you need to edit their Docker-files from their GitHub repositories. For more info read their Dockerfiles comment on the LaraDock repository.
 
 * Make sure to update the `Readme` in case you made any changes.
 
 ## Issue/PR Submission Guidelines
 
-### Submitting an Issue
+## Submitting an Issue
 Before you submit your issue search the archive, maybe your question was already answered.
 
 If your issue appears to be a bug, and hasn't been reported, open a new issue.
@@ -52,7 +76,7 @@ Help us to maximize the effort we can spend fixing issues and adding new
 features, by not reporting duplicate issues.
 
 
-### Before Submitting a Pull Request (PR)
+## Before Submitting a Pull Request (PR)
 
 Always Test everything and make sure its working:
 
@@ -65,7 +89,7 @@ Always Test everything and make sure its working:
     - Test it in real App.
 
 
-### Submitting a PR
+## Submitting a PR
 Consider the following guidelines:
 
 * Search [GitHub](https://github.com/laradock/laradock/pulls) for an open or closed Pull Request that relates to your submission. You don't want to duplicate effort.
@@ -103,7 +127,7 @@ git push origin my-fix-branch -f
 
 
 
-### After your PR is merged
+## After your PR is merged
 
 After your pull request is merged, you can safely delete your branch and pull the changes
 from the main (upstream) repository:
@@ -137,4 +161,4 @@ from the main (upstream) repository:
 
 
 <br>
-### Happy Coding :)
+## Happy Coding :)
