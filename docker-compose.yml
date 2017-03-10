@@ -7,34 +7,32 @@ services:
     applications:
         image: tianon/true
         volumes:
-            - ../:/var/www
-#            - ../sample/:/var/www/sample
+          - ${APPLICATIONS_HOST_DIR}:/var/www     
 
 ### Workspace Utilities Container ###########################
 
     workspace:
         build:
             context: ./workspace
-            args:
-                - INSTALL_XDEBUG=false
-                - INSTALL_SOAP=false
-                - INSTALL_MONGO=false
-                - INSTALL_NODE=false
-                - INSTALL_YARN=false
-                - INSTALL_DRUSH=false
-                - INSTALL_AEROSPIKE_EXTENSION=false
-                - INSTALL_V8JS_EXTENSION=false
-                - COMPOSER_GLOBAL_INSTALL=false
-                - INSTALL_WORKSPACE_SSH=false
-                - INSTALL_LARAVEL_ENVOY=false
-                - INSTALL_DEPLOYER=false
-                - INSTALL_LINUXBREW=false
-                - INSTALL_MC=false
-                - PUID=1000
-                - PGID=1000
-                - NODE_VERSION=stable
-                - YARN_VERSION=latest
-                - TZ=UTC
+            args:                
+                - INSTALL_XDEBUG=${WORKSPACE_INSTALL_XDEBUG}
+                - INSTALL_SOAP=${WORKSPACE_INSTALL_SOAP}
+                - INSTALL_MONGO=${WORKSPACE_INSTALL_MONGO}
+                - INSTALL_NODE=${WORKSPACE_INSTALL_NODE}
+                - INSTALL_YARN=${WORKSPACE_INSTALL_YARN}
+                - INSTALL_DRUSH=${WORKSPACE_INSTALL_DRUSH}
+                - INSTALL_AEROSPIKE_EXTENSION=${WORKSPACE_INSTALL_AEROSPIKE_EXTENSION}
+                - INSTALL_V8JS_EXTENSION=${WORKSPACE_INSTALL_INSTALL_V8JS_EXTENSION}
+                - COMPOSER_GLOBAL_INSTALL=${WORKSPACE_COMPOSER_GLOBAL_INSTALL}
+                - INSTALL_WORKSPACE_SSH=${WORKSPACE_INSTALL_WORKSPACE_SSH}
+                - INSTALL_LARAVEL_ENVOY=${WORKSPACE_INSTALL_LARAVEL_ENVOY}
+                - INSTALL_DEPLOYER=${WORKSPACE_INSTALL_LARAVEL_ENVOY}
+                - INSTALL_LINUXBREW=${WORKSPACE_INSTALL_LARAVEL_ENVOY}
+                - PUID=${WORKSPACE_PUID}
+                - PGID=${WORKSPACE_PGID}
+                - NODE_VERSION=${WORKSPACE_NODE_VERSION}
+                - YARN_VERSION=${WORKSPACE_TIMEZONE}
+                - TZ=${WORKSPACE_TIMEZONE}
         volumes_from:
             - applications
         extra_hosts:
@@ -50,18 +48,19 @@ services:
         build:
             context: ./php-fpm
             args:
-                - INSTALL_XDEBUG=false
-                - INSTALL_SOAP=false
-                - INSTALL_MONGO=false
-                - INSTALL_ZIP_ARCHIVE=false
-                - INSTALL_BCMATH=false
-                - INSTALL_PHPREDIS=false
-                - INSTALL_MEMCACHED=false
-                - INSTALL_OPCACHE=false
-                - INSTALL_EXIF=false
-                - INSTALL_AEROSPIKE_EXTENSION=false
-                - CODEIGNITER=false
-            dockerfile: Dockerfile-70
+                - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
+                - INSTALL_SOAP=${PHP_FPM_INSTALL_SOAP}
+                - INSTALL_MONGO=${PHP_FPM_INSTALL_MONGO}
+                - INSTALL_ZIP_ARCHIVE=${PHP_FPM_INSTALL_ZIP_ARCHIVE}
+                - INSTALL_BCMATH=${PHP_FPM_INSTALL_BCMATH}
+                - INSTALL_PHPREDIS=${PHP_FPM_INSTALL_PHPREDIS}
+                - INSTALL_MEMCACHED=${PHP_FPM_INSTALL_MEMCACHED}
+                - INSTALL_OPCACHE=${PHP_FPM_INSTALL_OPCACHE}
+                - INSTALL_EXIF=${PHP_FPM_INSTALL_EXIF}
+                - INSTALL_AEROSPIKE_EXTENSION=${PHP_FPM_INSTALL_AEROSPIKE_EXTENSION}                
+                - INSTALL_MYSQLI=${PHP_FPM_INSTALL_MYSQLI}
+                - INSTALL_TOKENIZER=${PHP_FPM_INSTALL_TOKENIZER}
+            dockerfile: ${PHP_FPM_DOCKER_FILE}
         volumes_from:
             - applications
         expose:
@@ -84,9 +83,9 @@ services:
                 - PHP_UPSTREAM=php-fpm
         volumes_from:
             - applications
-        volumes:
-            - ./logs/nginx/:/var/log/nginx
-            - ./nginx/sites/:/etc/nginx/sites-available
+        volumes:            
+            - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
+            - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
         ports:
             - "80:80"
             - "443:443"
@@ -139,8 +138,8 @@ services:
         build:
             context: ./mysql
             args:
-                - MYSQL_DATABASE=homestead
-                - MYSQL_USER=homestead
+                - MYSQL_DATABASE=default
+                - MYSQL_USER=default
                 - MYSQL_PASSWORD=secret
                 - MYSQL_ROOT_PASSWORD=root
         volumes:
@@ -157,8 +156,8 @@ services:
         ports:
             - "3306:3306"
         environment:
-            MYSQL_DATABASE: homestead
-            MYSQL_USER: homestead
+            MYSQL_DATABASE: default
+            MYSQL_USER: default
             MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
 
@@ -171,8 +170,8 @@ services:
         ports:
             - "5432:5432"
         environment:
-            POSTGRES_DB: homestead
-            POSTGRES_USER: homestead
+            POSTGRES_DB: default
+            POSTGRES_USER: default
             POSTGRES_PASSWORD: secret
 
 ### PostgreSQL PostGis Container ############################
@@ -184,8 +183,8 @@ services:
         ports:
             - "5432:5432"
         environment:
-            POSTGRES_DB: homestead
-            POSTGRES_USER: homestead
+            POSTGRES_DB: default
+            POSTGRES_USER: default
             POSTGRES_PASSWORD: secret
 
 ### Neo4j Container #########################################
@@ -196,7 +195,7 @@ services:
             - "7474:7474"
             - "1337:1337"
         environment:
-            - NEO4J_AUTH=homestead:secret
+            - NEO4J_AUTH=default:secret
         volumes:
             - neo4j:/var/lib/neo4j/data
 
@@ -310,7 +309,7 @@ services:
         build: ./phpmyadmin
         environment:
             PMA_ARBITRARY: 1
-            MYSQL_USER: homestead
+            MYSQL_USER: default
             MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
         ports:
