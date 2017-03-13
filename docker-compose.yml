@@ -9,7 +9,6 @@ services:
         volumes:
             - ../:/var/www
 #            - ../sample/:/var/www/sample
-        container_name: volumes
 
 ### Workspace Utilities Container ###########################
 
@@ -43,8 +42,6 @@ services:
         ports:
            - "2222:22"
         tty: true
-        container_name: workspace
-
 ### PHP-FPM Container #######################################
 
     php-fpm:
@@ -64,6 +61,7 @@ services:
                 - CODEIGNITER=false
                 - LDAP=true
                 - MSSQL=true
+                - GHOSTSCRIPT=true
             dockerfile: Dockerfile-70
         volumes_from:
             - applications
@@ -77,7 +75,6 @@ services:
         environment:
             # IMPORTANT: Set the Remote Interpreter entry matching name to `laravel`
             - PHP_IDE_CONFIG=serverName=laravel
-        container_name: php-fpm
 ### PHP Worker Container #################################
     php-worker:
         build:
@@ -86,8 +83,6 @@ services:
             - ../:/var/www/laravel
         links:
             - workspace
-        container_name: php-worker
-        
 ### Nginx Server Container ##################################
 
     nginx:
@@ -105,8 +100,6 @@ services:
             - "443:443"
         links:
             - php-fpm
-        container_name: nginx
-
 ### Apache Server Container #################################
 
     apache2:
@@ -149,8 +142,6 @@ services:
             - mysql:/var/lib/mysql
         ports:
             - "3306:3306"
-        container_name: mysql
-
 ### MariaDB Container #######################################
 
     mariadb:
@@ -229,7 +220,6 @@ services:
             - redis:/data
         ports:
             - "6379:6379"
-        container_name: redis
 
 ### Aerospike c Container ###################################
 
@@ -244,7 +234,6 @@ services:
             - "3001:3001"
             - "3002:3002"
             - "3003:3003"
-
 
 ### Memcached Container #####################################
 
@@ -266,7 +255,6 @@ services:
         privileged: true
         links:
             - php-fpm
-        container_name: beanstalkd
 
 ### RabbitMQ Container ######################################
 
@@ -291,7 +279,6 @@ services:
             - "2080:2080"
         links:
             - beanstalkd
-        container_name: beanstalkd-console
 
 ### Caddy Server Container ##################################
 
