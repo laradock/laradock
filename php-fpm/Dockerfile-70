@@ -186,6 +186,17 @@ RUN if [ ${CODEIGNITER} = true ]; then \
      docker-php-ext-install tokenizer \
 ;fi
 
+#####################################
+# LDAP:
+#####################################
+ARG LDAP=false
+RUN if [ ${LDAP} = true ]; then \
+    apt-get update && \
+    apt-get install libldap2-dev -y && \
+    docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
+    docker-php-ext-install ldap \
+;fi
+
 #
 #--------------------------------------------------------------------------
 # Final Touch
