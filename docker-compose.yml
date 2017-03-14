@@ -17,9 +17,9 @@ services:
             context: ./workspace
             args:
                 - INSTALL_XDEBUG=false
-                - INSTALL_SOAP=false
+                - INSTALL_SOAP=true
                 - INSTALL_MONGO=false
-                - INSTALL_NODE=false
+                - INSTALL_NODE=true
                 - INSTALL_YARN=false
                 - INSTALL_DRUSH=false
                 - INSTALL_AEROSPIKE_EXTENSION=false
@@ -39,11 +39,10 @@ services:
             - applications
         extra_hosts:
             # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
-            - "dockerhost:10.0.75.1"
+            - "dockerhost:192.168.99.100"
         ports:
            - "2222:22"
         tty: true
-
 ### PHP-FPM Container #######################################
 
     php-fpm:
@@ -51,16 +50,19 @@ services:
             context: ./php-fpm
             args:
                 - INSTALL_XDEBUG=false
-                - INSTALL_SOAP=false
+                - INSTALL_SOAP=true
                 - INSTALL_MONGO=false
-                - INSTALL_ZIP_ARCHIVE=false
+                - INSTALL_ZIP_ARCHIVE=true
                 - INSTALL_BCMATH=false
-                - INSTALL_PHPREDIS=false
+                - INSTALL_PHPREDIS=true
                 - INSTALL_MEMCACHED=false
                 - INSTALL_OPCACHE=false
-                - INSTALL_EXIF=false
+                - INSTALL_EXIF=true
                 - INSTALL_AEROSPIKE_EXTENSION=false
                 - CODEIGNITER=false
+                - LDAP=true
+                - MSSQL=true
+                - GHOSTSCRIPT=false
             dockerfile: Dockerfile-70
         volumes_from:
             - applications
@@ -70,11 +72,19 @@ services:
             - workspace
         extra_hosts:
             # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
-            - "dockerhost:10.0.75.1"
+            - "dockerhost:192.168.99.100"
         environment:
             # IMPORTANT: Set the Remote Interpreter entry matching name to `laravel`
             - PHP_IDE_CONFIG=serverName=laravel
 
+### PHP Worker Container #################################
+    php-worker:
+        build:
+            context: ./php-worker
+        volumes:
+            - ../:/var/www/laravel
+        links:
+            - workspace
 ### Nginx Server Container ##################################
 
     nginx:
@@ -92,7 +102,6 @@ services:
             - "443:443"
         links:
             - php-fpm
-
 ### Apache Server Container #################################
 
     apache2:
@@ -147,7 +156,6 @@ services:
             - mysql:/var/lib/mysql
         ports:
             - "3306:3306"
-
 ### MariaDB Container #######################################
 
     mariadb:
@@ -240,7 +248,6 @@ services:
             - "3001:3001"
             - "3002:3002"
             - "3003:3003"
-
 
 ### Memcached Container #####################################
 
@@ -342,7 +349,6 @@ services:
             - "9300:9300"
         links:
             - php-fpm
-
 ### Selenium Container #########################################
 
     selenium:
