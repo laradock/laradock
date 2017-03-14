@@ -7,7 +7,7 @@
     </div>
     <div class="stretch">
       <div class="title">
-        {{ .Title }}
+          <b>{{ .Site.Title }}</b> <span style="color: rgba(249, 245, 255, 0.63);"> / {{ .Title }}</span>
       </div>
     </div>
 
@@ -19,8 +19,9 @@
 
     {{ with .Site.Social.github }}
     <div class="button button-github" role="button" aria-label="GitHub">
-      <a href="https://github.com/{{ . }}" title="@{{ . }} on GitHub" target="_blank" class="toggle-button icon icon-github"></a>
+        <a style="padding: 0px; font-size:40px" href="https://github.com/{{ . }}" title="@{{ . }} on GitHub" target="_blank" class="toggle-button icon icon-github"></a>
     </div>
+      <p style="font-size: 18px; padding: 8px">Github</p>
     {{ end }}
     
     <!-- TODO: disabled until Hugo supports the generation of a content index natively 

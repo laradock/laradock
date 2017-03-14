@@ -1,9 +1,10 @@
-# Laradock - Laravel APPS - CloudLab
+# Laradock
 
-> Laravel Ready Docker-Compose
+> Use Docker first and learn about it later.
 
 [![forthebadge](http://forthebadge.com/images/badges/built-by-developers.svg)](http://zalt.me)
 
+Laradock is a Docker PHP development environment that facilitate running **PHP** Apps on **Docker**.
 
 ## Documentation
 

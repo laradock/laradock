@@ -850,8 +850,35 @@ docker-compose up -d rethinkdb
 - set the `DB_DATABASE` to `database`.
 
 
+<br>
+<a name="Use-Minio"></a>
+## Use Minio
 
+1 - Configure Minio:
+  - On the workspace container, change `INSTALL_MC` to true to get the client
+  - Set `MINIO_ACCESS_KEY` and `MINIO_ACCESS_SECRET` if you wish to set proper keys
 
+2 - Run the Minio Container (`minio`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d minio
+```
+
+3 - Open your browser and visit the localhost on port **9000** at the following URL:  `http://localhost:9000`
+
+4 - Create a bucket either through the webui or using the mc client:
+  ```bash
+  mc mb minio/bucket
+  ```
+
+5 - When configuring your other clients use the following details:
+  ```
+  S3_HOST=http://minio
+  S3_KEY=access
+  S3_SECRET=secretkey
+  S3_REGION=us-east-1
+  S3_BUCKET=bucket
+  ```
 
 
 <br>

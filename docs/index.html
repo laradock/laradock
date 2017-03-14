@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=10" />
-    <title>Laradock Docs</title>
+    <title>Laradock</title>
     <meta name="generator" content="Hugo 0.18.1" />
 
     
@@ -21,9 +21,9 @@
     
 
     <meta property="og:url" content="http://laradock.io/">
-    <meta property="og:title" content="Laradock Docs">
+    <meta property="og:title" content="Laradock">
     
-    <meta name="apple-mobile-web-app-title" content="Laradock Docs">
+    <meta name="apple-mobile-web-app-title" content="Laradock">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
@@ -69,17 +69,14 @@
     <script src="http://laradock.io/javascripts/modernizr.js"></script>
 
     
-    <link href="http://laradock.io/index.xml" rel="alternate" type="application/rss+xml" title="Laradock Docs" />
-    <link href="http://laradock.io/index.xml" rel="feed" type="application/rss+xml" title="Laradock Docs" />
+    <link href="http://laradock.io/index.xml" rel="alternate" type="application/rss+xml" title="Laradock" />
+    <link href="http://laradock.io/index.xml" rel="feed" type="application/rss+xml" title="Laradock" />
     
 
   </head>
-  <body class="palette-primary-purple palette-accent-deep-purple">
+  <body class="palette-primary-deep-purple palette-accent-purple">
 
 
-
-	
-	
 
 
 <div class="backdrop">
@@ -100,7 +97,7 @@
     </div>
     <div class="stretch">
       <div class="title">
-        Laradock Docs
+          <b>Laradock</b> <span style="color: rgba(249, 245, 255, 0.63);"> / Laradock</span>
       </div>
     </div>
 
@@ -108,8 +105,9 @@
 
     
     <div class="button button-github" role="button" aria-label="GitHub">
-      <a href="https://github.com/laradock" title="@laradock on GitHub" target="_blank" class="toggle-button icon icon-github"></a>
+        <a style="padding: 0px; font-size:40px" href="https://github.com/laradock/laradock" title="@laradock/laradock on GitHub" target="_blank" class="toggle-button icon icon-github"></a>
     </div>
+      <p style="font-size: 18px; padding: 8px">Github</p>
     
     
         
@@ -128,41 +126,24 @@
     </div>
   </div>
 </nav>
+
 </header>
 
 <main class="main">
 	<div class="drawer">
 		<nav aria-label="Navigation">
-  <a href="https://github.com/laradock/laradock" class="project">
-    <div class="banner">
+  
+    
       
-      <div class="name">
-        <strong>Laradock Docs </strong>
+      
         
-          <br>
-          laradock/laradock
         
-      </div>
-    </div>
-  </a>
+      
+    
+  
 
   <div class="scrollable">
     <div class="wrapper">
-      
-        <ul class="repo">
-          <li class="repo-download">
-            <a href="https://github.com/laradock/laradock/archive/master.zip" target="_blank" title="Download" data-action="download">
-              <i class="icon icon-download"></i> Download
-            </a>
-          </li>
-          <li class="repo-stars">
-            <a href="https://github.com/laradock/laradock/stargazers" target="_blank" title="Stargazers" data-action="star">
-              <i class="icon icon-star"></i> Stars
-              <span class="count">&ndash;</span>
-            </a>
-          </li>
-        </ul>
-        <hr>
       
 
       <div class="toc">
@@ -302,18 +283,18 @@
         
 
         
-        <hr>
-        <span class="section">The author</span>
+        
+        
         
         <ul>
           
 
           
-          <li>
-            <a href="https://github.com/laradock" target="_blank" title="@laradock on GitHub">
-              @laradock on GitHub
-            </a>
-          </li>
+          
+            
+              
+            
+          
           
 
           
@@ -484,6 +465,7 @@ QUEUE_HOST=beanstalkd
 <li>PgAdmin</li>
 <li>ElasticSearch</li>
 <li>Selenium</li>
+<li>Minio</li>
 <li>Workspace
 
 <ul>
@@ -1380,6 +1362,36 @@ A package (<a href="https://github.com/duxet/laravel-rethinkdb">Laravel RethinkD
 </ul>
 
 <p><br>
+<a name="Use-Minio"></a></p>
+
+<h2 id="use-minio">Use Minio</h2>
+
+<p>1 - Configure Minio:
+  - On the workspace container, change <code>INSTALL_MC</code> to true to get the client
+  - Set <code>MINIO_ACCESS_KEY</code> and <code>MINIO_ACCESS_SECRET</code> if you wish to set proper keys</p>
+
+<p>2 - Run the Minio Container (<code>minio</code>) with the <code>docker-compose up</code> command. Example:</p>
+
+<pre><code class="language-bash">docker-compose up -d minio
+</code></pre>
+
+<p>3 - Open your browser and visit the localhost on port <strong>9000</strong> at the following URL:  <code>http://localhost:9000</code></p>
+
+<p>4 - Create a bucket either through the webui or using the mc client:</p>
+
+<pre><code class="language-bash">  mc mb minio/bucket
+</code></pre>
+
+<p>5 - When configuring your other clients use the following details:</p>
+
+<pre><code>  S3_HOST=http://minio
+  S3_KEY=access
+  S3_SECRET=secretkey
+  S3_REGION=us-east-1
+  S3_BUCKET=bucket
+</code></pre>
+
+<p><br>
 <a name="CodeIgniter"></a></p>
 
 <p><br>
@@ -1889,7 +1901,7 @@ submitting an <a href="https://github.com/laradock/laradock/issues">Issue</a>. E
 
 <p>You can request a new feature by submitting an <a href="https://github.com/laradock/laradock/issues">Issue</a> (it will be labeled as Feature Suggestion). If you would like to implement a new feature then consider submitting a Pull Request.</p>
 
-<h2 id="edit-the-documentation">Edit the documentation</h2>
+<h2 id="update-documentation-site">Update Documentation (Site)</h2>
 
 <p>Laradock uses <a href="https://gohugo.io/">Hugo</a> as website generator tool, with the <a href="http://themes.gohugo.io/theme/material-docs/">Material Docs theme</a>. You might need to check their docs quickly.</p>
 
@@ -1900,7 +1912,7 @@ submitting an <a href="https://github.com/laradock/laradock/issues">Issue</a>. E
 <li>Delete everything except the <code>_settings</code> folder &amp; the <code>CNAME</code> file.</li>
 <li>Open <code>docs/_settings</code> from your terminal and run <code>hugo serve</code> to host the website locally.</li>
 <li>Open the <code>docs/_settings/content</code> and search for the folder of the section you want to edit.</li>
-<li>In each secion there&rsquo;s an <code>index.md</code> file, that&rsquo;s the file you need to edit.</li>
+<li>In each section there&rsquo;s an <code>index.md</code> file, that&rsquo;s the file you need to edit.</li>
 <li>To edit the sidebar (in case you are adding new section) go to <code>docs/_settings/config.toml</code> and add the section there.</li>
 <li>After done editing, run the this command <code>hugo</code> to generate the updated site inside the <code>docs</code> folder.</li>
 <li>Go back to the project root directory, commit and push..</li>
@@ -2054,7 +2066,9 @@ from the main (upstream) repository:</p>
 				Documentation built with
 				<a href="https://www.gohugo.io" target="_blank">Hugo</a>
 				using the
-				<a href="http://github.com/digitalcraftsman/hugo-material-docs" target="_blank">Material</a> theme.
+				<a href="http://github.com/digitalcraftsman/hugo-material-docs" target="_blank">Material</a> theme,
+                by
+                <a href="https://zalt.me">Mahmoud Zalt</a>.
 			</aside>
 
 			<footer class="footer">
@@ -2105,8 +2119,8 @@ from the main (upstream) repository:</p>
 
     <script>
     
-      var base_url = 'http:\/\/laradock.io\/';
-      var repo_id  = 'laradock\/laradock';
+      var base_url = '';
+      var repo_id  = '';
     
     </script>
 

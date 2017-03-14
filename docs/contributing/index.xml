@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Contributings on Laradock Docs</title>
+    <title>Contributings on Laradock</title>
     <link>http://laradock.io/contributing/index.xml</link>
-    <description>Recent content in Contributings on Laradock Docs</description>
+    <description>Recent content in Contributings on Laradock</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <atom:link href="http://laradock.io/contributing/index.xml" rel="self" type="application/rss+xml" />
@@ -31,7 +31,7 @@ submitting an &lt;a href=&#34;https://github.com/laradock/laradock/issues&#34;&g
 
 &lt;p&gt;You can request a new feature by submitting an &lt;a href=&#34;https://github.com/laradock/laradock/issues&#34;&gt;Issue&lt;/a&gt; (it will be labeled as Feature Suggestion). If you would like to implement a new feature then consider submitting a Pull Request.&lt;/p&gt;
 
-&lt;h2 id=&#34;edit-the-documentation&#34;&gt;Edit the documentation&lt;/h2&gt;
+&lt;h2 id=&#34;update-documentation-site&#34;&gt;Update Documentation (Site)&lt;/h2&gt;
 
 &lt;p&gt;Laradock uses &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; as website generator tool, with the &lt;a href=&#34;http://themes.gohugo.io/theme/material-docs/&#34;&gt;Material Docs theme&lt;/a&gt;. You might need to check their docs quickly.&lt;/p&gt;
 
@@ -42,7 +42,7 @@ submitting an &lt;a href=&#34;https://github.com/laradock/laradock/issues&#34;&g
 &lt;li&gt;Delete everything except the &lt;code&gt;_settings&lt;/code&gt; folder &amp;amp; the &lt;code&gt;CNAME&lt;/code&gt; file.&lt;/li&gt;
 &lt;li&gt;Open &lt;code&gt;docs/_settings&lt;/code&gt; from your terminal and run &lt;code&gt;hugo serve&lt;/code&gt; to host the website locally.&lt;/li&gt;
 &lt;li&gt;Open the &lt;code&gt;docs/_settings/content&lt;/code&gt; and search for the folder of the section you want to edit.&lt;/li&gt;
-&lt;li&gt;In each secion there&amp;rsquo;s an &lt;code&gt;index.md&lt;/code&gt; file, that&amp;rsquo;s the file you need to edit.&lt;/li&gt;
+&lt;li&gt;In each section there&amp;rsquo;s an &lt;code&gt;index.md&lt;/code&gt; file, that&amp;rsquo;s the file you need to edit.&lt;/li&gt;
 &lt;li&gt;To edit the sidebar (in case you are adding new section) go to &lt;code&gt;docs/_settings/config.toml&lt;/code&gt; and add the section there.&lt;/li&gt;
 &lt;li&gt;After done editing, run the this command &lt;code&gt;hugo&lt;/code&gt; to generate the updated site inside the &lt;code&gt;docs&lt;/code&gt; folder.&lt;/li&gt;
 &lt;li&gt;Go back to the project root directory, commit and push..&lt;/li&gt;
