@@ -74,6 +74,15 @@ services:
         environment:
             # IMPORTANT: Set the Remote Interpreter entry matching name to `laravel`
             - PHP_IDE_CONFIG=serverName=laravel
+            
+### PHP Worker Container #################################
+    php-worker:
+        build:
+            context: ./php-worker
+        volumes:
+            - ../:/var/www/laravel
+        links:
+            - workspace
 
 ### Nginx Server Container ##################################
 
