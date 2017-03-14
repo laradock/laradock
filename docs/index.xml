@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Laradock Docs</title>
+    <title>Laradock</title>
     <link>http://laradock.io/index.xml</link>
-    <description>Recent content on Laradock Docs</description>
+    <description>Recent content on Laradock</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <atom:link href="http://laradock.io/index.xml" rel="self" type="application/rss+xml" />
@@ -167,6 +167,7 @@ QUEUE_HOST=beanstalkd
 &lt;li&gt;PgAdmin&lt;/li&gt;
 &lt;li&gt;ElasticSearch&lt;/li&gt;
 &lt;li&gt;Selenium&lt;/li&gt;
+&lt;li&gt;Minio&lt;/li&gt;
 &lt;li&gt;Workspace
 
 &lt;ul&gt;
@@ -1073,6 +1074,36 @@ A package (&lt;a href=&#34;https://github.com/duxet/laravel-rethinkdb&#34;&gt;La
 &lt;/ul&gt;
 
 &lt;p&gt;&lt;br&gt;
+&lt;a name=&#34;Use-Minio&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;use-minio&#34;&gt;Use Minio&lt;/h2&gt;
+
+&lt;p&gt;1 - Configure Minio:
+  - On the workspace container, change &lt;code&gt;INSTALL_MC&lt;/code&gt; to true to get the client
+  - Set &lt;code&gt;MINIO_ACCESS_KEY&lt;/code&gt; and &lt;code&gt;MINIO_ACCESS_SECRET&lt;/code&gt; if you wish to set proper keys&lt;/p&gt;
+
+&lt;p&gt;2 - Run the Minio Container (&lt;code&gt;minio&lt;/code&gt;) with the &lt;code&gt;docker-compose up&lt;/code&gt; command. Example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;docker-compose up -d minio
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;3 - Open your browser and visit the localhost on port &lt;strong&gt;9000&lt;/strong&gt; at the following URL:  &lt;code&gt;http://localhost:9000&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;4 - Create a bucket either through the webui or using the mc client:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;  mc mb minio/bucket
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;5 - When configuring your other clients use the following details:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  S3_HOST=http://minio
+  S3_KEY=access
+  S3_SECRET=secretkey
+  S3_REGION=us-east-1
+  S3_BUCKET=bucket
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;br&gt;
 &lt;a name=&#34;CodeIgniter&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;
@@ -1597,7 +1628,7 @@ submitting an &lt;a href=&#34;https://github.com/laradock/laradock/issues&#34;&g
 
 &lt;p&gt;You can request a new feature by submitting an &lt;a href=&#34;https://github.com/laradock/laradock/issues&#34;&gt;Issue&lt;/a&gt; (it will be labeled as Feature Suggestion). If you would like to implement a new feature then consider submitting a Pull Request.&lt;/p&gt;
 
-&lt;h2 id=&#34;edit-the-documentation&#34;&gt;Edit the documentation&lt;/h2&gt;
+&lt;h2 id=&#34;update-documentation-site&#34;&gt;Update Documentation (Site)&lt;/h2&gt;
 
 &lt;p&gt;Laradock uses &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; as website generator tool, with the &lt;a href=&#34;http://themes.gohugo.io/theme/material-docs/&#34;&gt;Material Docs theme&lt;/a&gt;. You might need to check their docs quickly.&lt;/p&gt;
 
@@ -1608,7 +1639,7 @@ submitting an &lt;a href=&#34;https://github.com/laradock/laradock/issues&#34;&g
 &lt;li&gt;Delete everything except the &lt;code&gt;_settings&lt;/code&gt; folder &amp;amp; the &lt;code&gt;CNAME&lt;/code&gt; file.&lt;/li&gt;
 &lt;li&gt;Open &lt;code&gt;docs/_settings&lt;/code&gt; from your terminal and run &lt;code&gt;hugo serve&lt;/code&gt; to host the website locally.&lt;/li&gt;
 &lt;li&gt;Open the &lt;code&gt;docs/_settings/content&lt;/code&gt; and search for the folder of the section you want to edit.&lt;/li&gt;
-&lt;li&gt;In each secion there&amp;rsquo;s an &lt;code&gt;index.md&lt;/code&gt; file, that&amp;rsquo;s the file you need to edit.&lt;/li&gt;
+&lt;li&gt;In each section there&amp;rsquo;s an &lt;code&gt;index.md&lt;/code&gt; file, that&amp;rsquo;s the file you need to edit.&lt;/li&gt;
 &lt;li&gt;To edit the sidebar (in case you are adding new section) go to &lt;code&gt;docs/_settings/config.toml&lt;/code&gt; and add the section there.&lt;/li&gt;
 &lt;li&gt;After done editing, run the this command &lt;code&gt;hugo&lt;/code&gt; to generate the updated site inside the &lt;code&gt;docs&lt;/code&gt; folder.&lt;/li&gt;
 &lt;li&gt;Go back to the project root directory, commit and push..&lt;/li&gt;

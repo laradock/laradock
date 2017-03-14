@@ -1,7 +1,7 @@
 baseurl = "http://laradock.io/"
 languageCode = "en-us"
 publishDir = "../"
-title = "Laradock Docs"
+title = "Laradock"
 theme = "hugo-material-docs"
 metadataformat = "yaml"
 canonifyurls = true
@@ -15,8 +15,8 @@ googleAnalytics = "UA-37514928-9"
 	copyright = ""
 
 	# Repository
-	provider = "GitHub"
-	repo_url = "https://github.com/laradock/laradock"
+	provider = ""
+	repo_url = ""
 
 	version = ""
 	logo = ""
@@ -32,8 +32,8 @@ googleAnalytics = "UA-37514928-9"
 	highlight_css  = ""
 
 	[params.palette]
-    	primary = "purple"
-    	accent  = "deep-purple"
+    	primary = "deep-purple"
+    	accent  = "purple"
 
     [params.font]
     	text = "Doctarine"
@@ -41,7 +41,7 @@ googleAnalytics = "UA-37514928-9"
 
 [social]
 	twitter = ""
-	github  = "laradock"
+	github  = "laradock/laradock"
 	email   = ""
 
 # ------- MENU START -----------------------------------------

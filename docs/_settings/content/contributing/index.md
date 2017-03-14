@@ -19,7 +19,7 @@ submitting an [Issue](https://github.com/laradock/laradock/issues). Even better 
 You can request a new feature by submitting an [Issue](https://github.com/laradock/laradock/issues) (it will be labeled as Feature Suggestion). If you would like to implement a new feature then consider submitting a Pull Request.
 
 
-## Edit the documentation
+## Update Documentation (Site)
 
 Laradock uses [Hugo](https://gohugo.io/) as website generator tool, with the [Material Docs theme](http://themes.gohugo.io/theme/material-docs/). You might need to check their docs quickly.
 
@@ -30,7 +30,7 @@ Laradock uses [Hugo](https://gohugo.io/) as website generator tool, with the [Ma
 4. Delete everything except the `_settings` folder & the `CNAME` file.
 5. Open `docs/_settings` from your terminal and run `hugo serve` to host the website locally.
 6. Open the `docs/_settings/content` and search for the folder of the section you want to edit.
-7. In each secion there's an `index.md` file, that's the file you need to edit.
+7. In each section there's an `index.md` file, that's the file you need to edit.
 8. To edit the sidebar (in case you are adding new section) go to `docs/_settings/config.toml` and add the section there.
 9. After done editing, run the this command `hugo` to generate the updated site inside the `docs` folder.
 10. Go back to the project root directory, commit and push..

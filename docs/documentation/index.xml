@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Documentations on Laradock Docs</title>
+    <title>Documentations on Laradock</title>
     <link>http://laradock.io/documentation/index.xml</link>
-    <description>Recent content in Documentations on Laradock Docs</description>
+    <description>Recent content in Documentations on Laradock</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <atom:link href="http://laradock.io/documentation/index.xml" rel="self" type="application/rss+xml" />
@@ -711,6 +711,36 @@ A package (&lt;a href=&#34;https://github.com/duxet/laravel-rethinkdb&#34;&gt;La
 &lt;li&gt;set the &lt;code&gt;DB_PORT&lt;/code&gt; to &lt;code&gt;28015&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;set the &lt;code&gt;DB_DATABASE&lt;/code&gt; to &lt;code&gt;database&lt;/code&gt;.&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;p&gt;&lt;br&gt;
+&lt;a name=&#34;Use-Minio&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;use-minio&#34;&gt;Use Minio&lt;/h2&gt;
+
+&lt;p&gt;1 - Configure Minio:
+  - On the workspace container, change &lt;code&gt;INSTALL_MC&lt;/code&gt; to true to get the client
+  - Set &lt;code&gt;MINIO_ACCESS_KEY&lt;/code&gt; and &lt;code&gt;MINIO_ACCESS_SECRET&lt;/code&gt; if you wish to set proper keys&lt;/p&gt;
+
+&lt;p&gt;2 - Run the Minio Container (&lt;code&gt;minio&lt;/code&gt;) with the &lt;code&gt;docker-compose up&lt;/code&gt; command. Example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;docker-compose up -d minio
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;3 - Open your browser and visit the localhost on port &lt;strong&gt;9000&lt;/strong&gt; at the following URL:  &lt;code&gt;http://localhost:9000&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;4 - Create a bucket either through the webui or using the mc client:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;  mc mb minio/bucket
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;5 - When configuring your other clients use the following details:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  S3_HOST=http://minio
+  S3_KEY=access
+  S3_SECRET=secretkey
+  S3_REGION=us-east-1
+  S3_BUCKET=bucket
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;br&gt;
 &lt;a name=&#34;CodeIgniter&#34;&gt;&lt;/a&gt;&lt;/p&gt;
