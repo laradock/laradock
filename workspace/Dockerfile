@@ -63,7 +63,6 @@ RUN if [ ${INSTALL_SOAP} = true ]; then \
   apt-get -y install libxml2-dev php7.0-soap && \
   echo "extension=soap.so" >> /etc/php/7.0/cli/conf.d/40-soap.ini \
 ;fi
-
 #####################################
 # Set Timezone
 #####################################
