@@ -186,6 +186,20 @@ RUN if [ ${CODEIGNITER} = true ]; then \
      docker-php-ext-install tokenizer \
 ;fi
 
+#####################################
+# GHOSTSCRIPT:
+#####################################
+
+ARG GHOSTSCRIPT=false
+RUN if [ ${GHOSTSCRIPT} = true ]; then \
+    # Install the ghostscript extension
+    # for PDF editing
+    apt-get -y update \
+    && apt-get install -y \
+    poppler-utils \
+    ghostscript \
+;fi
+
 #
 #--------------------------------------------------------------------------
 # Final Touch
