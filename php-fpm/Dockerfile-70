@@ -269,6 +269,18 @@ RUN if [ ${MSSQL} = true ]; then \
     && locale-gen \
 ;fi
 
+#####################################
+# GHOSTSCRIPT:
+#####################################
+
+ARG GHOSTSCRIPT=false
+RUN if [ ${GHOSTSCRIPT} = true ]; then \
+    # Install the mongodb extension
+    apt-get -y update \
+    && apt-get install -y \
+    poppler-utils \
+    ghostscript \
+;fi
 
 #
 #--------------------------------------------------------------------------
