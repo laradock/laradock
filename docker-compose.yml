@@ -61,6 +61,7 @@ services:
                 - INSTALL_EXIF=false
                 - INSTALL_AEROSPIKE_EXTENSION=false
                 - CODEIGNITER=false
+                - LDAP=false
             dockerfile: Dockerfile-70
         volumes_from:
             - applications
