@@ -36,10 +36,9 @@ services:
         volumes_from:
             - applications
         extra_hosts:
-            # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
-            - "dockerhost:10.0.75.1"
+            - "dockerhost:${DOCKER_HOST_IP}"
         ports:
-           - "2222:22"
+           - "${WORKSPACE_SSH_PORT}:22"
         tty: true
 
 ### PHP-FPM Container #######################################
@@ -68,11 +67,9 @@ services:
         links:
             - workspace
         extra_hosts:
-            # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
-            - "dockerhost:10.0.75.1"
+            - "dockerhost:${DOCKER_HOST_IP}"
         environment:
-            # IMPORTANT: Set the Remote Interpreter entry matching name to `laravel`
-            - PHP_IDE_CONFIG=serverName=laravel
+            - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
 
 ### Nginx Server Container ##################################
 
@@ -87,8 +84,8 @@ services:
             - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
             - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
         ports:
-            - "80:80"
-            - "443:443"
+            - "${NGINX_HOST_HTTP_PORT}:80"
+            - "${NGINX_HOST_HTTPS_PORT}:443"
         links:
             - php-fpm
 
@@ -98,14 +95,14 @@ services:
         build:
             context: ./apache2
             args:
-                - PHP_SOCKET=php-fpm:9000
+                - PHP_SOCKET=${PHP_SOCKET}
         volumes_from:
             - applications
         volumes:
-            - ./logs/apache2:/var/log/apache2
+            - ${APACHE_HOST_LOG_PATH}:/var/log/apache2
         ports:
-            - "80:80"
-            - "443:443"
+            - "${APACHE_HOST_HTTP_PORT}:80"
+            - "${APACHE_HOST_HTTPS_PORT}:443"
         links:
             - php-fpm
 
@@ -127,7 +124,7 @@ services:
         volumes:
             - minio:/export
         ports:
-          - "9000:9000"
+          - "${MINIO_PORT}:9000"
         environment:
           MINIO_ACCESS_KEY: access
           MINIO_SECRET_KEY: secretkey
@@ -138,14 +135,14 @@ services:
         build:
             context: ./mysql
             args:
-                - MYSQL_DATABASE=default
-                - MYSQL_USER=default
-                - MYSQL_PASSWORD=secret
-                - MYSQL_ROOT_PASSWORD=root
+                - MYSQL_DATABASE=${MYSQL_DATABASE}
+                - MYSQL_USER=${MYSQL_USER}
+                - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+                - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
         volumes:
             - mysql:/var/lib/mysql
         ports:
-            - "3306:3306"
+            - "${MYSQL_PORT}:3306"
 
 ### MariaDB Container #######################################
 
@@ -154,12 +151,12 @@ services:
         volumes:
             - mariadb:/var/lib/mysql
         ports:
-            - "3306:3306"
+            - "${MARIADB_PORT}:3306"
         environment:
-            MYSQL_DATABASE: default
-            MYSQL_USER: default
-            MYSQL_PASSWORD: secret
-            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: ${MARIADB_DATABASE}
+            MYSQL_USER: ${MARIADB_USER}
+            MYSQL_PASSWORD: ${MARIADB_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MARIADB_PORT}
 
 ### PostgreSQL Container ####################################
 
@@ -168,11 +165,11 @@ services:
         volumes:
             - postgres:/var/lib/postgresql/data
         ports:
-            - "5432:5432"
+            - "${POSTGRES_PORT}:5432"
         environment:
-            POSTGRES_DB: default
-            POSTGRES_USER: default
-            POSTGRES_PASSWORD: secret
+            POSTGRES_DB: ${POSTGRES_DB}
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
 ### PostgreSQL PostGis Container ############################
 
@@ -181,11 +178,11 @@ services:
         volumes:
             - postgres:/var/lib/postgresql/data
         ports:
-            - "5432:5432"
+            - "${POSTGRES_PORT}:5432"
         environment:
-            POSTGRES_DB: default
-            POSTGRES_USER: default
-            POSTGRES_PASSWORD: secret
+            POSTGRES_DB: ${POSTGRES_DB}
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
 ### Neo4j Container #########################################
 
@@ -248,7 +245,7 @@ services:
         volumes:
             - memcached:/var/lib/memcached
         ports:
-            - "11211:11211"
+            - "${MEMCACHED_HOST_PORT}:11211"
         links:
             - php-fpm
 
@@ -257,7 +254,7 @@ services:
     beanstalkd:
         build: ./beanstalkd
         ports:
-            - "11300:11300"
+            - "${BEANSTALKD_HOST_PORT}:11300"
         privileged: true
         links:
             - php-fpm
@@ -267,13 +264,13 @@ services:
     rabbitmq:
         build: ./rabbitmq
         ports:
-            - "5672:5672"
-            - "15671:15671"
-            - "8080:15672"
+            - "${RABBITMQ_NODE_HOST_PORT}:5672"
+            - "${RABBITMQ_MANAGEMENT_HTTP_HOST_PORT}:15672"
+            - "${RABBITMQ_MANAGEMENT_HTTPS_HOST_PORT}:15671"
         privileged: true
         environment:
-            RABBITMQ_DEFAULT_USER: guest
-            RABBITMQ_DEFAULT_PASS: guest
+            RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
         links:
             - php-fpm
 
@@ -309,14 +306,14 @@ services:
         build: ./phpmyadmin
         environment:
             PMA_ARBITRARY: 1
-            MYSQL_USER: default
-            MYSQL_PASSWORD: secret
-            MYSQL_ROOT_PASSWORD: root
+            MYSQL_USER: ${PMA_USER}
+            MYSQL_PASSWORD: ${PMA_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${PMA_ROOT_PASSWORD}
         ports:
-            - "8080:80"
+            - "${PMA_PORT}:80"
         links:
             # for mysql container
-            - "mysql:db"
+            - "${PMA_DB_ENGINE}:db"
             # for mariadb container
             # - "mariadb:db"
 
@@ -337,8 +334,8 @@ services:
             - elasticsearch-data:/usr/share/elasticsearch/data
             - elasticsearch-plugins:/usr/share/elasticsearch/data
         ports:
-            - "9200:9200"
-            - "9300:9300"
+            - "${ELASTICSEARCH_HOST_HTTP_PORT}:9200"
+            - "${ELASTICSEARCH_HOST_TRANSPORT_PORT}:9300"
         links:
             - php-fpm
 
@@ -347,7 +344,7 @@ services:
     selenium:
         build: ./selenium
         ports:
-            - "4444:4444"
+            - "${SELENIUM_PORT}:4444"
         volumes:
             # see https://github.com/SeleniumHQ/docker-selenium#running-the-images
             - /dev/shm:/dev/shm
