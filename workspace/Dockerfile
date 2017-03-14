@@ -60,7 +60,7 @@ RUN if [ ${INSTALL_SOAP} = true ]; then \
   # Install the PHP SOAP extension
   apt-get -y update && \
   add-apt-repository -y ppa:ondrej/php && \
-  apt-get -y install libxml2-dev php7.0-soap php7.0-ldap php7.0-sybase freetds-common libsybdb5  && \
+  apt-get -y install libxml2-dev php7.0-soap && \
   echo "extension=soap.so" >> /etc/php/7.0/cli/conf.d/40-soap.ini \
 ;fi
 #####################################
