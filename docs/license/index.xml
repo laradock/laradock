@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Licenses on Laradock</title>
-    <link>http://laradock.io/license/index.xml</link>
+    <link>http://laradock.io/license/</link>
     <description>Recent content in Licenses on Laradock</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>

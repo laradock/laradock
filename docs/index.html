@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=10" />
     <title>Laradock</title>
-    <meta name="generator" content="Hugo 0.18.1" />
+    <meta name="generator" content="Hugo 0.16-DEV" />
 
     
     <meta name="description" content="Laradock documentations.">
@@ -310,6 +310,10 @@
 	<article class="article">
 		<div class="wrapper">
 			
+				<h1>Welcome </h1>
+
+				
+			
 				<h1>Introduction </h1>
 
 				
@@ -596,6 +600,13 @@ QUEUE_HOST=beanstalkd
 </code></pre>
 
 <p>7 - Create your project Databases. Right now you have to do it manually by entering your DB container, until we automate it soon.</p>
+
+<p>8 - Sometimes you may want to call <code>docker-compose &lt;anything&gt;</code> from anywhere on your filesystem. You can do this on Mac / Linux systems by adding a Bash function to your Bash profile (just add this lines inside your ~/.bashrc).</p>
+
+<pre><code class="language-bash">function laradock() {
+    ( cd ~/laradock &amp;&amp; docker-compose $* )
+}
+</code></pre>
 
 <h2 id="usage">Usage</h2>
 
@@ -2056,10 +2067,6 @@ from the main (upstream) repository:</p>
 				<p><a href="https://github.com/laradock/laradock/blob/master/LICENSE">MIT License</a> (MIT)</p>
 
 			
-				<h1>Welcome </h1>
-
-				
-			
 
 			<aside class="copyright" role="note">
 				
@@ -2083,14 +2090,14 @@ from the main (upstream) repository:</p>
   
   
   <div class="next">
-      <a href="http://laradock.io/getting-started/" title="Getting Started">
+      <a href="http://laradock.io/introduction/" title="Introduction">
         <span class="direction">
           Next
         </span>
         <div class="page">
           <div class="stretch">
             <div class="title">
-              Getting Started
+              Introduction
             </div>
           </div>
           <div class="button button-next" role="button" aria-label="Next">

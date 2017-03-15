@@ -2,11 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Laradock</title>
-    <link>http://laradock.io/index.xml</link>
+    <link>http://laradock.io/</link>
     <description>Recent content on Laradock</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <atom:link href="http://laradock.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Welcome</title>
+      <link>http://laradock.io/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://laradock.io/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Introduction</title>
@@ -303,6 +312,13 @@ QUEUE_HOST=beanstalkd
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;7 - Create your project Databases. Right now you have to do it manually by entering your DB container, until we automate it soon.&lt;/p&gt;
+
+&lt;p&gt;8 - Sometimes you may want to call &lt;code&gt;docker-compose &amp;lt;anything&amp;gt;&lt;/code&gt; from anywhere on your filesystem. You can do this on Mac / Linux systems by adding a Bash function to your Bash profile (just add this lines inside your ~/.bashrc).&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;function laradock() {
+    ( cd ~/laradock &amp;amp;&amp;amp; docker-compose $* )
+}
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&#34;usage&#34;&gt;Usage&lt;/h2&gt;
 
@@ -1787,15 +1803,6 @@ from the main (upstream) repository:&lt;/p&gt;
       <guid>http://laradock.io/license/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://github.com/laradock/laradock/blob/master/LICENSE&#34;&gt;MIT License&lt;/a&gt; (MIT)&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Welcome</title>
-      <link>http://laradock.io/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://laradock.io/</guid>
-      <description></description>
     </item>
     
   </channel>
