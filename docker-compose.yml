@@ -344,6 +344,14 @@ services:
         links:
             - php-fpm
 
+### Mailhog Container #########################################
+
+    mailhog:
+        build: ./mailhog
+        ports:
+            - "1025:1025"
+            - "8025:8025"
+
 ### Selenium Container #########################################
 
     selenium:
