@@ -123,7 +123,13 @@ Do the same for each project `project2.conf`, `project3.conf`,...
 
 7 - Create your project Databases. Right now you have to do it manually by entering your DB container, until we automate it soon.
 
+8 - Sometimes you may want to call `docker-compose <anything>` from anywhere on your filesystem. You can do this on Mac / Linux systems by adding a Bash function to your Bash profile (just add this lines inside your ~/.bashrc).
 
+```bash
+function laradock() {
+    ( cd ~/laradock && docker-compose $* )
+}
+```
 
 
 

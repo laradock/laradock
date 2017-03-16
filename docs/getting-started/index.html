@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=10" />
     <title>Getting Started - Laradock</title>
-    <meta name="generator" content="Hugo 0.18.1" />
+    <meta name="generator" content="Hugo 0.16-DEV" />
 
     
     <meta name="description" content="Laradock documentations.">
@@ -437,6 +437,13 @@
 </code></pre>
 
 <p>7 - Create your project Databases. Right now you have to do it manually by entering your DB container, until we automate it soon.</p>
+
+<p>8 - Sometimes you may want to call <code>docker-compose &lt;anything&gt;</code> from anywhere on your filesystem. You can do this on Mac / Linux systems by adding a Bash function to your Bash profile (just add this lines inside your ~/.bashrc).</p>
+
+<pre><code class="language-bash">function laradock() {
+    ( cd ~/laradock &amp;&amp; docker-compose $* )
+}
+</code></pre>
 
 <h2 id="usage">Usage</h2>
 

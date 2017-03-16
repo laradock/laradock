@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Documentations on Laradock</title>
-    <link>http://laradock.io/documentation/index.xml</link>
+    <link>http://laradock.io/documentation/</link>
     <description>Recent content in Documentations on Laradock</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
