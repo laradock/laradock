@@ -15,3 +15,6 @@ WORKDIR /var/www/public
 ENTRYPOINT ["/opt/docker/bin/entrypoint.sh"]
 
 CMD ["supervisord"]
+
+# Update the default apache site with the config we created.
+ADD apache-config.conf /etc/apache2/sites-enabled/000-default.conf
