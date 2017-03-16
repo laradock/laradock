@@ -563,11 +563,13 @@ QUEUE_HOST=beanstalkd
 
 <p>Your folder structure should look like this:</p>
 
-<pre><code>- project1
-	- laradock
-- project2
-	- laradock
+<pre><code>- project-A
+	- laradock-A
+- project-B
+	- laradock-B
 </code></pre>
+
+<p>(It&rsquo;s important to rename the folders differently in each project)</p>
 
 <p><a name="A2"></a></p>
 
@@ -584,12 +586,11 @@ QUEUE_HOST=beanstalkd
 
 <p>Your folder structure should look like this:</p>
 
-<pre><code>- projects
-	- laradock
-	- myProject
+<pre><code>- laradock
+- Project-Z
 </code></pre>
 
-<p>2 - Edit the <code>docker-compose.yml</code> file to map to your project directory once you have it (example: <code>- ../myProject:/var/www</code>).</p>
+<p>2 - Edit the <code>docker-compose.yml</code> file to map to your project directory once you have it (example: <code>- ../Project-Z:/var/www</code>).</p>
 
 <p>3 - Stop and re-run your docker-compose command for the changes to take place.</p>
 
@@ -1965,16 +1966,17 @@ features, by not reporting duplicate issues.</em></p>
 <p>Laradock uses <a href="https://gohugo.io/">Hugo</a> as website generator tool, with the <a href="http://themes.gohugo.io/theme/material-docs/">Material Docs theme</a>. You might need to check their docs quickly.</p>
 
 <ol>
-<li>Install <a href="https://gohugo.io/">Hugo</a> on your machine (easy steps).</li>
-<li>Open the <code>DOCUMENTATION/_settings/content</code> and search for the markdown file you want to edit (every folder is a section in the menu).</li>
-<li>After done editing, run the this command <code>hugo</code> to generate the updated site inside the <code>docs</code> folder (It&rsquo;s recommended to delete all files form the <code>/docs</code> folder, except the <code>CNAME</code> file, before running the <code>hugo</code> command).</li>
+<li>Install <a href="https://gohugo.io/">Hugo</a> on your machine (easy thing).</li>
+<li>Open the <code>DOCUMENTATION/_settings/content</code> and search for the markdown file you want to edit (every folder represents a section in the menu).</li>
+<li>Delete the <code>/docs</code> folder from the root.</li>
+<li>When you finish editing, run the <code>hugo</code> command to generate the HTML docs (in the <code>/docs</code>).</li>
 </ol>
 
-<h4 id="to-host-the-website-locally">To Host the website locally</h4>
+<h3 id="to-host-the-website-locally">To Host the website locally</h3>
 
 <p>Go to <code>DOCUMENTATION/_settings</code> in your terminal and run <code>hugo serve</code> to host the website locally.</p>
 
-<h4 id="edit-the-sidebar">Edit the sidebar</h4>
+<h3 id="edit-the-sidebar">Edit the sidebar</h3>
 
 <p>To add a new section to the sidebar or edit existing one, you need to edit this file <code>DOCUMENTATION/_settings/config.toml</code>.</p>
 

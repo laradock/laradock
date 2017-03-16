@@ -365,11 +365,13 @@
 
 <p>Your folder structure should look like this:</p>
 
-<pre><code>- project1
-	- laradock
-- project2
-	- laradock
+<pre><code>- project-A
+	- laradock-A
+- project-B
+	- laradock-B
 </code></pre>
+
+<p>(It&rsquo;s important to rename the folders differently in each project)</p>
 
 <p><a name="A2"></a></p>
 
@@ -386,12 +388,11 @@
 
 <p>Your folder structure should look like this:</p>
 
-<pre><code>- projects
-	- laradock
-	- myProject
+<pre><code>- laradock
+- Project-Z
 </code></pre>
 
-<p>2 - Edit the <code>docker-compose.yml</code> file to map to your project directory once you have it (example: <code>- ../myProject:/var/www</code>).</p>
+<p>2 - Edit the <code>docker-compose.yml</code> file to map to your project directory once you have it (example: <code>- ../Project-Z:/var/www</code>).</p>
 
 <p>3 - Stop and re-run your docker-compose command for the changes to take place.</p>
 

@@ -68,11 +68,13 @@
 
 &lt;p&gt;Your folder structure should look like this:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;- project1
-	- laradock
-- project2
-	- laradock
+&lt;pre&gt;&lt;code&gt;- project-A
+	- laradock-A
+- project-B
+	- laradock-B
 &lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(It&amp;rsquo;s important to rename the folders differently in each project)&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&#34;A2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
@@ -89,12 +91,11 @@
 
 &lt;p&gt;Your folder structure should look like this:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;- projects
-	- laradock
-	- myProject
+&lt;pre&gt;&lt;code&gt;- laradock
+- Project-Z
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;2 - Edit the &lt;code&gt;docker-compose.yml&lt;/code&gt; file to map to your project directory once you have it (example: &lt;code&gt;- ../myProject:/var/www&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;2 - Edit the &lt;code&gt;docker-compose.yml&lt;/code&gt; file to map to your project directory once you have it (example: &lt;code&gt;- ../Project-Z:/var/www&lt;/code&gt;).&lt;/p&gt;
 
 &lt;p&gt;3 - Stop and re-run your docker-compose command for the changes to take place.&lt;/p&gt;
 

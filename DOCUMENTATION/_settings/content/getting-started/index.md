@@ -50,12 +50,13 @@ git submodule add https://github.com/Laradock/laradock.git
 Your folder structure should look like this:
 
 ```
-- project1
-	- laradock
-- project2
-	- laradock
+- project-A
+	- laradock-A
+- project-B
+	- laradock-B
 ```
 
+(It's important to rename the folders differently in each project)
 
 <a name="A2"></a>
 ### A.2) Don't have a PHP project yet:
@@ -70,12 +71,11 @@ git clone https://github.com/laradock/laradock.git
 Your folder structure should look like this:
 
 ```
-- projects
-	- laradock
-	- myProject
+- laradock
+- Project-Z
 ```
 
-2 - Edit the `docker-compose.yml` file to map to your project directory once you have it (example: `- ../myProject:/var/www`).
+2 - Edit the `docker-compose.yml` file to map to your project directory once you have it (example: `- ../Project-Z:/var/www`).
 
 3 - Stop and re-run your docker-compose command for the changes to take place.
 
