@@ -19,23 +19,35 @@ weight: 2
 
 Choose the setup the best suits your needs.
 
-#### A) Setup for Single Project:
-*(In case you want a Docker environment for each project)*
+- [A) Setup for Single Project](#A)
+	- [A.1) Already have a PHP project](#A1)
+ 	- [A.2) Don't have a PHP project yet](#A2)
+- [B) Setup for Multiple Projects](#B)
 
-##### A.1) Setup environment in existing Project:
-*(In case you already have a project, and you want to setup an environment to run it)*
 
-1 - Clone this repository on your project root directory:
+<a name="A"></a>
+#### A) Setup for Single Project
+> (Follow these steps if you want a separate Docker environment for each project)
+
+
+<a name="A1"></a>
+##### A.1) Already have a PHP project:
+> (Follow these steps if you already have a PHP project, and all you need is an environment to run it)
+
+1 - Clone laradock on your project root directory:
 
 ```bash
 git submodule add https://github.com/Laradock/laradock.git
 ```
 
-*Note 1: If you are not yet using Git for your PHP project, you can use `git clone https://github.com/Laradock/laradock.git` instead.*
+**Notes:**
 
-*Note 2: To keep track of your LaraDock changes, between your projects and also keep LaraDock updated. [Check this](#keep-tracking-LaraDock)*
+- If you are not using Git yet for your project, you can use `git clone` instead of `git submodule `.
 
-*Note 3: In this case the folder structure will be like this:*
+- Note 2: To keep track of your Laradock changes, between your projects and also keep Laradock updated. [Check this](#keep-tracking-Laradock)
+
+
+Your folder structure should look like this:
 
 ```
 - project1
@@ -44,15 +56,18 @@ git submodule add https://github.com/Laradock/laradock.git
 	- laradock
 ```
 
-##### A.2) Setup environment first then create project:
-*(In case you don't have a project, and you want to create your project inside the Docker environment)*
+
+<a name="A2"></a>
+##### A.2) Don't have a PHP project yet:
+> (Follow these steps if you don't have a PHP project yet, and you need an environment to create the project)
 
 1 - Clone this repository anywhere on your machine:
 
 ```bash
 git clone https://github.com/laradock/laradock.git
 ```
-Note: In this case the folder structure will be like this:
+
+Your folder structure should look like this:
 
 ```
 - projects
@@ -68,8 +83,9 @@ Note: In this case the folder structure will be like this:
 docker-compose stop && docker-compose up -d XXXX YYYY ZZZZ ....
 ```
 
-
+<a name="B"></a>
 #### B) Setup for Multiple Projects:
+> (Follow these steps if you want a single Docker environment for all project)
 
 1 - Clone this repository anywhere on your machine:
 
@@ -77,11 +93,10 @@ docker-compose stop && docker-compose up -d XXXX YYYY ZZZZ ....
 git clone https://github.com/laradock/laradock.git
 ```
 
-2 - Edit the `docker-compose.yml` file to map to your projects directories:
+2 - Edit the `docker-compose.yml` (or the `.env`) file to map to your projects directories:
 
 ```
     applications:
-        image: tianon/true
         volumes:
             - ../project1/:/var/www/project1
             - ../project2/:/var/www/project2
@@ -120,12 +135,12 @@ Do the same for each project `project2.conf`, `project3.conf`,...
 
 If you are using **Docker Toolbox** (VM), do one of the following:
 
-- Upgrade to Docker [Native](https://www.docker.com/products/docker) for Mac/Windows (Recommended). Check out [Upgrading LaraDock](#upgrading-laradock)
-- Use LaraDock v3.* (Visit the `LaraDock-ToolBox` [Branch](https://github.com/laradock/laradock/tree/LaraDock-ToolBox)).
+- Upgrade to Docker [Native](https://www.docker.com/products/docker) for Mac/Windows (Recommended). Check out [Upgrading Laradock](#upgrading-laradock)
+- Use Laradock v3.* (Visit the `Laradock-ToolBox` [Branch](https://github.com/laradock/laradock/tree/Laradock-ToolBox)).
 
 <br>
 
->**Warning:** If you used an older version of LaraDock it's highly recommended to rebuild the containers you need to use [see how you rebuild a container](#Build-Re-build-Containers) in order to prevent errors as much as possible.
+>**Warning:** If you used an older version of Laradock it's highly recommended to rebuild the containers you need to use [see how you rebuild a container](#Build-Re-build-Containers) in order to prevent as much errors as possible.
 
 <br>
 
@@ -143,7 +158,9 @@ docker-compose up -d nginx mysql
 
 You can select your own combination of Containers form the list below:
 
-`nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `rabbitmq`, `workspace`, `phpmyadmin`, `aerospike`, `pgadmin`, `elasticsearch`, `rethinkdb`.
+`nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `rabbitmq`, `beanstalkd-console`, `workspace`, `phpmyadmin`, `aerospike`, `pgadmin`, `elasticsearch`, `rethinkdb`, `postgres-postgis`, `certbot`, `mailhog`, `minio` and more...!
+
+*(Please note that sometimes we forget to update the docs, so check the `docker-compose.yml` file to see an updated list of all available containers).*
 
 
 <br>
@@ -159,7 +176,13 @@ Alternatively, for Windows PowerShell users: execute the following command to en
 docker exec -it {workspace-container-id} bash
 ```
 
-**Note:** You can add `--user=laradock` (example `docker-compose exec --user=laradock workspace bash`) to have files created as your host's user. (you can change the PUID (User id) and PGID (group id) variables from the `docker-compose.yml`).
+**Note:** You can add `--user=laradock` to have files created as your host's user. Example: 
+
+```shell
+docker-compose exec --user=laradock workspace bash
+```
+
+*You can change the PUID (User id) and PGID (group id) variables from the `docker-compose.yml` or the `.env`)*
 
 <br>
 3 - Edit your project configurations.
@@ -170,12 +193,7 @@ Open your `.env` file and set the `DB_HOST` to `mysql`:
 DB_HOST=mysql
 ```
 
-*If you want to use Laravel and you don't have it installed yet, see [How to Install Laravel in a Docker Container](#Install-Laravel).*
+*If you want to install Laravel as PHP project, see [How to Install Laravel in a Docker Container](#Install-Laravel).*
 
 <br>
-4 - Open your browser and visit your localhost address (`http://localhost/`).
-
-<br>
-**Debugging**: if you are facing any problem here check the [Debugging](#debugging) section.
-
-If you need a special support. Contact me, more details in the [Help & Questions](#Help) section.
+4 - Open your browser and visit your localhost address `http://localhost/`.

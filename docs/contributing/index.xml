@@ -20,7 +20,7 @@
 
 &lt;h2 id=&#34;got-a-question-or-problem&#34;&gt;Got a Question or Problem?&lt;/h2&gt;
 
-&lt;p&gt;If you have questions about how to use LaraDock, please direct your questions to the discussion on &lt;a href=&#34;https://gitter.im/LaraDock/laradock&#34;&gt;Gitter&lt;/a&gt;. If you believe your question could help others, then consider opening an &lt;a href=&#34;https://github.com/laradock/laradock/issues&#34;&gt;Issue&lt;/a&gt; (it will be labeled as Question).&lt;/p&gt;
+&lt;p&gt;If you have questions about how to use Laradock, please direct your questions to the discussion on &lt;a href=&#34;https://gitter.im/Laradock/laradock&#34;&gt;Gitter&lt;/a&gt;. If you believe your question could help others, then consider opening an &lt;a href=&#34;https://github.com/laradock/laradock/issues&#34;&gt;Issue&lt;/a&gt; (it will be labeled as Question).&lt;/p&gt;
 
 &lt;h2 id=&#34;found-an-issue&#34;&gt;Found an Issue?&lt;/h2&gt;
 
@@ -74,7 +74,7 @@ submitting an &lt;a href=&#34;https://github.com/laradock/laradock/issues&#34;&g
 &lt;li&gt;&lt;p&gt;Edit the files you want to update.&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; If you want to edit the base image of the &lt;code&gt;Workspace&lt;/code&gt; or the &lt;code&gt;php-fpm&lt;/code&gt; Containers,
-you need to edit their Docker-files from their GitHub repositories. For more info read their Dockerfiles comment on the LaraDock repository.&lt;/p&gt;&lt;/li&gt;
+you need to edit their Docker-files from their GitHub repositories. For more info read their Dockerfiles comment on the Laradock repository.&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;Make sure to update the &lt;code&gt;Readme&lt;/code&gt; in case you made any changes.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;

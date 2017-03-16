@@ -324,24 +324,46 @@
 
 <p>Choose the setup the best suits your needs.</p>
 
-<h4 id="a-setup-for-single-project">A) Setup for Single Project:</h4>
+<ul>
+<li><a href="#A">A) Setup for Single Project</a>
 
-<p><em>(In case you want a Docker environment for each project)</em></p>
+<ul>
+<li><a href="#A1">A.1) Already have a PHP project</a></li>
+<li><a href="#A2">A.2) Don&rsquo;t have a PHP project yet</a></li>
+</ul></li>
+<li><a href="#B">B) Setup for Multiple Projects</a></li>
+</ul>
 
-<h5 id="a-1-setup-environment-in-existing-project">A.1) Setup environment in existing Project:</h5>
+<p><a name="A"></a></p>
 
-<p><em>(In case you already have a project, and you want to setup an environment to run it)</em></p>
+<h4 id="a-setup-for-single-project">A) Setup for Single Project</h4>
 
-<p>1 - Clone this repository on your project root directory:</p>
+<blockquote>
+<p>(Follow these steps if you want a separate Docker environment for each project)</p>
+</blockquote>
+
+<p><a name="A1"></a></p>
+
+<h5 id="a-1-already-have-a-php-project">A.1) Already have a PHP project:</h5>
+
+<blockquote>
+<p>(Follow these steps if you already have a PHP project, and all you need is an environment to run it)</p>
+</blockquote>
+
+<p>1 - Clone laradock on your project root directory:</p>
 
 <pre><code class="language-bash">git submodule add https://github.com/Laradock/laradock.git
 </code></pre>
 
-<p><em>Note 1: If you are not yet using Git for your PHP project, you can use <code>git clone https://github.com/Laradock/laradock.git</code> instead.</em></p>
+<p><strong>Notes:</strong></p>
 
-<p><em>Note 2: To keep track of your LaraDock changes, between your projects and also keep LaraDock updated. <a href="#keep-tracking-LaraDock">Check this</a></em></p>
+<ul>
+<li><p>If you are not using Git yet for your project, you can use <code>git clone</code> instead of <code>git submodule</code>.</p></li>
 
-<p><em>Note 3: In this case the folder structure will be like this:</em></p>
+<li><p>Note 2: To keep track of your Laradock changes, between your projects and also keep Laradock updated. <a href="#keep-tracking-Laradock">Check this</a></p></li>
+</ul>
+
+<p>Your folder structure should look like this:</p>
 
 <pre><code>- project1
 	- laradock
@@ -349,16 +371,20 @@
 	- laradock
 </code></pre>
 
-<h5 id="a-2-setup-environment-first-then-create-project">A.2) Setup environment first then create project:</h5>
+<p><a name="A2"></a></p>
 
-<p><em>(In case you don&rsquo;t have a project, and you want to create your project inside the Docker environment)</em></p>
+<h5 id="a-2-don-t-have-a-php-project-yet">A.2) Don&rsquo;t have a PHP project yet:</h5>
+
+<blockquote>
+<p>(Follow these steps if you don&rsquo;t have a PHP project yet, and you need an environment to create the project)</p>
+</blockquote>
 
 <p>1 - Clone this repository anywhere on your machine:</p>
 
 <pre><code class="language-bash">git clone https://github.com/laradock/laradock.git
 </code></pre>
 
-<p>Note: In this case the folder structure will be like this:</p>
+<p>Your folder structure should look like this:</p>
 
 <pre><code>- projects
 	- laradock
@@ -372,17 +398,22 @@
 <pre><code>docker-compose stop &amp;&amp; docker-compose up -d XXXX YYYY ZZZZ ....
 </code></pre>
 
+<p><a name="B"></a></p>
+
 <h4 id="b-setup-for-multiple-projects">B) Setup for Multiple Projects:</h4>
+
+<blockquote>
+<p>(Follow these steps if you want a single Docker environment for all project)</p>
+</blockquote>
 
 <p>1 - Clone this repository anywhere on your machine:</p>
 
 <pre><code class="language-bash">git clone https://github.com/laradock/laradock.git
 </code></pre>
 
-<p>2 - Edit the <code>docker-compose.yml</code> file to map to your projects directories:</p>
+<p>2 - Edit the <code>docker-compose.yml</code> (or the <code>.env</code>) file to map to your projects directories:</p>
 
 <pre><code>    applications:
-        image: tianon/true
         volumes:
             - ../project1/:/var/www/project1
             - ../project2/:/var/www/project2
@@ -414,14 +445,14 @@
 <p>If you are using <strong>Docker Toolbox</strong> (VM), do one of the following:</p>
 
 <ul>
-<li>Upgrade to Docker <a href="https://www.docker.com/products/docker">Native</a> for Mac/Windows (Recommended). Check out <a href="#upgrading-laradock">Upgrading LaraDock</a></li>
-<li>Use LaraDock v3.* (Visit the <code>LaraDock-ToolBox</code> <a href="https://github.com/laradock/laradock/tree/LaraDock-ToolBox">Branch</a>).</li>
+<li>Upgrade to Docker <a href="https://www.docker.com/products/docker">Native</a> for Mac/Windows (Recommended). Check out <a href="#upgrading-laradock">Upgrading Laradock</a></li>
+<li>Use Laradock v3.* (Visit the <code>Laradock-ToolBox</code> <a href="https://github.com/laradock/laradock/tree/Laradock-ToolBox">Branch</a>).</li>
 </ul>
 
 <p><br></p>
 
 <blockquote>
-<p><strong>Warning:</strong> If you used an older version of LaraDock it&rsquo;s highly recommended to rebuild the containers you need to use <a href="#Build-Re-build-Containers">see how you rebuild a container</a> in order to prevent errors as much as possible.</p>
+<p><strong>Warning:</strong> If you used an older version of Laradock it&rsquo;s highly recommended to rebuild the containers you need to use <a href="#Build-Re-build-Containers">see how you rebuild a container</a> in order to prevent as much errors as possible.</p>
 </blockquote>
 
 <p><br></p>
@@ -437,7 +468,9 @@
 
 <p>You can select your own combination of Containers form the list below:</p>
 
-<p><code>nginx</code>, <code>hhvm</code>, <code>php-fpm</code>, <code>mysql</code>, <code>redis</code>, <code>postgres</code>, <code>mariadb</code>, <code>neo4j</code>, <code>mongo</code>, <code>apache2</code>, <code>caddy</code>, <code>memcached</code>, <code>beanstalkd</code>, <code>beanstalkd-console</code>, <code>rabbitmq</code>, <code>workspace</code>, <code>phpmyadmin</code>, <code>aerospike</code>, <code>pgadmin</code>, <code>elasticsearch</code>, <code>rethinkdb</code>.</p>
+<p><code>nginx</code>, <code>hhvm</code>, <code>php-fpm</code>, <code>mysql</code>, <code>redis</code>, <code>postgres</code>, <code>mariadb</code>, <code>neo4j</code>, <code>mongo</code>, <code>apache2</code>, <code>caddy</code>, <code>memcached</code>, <code>beanstalkd</code>, <code>beanstalkd-console</code>, <code>rabbitmq</code>, <code>beanstalkd-console</code>, <code>workspace</code>, <code>phpmyadmin</code>, <code>aerospike</code>, <code>pgadmin</code>, <code>elasticsearch</code>, <code>rethinkdb</code>, <code>postgres-postgis</code>, <code>certbot</code>, <code>mailhog</code>, <code>minio</code> and more&hellip;!</p>
+
+<p><em>(Please note that sometimes we forget to update the docs, so check the <code>docker-compose.yml</code> file to see an updated list of all available containers).</em></p>
 
 <p><br>
 2 - Enter the Workspace container, to execute commands like (Artisan, Composer, PHPUnit, Gulp, &hellip;).</p>
@@ -450,7 +483,12 @@
 <pre><code class="language-bash">docker exec -it {workspace-container-id} bash
 </code></pre>
 
-<p><strong>Note:</strong> You can add <code>--user=laradock</code> (example <code>docker-compose exec --user=laradock workspace bash</code>) to have files created as your host&rsquo;s user. (you can change the PUID (User id) and PGID (group id) variables from the <code>docker-compose.yml</code>).</p>
+<p><strong>Note:</strong> You can add <code>--user=laradock</code> to have files created as your host&rsquo;s user. Example:</p>
+
+<pre><code class="language-shell">docker-compose exec --user=laradock workspace bash
+</code></pre>
+
+<p><em>You can change the PUID (User id) and PGID (group id) variables from the <code>docker-compose.yml</code> or the <code>.env</code>)</em></p>
 
 <p><br>
 3 - Edit your project configurations.</p>
@@ -460,15 +498,10 @@
 <pre><code class="language-env">DB_HOST=mysql
 </code></pre>
 
-<p><em>If you want to use Laravel and you don&rsquo;t have it installed yet, see <a href="#Install-Laravel">How to Install Laravel in a Docker Container</a>.</em></p>
+<p><em>If you want to install Laravel as PHP project, see <a href="#Install-Laravel">How to Install Laravel in a Docker Container</a>.</em></p>
 
 <p><br>
-4 - Open your browser and visit your localhost address (<code>http://localhost/</code>).</p>
-
-<p><br>
-<strong>Debugging</strong>: if you are facing any problem here check the <a href="#debugging">Debugging</a> section.</p>
-
-<p>If you need a special support. Contact me, more details in the <a href="#Help">Help &amp; Questions</a> section.</p>
+4 - Open your browser and visit your localhost address <code>http://localhost/</code>.</p>
 
 
 			<aside class="copyright" role="note">
