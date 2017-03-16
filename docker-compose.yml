@@ -68,7 +68,7 @@ services:
             - applications
         expose:
             - "9000"
-        links:
+        depends_on:
             - workspace
         extra_hosts:
             # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
@@ -92,7 +92,7 @@ services:
         ports:
             - "80:80"
             - "443:443"
-        links:
+        depends_on:
             - php-fpm
 
 ### Apache Server Container #################################
@@ -109,7 +109,7 @@ services:
         ports:
             - "80:80"
             - "443:443"
-        links:
+        depends_on:
             - php-fpm
 
 ### HHVM Container ##########################################
@@ -120,7 +120,7 @@ services:
             - applications
         expose:
             - "9000"
-        links:
+        depends_on:
             - workspace
 
 ### Minio Container #########################################
@@ -252,7 +252,7 @@ services:
             - memcached:/var/lib/memcached
         ports:
             - "11211:11211"
-        links:
+        depends_on:
             - php-fpm
 
 ### Beanstalkd Container ####################################
@@ -262,7 +262,7 @@ services:
         ports:
             - "11300:11300"
         privileged: true
-        links:
+        depends_on:
             - php-fpm
 
 ### RabbitMQ Container ######################################
@@ -277,7 +277,7 @@ services:
         environment:
             RABBITMQ_DEFAULT_USER: guest
             RABBITMQ_DEFAULT_PASS: guest
-        links:
+        depends_on:
             - php-fpm
 
 ### Beanstalkd Console Container ############################
@@ -286,7 +286,7 @@ services:
         build: ./beanstalkd-console
         ports:
             - "2080:2080"
-        links:
+        depends_on:
             - beanstalkd
 
 ### Caddy Server Container ##################################
@@ -303,7 +303,7 @@ services:
             - ./caddy/Caddyfile:/etc/Caddyfile
             - ./logs/caddy:/var/log/caddy
             - caddy:/root/.caddy
-        links:
+        depends_on:
             - php-fpm
 
 ### phpMyAdmin Container ####################################
@@ -317,11 +317,11 @@ services:
             MYSQL_ROOT_PASSWORD: root
         ports:
             - "8080:80"
-        links:
+        depends_on:
             # for mysql container
-            - "mysql:db"
+            - "mysql"
             # for mariadb container
-            # - "mariadb:db"
+            # - "mariadb"
 
 ### pgAdmin Container #######################################
 
@@ -329,7 +329,7 @@ services:
         build: ./pgadmin
         ports:
             - "5050:5050"
-        links:
+        depends_on:
             - postgres
 
 ### ElasticSearch Container #################################
@@ -342,7 +342,7 @@ services:
         ports:
             - "9200:9200"
             - "9300:9300"
-        links:
+        depends_on:
             - php-fpm
             
 ### Certbot Container ##################################
