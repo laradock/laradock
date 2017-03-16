@@ -77,16 +77,6 @@ services:
             # IMPORTANT: Set the Remote Interpreter entry matching name to `laravel`
             - PHP_IDE_CONFIG=serverName=laravel
 
-### PHP-WORKER Container #######################################
-
-    php-worker:
-        build:
-            context: ./php-fpm
-            dockerfile: Dockerfile-70 # or Dockerfile-56, choose your PHP-FPM container setting
-        volumes_from:
-            - applications
-        command: php artisan queue:work
-
 ### Nginx Server Container ##################################
 
     nginx:
@@ -117,8 +107,8 @@ services:
         volumes:
             - ./logs/apache2:/var/log/apache2
         ports:
-            - "$SERVER_PORT:80"
-            - "$SERVER_SSL_PORT:443"
+            - "80:80"
+            - "443:443"
         links:
             - php-fpm
 
@@ -151,14 +141,14 @@ services:
         build:
             context: ./mysql
             args:
-                - MYSQL_DATABASE=$DB_DATABASE
-                - MYSQL_USER=$DB_USERNAME
-                - MYSQL_PASSWORD=$DB_PASSWORD
+                - MYSQL_DATABASE=homestead
+                - MYSQL_USER=homestead
+                - MYSQL_PASSWORD=secret
                 - MYSQL_ROOT_PASSWORD=root
         volumes:
             - mysql:/var/lib/mysql
         ports:
-            - "$DB_PORT:3306"
+            - "3306:3306"
 
 ### MariaDB Container #######################################
 
@@ -169,9 +159,9 @@ services:
         ports:
             - "3306:3306"
         environment:
-            MYSQL_DATABASE: $DB_DATABASE
-            MYSQL_USER: $DB_USERNAME
-            MYSQL_PASSWORD: $DB_PASSWORD
+            MYSQL_DATABASE: homestead
+            MYSQL_USER: homestead
+            MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
 
 ### PostgreSQL Container ####################################
@@ -183,9 +173,9 @@ services:
         ports:
             - "5432:5432"
         environment:
-            POSTGRES_DB: $DB_DATABASE
-            POSTGRES_USER: $DB_USERNAME
-            POSTGRES_PASSWORD: $DB_PASSWORD
+            POSTGRES_DB: homestead
+            POSTGRES_USER: homestead
+            POSTGRES_PASSWORD: secret
 
 ### PostgreSQL PostGis Container ############################
 
@@ -196,9 +186,9 @@ services:
         ports:
             - "5432:5432"
         environment:
-            POSTGRES_DB: $DB_DATABASE
-            POSTGRES_USER: $DB_USERNAME
-            POSTGRES_PASSWORD: $DB_PASSWORD
+            POSTGRES_DB: homestead
+            POSTGRES_USER: homestead
+            POSTGRES_PASSWORD: secret
 
 ### Neo4j Container #########################################
 
@@ -322,8 +312,8 @@ services:
         build: ./phpmyadmin
         environment:
             PMA_ARBITRARY: 1
-            MYSQL_USER: $DB_USERNAME
-            MYSQL_PASSWORD: $DB_PASSWORD
+            MYSQL_USER: homestead
+            MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
         ports:
             - "8080:80"
