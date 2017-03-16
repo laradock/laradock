@@ -150,6 +150,11 @@ example for &lt;code&gt;mysql&lt;/code&gt; it will be &lt;code&gt;mysql/Dockerfi
 &lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;docker logs {container-name}
 &lt;/code&gt;&lt;/pre&gt;
 
+&lt;p&gt;More &lt;a href=&#34;https://docs.docker.com/compose/reference/logs/&#34;&gt;options&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;docker logs -f {container-name}
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;&lt;br&gt;
 &lt;a name=&#34;PHP&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 

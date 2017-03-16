@@ -176,6 +176,11 @@ However to view the logs of all the other containers (MySQL, PHP-FPM,...) you ca
 docker logs {container-name}
 ```
 
+More [options](https://docs.docker.com/compose/reference/logs/)
+
+```bash
+docker logs -f {container-name}
+```
 
 
 
