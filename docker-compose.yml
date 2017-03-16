@@ -343,6 +343,18 @@ services:
             - "9300:9300"
         links:
             - php-fpm
+            
+### Certbot Container ##################################
+            
+    certbot:
+        build:
+            context: ./certbot
+        volumes:
+            - ./data/certbot/certs/:/var/certs
+            - ./certbot/letsencrypt/:/var/www/letsencrypt
+        environment:
+            CN: "fake.domain.com"
+            EMAIL: "fake.email@gmail.com"
 
 ### Mailhog Container #########################################
 
