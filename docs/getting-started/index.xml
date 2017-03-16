@@ -39,7 +39,7 @@
 
 &lt;p&gt;&lt;a name=&#34;A&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h4 id=&#34;a-setup-for-single-project&#34;&gt;A) Setup for Single Project&lt;/h4&gt;
+&lt;h3 id=&#34;a-setup-for-single-project&#34;&gt;A) Setup for Single Project&lt;/h3&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;(Follow these steps if you want a separate Docker environment for each project)&lt;/p&gt;
@@ -47,7 +47,7 @@
 
 &lt;p&gt;&lt;a name=&#34;A1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h5 id=&#34;a-1-already-have-a-php-project&#34;&gt;A.1) Already have a PHP project:&lt;/h5&gt;
+&lt;h3 id=&#34;a-1-already-have-a-php-project&#34;&gt;A.1) Already have a PHP project:&lt;/h3&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;(Follow these steps if you already have a PHP project, and all you need is an environment to run it)&lt;/p&gt;
@@ -76,7 +76,7 @@
 
 &lt;p&gt;&lt;a name=&#34;A2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h5 id=&#34;a-2-don-t-have-a-php-project-yet&#34;&gt;A.2) Don&amp;rsquo;t have a PHP project yet:&lt;/h5&gt;
+&lt;h3 id=&#34;a-2-don-t-have-a-php-project-yet&#34;&gt;A.2) Don&amp;rsquo;t have a PHP project yet:&lt;/h3&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;(Follow these steps if you don&amp;rsquo;t have a PHP project yet, and you need an environment to create the project)&lt;/p&gt;
@@ -103,7 +103,7 @@
 
 &lt;p&gt;&lt;a name=&#34;B&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h4 id=&#34;b-setup-for-multiple-projects&#34;&gt;B) Setup for Multiple Projects:&lt;/h4&gt;
+&lt;h3 id=&#34;b-setup-for-multiple-projects&#34;&gt;B) Setup for Multiple Projects:&lt;/h3&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;(Follow these steps if you want a single Docker environment for all project)&lt;/p&gt;

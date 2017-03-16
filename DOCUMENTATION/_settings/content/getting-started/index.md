@@ -26,12 +26,12 @@ Choose the setup the best suits your needs.
 
 
 <a name="A"></a>
-#### A) Setup for Single Project
+### A) Setup for Single Project
 > (Follow these steps if you want a separate Docker environment for each project)
 
 
 <a name="A1"></a>
-##### A.1) Already have a PHP project:
+### A.1) Already have a PHP project:
 > (Follow these steps if you already have a PHP project, and all you need is an environment to run it)
 
 1 - Clone laradock on your project root directory:
@@ -58,7 +58,7 @@ Your folder structure should look like this:
 
 
 <a name="A2"></a>
-##### A.2) Don't have a PHP project yet:
+### A.2) Don't have a PHP project yet:
 > (Follow these steps if you don't have a PHP project yet, and you need an environment to create the project)
 
 1 - Clone this repository anywhere on your machine:
@@ -84,7 +84,7 @@ docker-compose stop && docker-compose up -d XXXX YYYY ZZZZ ....
 ```
 
 <a name="B"></a>
-#### B) Setup for Multiple Projects:
+### B) Setup for Multiple Projects:
 > (Follow these steps if you want a single Docker environment for all project)
 
 1 - Clone this repository anywhere on your machine:
