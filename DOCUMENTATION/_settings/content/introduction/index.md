@@ -4,11 +4,11 @@ type: index
 weight: 1
 ---
 
-LaraDock strives to make the PHP development experience easier and faster.
+Laradock strives to make the PHP development experience easier and faster.
 
 It contains pre-packaged Docker Images that provides you a wonderful *development* environment without requiring you to install PHP, NGINX, MySQL, Redis, and any other software on your machines.
 
-LaraDock is configured to run Laravel Apps by default, and it can be modified to run all kinds of PHP Apps (Symfony, CodeIgniter, WordPress, Drupal...).
+Laradock is configured to run Laravel Apps by default, and it can be modified to run all kinds of PHP Apps (Symfony, CodeIgniter, WordPress, Drupal...).
 
 
 
@@ -17,19 +17,25 @@ LaraDock is configured to run Laravel Apps by default, and it can be modified to
 
 Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL`, `Redis` and `beanstalkd`:
 
-1 - Clone LaraDock inside your PHP project:
+1 - Clone Laradock inside your PHP project:
 
 ```shell
 git clone https://github.com/Laradock/laradock.git
 ```
 
-2 - Enter the laradock folder and run this command:
+2 - Enter the laradock folder and rename `env-example` to `.env`.
+
+```shell
+cp env-example .env
+```
+
+3 - Run your containers:
 
 ```shell
 docker-compose up -d nginx mysql redis beanstalkd
 ```
 
-3 - Open your `.env` file and set the following:
+3 - Open your project's `.env` file and set the following:
 
 ```shell
 DB_HOST=mysql
@@ -76,17 +82,17 @@ Most importantly Docker can run on Development and on Production (same environme
 
 
 <a name="laradock-vs-homestead"></a>
-## LaraDock VS Homestead (For Laravel Developers)
+## Laradock VS Homestead (For Laravel Developers)
 
-> LaraDock It's like Laravel Homestead but for Docker instead of Vagrant.
+> Laradock It's like Laravel Homestead but for Docker instead of Vagrant.
 
-LaraDock and [Homestead](https://laravel.com/docs/master/homestead) both give you complete virtual development environments. (Without the need to install and configure every single software on your own Operating System).
+Laradock and [Homestead](https://laravel.com/docs/master/homestead) both give you complete virtual development environments. (Without the need to install and configure every single software on your own Operating System).
 
 - Homestead is a tool that controls Vagrant for you (using Homestead special commands). And Vagrant manages your Virtual Machine.
 
-- LaraDock is a tool that controls Docker for you (using Docker & Docker Compose official commands). And Docker manages your Virtual Containers.
+- Laradock is a tool that controls Docker for you (using Docker & Docker Compose official commands). And Docker manages your Virtual Containers.
 
-Running a virtual container is much faster than running a full virtual Machine. Thus **LaraDock is much faster than Homestead**.
+Running a virtual container is much faster than running a full virtual Machine. Thus **Laradock is much faster than Homestead**.
 
 
 
@@ -100,10 +106,10 @@ Running a virtual container is much faster than running a full virtual Machine. 
 
 What's better than a **Demo Video**:
 
-- LaraDock [v4.*](https://www.youtube.com/watch?v=TQii1jDa96Y)
-- LaraDock [v2.*](https://www.youtube.com/watch?v=-DamFMczwDA)
-- LaraDock [v0.3](https://www.youtube.com/watch?v=jGkyO6Is_aI)
-- LaraDock [v0.1](https://www.youtube.com/watch?v=3YQsHe6oF80)
+- Laradock [v4.*](https://www.youtube.com/watch?v=TQii1jDa96Y)
+- Laradock [v2.*](https://www.youtube.com/watch?v=-DamFMczwDA)
+- Laradock [v0.3](https://www.youtube.com/watch?v=jGkyO6Is_aI)
+- Laradock [v0.1](https://www.youtube.com/watch?v=3YQsHe6oF80)
 
 
 
@@ -139,11 +145,12 @@ What's better than a **Demo Video**:
 
 - **Database Engines:**
 	- MySQL
-	- PostgreSQL
 	- MariaDB
 	- MongoDB
 	- Neo4j
 	- RethinkDB
+	- PostgreSQL
+	- Postgres Postgis
 - **Cache Engines:**
 	- Redis
 	- Memcached
@@ -165,6 +172,8 @@ What's better than a **Demo Video**:
 	- PgAdmin
 	- ElasticSearch
 	- Selenium
+	- Certbot
+	- Mailhog
 	- Minio
 	- Workspace
 		- PHP7-CLI
@@ -194,4 +203,4 @@ What's better than a **Demo Video**:
 
 You are welcome to join our chat room on Gitter.
 
-[![Gitter](https://badges.gitter.im/LaraDock/laradock.svg)](https://gitter.im/LaraDock/laradock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Gitter](https://badges.gitter.im/Laradock/laradock.svg)](https://gitter.im/Laradock/laradock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)

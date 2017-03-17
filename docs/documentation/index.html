@@ -447,6 +447,11 @@ example for <code>mysql</code> it will be <code>mysql/Dockerfile</code>.</p>
 <pre><code class="language-bash">docker logs {container-name}
 </code></pre>
 
+<p>More <a href="https://docs.docker.com/compose/reference/logs/">options</a></p>
+
+<pre><code class="language-bash">docker logs -f {container-name}
+</code></pre>
+
 <p><br>
 <a name="PHP"></a></p>
 
@@ -577,7 +582,7 @@ xdebug.remote_connect_back=1
 
 <p>By installing xDebug, you are enabling it to run on startup by default.</p>
 
-<p>To control the behavior of xDebug (in the <code>php-fpm</code> Container), you can run the following commands from the LaraDock root folder, (at the same prompt where you run docker-compose):</p>
+<p>To control the behavior of xDebug (in the <code>php-fpm</code> Container), you can run the following commands from the Laradock root folder, (at the same prompt where you run docker-compose):</p>
 
 <ul>
 <li>Stop xDebug from running by default: <code>./xdebugPhpFpm stop</code>.</li>
@@ -617,11 +622,11 @@ xdebug.remote_connect_back=1
 <a name="Production"></a></p>
 
 <p><br>
-<a name="LaraDock-for-Production"></a></p>
+<a name="Laradock-for-Production"></a></p>
 
-<h2 id="prepare-laradock-for-production">Prepare LaraDock for Production</h2>
+<h2 id="prepare-laradock-for-production">Prepare Laradock for Production</h2>
 
-<p>It&rsquo;s recommended for production to create a custom <code>docker-compose.yml</code> file. For that reason, LaraDock is shipped with <code>production-docker-compose.yml</code> which should contain only the containers you are planning to run on production (usage example: <code>docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...</code>).</p>
+<p>It&rsquo;s recommended for production to create a custom <code>docker-compose.yml</code> file. For that reason, Laradock is shipped with <code>production-docker-compose.yml</code> which should contain only the containers you are planning to run on production (usage example: <code>docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...</code>).</p>
 
 <p>Note: The Database (MySQL/MariaDB/&hellip;) ports should not be forwarded on production, because Docker will automatically publish the port on the host, which is quite insecure, unless specifically told not to. So make sure to remove these lines:</p>
 
@@ -662,7 +667,7 @@ xdebug.remote_connect_back=1
 
 <p>3 - Edit <code>docker-compose.yml</code> to Map the new application path:</p>
 
-<p>By default, LaraDock assumes the Laravel application is living in the parent directory of the laradock folder.</p>
+<p>By default, Laradock assumes the Laravel application is living in the parent directory of the laradock folder.</p>
 
 <p>Since the new Laravel application is in the <code>my-cool-app</code> folder, we need to replace <code>../:/var/www</code> with <code>../my-cool-app/:/var/www</code>, as follow:</p>
 
@@ -678,7 +683,7 @@ xdebug.remote_connect_back=1
 <pre><code class="language-bash">cd my-cool-app
 </code></pre>
 
-<p>5 - Go back to the LaraDock installation steps to see how to edit the <code>.env</code> file.</p>
+<p>5 - Go back to the Laradock installation steps to see how to edit the <code>.env</code> file.</p>
 
 <p><br>
 <a name="Run-Artisan-Commands"></a></p>
@@ -780,7 +785,7 @@ SESSION_DRIVER=redis
 
 <p>5 - You can manually test it from Laravel with this code:</p>
 
-<pre><code class="language-php">\Cache::store('redis')-&gt;put('LaraDock', 'Awesome', 10);
+<pre><code class="language-php">\Cache::store('redis')-&gt;put('Laradock', 'Awesome', 10);
 </code></pre>
 
 <p><br>
@@ -1047,7 +1052,7 @@ A package (<a href="https://github.com/duxet/laravel-rethinkdb">Laravel RethinkD
 
 <h2 id="install-codeigniter">Install CodeIgniter</h2>
 
-<p>To install CodeIgniter 3 on LaraDock all you have to do is the following simple steps:</p>
+<p>To install CodeIgniter 3 on Laradock all you have to do is the following simple steps:</p>
 
 <p>1 - Open the <code>docker-compose.yml</code> file.</p>
 
@@ -1287,7 +1292,7 @@ port=1234
 
 <h2 id="common-terminal-aliases">Common Terminal Aliases</h2>
 
-<p>When you start your docker container, LaraDock will copy the <code>aliases.sh</code> file located in the <code>laradock/workspace</code> directory and add sourcing to the container <code>~/.bashrc</code> file.</p>
+<p>When you start your docker container, Laradock will copy the <code>aliases.sh</code> file located in the <code>laradock/workspace</code> directory and add sourcing to the container <code>~/.bashrc</code> file.</p>
 
 <p>You are free to modify the <code>aliases.sh</code> as you see fit, adding your own aliases (or function macros) to suit your requirements.</p>
 
@@ -1362,12 +1367,12 @@ e) set it to <code>true</code></p>
 <p><a href="https://github.com/laradock/laradock/blob/master/_guides/phpstorm.md"><strong>Debugging Guide Here</strong></a></p>
 
 <p><br>
-<a name="keep-tracking-LaraDock"></a></p>
+<a name="keep-tracking-Laradock"></a></p>
 
-<h2 id="keep-track-of-your-laradock-changes">Keep track of your LaraDock changes</h2>
+<h2 id="keep-track-of-your-laradock-changes">Keep track of your Laradock changes</h2>
 
 <ol>
-<li>Fork the LaraDock repository.</li>
+<li>Fork the Laradock repository.</li>
 <li>Use that fork as a submodule.</li>
 <li>Commit all your changes to your fork.</li>
 <li>Pull new stuff from the main repository from time to time.</li>
@@ -1376,15 +1381,15 @@ e) set it to <code>true</code></p>
 <p><br>
 <a name="upgrading-laradock"></a></p>
 
-<h2 id="upgrading-laradock">Upgrading LaraDock</h2>
+<h2 id="upgrading-laradock">Upgrading Laradock</h2>
 
-<p>Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requires upgrading LaraDock from v3.* to v4.*:</p>
+<p>Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requires upgrading Laradock from v3.* to v4.*:</p>
 
 <ol>
 <li>Stop the docker VM <code>docker-machine stop {default}</code></li>
 <li>Install Docker for <a href="https://docs.docker.com/docker-for-mac/">Mac</a> or <a href="https://docs.docker.com/docker-for-windows/">Windows</a>.</li>
-<li>Upgrade LaraDock to <code>v4.*.*</code> (<code>git pull origin master</code>)</li>
-<li>Use LaraDock as you used to do: <code>docker-compose up -d nginx mysql</code>.</li>
+<li>Upgrade Laradock to <code>v4.*.*</code> (<code>git pull origin master</code>)</li>
+<li>Use Laradock as you used to do: <code>docker-compose up -d nginx mysql</code>.</li>
 </ol>
 
 <p><strong>Note:</strong> If you face any problem with the last step above: rebuild all your containers
@@ -1500,7 +1505,7 @@ e) set it to <code>true</code></p>
 <li>Option B
 
 <ol>
-<li>Change the <code>DB_HOST</code> value to the same name as the MySQL docker container. The LaraDock docker-compose file currently has this as <code>mysql</code></li>
+<li>Change the <code>DB_HOST</code> value to the same name as the MySQL docker container. The Laradock docker-compose file currently has this as <code>mysql</code></li>
 </ol></li>
 </ul>
 
