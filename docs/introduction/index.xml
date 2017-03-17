@@ -16,27 +16,32 @@
       <guid>http://laradock.io/introduction/</guid>
       <description>
 
-&lt;p&gt;LaraDock strives to make the PHP development experience easier and faster.&lt;/p&gt;
+&lt;p&gt;Laradock strives to make the PHP development experience easier and faster.&lt;/p&gt;
 
 &lt;p&gt;It contains pre-packaged Docker Images that provides you a wonderful &lt;em&gt;development&lt;/em&gt; environment without requiring you to install PHP, NGINX, MySQL, Redis, and any other software on your machines.&lt;/p&gt;
 
-&lt;p&gt;LaraDock is configured to run Laravel Apps by default, and it can be modified to run all kinds of PHP Apps (Symfony, CodeIgniter, WordPress, Drupal&amp;hellip;).&lt;/p&gt;
+&lt;p&gt;Laradock is configured to run Laravel Apps by default, and it can be modified to run all kinds of PHP Apps (Symfony, CodeIgniter, WordPress, Drupal&amp;hellip;).&lt;/p&gt;
 
 &lt;h2 id=&#34;quick-overview&#34;&gt;Quick Overview&lt;/h2&gt;
 
 &lt;p&gt;Let&amp;rsquo;s see how easy it is to install &lt;code&gt;NGINX&lt;/code&gt;, &lt;code&gt;PHP&lt;/code&gt;, &lt;code&gt;Composer&lt;/code&gt;, &lt;code&gt;MySQL&lt;/code&gt;, &lt;code&gt;Redis&lt;/code&gt; and &lt;code&gt;beanstalkd&lt;/code&gt;:&lt;/p&gt;
 
-&lt;p&gt;1 - Clone LaraDock inside your PHP project:&lt;/p&gt;
+&lt;p&gt;1 - Clone Laradock inside your PHP project:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;git clone https://github.com/Laradock/laradock.git
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;2 - Enter the laradock folder and run this command:&lt;/p&gt;
+&lt;p&gt;2 - Enter the laradock folder and rename &lt;code&gt;env-example&lt;/code&gt; to &lt;code&gt;.env&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;cp env-example .env
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;3 - Run your containers:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;docker-compose up -d nginx mysql redis beanstalkd
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;3 - Open your &lt;code&gt;.env&lt;/code&gt; file and set the following:&lt;/p&gt;
+&lt;p&gt;3 - Open your project&amp;rsquo;s &lt;code&gt;.env&lt;/code&gt; file and set the following:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;DB_HOST=mysql
 REDIS_HOST=redis
@@ -68,21 +73,21 @@ QUEUE_HOST=beanstalkd
 
 &lt;p&gt;&lt;a name=&#34;laradock-vs-homestead&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;laradock-vs-homestead-for-laravel-developers&#34;&gt;LaraDock VS Homestead (For Laravel Developers)&lt;/h2&gt;
+&lt;h2 id=&#34;laradock-vs-homestead-for-laravel-developers&#34;&gt;Laradock VS Homestead (For Laravel Developers)&lt;/h2&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;LaraDock It&amp;rsquo;s like Laravel Homestead but for Docker instead of Vagrant.&lt;/p&gt;
+&lt;p&gt;Laradock It&amp;rsquo;s like Laravel Homestead but for Docker instead of Vagrant.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;LaraDock and &lt;a href=&#34;https://laravel.com/docs/master/homestead&#34;&gt;Homestead&lt;/a&gt; both give you complete virtual development environments. (Without the need to install and configure every single software on your own Operating System).&lt;/p&gt;
+&lt;p&gt;Laradock and &lt;a href=&#34;https://laravel.com/docs/master/homestead&#34;&gt;Homestead&lt;/a&gt; both give you complete virtual development environments. (Without the need to install and configure every single software on your own Operating System).&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;Homestead is a tool that controls Vagrant for you (using Homestead special commands). And Vagrant manages your Virtual Machine.&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;LaraDock is a tool that controls Docker for you (using Docker &amp;amp; Docker Compose official commands). And Docker manages your Virtual Containers.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Laradock is a tool that controls Docker for you (using Docker &amp;amp; Docker Compose official commands). And Docker manages your Virtual Containers.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Running a virtual container is much faster than running a full virtual Machine. Thus &lt;strong&gt;LaraDock is much faster than Homestead&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Running a virtual container is much faster than running a full virtual Machine. Thus &lt;strong&gt;Laradock is much faster than Homestead&lt;/strong&gt;.&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&#34;Demo&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
@@ -91,10 +96,10 @@ QUEUE_HOST=beanstalkd
 &lt;p&gt;What&amp;rsquo;s better than a &lt;strong&gt;Demo Video&lt;/strong&gt;:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;LaraDock &lt;a href=&#34;https://www.youtube.com/watch?v=TQii1jDa96Y&#34;&gt;v4.*&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;LaraDock &lt;a href=&#34;https://www.youtube.com/watch?v=-DamFMczwDA&#34;&gt;v2.*&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;LaraDock &lt;a href=&#34;https://www.youtube.com/watch?v=jGkyO6Is_aI&#34;&gt;v0.3&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;LaraDock &lt;a href=&#34;https://www.youtube.com/watch?v=3YQsHe6oF80&#34;&gt;v0.1&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Laradock &lt;a href=&#34;https://www.youtube.com/watch?v=TQii1jDa96Y&#34;&gt;v4.*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Laradock &lt;a href=&#34;https://www.youtube.com/watch?v=-DamFMczwDA&#34;&gt;v2.*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Laradock &lt;a href=&#34;https://www.youtube.com/watch?v=jGkyO6Is_aI&#34;&gt;v0.3&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Laradock &lt;a href=&#34;https://www.youtube.com/watch?v=3YQsHe6oF80&#34;&gt;v0.1&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;&lt;a name=&#34;features&#34;&gt;&lt;/a&gt;&lt;/p&gt;
@@ -126,11 +131,12 @@ QUEUE_HOST=beanstalkd
 
 &lt;ul&gt;
 &lt;li&gt;MySQL&lt;/li&gt;
-&lt;li&gt;PostgreSQL&lt;/li&gt;
 &lt;li&gt;MariaDB&lt;/li&gt;
 &lt;li&gt;MongoDB&lt;/li&gt;
 &lt;li&gt;Neo4j&lt;/li&gt;
 &lt;li&gt;RethinkDB&lt;/li&gt;
+&lt;li&gt;PostgreSQL&lt;/li&gt;
+&lt;li&gt;Postgres Postgis&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Cache Engines:&lt;/strong&gt;
 
@@ -167,6 +173,8 @@ QUEUE_HOST=beanstalkd
 &lt;li&gt;PgAdmin&lt;/li&gt;
 &lt;li&gt;ElasticSearch&lt;/li&gt;
 &lt;li&gt;Selenium&lt;/li&gt;
+&lt;li&gt;Certbot&lt;/li&gt;
+&lt;li&gt;Mailhog&lt;/li&gt;
 &lt;li&gt;Minio&lt;/li&gt;
 &lt;li&gt;Workspace
 
@@ -198,7 +206,7 @@ QUEUE_HOST=beanstalkd
 
 &lt;p&gt;You are welcome to join our chat room on Gitter.&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://gitter.im/LaraDock/laradock?utm_source=badge&amp;amp;utm_medium=badge&amp;amp;utm_campaign=pr-badge&#34;&gt;&lt;img src=&#34;https://badges.gitter.im/LaraDock/laradock.svg&#34; alt=&#34;Gitter&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://gitter.im/Laradock/laradock?utm_source=badge&amp;amp;utm_medium=badge&amp;amp;utm_campaign=pr-badge&#34;&gt;&lt;img src=&#34;https://badges.gitter.im/Laradock/laradock.svg&#34; alt=&#34;Gitter&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     

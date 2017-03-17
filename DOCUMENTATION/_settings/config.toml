@@ -1,6 +1,6 @@
 baseurl = "http://laradock.io/"
 languageCode = "en-us"
-publishDir = "../"
+publishDir = "../../docs"
 title = "Laradock"
 theme = "hugo-material-docs"
 metadataformat = "yaml"

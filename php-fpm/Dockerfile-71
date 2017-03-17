@@ -10,7 +10,7 @@
 #    https://hub.docker.com/r/laradock/php-fpm/tags/
 #
 
-FROM laradock/php-fpm:7.0--1.2
+FROM laradock/php-fpm:7.1--0.0 # placeholder. Need change after new image would be built.
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
@@ -38,18 +38,6 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 #
 
 #####################################
-# SOAP:
-#####################################
-
-ARG INSTALL_SOAP=false
-RUN if [ ${INSTALL_SOAP} = true ]; then \
-    # Install the soap extension
-    apt-get -y update && \
-    apt-get -y install libxml2-dev php-soap && \ 
-    docker-php-ext-install soap \
-;fi
-
-#####################################
 # xDebug:
 #####################################
 
@@ -58,17 +46,6 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     # Install the xdebug extension
     pecl install xdebug && \
     docker-php-ext-enable xdebug \
-;fi
-
-#####################################
-# PHP REDIS EXTENSION FOR PHP 7.0
-#####################################
-ARG INSTALL_PHPREDIS=false
-RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
-    # Install Php Redis Extension
-    pecl install -o -f redis \
-    &&  rm -rf /tmp/pear \
-    &&  docker-php-ext-enable redis \
 ;fi
 
 # Copy xdebug configration for remote debugging
@@ -97,16 +74,6 @@ RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
 ;fi
 
 #####################################
-# bcmath:
-#####################################
-
-ARG INSTALL_BCMATH=false
-RUN if [ ${INSTALL_BCMATH} = true ]; then \
-    # Install the bcmath extension
-    docker-php-ext-install bcmath \
-;fi
-
-#####################################
 # PHP Memcached:
 #####################################
 
@@ -129,18 +96,6 @@ RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
 ;fi
 
 #####################################
-# Exif:
-#####################################
-
-ARG INSTALL_EXIF=false
-RUN if [ ${INSTALL_EXIF} = true ]; then \
-    # Enable Exif PHP extentions requirements
-    docker-php-ext-install exif && \
-    docker-php-ext-enable exif \
-;fi
-
-
-#####################################
 # PHP Aerospike:
 #####################################
 
@@ -160,7 +115,6 @@ RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = true ]; then \
         && make install \
     ) \
     && rm /tmp/aerospike-client-php.tar.gz \
-    && docker-php-ext-enable aerospike \
 ;fi
 
 #####################################
@@ -176,57 +130,14 @@ RUN if [ ${INSTALL_OPCACHE} = true ]; then \
 COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
 #####################################
-# Mysqli Modifications:
-#####################################
-ARG INSTALL_MYSQLI=false
-RUN if [ ${INSTALL_MYSQLI} = true ]; then \    
-     docker-php-ext-install mysqli \
-;fi
-
-#####################################
-# Tokenizer Modifications:
+# Codeigniter Modifications:
 #####################################
 
-ARG INSTALL_TOKENIZER=false
-RUN if [ ${INSTALL_TOKENIZER} = true ]; then \
+ARG CODEIGNITER=false
+RUN if [ ${CODEIGNITER} = true ]; then \
+    # Install Codeigniter PHP extentions requirements
+     docker-php-ext-install mysqli && \
      docker-php-ext-install tokenizer \
-;fi
-
-#####################################
-# LDAP:
-#####################################
-
-ARG INSTALL_LDAP=false
-RUN if [ ${INSTALL_LDAP} = true ]; then \
-    apt-get update && \
-    apt-get install libldap2-dev -y && \
-    docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
-    docker-php-ext-install ldap \
-;fi
-    
-#####################################
-# Human Language and Character Encoding Support:
-#####################################
-
-ARG INSTALL_INTL=false
-RUN if [ ${INSTALL_INTL} = true ]; then \
-    # Install intl and requirements
-    apt-get install -y zlib1g-dev libicu-dev g++ && \
-    docker-php-ext-configure intl && \
-    docker-php-ext-install intl \
-
-#####################################
-# GHOSTSCRIPT:
-#####################################
-
-ARG INSTALL_GHOSTSCRIPT=false
-RUN if [ ${INSTALL_GHOSTSCRIPT} = true ]; then \
-    # Install the ghostscript extension
-    # for PDF editing
-    apt-get -y update \
-    && apt-get install -y \
-    poppler-utils \
-    ghostscript \
 ;fi
 
 #
