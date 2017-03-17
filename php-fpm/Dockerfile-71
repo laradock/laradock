@@ -10,7 +10,7 @@
 #    https://hub.docker.com/r/laradock/php-fpm/tags/
 #
 
-FROM laradock/php-fpm:5.6--1.2
+FROM laradock/php-fpm:7.1--0.0 # placeholder. Need change after new image would be built.
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
@@ -34,19 +34,8 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 # in the `docker-compose.yml` before the build.
 # Example:
 #   - INSTALL_ZIP_ARCHIVE=true
+#   - ...
 #
-
-#####################################
-# SOAP:
-#####################################
-
-ARG INSTALL_SOAP=false
-RUN if [ ${INSTALL_SOAP} = true ]; then \
-    # Install the soap extension
-    apt-get -y update && \
-    apt-get -y install libxml2-dev php-soap && \ 
-    docker-php-ext-install soap \
-;fi
 
 #####################################
 # xDebug:
@@ -55,11 +44,8 @@ RUN if [ ${INSTALL_SOAP} = true ]; then \
 ARG INSTALL_XDEBUG=false
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     # Install the xdebug extension
-    # pecl install xdebug && docker-php-ext-enable xdebug \
-    # workaround for https://github.com/docker-library/php/issues/133
-    #     - Xdebug breaks on access to class static property
-    apt-get install -y php5-xdebug && \
-	echo "zend_extension=/usr/lib/php5/20131226/xdebug.so" > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    pecl install xdebug && \
+    docker-php-ext-enable xdebug \
 ;fi
 
 # Copy xdebug configration for remote debugging
@@ -88,24 +74,25 @@ RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
 ;fi
 
 #####################################
-# bcmath:
-#####################################
-
-ARG INSTALL_BCMATH=false
-RUN if [ ${INSTALL_BCMATH} = true ]; then \
-    # Install the bcmath extension
-    docker-php-ext-install bcmath \
-;fi
-
-#####################################
 # PHP Memcached:
 #####################################
 
 ARG INSTALL_MEMCACHED=false
 RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
     # Install the php memcached extension
-    pecl install memcached-2.2.0 && \
-    docker-php-ext-enable memcached \
+    curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz" \
+    && mkdir -p memcached \
+    && tar -C memcached -zxvf /tmp/memcached.tar.gz --strip 1 \
+    && ( \
+        cd memcached \
+        && phpize \
+        && ./configure \
+        && make -j$(nproc) \
+        && make install \
+    ) \
+    && rm -r memcached \
+    && rm /tmp/memcached.tar.gz \
+    && docker-php-ext-enable memcached \
 ;fi
 
 #####################################
@@ -128,13 +115,11 @@ RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = true ]; then \
         && make install \
     ) \
     && rm /tmp/aerospike-client-php.tar.gz \
-    && docker-php-ext-enable aerospike \
 ;fi
 
 #####################################
 # Opcache:
 #####################################
-
 ARG INSTALL_OPCACHE=false
 RUN if [ ${INSTALL_OPCACHE} = true ]; then \
     docker-php-ext-install opcache && \
@@ -145,20 +130,13 @@ RUN if [ ${INSTALL_OPCACHE} = true ]; then \
 COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
 #####################################
-# Mysqli Modifications:
+# Codeigniter Modifications:
 #####################################
 
-ARG INSTALL_MYSQLI=false
-RUN if [ ${INSTALL_MYSQLI} = true ]; then \  
-     docker-php-ext-install mysqli \
-;fi
-
-#####################################
-# Tokenizer Modifications:
-#####################################
-
-ARG INSTALL_TOKENIZER=false
-RUN if [ ${INSTALL_TOKENIZER} = true ]; then \
+ARG CODEIGNITER=false
+RUN if [ ${CODEIGNITER} = true ]; then \
+    # Install Codeigniter PHP extentions requirements
+     docker-php-ext-install mysqli && \
      docker-php-ext-install tokenizer \
 ;fi
 

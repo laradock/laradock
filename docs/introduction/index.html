@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=10" />
-    <title>Introduction - Laradock Docs</title>
+    <title>Introduction - Laradock</title>
     <meta name="generator" content="Hugo 0.18.1" />
 
     
@@ -21,9 +21,9 @@
     
 
     <meta property="og:url" content="http://laradock.io/introduction/">
-    <meta property="og:title" content="Laradock Docs">
+    <meta property="og:title" content="Laradock">
     
-    <meta name="apple-mobile-web-app-title" content="Laradock Docs">
+    <meta name="apple-mobile-web-app-title" content="Laradock">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
@@ -71,12 +71,9 @@
     
 
   </head>
-  <body class="palette-primary-purple palette-accent-deep-purple">
+  <body class="palette-primary-deep-purple palette-accent-purple">
 
 
-
-	
-	
 
 
 <div class="backdrop">
@@ -97,7 +94,7 @@
     </div>
     <div class="stretch">
       <div class="title">
-        Introduction
+          <b>Laradock</b> <span style="color: rgba(249, 245, 255, 0.63);"> / Introduction</span>
       </div>
     </div>
 
@@ -105,8 +102,9 @@
 
     
     <div class="button button-github" role="button" aria-label="GitHub">
-      <a href="https://github.com/laradock" title="@laradock on GitHub" target="_blank" class="toggle-button icon icon-github"></a>
+        <a style="padding: 0px; font-size:40px" href="https://github.com/laradock/laradock" title="@laradock/laradock on GitHub" target="_blank" class="toggle-button icon icon-github"></a>
     </div>
+      <p style="font-size: 18px; padding: 8px">Github</p>
     
     
         
@@ -125,41 +123,24 @@
     </div>
   </div>
 </nav>
+
 </header>
 
 <main class="main">
 	<div class="drawer">
 		<nav aria-label="Navigation">
-  <a href="https://github.com/laradock/laradock" class="project">
-    <div class="banner">
+  
+    
       
-      <div class="name">
-        <strong>Laradock Docs </strong>
+      
         
-          <br>
-          laradock/laradock
         
-      </div>
-    </div>
-  </a>
+      
+    
+  
 
   <div class="scrollable">
     <div class="wrapper">
-      
-        <ul class="repo">
-          <li class="repo-download">
-            <a href="https://github.com/laradock/laradock/archive/master.zip" target="_blank" title="Download" data-action="download">
-              <i class="icon icon-download"></i> Download
-            </a>
-          </li>
-          <li class="repo-stars">
-            <a href="https://github.com/laradock/laradock/stargazers" target="_blank" title="Stargazers" data-action="star">
-              <i class="icon icon-star"></i> Stars
-              <span class="count">&ndash;</span>
-            </a>
-          </li>
-        </ul>
-        <hr>
       
 
       <div class="toc">
@@ -302,18 +283,18 @@
         
 
         
-        <hr>
-        <span class="section">The author</span>
+        
+        
         
         <ul>
           
 
           
-          <li>
-            <a href="https://github.com/laradock" target="_blank" title="@laradock on GitHub">
-              @laradock on GitHub
-            </a>
-          </li>
+          
+            
+              
+            
+          
           
 
           
@@ -332,27 +313,32 @@
 
 			
 
-<p>LaraDock strives to make the PHP development experience easier and faster.</p>
+<p>Laradock strives to make the PHP development experience easier and faster.</p>
 
 <p>It contains pre-packaged Docker Images that provides you a wonderful <em>development</em> environment without requiring you to install PHP, NGINX, MySQL, Redis, and any other software on your machines.</p>
 
-<p>LaraDock is configured to run Laravel Apps by default, and it can be modified to run all kinds of PHP Apps (Symfony, CodeIgniter, WordPress, Drupal&hellip;).</p>
+<p>Laradock is configured to run Laravel Apps by default, and it can be modified to run all kinds of PHP Apps (Symfony, CodeIgniter, WordPress, Drupal&hellip;).</p>
 
 <h2 id="quick-overview">Quick Overview</h2>
 
 <p>Let&rsquo;s see how easy it is to install <code>NGINX</code>, <code>PHP</code>, <code>Composer</code>, <code>MySQL</code>, <code>Redis</code> and <code>beanstalkd</code>:</p>
 
-<p>1 - Clone LaraDock inside your PHP project:</p>
+<p>1 - Clone Laradock inside your PHP project:</p>
 
 <pre><code class="language-shell">git clone https://github.com/Laradock/laradock.git
 </code></pre>
 
-<p>2 - Enter the laradock folder and run this command:</p>
+<p>2 - Enter the laradock folder and rename <code>env-example</code> to <code>.env</code>.</p>
+
+<pre><code class="language-shell">cp env-example .env
+</code></pre>
+
+<p>3 - Run your containers:</p>
 
 <pre><code class="language-shell">docker-compose up -d nginx mysql redis beanstalkd
 </code></pre>
 
-<p>3 - Open your <code>.env</code> file and set the following:</p>
+<p>3 - Open your project&rsquo;s <code>.env</code> file and set the following:</p>
 
 <pre><code class="language-shell">DB_HOST=mysql
 REDIS_HOST=redis
@@ -384,21 +370,21 @@ QUEUE_HOST=beanstalkd
 
 <p><a name="laradock-vs-homestead"></a></p>
 
-<h2 id="laradock-vs-homestead-for-laravel-developers">LaraDock VS Homestead (For Laravel Developers)</h2>
+<h2 id="laradock-vs-homestead-for-laravel-developers">Laradock VS Homestead (For Laravel Developers)</h2>
 
 <blockquote>
-<p>LaraDock It&rsquo;s like Laravel Homestead but for Docker instead of Vagrant.</p>
+<p>Laradock It&rsquo;s like Laravel Homestead but for Docker instead of Vagrant.</p>
 </blockquote>
 
-<p>LaraDock and <a href="https://laravel.com/docs/master/homestead">Homestead</a> both give you complete virtual development environments. (Without the need to install and configure every single software on your own Operating System).</p>
+<p>Laradock and <a href="https://laravel.com/docs/master/homestead">Homestead</a> both give you complete virtual development environments. (Without the need to install and configure every single software on your own Operating System).</p>
 
 <ul>
 <li><p>Homestead is a tool that controls Vagrant for you (using Homestead special commands). And Vagrant manages your Virtual Machine.</p></li>
 
-<li><p>LaraDock is a tool that controls Docker for you (using Docker &amp; Docker Compose official commands). And Docker manages your Virtual Containers.</p></li>
+<li><p>Laradock is a tool that controls Docker for you (using Docker &amp; Docker Compose official commands). And Docker manages your Virtual Containers.</p></li>
 </ul>
 
-<p>Running a virtual container is much faster than running a full virtual Machine. Thus <strong>LaraDock is much faster than Homestead</strong>.</p>
+<p>Running a virtual container is much faster than running a full virtual Machine. Thus <strong>Laradock is much faster than Homestead</strong>.</p>
 
 <p><a name="Demo"></a></p>
 
@@ -407,10 +393,10 @@ QUEUE_HOST=beanstalkd
 <p>What&rsquo;s better than a <strong>Demo Video</strong>:</p>
 
 <ul>
-<li>LaraDock <a href="https://www.youtube.com/watch?v=TQii1jDa96Y">v4.*</a></li>
-<li>LaraDock <a href="https://www.youtube.com/watch?v=-DamFMczwDA">v2.*</a></li>
-<li>LaraDock <a href="https://www.youtube.com/watch?v=jGkyO6Is_aI">v0.3</a></li>
-<li>LaraDock <a href="https://www.youtube.com/watch?v=3YQsHe6oF80">v0.1</a></li>
+<li>Laradock <a href="https://www.youtube.com/watch?v=TQii1jDa96Y">v4.*</a></li>
+<li>Laradock <a href="https://www.youtube.com/watch?v=-DamFMczwDA">v2.*</a></li>
+<li>Laradock <a href="https://www.youtube.com/watch?v=jGkyO6Is_aI">v0.3</a></li>
+<li>Laradock <a href="https://www.youtube.com/watch?v=3YQsHe6oF80">v0.1</a></li>
 </ul>
 
 <p><a name="features"></a></p>
@@ -442,11 +428,12 @@ QUEUE_HOST=beanstalkd
 
 <ul>
 <li>MySQL</li>
-<li>PostgreSQL</li>
 <li>MariaDB</li>
 <li>MongoDB</li>
 <li>Neo4j</li>
 <li>RethinkDB</li>
+<li>PostgreSQL</li>
+<li>Postgres Postgis</li>
 </ul></li>
 <li><strong>Cache Engines:</strong>
 
@@ -483,6 +470,9 @@ QUEUE_HOST=beanstalkd
 <li>PgAdmin</li>
 <li>ElasticSearch</li>
 <li>Selenium</li>
+<li>Certbot</li>
+<li>Mailhog</li>
+<li>Minio</li>
 <li>Workspace
 
 <ul>
@@ -513,7 +503,7 @@ QUEUE_HOST=beanstalkd
 
 <p>You are welcome to join our chat room on Gitter.</p>
 
-<p><a href="https://gitter.im/LaraDock/laradock?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge"><img src="https://badges.gitter.im/LaraDock/laradock.svg" alt="Gitter" /></a></p>
+<p><a href="https://gitter.im/Laradock/laradock?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge"><img src="https://badges.gitter.im/Laradock/laradock.svg" alt="Gitter" /></a></p>
 
 
 			<aside class="copyright" role="note">
@@ -573,8 +563,8 @@ QUEUE_HOST=beanstalkd
 
     <script>
     
-      var base_url = 'http:\/\/laradock.io\/';
-      var repo_id  = 'laradock\/laradock';
+      var base_url = '';
+      var repo_id  = '';
     
     </script>
 
