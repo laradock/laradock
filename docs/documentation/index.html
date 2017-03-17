@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=10" />
-    <title>Documentation - Laradock Docs</title>
+    <title>Documentation - Laradock</title>
     <meta name="generator" content="Hugo 0.18.1" />
 
     
@@ -21,9 +21,9 @@
     
 
     <meta property="og:url" content="http://laradock.io/documentation/">
-    <meta property="og:title" content="Laradock Docs">
+    <meta property="og:title" content="Laradock">
     
-    <meta name="apple-mobile-web-app-title" content="Laradock Docs">
+    <meta name="apple-mobile-web-app-title" content="Laradock">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
@@ -71,12 +71,9 @@
     
 
   </head>
-  <body class="palette-primary-purple palette-accent-deep-purple">
+  <body class="palette-primary-deep-purple palette-accent-purple">
 
 
-
-	
-	
 
 
 <div class="backdrop">
@@ -97,7 +94,7 @@
     </div>
     <div class="stretch">
       <div class="title">
-        Documentation
+          <b>Laradock</b> <span style="color: rgba(249, 245, 255, 0.63);"> / Documentation</span>
       </div>
     </div>
 
@@ -105,8 +102,9 @@
 
     
     <div class="button button-github" role="button" aria-label="GitHub">
-      <a href="https://github.com/laradock" title="@laradock on GitHub" target="_blank" class="toggle-button icon icon-github"></a>
+        <a style="padding: 0px; font-size:40px" href="https://github.com/laradock/laradock" title="@laradock/laradock on GitHub" target="_blank" class="toggle-button icon icon-github"></a>
     </div>
+      <p style="font-size: 18px; padding: 8px">Github</p>
     
     
         
@@ -125,41 +123,24 @@
     </div>
   </div>
 </nav>
+
 </header>
 
 <main class="main">
 	<div class="drawer">
 		<nav aria-label="Navigation">
-  <a href="https://github.com/laradock/laradock" class="project">
-    <div class="banner">
+  
+    
       
-      <div class="name">
-        <strong>Laradock Docs </strong>
+      
         
-          <br>
-          laradock/laradock
         
-      </div>
-    </div>
-  </a>
+      
+    
+  
 
   <div class="scrollable">
     <div class="wrapper">
-      
-        <ul class="repo">
-          <li class="repo-download">
-            <a href="https://github.com/laradock/laradock/archive/master.zip" target="_blank" title="Download" data-action="download">
-              <i class="icon icon-download"></i> Download
-            </a>
-          </li>
-          <li class="repo-stars">
-            <a href="https://github.com/laradock/laradock/stargazers" target="_blank" title="Stargazers" data-action="star">
-              <i class="icon icon-star"></i> Stars
-              <span class="count">&ndash;</span>
-            </a>
-          </li>
-        </ul>
-        <hr>
       
 
       <div class="toc">
@@ -302,18 +283,18 @@
         
 
         
-        <hr>
-        <span class="section">The author</span>
+        
+        
         
         <ul>
           
 
           
-          <li>
-            <a href="https://github.com/laradock" target="_blank" title="@laradock on GitHub">
-              @laradock on GitHub
-            </a>
-          </li>
+          
+            
+              
+            
+          
           
 
           
@@ -466,6 +447,11 @@ example for <code>mysql</code> it will be <code>mysql/Dockerfile</code>.</p>
 <pre><code class="language-bash">docker logs {container-name}
 </code></pre>
 
+<p>More <a href="https://docs.docker.com/compose/reference/logs/">options</a></p>
+
+<pre><code class="language-bash">docker logs -f {container-name}
+</code></pre>
+
 <p><br>
 <a name="PHP"></a></p>
 
@@ -596,7 +582,7 @@ xdebug.remote_connect_back=1
 
 <p>By installing xDebug, you are enabling it to run on startup by default.</p>
 
-<p>To control the behavior of xDebug (in the <code>php-fpm</code> Container), you can run the following commands from the LaraDock root folder, (at the same prompt where you run docker-compose):</p>
+<p>To control the behavior of xDebug (in the <code>php-fpm</code> Container), you can run the following commands from the Laradock root folder, (at the same prompt where you run docker-compose):</p>
 
 <ul>
 <li>Stop xDebug from running by default: <code>./xdebugPhpFpm stop</code>.</li>
@@ -636,11 +622,11 @@ xdebug.remote_connect_back=1
 <a name="Production"></a></p>
 
 <p><br>
-<a name="LaraDock-for-Production"></a></p>
+<a name="Laradock-for-Production"></a></p>
 
-<h2 id="prepare-laradock-for-production">Prepare LaraDock for Production</h2>
+<h2 id="prepare-laradock-for-production">Prepare Laradock for Production</h2>
 
-<p>It&rsquo;s recommended for production to create a custom <code>docker-compose.yml</code> file. For that reason, LaraDock is shipped with <code>production-docker-compose.yml</code> which should contain only the containers you are planning to run on production (usage example: <code>docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...</code>).</p>
+<p>It&rsquo;s recommended for production to create a custom <code>docker-compose.yml</code> file. For that reason, Laradock is shipped with <code>production-docker-compose.yml</code> which should contain only the containers you are planning to run on production (usage example: <code>docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...</code>).</p>
 
 <p>Note: The Database (MySQL/MariaDB/&hellip;) ports should not be forwarded on production, because Docker will automatically publish the port on the host, which is quite insecure, unless specifically told not to. So make sure to remove these lines:</p>
 
@@ -681,7 +667,7 @@ xdebug.remote_connect_back=1
 
 <p>3 - Edit <code>docker-compose.yml</code> to Map the new application path:</p>
 
-<p>By default, LaraDock assumes the Laravel application is living in the parent directory of the laradock folder.</p>
+<p>By default, Laradock assumes the Laravel application is living in the parent directory of the laradock folder.</p>
 
 <p>Since the new Laravel application is in the <code>my-cool-app</code> folder, we need to replace <code>../:/var/www</code> with <code>../my-cool-app/:/var/www</code>, as follow:</p>
 
@@ -697,7 +683,7 @@ xdebug.remote_connect_back=1
 <pre><code class="language-bash">cd my-cool-app
 </code></pre>
 
-<p>5 - Go back to the LaraDock installation steps to see how to edit the <code>.env</code> file.</p>
+<p>5 - Go back to the Laradock installation steps to see how to edit the <code>.env</code> file.</p>
 
 <p><br>
 <a name="Run-Artisan-Commands"></a></p>
@@ -799,7 +785,7 @@ SESSION_DRIVER=redis
 
 <p>5 - You can manually test it from Laravel with this code:</p>
 
-<pre><code class="language-php">\Cache::store('redis')-&gt;put('LaraDock', 'Awesome', 10);
+<pre><code class="language-php">\Cache::store('redis')-&gt;put('Laradock', 'Awesome', 10);
 </code></pre>
 
 <p><br>
@@ -1029,6 +1015,36 @@ A package (<a href="https://github.com/duxet/laravel-rethinkdb">Laravel RethinkD
 </ul>
 
 <p><br>
+<a name="Use-Minio"></a></p>
+
+<h2 id="use-minio">Use Minio</h2>
+
+<p>1 - Configure Minio:
+  - On the workspace container, change <code>INSTALL_MC</code> to true to get the client
+  - Set <code>MINIO_ACCESS_KEY</code> and <code>MINIO_ACCESS_SECRET</code> if you wish to set proper keys</p>
+
+<p>2 - Run the Minio Container (<code>minio</code>) with the <code>docker-compose up</code> command. Example:</p>
+
+<pre><code class="language-bash">docker-compose up -d minio
+</code></pre>
+
+<p>3 - Open your browser and visit the localhost on port <strong>9000</strong> at the following URL:  <code>http://localhost:9000</code></p>
+
+<p>4 - Create a bucket either through the webui or using the mc client:</p>
+
+<pre><code class="language-bash">  mc mb minio/bucket
+</code></pre>
+
+<p>5 - When configuring your other clients use the following details:</p>
+
+<pre><code>  S3_HOST=http://minio
+  S3_KEY=access
+  S3_SECRET=secretkey
+  S3_REGION=us-east-1
+  S3_BUCKET=bucket
+</code></pre>
+
+<p><br>
 <a name="CodeIgniter"></a></p>
 
 <p><br>
@@ -1036,7 +1052,7 @@ A package (<a href="https://github.com/duxet/laravel-rethinkdb">Laravel RethinkD
 
 <h2 id="install-codeigniter">Install CodeIgniter</h2>
 
-<p>To install CodeIgniter 3 on LaraDock all you have to do is the following simple steps:</p>
+<p>To install CodeIgniter 3 on Laradock all you have to do is the following simple steps:</p>
 
 <p>1 - Open the <code>docker-compose.yml</code> file.</p>
 
@@ -1276,7 +1292,7 @@ port=1234
 
 <h2 id="common-terminal-aliases">Common Terminal Aliases</h2>
 
-<p>When you start your docker container, LaraDock will copy the <code>aliases.sh</code> file located in the <code>laradock/workspace</code> directory and add sourcing to the container <code>~/.bashrc</code> file.</p>
+<p>When you start your docker container, Laradock will copy the <code>aliases.sh</code> file located in the <code>laradock/workspace</code> directory and add sourcing to the container <code>~/.bashrc</code> file.</p>
 
 <p>You are free to modify the <code>aliases.sh</code> as you see fit, adding your own aliases (or function macros) to suit your requirements.</p>
 
@@ -1351,12 +1367,12 @@ e) set it to <code>true</code></p>
 <p><a href="https://github.com/laradock/laradock/blob/master/_guides/phpstorm.md"><strong>Debugging Guide Here</strong></a></p>
 
 <p><br>
-<a name="keep-tracking-LaraDock"></a></p>
+<a name="keep-tracking-Laradock"></a></p>
 
-<h2 id="keep-track-of-your-laradock-changes">Keep track of your LaraDock changes</h2>
+<h2 id="keep-track-of-your-laradock-changes">Keep track of your Laradock changes</h2>
 
 <ol>
-<li>Fork the LaraDock repository.</li>
+<li>Fork the Laradock repository.</li>
 <li>Use that fork as a submodule.</li>
 <li>Commit all your changes to your fork.</li>
 <li>Pull new stuff from the main repository from time to time.</li>
@@ -1365,15 +1381,15 @@ e) set it to <code>true</code></p>
 <p><br>
 <a name="upgrading-laradock"></a></p>
 
-<h2 id="upgrading-laradock">Upgrading LaraDock</h2>
+<h2 id="upgrading-laradock">Upgrading Laradock</h2>
 
-<p>Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requires upgrading LaraDock from v3.* to v4.*:</p>
+<p>Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requires upgrading Laradock from v3.* to v4.*:</p>
 
 <ol>
 <li>Stop the docker VM <code>docker-machine stop {default}</code></li>
 <li>Install Docker for <a href="https://docs.docker.com/docker-for-mac/">Mac</a> or <a href="https://docs.docker.com/docker-for-windows/">Windows</a>.</li>
-<li>Upgrade LaraDock to <code>v4.*.*</code> (<code>git pull origin master</code>)</li>
-<li>Use LaraDock as you used to do: <code>docker-compose up -d nginx mysql</code>.</li>
+<li>Upgrade Laradock to <code>v4.*.*</code> (<code>git pull origin master</code>)</li>
+<li>Use Laradock as you used to do: <code>docker-compose up -d nginx mysql</code>.</li>
 </ol>
 
 <p><strong>Note:</strong> If you face any problem with the last step above: rebuild all your containers
@@ -1489,7 +1505,7 @@ e) set it to <code>true</code></p>
 <li>Option B
 
 <ol>
-<li>Change the <code>DB_HOST</code> value to the same name as the MySQL docker container. The LaraDock docker-compose file currently has this as <code>mysql</code></li>
+<li>Change the <code>DB_HOST</code> value to the same name as the MySQL docker container. The Laradock docker-compose file currently has this as <code>mysql</code></li>
 </ol></li>
 </ul>
 
@@ -1567,8 +1583,8 @@ e) set it to <code>true</code></p>
 
     <script>
     
-      var base_url = 'http:\/\/laradock.io\/';
-      var repo_id  = 'laradock\/laradock';
+      var base_url = '';
+      var repo_id  = '';
     
     </script>
 
