@@ -148,11 +148,11 @@ services:
     mysql:
         build:
             context: ./mysql
-            args:
-                - MYSQL_DATABASE=${MYSQL_DATABASE}
-                - MYSQL_USER=${MYSQL_USER}
-                - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-                - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+        environment:
+            MYSQL_DATABASE: homestead
+            MYSQL_USER: homestead
+            MYSQL_PASSWORD: secret
+            MYSQL_ROOT_PASSWORD: root
         volumes:
             - mysql:/var/lib/mysql
         ports:
