@@ -72,6 +72,15 @@ services:
             - "dockerhost:${DOCKER_HOST_IP}"
         environment:
             - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
+            
+### PHP Worker Container #####################################
+    php-worker:
+        build:
+            context: ./php-worker
+        volumes_from:
+            - applications
+        depends_on:
+            - workspace
 
 ### Nginx Server Container ##################################
 
