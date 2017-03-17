@@ -47,6 +47,23 @@ ARG PGID=1000
 RUN groupadd -g $PGID laradock && \
     useradd -u $PUID -g laradock -m laradock
 
+
+#####################################
+# SOAP:
+#####################################
+USER root
+
+ARG INSTALL_SOAP=false
+ENV INSTALL_SOAP ${INSTALL_SOAP}
+
+RUN if [ ${INSTALL_SOAP} = true ]; then \
+  # Install the PHP SOAP extension
+  apt-get -y update && \
+  add-apt-repository -y ppa:ondrej/php && \
+  apt-get -y install libxml2-dev php7.0-soap && \
+  echo "extension=soap.so" >> /etc/php/7.0/cli/conf.d/40-soap.ini \
+;fi
+
 #####################################
 # Set Timezone
 #####################################
@@ -96,7 +113,7 @@ RUN echo "" >> ~/.bashrc && \
     echo "# Load Custom Aliases" >> ~/.bashrc && \
     echo "source /home/laradock/aliases.sh" >> ~/.bashrc && \
     echo "" >> ~/.bashrc
-    
+
 USER root
 RUN echo "" >> ~/.bashrc && \
     echo "# Load Custom Aliases" >> ~/.bashrc && \
@@ -178,7 +195,7 @@ ENV INSTALL_NODE ${INSTALL_NODE}
 ENV NVM_DIR /home/laradock/.nvm
 RUN if [ ${INSTALL_NODE} = true ]; then \
     # Install nvm (A Node Version Manager)
-    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.6/install.sh | bash && \
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash && \
         . $NVM_DIR/nvm.sh && \
         nvm install ${NODE_VERSION} && \
         nvm use ${NODE_VERSION} && \
@@ -356,6 +373,22 @@ RUN if [ ${INSTALL_LINUXBREW} = true ]; then \
     echo 'export PKG_CONFIG_PATH="$LINUXBREWHOME/lib64/pkgconfig:$LINUXBREWHOME/lib/pkgconfig:$PKG_CONFIG_PATH"' >> ~/.bashrc && \
     echo 'export LD_LIBRARY_PATH="$LINUXBREWHOME/lib64:$LINUXBREWHOME/lib:$LD_LIBRARY_PATH"' >> ~/.bashrc \
 ;fi
+
+#####################################
+# Minio:
+#####################################
+USER root
+ARG INSTALL_MC=false
+ENV INSTALL_MC ${INSTALL_MC}
+
+COPY mc/config.json /root/.mc/config.json
+
+RUN if [ ${INSTALL_MC} = true ]; then\
+    curl -fsSL -o /usr/local/bin/mc https://dl.minio.io/client/mc/release/linux-amd64/mc && \
+    chmod +x /usr/local/bin/mc \
+;fi
+
+USER laradock
 
 #
 #--------------------------------------------------------------------------
