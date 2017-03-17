@@ -251,10 +251,6 @@ QUEUE_HOST=beanstalkd
 
 &lt;h3 id=&#34;a-1-already-have-a-php-project&#34;&gt;A.1) Already have a PHP project:&lt;/h3&gt;
 
-&lt;blockquote&gt;
-&lt;p&gt;(Follow these steps if you already have a PHP project, and all you need is an environment to run it)&lt;/p&gt;
-&lt;/blockquote&gt;
-
 &lt;p&gt;1 - Clone laradock on your project root directory:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;git submodule add https://github.com/Laradock/laradock.git
@@ -276,15 +272,15 @@ QUEUE_HOST=beanstalkd
 	+ laradock-b
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;(It&amp;rsquo;s important to rename the folders differently in each project)&lt;/p&gt;
+&lt;p&gt;(It&amp;rsquo;s important to rename the folders differently in each project.)&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Now jump to the &lt;a href=&#34;#Usage&#34;&gt;Usage&lt;/a&gt; section.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;p&gt;&lt;a name=&#34;A2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;a-2-don-t-have-a-php-project-yet&#34;&gt;A.2) Don&amp;rsquo;t have a PHP project yet:&lt;/h3&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;(Follow these steps if you don&amp;rsquo;t have a PHP project yet, and you need an environment to create the project)&lt;/p&gt;
-&lt;/blockquote&gt;
 
 &lt;p&gt;1 - Clone this repository anywhere on your machine:&lt;/p&gt;
 
@@ -303,11 +299,12 @@ QUEUE_HOST=beanstalkd
 
 &lt;p&gt;&lt;em&gt;Or you can keep &lt;code&gt;default.conf&lt;/code&gt; as it is, and create a separate config &lt;code&gt;my-site.conf&lt;/code&gt; file for it.&lt;/em&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;In case of Apache:&lt;/strong&gt; :P&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;In case of Apache:&lt;/strong&gt; :P
+&lt;br&gt;&lt;/p&gt;
 
-&lt;p&gt;3 - Run your &lt;code&gt;docker-compose up&lt;/code&gt; command and you&amp;rsquo;re ready to go.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Note: if you already had your containers up, you might need to take them down first and rebuild them for the changes to take effect.&lt;/em&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Now jump to the &lt;a href=&#34;#Usage&#34;&gt;Usage&lt;/a&gt; section.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;p&gt;&lt;a name=&#34;B&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
@@ -343,7 +340,11 @@ QUEUE_HOST=beanstalkd
 127.0.0.1  project-2.dev
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;5 - Visit &lt;code&gt;http://project-1.dev/&lt;/code&gt; and &lt;code&gt;http://project-2.dev/&lt;/code&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Now jump to the &lt;a href=&#34;#Usage&#34;&gt;Usage&lt;/a&gt; section.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a name=&#34;Usage&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;usage&#34;&gt;Usage&lt;/h2&gt;
 
@@ -364,28 +365,37 @@ QUEUE_HOST=beanstalkd
 
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
-&lt;p&gt;1 - Run Containers: &lt;em&gt;(Make sure you are in the &lt;code&gt;laradock&lt;/code&gt; folder before running the &lt;code&gt;docker-compose&lt;/code&gt; commands).&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;1 - Enter the laradock folder and rename &lt;code&gt;env-example&lt;/code&gt; to &lt;code&gt;.env&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt; Running NGINX and MySQL:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;cp env-example .env
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You can edit the &lt;code&gt;.env&lt;/code&gt; file to chose which software&amp;rsquo;s you want to be installed in your environment. You can always refer to the &lt;code&gt;docker-compose.yml&lt;/code&gt; file to see how those variables are been used.&lt;/p&gt;
+
+&lt;p&gt;2 - Build the enviroment and run it using &lt;code&gt;docker-compose&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;In this example we&amp;rsquo;ll see how to run NGINX (web server) and MySQL (database engine) to host a PHP Web Scripts:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;docker-compose up -d nginx mysql
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: The &lt;code&gt;workspace&lt;/code&gt; and &lt;code&gt;php-fpm&lt;/code&gt; will run automatically in most of the cases, so no need to specify them in the &lt;code&gt;up&lt;/code&gt; command. If you couldn&amp;rsquo;t find them running then you need specify them as follow: &lt;code&gt;docker-compose up -d nginx php-fpm mysql workspace&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;You can select your own combination of Containers form the list below:&lt;/p&gt;
+&lt;p&gt;You can select your own combination of containers form the list below:&lt;/p&gt;
 
+&lt;blockquote&gt;
 &lt;p&gt;&lt;code&gt;nginx&lt;/code&gt;, &lt;code&gt;hhvm&lt;/code&gt;, &lt;code&gt;php-fpm&lt;/code&gt;, &lt;code&gt;mysql&lt;/code&gt;, &lt;code&gt;redis&lt;/code&gt;, &lt;code&gt;postgres&lt;/code&gt;, &lt;code&gt;mariadb&lt;/code&gt;, &lt;code&gt;neo4j&lt;/code&gt;, &lt;code&gt;mongo&lt;/code&gt;, &lt;code&gt;apache2&lt;/code&gt;, &lt;code&gt;caddy&lt;/code&gt;, &lt;code&gt;memcached&lt;/code&gt;, &lt;code&gt;beanstalkd&lt;/code&gt;, &lt;code&gt;beanstalkd-console&lt;/code&gt;, &lt;code&gt;rabbitmq&lt;/code&gt;, &lt;code&gt;beanstalkd-console&lt;/code&gt;, &lt;code&gt;workspace&lt;/code&gt;, &lt;code&gt;phpmyadmin&lt;/code&gt;, &lt;code&gt;aerospike&lt;/code&gt;, &lt;code&gt;pgadmin&lt;/code&gt;, &lt;code&gt;elasticsearch&lt;/code&gt;, &lt;code&gt;rethinkdb&lt;/code&gt;, &lt;code&gt;postgres-postgis&lt;/code&gt;, &lt;code&gt;certbot&lt;/code&gt;, &lt;code&gt;mailhog&lt;/code&gt;, &lt;code&gt;minio&lt;/code&gt; and more&amp;hellip;!&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;p&gt;&lt;em&gt;(Please note that sometimes we forget to update the docs, so check the &lt;code&gt;docker-compose.yml&lt;/code&gt; file to see an updated list of all available containers).&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;
-2 - Enter the Workspace container, to execute commands like (Artisan, Composer, PHPUnit, Gulp, &amp;hellip;).&lt;/p&gt;
+3 - Enter the Workspace container, to execute commands like (Artisan, Composer, PHPUnit, Gulp, &amp;hellip;)&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;docker-compose exec workspace bash
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Alternatively, for Windows PowerShell users: execute the following command to enter any running container:&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Alternatively, for Windows PowerShell users: execute the following command to enter any running container:&lt;/em&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;docker exec -it {workspace-container-id} bash
 &lt;/code&gt;&lt;/pre&gt;
@@ -395,12 +405,12 @@ QUEUE_HOST=beanstalkd
 &lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;docker-compose exec --user=laradock workspace bash
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;em&gt;You can change the PUID (User id) and PGID (group id) variables from the &lt;code&gt;docker-compose.yml&lt;/code&gt; or the &lt;code&gt;.env&lt;/code&gt;)&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;You can change the PUID (User id) and PGID (group id) variables from the &lt;code&gt;.env&lt;/code&gt; file)&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;
-3 - Edit your project configurations.&lt;/p&gt;
+4 - Update your project configurations to use the database host&lt;/p&gt;
 
-&lt;p&gt;Open your &lt;code&gt;.env&lt;/code&gt; file and set the &lt;code&gt;DB_HOST&lt;/code&gt; to &lt;code&gt;mysql&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;Open your PHP project&amp;rsquo;s &lt;code&gt;.env&lt;/code&gt; file or whichever configuration file you are reading from, and set the database host &lt;code&gt;DB_HOST&lt;/code&gt; to &lt;code&gt;mysql&lt;/code&gt;:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-env&#34;&gt;DB_HOST=mysql
 &lt;/code&gt;&lt;/pre&gt;
@@ -408,7 +418,7 @@ QUEUE_HOST=beanstalkd
 &lt;p&gt;&lt;em&gt;If you want to install Laravel as PHP project, see &lt;a href=&#34;#Install-Laravel&#34;&gt;How to Install Laravel in a Docker Container&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;
-4 - Open your browser and visit your localhost address &lt;code&gt;http://localhost/&lt;/code&gt;.&lt;/p&gt;
+5 - Open your browser and visit your localhost address &lt;code&gt;http://localhost/&lt;/code&gt;. If you followed the multiple projects setup, you can visit &lt;code&gt;http://project-1.dev/&lt;/code&gt; and &lt;code&gt;http://project-2.dev/&lt;/code&gt;. But first don&amp;rsquo;t&lt;/p&gt;
 </description>
     </item>
     

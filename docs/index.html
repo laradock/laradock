@@ -544,10 +544,6 @@ QUEUE_HOST=beanstalkd
 
 <h3 id="a-1-already-have-a-php-project">A.1) Already have a PHP project:</h3>
 
-<blockquote>
-<p>(Follow these steps if you already have a PHP project, and all you need is an environment to run it)</p>
-</blockquote>
-
 <p>1 - Clone laradock on your project root directory:</p>
 
 <pre><code class="language-bash">git submodule add https://github.com/Laradock/laradock.git
@@ -569,15 +565,15 @@ QUEUE_HOST=beanstalkd
 	+ laradock-b
 </code></pre>
 
-<p>(It&rsquo;s important to rename the folders differently in each project)</p>
+<p>(It&rsquo;s important to rename the folders differently in each project.)</p>
+
+<blockquote>
+<p><strong>Now jump to the <a href="#Usage">Usage</a> section.</strong></p>
+</blockquote>
 
 <p><a name="A2"></a></p>
 
 <h3 id="a-2-don-t-have-a-php-project-yet">A.2) Don&rsquo;t have a PHP project yet:</h3>
-
-<blockquote>
-<p>(Follow these steps if you don&rsquo;t have a PHP project yet, and you need an environment to create the project)</p>
-</blockquote>
 
 <p>1 - Clone this repository anywhere on your machine:</p>
 
@@ -596,11 +592,12 @@ QUEUE_HOST=beanstalkd
 
 <p><em>Or you can keep <code>default.conf</code> as it is, and create a separate config <code>my-site.conf</code> file for it.</em></p>
 
-<p><strong>In case of Apache:</strong> :P</p>
+<p><strong>In case of Apache:</strong> :P
+<br></p>
 
-<p>3 - Run your <code>docker-compose up</code> command and you&rsquo;re ready to go.</p>
-
-<p><em>Note: if you already had your containers up, you might need to take them down first and rebuild them for the changes to take effect.</em></p>
+<blockquote>
+<p><strong>Now jump to the <a href="#Usage">Usage</a> section.</strong></p>
+</blockquote>
 
 <p><a name="B"></a></p>
 
@@ -636,7 +633,11 @@ QUEUE_HOST=beanstalkd
 127.0.0.1  project-2.dev
 </code></pre>
 
-<p>5 - Visit <code>http://project-1.dev/</code> and <code>http://project-2.dev/</code>.</p>
+<blockquote>
+<p><strong>Now jump to the <a href="#Usage">Usage</a> section.</strong></p>
+</blockquote>
+
+<p><a name="Usage"></a></p>
 
 <h2 id="usage">Usage</h2>
 
@@ -657,28 +658,37 @@ QUEUE_HOST=beanstalkd
 
 <p><br></p>
 
-<p>1 - Run Containers: <em>(Make sure you are in the <code>laradock</code> folder before running the <code>docker-compose</code> commands).</em></p>
+<p>1 - Enter the laradock folder and rename <code>env-example</code> to <code>.env</code></p>
 
-<p><strong>Example:</strong> Running NGINX and MySQL:</p>
+<pre><code class="language-shell">cp env-example .env
+</code></pre>
+
+<p>You can edit the <code>.env</code> file to chose which software&rsquo;s you want to be installed in your environment. You can always refer to the <code>docker-compose.yml</code> file to see how those variables are been used.</p>
+
+<p>2 - Build the enviroment and run it using <code>docker-compose</code></p>
+
+<p>In this example we&rsquo;ll see how to run NGINX (web server) and MySQL (database engine) to host a PHP Web Scripts:</p>
 
 <pre><code class="language-bash">docker-compose up -d nginx mysql
 </code></pre>
 
 <p><strong>Note</strong>: The <code>workspace</code> and <code>php-fpm</code> will run automatically in most of the cases, so no need to specify them in the <code>up</code> command. If you couldn&rsquo;t find them running then you need specify them as follow: <code>docker-compose up -d nginx php-fpm mysql workspace</code>.</p>
 
-<p>You can select your own combination of Containers form the list below:</p>
+<p>You can select your own combination of containers form the list below:</p>
 
+<blockquote>
 <p><code>nginx</code>, <code>hhvm</code>, <code>php-fpm</code>, <code>mysql</code>, <code>redis</code>, <code>postgres</code>, <code>mariadb</code>, <code>neo4j</code>, <code>mongo</code>, <code>apache2</code>, <code>caddy</code>, <code>memcached</code>, <code>beanstalkd</code>, <code>beanstalkd-console</code>, <code>rabbitmq</code>, <code>beanstalkd-console</code>, <code>workspace</code>, <code>phpmyadmin</code>, <code>aerospike</code>, <code>pgadmin</code>, <code>elasticsearch</code>, <code>rethinkdb</code>, <code>postgres-postgis</code>, <code>certbot</code>, <code>mailhog</code>, <code>minio</code> and more&hellip;!</p>
+</blockquote>
 
 <p><em>(Please note that sometimes we forget to update the docs, so check the <code>docker-compose.yml</code> file to see an updated list of all available containers).</em></p>
 
 <p><br>
-2 - Enter the Workspace container, to execute commands like (Artisan, Composer, PHPUnit, Gulp, &hellip;).</p>
+3 - Enter the Workspace container, to execute commands like (Artisan, Composer, PHPUnit, Gulp, &hellip;)</p>
 
 <pre><code class="language-bash">docker-compose exec workspace bash
 </code></pre>
 
-<p>Alternatively, for Windows PowerShell users: execute the following command to enter any running container:</p>
+<p><em>Alternatively, for Windows PowerShell users: execute the following command to enter any running container:</em></p>
 
 <pre><code class="language-bash">docker exec -it {workspace-container-id} bash
 </code></pre>
@@ -688,12 +698,12 @@ QUEUE_HOST=beanstalkd
 <pre><code class="language-shell">docker-compose exec --user=laradock workspace bash
 </code></pre>
 
-<p><em>You can change the PUID (User id) and PGID (group id) variables from the <code>docker-compose.yml</code> or the <code>.env</code>)</em></p>
+<p><em>You can change the PUID (User id) and PGID (group id) variables from the <code>.env</code> file)</em></p>
 
 <p><br>
-3 - Edit your project configurations.</p>
+4 - Update your project configurations to use the database host</p>
 
-<p>Open your <code>.env</code> file and set the <code>DB_HOST</code> to <code>mysql</code>:</p>
+<p>Open your PHP project&rsquo;s <code>.env</code> file or whichever configuration file you are reading from, and set the database host <code>DB_HOST</code> to <code>mysql</code>:</p>
 
 <pre><code class="language-env">DB_HOST=mysql
 </code></pre>
@@ -701,7 +711,7 @@ QUEUE_HOST=beanstalkd
 <p><em>If you want to install Laravel as PHP project, see <a href="#Install-Laravel">How to Install Laravel in a Docker Container</a>.</em></p>
 
 <p><br>
-4 - Open your browser and visit your localhost address <code>http://localhost/</code>.</p>
+5 - Open your browser and visit your localhost address <code>http://localhost/</code>. If you followed the multiple projects setup, you can visit <code>http://project-1.dev/</code> and <code>http://project-2.dev/</code>. But first don&rsquo;t</p>
 
 			
 				<h1>Documentation </h1>

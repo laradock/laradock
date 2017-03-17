@@ -32,7 +32,6 @@ Choose the setup the best suits your needs.
 
 <a name="A1"></a>
 ### A.1) Already have a PHP project:
-> (Follow these steps if you already have a PHP project, and all you need is an environment to run it)
 
 1 - Clone laradock on your project root directory:
 
@@ -56,11 +55,12 @@ Your folder structure should look like this:
 	+ laradock-b
 ```
 
-(It's important to rename the folders differently in each project)
+(It's important to rename the folders differently in each project.)
+
+> **Now jump to the [Usage](#Usage) section.**
 
 <a name="A2"></a>
 ### A.2) Don't have a PHP project yet:
-> (Follow these steps if you don't have a PHP project yet, and you need an environment to create the project)
 
 1 - Clone this repository anywhere on your machine:
 
@@ -82,10 +82,10 @@ Your folder structure should look like this:
 *Or you can keep `default.conf` as it is, and create a separate config `my-site.conf` file for it.*
 
 **In case of Apache:** :P 
+<br>
 
-3 - Run your `docker-compose up` command and you're ready to go. 
 
-*Note: if you already had your containers up, you might need to take them down first and rebuild them for the changes to take effect.*
+> **Now jump to the [Usage](#Usage) section.**
 
 
 <a name="B"></a>
@@ -121,7 +121,7 @@ You can rename the config files, project folders and domains as you like, just m
 127.0.0.1  project-2.dev
 ```
 
-5 - Visit `http://project-1.dev/` and `http://project-2.dev/`.
+> **Now jump to the [Usage](#Usage) section.**
 
 
 
@@ -129,8 +129,7 @@ You can rename the config files, project folders and domains as you like, just m
 
 
 
-
-
+<a name="Usage"></a>
 ## Usage
 
 **Read Before starting:**
@@ -146,10 +145,18 @@ If you are using **Docker Toolbox** (VM), do one of the following:
 
 <br>
 
-1 - Run Containers: *(Make sure you are in the `laradock` folder before running the `docker-compose` commands).*
+1 - Enter the laradock folder and rename `env-example` to `.env`
+
+```shell
+cp env-example .env
+```
+
+You can edit the `.env` file to chose which software's you want to be installed in your environment. You can always refer to the `docker-compose.yml` file to see how those variables are been used.
 
 
-**Example:** Running NGINX and MySQL:
+2 - Build the enviroment and run it using `docker-compose`
+
+In this example we'll see how to run NGINX (web server) and MySQL (database engine) to host a PHP Web Scripts:
 
 ```bash
 docker-compose up -d nginx mysql
@@ -158,21 +165,21 @@ docker-compose up -d nginx mysql
 **Note**: The `workspace` and `php-fpm` will run automatically in most of the cases, so no need to specify them in the `up` command. If you couldn't find them running then you need specify them as follow: `docker-compose up -d nginx php-fpm mysql workspace`.
 
 
-You can select your own combination of Containers form the list below:
+You can select your own combination of containers form the list below:
 
-`nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `rabbitmq`, `beanstalkd-console`, `workspace`, `phpmyadmin`, `aerospike`, `pgadmin`, `elasticsearch`, `rethinkdb`, `postgres-postgis`, `certbot`, `mailhog`, `minio` and more...!
+> `nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `rabbitmq`, `beanstalkd-console`, `workspace`, `phpmyadmin`, `aerospike`, `pgadmin`, `elasticsearch`, `rethinkdb`, `postgres-postgis`, `certbot`, `mailhog`, `minio` and more...!
 
 *(Please note that sometimes we forget to update the docs, so check the `docker-compose.yml` file to see an updated list of all available containers).*
 
 
 <br>
-2 - Enter the Workspace container, to execute commands like (Artisan, Composer, PHPUnit, Gulp, ...).
+3 - Enter the Workspace container, to execute commands like (Artisan, Composer, PHPUnit, Gulp, ...)
 
 ```bash
 docker-compose exec workspace bash
 ```
 
-Alternatively, for Windows PowerShell users: execute the following command to enter any running container:
+*Alternatively, for Windows PowerShell users: execute the following command to enter any running container:*
 
 ```bash
 docker exec -it {workspace-container-id} bash
@@ -184,12 +191,12 @@ docker exec -it {workspace-container-id} bash
 docker-compose exec --user=laradock workspace bash
 ```
 
-*You can change the PUID (User id) and PGID (group id) variables from the `docker-compose.yml` or the `.env`)*
+*You can change the PUID (User id) and PGID (group id) variables from the `.env` file)*
 
 <br>
-3 - Edit your project configurations.
+4 - Update your project configurations to use the database host
 
-Open your `.env` file and set the `DB_HOST` to `mysql`:
+Open your PHP project's `.env` file or whichever configuration file you are reading from, and set the database host `DB_HOST` to `mysql`:
 
 ```env
 DB_HOST=mysql
@@ -198,4 +205,6 @@ DB_HOST=mysql
 *If you want to install Laravel as PHP project, see [How to Install Laravel in a Docker Container](#Install-Laravel).*
 
 <br>
-4 - Open your browser and visit your localhost address `http://localhost/`.
+5 - Open your browser and visit your localhost address `http://localhost/`. If you followed the multiple projects setup, you can visit `http://project-1.dev/` and `http://project-2.dev/`. But first don't 
+
+
