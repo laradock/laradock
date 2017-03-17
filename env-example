@@ -1,6 +1,5 @@
 ### Application
 # Point to your application code, wish should be available at `/var/www`
-APPLICATION_1=../
 
 ### PHP version (Does not apply for HHVM)
 # PHP_VERSION=55

@@ -50,10 +50,10 @@ git submodule add https://github.com/Laradock/laradock.git
 Your folder structure should look like this:
 
 ```
-- project-A
-	- laradock-A
-- project-B
-	- laradock-B
++ project-a
+	+ laradock-a
++ project-b
+	+ laradock-b
 ```
 
 (It's important to rename the folders differently in each project)
@@ -71,57 +71,59 @@ git clone https://github.com/laradock/laradock.git
 Your folder structure should look like this:
 
 ```
-- laradock
-- Project-Z
++ laradock
++ project-z
 ```
 
-2 - Edit the `docker-compose.yml` file to map to your project directory once you have it (example: `- ../Project-Z:/var/www`).
+2 - Edit your web server sites configuration.
 
-3 - Stop and re-run your docker-compose command for the changes to take place.
+**In case of NGINX:** open `nginx/sites/default.conf` and change the `root` from `/var/www/public` to `/var/www/{my-project-folder-name}/public`.
 
-```
-docker-compose stop && docker-compose up -d XXXX YYYY ZZZZ ....
-```
+*Or you can keep `default.conf` as it is, and create a separate config `my-site.conf` file for it.*
+
+**In case of Apache:** :P 
+
+3 - Run your `docker-compose up` command and you're ready to go. 
+
+*Note: if you already had your containers up, you might need to take them down first and rebuild them for the changes to take effect.*
+
 
 <a name="B"></a>
 ### B) Setup for Multiple Projects:
-> (Follow these steps if you want a single Docker environment for all project)
+> (Follow these steps if you want a single Docker environment for all your project)
 
-1 - Clone this repository anywhere on your machine:
+1 - Clone this repository anywhere on your machine (similar to [Steps A.2. from above](#A2)):
 
 ```bash
 git clone https://github.com/laradock/laradock.git
 ```
 
-2 - Edit the `docker-compose.yml` (or the `.env`) file to map to your projects directories:
+Your folder structure should look like this:
 
 ```
-    applications:
-        volumes:
-            - ../project1/:/var/www/project1
-            - ../project2/:/var/www/project2
++ laradock
++ project-1
++ project-2
 ```
 
-3 - You can access all sites by visiting `http://localhost/project1/public` and `http://localhost/project2/public` but of course that's not very useful so let's setup NGINX quickly.
+2 - Go to `nginx/sites` and create config files to point to different project directory when visiting different domains.
 
+Laradock by default includes `project-1.conf` and `project-2.conf` as working samples.
 
-4 - Go to `nginx/sites` and copy `sample.conf.example` to `project1.conf` then to `project2.conf`
+3 - change the default names `project-n`:
 
-5 - Open the `project1.conf` file and edit the `server_name` and the `root` as follow:
+You can rename the config files, project folders and domains as you like, just make sure the `root` in the config files, is pointing to the correct project folder name.
 
-```
-    server_name project1.dev;
-    root /var/www/project1/public;
-```
-Do the same for each project `project2.conf`, `project3.conf`,...
-
-6 - Add the domains to the **hosts** files.
+4 - Add the domains to the **hosts** files.
 
 ```
-127.0.0.1  project1.dev
+127.0.0.1  project-1.dev
+127.0.0.1  project-2.dev
 ```
 
-7 - Create your project Databases. Right now you have to do it manually by entering your DB container, until we automate it soon.
+5 - Visit `http://project-1.dev/` and `http://project-2.dev/`.
+
+
 
 
 
