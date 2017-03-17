@@ -72,6 +72,15 @@ services:
             - "dockerhost:${DOCKER_HOST_IP}"
         environment:
             - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
+            
+### PHP Worker Container #####################################
+    php-worker:
+        build:
+            context: ./php-worker
+        volumes_from:
+            - applications
+        depends_on:
+            - workspace
 
 ### Nginx Server Container ##################################
 
@@ -102,6 +111,9 @@ services:
             - applications
         volumes:
             - ${APACHE_HOST_LOG_PATH}:/var/log/apache2
+            - ./apache2/sites:/etc/apache2/sites-available
+           
+
         ports:
             - "${APACHE_HOST_HTTP_PORT}:80"
             - "${APACHE_HOST_HTTPS_PORT}:443"
