@@ -102,6 +102,9 @@ services:
             - applications
         volumes:
             - ${APACHE_HOST_LOG_PATH}:/var/log/apache2
+            - ./apache2/sites:/etc/apache2/sites-available
+           
+
         ports:
             - "${APACHE_HOST_HTTP_PORT}:80"
             - "${APACHE_HOST_HTTPS_PORT}:443"
