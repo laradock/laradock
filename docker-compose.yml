@@ -79,8 +79,8 @@ services:
     php-worker:
         build:
             context: ./php-worker
-        volumes:
-            - ../:/var/www/laravel
+        volumes_from:
+            - applications
         links:
             - workspace
 
