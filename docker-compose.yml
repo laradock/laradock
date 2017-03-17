@@ -350,6 +350,7 @@ services:
         - CN="fake.domain.com"
         - EMAIL="fake.email@gmail.com"
 
+
 ### Mailhog Container #########################################
 
     mailhog:
@@ -357,7 +358,6 @@ services:
       ports:
         - "1025:1025"
         - "8025:8025"
-
 
 ### Selenium Container #########################################
 
