@@ -315,39 +315,52 @@
 
 <p>Your contribution is more than welcome.</p>
 
-<h2 id="got-a-question-or-problem">Got a Question or Problem?</h2>
+<h2 id="i-have-a-question-problem">I have a Question/Problem</h2>
 
-<p>If you have questions about how to use LaraDock, please direct your questions to the discussion on <a href="https://gitter.im/LaraDock/laradock">Gitter</a>. If you believe your question could help others, then consider opening an <a href="https://github.com/laradock/laradock/issues">Issue</a> (it will be labeled as Question).</p>
+<p>If you have questions about how to use Laradock, please direct your questions to the discussion on <a href="https://gitter.im/Laradock/laradock">Gitter</a>. If you believe your question could help others, then consider opening an <a href="https://github.com/laradock/laradock/issues">Issue</a> (it will be labeled as <code>Question</code>) And you can still seek help on Gitter for it.</p>
 
-<h2 id="found-an-issue">Found an Issue?</h2>
+<h2 id="i-found-an-issue">I found an Issue</h2>
 
-<p>If you find a bug in the source code or a mistake in the documentation, you can help us by
-submitting an <a href="https://github.com/laradock/laradock/issues">Issue</a>. Even better you can submit a Pull Request with a fix.</p>
+<p>If have an issue or you found a typo in the documentation, you can help us by
+opnening an <a href="https://github.com/laradock/laradock/issues">Issue</a>.</p>
 
-<h2 id="want-a-feature">Want a Feature?</h2>
+<p><strong>Steps to do before opening an Issue:</strong></p>
 
-<p>You can request a new feature by submitting an <a href="https://github.com/laradock/laradock/issues">Issue</a> (it will be labeled as Feature Suggestion). If you would like to implement a new feature then consider submitting a Pull Request.</p>
+<ol>
+<li><p>Before you submit your issue search the archive, maybe your question was already answered couple hours ago (search in the closed Issues as well).</p></li>
 
-<h2 id="update-documentation-site">Update Documentation (Site)</h2>
+<li><p>Decide if the Issue belongs to this project or to <a href="https://github.com/docker">Docker</a> itself! or even the tool you are using such as Nginx or MongoDB&hellip;</p></li>
+</ol>
+
+<p>If your issue appears to be a bug, and hasn&rsquo;t been reported, then open a new issue.</p>
+
+<p><em>This Help us to maximize the effort we can spend fixing issues and adding new
+features, by not reporting duplicate issues.</em></p>
+
+<h2 id="i-want-a-feature">I want a Feature</h2>
+
+<p>You can request a new feature by submitting an <a href="https://github.com/laradock/laradock/issues">Issue</a> (it will be labeled as <code>Feature Suggestion</code>). If you would like to implement a new feature then consider submitting a Pull Request yourself.</p>
+
+<h2 id="i-want-to-update-the-documentation-site">I want to update the Documentation (Site)</h2>
 
 <p>Laradock uses <a href="https://gohugo.io/">Hugo</a> as website generator tool, with the <a href="http://themes.gohugo.io/theme/material-docs/">Material Docs theme</a>. You might need to check their docs quickly.</p>
 
 <ol>
-<li>Install <a href="https://gohugo.io/">Hugo</a> on your machine.</li>
-<li>Clone laradock.</li>
-<li>Go to <code>/docs</code>.</li>
-<li>Delete everything except the <code>_settings</code> folder &amp; the <code>CNAME</code> file.</li>
-<li>Open <code>docs/_settings</code> from your terminal and run <code>hugo serve</code> to host the website locally.</li>
-<li>Open the <code>docs/_settings/content</code> and search for the folder of the section you want to edit.</li>
-<li>In each section there&rsquo;s an <code>index.md</code> file, that&rsquo;s the file you need to edit.</li>
-<li>To edit the sidebar (in case you are adding new section) go to <code>docs/_settings/config.toml</code> and add the section there.</li>
-<li>After done editing, run the this command <code>hugo</code> to generate the updated site inside the <code>docs</code> folder.</li>
-<li>Go back to the project root directory, commit and push..</li>
+<li>Install <a href="https://gohugo.io/">Hugo</a> on your machine (easy thing).</li>
+<li>Open the <code>DOCUMENTATION/_settings/content</code> and search for the markdown file you want to edit (every folder represents a section in the menu).</li>
+<li>Delete the <code>/docs</code> folder from the root.</li>
+<li>When you finish editing, run the <code>hugo</code> command to generate the HTML docs (in the <code>/docs</code>).</li>
 </ol>
 
-<h2 id="coding-guidelines">Coding Guidelines</h2>
+<h3 id="to-host-the-website-locally">To Host the website locally</h3>
 
-<h2 id="support-new-software">Support new Software</h2>
+<p>Go to <code>DOCUMENTATION/_settings</code> in your terminal and run <code>hugo serve</code> to host the website locally.</p>
+
+<h3 id="edit-the-sidebar">Edit the sidebar</h3>
+
+<p>To add a new section to the sidebar or edit existing one, you need to edit this file <code>DOCUMENTATION/_settings/config.toml</code>.</p>
+
+<h2 id="how-to-support-new-software-add-new-container">How to support new Software (Add new Container)</h2>
 
 <ul>
 <li><p>Create folder with the software name.</p></li>
@@ -360,10 +373,10 @@ submitting an <a href="https://github.com/laradock/laradock/issues">Issue</a>. E
 
 <li><p>Make sure you follow our commenting style.</p></li>
 
-<li><p>Add the software in the <code>Readme</code>.</p></li>
+<li><p>Add the software in the <code>Documentation</code>.</p></li>
 </ul>
 
-<h2 id="edit-existing-software">Edit existing Software</h2>
+<h2 id="edit-existing-software-edit-a-container">Edit existing Software (Edit a Container)</h2>
 
 <ul>
 <li><p>Open the software (container) folder.</p></li>
@@ -371,22 +384,14 @@ submitting an <a href="https://github.com/laradock/laradock/issues">Issue</a>. E
 <li><p>Edit the files you want to update.</p></li>
 
 <li><p><strong>Note:</strong> If you want to edit the base image of the <code>Workspace</code> or the <code>php-fpm</code> Containers,
-you need to edit their Docker-files from their GitHub repositories. For more info read their Dockerfiles comment on the LaraDock repository.</p></li>
+you need to edit their Docker-files from their GitHub repositories. For more info read their Dockerfiles comment on the Laradock repository.</p></li>
 
-<li><p>Make sure to update the <code>Readme</code> in case you made any changes.</p></li>
+<li><p>Make sure to update the <code>Documentation</code> in case you made any changes.</p></li>
 </ul>
 
-<h2 id="issue-pr-submission-guidelines">Issue/PR Submission Guidelines</h2>
+<h2 id="pull-request">Pull Request</h2>
 
-<h2 id="submitting-an-issue">Submitting an Issue</h2>
-
-<p>Before you submit your issue search the archive, maybe your question was already answered.</p>
-
-<p>If your issue appears to be a bug, and hasn&rsquo;t been reported, open a new issue.
-Help us to maximize the effort we can spend fixing issues and adding new
-features, by not reporting duplicate issues.</p>
-
-<h2 id="before-submitting-a-pull-request-pr">Before Submitting a Pull Request (PR)</h2>
+<h3 id="1-before-submitting-a-pull-request-pr">1. Before Submitting a Pull Request (PR)</h3>
 
 <p>Always Test everything and make sure its working:</p>
 
@@ -402,16 +407,16 @@ features, by not reporting duplicate issues.</p>
 
 <ul>
 <li>Testing building the container (docker-compose build container-name) with no errors.</li>
-<li>Test it in real App.</li>
+<li>Test it in a real App if possible.</li>
 </ul></li>
 </ul>
 
-<h2 id="submitting-a-pr">Submitting a PR</h2>
+<h3 id="2-submitting-a-pr">2. Submitting a PR</h3>
 
 <p>Consider the following guidelines:</p>
 
 <ul>
-<li><p>Search <a href="https://github.com/laradock/laradock/pulls">GitHub</a> for an open or closed Pull Request that relates to your submission. You don&rsquo;t want to duplicate effort.</p></li>
+<li><p>Search <a href="https://github.com/laradock/laradock/pulls">GitHub</a> for an open or closed Pull Request that relates to your submission. You don&rsquo;t want to duplicate efforts.</p></li>
 
 <li><p>Make your changes in a new git branch:</p>
 
@@ -446,10 +451,9 @@ git push origin my-fix-branch -f
 
 <p><em>WARNING. Squashing or reverting commits and forced push thereafter may remove GitHub comments on code that were previously made by you and others in your commits.</em></p>
 
-<h2 id="after-your-pr-is-merged">After your PR is merged</h2>
+<h3 id="3-after-your-pr-is-merged">3. After your PR is merged</h3>
 
-<p>After your pull request is merged, you can safely delete your branch and pull the changes
-from the main (upstream) repository:</p>
+<p>After your pull request is merged, you can safely delete your branch and pull the changes from the main (upstream) repository:</p>
 
 <ul>
 <li><p>Delete the remote branch on GitHub either through the GitHub web UI or your local shell as follows:</p>
@@ -475,7 +479,7 @@ from the main (upstream) repository:</p>
 
 <p><br></p>
 
-<h2 id="happy-coding">Happy Coding :)</h2>
+<h4 id="happy-coding">Happy Coding :)</h4>
 
 
 			<aside class="copyright" role="note">

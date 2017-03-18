@@ -176,6 +176,11 @@ However to view the logs of all the other containers (MySQL, PHP-FPM,...) you ca
 docker logs {container-name}
 ```
 
+More [options](https://docs.docker.com/compose/reference/logs/)
+
+```bash
+docker logs -f {container-name}
+```
 
 
 
@@ -329,7 +334,7 @@ For information on how to configure xDebug with your IDE and work it out, check 
 
 By installing xDebug, you are enabling it to run on startup by default.
 
-To control the behavior of xDebug (in the `php-fpm` Container), you can run the following commands from the LaraDock root folder, (at the same prompt where you run docker-compose):
+To control the behavior of xDebug (in the `php-fpm` Container), you can run the following commands from the Laradock root folder, (at the same prompt where you run docker-compose):
 
 - Stop xDebug from running by default: `./xdebugPhpFpm stop`.
 - Start xDebug by default: `./xdebugPhpFpm start`.
@@ -381,10 +386,10 @@ It should be like this:
 
 
 <br>
-<a name="LaraDock-for-Production"></a>
-## Prepare LaraDock for Production
+<a name="Laradock-for-Production"></a>
+## Prepare Laradock for Production
 
-It's recommended for production to create a custom `docker-compose.yml` file. For that reason, LaraDock is shipped with `production-docker-compose.yml` which should contain only the containers you are planning to run on production (usage example: `docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...`).
+It's recommended for production to create a custom `docker-compose.yml` file. For that reason, Laradock is shipped with `production-docker-compose.yml` which should contain only the containers you are planning to run on production (usage example: `docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...`).
 
 Note: The Database (MySQL/MariaDB/...) ports should not be forwarded on production, because Docker will automatically publish the port on the host, which is quite insecure, unless specifically told not to. So make sure to remove these lines:
 
@@ -439,7 +444,7 @@ For more about the Laravel installation click [here](https://laravel.com/docs/ma
 
 3 - Edit `docker-compose.yml` to Map the new application path:
 
-By default, LaraDock assumes the Laravel application is living in the parent directory of the laradock folder.
+By default, Laradock assumes the Laravel application is living in the parent directory of the laradock folder.
 
 Since the new Laravel application is in the `my-cool-app` folder, we need to replace `../:/var/www` with `../my-cool-app/:/var/www`, as follow:
 
@@ -456,7 +461,7 @@ Since the new Laravel application is in the `my-cool-app` folder, we need to rep
 cd my-cool-app
 ```
 
-5 - Go back to the LaraDock installation steps to see how to edit the `.env` file.
+5 - Go back to the Laradock installation steps to see how to edit the `.env` file.
 
 
 
@@ -581,7 +586,7 @@ composer require predis/predis:^1.0
 5 - You can manually test it from Laravel with this code:
 
 ```php
-\Cache::store('redis')->put('LaraDock', 'Awesome', 10);
+\Cache::store('redis')->put('Laradock', 'Awesome', 10);
 ```
 
 
@@ -893,7 +898,7 @@ docker-compose up -d minio
 <a name="Install-CodeIgniter"></a>
 ## Install CodeIgniter
 
-To install CodeIgniter 3 on LaraDock all you have to do is the following simple steps:
+To install CodeIgniter 3 on Laradock all you have to do is the following simple steps:
 
 1 - Open the `docker-compose.yml` file.
 
@@ -1198,7 +1203,7 @@ It should be like this:
 <a name="Common-Aliases"></a>
 <br>
 ## Common Terminal Aliases
-When you start your docker container, LaraDock will copy the `aliases.sh` file located in the `laradock/workspace` directory and add sourcing to the container `~/.bashrc` file.
+When you start your docker container, Laradock will copy the `aliases.sh` file located in the `laradock/workspace` directory and add sourcing to the container `~/.bashrc` file.
 
 You are free to modify the `aliases.sh` as you see fit, adding your own aliases (or function macros) to suit your requirements.
 
@@ -1292,10 +1297,10 @@ Remote debug Laravel web and phpunit tests.
 
 
 <br>
-<a name="keep-tracking-LaraDock"></a>
-## Keep track of your LaraDock changes
+<a name="keep-tracking-Laradock"></a>
+## Keep track of your Laradock changes
 
-1. Fork the LaraDock repository.
+1. Fork the Laradock repository.
 2. Use that fork as a submodule.
 3. Commit all your changes to your fork.
 4. Pull new stuff from the main repository from time to time.
@@ -1308,14 +1313,14 @@ Remote debug Laravel web and phpunit tests.
 
 <br>
 <a name="upgrading-laradock"></a>
-## Upgrading LaraDock
+## Upgrading Laradock
 
-Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requires upgrading LaraDock from v3.* to v4.*:
+Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requires upgrading Laradock from v3.* to v4.*:
 
 1. Stop the docker VM `docker-machine stop {default}`
 2. Install Docker for [Mac](https://docs.docker.com/docker-for-mac/) or [Windows](https://docs.docker.com/docker-for-windows/).
-3. Upgrade LaraDock to `v4.*.*` (`git pull origin master`)
-4. Use LaraDock as you used to do: `docker-compose up -d nginx mysql`.
+3. Upgrade Laradock to `v4.*.*` (`git pull origin master`)
+4. Use Laradock as you used to do: `docker-compose up -d nginx mysql`.
 
 **Note:** If you face any problem with the last step above: rebuild all your containers
 `docker-compose build --no-cache`
@@ -1454,4 +1459,4 @@ This error sometimes happens because your Laravel application isn't running on t
   1. Check your running Laravel application IP by dumping `Request::ip()` variable using `dd(Request::ip())` anywhere on your application. The result is the IP of your Laravel container.
   2. Change the `DB_HOST` variable on env with the IP that you received from previous step.
 * Option B
-   1. Change the `DB_HOST` value to the same name as the MySQL docker container. The LaraDock docker-compose file currently has this as `mysql`
+   1. Change the `DB_HOST` value to the same name as the MySQL docker container. The Laradock docker-compose file currently has this as `mysql`

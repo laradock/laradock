@@ -16,27 +16,32 @@
       <guid>http://laradock.io/introduction/</guid>
       <description>
 
-&lt;p&gt;LaraDock strives to make the PHP development experience easier and faster.&lt;/p&gt;
+&lt;p&gt;Laradock strives to make the PHP development experience easier and faster.&lt;/p&gt;
 
 &lt;p&gt;It contains pre-packaged Docker Images that provides you a wonderful &lt;em&gt;development&lt;/em&gt; environment without requiring you to install PHP, NGINX, MySQL, Redis, and any other software on your machines.&lt;/p&gt;
 
-&lt;p&gt;LaraDock is configured to run Laravel Apps by default, and it can be modified to run all kinds of PHP Apps (Symfony, CodeIgniter, WordPress, Drupal&amp;hellip;).&lt;/p&gt;
+&lt;p&gt;Laradock is configured to run Laravel Apps by default, and it can be modified to run all kinds of PHP Apps (Symfony, CodeIgniter, WordPress, Drupal&amp;hellip;).&lt;/p&gt;
 
 &lt;h2 id=&#34;quick-overview&#34;&gt;Quick Overview&lt;/h2&gt;
 
 &lt;p&gt;Let&amp;rsquo;s see how easy it is to install &lt;code&gt;NGINX&lt;/code&gt;, &lt;code&gt;PHP&lt;/code&gt;, &lt;code&gt;Composer&lt;/code&gt;, &lt;code&gt;MySQL&lt;/code&gt;, &lt;code&gt;Redis&lt;/code&gt; and &lt;code&gt;beanstalkd&lt;/code&gt;:&lt;/p&gt;
 
-&lt;p&gt;1 - Clone LaraDock inside your PHP project:&lt;/p&gt;
+&lt;p&gt;1 - Clone Laradock inside your PHP project:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;git clone https://github.com/Laradock/laradock.git
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;2 - Enter the laradock folder and run this command:&lt;/p&gt;
+&lt;p&gt;2 - Enter the laradock folder and rename &lt;code&gt;env-example&lt;/code&gt; to &lt;code&gt;.env&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;cp env-example .env
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;3 - Run your containers:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;docker-compose up -d nginx mysql redis beanstalkd
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;3 - Open your &lt;code&gt;.env&lt;/code&gt; file and set the following:&lt;/p&gt;
+&lt;p&gt;3 - Open your project&amp;rsquo;s &lt;code&gt;.env&lt;/code&gt; file and set the following:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;DB_HOST=mysql
 REDIS_HOST=redis
@@ -68,21 +73,21 @@ QUEUE_HOST=beanstalkd
 
 &lt;p&gt;&lt;a name=&#34;laradock-vs-homestead&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;laradock-vs-homestead-for-laravel-developers&#34;&gt;LaraDock VS Homestead (For Laravel Developers)&lt;/h2&gt;
+&lt;h2 id=&#34;laradock-vs-homestead-for-laravel-developers&#34;&gt;Laradock VS Homestead (For Laravel Developers)&lt;/h2&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;LaraDock It&amp;rsquo;s like Laravel Homestead but for Docker instead of Vagrant.&lt;/p&gt;
+&lt;p&gt;Laradock It&amp;rsquo;s like Laravel Homestead but for Docker instead of Vagrant.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;LaraDock and &lt;a href=&#34;https://laravel.com/docs/master/homestead&#34;&gt;Homestead&lt;/a&gt; both give you complete virtual development environments. (Without the need to install and configure every single software on your own Operating System).&lt;/p&gt;
+&lt;p&gt;Laradock and &lt;a href=&#34;https://laravel.com/docs/master/homestead&#34;&gt;Homestead&lt;/a&gt; both give you complete virtual development environments. (Without the need to install and configure every single software on your own Operating System).&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;Homestead is a tool that controls Vagrant for you (using Homestead special commands). And Vagrant manages your Virtual Machine.&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;LaraDock is a tool that controls Docker for you (using Docker &amp;amp; Docker Compose official commands). And Docker manages your Virtual Containers.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Laradock is a tool that controls Docker for you (using Docker &amp;amp; Docker Compose official commands). And Docker manages your Virtual Containers.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Running a virtual container is much faster than running a full virtual Machine. Thus &lt;strong&gt;LaraDock is much faster than Homestead&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Running a virtual container is much faster than running a full virtual Machine. Thus &lt;strong&gt;Laradock is much faster than Homestead&lt;/strong&gt;.&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&#34;Demo&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
@@ -91,10 +96,10 @@ QUEUE_HOST=beanstalkd
 &lt;p&gt;What&amp;rsquo;s better than a &lt;strong&gt;Demo Video&lt;/strong&gt;:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;LaraDock &lt;a href=&#34;https://www.youtube.com/watch?v=TQii1jDa96Y&#34;&gt;v4.*&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;LaraDock &lt;a href=&#34;https://www.youtube.com/watch?v=-DamFMczwDA&#34;&gt;v2.*&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;LaraDock &lt;a href=&#34;https://www.youtube.com/watch?v=jGkyO6Is_aI&#34;&gt;v0.3&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;LaraDock &lt;a href=&#34;https://www.youtube.com/watch?v=3YQsHe6oF80&#34;&gt;v0.1&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Laradock &lt;a href=&#34;https://www.youtube.com/watch?v=TQii1jDa96Y&#34;&gt;v4.*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Laradock &lt;a href=&#34;https://www.youtube.com/watch?v=-DamFMczwDA&#34;&gt;v2.*&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Laradock &lt;a href=&#34;https://www.youtube.com/watch?v=jGkyO6Is_aI&#34;&gt;v0.3&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Laradock &lt;a href=&#34;https://www.youtube.com/watch?v=3YQsHe6oF80&#34;&gt;v0.1&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;&lt;a name=&#34;features&#34;&gt;&lt;/a&gt;&lt;/p&gt;
@@ -126,11 +131,12 @@ QUEUE_HOST=beanstalkd
 
 &lt;ul&gt;
 &lt;li&gt;MySQL&lt;/li&gt;
-&lt;li&gt;PostgreSQL&lt;/li&gt;
 &lt;li&gt;MariaDB&lt;/li&gt;
 &lt;li&gt;MongoDB&lt;/li&gt;
 &lt;li&gt;Neo4j&lt;/li&gt;
 &lt;li&gt;RethinkDB&lt;/li&gt;
+&lt;li&gt;PostgreSQL&lt;/li&gt;
+&lt;li&gt;Postgres Postgis&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Cache Engines:&lt;/strong&gt;
 
@@ -167,6 +173,8 @@ QUEUE_HOST=beanstalkd
 &lt;li&gt;PgAdmin&lt;/li&gt;
 &lt;li&gt;ElasticSearch&lt;/li&gt;
 &lt;li&gt;Selenium&lt;/li&gt;
+&lt;li&gt;Certbot&lt;/li&gt;
+&lt;li&gt;Mailhog&lt;/li&gt;
 &lt;li&gt;Minio&lt;/li&gt;
 &lt;li&gt;Workspace
 
@@ -198,7 +206,7 @@ QUEUE_HOST=beanstalkd
 
 &lt;p&gt;You are welcome to join our chat room on Gitter.&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://gitter.im/LaraDock/laradock?utm_source=badge&amp;amp;utm_medium=badge&amp;amp;utm_campaign=pr-badge&#34;&gt;&lt;img src=&#34;https://badges.gitter.im/LaraDock/laradock.svg&#34; alt=&#34;Gitter&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://gitter.im/Laradock/laradock?utm_source=badge&amp;amp;utm_medium=badge&amp;amp;utm_campaign=pr-badge&#34;&gt;&lt;img src=&#34;https://badges.gitter.im/Laradock/laradock.svg&#34; alt=&#34;Gitter&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     
@@ -221,88 +229,122 @@ QUEUE_HOST=beanstalkd
 
 &lt;p&gt;Choose the setup the best suits your needs.&lt;/p&gt;
 
-&lt;h4 id=&#34;a-setup-for-single-project&#34;&gt;A) Setup for Single Project:&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#A&#34;&gt;A) Setup for Single Project&lt;/a&gt;
 
-&lt;p&gt;&lt;em&gt;(In case you want a Docker environment for each project)&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#A1&#34;&gt;A.1) Already have a PHP project&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#A2&#34;&gt;A.2) Don&amp;rsquo;t have a PHP project yet&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#B&#34;&gt;B) Setup for Multiple Projects&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;h5 id=&#34;a-1-setup-environment-in-existing-project&#34;&gt;A.1) Setup environment in existing Project:&lt;/h5&gt;
+&lt;p&gt;&lt;a name=&#34;A&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;(In case you already have a project, and you want to setup an environment to run it)&lt;/em&gt;&lt;/p&gt;
+&lt;h3 id=&#34;a-setup-for-single-project&#34;&gt;A) Setup for Single Project&lt;/h3&gt;
 
-&lt;p&gt;1 - Clone this repository on your project root directory:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;(Follow these steps if you want a separate Docker environment for each project)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a name=&#34;A1&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;a-1-already-have-a-php-project&#34;&gt;A.1) Already have a PHP project:&lt;/h3&gt;
+
+&lt;p&gt;1 - Clone laradock on your project root directory:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;git submodule add https://github.com/Laradock/laradock.git
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;em&gt;Note 1: If you are not yet using Git for your PHP project, you can use &lt;code&gt;git clone https://github.com/Laradock/laradock.git&lt;/code&gt; instead.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Notes:&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;Note 2: To keep track of your LaraDock changes, between your projects and also keep LaraDock updated. &lt;a href=&#34;#keep-tracking-LaraDock&#34;&gt;Check this&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;If you are not using Git yet for your project, you can use &lt;code&gt;git clone&lt;/code&gt; instead of &lt;code&gt;git submodule&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
 
-&lt;p&gt;&lt;em&gt;Note 3: In this case the folder structure will be like this:&lt;/em&gt;&lt;/p&gt;
+&lt;li&gt;&lt;p&gt;Note 2: To keep track of your Laradock changes, between your projects and also keep Laradock updated. &lt;a href=&#34;#keep-tracking-Laradock&#34;&gt;Check this&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;pre&gt;&lt;code&gt;- project1
-	- laradock
-- project2
-	- laradock
+&lt;p&gt;Your folder structure should look like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;+ project-a
+	+ laradock-a
++ project-b
+	+ laradock-b
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h5 id=&#34;a-2-setup-environment-first-then-create-project&#34;&gt;A.2) Setup environment first then create project:&lt;/h5&gt;
+&lt;p&gt;(It&amp;rsquo;s important to rename the folders differently in each project.)&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;(In case you don&amp;rsquo;t have a project, and you want to create your project inside the Docker environment)&lt;/em&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Now jump to the &lt;a href=&#34;#Usage&#34;&gt;Usage&lt;/a&gt; section.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a name=&#34;A2&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;a-2-don-t-have-a-php-project-yet&#34;&gt;A.2) Don&amp;rsquo;t have a PHP project yet:&lt;/h3&gt;
 
 &lt;p&gt;1 - Clone this repository anywhere on your machine:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;git clone https://github.com/laradock/laradock.git
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Note: In this case the folder structure will be like this:&lt;/p&gt;
+&lt;p&gt;Your folder structure should look like this:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;- projects
-	- laradock
-	- myProject
+&lt;pre&gt;&lt;code&gt;+ laradock
++ project-z
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;2 - Edit the &lt;code&gt;docker-compose.yml&lt;/code&gt; file to map to your project directory once you have it (example: &lt;code&gt;- ../myProject:/var/www&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;2 - Edit your web server sites configuration.&lt;/p&gt;
 
-&lt;p&gt;3 - Stop and re-run your docker-compose command for the changes to take place.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;In case of NGINX:&lt;/strong&gt; open &lt;code&gt;nginx/sites/default.conf&lt;/code&gt; and change the &lt;code&gt;root&lt;/code&gt; from &lt;code&gt;/var/www/public&lt;/code&gt; to &lt;code&gt;/var/www/{my-project-folder-name}/public&lt;/code&gt;.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;docker-compose stop &amp;amp;&amp;amp; docker-compose up -d XXXX YYYY ZZZZ ....
-&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;Or you can keep &lt;code&gt;default.conf&lt;/code&gt; as it is, and create a separate config &lt;code&gt;my-site.conf&lt;/code&gt; file for it.&lt;/em&gt;&lt;/p&gt;
 
-&lt;h4 id=&#34;b-setup-for-multiple-projects&#34;&gt;B) Setup for Multiple Projects:&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;In case of Apache:&lt;/strong&gt; :P
+&lt;br&gt;&lt;/p&gt;
 
-&lt;p&gt;1 - Clone this repository anywhere on your machine:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Now jump to the &lt;a href=&#34;#Usage&#34;&gt;Usage&lt;/a&gt; section.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a name=&#34;B&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;b-setup-for-multiple-projects&#34;&gt;B) Setup for Multiple Projects:&lt;/h3&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;(Follow these steps if you want a single Docker environment for all your project)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;1 - Clone this repository anywhere on your machine (similar to &lt;a href=&#34;#A2&#34;&gt;Steps A.2. from above&lt;/a&gt;):&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;git clone https://github.com/laradock/laradock.git
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;2 - Edit the &lt;code&gt;docker-compose.yml&lt;/code&gt; file to map to your projects directories:&lt;/p&gt;
+&lt;p&gt;Your folder structure should look like this:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;    applications:
-        image: tianon/true
-        volumes:
-            - ../project1/:/var/www/project1
-            - ../project2/:/var/www/project2
+&lt;pre&gt;&lt;code&gt;+ laradock
++ project-1
++ project-2
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;3 - You can access all sites by visiting &lt;code&gt;http://localhost/project1/public&lt;/code&gt; and &lt;code&gt;http://localhost/project2/public&lt;/code&gt; but of course that&amp;rsquo;s not very useful so let&amp;rsquo;s setup NGINX quickly.&lt;/p&gt;
+&lt;p&gt;2 - Go to &lt;code&gt;nginx/sites&lt;/code&gt; and create config files to point to different project directory when visiting different domains.&lt;/p&gt;
 
-&lt;p&gt;4 - Go to &lt;code&gt;nginx/sites&lt;/code&gt; and copy &lt;code&gt;sample.conf.example&lt;/code&gt; to &lt;code&gt;project1.conf&lt;/code&gt; then to &lt;code&gt;project2.conf&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Laradock by default includes &lt;code&gt;project-1.conf&lt;/code&gt; and &lt;code&gt;project-2.conf&lt;/code&gt; as working samples.&lt;/p&gt;
 
-&lt;p&gt;5 - Open the &lt;code&gt;project1.conf&lt;/code&gt; file and edit the &lt;code&gt;server_name&lt;/code&gt; and the &lt;code&gt;root&lt;/code&gt; as follow:&lt;/p&gt;
+&lt;p&gt;3 - change the default names &lt;code&gt;project-n&lt;/code&gt;:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;    server_name project1.dev;
-    root /var/www/project1/public;
+&lt;p&gt;You can rename the config files, project folders and domains as you like, just make sure the &lt;code&gt;root&lt;/code&gt; in the config files, is pointing to the correct project folder name.&lt;/p&gt;
+
+&lt;p&gt;4 - Add the domains to the &lt;strong&gt;hosts&lt;/strong&gt; files.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;127.0.0.1  project-1.dev
+127.0.0.1  project-2.dev
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Do the same for each project &lt;code&gt;project2.conf&lt;/code&gt;, &lt;code&gt;project3.conf&lt;/code&gt;,&amp;hellip;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Now jump to the &lt;a href=&#34;#Usage&#34;&gt;Usage&lt;/a&gt; section.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 
-&lt;p&gt;6 - Add the domains to the &lt;strong&gt;hosts&lt;/strong&gt; files.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;127.0.0.1  project1.dev
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;7 - Create your project Databases. Right now you have to do it manually by entering your DB container, until we automate it soon.&lt;/p&gt;
+&lt;p&gt;&lt;a name=&#34;Usage&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;usage&#34;&gt;Usage&lt;/h2&gt;
 
@@ -311,61 +353,72 @@ QUEUE_HOST=beanstalkd
 &lt;p&gt;If you are using &lt;strong&gt;Docker Toolbox&lt;/strong&gt; (VM), do one of the following:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Upgrade to Docker &lt;a href=&#34;https://www.docker.com/products/docker&#34;&gt;Native&lt;/a&gt; for Mac/Windows (Recommended). Check out &lt;a href=&#34;#upgrading-laradock&#34;&gt;Upgrading LaraDock&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Use LaraDock v3.* (Visit the &lt;code&gt;LaraDock-ToolBox&lt;/code&gt; &lt;a href=&#34;https://github.com/laradock/laradock/tree/LaraDock-ToolBox&#34;&gt;Branch&lt;/a&gt;).&lt;/li&gt;
+&lt;li&gt;Upgrade to Docker &lt;a href=&#34;https://www.docker.com/products/docker&#34;&gt;Native&lt;/a&gt; for Mac/Windows (Recommended). Check out &lt;a href=&#34;#upgrading-laradock&#34;&gt;Upgrading Laradock&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Use Laradock v3.* (Visit the &lt;code&gt;Laradock-ToolBox&lt;/code&gt; &lt;a href=&#34;https://github.com/laradock/laradock/tree/Laradock-ToolBox&#34;&gt;Branch&lt;/a&gt;).&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Warning:&lt;/strong&gt; If you used an older version of LaraDock it&amp;rsquo;s highly recommended to rebuild the containers you need to use &lt;a href=&#34;#Build-Re-build-Containers&#34;&gt;see how you rebuild a container&lt;/a&gt; in order to prevent errors as much as possible.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Warning:&lt;/strong&gt; If you used an older version of Laradock it&amp;rsquo;s highly recommended to rebuild the containers you need to use &lt;a href=&#34;#Build-Re-build-Containers&#34;&gt;see how you rebuild a container&lt;/a&gt; in order to prevent as much errors as possible.&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
-&lt;p&gt;1 - Run Containers: &lt;em&gt;(Make sure you are in the &lt;code&gt;laradock&lt;/code&gt; folder before running the &lt;code&gt;docker-compose&lt;/code&gt; commands).&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;1 - Enter the laradock folder and rename &lt;code&gt;env-example&lt;/code&gt; to &lt;code&gt;.env&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt; Running NGINX and MySQL:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;cp env-example .env
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You can edit the &lt;code&gt;.env&lt;/code&gt; file to chose which software&amp;rsquo;s you want to be installed in your environment. You can always refer to the &lt;code&gt;docker-compose.yml&lt;/code&gt; file to see how those variables are been used.&lt;/p&gt;
+
+&lt;p&gt;2 - Build the enviroment and run it using &lt;code&gt;docker-compose&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;In this example we&amp;rsquo;ll see how to run NGINX (web server) and MySQL (database engine) to host a PHP Web Scripts:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;docker-compose up -d nginx mysql
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: The &lt;code&gt;workspace&lt;/code&gt; and &lt;code&gt;php-fpm&lt;/code&gt; will run automatically in most of the cases, so no need to specify them in the &lt;code&gt;up&lt;/code&gt; command. If you couldn&amp;rsquo;t find them running then you need specify them as follow: &lt;code&gt;docker-compose up -d nginx php-fpm mysql workspace&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;You can select your own combination of Containers form the list below:&lt;/p&gt;
+&lt;p&gt;You can select your own combination of containers form the list below:&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;nginx&lt;/code&gt;, &lt;code&gt;hhvm&lt;/code&gt;, &lt;code&gt;php-fpm&lt;/code&gt;, &lt;code&gt;mysql&lt;/code&gt;, &lt;code&gt;redis&lt;/code&gt;, &lt;code&gt;postgres&lt;/code&gt;, &lt;code&gt;mariadb&lt;/code&gt;, &lt;code&gt;neo4j&lt;/code&gt;, &lt;code&gt;mongo&lt;/code&gt;, &lt;code&gt;apache2&lt;/code&gt;, &lt;code&gt;caddy&lt;/code&gt;, &lt;code&gt;memcached&lt;/code&gt;, &lt;code&gt;beanstalkd&lt;/code&gt;, &lt;code&gt;beanstalkd-console&lt;/code&gt;, &lt;code&gt;rabbitmq&lt;/code&gt;, &lt;code&gt;workspace&lt;/code&gt;, &lt;code&gt;phpmyadmin&lt;/code&gt;, &lt;code&gt;aerospike&lt;/code&gt;, &lt;code&gt;pgadmin&lt;/code&gt;, &lt;code&gt;elasticsearch&lt;/code&gt;, &lt;code&gt;rethinkdb&lt;/code&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;nginx&lt;/code&gt;, &lt;code&gt;hhvm&lt;/code&gt;, &lt;code&gt;php-fpm&lt;/code&gt;, &lt;code&gt;mysql&lt;/code&gt;, &lt;code&gt;redis&lt;/code&gt;, &lt;code&gt;postgres&lt;/code&gt;, &lt;code&gt;mariadb&lt;/code&gt;, &lt;code&gt;neo4j&lt;/code&gt;, &lt;code&gt;mongo&lt;/code&gt;, &lt;code&gt;apache2&lt;/code&gt;, &lt;code&gt;caddy&lt;/code&gt;, &lt;code&gt;memcached&lt;/code&gt;, &lt;code&gt;beanstalkd&lt;/code&gt;, &lt;code&gt;beanstalkd-console&lt;/code&gt;, &lt;code&gt;rabbitmq&lt;/code&gt;, &lt;code&gt;beanstalkd-console&lt;/code&gt;, &lt;code&gt;workspace&lt;/code&gt;, &lt;code&gt;phpmyadmin&lt;/code&gt;, &lt;code&gt;aerospike&lt;/code&gt;, &lt;code&gt;pgadmin&lt;/code&gt;, &lt;code&gt;elasticsearch&lt;/code&gt;, &lt;code&gt;rethinkdb&lt;/code&gt;, &lt;code&gt;postgres-postgis&lt;/code&gt;, &lt;code&gt;certbot&lt;/code&gt;, &lt;code&gt;mailhog&lt;/code&gt;, &lt;code&gt;minio&lt;/code&gt; and more&amp;hellip;!&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;em&gt;(Please note that sometimes we forget to update the docs, so check the &lt;code&gt;docker-compose.yml&lt;/code&gt; file to see an updated list of all available containers).&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;
-2 - Enter the Workspace container, to execute commands like (Artisan, Composer, PHPUnit, Gulp, &amp;hellip;).&lt;/p&gt;
+3 - Enter the Workspace container, to execute commands like (Artisan, Composer, PHPUnit, Gulp, &amp;hellip;)&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;docker-compose exec workspace bash
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Alternatively, for Windows PowerShell users: execute the following command to enter any running container:&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Alternatively, for Windows PowerShell users: execute the following command to enter any running container:&lt;/em&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;docker exec -it {workspace-container-id} bash
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; You can add &lt;code&gt;--user=laradock&lt;/code&gt; (example &lt;code&gt;docker-compose exec --user=laradock workspace bash&lt;/code&gt;) to have files created as your host&amp;rsquo;s user. (you can change the PUID (User id) and PGID (group id) variables from the &lt;code&gt;docker-compose.yml&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; You can add &lt;code&gt;--user=laradock&lt;/code&gt; to have files created as your host&amp;rsquo;s user. Example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;docker-compose exec --user=laradock workspace bash
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;You can change the PUID (User id) and PGID (group id) variables from the &lt;code&gt;.env&lt;/code&gt; file)&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;
-3 - Edit your project configurations.&lt;/p&gt;
+4 - Update your project configurations to use the database host&lt;/p&gt;
 
-&lt;p&gt;Open your &lt;code&gt;.env&lt;/code&gt; file and set the &lt;code&gt;DB_HOST&lt;/code&gt; to &lt;code&gt;mysql&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;Open your PHP project&amp;rsquo;s &lt;code&gt;.env&lt;/code&gt; file or whichever configuration file you are reading from, and set the database host &lt;code&gt;DB_HOST&lt;/code&gt; to &lt;code&gt;mysql&lt;/code&gt;:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-env&#34;&gt;DB_HOST=mysql
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;em&gt;If you want to use Laravel and you don&amp;rsquo;t have it installed yet, see &lt;a href=&#34;#Install-Laravel&#34;&gt;How to Install Laravel in a Docker Container&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;If you want to install Laravel as PHP project, see &lt;a href=&#34;#Install-Laravel&#34;&gt;How to Install Laravel in a Docker Container&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;
-4 - Open your browser and visit your localhost address (&lt;code&gt;http://localhost/&lt;/code&gt;).&lt;/p&gt;
-
-&lt;p&gt;&lt;br&gt;
-&lt;strong&gt;Debugging&lt;/strong&gt;: if you are facing any problem here check the &lt;a href=&#34;#debugging&#34;&gt;Debugging&lt;/a&gt; section.&lt;/p&gt;
-
-&lt;p&gt;If you need a special support. Contact me, more details in the &lt;a href=&#34;#Help&#34;&gt;Help &amp;amp; Questions&lt;/a&gt; section.&lt;/p&gt;
+5 - Open your browser and visit your localhost address &lt;code&gt;http://localhost/&lt;/code&gt;. If you followed the multiple projects setup, you can visit &lt;code&gt;http://project-1.dev/&lt;/code&gt; and &lt;code&gt;http://project-2.dev/&lt;/code&gt;. But first don&amp;rsquo;t&lt;/p&gt;
 </description>
     </item>
     
@@ -511,6 +564,11 @@ example for &lt;code&gt;mysql&lt;/code&gt; it will be &lt;code&gt;mysql/Dockerfi
 &lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;docker logs {container-name}
 &lt;/code&gt;&lt;/pre&gt;
 
+&lt;p&gt;More &lt;a href=&#34;https://docs.docker.com/compose/reference/logs/&#34;&gt;options&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;docker logs -f {container-name}
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;p&gt;&lt;br&gt;
 &lt;a name=&#34;PHP&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
@@ -641,7 +699,7 @@ xdebug.remote_connect_back=1
 
 &lt;p&gt;By installing xDebug, you are enabling it to run on startup by default.&lt;/p&gt;
 
-&lt;p&gt;To control the behavior of xDebug (in the &lt;code&gt;php-fpm&lt;/code&gt; Container), you can run the following commands from the LaraDock root folder, (at the same prompt where you run docker-compose):&lt;/p&gt;
+&lt;p&gt;To control the behavior of xDebug (in the &lt;code&gt;php-fpm&lt;/code&gt; Container), you can run the following commands from the Laradock root folder, (at the same prompt where you run docker-compose):&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Stop xDebug from running by default: &lt;code&gt;./xdebugPhpFpm stop&lt;/code&gt;.&lt;/li&gt;
@@ -681,11 +739,11 @@ xdebug.remote_connect_back=1
 &lt;a name=&#34;Production&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;
-&lt;a name=&#34;LaraDock-for-Production&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;a name=&#34;Laradock-for-Production&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;prepare-laradock-for-production&#34;&gt;Prepare LaraDock for Production&lt;/h2&gt;
+&lt;h2 id=&#34;prepare-laradock-for-production&#34;&gt;Prepare Laradock for Production&lt;/h2&gt;
 
-&lt;p&gt;It&amp;rsquo;s recommended for production to create a custom &lt;code&gt;docker-compose.yml&lt;/code&gt; file. For that reason, LaraDock is shipped with &lt;code&gt;production-docker-compose.yml&lt;/code&gt; which should contain only the containers you are planning to run on production (usage example: &lt;code&gt;docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s recommended for production to create a custom &lt;code&gt;docker-compose.yml&lt;/code&gt; file. For that reason, Laradock is shipped with &lt;code&gt;production-docker-compose.yml&lt;/code&gt; which should contain only the containers you are planning to run on production (usage example: &lt;code&gt;docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...&lt;/code&gt;).&lt;/p&gt;
 
 &lt;p&gt;Note: The Database (MySQL/MariaDB/&amp;hellip;) ports should not be forwarded on production, because Docker will automatically publish the port on the host, which is quite insecure, unless specifically told not to. So make sure to remove these lines:&lt;/p&gt;
 
@@ -726,7 +784,7 @@ xdebug.remote_connect_back=1
 
 &lt;p&gt;3 - Edit &lt;code&gt;docker-compose.yml&lt;/code&gt; to Map the new application path:&lt;/p&gt;
 
-&lt;p&gt;By default, LaraDock assumes the Laravel application is living in the parent directory of the laradock folder.&lt;/p&gt;
+&lt;p&gt;By default, Laradock assumes the Laravel application is living in the parent directory of the laradock folder.&lt;/p&gt;
 
 &lt;p&gt;Since the new Laravel application is in the &lt;code&gt;my-cool-app&lt;/code&gt; folder, we need to replace &lt;code&gt;../:/var/www&lt;/code&gt; with &lt;code&gt;../my-cool-app/:/var/www&lt;/code&gt;, as follow:&lt;/p&gt;
 
@@ -742,7 +800,7 @@ xdebug.remote_connect_back=1
 &lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;cd my-cool-app
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;5 - Go back to the LaraDock installation steps to see how to edit the &lt;code&gt;.env&lt;/code&gt; file.&lt;/p&gt;
+&lt;p&gt;5 - Go back to the Laradock installation steps to see how to edit the &lt;code&gt;.env&lt;/code&gt; file.&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;
 &lt;a name=&#34;Run-Artisan-Commands&#34;&gt;&lt;/a&gt;&lt;/p&gt;
@@ -844,7 +902,7 @@ SESSION_DRIVER=redis
 
 &lt;p&gt;5 - You can manually test it from Laravel with this code:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;\Cache::store(&#39;redis&#39;)-&amp;gt;put(&#39;LaraDock&#39;, &#39;Awesome&#39;, 10);
+&lt;pre&gt;&lt;code class=&#34;language-php&#34;&gt;\Cache::store(&#39;redis&#39;)-&amp;gt;put(&#39;Laradock&#39;, &#39;Awesome&#39;, 10);
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;br&gt;
@@ -1111,7 +1169,7 @@ A package (&lt;a href=&#34;https://github.com/duxet/laravel-rethinkdb&#34;&gt;La
 
 &lt;h2 id=&#34;install-codeigniter&#34;&gt;Install CodeIgniter&lt;/h2&gt;
 
-&lt;p&gt;To install CodeIgniter 3 on LaraDock all you have to do is the following simple steps:&lt;/p&gt;
+&lt;p&gt;To install CodeIgniter 3 on Laradock all you have to do is the following simple steps:&lt;/p&gt;
 
 &lt;p&gt;1 - Open the &lt;code&gt;docker-compose.yml&lt;/code&gt; file.&lt;/p&gt;
 
@@ -1351,7 +1409,7 @@ port=1234
 
 &lt;h2 id=&#34;common-terminal-aliases&#34;&gt;Common Terminal Aliases&lt;/h2&gt;
 
-&lt;p&gt;When you start your docker container, LaraDock will copy the &lt;code&gt;aliases.sh&lt;/code&gt; file located in the &lt;code&gt;laradock/workspace&lt;/code&gt; directory and add sourcing to the container &lt;code&gt;~/.bashrc&lt;/code&gt; file.&lt;/p&gt;
+&lt;p&gt;When you start your docker container, Laradock will copy the &lt;code&gt;aliases.sh&lt;/code&gt; file located in the &lt;code&gt;laradock/workspace&lt;/code&gt; directory and add sourcing to the container &lt;code&gt;~/.bashrc&lt;/code&gt; file.&lt;/p&gt;
 
 &lt;p&gt;You are free to modify the &lt;code&gt;aliases.sh&lt;/code&gt; as you see fit, adding your own aliases (or function macros) to suit your requirements.&lt;/p&gt;
 
@@ -1426,12 +1484,12 @@ e) set it to &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/laradock/laradock/blob/master/_guides/phpstorm.md&#34;&gt;&lt;strong&gt;Debugging Guide Here&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;
-&lt;a name=&#34;keep-tracking-LaraDock&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;a name=&#34;keep-tracking-Laradock&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;keep-track-of-your-laradock-changes&#34;&gt;Keep track of your LaraDock changes&lt;/h2&gt;
+&lt;h2 id=&#34;keep-track-of-your-laradock-changes&#34;&gt;Keep track of your Laradock changes&lt;/h2&gt;
 
 &lt;ol&gt;
-&lt;li&gt;Fork the LaraDock repository.&lt;/li&gt;
+&lt;li&gt;Fork the Laradock repository.&lt;/li&gt;
 &lt;li&gt;Use that fork as a submodule.&lt;/li&gt;
 &lt;li&gt;Commit all your changes to your fork.&lt;/li&gt;
 &lt;li&gt;Pull new stuff from the main repository from time to time.&lt;/li&gt;
@@ -1440,15 +1498,15 @@ e) set it to &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;&lt;br&gt;
 &lt;a name=&#34;upgrading-laradock&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;upgrading-laradock&#34;&gt;Upgrading LaraDock&lt;/h2&gt;
+&lt;h2 id=&#34;upgrading-laradock&#34;&gt;Upgrading Laradock&lt;/h2&gt;
 
-&lt;p&gt;Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requires upgrading LaraDock from v3.* to v4.*:&lt;/p&gt;
+&lt;p&gt;Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requires upgrading Laradock from v3.* to v4.*:&lt;/p&gt;
 
 &lt;ol&gt;
 &lt;li&gt;Stop the docker VM &lt;code&gt;docker-machine stop {default}&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Install Docker for &lt;a href=&#34;https://docs.docker.com/docker-for-mac/&#34;&gt;Mac&lt;/a&gt; or &lt;a href=&#34;https://docs.docker.com/docker-for-windows/&#34;&gt;Windows&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;Upgrade LaraDock to &lt;code&gt;v4.*.*&lt;/code&gt; (&lt;code&gt;git pull origin master&lt;/code&gt;)&lt;/li&gt;
-&lt;li&gt;Use LaraDock as you used to do: &lt;code&gt;docker-compose up -d nginx mysql&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Upgrade Laradock to &lt;code&gt;v4.*.*&lt;/code&gt; (&lt;code&gt;git pull origin master&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;Use Laradock as you used to do: &lt;code&gt;docker-compose up -d nginx mysql&lt;/code&gt;.&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; If you face any problem with the last step above: rebuild all your containers
@@ -1564,7 +1622,7 @@ e) set it to &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
 &lt;li&gt;Option B
 
 &lt;ol&gt;
-&lt;li&gt;Change the &lt;code&gt;DB_HOST&lt;/code&gt; value to the same name as the MySQL docker container. The LaraDock docker-compose file currently has this as &lt;code&gt;mysql&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Change the &lt;code&gt;DB_HOST&lt;/code&gt; value to the same name as the MySQL docker container. The Laradock docker-compose file currently has this as &lt;code&gt;mysql&lt;/code&gt;&lt;/li&gt;
 &lt;/ol&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
@@ -1576,11 +1634,11 @@ e) set it to &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://laradock.io/related-projects/</guid>
-      <description>&lt;p&gt;LaraDock related projects:&lt;/p&gt;
+      <description>&lt;p&gt;Laradock related projects:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/lorinlee/laradock-cli&#34;&gt;LaraDock CLI&lt;/a&gt; by &lt;a href=&#34;https://github.com/lorinlee&#34;&gt;LorinLee&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/bagart/laradock_env&#34;&gt;LaraDock Env&lt;/a&gt; by &lt;a href=&#34;https://github.com/bagart&#34;&gt;BAGArt&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/lorinlee/laradock-cli&#34;&gt;Laradock CLI&lt;/a&gt; by &lt;a href=&#34;https://github.com/lorinlee&#34;&gt;LorinLee&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/bagart/laradock_env&#34;&gt;Laradock Env&lt;/a&gt; by &lt;a href=&#34;https://github.com/bagart&#34;&gt;BAGArt&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/poyhsiao/Klaradock&#34;&gt;Klaradock&lt;/a&gt; by &lt;a href=&#34;https://github.com/poyhsiao&#34;&gt;Kim Hsiao&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/sifat-rahim/ansible-laradock-kubernetes&#34;&gt;Ansible Laradock Kubernetes&lt;/a&gt; by &lt;a href=&#34;https://github.com/sifat-rahim&#34;&gt;Sifat Rahim&lt;/a&gt;
 These Docker Compose projects have piqued our interest:&lt;/li&gt;
@@ -1599,9 +1657,9 @@ These Docker Compose projects have piqued our interest:&lt;/li&gt;
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://laradock.io/help/</guid>
-      <description>&lt;p&gt;Join the chat room on &lt;a href=&#34;https://gitter.im/LaraDock/laradock&#34;&gt;Gitter&lt;/a&gt; and get help and support from the community.&lt;/p&gt;
+      <description>&lt;p&gt;Join the chat room on &lt;a href=&#34;https://gitter.im/Laradock/laradock&#34;&gt;Gitter&lt;/a&gt; and get help and support from the community.&lt;/p&gt;
 
-&lt;p&gt;You can as well can open an &lt;a href=&#34;https://github.com/laradock/laradock/issues&#34;&gt;issue&lt;/a&gt; on Github (will be labeled as Question) and discuss it with people on &lt;a href=&#34;https://gitter.im/LaraDock/laradock&#34;&gt;Gitter&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;You can as well can open an &lt;a href=&#34;https://github.com/laradock/laradock/issues&#34;&gt;issue&lt;/a&gt; on Github (will be labeled as Question) and discuss it with people on &lt;a href=&#34;https://gitter.im/Laradock/laradock&#34;&gt;Gitter&lt;/a&gt;.&lt;/p&gt;
 </description>
     </item>
     
@@ -1615,39 +1673,52 @@ These Docker Compose projects have piqued our interest:&lt;/li&gt;
 
 &lt;p&gt;Your contribution is more than welcome.&lt;/p&gt;
 
-&lt;h2 id=&#34;got-a-question-or-problem&#34;&gt;Got a Question or Problem?&lt;/h2&gt;
+&lt;h2 id=&#34;i-have-a-question-problem&#34;&gt;I have a Question/Problem&lt;/h2&gt;
 
-&lt;p&gt;If you have questions about how to use LaraDock, please direct your questions to the discussion on &lt;a href=&#34;https://gitter.im/LaraDock/laradock&#34;&gt;Gitter&lt;/a&gt;. If you believe your question could help others, then consider opening an &lt;a href=&#34;https://github.com/laradock/laradock/issues&#34;&gt;Issue&lt;/a&gt; (it will be labeled as Question).&lt;/p&gt;
+&lt;p&gt;If you have questions about how to use Laradock, please direct your questions to the discussion on &lt;a href=&#34;https://gitter.im/Laradock/laradock&#34;&gt;Gitter&lt;/a&gt;. If you believe your question could help others, then consider opening an &lt;a href=&#34;https://github.com/laradock/laradock/issues&#34;&gt;Issue&lt;/a&gt; (it will be labeled as &lt;code&gt;Question&lt;/code&gt;) And you can still seek help on Gitter for it.&lt;/p&gt;
 
-&lt;h2 id=&#34;found-an-issue&#34;&gt;Found an Issue?&lt;/h2&gt;
+&lt;h2 id=&#34;i-found-an-issue&#34;&gt;I found an Issue&lt;/h2&gt;
 
-&lt;p&gt;If you find a bug in the source code or a mistake in the documentation, you can help us by
-submitting an &lt;a href=&#34;https://github.com/laradock/laradock/issues&#34;&gt;Issue&lt;/a&gt;. Even better you can submit a Pull Request with a fix.&lt;/p&gt;
+&lt;p&gt;If have an issue or you found a typo in the documentation, you can help us by
+opnening an &lt;a href=&#34;https://github.com/laradock/laradock/issues&#34;&gt;Issue&lt;/a&gt;.&lt;/p&gt;
 
-&lt;h2 id=&#34;want-a-feature&#34;&gt;Want a Feature?&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Steps to do before opening an Issue:&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;You can request a new feature by submitting an &lt;a href=&#34;https://github.com/laradock/laradock/issues&#34;&gt;Issue&lt;/a&gt; (it will be labeled as Feature Suggestion). If you would like to implement a new feature then consider submitting a Pull Request.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Before you submit your issue search the archive, maybe your question was already answered couple hours ago (search in the closed Issues as well).&lt;/p&gt;&lt;/li&gt;
 
-&lt;h2 id=&#34;update-documentation-site&#34;&gt;Update Documentation (Site)&lt;/h2&gt;
+&lt;li&gt;&lt;p&gt;Decide if the Issue belongs to this project or to &lt;a href=&#34;https://github.com/docker&#34;&gt;Docker&lt;/a&gt; itself! or even the tool you are using such as Nginx or MongoDB&amp;hellip;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;If your issue appears to be a bug, and hasn&amp;rsquo;t been reported, then open a new issue.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;This Help us to maximize the effort we can spend fixing issues and adding new
+features, by not reporting duplicate issues.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;i-want-a-feature&#34;&gt;I want a Feature&lt;/h2&gt;
+
+&lt;p&gt;You can request a new feature by submitting an &lt;a href=&#34;https://github.com/laradock/laradock/issues&#34;&gt;Issue&lt;/a&gt; (it will be labeled as &lt;code&gt;Feature Suggestion&lt;/code&gt;). If you would like to implement a new feature then consider submitting a Pull Request yourself.&lt;/p&gt;
+
+&lt;h2 id=&#34;i-want-to-update-the-documentation-site&#34;&gt;I want to update the Documentation (Site)&lt;/h2&gt;
 
 &lt;p&gt;Laradock uses &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; as website generator tool, with the &lt;a href=&#34;http://themes.gohugo.io/theme/material-docs/&#34;&gt;Material Docs theme&lt;/a&gt;. You might need to check their docs quickly.&lt;/p&gt;
 
 &lt;ol&gt;
-&lt;li&gt;Install &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; on your machine.&lt;/li&gt;
-&lt;li&gt;Clone laradock.&lt;/li&gt;
-&lt;li&gt;Go to &lt;code&gt;/docs&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Delete everything except the &lt;code&gt;_settings&lt;/code&gt; folder &amp;amp; the &lt;code&gt;CNAME&lt;/code&gt; file.&lt;/li&gt;
-&lt;li&gt;Open &lt;code&gt;docs/_settings&lt;/code&gt; from your terminal and run &lt;code&gt;hugo serve&lt;/code&gt; to host the website locally.&lt;/li&gt;
-&lt;li&gt;Open the &lt;code&gt;docs/_settings/content&lt;/code&gt; and search for the folder of the section you want to edit.&lt;/li&gt;
-&lt;li&gt;In each section there&amp;rsquo;s an &lt;code&gt;index.md&lt;/code&gt; file, that&amp;rsquo;s the file you need to edit.&lt;/li&gt;
-&lt;li&gt;To edit the sidebar (in case you are adding new section) go to &lt;code&gt;docs/_settings/config.toml&lt;/code&gt; and add the section there.&lt;/li&gt;
-&lt;li&gt;After done editing, run the this command &lt;code&gt;hugo&lt;/code&gt; to generate the updated site inside the &lt;code&gt;docs&lt;/code&gt; folder.&lt;/li&gt;
-&lt;li&gt;Go back to the project root directory, commit and push..&lt;/li&gt;
+&lt;li&gt;Install &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; on your machine (easy thing).&lt;/li&gt;
+&lt;li&gt;Open the &lt;code&gt;DOCUMENTATION/_settings/content&lt;/code&gt; and search for the markdown file you want to edit (every folder represents a section in the menu).&lt;/li&gt;
+&lt;li&gt;Delete the &lt;code&gt;/docs&lt;/code&gt; folder from the root.&lt;/li&gt;
+&lt;li&gt;When you finish editing, run the &lt;code&gt;hugo&lt;/code&gt; command to generate the HTML docs (in the &lt;code&gt;/docs&lt;/code&gt;).&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h2 id=&#34;coding-guidelines&#34;&gt;Coding Guidelines&lt;/h2&gt;
+&lt;h3 id=&#34;to-host-the-website-locally&#34;&gt;To Host the website locally&lt;/h3&gt;
 
-&lt;h2 id=&#34;support-new-software&#34;&gt;Support new Software&lt;/h2&gt;
+&lt;p&gt;Go to &lt;code&gt;DOCUMENTATION/_settings&lt;/code&gt; in your terminal and run &lt;code&gt;hugo serve&lt;/code&gt; to host the website locally.&lt;/p&gt;
+
+&lt;h3 id=&#34;edit-the-sidebar&#34;&gt;Edit the sidebar&lt;/h3&gt;
+
+&lt;p&gt;To add a new section to the sidebar or edit existing one, you need to edit this file &lt;code&gt;DOCUMENTATION/_settings/config.toml&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;how-to-support-new-software-add-new-container&#34;&gt;How to support new Software (Add new Container)&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;Create folder with the software name.&lt;/p&gt;&lt;/li&gt;
@@ -1660,10 +1731,10 @@ submitting an &lt;a href=&#34;https://github.com/laradock/laradock/issues&#34;&g
 
 &lt;li&gt;&lt;p&gt;Make sure you follow our commenting style.&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;Add the software in the &lt;code&gt;Readme&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Add the software in the &lt;code&gt;Documentation&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;edit-existing-software&#34;&gt;Edit existing Software&lt;/h2&gt;
+&lt;h2 id=&#34;edit-existing-software-edit-a-container&#34;&gt;Edit existing Software (Edit a Container)&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;Open the software (container) folder.&lt;/p&gt;&lt;/li&gt;
@@ -1671,22 +1742,14 @@ submitting an &lt;a href=&#34;https://github.com/laradock/laradock/issues&#34;&g
 &lt;li&gt;&lt;p&gt;Edit the files you want to update.&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; If you want to edit the base image of the &lt;code&gt;Workspace&lt;/code&gt; or the &lt;code&gt;php-fpm&lt;/code&gt; Containers,
-you need to edit their Docker-files from their GitHub repositories. For more info read their Dockerfiles comment on the LaraDock repository.&lt;/p&gt;&lt;/li&gt;
+you need to edit their Docker-files from their GitHub repositories. For more info read their Dockerfiles comment on the Laradock repository.&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;Make sure to update the &lt;code&gt;Readme&lt;/code&gt; in case you made any changes.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Make sure to update the &lt;code&gt;Documentation&lt;/code&gt; in case you made any changes.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;issue-pr-submission-guidelines&#34;&gt;Issue/PR Submission Guidelines&lt;/h2&gt;
+&lt;h2 id=&#34;pull-request&#34;&gt;Pull Request&lt;/h2&gt;
 
-&lt;h2 id=&#34;submitting-an-issue&#34;&gt;Submitting an Issue&lt;/h2&gt;
-
-&lt;p&gt;Before you submit your issue search the archive, maybe your question was already answered.&lt;/p&gt;
-
-&lt;p&gt;If your issue appears to be a bug, and hasn&amp;rsquo;t been reported, open a new issue.
-Help us to maximize the effort we can spend fixing issues and adding new
-features, by not reporting duplicate issues.&lt;/p&gt;
-
-&lt;h2 id=&#34;before-submitting-a-pull-request-pr&#34;&gt;Before Submitting a Pull Request (PR)&lt;/h2&gt;
+&lt;h3 id=&#34;1-before-submitting-a-pull-request-pr&#34;&gt;1. Before Submitting a Pull Request (PR)&lt;/h3&gt;
 
 &lt;p&gt;Always Test everything and make sure its working:&lt;/p&gt;
 
@@ -1702,16 +1765,16 @@ features, by not reporting duplicate issues.&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Testing building the container (docker-compose build container-name) with no errors.&lt;/li&gt;
-&lt;li&gt;Test it in real App.&lt;/li&gt;
+&lt;li&gt;Test it in a real App if possible.&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;submitting-a-pr&#34;&gt;Submitting a PR&lt;/h2&gt;
+&lt;h3 id=&#34;2-submitting-a-pr&#34;&gt;2. Submitting a PR&lt;/h3&gt;
 
 &lt;p&gt;Consider the following guidelines:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Search &lt;a href=&#34;https://github.com/laradock/laradock/pulls&#34;&gt;GitHub&lt;/a&gt; for an open or closed Pull Request that relates to your submission. You don&amp;rsquo;t want to duplicate effort.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Search &lt;a href=&#34;https://github.com/laradock/laradock/pulls&#34;&gt;GitHub&lt;/a&gt; for an open or closed Pull Request that relates to your submission. You don&amp;rsquo;t want to duplicate efforts.&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;Make your changes in a new git branch:&lt;/p&gt;
 
@@ -1746,10 +1809,9 @@ git push origin my-fix-branch -f
 
 &lt;p&gt;&lt;em&gt;WARNING. Squashing or reverting commits and forced push thereafter may remove GitHub comments on code that were previously made by you and others in your commits.&lt;/em&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;after-your-pr-is-merged&#34;&gt;After your PR is merged&lt;/h2&gt;
+&lt;h3 id=&#34;3-after-your-pr-is-merged&#34;&gt;3. After your PR is merged&lt;/h3&gt;
 
-&lt;p&gt;After your pull request is merged, you can safely delete your branch and pull the changes
-from the main (upstream) repository:&lt;/p&gt;
+&lt;p&gt;After your pull request is merged, you can safely delete your branch and pull the changes from the main (upstream) repository:&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;Delete the remote branch on GitHub either through the GitHub web UI or your local shell as follows:&lt;/p&gt;
@@ -1775,7 +1837,7 @@ from the main (upstream) repository:&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;happy-coding&#34;&gt;Happy Coding :)&lt;/h2&gt;
+&lt;h4 id=&#34;happy-coding&#34;&gt;Happy Coding :)&lt;/h4&gt;
 </description>
     </item>
     
