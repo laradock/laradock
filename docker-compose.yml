@@ -249,7 +249,6 @@ services:
         - "3002:3002"
         - "3003:3003"
 
-
 ### Memcached Container #####################################
 
     memcached:
@@ -359,7 +358,6 @@ services:
       environment:
         - CN="fake.domain.com"
         - EMAIL="fake.email@gmail.com"
-
 
 ### Mailhog Container #########################################
 
