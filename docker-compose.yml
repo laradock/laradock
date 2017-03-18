@@ -41,6 +41,7 @@ services:
         ports:
            - "${WORKSPACE_SSH_PORT}:22"
         tty: true
+        command: php artisan queue:work
 
 ### PHP-FPM Container #######################################
 
