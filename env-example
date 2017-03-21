@@ -1,3 +1,6 @@
+# Fix for windows users to make sure the application path works.
+COMPOSE_CONVERT_WINDOWS_PATHS=1
+
 ### Application
 # Point to your application code, wish should be available at `/var/www`
 APPLICATION=../
@@ -29,6 +32,7 @@ WORKSPACE_INSTALL_MC=false
 WORKSPACE_PUID=1000
 WORKSPACE_PGID=1000
 WORKSPACE_NODE_VERSION=stable
+WORKSPACE_YARN_VERSION=latest
 WORKSPACE_TIMEZONE=UTC
 WORKSPACE_SSH_PORT=2222
 
