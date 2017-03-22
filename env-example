@@ -1,6 +1,6 @@
 ### Application
 # Point to your application code, wish should be available at `/var/www`
-APPLICATION=../project/
+APPLICATION=../
 
 ### PHP version (Does not apply for HHVM)
 # PHP_VERSION=55
@@ -123,5 +123,7 @@ PMA_PORT=88
 DOCKER_HOST_IP=10.0.75.1
 # The Remote Interpreter entry matching name `laradock`
 PHP_IDE_CONFIG=serverName=laradock
+# Fix for windows users to make sure the application path works.
+COMPOSE_CONVERT_WINDOWS_PATHS=1
 
 ### to be continue neo4j mongo rethinkdb redis aerospike pgadmin ...
