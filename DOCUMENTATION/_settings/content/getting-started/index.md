@@ -82,6 +82,7 @@ Your folder structure should look like this:
 *Or you can keep `default.conf` as it is, and create a separate config `my-site.conf` file for it.*
 
 **In case of Apache:** :P 
+
 <br>
 
 

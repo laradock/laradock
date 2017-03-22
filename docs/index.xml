@@ -1713,7 +1713,6 @@ features, by not reporting duplicate issues.&lt;/em&gt;&lt;/p&gt;
 &lt;h3 id=&#34;to-host-the-website-locally&#34;&gt;To Host the website locally&lt;/h3&gt;
 
 &lt;p&gt;Go to &lt;code&gt;DOCUMENTATION/_settings&lt;/code&gt; in your terminal and run &lt;code&gt;hugo serve&lt;/code&gt; to host the website locally.&lt;/p&gt;
-
 &lt;h3 id=&#34;edit-the-sidebar&#34;&gt;Edit the sidebar&lt;/h3&gt;
 
 &lt;p&gt;To add a new section to the sidebar or edit existing one, you need to edit this file &lt;code&gt;DOCUMENTATION/_settings/config.toml&lt;/code&gt;.&lt;/p&gt;
