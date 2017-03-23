@@ -32,7 +32,7 @@ services:
           - PUID=${WORKSPACE_PUID}
           - PGID=${WORKSPACE_PGID}
           - NODE_VERSION=${WORKSPACE_NODE_VERSION}
-          - YARN_VERSION=${WORKSPACE_TIMEZONE}
+          - YARN_VERSION=${WORKSPACE_YARN_VERSION}
           - TZ=${WORKSPACE_TIMEZONE}
       volumes_from:
         - applications
@@ -57,7 +57,7 @@ services:
           - INSTALL_MEMCACHED=${PHP_FPM_INSTALL_MEMCACHED}
           - INSTALL_OPCACHE=${PHP_FPM_INSTALL_OPCACHE}
           - INSTALL_EXIF=${PHP_FPM_INSTALL_EXIF}
-          - INSTALL_AEROSPIKE_EXTENSION=${PHP_FPM_INSTALL_AEROSPIKE_EXTENSION}                
+          - INSTALL_AEROSPIKE_EXTENSION=${PHP_FPM_INSTALL_AEROSPIKE_EXTENSION}
           - INSTALL_MYSQLI=${PHP_FPM_INSTALL_MYSQLI}
           - INSTALL_TOKENIZER=${PHP_FPM_INSTALL_TOKENIZER}
           - INSTALL_INTL=${PHP_FPM_INSTALL_INTL}
@@ -72,7 +72,7 @@ services:
         - "dockerhost:${DOCKER_HOST_IP}"
       environment:
         - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
-            
+
 ### PHP Worker Container #####################################
     php-worker:
       build:
@@ -379,31 +379,31 @@ services:
 ### Volumes Setup ###########################################
 
 volumes:
-    mysql:
-        driver: "local"
-    postgres:
-        driver: "local"
-    memcached:
-        driver: "local"
-    redis:
-        driver: "local"
-    neo4j:
-        driver: "local"
-    mariadb:
-        driver: "local"
-    mongo:
-        driver: "local"
-    minio:
-        driver: "local"
-    rethinkdb:
-        driver: "local"
-    phpmyadmin:
-        driver: "local"
-    aerospike:
-        driver: "local"
-    caddy:
-        driver: "local"
-    elasticsearch-data:
-        driver: "local"
-    elasticsearch-plugins:
-        driver: "local"
+  mysql:
+    driver: "local"
+  postgres:
+    driver: "local"
+  memcached:
+    driver: "local"
+  redis:
+    driver: "local"
+  neo4j:
+    driver: "local"
+  mariadb:
+    driver: "local"
+  mongo:
+    driver: "local"
+  minio:
+    driver: "local"
+  rethinkdb:
+    driver: "local"
+  phpmyadmin:
+    driver: "local"
+  aerospike:
+    driver: "local"
+  caddy:
+    driver: "local"
+  elasticsearch-data:
+    driver: "local"
+  elasticsearch-plugins:
+    driver: "local"
