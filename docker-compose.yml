@@ -474,17 +474,17 @@ services:
 
 ### Balancer Haproxy ##########################################
 
-balancer:
-  build: ./haproxy
-  ports:
-    - "${HAPROXY_HOST_HTTP_PORT}:80"
-  volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-  links:
-    - proxy
-    - proxy2
-  networks:
-    - frontend
+    balancer:
+      build: ./haproxy
+      ports:
+        - "${HAPROXY_HOST_HTTP_PORT}:80"
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+      links:
+        - proxy
+        - proxy2
+      networks:
+        - frontend
 
 ### Networks Setup ############################################
 
