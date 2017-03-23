@@ -37,10 +37,13 @@ services:
       volumes_from:
         - applications
       extra_hosts:
-          - "dockerhost:${DOCKER_HOST_IP}"
+        - "dockerhost:${DOCKER_HOST_IP}"
       ports:
-         - "${WORKSPACE_SSH_PORT}:22"
+        - "${WORKSPACE_SSH_PORT}:22"
       tty: true
+      networks:
+        - frontend
+        - backend
 
 ### PHP-FPM Container #######################################
 
@@ -57,7 +60,7 @@ services:
           - INSTALL_MEMCACHED=${PHP_FPM_INSTALL_MEMCACHED}
           - INSTALL_OPCACHE=${PHP_FPM_INSTALL_OPCACHE}
           - INSTALL_EXIF=${PHP_FPM_INSTALL_EXIF}
-          - INSTALL_AEROSPIKE_EXTENSION=${PHP_FPM_INSTALL_AEROSPIKE_EXTENSION}                
+          - INSTALL_AEROSPIKE_EXTENSION=${PHP_FPM_INSTALL_AEROSPIKE_EXTENSION}
           - INSTALL_MYSQLI=${PHP_FPM_INSTALL_MYSQLI}
           - INSTALL_TOKENIZER=${PHP_FPM_INSTALL_TOKENIZER}
           - INSTALL_INTL=${PHP_FPM_INSTALL_INTL}
@@ -72,7 +75,9 @@ services:
         - "dockerhost:${DOCKER_HOST_IP}"
       environment:
         - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
-            
+      networks:
+        - backend
+
 ### PHP Worker Container #####################################
     php-worker:
       build:
@@ -81,6 +86,8 @@ services:
         - applications
       depends_on:
         - workspace
+      networks:
+        - backend
 
 ### Nginx Server Container ##################################
 
@@ -90,15 +97,18 @@ services:
         args:
           - PHP_UPSTREAM=php-fpm
       volumes_from:
-          - applications
+        - applications
       volumes:
-          - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
-          - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
+        - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
+        - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
       ports:
-          - "${NGINX_HOST_HTTP_PORT}:80"
-          - "${NGINX_HOST_HTTPS_PORT}:443"
+        - "${NGINX_HOST_HTTP_PORT}:80"
+        - "${NGINX_HOST_HTTPS_PORT}:443"
       depends_on:
-          - php-fpm
+        - php-fpm
+      networks:
+        - frontend
+        - backend
 
 ### Apache Server Container #################################
 
@@ -117,6 +127,9 @@ services:
         - "${APACHE_HOST_HTTPS_PORT}:443"
       depends_on:
         - php-fpm
+      networks:
+        - frontend
+        - backend
 
 ### HHVM Container ##########################################
 
@@ -128,6 +141,9 @@ services:
         - "9000"
       depends_on:
         - workspace
+      networks:
+        - frontend
+        - backend
 
 ### Minio Container #########################################
 
@@ -140,6 +156,8 @@ services:
       environment:
         - MINIO_ACCESS_KEY=access
         - MINIO_SECRET_KEY=secretkey
+      networks:
+        - backend
 
 ### MySQL Container #########################################
 
@@ -155,6 +173,8 @@ services:
         - mysql:/var/lib/mysql
       ports:
         - "${MYSQL_PORT}:3306"
+      networks:
+        - backend
 
 ### MariaDB Container #######################################
 
@@ -169,6 +189,8 @@ services:
         - MYSQL_USER=${MARIADB_USER}
         - MYSQL_PASSWORD=${MARIADB_PASSWORD}
         - MYSQL_ROOT_PASSWORD=${MARIADB_PORT}
+      networks:
+        - backend
 
 ### PostgreSQL Container ####################################
 
@@ -182,6 +204,8 @@ services:
         - POSTGRES_DB=${POSTGRES_DB}
         - POSTGRES_USER=${POSTGRES_USER}
         - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      networks:
+        - backend
 
 ### PostgreSQL PostGis Container ############################
 
@@ -195,6 +219,8 @@ services:
         - POSTGRES_DB=${POSTGRES_DB}
         - POSTGRES_USER=${POSTGRES_USER}
         - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      networks:
+        - backend
 
 ### Neo4j Container #########################################
 
@@ -207,6 +233,8 @@ services:
         - NEO4J_AUTH=default:secret
       volumes:
         - neo4j:/var/lib/neo4j/data
+      networks:
+        - backend
 
 ### MongoDB Container #######################################
 
@@ -216,6 +244,8 @@ services:
         - "27017:27017"
       volumes:
         - mongo:/data/db
+      networks:
+        - backend
 
 ### RethinkDB Container #######################################
 
@@ -225,6 +255,8 @@ services:
         - "8090:8080"
       volumes:
         - rethinkdb:/data/rethinkdb_data
+      networks:
+        - backend
 
 ### Redis Container #########################################
 
@@ -234,6 +266,8 @@ services:
         - redis:/data
       ports:
         - "6379:6379"
+      networks:
+        - backend
 
 ### Aerospike c Container ###################################
 
@@ -248,6 +282,8 @@ services:
         - "3001:3001"
         - "3002:3002"
         - "3003:3003"
+      networks:
+        - backend
 
 ### Memcached Container #####################################
 
@@ -259,6 +295,8 @@ services:
         - "${MEMCACHED_HOST_PORT}:11211"
       depends_on:
         - php-fpm
+      networks:
+        - backend
 
 ### Beanstalkd Container ####################################
 
@@ -269,6 +307,8 @@ services:
       privileged: true
       depends_on:
         - php-fpm
+      networks:
+        - backend
 
 ### RabbitMQ Container ######################################
 
@@ -284,6 +324,8 @@ services:
         - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
       depends_on:
         - php-fpm
+      networks:
+        - backend
 
 ### Beanstalkd Console Container ############################
 
@@ -293,6 +335,8 @@ services:
         - "2080:2080"
       depends_on:
         - beanstalkd
+      networks:
+        - backend
 
 ### Caddy Server Container ##################################
 
@@ -310,6 +354,8 @@ services:
         - caddy:/root/.caddy
       depends_on:
         - php-fpm
+      networks:
+        - backend
 
 ### phpMyAdmin Container ####################################
 
@@ -324,6 +370,8 @@ services:
         - "${PMA_PORT}:80"
       depends_on:
         - "${PMA_DB_ENGINE}"
+      networks:
+        - frontend
 
 ### pgAdmin Container #######################################
 
@@ -333,6 +381,8 @@ services:
         - "5050:5050"
       depends_on:
         - postgres
+      networks:
+        - frontend
 
 ### ElasticSearch Container #################################
 
@@ -346,6 +396,8 @@ services:
         - "${ELASTICSEARCH_HOST_TRANSPORT_PORT}:9300"
       depends_on:
         - php-fpm
+      networks:
+        - backend
 
 ### Certbot Container ##################################
 
@@ -358,6 +410,8 @@ services:
       environment:
         - CN="fake.domain.com"
         - EMAIL="fake.email@gmail.com"
+      networks:
+        - backend
 
 ### Mailhog Container #########################################
 
@@ -366,8 +420,10 @@ services:
       ports:
         - "1025:1025"
         - "8025:8025"
+      networks:
+        - backend
 
-### Selenium Container #########################################
+### Selenium Container ########################################
 
     selenium:
       build: ./selenium
@@ -375,35 +431,97 @@ services:
         - "${SELENIUM_PORT}:4444"
       volumes:
         - /dev/shm:/dev/shm
+      networks:
+        - backend
 
-### Volumes Setup ###########################################
+### Varnish Proxy 1 ##########################################
+
+    proxy:
+      build: ./varnish
+      expose:
+        - ${VARNISH_PORT}
+      environment:
+        - VARNISH_CONFIG=${VARNISH_CONFIG}
+        - CACHE_SIZE=${VARNISH_PROXY1_CACHE_SIZE}
+        - VARNISHD_PARAMS=${VARNISHD_PARAMS}
+        - VARNISH_PORT=${VARNISH_PORT}
+        - BACKEND_HOST=${VARNISH_PROXY1_BACKEND_HOST}
+        - BACKEND_PORT=${VARNISH_BACKEND_PORT}
+        - VARNISH_SERVER=${VARNISH_PROXY1_SERVER}
+      links:
+        - workspace
+      networks:
+        - frontend
+
+### Varnish Proxy 2 ##########################################
+
+    proxy2:
+      build: ./varnish
+      expose:
+        - ${VARNISH_PORT}
+      environment:
+        - VARNISH_CONFIG=${VARNISH_CONFIG}
+        - CACHE_SIZE=${VARNISH_PROXY2_CACHE_SIZE}
+        - VARNISHD_PARAMS=${VARNISHD_PARAMS}
+        - VARNISH_PORT=${VARNISH_PORT}
+        - BACKEND_HOST=${VARNISH_PROXY2_BACKEND_HOST}
+        - BACKEND_PORT=${VARNISH_BACKEND_PORT}
+        - VARNISH_SERVER=${VARNISH_PROXY2_SERVER}
+      links:
+        - workspace
+      networks:
+        - frontend
+
+### Balancer Haproxy ##########################################
+
+balancer:
+  build: ./haproxy
+  ports:
+    - "${HAPROXY_HOST_HTTP_PORT}:80"
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  links:
+    - proxy
+    - proxy2
+  networks:
+    - frontend
+
+### Networks Setup ############################################
+
+networks:
+  frontend:
+    driver: "bridge"
+  backend:
+    driver: "bridge"
+
+### Volumes Setup #############################################
 
 volumes:
-    mysql:
-        driver: "local"
-    postgres:
-        driver: "local"
-    memcached:
-        driver: "local"
-    redis:
-        driver: "local"
-    neo4j:
-        driver: "local"
-    mariadb:
-        driver: "local"
-    mongo:
-        driver: "local"
-    minio:
-        driver: "local"
-    rethinkdb:
-        driver: "local"
-    phpmyadmin:
-        driver: "local"
-    aerospike:
-        driver: "local"
-    caddy:
-        driver: "local"
-    elasticsearch-data:
-        driver: "local"
-    elasticsearch-plugins:
-        driver: "local"
+  mysql:
+    driver: "local"
+  postgres:
+    driver: "local"
+  memcached:
+    driver: "local"
+  redis:
+    driver: "local"
+  neo4j:
+    driver: "local"
+  mariadb:
+    driver: "local"
+  mongo:
+    driver: "local"
+  minio:
+    driver: "local"
+  rethinkdb:
+    driver: "local"
+  phpmyadmin:
+    driver: "local"
+  aerospike:
+    driver: "local"
+  caddy:
+    driver: "local"
+  elasticsearch-data:
+    driver: "local"
+  elasticsearch-plugins:
+    driver: "local"
