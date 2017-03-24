@@ -166,7 +166,7 @@ services:
         - SA_PASSWORD=${MSSQL_PASSWORD}
         - ACCEPT_EULA=Y
       volumes:
-        - mssql:/var/lib/mysql
+        - mssql:/var/opt/mssql
       ports:
         - "${MSSQL_PORT}:1433"
 
