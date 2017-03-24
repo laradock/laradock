@@ -9,4 +9,4 @@ charset = utf-8
 
 [{Dockerfile,docker-compose.yml}]
 indent_style = space
-indent_size = 4
+indent_size = 2
