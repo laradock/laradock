@@ -12,7 +12,6 @@ services:
 ### Workspace Utilities Container ###########################
 
     workspace:
-<<<<<<< HEAD
         build:
             context: ./laradock/workspace
             args:
@@ -41,7 +40,6 @@ services:
 ### PHP-FPM Container #######################################
 
     php-fpm:
-<<<<<<< HEAD
         build:
             context: ./laradock/php-fpm
             args:
@@ -52,7 +50,7 @@ services:
                 - INSTALL_OPCACHE=false
                 - INSTALL_AEROSPIKE_EXTENSION=false
                 - CODEIGNITER=false
-            dockerfile: Dockerfile-70
+            dockerfile: Dockerfile-71
         volumes_from:
             - applications
         expose:
@@ -79,7 +77,6 @@ services:
 ### Nginx Server Container ##################################
 
     nginx:
-<<<<<<< HEAD
         build:
             context: ./laradock/nginx
             args:
