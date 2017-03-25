@@ -37,14 +37,29 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 #
 
 #####################################
+# SOAP:
+#####################################
+
+ARG INSTALL_SOAP=false
+RUN if [ ${INSTALL_SOAP} = true ]; then \
+    # Install the soap extension
+    apt-get -y update && \
+    apt-get -y install libxml2-dev php-soap && \ 
+    docker-php-ext-install soap \
+;fi
+
+#####################################
 # xDebug:
 #####################################
 
 ARG INSTALL_XDEBUG=false
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     # Install the xdebug extension
-    pecl install xdebug && \
-    docker-php-ext-enable xdebug \
+    # pecl install xdebug && docker-php-ext-enable xdebug \
+    # workaround for https://github.com/docker-library/php/issues/133
+    #     - Xdebug breaks on access to class static property
+    apt-get install -y php5-xdebug && \
+	echo "zend_extension=/usr/lib/php5/20131226/xdebug.so" > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
 ;fi
 
 # Copy xdebug configration for remote debugging
@@ -73,13 +88,23 @@ RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
 ;fi
 
 #####################################
+# bcmath:
+#####################################
+
+ARG INSTALL_BCMATH=false
+RUN if [ ${INSTALL_BCMATH} = true ]; then \
+    # Install the bcmath extension
+    docker-php-ext-install bcmath \
+;fi
+
+#####################################
 # PHP Memcached:
 #####################################
 
 ARG INSTALL_MEMCACHED=false
 RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
     # Install the php memcached extension
-    pecl install memcached && \
+    pecl install memcached-2.2.0 && \
     docker-php-ext-enable memcached \
 ;fi
 
@@ -103,6 +128,7 @@ RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = true ]; then \
         && make install \
     ) \
     && rm /tmp/aerospike-client-php.tar.gz \
+    && docker-php-ext-enable aerospike \
 ;fi
 
 #####################################
@@ -119,13 +145,20 @@ RUN if [ ${INSTALL_OPCACHE} = true ]; then \
 COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
 #####################################
-# Codeigniter Modifications:
+# Mysqli Modifications:
 #####################################
 
-ARG CODEIGNITER=false
-RUN if [ ${CODEIGNITER} = true ]; then \
-    # Install Codeigniter PHP extentions requirements
-     docker-php-ext-install mysqli && \
+ARG INSTALL_MYSQLI=false
+RUN if [ ${INSTALL_MYSQLI} = true ]; then \  
+     docker-php-ext-install mysqli \
+;fi
+
+#####################################
+# Tokenizer Modifications:
+#####################################
+
+ARG INSTALL_TOKENIZER=false
+RUN if [ ${INSTALL_TOKENIZER} = true ]; then \
      docker-php-ext-install tokenizer \
 ;fi
 
