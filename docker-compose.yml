@@ -12,10 +12,12 @@ services:
 ### Workspace Utilities Container ###########################
 
     workspace:
+<<<<<<< HEAD
         build:
             context: ./laradock/workspace
             args:
                 - INSTALL_XDEBUG=false
+                - INSTALL_SOAP=false
                 - INSTALL_MONGO=false
                 - INSTALL_NODE=true
                 - INSTALL_YARN=true
@@ -39,6 +41,7 @@ services:
 ### PHP-FPM Container #######################################
 
     php-fpm:
+<<<<<<< HEAD
         build:
             context: ./laradock/php-fpm
             args:
@@ -54,8 +57,8 @@ services:
             - applications
         expose:
             - "9000"
-        links:
-            - workspace
+        depends_on:
+          - workspace
         extra_hosts:
             # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
             - "dockerhost:10.0.75.1"
@@ -63,9 +66,20 @@ services:
             # IMPORTANT: Set the Remote Interpreter entry matching name to `laravel`
             - PHP_IDE_CONFIG=serverName=laravel
 
+            
+### PHP Worker Container #####################################
+    php-worker:
+      build:
+        context: ./php-worker
+      volumes_from:
+        - applications
+      depends_on:
+        - workspace
+
 ### Nginx Server Container ##################################
 
     nginx:
+<<<<<<< HEAD
         build:
             context: ./laradock/nginx
             args:
@@ -78,7 +92,7 @@ services:
         ports:
             - "80:80"
             - "443:443"
-        links:
+        depends_on:
             - php-fpm
             
 ### PostgreSQL Container ####################################
@@ -90,9 +104,9 @@ services:
         ports:
             - "5432:5432"
         environment:
-            POSTGRES_DB: homestead
-            POSTGRES_USER: homestead
-            POSTGRES_PASSWORD: secret
+            - POSTGRES_DB: homestead
+            - POSTGRES_USER: homestead
+            - POSTGRES_PASSWORD: secret
 
 ### Redis Container #########################################
 
@@ -103,12 +117,10 @@ services:
         ports:
             - "6379:6379"
 
-### Volumes Setup ###########################################
-
 volumes:
     postgres:
         driver: "local"
     redis:
         driver: "local"
-    sessions:    
+    sessions:
         driver: "local"
