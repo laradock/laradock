@@ -18,7 +18,8 @@ Laradock is a Docker PHP development environment that facilitate running **PHP**
 - [Bo-Yi Wu](https://github.com/appleboy) (appleboy) [ [Twitter](https://twitter.com/appleboy) ]
 - [Philippe Trépanier](https://github.com/philtrep) (philtrep)
 - [Mike Erickson](https://github.com/mikeerickson) (mikeerickson)
-- Join Us!
+- [Dwi Fahni Denni](https://github.com/zeroc0d3) (zeroc0d3)
+- Join Us.
 
 **Amazing Contributors:**
 
