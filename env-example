@@ -139,7 +139,7 @@ VARNISH_PROXY2_BACKEND_HOST=server2
 VARNISH_PROXY2_SERVER=SERVER2
 
 ### HAPROXY Container
-HAPROXY_HOST_HTTP_PORT=80
+HAPROXY_HOST_HTTP_PORT=8085
 
 ### MISC
 # Replace with your Docker Host IP (will be appended to /etc/hosts)
