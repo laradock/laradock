@@ -393,33 +393,33 @@ services:
 ### Volumes Setup ###########################################
 
 volumes:
-    mysql:
-        driver: "local"
-    mssql:
-        driver: "local"
-    postgres:
-        driver: "local"
-    memcached:
-        driver: "local"
-    redis:
-        driver: "local"
-    neo4j:
-        driver: "local"
-    mariadb:
-        driver: "local"
-    mongo:
-        driver: "local"
-    minio:
-        driver: "local"
-    rethinkdb:
-        driver: "local"
-    phpmyadmin:
-        driver: "local"
-    aerospike:
-        driver: "local"
-    caddy:
-        driver: "local"
-    elasticsearch-data:
-        driver: "local"
-    elasticsearch-plugins:
-        driver: "local"
+  mysql:
+    driver: "local"
+  mssql:
+    driver: "local"
+  postgres:
+    driver: "local"
+  memcached:
+    driver: "local"
+  redis:
+    driver: "local"
+  neo4j:
+    driver: "local"
+  mariadb:
+    driver: "local"
+  mongo:
+    driver: "local"
+  minio:
+    driver: "local"
+  rethinkdb:
+    driver: "local"
+  phpmyadmin:
+    driver: "local"
+  aerospike:
+    driver: "local"
+  caddy:
+    driver: "local"
+  elasticsearch-data:
+    driver: "local"
+  elasticsearch-plugins:
+    driver: "local"
