@@ -515,6 +515,8 @@ networks:
 volumes:
   mysql:
     driver: "local"
+  mssql:
+    driver: "local"
   postgres:
     driver: "local"
   memcached:
