@@ -156,6 +156,20 @@ services:
       ports:
         - "${MYSQL_PORT}:3306"
 
+### MsSQL Container #########################################
+
+    mssql:
+      build:
+        context: ./mssql
+      environment:
+        - MSSQL_DATABASE=${MSSQL_DATABASE}
+        - SA_PASSWORD=${MSSQL_PASSWORD}
+        - ACCEPT_EULA=Y
+      volumes:
+        - mssql:/var/opt/mssql
+      ports:
+        - "${MSSQL_PORT}:1433"
+
 ### MariaDB Container #######################################
 
     mariadb:
@@ -380,6 +394,8 @@ services:
 
 volumes:
   mysql:
+    driver: "local"
+  mssql:
     driver: "local"
   postgres:
     driver: "local"
