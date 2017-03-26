@@ -1,5 +1,7 @@
 FROM microsoft/mssql-server-linux
 
+MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
+
 # Create config directory
 # an set it as WORKDIR
 RUN mkdir -p /usr/src/app
