@@ -157,7 +157,7 @@ services:
         - MINIO_ACCESS_KEY=access
         - MINIO_SECRET_KEY=secretkey
       networks:
-        - backend
+        - frontend
 
 ### MySQL Container #########################################
 
@@ -385,6 +385,7 @@ services:
       depends_on:
         - php-fpm
       networks:
+        - frontend
         - backend
 
 ### phpMyAdmin Container ####################################
@@ -427,7 +428,7 @@ services:
       depends_on:
         - php-fpm
       networks:
-        - backend
+        - frontend
 
 ### Certbot Container ##################################
 
@@ -441,7 +442,7 @@ services:
         - CN="fake.domain.com"
         - EMAIL="fake.email@gmail.com"
       networks:
-        - backend
+        - frontend
 
 ### Mailhog Container #########################################
 
@@ -451,7 +452,7 @@ services:
         - "1025:1025"
         - "8025:8025"
       networks:
-        - backend
+        - frontend
 
 ### Selenium Container ########################################
 
@@ -462,7 +463,7 @@ services:
       volumes:
         - /dev/shm:/dev/shm
       networks:
-        - backend
+        - frontend
 
 ### Varnish Proxy 1 ##########################################
 
