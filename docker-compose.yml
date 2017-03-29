@@ -176,7 +176,7 @@ services:
       networks:
         - backend
 
-### MsSQL Container #########################################
+### MSSQL Container #########################################
 
     mssql:
       build:
@@ -191,20 +191,6 @@ services:
         - "${MSSQL_PORT}:1433"
       networks:
         - backend
-
-### MsSQL Container #########################################
-
-    mssql:
-      build:
-        context: ./mssql
-      environment:
-        - MSSQL_DATABASE=${MSSQL_DATABASE}
-        - SA_PASSWORD=${MSSQL_PASSWORD}
-        - ACCEPT_EULA=Y
-      volumes:
-        - mssql:/var/opt/mssql
-      ports:
-        - "${MSSQL_PORT}:1433"
 
 ### MariaDB Container #######################################
 
@@ -514,8 +500,6 @@ services:
       links:
         - proxy
         - proxy2
-      networks:
-        - frontend
 
 ### Networks Setup ############################################
 
