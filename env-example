@@ -122,6 +122,9 @@ PMA_PASSWORD=secret
 PMA_ROOT_PASSWORD=secret
 PMA_PORT=88
 
+### Adminer Container
+ADM_PORT=88
+
 ### MISC
 # Replace with your Docker Host IP (will be appended to /etc/hosts)
 DOCKER_HOST_IP=10.0.75.1
