@@ -168,7 +168,7 @@ docker-compose up -d nginx mysql
 
 You can select your own combination of containers form the list below:
 
-> `nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `rabbitmq`, `beanstalkd-console`, `workspace`, `phpmyadmin`, `aerospike`, `pgadmin`, `elasticsearch`, `rethinkdb`, `postgres-postgis`, `certbot`, `mailhog`, `minio` and more...!
+> `nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `rabbitmq`, `beanstalkd-console`, `workspace`, `phpmyadmin`, `adminer`, `aerospike`, `pgadmin`, `elasticsearch`, `rethinkdb`, `postgres-postgis`, `certbot`, `mailhog`, `minio` and more...!
 
 *(Please note that sometimes we forget to update the docs, so check the `docker-compose.yml` file to see an updated list of all available containers).*
 
