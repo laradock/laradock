@@ -1,4 +1,4 @@
-FROM adminer:fastcgi
+FROM adminer:latest
 
 MAINTAINER Patrick Artounian <partounian@gmail.com>
 
