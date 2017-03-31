@@ -713,9 +713,7 @@ docker-compose up -d mariadb phpmyadmin
 1 - Run the Adminer Container (`adminer`) with the `docker-compose up` command. Example:
 
 ```bash
-# use with nginx 
-# must use it as fastcgi is required 
-docker-compose up -d nginx adminer  
+docker-compose up -d adminer  
 ```
 
 2 - Open your browser and visit the localhost on port **8080**:  `http://localhost:8080`
