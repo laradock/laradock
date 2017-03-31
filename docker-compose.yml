@@ -339,6 +339,15 @@ services:
       depends_on:
         - "${PMA_DB_ENGINE}"
 
+### Adminer Container ####################################
+
+    adminer:
+      build: ./adminer
+      ports:
+        - "${ADM_PORT}:8080"
+      depends_on:
+        - php-fpm
+
 ### pgAdmin Container #######################################
 
     pgadmin:
@@ -414,6 +423,8 @@ volumes:
   rethinkdb:
     driver: "local"
   phpmyadmin:
+    driver: "local"
+  adminer:
     driver: "local"
   aerospike:
     driver: "local"
