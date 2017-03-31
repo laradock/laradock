@@ -390,6 +390,17 @@ services:
       networks:
         - frontend
 
+### Adminer Container ####################################
+
+    adminer:
+      build: ./adminer
+      ports:
+        - "${ADM_PORT}:8080"
+      depends_on:
+        - php-fpm
+      networks:
+        - frontend 
+
 ### pgAdmin Container #######################################
 
     pgadmin:
@@ -533,6 +544,8 @@ volumes:
   rethinkdb:
     driver: "local"
   phpmyadmin:
+    driver: "local"
+  adminer:
     driver: "local"
   aerospike:
     driver: "local"

@@ -122,6 +122,9 @@ PMA_PASSWORD=secret
 PMA_ROOT_PASSWORD=secret
 PMA_PORT=88
 
+### ADMINER Container
+ADM_PORT=88
+
 ### VARNISH Container
 VARNISH_CONFIG=/etc/varnish/default.vcl
 VARNISH_PORT=8080

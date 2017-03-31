@@ -707,6 +707,23 @@ docker-compose up -d mariadb phpmyadmin
 
 
 <br>
+<a name="Use-Adminer"></a>
+## Use Adminer
+
+1 - Run the Adminer Container (`adminer`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d adminer  
+```
+
+2 - Open your browser and visit the localhost on port **8080**:  `http://localhost:8080`
+
+
+
+
+
+
+<br>
 <a name="Use-pgAdmin"></a>
 ## Use PgAdmin
 
