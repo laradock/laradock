@@ -5,5 +5,5 @@ MAINTAINER Patrick Artounian <partounian@gmail.com>
 # Add volume for sessions to allow session persistence
 VOLUME /sessions
 
-# We expose Adminer on port 80
-EXPOSE 80
+# We expose Adminer on port 8080 (Adminer's default)
+EXPOSE 8080

@@ -344,7 +344,7 @@ services:
     adminer:
       build: ./adminer
       ports:
-        - "${ADM_PORT}:80"
+        - "${ADM_PORT}:8080"
       depends_on:
         - php-fpm
 
