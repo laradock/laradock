@@ -169,7 +169,7 @@ What's better than a **Demo Video**:
 	- RabbitMQ Console
 - **Tools:**
 	- PhpMyAdmin
-  - Adminer
+  	- Adminer
 	- PgAdmin
 	- ElasticSearch
 	- Selenium
