@@ -122,8 +122,27 @@ PMA_PASSWORD=secret
 PMA_ROOT_PASSWORD=secret
 PMA_PORT=88
 
-### Adminer Container
+### ADMINER Container
 ADM_PORT=88
+
+### VARNISH Container
+VARNISH_CONFIG=/etc/varnish/default.vcl
+VARNISH_PORT=8080
+VARNISH_BACKEND_PORT=8888
+VARNISHD_PARAMS=-p default_ttl=3600 -p default_grace=3600
+
+### Varnish Proxy 1 Container
+VARNISH_PROXY1_CACHE_SIZE=128m
+VARNISH_PROXY1_BACKEND_HOST=workspace
+VARNISH_PROXY1_SERVER=SERVER1
+
+### Varnish Proxy 2 Container
+VARNISH_PROXY2_CACHE_SIZE=128m
+VARNISH_PROXY2_BACKEND_HOST=workspace
+VARNISH_PROXY2_SERVER=SERVER2
+
+### HAPROXY Container
+HAPROXY_HOST_HTTP_PORT=8085
 
 ### MISC
 # Replace with your Docker Host IP (will be appended to /etc/hosts)
