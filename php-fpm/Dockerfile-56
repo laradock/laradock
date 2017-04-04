@@ -109,6 +109,20 @@ RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
 ;fi
 
 #####################################
+# PHP MySQL:
+#####################################
+
+ARG INSTALL_MYSQL=false
+COPY ./mysql.ini /usr/local/etc/php/conf.d/mysql.ini
+RUN if [ ${INSTALL_MYSQL} = true ]; then \
+    # Install the php mysql extension
+    docker-php-ext-install mysql && \
+    docker-php-ext-install mysqli && \
+    docker-php-ext-enable mysql && \
+    docker-php-ext-enable mysqli \
+;fi
+
+#####################################
 # PHP Aerospike:
 #####################################
 
