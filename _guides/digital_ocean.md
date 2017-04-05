@@ -1,53 +1,52 @@
 #### Install Docker
-```
-Login Digital Ocean
-Add Droplet
-1 Click Install docker
-Choose Droplet
-reset ROOT password
-check email
-```
+
+- Visit [DigitalOcean](https://cloud.digitalocean.com/login) and login.
+- Click the `Create Droplet` button.
+- Open the `One-click apps` tab.
+- Select Docker with your preferred version.
+- Continue creating the droplet as you normally would.
+- If needed, check your e-mail for the droplet root password.
 
 #### SSH to your Server
+
+Find the IP address of the droplet in the DigitalOcean interface. Use it to connect to the server.
 
 ```
 ssh root@ipaddress
 ```
-you will be prompt of that password.
-type the password you receive in your email
 
-then it will ask to you to change a new password
-just change it to the custom root password you want
+You may be prompted for a password. Type the one you found within your e-mailbox. It'll then ask you to change the password.
 
-After SSH
-you can check that docker command is working by typing 
+You can now check if Docker is available:
 
 ```
-$root@midascode:~# docker
+$root@server:~# docker
 ```
 
 #### Set Up Your Laravel Project
 
 ```
-$root@midascode:~# apt-get install git
-$root@midascode:~# git clone https://github.com/laravel/laravel
-$root@midascode:~# cd laravel
-$root@midascode:~/laravel/ git submodule add https://github.com/LaraDock/laradock.git
-$root@midascode:~/laravel/ cd laradock
+$root@server:~# apt-get install git
+$root@server:~# git clone https://github.com/laravel/laravel
+$root@server:~# cd laravel
+$root@server:~/laravel/ git submodule add https://github.com/LaraDock/laradock.git
+$root@server:~/laravel/ cd laradock
 ```
 
 #### Install docker-compose command
 
 ```
-$root@midascode:~/laravel/laradock# curl -L https://github.com/docker/compose/releases/download/1.8.0/run.sh > /usr/local/bin/docker-compose
-$root@midascode:~/chmod +x /usr/local/bin/docker-compose
+$root@server:~/laravel/laradock# curl -L https://github.com/docker/compose/releases/download/1.8.0/run.sh > /usr/local/bin/docker-compose
+$root@server:~/chmod +x /usr/local/bin/docker-compose
 ```
 
 #### Create Your LaraDock Containers
 
 ```
-$root@midascode:~/laravel/laradock# docker-compose up -d nginx mysql
+$root@server:~/laravel/laradock# docker-compose up -d nginx mysql
 ```
+
+Note that more containers are available, find them in the [docs](http://laradock.io/introduction/#supported-software-containers) or the `docker-compose.yml` file.
 
 #### Go to Your Workspace
 
@@ -55,58 +54,65 @@ $root@midascode:~/laravel/laradock# docker-compose up -d nginx mysql
 docker-compose exec workspace bash
 ```
 
-#### Install laravel Dependencies, Add .env , generate Key and give proper permission certain folder
+#### Install and configure Laravel
+
+Let's install Laravel's dependencies, add the `.env` file, generate the key and give proper permissions to the cache folder.
 
 ```
-$ root@0e77851d27d3:/var/www# composer install
-$ root@0e77851d27d3:/var/www# cp .env.example .env
-$ root@0e77851d27d3:/var/www# php artisan key:generate
-$ root@0e77851d27d3:/var/www# exit
-$root@midascode:~/laravel/laradock# cd ..
-$root@midascode:~/laravel# sudo chmod -R 777 storage bootstrap/cache
+$ root@workspace:/var/www# composer install
+$ root@workspace:/var/www# cp .env.example .env
+$ root@workspace:/var/www# php artisan key:generate
+$ root@workspace:/var/www# exit
+$root@server:~/laravel/laradock# cd ..
+$root@server:~/laravel# sudo chmod -R 777 storage bootstrap/cache
 ```
 
-you can then view your laravel site at your ipaddress
-for example
+You can then view your Laravel site by visiting the IP address of your server in your browser. For example: 
+
 ```
-192.168.1.1 
+http://192.168.1.1
 ```
 
-You will see there Laravel Default Welcome Page
+It should show you the Laravel default welcome page.
 
-but if you need to view on your custom domain name
-which you would.
+However, we want it to show up using your custom domain name, as well.
 
 #### Using Your Own Domain Name
-login to your DNS provider
-Godaddy, Namecheap what ever...
-And Point the Custom Domain Name Server to
+
+Login to your DNS provider, such as Godaddy, Namecheap.
+
+Point the Custom Domain Name Server to:
 
 ```
 ns1.digitalocean.com
 ns2.digitalocean.com
 ns3.digitalocean.com
 ```
-In Your Digital Ocean Account go to 
-```
-https://cloud.digitalocean.com/networking/domains
-```
-add your domain name and choose the server ip you provision earlier
 
-#### Serve Site With NGINX (HTTP ONLY)
-Go back to command line
+Within DigitalOcean, you'll need to change some settings, too.
+
+Visit: https://cloud.digitalocean.com/networking/domains
+
+Add your domain name and choose the server IP you'd provision earlier.
+
+#### Serving Site With NGINX (HTTP ONLY)
+
+Go back to command line.
+
 ```
-$root@midascode:~/laravel/laradock# cd nginx
-$root@midascode:~/laravel/laradock/nginx# vim laravel.conf
-```
-remove default_server
+$root@server:~/laravel/laradock# cd nginx
+$root@server:~/laravel/laradock/nginx# vim laravel.conf
 ```
 
+Remove `default_server`
+
+```
     listen 80 default_server;
     listen [::]:80 default_server ipv6only=on;
-
 ```
- and add server_name (your custom domain)
+
+And add `server_name` (your custom domain)
+
 ```
     listen 80;
     listen [::]:80 ipv6only=on;
@@ -114,27 +120,29 @@ remove default_server
 ```
 
 #### Rebuild Your Nginx
+
 ```
-$root@midascode:~/laravel/laradock/nginx# docker-compose down
-$root@midascode:~/laravel/laradock/nginx# docker-compose build nginx
+$root@server:~/laravel/laradock/nginx# docker-compose down
+$root@server:~/laravel/laradock/nginx# docker-compose build nginx
 ```
 
 #### Re Run Your Containers MYSQL and NGINX
+
 ```
-$root@midascode:~/laravel/laradock/nginx# docker-compose up -d nginx mysql
+$root@server:~/laravel/laradock/nginx# docker-compose up -d nginx mysql
 ```
 
-###### View Your Site with HTTP ONLY (http://yourdomain.com)
+**View Your Site with HTTP ONLY (http://yourdomain.com)**
 
 #### Run Site on SSL with Let's Encrypt Certificate
 
-###### Note: You need to Use Caddy here Instead of Nginx
+**Note: You need to Use Caddy here Instead of Nginx**
 
-###### To go Caddy Folders and Edit CaddyFile
+To go Caddy Folders and Edit CaddyFile
 
 ```
-$root@midascode:~/laravel/laradock# cd caddy
-$root@midascode:~/laravel/laradock/caddy# vim Caddyfile
+$root@server:~/laravel/laradock# cd caddy
+$root@server:~/laravel/laradock/caddy# vim Caddyfile
 ```
 
 Remove 0.0.0.0:80 
@@ -142,32 +150,37 @@ Remove 0.0.0.0:80
 ```
 0.0.0.0:80
 root /var/www/public
-``` 
+```
+
 and replace with your https://yourdomain.com
 
 ```
 https://yourdomain.com
 root /var/www/public
 ```
+
 uncomment tls 
 
 ```
 #tls self-signed
 ```
+
 and replace self-signed with your email address
 
 ```
-tls midascodebreaker@gmai.com
+tls serverbreaker@gmai.com
 ```
+
 This is needed Prior to Creating Let's Encypt 
 
-####  Run Your  Caddy Container without the -d flag and Generate SSL with Let's Encrypt
+#### Run Your Caddy Container without the -d flag and Generate SSL with Let's Encrypt
 
 ```
-$root@midascode:~/laravel/laradock/caddy# docker-compose up  caddy
+$root@server:~/laravel/laradock/caddy# docker-compose up  caddy
 ```
 
-you will be prompt here to enter your email... you may enter it or not
+You'll be prompt here to enter your email... you may enter it or not
+
 ```
 Attaching to laradock_mysql_1, laradock_caddy_1
 caddy_1               | Activating privacy features...
@@ -179,17 +192,18 @@ caddy_1               | https://yourdomain.com
 caddy_1               | http://yourdomain.com
 ```
 
-After it finish Press Ctrl + C to exit ...
+After it finishes, press `Ctrl` + `C` to exit.
 
 #### Stop All Containers and ReRun Caddy and Other Containers on Background
 
 ```
-$root@midascode:~/laravel/laradock/caddy# docker-compose down
-$root@midascode:~/laravel/laradock/caddy# docker-compose up -d mysql caddy
+$root@server:~/laravel/laradock/caddy# docker-compose down
+$root@server:~/laravel/laradock/caddy# docker-compose up -d mysql caddy
 ```
+
 View your Site in the Browser Securely Using HTTPS (https://yourdomain.com)
 
-##### Note that Certificate will be Automatically Renew By Caddy
+**Note that Certificate will be Automatically Renew By Caddy**
 
 >References: 
 >
@@ -200,14 +214,3 @@ View your Site in the Browser Securely Using HTTPS (https://yourdomain.com)
 - [https://caddyserver.com/docs/automatic-https](https://caddyserver.com/docs/automatic-https)
 - [https://caddyserver.com/docs/tls](https://caddyserver.com/docs/tls)
 - [https://caddyserver.com/docs/caddyfile](https://caddyserver.com/docs/caddyfile)
-
-
-
-
-
-
-
-
-
-
-
