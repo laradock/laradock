@@ -34,6 +34,7 @@ services:
           - NODE_VERSION=${WORKSPACE_NODE_VERSION}
           - YARN_VERSION=${WORKSPACE_YARN_VERSION}
           - TZ=${WORKSPACE_TIMEZONE}
+        dockerfile: "dockerfile-${PHP_VERSION}"
       volumes_from:
         - applications
       extra_hosts:
