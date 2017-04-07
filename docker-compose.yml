@@ -166,7 +166,7 @@ services:
     mysql:
       build:
         context: ./mysql
-        args:
+      environment:
           - MYSQL_DATABASE=${MYSQL_DATABASE}
           - MYSQL_USER=${MYSQL_USER}
           - MYSQL_PASSWORD=${MYSQL_PASSWORD}
