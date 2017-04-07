@@ -1375,8 +1375,6 @@ git clone https://github.com/IFSight/d4m-nfs ~/d4m-nfs
 
 ```txt
 /Users:/Users
-/Volumes:/Volumes
-/private:/private
 ```
 
 5) Create (or edit) the file `/etc/exports`, make sure it exists and is empty. (There may be collisions if you come from Vagrant or if you already executed the `d4m-nfs.sh` script before).

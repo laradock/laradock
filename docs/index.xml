@@ -1540,8 +1540,6 @@ e) set it to &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;4) Create (or edit) the file &lt;code&gt;~/d4m-nfs/etc/d4m-nfs-mounts.txt&lt;/code&gt;, and write the follwing configuration in it:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-txt&#34;&gt;/Users:/Users
-/Volumes:/Volumes
-/private:/private
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;5) Create (or edit) the file &lt;code&gt;/etc/exports&lt;/code&gt;, make sure it exists and is empty. (There may be collisions if you come from Vagrant or if you already executed the &lt;code&gt;d4m-nfs.sh&lt;/code&gt; script before).&lt;/p&gt;
