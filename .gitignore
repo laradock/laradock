@@ -1,3 +1,5 @@
+.idea
 /logs
 /data
 .env
+/.project

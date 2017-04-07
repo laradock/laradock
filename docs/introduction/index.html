@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+  
+  
+  
+  
+   <html class="no-js"> 
+
+  <head lang="en-us">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=10" />
+    <title>Introduction - Laradock</title>
+    <meta name="generator" content="Hugo 0.18.1" />
+
+    
+    <meta name="description" content="Laradock documentations.">
+    
+    <link rel="canonical" href="http://laradock.io/introduction/">
+    
+    <meta name="author" content="Mahmoud Zalt">
+    
+
+    <meta property="og:url" content="http://laradock.io/introduction/">
+    <meta property="og:title" content="Laradock">
+    
+    <meta name="apple-mobile-web-app-title" content="Laradock">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <link rel="shortcut icon" type="image/x-icon" href="http://laradock.io/images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="http://laradock.io/images/favicon.ico">
+
+    <style>
+      @font-face {
+        font-family: 'Icon';
+        src: url('http://laradock.io/fonts/icon.eot');
+        src: url('http://laradock.io/fonts/icon.eot')
+               format('embedded-opentype'),
+             url('http://laradock.io/fonts/icon.woff')
+               format('woff'),
+             url('http://laradock.io/fonts/icon.ttf')
+               format('truetype'),
+             url('http://laradock.io/fonts/icon.svg')
+               format('svg');
+        font-weight: normal;
+        font-style: normal;
+      }
+    </style>
+
+    <link rel="stylesheet" href="http://laradock.io/stylesheets/application.css">
+    <link rel="stylesheet" href="http://laradock.io/stylesheets/temporary.css">
+    <link rel="stylesheet" href="http://laradock.io/stylesheets/palettes.css">
+    <link rel="stylesheet" href="http://laradock.io/stylesheets/highlight/highlight.css">
+
+    
+    
+    
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Doctarine:400,700|Source&#43;Code&#43;Pro">
+    <style>
+      body, input {
+        font-family: 'Doctarine', Helvetica, Arial, sans-serif;
+      }
+      pre, code {
+        font-family: 'Source Code Pro', 'Courier New', 'Courier', monospace;
+      }
+    </style>
+
+    
+    <script src="http://laradock.io/javascripts/modernizr.js"></script>
+
+    
+
+  </head>
+  <body class="palette-primary-deep-purple palette-accent-purple">
+
+
+
+
+<div class="backdrop">
+	<div class="backdrop-paper"></div>
+</div>
+
+<input class="toggle" type="checkbox" id="toggle-drawer">
+<input class="toggle" type="checkbox" id="toggle-search">
+<label class="toggle-button overlay" for="toggle-drawer"></label>
+
+<header class="header">
+	<nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+          <b>Laradock</b> <span style="color: rgba(249, 245, 255, 0.63);"> / Introduction</span>
+      </div>
+    </div>
+
+    
+
+    
+    <div class="button button-github" role="button" aria-label="GitHub">
+        <a style="padding: 0px; font-size:40px" href="https://github.com/laradock/laradock" title="@laradock/laradock on GitHub" target="_blank" class="toggle-button icon icon-github"></a>
+    </div>
+      <p style="font-size: 18px; padding: 8px">Github</p>
+    
+    
+        
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+
+</header>
+
+<main class="main">
+	<div class="drawer">
+		<nav aria-label="Navigation">
+  
+    
+      
+      
+        
+        
+      
+    
+  
+
+  <div class="scrollable">
+    <div class="wrapper">
+      
+
+      <div class="toc">
+        
+        <ul>
+          
+
+
+
+
+<li>
+  
+    
+
+
+
+<a class="current" title="Introduction" href="http://laradock.io/introduction/">
+	
+	Introduction
+</a>
+
+
+<ul id="scrollspy">
+</ul>
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Getting Started" href="http://laradock.io/getting-started/">
+	
+	Getting Started
+</a>
+
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Documentation" href="http://laradock.io/documentation/">
+	
+	Documentation
+</a>
+
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Related Projects" href="http://laradock.io/related-projects/">
+	
+	Related Projects
+</a>
+
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Help &amp; Questions" href="http://laradock.io/help/">
+	
+	Help &amp; Questions
+</a>
+
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Contributing" href="http://laradock.io/contributing/">
+	
+	Contributing
+</a>
+
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="License" href="http://laradock.io/license/">
+	
+	License
+</a>
+
+
+
+  
+</li>
+
+
+        </ul>
+        
+
+        
+        
+        
+        
+        <ul>
+          
+
+          
+          
+            
+              
+            
+          
+          
+
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+
+	</div>
+
+	<article class="article">
+		<div class="wrapper">
+			<h1>Introduction </h1>
+
+			
+
+<p>Laradock strives to make the PHP development experience easier and faster.</p>
+
+<p>It contains pre-packaged Docker Images that provides you a wonderful <em>development</em> environment without requiring you to install PHP, NGINX, MySQL, Redis, and any other software on your machines.</p>
+
+<p>Laradock is configured to run Laravel Apps by default, and it can be modified to run all kinds of PHP Apps (Symfony, CodeIgniter, WordPress, Drupal&hellip;).</p>
+
+<h2 id="quick-overview">Quick Overview</h2>
+
+<p>Let&rsquo;s see how easy it is to install <code>NGINX</code>, <code>PHP</code>, <code>Composer</code>, <code>MySQL</code>, <code>Redis</code> and <code>beanstalkd</code>:</p>
+
+<p>1 - Clone Laradock inside your PHP project:</p>
+
+<pre><code class="language-shell">git clone https://github.com/Laradock/laradock.git
+</code></pre>
+
+<p>2 - Enter the laradock folder and rename <code>env-example</code> to <code>.env</code>.</p>
+
+<pre><code class="language-shell">cp env-example .env
+</code></pre>
+
+<p>3 - Run your containers:</p>
+
+<pre><code class="language-shell">docker-compose up -d nginx mysql redis beanstalkd
+</code></pre>
+
+<p>3 - Open your project&rsquo;s <code>.env</code> file and set the following:</p>
+
+<pre><code class="language-shell">DB_HOST=mysql
+REDIS_HOST=redis
+QUEUE_HOST=beanstalkd
+</code></pre>
+
+<p>4 - Open your browser and visit localhost: <code>http://localhost</code>.</p>
+
+<pre><code class="language-shell">That's it! enjoy :)
+</code></pre>
+
+<p><a name="what-is-docker"></a></p>
+
+<h2 id="what-is-docker">What is Docker?</h2>
+
+<p><a href="https://www.docker.com">Docker</a> is an open-source project that automates the deployment of applications inside software containers, by providing an additional layer of abstraction and automation of <a href="https://en.wikipedia.org/wiki/Operating-system-level_virtualization">operating-system-level virtualization</a> on Linux, Mac OS and Windows.</p>
+
+<p><a name="why-docker-not-vagrant"></a></p>
+
+<h2 id="why-docker-not-vagrant">Why Docker not Vagrant!?</h2>
+
+<p><a href="https://www.vagrantup.com">Vagrant</a> creates Virtual Machines in minutes while Docker creates Virtual Containers in seconds.</p>
+
+<p>Instead of providing a full Virtual Machines, like you get with Vagrant, Docker provides you <strong>lightweight</strong> Virtual Containers, that share the same kernel and allow to safely execute independent processes.</p>
+
+<p>In addition to the speed, Docker gives tons of features that cannot be achieved with Vagrant.</p>
+
+<p>Most importantly Docker can run on Development and on Production (same environment everywhere). While Vagrant is designed for Development only, (so you have to re-provision your server on Production every time).</p>
+
+<p><a name="laradock-vs-homestead"></a></p>
+
+<h2 id="laradock-vs-homestead-for-laravel-developers">Laradock VS Homestead (For Laravel Developers)</h2>
+
+<blockquote>
+<p>Laradock It&rsquo;s like Laravel Homestead but for Docker instead of Vagrant.</p>
+</blockquote>
+
+<p>Laradock and <a href="https://laravel.com/docs/master/homestead">Homestead</a> both give you complete virtual development environments. (Without the need to install and configure every single software on your own Operating System).</p>
+
+<ul>
+<li><p>Homestead is a tool that controls Vagrant for you (using Homestead special commands). And Vagrant manages your Virtual Machine.</p></li>
+
+<li><p>Laradock is a tool that controls Docker for you (using Docker &amp; Docker Compose official commands). And Docker manages your Virtual Containers.</p></li>
+</ul>
+
+<p>Running a virtual container is much faster than running a full virtual Machine. Thus <strong>Laradock is much faster than Homestead</strong>.</p>
+
+<p><a name="Demo"></a></p>
+
+<h2 id="demo-video">Demo Video</h2>
+
+<p>What&rsquo;s better than a <strong>Demo Video</strong>:</p>
+
+<ul>
+<li>Laradock <a href="https://www.youtube.com/watch?v=TQii1jDa96Y">v4.*</a></li>
+<li>Laradock <a href="https://www.youtube.com/watch?v=-DamFMczwDA">v2.*</a></li>
+<li>Laradock <a href="https://www.youtube.com/watch?v=jGkyO6Is_aI">v0.3</a></li>
+<li>Laradock <a href="https://www.youtube.com/watch?v=3YQsHe6oF80">v0.1</a></li>
+</ul>
+
+<p><a name="features"></a></p>
+
+<h2 id="features">Features</h2>
+
+<ul>
+<li>Easy switch between PHP versions: 7.0, 5.6, 5.5&hellip;</li>
+<li>Choose your favorite database engine: MySQL, Postgres, MariaDB&hellip;</li>
+<li>Run your own combination of software: Memcached, HHVM, Beanstalkd&hellip;</li>
+<li>Every software runs on a separate container: PHP-FPM, NGINX, PHP-CLI&hellip;</li>
+<li>Easy to customize any container, with simple edit to the <code>Dockerfile</code>.</li>
+<li>All Images extends from an official base Image. (Trusted base Images).</li>
+<li>Pre-configured NGINX for Laravel.</li>
+<li>Easy to apply configurations inside containers.</li>
+<li>Clean and well structured Dockerfiles (<code>Dockerfile</code>).</li>
+<li>Latest version of the Docker Compose file (<code>docker-compose</code>).</li>
+<li>Everything is visible and editable.</li>
+<li>Fast Images Builds.</li>
+<li>More to come every week..</li>
+</ul>
+
+<p><a name="Supported-Containers"></a></p>
+
+<h2 id="supported-software-containers">Supported Software (Containers)</h2>
+
+<ul>
+<li><strong>Database Engines:</strong>
+
+<ul>
+<li>MySQL</li>
+<li>MariaDB</li>
+<li>MongoDB</li>
+<li>Neo4j</li>
+<li>RethinkDB</li>
+<li>PostgreSQL</li>
+<li>Postgres Postgis</li>
+</ul></li>
+<li><strong>Cache Engines:</strong>
+
+<ul>
+<li>Redis</li>
+<li>Memcached</li>
+<li>Aerospike</li>
+</ul></li>
+<li><strong>PHP Servers:</strong>
+
+<ul>
+<li>NGINX</li>
+<li>Apache2</li>
+<li>Caddy</li>
+</ul></li>
+<li><strong>PHP Compilers:</strong>
+
+<ul>
+<li>PHP-FPM</li>
+<li>HHVM</li>
+</ul></li>
+<li><strong>Message Queuing Systems:</strong>
+
+<ul>
+<li>Beanstalkd</li>
+<li>Beanstalkd Console</li>
+<li>RabbitMQ</li>
+<li>RabbitMQ Console</li>
+</ul></li>
+<li><strong>Tools:</strong>
+
+<ul>
+<li>PhpMyAdmin</li>
+<li>PgAdmin</li>
+<li>ElasticSearch</li>
+<li>Selenium</li>
+<li>Certbot</li>
+<li>Mailhog</li>
+<li>Minio</li>
+<li>Workspace
+
+<ul>
+<li>PHP7-CLI</li>
+<li>Composer</li>
+<li>Git</li>
+<li>Linuxbrew</li>
+<li>Node</li>
+<li>Gulp</li>
+<li>SQLite</li>
+<li>xDebug</li>
+<li>Envoy</li>
+<li>Deployer</li>
+<li>Vim</li>
+<li>Yarn</li>
+<li>&hellip; Many other supported tools are not documented. (Will be updated soon)</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<blockquote>
+<p>If you can&rsquo;t find your Software, build it yourself and add it to this list. Contributions are welcomed :)</p>
+</blockquote>
+
+<p><a name="Chat"></a></p>
+
+<h2 id="chat-with-us">Chat with us</h2>
+
+<p>You are welcome to join our chat room on Gitter.</p>
+
+<p><a href="https://gitter.im/Laradock/laradock?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge"><img src="https://badges.gitter.im/Laradock/laradock.svg" alt="Gitter" /></a></p>
+
+
+			<aside class="copyright" role="note">
+				
+				Documentation built with
+				<a href="https://www.gohugo.io" target="_blank">Hugo</a>
+				using the
+				<a href="http://github.com/digitalcraftsman/hugo-material-docs" target="_blank">Material</a> theme.
+			</aside>
+
+			<footer class="footer">
+				
+
+<nav class="pagination" aria-label="Footer">
+  <div class="previous">
+  
+  </div>
+
+  <div class="next">
+  
+      <a href="http://laradock.io/getting-started/" title="Getting Started">
+        <span class="direction">
+          Next
+        </span>
+        <div class="page">
+          <div class="stretch">
+            <div class="title">
+              Getting Started
+            </div>
+          </div>
+          <div class="button button-next" role="button" aria-label="Next">
+            <i class="icon icon-forward"></i>
+          </div>
+        </div>
+      </a>
+  
+  </div>
+</nav>
+
+
+
+
+
+			</footer>
+		</div>
+	</article>
+
+	<div class="results" role="status" aria-live="polite">
+		<div class="scrollable">
+			<div class="wrapper">
+				<div class="meta"></div>
+				<div class="list"></div>
+			</div>
+		</div>
+	</div>
+</main>
+
+    <script>
+    
+      var base_url = '';
+      var repo_id  = '';
+    
+    </script>
+
+    <script src="http://laradock.io/javascripts/application.js"></script>
+    
+
+    <script>
+      /* Add headers to scrollspy */
+      var headers   = document.getElementsByTagName("h2");
+      var scrollspy = document.getElementById('scrollspy');
+
+      if(scrollspy) {
+        if(headers.length > 0) {
+          for(var i = 0; i < headers.length; i++) {
+            var li = document.createElement("li");
+            li.setAttribute("class", "anchor");
+
+            var a  = document.createElement("a");
+            a.setAttribute("href", "#" + headers[i].id);
+            a.setAttribute("title", headers[i].innerHTML);
+            a.innerHTML = headers[i].innerHTML;
+
+            li.appendChild(a)
+            scrollspy.appendChild(li);
+          }
+        } else {
+          scrollspy.parentElement.removeChild(scrollspy)
+        }
+
+
+        /* Add permanent link next to the headers */
+        var headers = document.querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+        for(var i = 0; i < headers.length; i++) {
+            var a = document.createElement("a");
+            a.setAttribute("class", "headerlink");
+            a.setAttribute("href", "#" + headers[i].id);
+            a.setAttribute("title", "Permanent link")
+            a.innerHTML = "#";
+            headers[i].appendChild(a);
+        }
+      }
+    </script>
+
+    
+      <script>
+        (function(i,s,o,g,r,a,m){
+          i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||
+          []).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;
+          m.parentNode.insertBefore(a,m)
+        })(window, document,
+          'script', '//www.google-analytics.com/analytics.js', 'ga');
+         
+        ga('create', 'UA-37514928-9', 'auto');
+        ga('set', 'anonymizeIp', true);
+        ga('send', 'pageview');
+         
+        var buttons = document.querySelectorAll('a');
+        Array.prototype.map.call(buttons, function(item) {
+          if (item.host != document.location.host) {
+            item.addEventListener('click', function() {
+              var action = item.getAttribute('data-action') || 'follow';
+              ga('send', 'event', 'outbound', action, item.href);
+            });
+          }
+        });
+         
+        var query = document.querySelector('.query');
+        query.addEventListener('blur', function() {
+          if (this.value) {
+            var path = document.location.pathname;
+            ga('send', 'pageview', path + '?q=' + this.value);
+          }
+        });
+      </script>
+    
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>
+

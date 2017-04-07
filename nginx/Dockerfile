@@ -3,9 +3,11 @@ FROM nginx:alpine
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
 ADD nginx.conf /etc/nginx/
-ADD laravel.conf /etc/nginx/conf.d/laravel.conf
 
 ARG PHP_UPSTREAM=php-fpm
+
+# fix a problem--#397, change application source from dl-cdn.alpinelinux.org to aliyun source.
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories
 
 RUN apk update \
     && apk upgrade \
