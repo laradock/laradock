@@ -59,7 +59,7 @@
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;If you are not using Git yet for your project, you can use &lt;code&gt;git clone&lt;/code&gt; instead of &lt;code&gt;git submodule&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;Note 2: To keep track of your Laradock changes, between your projects and also keep Laradock updated. &lt;a href=&#34;#keep-tracking-Laradock&#34;&gt;Check this&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Note 2: To keep track of your Laradock changes, between your projects and also keep Laradock updated. &lt;a href=&#34;http://laradock.io/documentation/#keep-track-of-your-laradock-changes&#34;&gt;Check this&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Your folder structure should look like this:&lt;/p&gt;
@@ -97,8 +97,9 @@
 
 &lt;p&gt;&lt;em&gt;Or you can keep &lt;code&gt;default.conf&lt;/code&gt; as it is, and create a separate config &lt;code&gt;my-site.conf&lt;/code&gt; file for it.&lt;/em&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;In case of Apache:&lt;/strong&gt; :P
-&lt;br&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;In case of Apache:&lt;/strong&gt; :P&lt;/p&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;Now jump to the &lt;a href=&#34;#Usage&#34;&gt;Usage&lt;/a&gt; section.&lt;/strong&gt;&lt;/p&gt;
@@ -151,8 +152,8 @@
 &lt;p&gt;If you are using &lt;strong&gt;Docker Toolbox&lt;/strong&gt; (VM), do one of the following:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Upgrade to Docker &lt;a href=&#34;https://www.docker.com/products/docker&#34;&gt;Native&lt;/a&gt; for Mac/Windows (Recommended). Check out &lt;a href=&#34;#upgrading-laradock&#34;&gt;Upgrading Laradock&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Use Laradock v3.* (Visit the &lt;code&gt;Laradock-ToolBox&lt;/code&gt; &lt;a href=&#34;https://github.com/laradock/laradock/tree/Laradock-ToolBox&#34;&gt;Branch&lt;/a&gt;).&lt;/li&gt;
+&lt;li&gt;Upgrade to Docker &lt;a href=&#34;https://www.docker.com/products/docker&#34;&gt;Native&lt;/a&gt; for Mac/Windows (Recommended). Check out &lt;a href=&#34;http://laradock.io/documentation/#upgrading-laradock&#34;&gt;Upgrading Laradock&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Use Laradock v3.*. Visit the &lt;a href=&#34;https://github.com/laradock/laradock/tree/LaraDock-ToolBox&#34;&gt;LaraDock-ToolBox&lt;/a&gt; branch. &lt;em&gt;(outdated)&lt;/em&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
@@ -182,7 +183,7 @@
 &lt;p&gt;You can select your own combination of containers form the list below:&lt;/p&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;&lt;code&gt;nginx&lt;/code&gt;, &lt;code&gt;hhvm&lt;/code&gt;, &lt;code&gt;php-fpm&lt;/code&gt;, &lt;code&gt;mysql&lt;/code&gt;, &lt;code&gt;redis&lt;/code&gt;, &lt;code&gt;postgres&lt;/code&gt;, &lt;code&gt;mariadb&lt;/code&gt;, &lt;code&gt;neo4j&lt;/code&gt;, &lt;code&gt;mongo&lt;/code&gt;, &lt;code&gt;apache2&lt;/code&gt;, &lt;code&gt;caddy&lt;/code&gt;, &lt;code&gt;memcached&lt;/code&gt;, &lt;code&gt;beanstalkd&lt;/code&gt;, &lt;code&gt;beanstalkd-console&lt;/code&gt;, &lt;code&gt;rabbitmq&lt;/code&gt;, &lt;code&gt;beanstalkd-console&lt;/code&gt;, &lt;code&gt;workspace&lt;/code&gt;, &lt;code&gt;phpmyadmin&lt;/code&gt;, &lt;code&gt;aerospike&lt;/code&gt;, &lt;code&gt;pgadmin&lt;/code&gt;, &lt;code&gt;elasticsearch&lt;/code&gt;, &lt;code&gt;rethinkdb&lt;/code&gt;, &lt;code&gt;postgres-postgis&lt;/code&gt;, &lt;code&gt;certbot&lt;/code&gt;, &lt;code&gt;mailhog&lt;/code&gt;, &lt;code&gt;minio&lt;/code&gt; and more&amp;hellip;!&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;nginx&lt;/code&gt;, &lt;code&gt;hhvm&lt;/code&gt;, &lt;code&gt;php-fpm&lt;/code&gt;, &lt;code&gt;mysql&lt;/code&gt;, &lt;code&gt;redis&lt;/code&gt;, &lt;code&gt;postgres&lt;/code&gt;, &lt;code&gt;mariadb&lt;/code&gt;, &lt;code&gt;neo4j&lt;/code&gt;, &lt;code&gt;mongo&lt;/code&gt;, &lt;code&gt;apache2&lt;/code&gt;, &lt;code&gt;caddy&lt;/code&gt;, &lt;code&gt;memcached&lt;/code&gt;, &lt;code&gt;beanstalkd&lt;/code&gt;, &lt;code&gt;beanstalkd-console&lt;/code&gt;, &lt;code&gt;rabbitmq&lt;/code&gt;, &lt;code&gt;beanstalkd-console&lt;/code&gt;, &lt;code&gt;workspace&lt;/code&gt;, &lt;code&gt;phpmyadmin&lt;/code&gt;, &lt;code&gt;adminer&lt;/code&gt;, &lt;code&gt;aerospike&lt;/code&gt;, &lt;code&gt;pgadmin&lt;/code&gt;, &lt;code&gt;elasticsearch&lt;/code&gt;, &lt;code&gt;rethinkdb&lt;/code&gt;, &lt;code&gt;postgres-postgis&lt;/code&gt;, &lt;code&gt;certbot&lt;/code&gt;, &lt;code&gt;mailhog&lt;/code&gt;, &lt;code&gt;minio&lt;/code&gt; and more&amp;hellip;!&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;p&gt;&lt;em&gt;(Please note that sometimes we forget to update the docs, so check the &lt;code&gt;docker-compose.yml&lt;/code&gt; file to see an updated list of all available containers).&lt;/em&gt;&lt;/p&gt;
@@ -217,7 +218,6 @@
 
 &lt;p&gt;&lt;br&gt;
 5 - Open your browser and visit your localhost address &lt;code&gt;http://localhost/&lt;/code&gt;. If you followed the multiple projects setup, you can visit &lt;code&gt;http://project-1.dev/&lt;/code&gt; and &lt;code&gt;http://project-2.dev/&lt;/code&gt;. But first don&amp;rsquo;t&lt;/p&gt;
-
 </description>
     </item>
     

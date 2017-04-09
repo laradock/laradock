@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=10" />
     <title>Documentation - Laradock</title>
-    <meta name="generator" content="Hugo 0.18.1" />
+    <meta name="generator" content="Hugo 0.19" />
 
     
     <meta name="description" content="Laradock documentations.">
@@ -889,6 +889,18 @@ docker-compose up -d mariadb phpmyadmin
 <p>2 - Open your browser and visit the localhost on port <strong>8080</strong>:  <code>http://localhost:8080</code></p>
 
 <p><br>
+<a name="Use-Adminer"></a></p>
+
+<h2 id="use-adminer">Use Adminer</h2>
+
+<p>1 - Run the Adminer Container (<code>adminer</code>) with the <code>docker-compose up</code> command. Example:</p>
+
+<pre><code class="language-bash">docker-compose up -d adminer  
+</code></pre>
+
+<p>2 - Open your browser and visit the localhost on port <strong>8080</strong>:  <code>http://localhost:8080</code></p>
+
+<p><br>
 <a name="Use-pgAdmin"></a></p>
 
 <h2 id="use-pgadmin">Use PgAdmin</h2>
@@ -1401,13 +1413,27 @@ e) set it to <code>true</code></p>
 
 <h2 id="improve-speed-on-macos">Improve speed on MacOS</h2>
 
-<p>Sharing code into Docker containers with osxfs have very poor performance compared to Linux. You can get around this issue by using NFS to share your files betwen your host and your container.</p>
+<p>Sharing code into Docker containers with osxfs have very poor performance compared to Linux. Likely there are some workarounds:</p>
 
-<blockquote>
-<p>How to share files using NFS (d4m-nfs)</p>
-</blockquote>
+<h3 id="workaround-a-using-dinghy">Workaround A: using dinghy</h3>
 
-<p><a href="https://github.com/IFSight/d4m-nfs">d4m-nfs</a> automatically mount NFS volume instead of osxfs one.</p>
+<p><a href="https://github.com/codekitchen/dinghy">Dinghy</a> creates its own VM using docker-machine, it will not modify your existing docker-machine VMs.</p>
+
+<p>Quick Setup giude, (we recommend you check their docs)</p>
+
+<p>1) <code>brew tap codekitchen/dinghy</code></p>
+
+<p>2) <code>brew install dinghy</code></p>
+
+<p>3) <code>dinghy create --provider virtualbox</code> (must have virtualbox installed, but they support other providers if you prefer)</p>
+
+<p>4) after the above command is done it will display some env variables, copy them to the bash profile or zsh or.. (this will instruct docker to use the server running inside the VM)</p>
+
+<p>5) <code>docker-compose up ...</code></p>
+
+<h3 id="workaround-b-using-d4m-nfs">Workaround B: using d4m-nfs</h3>
+
+<p><a href="https://github.com/IFSight/d4m-nfs">D4m-nfs</a> automatically mount NFS volume instead of osxfs one.</p>
 
 <p>1) Update the Docker [File Sharing] preferences:</p>
 
@@ -1427,17 +1453,26 @@ e) set it to <code>true</code></p>
 
 <p>5) Create (or edit) the file <code>/etc/exports</code>, make sure it exists and is empty. (There may be collisions if you come from Vagrant or if you already executed the <code>d4m-nfs.sh</code> script before).</p>
 
-<p>6) Run the <code>d4m-nfs.sh</code> script:</p>
+<p>6) Run the <code>d4m-nfs.sh</code> script (might need Sudo):</p>
 
 <pre><code class="language-bash">~/d4m-nfs/d4m-nfs.sh
 </code></pre>
 
 <p>That&rsquo;s it! Run your containers.. Example:</p>
 
-<pre><code class="language-bash">docker-compose up -d nginx mysql
+<pre><code class="language-bash">docker-compose up ...
 </code></pre>
 
-<p><strong>Note:</strong> If you faced any errors, try restarting Docker, and make sure you have no spaces in the <code>d4m-nfs-mounts.txt</code> file, and your <code>/etc/exports</code> file is clear.</p>
+<p><em>Note: If you faced any errors, try restarting Docker, and make sure you have no spaces in the <code>d4m-nfs-mounts.txt</code> file, and your <code>/etc/exports</code> file is clear.</em></p>
+
+<h3 id="other-good-workarounds">Other good workarounds:</h3>
+
+<ul>
+<li><a href="https://github.com/EugenMayer/docker-sync">docker-sync</a></li>
+<li>Add more here..</li>
+</ul>
+
+<p>More details about this issue <a href="https://github.com/docker/for-mac/issues/77">here</a>.</p>
 
 <p><br>
 <a name="Common-Problems"></a></p>

@@ -42,7 +42,7 @@ Laradock uses [Hugo](https://gohugo.io/) as website generator tool, with the [Ma
 1. Install [Hugo](https://gohugo.io/) on your machine (easy thing).
 2. Open the `DOCUMENTATION/_settings/content` and search for the markdown file you want to edit (every folder represents a section in the menu).
 3. Delete the `/docs` folder from the root.
-4. When you finish editing, run the `hugo` command to generate the HTML docs (in the `/docs`).
+4. When you finish editing, go to `DOCUMENTATION/_settings/` and run the `hugo` command to generate the HTML docs (inside new `/docs` folder).
 
 ### To Host the website locally
 Go to `DOCUMENTATION/_settings` in your terminal and run `hugo serve` to host the website locally.

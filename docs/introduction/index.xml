@@ -170,6 +170,7 @@ QUEUE_HOST=beanstalkd
 
 &lt;ul&gt;
 &lt;li&gt;PhpMyAdmin&lt;/li&gt;
+&lt;li&gt;Adminer&lt;/li&gt;
 &lt;li&gt;PgAdmin&lt;/li&gt;
 &lt;li&gt;ElasticSearch&lt;/li&gt;
 &lt;li&gt;Selenium&lt;/li&gt;

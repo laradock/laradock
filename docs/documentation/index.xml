@@ -592,6 +592,18 @@ docker-compose up -d mariadb phpmyadmin
 &lt;p&gt;2 - Open your browser and visit the localhost on port &lt;strong&gt;8080&lt;/strong&gt;:  &lt;code&gt;http://localhost:8080&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;
+&lt;a name=&#34;Use-Adminer&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;use-adminer&#34;&gt;Use Adminer&lt;/h2&gt;
+
+&lt;p&gt;1 - Run the Adminer Container (&lt;code&gt;adminer&lt;/code&gt;) with the &lt;code&gt;docker-compose up&lt;/code&gt; command. Example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;docker-compose up -d adminer  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;2 - Open your browser and visit the localhost on port &lt;strong&gt;8080&lt;/strong&gt;:  &lt;code&gt;http://localhost:8080&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br&gt;
 &lt;a name=&#34;Use-pgAdmin&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;use-pgadmin&#34;&gt;Use PgAdmin&lt;/h2&gt;
@@ -1104,13 +1116,27 @@ e) set it to &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;improve-speed-on-macos&#34;&gt;Improve speed on MacOS&lt;/h2&gt;
 
-&lt;p&gt;Sharing code into Docker containers with osxfs have very poor performance compared to Linux. You can get around this issue by using NFS to share your files betwen your host and your container.&lt;/p&gt;
+&lt;p&gt;Sharing code into Docker containers with osxfs have very poor performance compared to Linux. Likely there are some workarounds:&lt;/p&gt;
 
-&lt;blockquote&gt;
-&lt;p&gt;How to share files using NFS (d4m-nfs)&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;h3 id=&#34;workaround-a-using-dinghy&#34;&gt;Workaround A: using dinghy&lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://github.com/IFSight/d4m-nfs&#34;&gt;d4m-nfs&lt;/a&gt; automatically mount NFS volume instead of osxfs one.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/codekitchen/dinghy&#34;&gt;Dinghy&lt;/a&gt; creates its own VM using docker-machine, it will not modify your existing docker-machine VMs.&lt;/p&gt;
+
+&lt;p&gt;Quick Setup giude, (we recommend you check their docs)&lt;/p&gt;
+
+&lt;p&gt;1) &lt;code&gt;brew tap codekitchen/dinghy&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;2) &lt;code&gt;brew install dinghy&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;3) &lt;code&gt;dinghy create --provider virtualbox&lt;/code&gt; (must have virtualbox installed, but they support other providers if you prefer)&lt;/p&gt;
+
+&lt;p&gt;4) after the above command is done it will display some env variables, copy them to the bash profile or zsh or.. (this will instruct docker to use the server running inside the VM)&lt;/p&gt;
+
+&lt;p&gt;5) &lt;code&gt;docker-compose up ...&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;workaround-b-using-d4m-nfs&#34;&gt;Workaround B: using d4m-nfs&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/IFSight/d4m-nfs&#34;&gt;D4m-nfs&lt;/a&gt; automatically mount NFS volume instead of osxfs one.&lt;/p&gt;
 
 &lt;p&gt;1) Update the Docker [File Sharing] preferences:&lt;/p&gt;
 
@@ -1130,17 +1156,26 @@ e) set it to &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;5) Create (or edit) the file &lt;code&gt;/etc/exports&lt;/code&gt;, make sure it exists and is empty. (There may be collisions if you come from Vagrant or if you already executed the &lt;code&gt;d4m-nfs.sh&lt;/code&gt; script before).&lt;/p&gt;
 
-&lt;p&gt;6) Run the &lt;code&gt;d4m-nfs.sh&lt;/code&gt; script:&lt;/p&gt;
+&lt;p&gt;6) Run the &lt;code&gt;d4m-nfs.sh&lt;/code&gt; script (might need Sudo):&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;~/d4m-nfs/d4m-nfs.sh
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;That&amp;rsquo;s it! Run your containers.. Example:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;docker-compose up -d nginx mysql
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;docker-compose up ...
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; If you faced any errors, try restarting Docker, and make sure you have no spaces in the &lt;code&gt;d4m-nfs-mounts.txt&lt;/code&gt; file, and your &lt;code&gt;/etc/exports&lt;/code&gt; file is clear.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Note: If you faced any errors, try restarting Docker, and make sure you have no spaces in the &lt;code&gt;d4m-nfs-mounts.txt&lt;/code&gt; file, and your &lt;code&gt;/etc/exports&lt;/code&gt; file is clear.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;other-good-workarounds&#34;&gt;Other good workarounds:&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/EugenMayer/docker-sync&#34;&gt;docker-sync&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Add more here..&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;More details about this issue &lt;a href=&#34;https://github.com/docker/for-mac/issues/77&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;
 &lt;a name=&#34;Common-Problems&#34;&gt;&lt;/a&gt;&lt;/p&gt;

@@ -1349,15 +1349,36 @@ Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requ
 
 
 
+
+
 <br>
 <a name="Speed-MacOS"></a>
 ## Improve speed on MacOS
 
-Sharing code into Docker containers with osxfs have very poor performance compared to Linux. You can get around this issue by using NFS to share your files betwen your host and your container.
+Sharing code into Docker containers with osxfs have very poor performance compared to Linux. Likely there are some workarounds:
 
-> How to share files using NFS (d4m-nfs)
+### Workaround A: using dinghy
 
-[d4m-nfs](https://github.com/IFSight/d4m-nfs) automatically mount NFS volume instead of osxfs one.
+[Dinghy](https://github.com/codekitchen/dinghy) creates its own VM using docker-machine, it will not modify your existing docker-machine VMs.
+
+Quick Setup giude, (we recommend you check their docs)
+
+1) `brew tap codekitchen/dinghy`
+
+2) `brew install dinghy`
+
+3) `dinghy create --provider virtualbox` (must have virtualbox installed, but they support other providers if you prefer)
+
+4) after the above command is done it will display some env variables, copy them to the bash profile or zsh or.. (this will instruct docker to use the server running inside the VM)
+
+5) `docker-compose up ...`
+
+
+
+
+### Workaround B: using d4m-nfs
+
+[D4m-nfs](https://github.com/IFSight/d4m-nfs) automatically mount NFS volume instead of osxfs one.
 
 1) Update the Docker [File Sharing] preferences:
 
@@ -1380,7 +1401,7 @@ git clone https://github.com/IFSight/d4m-nfs ~/d4m-nfs
 5) Create (or edit) the file `/etc/exports`, make sure it exists and is empty. (There may be collisions if you come from Vagrant or if you already executed the `d4m-nfs.sh` script before).
 
 
-6) Run the `d4m-nfs.sh` script:
+6) Run the `d4m-nfs.sh` script (might need Sudo):
 
 ```bash
 ~/d4m-nfs/d4m-nfs.sh
@@ -1389,10 +1410,26 @@ git clone https://github.com/IFSight/d4m-nfs ~/d4m-nfs
 That's it! Run your containers.. Example:
 
 ```bash
-docker-compose up -d nginx mysql
+docker-compose up ...
 ```
 
-**Note:** If you faced any errors, try restarting Docker, and make sure you have no spaces in the `d4m-nfs-mounts.txt` file, and your `/etc/exports` file is clear.
+*Note: If you faced any errors, try restarting Docker, and make sure you have no spaces in the `d4m-nfs-mounts.txt` file, and your `/etc/exports` file is clear.*
+
+
+
+### Other good workarounds:
+
+- [docker-sync](https://github.com/EugenMayer/docker-sync)
+- Add more here..
+
+
+
+
+More details about this issue [here](https://github.com/docker/for-mac/issues/77).
+
+
+
+
 
 
 
