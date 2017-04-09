@@ -26,8 +26,8 @@ services:
           - COMPOSER_GLOBAL_INSTALL=${WORKSPACE_COMPOSER_GLOBAL_INSTALL}
           - INSTALL_WORKSPACE_SSH=${WORKSPACE_INSTALL_WORKSPACE_SSH}
           - INSTALL_LARAVEL_ENVOY=${WORKSPACE_INSTALL_LARAVEL_ENVOY}
-          - INSTALL_DEPLOYER=${WORKSPACE_INSTALL_LARAVEL_ENVOY}
-          - INSTALL_LINUXBREW=${WORKSPACE_INSTALL_LARAVEL_ENVOY}
+          - INSTALL_DEPLOYER=${WORKSPACE_INSTALL_DEPLOYER}
+          - INSTALL_LINUXBREW=${WORKSPACE_INSTALL_LINUXBREW}
           - INSTALL_MC=${WORKSPACE_INSTALL_MC}
           - INSTALL_SYMFONY=${WORKSPACE_INSTALL_SYMFONY}
           - PUID=${WORKSPACE_PUID}
@@ -402,7 +402,7 @@ services:
       depends_on:
         - php-fpm
       networks:
-        - frontend 
+        - frontend
 
 ### pgAdmin Container #######################################
 
