@@ -12,7 +12,7 @@ Laradock is a Docker PHP development environment that facilitates running **PHP*
 
 ## Credits
 
-**Super Admins:**
+**Admins / Maintainers:**
 
 - [Mahmoud Zalt](https://github.com/Mahmoudz) (mahmoudz)  [ [Twitter](https://twitter.com/Mahmoud_Zalt) | [Personal Site](http://zalt.me) | [LinkedIn](https://www.linkedin.com/in/mahmoudzalt) ]
 - [Bo-Yi Wu](https://github.com/appleboy) (appleboy) [ [Twitter](https://twitter.com/appleboy) ]
@@ -20,9 +20,10 @@ Laradock is a Docker PHP development environment that facilitates running **PHP*
 - [Mike Erickson](https://github.com/mikeerickson) (mikeerickson)
 - [Dwi Fahni Denni](https://github.com/zeroc0d3) (zeroc0d3)
 - [Thor Erik](https://github.com/thorerik) (thorerik)
+- [Winfried van Loon](https://github.com/winfried-van-loon) (winfried-van-loon)
 - Contribute and join us!
 
-**Amazing Contributors:**
+**Contributors:**
 
 - [Contributors](https://github.com/laradock/laradock/graphs/contributors)
 
