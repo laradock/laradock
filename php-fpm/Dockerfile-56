@@ -162,8 +162,11 @@ COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 #####################################
 
 ARG INSTALL_MYSQLI=false
+# MySQL extenstion is available for Php5.6 and lower only
+COPY ./mysql.ini /usr/local/etc/php/conf.d/mysql.ini
 RUN if [ ${INSTALL_MYSQLI} = true ]; then \
-     docker-php-ext-install mysqli \
+    docker-php-ext-install mysql && \
+    docker-php-ext-install mysqli \
 ;fi
 
 #####################################
