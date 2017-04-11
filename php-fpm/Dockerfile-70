@@ -245,6 +245,14 @@ RUN if [ ${MSSQL} = true ]; then \
         && ls -l /opt/microsoft/msodbcsql/ \
         && odbcinst -q -d -n "ODBC Driver 13 for SQL Server" && \
 
+    #####################################
+    # Install pdo_dblib
+    #####################################
+
+    && docker-php-ext-install pdo \
+    && docker-php-ext-configure pdo_dblib --with-libdir=/lib/x86_64-linux-gnu \
+    && docker-php-ext-install pdo_dblib \
+    && docker-php-ext-enable pdo_dblib && \
 
     #####################################
     # Install sqlsrv y pdo_sqlsrv
