@@ -179,8 +179,8 @@ COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 # Mysqli Modifications:
 #####################################
 ARG INSTALL_MYSQLI=false
-RUN if [ ${INSTALL_MYSQLI} = true ]; then \    
-     docker-php-ext-install mysqli \
+RUN if [ ${INSTALL_MYSQLI} = true ]; then \
+    docker-php-ext-install mysqli \
 ;fi
 
 #####################################
@@ -281,7 +281,7 @@ RUN if [ ${INSTALL_INTL} = true ]; then \
 # GHOSTSCRIPT:
 #####################################
 
-ARG GHOSTSCRIPT=false
+ARG INSTALL_GHOSTSCRIPT=false
 RUN if [ ${GHOSTSCRIPT} = true ]; then \
     # Install the ghostscript extension
     # for PDF editing
@@ -290,7 +290,6 @@ RUN if [ ${GHOSTSCRIPT} = true ]; then \
     poppler-utils \
     ghostscript \
 ;fi
-
 
 #
 #--------------------------------------------------------------------------
