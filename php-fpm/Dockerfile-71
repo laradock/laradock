@@ -161,7 +161,7 @@ RUN if [ ${INTL} = true ]; then \
 # GHOSTSCRIPT:
 #####################################
 
-ARG GHOSTSCRIPT=false
+ARG INSTALL_GHOSTSCRIPT=false
 RUN if [ ${GHOSTSCRIPT} = true ]; then \
     # Install the ghostscript extension
     # for PDF editing
