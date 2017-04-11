@@ -61,8 +61,9 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
 ;fi
 
 #####################################
-# PHP REDIS EXTENSION FOR PHP 7.0
+# PHP REDIS EXTENSION FOR PHP 7
 #####################################
+
 ARG INSTALL_PHPREDIS=false
 RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
     # Install Php Redis Extension
