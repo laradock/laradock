@@ -108,6 +108,31 @@ RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
 ;fi
 
 #####################################
+# PHP MySQL:
+#####################################
+
+ARG INSTALL_MYSQL=false
+COPY ./mysql.ini /usr/local/etc/php/conf.d/mysql.ini
+RUN if [ ${INSTALL_MYSQL} = true ]; then \
+    # Install the php mysql extension
+    docker-php-ext-install mysql && \
+    docker-php-ext-install mysqli && \
+    docker-php-ext-enable mysql && \
+    docker-php-ext-enable mysqli \
+;fi
+
+#####################################
+# Exif:
+#####################################
+
+ARG INSTALL_EXIF=false
+RUN if [ ${INSTALL_EXIF} = true ]; then \
+    # Enable Exif PHP extentions requirements
+    docker-php-ext-install exif && \
+    docker-php-ext-enable exif \
+;fi
+
+#####################################
 # PHP Aerospike:
 #####################################
 
