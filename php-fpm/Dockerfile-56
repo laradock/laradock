@@ -44,7 +44,7 @@ ARG INSTALL_SOAP=false
 RUN if [ ${INSTALL_SOAP} = true ]; then \
     # Install the soap extension
     apt-get -y update && \
-    apt-get -y install libxml2-dev php-soap && \ 
+    apt-get -y install libxml2-dev php-soap && \
     docker-php-ext-install soap \
 ;fi
 
@@ -105,6 +105,20 @@ RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
     # Install the php memcached extension
     pecl install memcached-2.2.0 && \
     docker-php-ext-enable memcached \
+;fi
+
+#####################################
+# PHP MySQL:
+#####################################
+
+ARG INSTALL_MYSQL=false
+COPY ./mysql.ini /usr/local/etc/php/conf.d/mysql.ini
+RUN if [ ${INSTALL_MYSQL} = true ]; then \
+    # Install the php mysql extension
+    docker-php-ext-install mysql && \
+    docker-php-ext-install mysqli && \
+    docker-php-ext-enable mysql && \
+    docker-php-ext-enable mysqli \
 ;fi
 
 #####################################
