@@ -34,7 +34,6 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 # in the `docker-compose.yml` before the build.
 # Example:
 #   - INSTALL_ZIP_ARCHIVE=true
-#   - ...
 #
 
 #####################################
@@ -139,7 +138,6 @@ RUN if [ ${INSTALL_EXIF} = true ]; then \
     docker-php-ext-enable exif \
 ;fi
 
-
 #####################################
 # PHP Aerospike:
 #####################################
@@ -166,6 +164,7 @@ RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = true ]; then \
 #####################################
 # Opcache:
 #####################################
+
 ARG INSTALL_OPCACHE=false
 RUN if [ ${INSTALL_OPCACHE} = true ]; then \
     docker-php-ext-install opcache && \
@@ -178,6 +177,7 @@ COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 #####################################
 # Mysqli Modifications:
 #####################################
+
 ARG INSTALL_MYSQLI=false
 RUN if [ ${INSTALL_MYSQLI} = true ]; then \
     docker-php-ext-install mysqli \
@@ -195,6 +195,7 @@ RUN if [ ${INSTALL_TOKENIZER} = true ]; then \
 #####################################
 # SQL SERVER:
 #####################################
+
 ARG MSSQL=false
 RUN if [ ${MSSQL} = true ]; then \
 
@@ -245,7 +246,6 @@ RUN if [ ${MSSQL} = true ]; then \
         && ls -l /opt/microsoft/msodbcsql/ \
         && odbcinst -q -d -n "ODBC Driver 13 for SQL Server" && \
 
-
     #####################################
     # Install sqlsrv y pdo_sqlsrv
     # extensions:
@@ -262,8 +262,6 @@ RUN if [ ${MSSQL} = true ]; then \
     && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
     && locale-gen \
 ;fi
-
-
 
 #####################################
 # Human Language and Character Encoding Support:
