@@ -66,6 +66,18 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 #####################################
+# PHP REDIS EXTENSION FOR PHP 5
+#####################################
+
+ARG INSTALL_PHPREDIS=false
+RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
+    # Install Php Redis Extension
+    pecl install -o -f redis \
+    &&  rm -rf /tmp/pear \
+    &&  docker-php-ext-enable redis \
+;fi
+
+#####################################
 # MongoDB:
 #####################################
 
@@ -173,6 +185,29 @@ RUN if [ ${INSTALL_MYSQLI} = true ]; then \
 ARG INSTALL_TOKENIZER=false
 RUN if [ ${INSTALL_TOKENIZER} = true ]; then \
      docker-php-ext-install tokenizer \
+;fi
+
+#####################################
+# Human Language and Character Encoding Support:
+#####################################
+
+ARG INSTALL_INTL=false
+RUN if [ ${INSTALL_INTL} = true ]; then \
+    # Install intl and requirements
+    apt-get install -y zlib1g-dev libicu-dev g++ && \
+    docker-php-ext-configure intl && \
+    docker-php-ext-install intl \
+;fi
+
+#####################################
+# GHOSTSCRIPT:
+#####################################
+
+ARG INSTALL_GHOSTSCRIPT=false
+RUN if [ ${GHOSTSCRIPT} = true ]; then \
+    # Install the ghostscript extension for PDF editing
+    apt-get update && \
+    apt-get install -y poppler-utils ghostscript \
 ;fi
 
 #
