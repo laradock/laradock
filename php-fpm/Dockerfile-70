@@ -242,7 +242,7 @@ RUN if [ ${MSSQL} = true ]; then \
         && ldd lib64/libmsodbcsql-13.0.so.0.0 \
         && ./install.sh install --accept-license \
         && ls -l /opt/microsoft/msodbcsql/ \
-        && odbcinst -q -d -n "ODBC Driver 13 for SQL Server" && \
+        && odbcinst -q -d -n "ODBC Driver 13 for SQL Server" \
 
     #####################################
     # Install pdo_dblib
