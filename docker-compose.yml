@@ -82,6 +82,7 @@ services:
         - backend
 
 ### PHP Worker Container #####################################
+
     php-worker:
       build:
         context: ./php-worker

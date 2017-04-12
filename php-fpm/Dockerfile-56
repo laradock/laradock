@@ -44,7 +44,7 @@ ARG INSTALL_SOAP=false
 RUN if [ ${INSTALL_SOAP} = true ]; then \
     # Install the soap extension
     apt-get -y update && \
-    apt-get -y install libxml2-dev php-soap && \ 
+    apt-get -y install libxml2-dev php-soap && \
     docker-php-ext-install soap \
 ;fi
 
@@ -64,6 +64,18 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
 
 # Copy xdebug configration for remote debugging
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+
+#####################################
+# PHP REDIS EXTENSION FOR PHP 5
+#####################################
+
+ARG INSTALL_PHPREDIS=false
+RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
+    # Install Php Redis Extension
+    pecl install -o -f redis \
+    &&  rm -rf /tmp/pear \
+    &&  docker-php-ext-enable redis \
+;fi
 
 #####################################
 # MongoDB:
@@ -114,8 +126,7 @@ RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
 ARG INSTALL_EXIF=false
 RUN if [ ${INSTALL_EXIF} = true ]; then \
     # Enable Exif PHP extentions requirements
-    docker-php-ext-install exif && \
-    docker-php-ext-enable exif \
+    docker-php-ext-install exif \
 ;fi
 
 #####################################
@@ -147,8 +158,7 @@ RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = true ]; then \
 
 ARG INSTALL_OPCACHE=false
 RUN if [ ${INSTALL_OPCACHE} = true ]; then \
-    docker-php-ext-install opcache && \
-    docker-php-ext-enable opcache \
+    docker-php-ext-install opcache \
 ;fi
 
 # Copy opcache configration
@@ -172,7 +182,30 @@ RUN if [ ${INSTALL_MYSQLI} = true ]; then \
 
 ARG INSTALL_TOKENIZER=false
 RUN if [ ${INSTALL_TOKENIZER} = true ]; then \
-     docker-php-ext-install tokenizer \
+    docker-php-ext-install tokenizer \
+;fi
+
+#####################################
+# Human Language and Character Encoding Support:
+#####################################
+
+ARG INSTALL_INTL=false
+RUN if [ ${INSTALL_INTL} = true ]; then \
+    # Install intl and requirements
+    apt-get install -y zlib1g-dev libicu-dev g++ && \
+    docker-php-ext-configure intl && \
+    docker-php-ext-install intl \
+;fi
+
+#####################################
+# GHOSTSCRIPT:
+#####################################
+
+ARG INSTALL_GHOSTSCRIPT=false
+RUN if [ ${GHOSTSCRIPT} = true ]; then \
+    # Install the ghostscript extension for PDF editing
+    apt-get update && \
+    apt-get install -y poppler-utils ghostscript \
 ;fi
 
 #
