@@ -145,6 +145,11 @@ VARNISH_PROXY2_SERVER=SERVER2
 ### HAPROXY Container
 HAPROXY_HOST_HTTP_PORT=8085
 
+### JENKINS Container
+JENKINS_HOST_HTTP_PORT=8090
+JENKINS_HOST_SLAVE_AGENT_PORT=50000
+JENKINS_HOME=./jenkins/jenkins_home
+
 ### MISC
 # Replace with your Docker Host IP (will be appended to /etc/hosts)
 DOCKER_HOST_IP=10.0.75.1
