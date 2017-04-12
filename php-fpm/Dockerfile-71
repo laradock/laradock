@@ -34,7 +34,6 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 # in the `docker-compose.yml` before the build.
 # Example:
 #   - INSTALL_ZIP_ARCHIVE=true
-#   - ...
 #
 
 #####################################
@@ -164,6 +163,7 @@ RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = true ]; then \
 #####################################
 # Opcache:
 #####################################
+
 ARG INSTALL_OPCACHE=false
 RUN if [ ${INSTALL_OPCACHE} = true ]; then \
     docker-php-ext-install opcache \
@@ -175,6 +175,7 @@ COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 #####################################
 # Mysqli Modifications:
 #####################################
+
 ARG INSTALL_MYSQLI=false
 RUN if [ ${INSTALL_MYSQLI} = true ]; then \
     docker-php-ext-install mysqli \
