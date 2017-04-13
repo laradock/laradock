@@ -50,6 +50,7 @@ services:
                 - INSTALL_OPCACHE=false
                 - INSTALL_AEROSPIKE_EXTENSION=false
                 - CODEIGNITER=false
+                - INSTALL_EXIF=true
             dockerfile: Dockerfile-71
         volumes_from:
             - applications
