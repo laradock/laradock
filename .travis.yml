@@ -1,0 +1,19 @@
+language: bash
+services: docker
+
+env:
+  - PHP_VERSION=56
+  - PHP_VERSION=70
+  - PHP_VERSION=71
+
+before_install:
+  - cp env-example .env
+
+before_script:
+  - env | sort
+
+script:
+  - docker-compose build
+
+after_script:
+  - docker images
