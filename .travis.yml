@@ -1,8 +1,13 @@
+sudo: required
+
 services:
   - docker
 
 before_install:
   - cp env-example .env
 
-install:
+script:
   - docker-compose build
+
+after_script:
+  - docker images
