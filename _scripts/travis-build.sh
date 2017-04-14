@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
+#### Build the Docker Images
 if [ -n "${PHP_VERSION}" ]; then
     cp env-example .env
     docker-compose build
     docker images
 fi
 
+#### Generate the Laradock Documentation site using Hugo
 if [ -n "${HUGO_VERSION}" ]; then
     HUGO_PACKAGE=hugo_${HUGO_VERSION}_Linux-64bit
     HUGO_BIN=hugo_${HUGO_VERSION}_linux_amd64
