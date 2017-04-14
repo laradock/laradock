@@ -1,0 +1,3 @@
+install:
+  - cp env-example .env
+  - docker-compose build
