@@ -19,7 +19,7 @@ googleAnalytics = "UA-37514928-9"
 	repo_url = ""
 
 	version = ""
-	logo = "logo.png"
+	logo = "images/logo.png"
 	favicon = ""
 
 	permalink = "#"
