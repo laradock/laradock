@@ -1,22 +1,25 @@
-language: go
-install:
-  - export HUGO_VERSION=0.20
-  - export HUGO_PACKAGE=hugo_${HUGO_VERSION}_Linux-64bit
-  - curl -L https://github.com/spf13/hugo/releases/download/v$HUGO_VERSION/$HUGO_PACKAGE.tar.gz | tar xz
-  - mkdir $HOME/bin
-  - mv ./hugo_${HUGO_VERSION}_linux_amd64/hugo_${HUGO_VERSION}_linux_amd64 $HOME/bin/hugo
-script:
-  - rm -rf docs
-  - cd DOCUMENTATION
-  - hugo
+language: bash
+sudo: required
+services:
+  - docker
+
+env:
+  matrix:
+    - PHP_VERSION=56
+    - PHP_VERSION=70
+    - PHP_VERSION=71
+    - HUGO_VERSION=0.20
+
+script: ./scripts/build.sh
 
 deploy:
   provider: pages
   skip_cleanup: true
-  local_dir: ../docs
+  local_dir: docs
   github_token: $GITHUB_TOKEN
   on:
     branch: master
+    condition: -n "${HUGO_VERSION}"
 
 notifications:
   email: false
