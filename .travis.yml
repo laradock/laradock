@@ -9,6 +9,9 @@ env:
 before_install:
   - cp env-example .env
 
+before_script:
+  - env | sort
+
 script:
   - docker-compose build
 
