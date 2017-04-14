@@ -15,7 +15,7 @@ Laradock is configured to run Laravel Apps by default, and it can be modified to
 
 ## Quick Overview
 
-Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL`, `Redis` and `beanstalkd`:
+Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL`, `Redis` and `Beanstalkd`:
 
 1 - Clone Laradock inside your PHP project:
 
