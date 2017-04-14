@@ -2,10 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://laradock.io/guides/</loc>
-  </url>
-  
-  <url>
     <loc>http://laradock.io/introduction/</loc>
   </url>
   
@@ -18,11 +14,15 @@
   </url>
   
   <url>
-    <loc>http://laradock.io/related-projects/</loc>
+    <loc>http://laradock.io/guides/</loc>
   </url>
   
   <url>
     <loc>http://laradock.io/help/</loc>
+  </url>
+  
+  <url>
+    <loc>http://laradock.io/related-projects/</loc>
   </url>
   
   <url>
