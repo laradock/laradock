@@ -62,8 +62,8 @@ googleAnalytics = "UA-37514928-9"
 	weight = 3
 
 [[menu.main]]
-	name   = "Related Projects"
-	url    = "related-projects/"
+	name   = "Giudes"
+	url    = "guides/"
 	weight = 4
 
 [[menu.main]]
@@ -72,14 +72,19 @@ googleAnalytics = "UA-37514928-9"
 	weight = 5
 
 [[menu.main]]
+	name   = "Related Projects"
+	url    = "related-projects/"
+	weight = 6
+
+[[menu.main]]
 	name   = "Contributing"
 	url    = "contributing/"
-	weight = 6
+	weight = 7
 
 [[menu.main]]
 	name   = "License"
 	url    = "license/"
-	weight = 7
+	weight = 8
 
 # ------- MENU END -----------------------------------------
 

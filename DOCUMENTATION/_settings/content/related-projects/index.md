@@ -1,7 +1,7 @@
 ---
 title: Related Projects
 type: index
-weight: 4
+weight: 6
 ---
 
 Laradock related projects:
