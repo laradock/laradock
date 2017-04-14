@@ -13,7 +13,7 @@ script:
 deploy:
   provider: pages
   skip_cleanup: true
-  local_dir: public
+  local_dir: ../../docs
   github_token: $GITHUB_TOKEN
   on:
     branch: master
