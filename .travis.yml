@@ -15,11 +15,11 @@ script: ./scripts/build.sh
 deploy:
   provider: pages
   skip_cleanup: true
-  local_dir: ../../docs
+  local_dir: docs
   github_token: $GITHUB_TOKEN
   on:
     branch: master
-    condition: "-n ${HUGO_VERSION}"
+    condition: -n "${HUGO_VERSION}"
 
 notifications:
   email: false
