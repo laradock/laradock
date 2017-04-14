@@ -22,7 +22,7 @@
 
     <meta property="og:url" content="http://laradock.io/contributing/">
     <meta property="og:title" content="Laradock">
-    
+    <meta property="og:image" content="http://laradock.io/logo.png">
     <meta name="apple-mobile-web-app-title" content="Laradock">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -129,15 +129,19 @@
 <main class="main">
 	<div class="drawer">
 		<nav aria-label="Navigation">
-  
-    
+  <a href="http://laradock.io/" class="project">
+    <div class="banner">
+      
+        <div class="logo">
+          <img src="http://laradock.io/logo.png">
+        </div>
       
       
         
         
       
-    
-  
+    </div>
+  </a>
 
   <div class="scrollable">
     <div class="wrapper">
@@ -363,11 +367,11 @@ features, by not reporting duplicate issues.</em></p>
 
 <p>Laradock uses <a href="https://gohugo.io/">Hugo</a> as website generator tool, with the <a href="http://themes.gohugo.io/theme/material-docs/">Material Docs theme</a>. You might need to check their docs quickly.</p>
 
-<p>Go the <code>DOCUMENTATION/_settings/content</code> and search for the markdown file you want to edit</p>
+<p>Go the <code>DOCUMENTATION/content</code> and search for the markdown file you want to edit</p>
 
 <p>Note: Every folder represents a section in the sidebar &ldquo;Menu&rdquo;. And every page and sidebar has a <code>weight</code> number to show it&rsquo;s position in the site.</p>
 
-<p>To update the sidebar or add a new section to it, you can edit this <code>DOCUMENTATION/_settings/config.toml</code> toml file.</p>
+<p>To update the sidebar or add a new section to it, you can edit this <code>DOCUMENTATION/config.toml</code> toml file.</p>
 
 <blockquote>
 <p>The site will be auto-generated in the <code>docs/</code> folder by <a href="https://travis-ci.org/laradock/laradock/">Travis CI</a>.</p>
@@ -379,9 +383,9 @@ features, by not reporting duplicate issues.</em></p>
 
 <ol>
 <li>Install <a href="https://gohugo.io/">Hugo</a> on your machine.</li>
-<li>Edit the <code>DOCUMENTATION/_settings/content</code>.</li>
+<li>Edit the <code>DOCUMENTATION/content</code>.</li>
 <li>Delete the <code>/docs</code> folder from the root.</li>
-<li>After you finish the editing, go to <code>DOCUMENTATION/_settings/</code> and run the <code>hugo</code> command to generate the HTML docs (inside a new <code>/docs</code> folder).</li>
+<li>After you finish the editing, go to <code>DOCUMENTATION/</code> and run the <code>hugo</code> command to generate the HTML docs (inside a new <code>/docs</code> folder).</li>
 </ol>
 
 <h2 id="how-to-support-new-software-add-new-container">How to support new Software (Add new Container)</h2>

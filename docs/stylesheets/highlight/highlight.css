@@ -3,7 +3,7 @@
  * theme that is used as fallback in codeblocks 
  */
 .article pre code {
-	color: rgba(0, 0, 0, 0.8) !important;
+	color: rgba(0, 0, 0, 0.78) !important;
 }
 
 
@@ -102,4 +102,15 @@ font-style:italic;
 
 .hljs-strong {
 font-weight:700;
+}
+
+/*
+    OVERRIDING THE DEFAULT STYLES - By Mahmoud Zalt (mahmoud@zalt.me) for Laradock.io
+*/
+
+.project .logo img{
+    width: 140px;
+    height: 140px;
+    background: transparent;
+    border-radius: 0%;
 }

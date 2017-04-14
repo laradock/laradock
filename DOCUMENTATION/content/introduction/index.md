@@ -4,14 +4,17 @@ type: index
 weight: 1
 ---
 
-Laradock strives to make the PHP development experience easier and faster.
-
-It contains pre-packaged Docker Images that provides you a wonderful *development* environment without requiring you to install PHP, NGINX, MySQL, Redis, and any other software on your machines.
-
-Laradock is configured to run Laravel Apps by default, and it can be modified to run all kinds of PHP Apps (Symfony, CodeIgniter, WordPress, Drupal...).
 
 
 
+A full PHP development environment for Docker.
+
+Includes pre-packaged Docker Images, all pre-configured to provide a wonderful PHP development environment.
+
+Laradock is well known in the Laravel community, as the project started with single focus on running Laravel projects on Docker. Later and due to the large adoption from the PHP community, it started supporting other PHP projects like Symfony, CodeIgniter, WordPress, Drupal...
+
+
+![](https://s19.postimg.org/jblfytw9f/laradock-logo.jpg)
 
 ## Quick Overview
 
@@ -52,6 +55,62 @@ That's it! enjoy :)
 
 
 
+<a name="features"></a>
+## Features
+
+- Easy switch between PHP versions: 7.0, 5.6, 5.5...
+- Choose your favorite database engine: MySQL, Postgres, MariaDB...
+- Run your own combination of software: Memcached, HHVM, Beanstalkd...
+- Every software runs on a separate container: PHP-FPM, NGINX, PHP-CLI...
+- Easy to customize any container, with simple edit to the `Dockerfile`.
+- All Images extends from an official base Image. (Trusted base Images).
+- Pre-configured NGINX for Laravel.
+- Easy to apply configurations inside containers.
+- Clean and well structured Dockerfiles (`Dockerfile`).
+- Latest version of the Docker Compose file (`docker-compose`).
+- Everything is visible and editable.
+- Fast Images Builds.
+- More to come every week..
+
+
+
+
+<a name="Supported-Containers"></a>
+## Supported Software (Images)
+
+In adhering to the separation of concerns principle as promoted by Docker, Laradock runs each software on its own Container.
+You can turn On/Off as many instances of as any container without worrying about the configurations, everything works like a charm.
+
+- **Database Engines:**
+MySQL - MariaDB - MongoDB - Neo4j - RethinkDB - PostgreSQL - Postgres Postgis.
+- **Cache Engines:**
+Redis - Memcached - Aerospike
+- **PHP Servers:**
+NGINX - Apache2 - Caddy
+- **PHP Compilers:**
+PHP FPM - HHVM
+- **Message Queuing:**
+Beanstalkd - Beanstalkd Console - RabbitMQ - RabbitMQ Console
+- **Tools:**
+PhpMyAdmin - Adminer - PgAdmin - ElasticSearch - Selenium - Certbot - Mailhog - Minio...
+
+Laradock introduces the **Workspace** Image, as a development environment.
+It contains a rich set of helpful tools, all pre-configured to work and integrate with almost any combination of Containers and tools you may choose.
+
+**Workspace Image Tools**
+PHP CLI - Composer - Git - Linuxbrew - Node - Gulp - SQLite - xDebug - Envoy - Deployer - Vim - Yarn...
+
+You can choose, which tools to install in your workspace container and other containers, from the `.env` file.
+
+
+> If you modify `docker-compose.yml`, `.env` or any `dockerfile` file, you must re-build your containers, to see those effects in the running instance.
+
+
+
+If you can't find your Software in the list, build it yourself and sumit it. Contributions are welcomed :)
+
+
+
 
 
 
@@ -81,117 +140,16 @@ Most importantly Docker can run on Development and on Production (same environme
 
 
 
-<a name="laradock-vs-homestead"></a>
-## Laradock VS Homestead (For Laravel Developers)
-
-> Laradock It's like Laravel Homestead but for Docker instead of Vagrant.
-
-Laradock and [Homestead](https://laravel.com/docs/master/homestead) both give you complete virtual development environments. (Without the need to install and configure every single software on your own Operating System).
-
-- Homestead is a tool that controls Vagrant for you (using Homestead special commands). And Vagrant manages your Virtual Machine.
-
-- Laradock is a tool that controls Docker for you (using Docker & Docker Compose official commands). And Docker manages your Virtual Containers.
-
-Running a virtual container is much faster than running a full virtual Machine. Thus **Laradock is much faster than Homestead**.
-
-
-
-
-
-
-
-
 <a name="Demo"></a>
 ## Demo Video
 
 What's better than a **Demo Video**:
 
+- Laradock v5.* (soon or never)
 - Laradock [v4.*](https://www.youtube.com/watch?v=TQii1jDa96Y)
 - Laradock [v2.*](https://www.youtube.com/watch?v=-DamFMczwDA)
 - Laradock [v0.3](https://www.youtube.com/watch?v=jGkyO6Is_aI)
 - Laradock [v0.1](https://www.youtube.com/watch?v=3YQsHe6oF80)
-
-
-
-
-
-
-
-<a name="features"></a>
-## Features
-
-- Easy switch between PHP versions: 7.0, 5.6, 5.5...
-- Choose your favorite database engine: MySQL, Postgres, MariaDB...
-- Run your own combination of software: Memcached, HHVM, Beanstalkd...
-- Every software runs on a separate container: PHP-FPM, NGINX, PHP-CLI...
-- Easy to customize any container, with simple edit to the `Dockerfile`.
-- All Images extends from an official base Image. (Trusted base Images).
-- Pre-configured NGINX for Laravel.
-- Easy to apply configurations inside containers.
-- Clean and well structured Dockerfiles (`Dockerfile`).
-- Latest version of the Docker Compose file (`docker-compose`).
-- Everything is visible and editable.
-- Fast Images Builds.
-- More to come every week..
-
-
-
-
-
-
-
-<a name="Supported-Containers"></a>
-## Supported Software (Containers)
-
-- **Database Engines:**
-	- MySQL
-	- MariaDB
-	- MongoDB
-	- Neo4j
-	- RethinkDB
-	- PostgreSQL
-	- Postgres Postgis
-- **Cache Engines:**
-	- Redis
-	- Memcached
-	- Aerospike
-- **PHP Servers:**
-	- NGINX
-	- Apache2
-	- Caddy
-- **PHP Compilers:**
-	- PHP-FPM
-	- HHVM
-- **Message Queuing Systems:**
-	- Beanstalkd
-	- Beanstalkd Console
-	- RabbitMQ
-	- RabbitMQ Console
-- **Tools:**
-	- PhpMyAdmin
-  	- Adminer
-	- PgAdmin
-	- ElasticSearch
-	- Selenium
-	- Certbot
-	- Mailhog
-	- Minio
-	- Workspace
-		- PHP7-CLI
-		- Composer
-		- Git
-		- Linuxbrew
-		- Node
-		- Gulp
-		- SQLite
-		- xDebug
-		- Envoy
-		- Deployer
-		- Vim
-		- Yarn
-		- ... Many other supported tools are not documented. (Will be updated soon)
-
->If you can't find your Software, build it yourself and add it to this list. Contributions are welcomed :)
 
 
 
