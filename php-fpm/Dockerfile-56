@@ -202,7 +202,7 @@ RUN if [ ${INSTALL_INTL} = true ]; then \
 #####################################
 
 ARG INSTALL_GHOSTSCRIPT=false
-RUN if [ ${GHOSTSCRIPT} = true ]; then \
+RUN if [ ${INSTALL_GHOSTSCRIPT} = true ]; then \
     # Install the ghostscript extension for PDF editing
     apt-get update && \
     apt-get install -y poppler-utils ghostscript \
