@@ -7,13 +7,13 @@ install:
   - mv ./hugo_${HUGO_VERSION}_linux_amd64/hugo_${HUGO_VERSION}_linux_amd64 $HOME/bin/hugo
 script:
   - rm -rf docs
-  - cd DOCUMENTATION/_settings
+  - cd DOCUMENTATION
   - hugo
 
 deploy:
   provider: pages
   skip_cleanup: true
-  local_dir: ../../docs
+  local_dir: ../docs
   github_token: $GITHUB_TOKEN
   on:
     branch: master

@@ -38,11 +38,11 @@ You can request a new feature by submitting an [Issue](https://github.com/larado
 
 Laradock uses [Hugo](https://gohugo.io/) as website generator tool, with the [Material Docs theme](http://themes.gohugo.io/theme/material-docs/). You might need to check their docs quickly.
 
-Go the `DOCUMENTATION/_settings/content` and search for the markdown file you want to edit
+Go the `DOCUMENTATION/content` and search for the markdown file you want to edit
 
 Note: Every folder represents a section in the sidebar "Menu". And every page and sidebar has a `weight` number to show it's position in the site.
 
-To update the sidebar or add a new section to it, you can edit this `DOCUMENTATION/_settings/config.toml` toml file.
+To update the sidebar or add a new section to it, you can edit this `DOCUMENTATION/config.toml` toml file.
 
 > The site will be auto-generated in the `docs/` folder by [Travis CI](https://travis-ci.org/laradock/laradock/).
 
@@ -52,9 +52,9 @@ To update the sidebar or add a new section to it, you can edit this `DOCUMENTATI
 ### To Host the website locally
 
 1. Install [Hugo](https://gohugo.io/) on your machine.
-2. Edit the `DOCUMENTATION/_settings/content`.
+2. Edit the `DOCUMENTATION/content`.
 3. Delete the `/docs` folder from the root.
-4. After you finish the editing, go to `DOCUMENTATION/_settings/` and run the `hugo` command to generate the HTML docs (inside a new `/docs` folder).
+4. After you finish the editing, go to `DOCUMENTATION/` and run the `hugo` command to generate the HTML docs (inside a new `/docs` folder).
 
 
 
