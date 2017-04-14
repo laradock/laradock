@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-if [ -n ${PHP_VERSION} ]; then
+if [ -n "${PHP_VERSION}" ]; then
     cp env-example .env
     docker-compose build
     docker images
 fi
 
-if [ -n ${HUGO_VERSION} ]; then
+if [ -n "${HUGO_VERSION}" ]; then
     HUGO_PACKAGE=hugo_${HUGO_VERSION}_Linux-64bit
     HUGO_BIN=hugo_${HUGO_VERSION}_linux_amd64
 
