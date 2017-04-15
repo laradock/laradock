@@ -404,7 +404,7 @@ You can turn On/Off as many instances of as any container without worrying about
 
 <ul>
 <li><strong>Database Engines:</strong>
-MySQL - MariaDB - MongoDB - Neo4j - RethinkDB - PostgreSQL - Postgres Postgis.</li>
+MySQL - MariaDB - MongoDB - Neo4j - RethinkDB - MSSQL - PostgreSQL - Postgres Postgis.</li>
 <li><strong>Cache Engines:</strong>
 Redis - Memcached - Aerospike</li>
 <li><strong>PHP Servers:</strong>
@@ -412,9 +412,9 @@ NGINX - Apache2 - Caddy</li>
 <li><strong>PHP Compilers:</strong>
 PHP FPM - HHVM</li>
 <li><strong>Message Queuing:</strong>
-Beanstalkd - Beanstalkd Console - RabbitMQ - RabbitMQ Console</li>
+Beanstalkd - Beanstalkd Console - RabbitMQ - RabbitMQ Console - PHP Worker</li>
 <li><strong>Tools:</strong>
-PhpMyAdmin - Adminer - PgAdmin - ElasticSearch - Selenium - Certbot - Mailhog - Minio&hellip;</li>
+HAProxy - Jenkins - ElasticSearch - Selenium - Certbot - Mailhog - Minio - Varnish - PhpMyAdmin - Adminer - PgAdmin - MailHog&hellip;</li>
 </ul>
 
 <p>Laradock introduces the <strong>Workspace</strong> Image, as a development environment.
@@ -640,11 +640,7 @@ PHP CLI - Composer - Git - Linuxbrew - Node - Gulp - SQLite - xDebug - Envoy - D
 
 <p><strong>Note</strong>: The <code>workspace</code> and <code>php-fpm</code> will run automatically in most of the cases, so no need to specify them in the <code>up</code> command. If you couldn&rsquo;t find them running then you need specify them as follow: <code>docker-compose up -d nginx php-fpm mysql workspace</code>.</p>
 
-<p>You can select your own combination of containers form the list below:</p>
-
-<blockquote>
-<p><code>nginx</code>, <code>hhvm</code>, <code>php-fpm</code>, <code>mysql</code>, <code>redis</code>, <code>postgres</code>, <code>mariadb</code>, <code>neo4j</code>, <code>mongo</code>, <code>apache2</code>, <code>caddy</code>, <code>memcached</code>, <code>beanstalkd</code>, <code>beanstalkd-console</code>, <code>rabbitmq</code>, <code>beanstalkd-console</code>, <code>workspace</code>, <code>phpmyadmin</code>, <code>adminer</code>, <code>aerospike</code>, <code>pgadmin</code>, <code>elasticsearch</code>, <code>rethinkdb</code>, <code>postgres-postgis</code>, <code>certbot</code>, <code>mailhog</code>, <code>minio</code> and more&hellip;!</p>
-</blockquote>
+<p>You can select your own combination of containers form <a href="http://laradock.io/introduction/#supported-software-images">this list</a>.</p>
 
 <p><em>(Please note that sometimes we forget to update the docs, so check the <code>docker-compose.yml</code> file to see an updated list of all available containers).</em></p>
 

@@ -166,9 +166,7 @@ docker-compose up -d nginx mysql
 **Note**: The `workspace` and `php-fpm` will run automatically in most of the cases, so no need to specify them in the `up` command. If you couldn't find them running then you need specify them as follow: `docker-compose up -d nginx php-fpm mysql workspace`.
 
 
-You can select your own combination of containers form the list below:
-
-> `nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `rabbitmq`, `beanstalkd-console`, `workspace`, `phpmyadmin`, `adminer`, `aerospike`, `pgadmin`, `elasticsearch`, `rethinkdb`, `postgres-postgis`, `certbot`, `mailhog`, `minio` and more...!
+You can select your own combination of containers form [this list](http://laradock.io/introduction/#supported-software-images).
 
 *(Please note that sometimes we forget to update the docs, so check the `docker-compose.yml` file to see an updated list of all available containers).*
 

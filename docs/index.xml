@@ -84,7 +84,7 @@ You can turn On/Off as many instances of as any container without worrying about
 
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Database Engines:&lt;/strong&gt;
-MySQL - MariaDB - MongoDB - Neo4j - RethinkDB - PostgreSQL - Postgres Postgis.&lt;/li&gt;
+MySQL - MariaDB - MongoDB - Neo4j - RethinkDB - MSSQL - PostgreSQL - Postgres Postgis.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Cache Engines:&lt;/strong&gt;
 Redis - Memcached - Aerospike&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;PHP Servers:&lt;/strong&gt;
@@ -92,9 +92,9 @@ NGINX - Apache2 - Caddy&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;PHP Compilers:&lt;/strong&gt;
 PHP FPM - HHVM&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Message Queuing:&lt;/strong&gt;
-Beanstalkd - Beanstalkd Console - RabbitMQ - RabbitMQ Console&lt;/li&gt;
+Beanstalkd - Beanstalkd Console - RabbitMQ - RabbitMQ Console - PHP Worker&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Tools:&lt;/strong&gt;
-PhpMyAdmin - Adminer - PgAdmin - ElasticSearch - Selenium - Certbot - Mailhog - Minio&amp;hellip;&lt;/li&gt;
+HAProxy - Jenkins - ElasticSearch - Selenium - Certbot - Mailhog - Minio - Varnish - PhpMyAdmin - Adminer - PgAdmin - MailHog&amp;hellip;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Laradock introduces the &lt;strong&gt;Workspace&lt;/strong&gt; Image, as a development environment.
@@ -325,11 +325,7 @@ PHP CLI - Composer - Git - Linuxbrew - Node - Gulp - SQLite - xDebug - Envoy - D
 
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: The &lt;code&gt;workspace&lt;/code&gt; and &lt;code&gt;php-fpm&lt;/code&gt; will run automatically in most of the cases, so no need to specify them in the &lt;code&gt;up&lt;/code&gt; command. If you couldn&amp;rsquo;t find them running then you need specify them as follow: &lt;code&gt;docker-compose up -d nginx php-fpm mysql workspace&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;You can select your own combination of containers form the list below:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;&lt;code&gt;nginx&lt;/code&gt;, &lt;code&gt;hhvm&lt;/code&gt;, &lt;code&gt;php-fpm&lt;/code&gt;, &lt;code&gt;mysql&lt;/code&gt;, &lt;code&gt;redis&lt;/code&gt;, &lt;code&gt;postgres&lt;/code&gt;, &lt;code&gt;mariadb&lt;/code&gt;, &lt;code&gt;neo4j&lt;/code&gt;, &lt;code&gt;mongo&lt;/code&gt;, &lt;code&gt;apache2&lt;/code&gt;, &lt;code&gt;caddy&lt;/code&gt;, &lt;code&gt;memcached&lt;/code&gt;, &lt;code&gt;beanstalkd&lt;/code&gt;, &lt;code&gt;beanstalkd-console&lt;/code&gt;, &lt;code&gt;rabbitmq&lt;/code&gt;, &lt;code&gt;beanstalkd-console&lt;/code&gt;, &lt;code&gt;workspace&lt;/code&gt;, &lt;code&gt;phpmyadmin&lt;/code&gt;, &lt;code&gt;adminer&lt;/code&gt;, &lt;code&gt;aerospike&lt;/code&gt;, &lt;code&gt;pgadmin&lt;/code&gt;, &lt;code&gt;elasticsearch&lt;/code&gt;, &lt;code&gt;rethinkdb&lt;/code&gt;, &lt;code&gt;postgres-postgis&lt;/code&gt;, &lt;code&gt;certbot&lt;/code&gt;, &lt;code&gt;mailhog&lt;/code&gt;, &lt;code&gt;minio&lt;/code&gt; and more&amp;hellip;!&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;You can select your own combination of containers form &lt;a href=&#34;http://laradock.io/introduction/#supported-software-images&#34;&gt;this list&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;(Please note that sometimes we forget to update the docs, so check the &lt;code&gt;docker-compose.yml&lt;/code&gt; file to see an updated list of all available containers).&lt;/em&gt;&lt;/p&gt;
 

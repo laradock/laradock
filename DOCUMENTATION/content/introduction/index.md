@@ -82,7 +82,7 @@ In adhering to the separation of concerns principle as promoted by Docker, Larad
 You can turn On/Off as many instances of as any container without worrying about the configurations, everything works like a charm.
 
 - **Database Engines:**
-MySQL - MariaDB - MongoDB - Neo4j - RethinkDB - PostgreSQL - Postgres Postgis.
+MySQL - MariaDB - MongoDB - Neo4j - RethinkDB - MSSQL - PostgreSQL - Postgres Postgis.
 - **Cache Engines:**
 Redis - Memcached - Aerospike
 - **PHP Servers:**
@@ -90,9 +90,9 @@ NGINX - Apache2 - Caddy
 - **PHP Compilers:**
 PHP FPM - HHVM
 - **Message Queuing:**
-Beanstalkd - Beanstalkd Console - RabbitMQ - RabbitMQ Console
+Beanstalkd - Beanstalkd Console - RabbitMQ - RabbitMQ Console - PHP Worker
 - **Tools:**
-PhpMyAdmin - Adminer - PgAdmin - ElasticSearch - Selenium - Certbot - Mailhog - Minio...
+HAProxy - Jenkins - ElasticSearch - Selenium - Certbot - Mailhog - Minio - Varnish - PhpMyAdmin - Adminer - PgAdmin - MailHog...
 
 Laradock introduces the **Workspace** Image, as a development environment.
 It contains a rich set of helpful tools, all pre-configured to work and integrate with almost any combination of Containers and tools you may choose.
