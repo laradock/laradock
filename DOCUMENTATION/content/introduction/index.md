@@ -38,7 +38,7 @@ cp env-example .env
 docker-compose up -d nginx mysql redis beanstalkd
 ```
 
-3 - Open your project's `.env` file and set the following:
+4 - Open your project's `.env` file and set the following:
 
 ```shell
 DB_HOST=mysql
@@ -46,7 +46,7 @@ REDIS_HOST=redis
 QUEUE_HOST=beanstalkd
 ```
 
-4 - Open your browser and visit localhost: `http://localhost`.
+5 - Open your browser and visit localhost: `http://localhost`.
 
 ```shell
 That's it! enjoy :)
@@ -58,14 +58,15 @@ That's it! enjoy :)
 <a name="features"></a>
 ## Features
 
-- Easy switch between PHP versions: 7.0, 5.6, 5.5...
+- Easy switch between PHP versions: 7.1, 7.0, 5.6...
 - Choose your favorite database engine: MySQL, Postgres, MariaDB...
 - Run your own combination of software: Memcached, HHVM, Beanstalkd...
 - Every software runs on a separate container: PHP-FPM, NGINX, PHP-CLI...
 - Easy to customize any container, with simple edit to the `Dockerfile`.
 - All Images extends from an official base Image. (Trusted base Images).
-- Pre-configured NGINX for Laravel.
-- Easy to apply configurations inside containers.
+- Pre-configured NGINX to host any code at your root directory.
+- Can use Laradock per project, or single Laradock for all projects.
+- Easy to install/remove software's in Containers using environment variables.
 - Clean and well structured Dockerfiles (`Dockerfile`).
 - Latest version of the Docker Compose file (`docker-compose`).
 - Everything is visible and editable.
@@ -98,7 +99,7 @@ Laradock introduces the **Workspace** Image, as a development environment.
 It contains a rich set of helpful tools, all pre-configured to work and integrate with almost any combination of Containers and tools you may choose.
 
 **Workspace Image Tools**
-PHP CLI - Composer - Git - Linuxbrew - Node - Gulp - SQLite - xDebug - Envoy - Deployer - Vim - Yarn...
+PHP CLI - Composer - Git - Linuxbrew - Node - V8JS - Gulp - SQLite - xDebug - Envoy - Deployer - Vim - Yarn - SOAP - Drush...
 
 You can choose, which tools to install in your workspace container and other containers, from the `.env` file.
 

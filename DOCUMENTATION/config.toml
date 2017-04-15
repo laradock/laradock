@@ -11,7 +11,7 @@ googleAnalytics = "UA-37514928-9"
 [params]
 	# General information
 	author = "Mahmoud Zalt"
-	description = "Laradock documentations."
+	description = "Full PHP development environment for Docker."
 	copyright = ""
 
 	# Repository

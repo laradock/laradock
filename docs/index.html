@@ -13,7 +13,7 @@
     <meta name="generator" content="Hugo 0.19" />
 
     
-    <meta name="description" content="Laradock documentations.">
+    <meta name="description" content="Full PHP development environment for Docker.">
     
     <link rel="canonical" href="http://laradock.io/">
     
@@ -363,14 +363,14 @@
 <pre><code class="language-shell">docker-compose up -d nginx mysql redis beanstalkd
 </code></pre>
 
-<p>3 - Open your project&rsquo;s <code>.env</code> file and set the following:</p>
+<p>4 - Open your project&rsquo;s <code>.env</code> file and set the following:</p>
 
 <pre><code class="language-shell">DB_HOST=mysql
 REDIS_HOST=redis
 QUEUE_HOST=beanstalkd
 </code></pre>
 
-<p>4 - Open your browser and visit localhost: <code>http://localhost</code>.</p>
+<p>5 - Open your browser and visit localhost: <code>http://localhost</code>.</p>
 
 <pre><code class="language-shell">That's it! enjoy :)
 </code></pre>
@@ -380,14 +380,15 @@ QUEUE_HOST=beanstalkd
 <h2 id="features">Features</h2>
 
 <ul>
-<li>Easy switch between PHP versions: 7.0, 5.6, 5.5&hellip;</li>
+<li>Easy switch between PHP versions: 7.1, 7.0, 5.6&hellip;</li>
 <li>Choose your favorite database engine: MySQL, Postgres, MariaDB&hellip;</li>
 <li>Run your own combination of software: Memcached, HHVM, Beanstalkd&hellip;</li>
 <li>Every software runs on a separate container: PHP-FPM, NGINX, PHP-CLI&hellip;</li>
 <li>Easy to customize any container, with simple edit to the <code>Dockerfile</code>.</li>
 <li>All Images extends from an official base Image. (Trusted base Images).</li>
-<li>Pre-configured NGINX for Laravel.</li>
-<li>Easy to apply configurations inside containers.</li>
+<li>Pre-configured NGINX to host any code at your root directory.</li>
+<li>Can use Laradock per project, or single Laradock for all projects.</li>
+<li>Easy to install/remove software&rsquo;s in Containers using environment variables.</li>
 <li>Clean and well structured Dockerfiles (<code>Dockerfile</code>).</li>
 <li>Latest version of the Docker Compose file (<code>docker-compose</code>).</li>
 <li>Everything is visible and editable.</li>
@@ -421,7 +422,7 @@ HAProxy - Jenkins - ElasticSearch - Selenium - Certbot - Mailhog - Minio - Varni
 It contains a rich set of helpful tools, all pre-configured to work and integrate with almost any combination of Containers and tools you may choose.</p>
 
 <p><strong>Workspace Image Tools</strong>
-PHP CLI - Composer - Git - Linuxbrew - Node - Gulp - SQLite - xDebug - Envoy - Deployer - Vim - Yarn&hellip;</p>
+PHP CLI - Composer - Git - Linuxbrew - Node - V8JS - Gulp - SQLite - xDebug - Envoy - Deployer - Vim - Yarn - SOAP - Drush&hellip;</p>
 
 <p>You can choose, which tools to install in your workspace container and other containers, from the <code>.env</code> file.</p>
 
