@@ -2,6 +2,9 @@
 # Point to your application code, wish should be available at `/var/www`
 APPLICATION=../
 
+### Save Data Path (mysql redis mongo...)
+DATA_SAVE_PATH=../data
+
 ### PHP version (Does not apply for HHVM)
 # PHP_VERSION=56
 PHP_VERSION=70
