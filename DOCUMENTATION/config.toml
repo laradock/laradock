@@ -62,7 +62,7 @@ googleAnalytics = "UA-37514928-9"
 	weight = 3
 
 [[menu.main]]
-	name   = "Giudes"
+	name   = "Guides"
 	url    = "guides/"
 	weight = 4
 
