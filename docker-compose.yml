@@ -406,6 +406,7 @@ services:
         - php-fpm
       networks:
         - frontend
+        - backend
 
 ### pgAdmin Container #######################################
 
