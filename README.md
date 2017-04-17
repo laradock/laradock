@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/laradock/laradock.svg?branch=master)](https://travis-ci.org/laradock/laradock)
+
 ![](https://s19.postimg.org/jblfytw9f/laradock-logo.jpg)
 
 > Use Docker first and learn about it later.
