@@ -1,0 +1,25 @@
+language: bash
+sudo: required
+services:
+  - docker
+
+env:
+  matrix:
+    - PHP_VERSION=56
+    - PHP_VERSION=70
+    - PHP_VERSION=71
+    - HUGO_VERSION=0.20
+
+script: ./_scripts/travis-build.sh
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  local_dir: docs
+  github_token: $GITHUB_TOKEN
+  on:
+    branch: master
+    condition: -n "${HUGO_VERSION}"
+
+notifications:
+  email: false

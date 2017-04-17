@@ -48,20 +48,26 @@ features, by not reporting duplicate issues.&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;Laradock uses &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; as website generator tool, with the &lt;a href=&#34;http://themes.gohugo.io/theme/material-docs/&#34;&gt;Material Docs theme&lt;/a&gt;. You might need to check their docs quickly.&lt;/p&gt;
 
-&lt;ol&gt;
-&lt;li&gt;Install &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; on your machine (easy thing).&lt;/li&gt;
-&lt;li&gt;Open the &lt;code&gt;DOCUMENTATION/_settings/content&lt;/code&gt; and search for the markdown file you want to edit (every folder represents a section in the menu).&lt;/li&gt;
-&lt;li&gt;Delete the &lt;code&gt;/docs&lt;/code&gt; folder from the root.&lt;/li&gt;
-&lt;li&gt;When you finish editing, go to &lt;code&gt;DOCUMENTATION/_settings/&lt;/code&gt; and run the &lt;code&gt;hugo&lt;/code&gt; command to generate the HTML docs (inside new &lt;code&gt;/docs&lt;/code&gt; folder).&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;Go the &lt;code&gt;DOCUMENTATION/content&lt;/code&gt; and search for the markdown file you want to edit&lt;/p&gt;
+
+&lt;p&gt;Note: Every folder represents a section in the sidebar &amp;ldquo;Menu&amp;rdquo;. And every page and sidebar has a &lt;code&gt;weight&lt;/code&gt; number to show it&amp;rsquo;s position in the site.&lt;/p&gt;
+
+&lt;p&gt;To update the sidebar or add a new section to it, you can edit this &lt;code&gt;DOCUMENTATION/config.toml&lt;/code&gt; toml file.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;The site will be auto-generated in the &lt;code&gt;docs/&lt;/code&gt; folder by &lt;a href=&#34;https://travis-ci.org/laradock/laradock/&#34;&gt;Travis CI&lt;/a&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;to-host-the-website-locally&#34;&gt;To Host the website locally&lt;/h3&gt;
 
-&lt;p&gt;Go to &lt;code&gt;DOCUMENTATION/_settings&lt;/code&gt; in your terminal and run &lt;code&gt;hugo serve&lt;/code&gt; to host the website locally.&lt;/p&gt;
-
-&lt;h3 id=&#34;edit-the-sidebar&#34;&gt;Edit the sidebar&lt;/h3&gt;
-
-&lt;p&gt;To add a new section to the sidebar or edit existing one, you need to edit this file &lt;code&gt;DOCUMENTATION/_settings/config.toml&lt;/code&gt;.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Install &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; on your machine.&lt;/li&gt;
+&lt;li&gt;Edit the &lt;code&gt;DOCUMENTATION/content&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Delete the &lt;code&gt;/docs&lt;/code&gt; folder from the root.&lt;/li&gt;
+&lt;li&gt;After you finish the editing, go to &lt;code&gt;DOCUMENTATION/&lt;/code&gt; and run the &lt;code&gt;hugo&lt;/code&gt; command to generate the HTML docs (inside a new &lt;code&gt;/docs&lt;/code&gt; folder).&lt;/li&gt;
+&lt;/ol&gt;
 
 &lt;h2 id=&#34;how-to-support-new-software-add-new-container&#34;&gt;How to support new Software (Add new Container)&lt;/h2&gt;
 

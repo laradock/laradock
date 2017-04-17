@@ -180,11 +180,7 @@
 
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: The &lt;code&gt;workspace&lt;/code&gt; and &lt;code&gt;php-fpm&lt;/code&gt; will run automatically in most of the cases, so no need to specify them in the &lt;code&gt;up&lt;/code&gt; command. If you couldn&amp;rsquo;t find them running then you need specify them as follow: &lt;code&gt;docker-compose up -d nginx php-fpm mysql workspace&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;You can select your own combination of containers form the list below:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;&lt;code&gt;nginx&lt;/code&gt;, &lt;code&gt;hhvm&lt;/code&gt;, &lt;code&gt;php-fpm&lt;/code&gt;, &lt;code&gt;mysql&lt;/code&gt;, &lt;code&gt;redis&lt;/code&gt;, &lt;code&gt;postgres&lt;/code&gt;, &lt;code&gt;mariadb&lt;/code&gt;, &lt;code&gt;neo4j&lt;/code&gt;, &lt;code&gt;mongo&lt;/code&gt;, &lt;code&gt;apache2&lt;/code&gt;, &lt;code&gt;caddy&lt;/code&gt;, &lt;code&gt;memcached&lt;/code&gt;, &lt;code&gt;beanstalkd&lt;/code&gt;, &lt;code&gt;beanstalkd-console&lt;/code&gt;, &lt;code&gt;rabbitmq&lt;/code&gt;, &lt;code&gt;beanstalkd-console&lt;/code&gt;, &lt;code&gt;workspace&lt;/code&gt;, &lt;code&gt;phpmyadmin&lt;/code&gt;, &lt;code&gt;adminer&lt;/code&gt;, &lt;code&gt;aerospike&lt;/code&gt;, &lt;code&gt;pgadmin&lt;/code&gt;, &lt;code&gt;elasticsearch&lt;/code&gt;, &lt;code&gt;rethinkdb&lt;/code&gt;, &lt;code&gt;postgres-postgis&lt;/code&gt;, &lt;code&gt;certbot&lt;/code&gt;, &lt;code&gt;mailhog&lt;/code&gt;, &lt;code&gt;minio&lt;/code&gt; and more&amp;hellip;!&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;You can select your own combination of containers form &lt;a href=&#34;http://laradock.io/introduction/#supported-software-images&#34;&gt;this list&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;(Please note that sometimes we forget to update the docs, so check the &lt;code&gt;docker-compose.yml&lt;/code&gt; file to see an updated list of all available containers).&lt;/em&gt;&lt;/p&gt;
 

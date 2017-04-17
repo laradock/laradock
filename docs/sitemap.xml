@@ -14,11 +14,15 @@
   </url>
   
   <url>
-    <loc>http://laradock.io/related-projects/</loc>
+    <loc>http://laradock.io/guides/</loc>
   </url>
   
   <url>
     <loc>http://laradock.io/help/</loc>
+  </url>
+  
+  <url>
+    <loc>http://laradock.io/related-projects/</loc>
   </url>
   
   <url>
@@ -41,6 +45,11 @@
   
   <url>
     <loc>http://laradock.io/getting-started/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://laradock.io/guides/</loc>
     <priority>0</priority>
   </url>
   

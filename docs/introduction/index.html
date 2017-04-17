@@ -13,7 +13,7 @@
     <meta name="generator" content="Hugo 0.19" />
 
     
-    <meta name="description" content="Laradock documentations.">
+    <meta name="description" content="Full PHP development environment for Docker.">
     
     <link rel="canonical" href="http://laradock.io/introduction/">
     
@@ -22,7 +22,7 @@
 
     <meta property="og:url" content="http://laradock.io/introduction/">
     <meta property="og:title" content="Laradock">
-    
+    <meta property="og:image" content="http://laradock.io/images/logo.png">
     <meta name="apple-mobile-web-app-title" content="Laradock">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -129,15 +129,19 @@
 <main class="main">
 	<div class="drawer">
 		<nav aria-label="Navigation">
-  
-    
+  <a href="http://laradock.io/" class="project">
+    <div class="banner">
+      
+        <div class="logo">
+          <img src="http://laradock.io/images/logo.png">
+        </div>
       
       
         
         
       
-    
-  
+    </div>
+  </a>
 
   <div class="scrollable">
     <div class="wrapper">
@@ -214,9 +218,9 @@
 
 
 
-<a  title="Related Projects" href="http://laradock.io/related-projects/">
+<a  title="Giudes" href="http://laradock.io/guides/">
 	
-	Related Projects
+	Giudes
 </a>
 
 
@@ -235,6 +239,24 @@
 <a  title="Help &amp; Questions" href="http://laradock.io/help/">
 	
 	Help &amp; Questions
+</a>
+
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Related Projects" href="http://laradock.io/related-projects/">
+	
+	Related Projects
 </a>
 
 
@@ -313,15 +335,17 @@
 
 			
 
-<p>Laradock strives to make the PHP development experience easier and faster.</p>
+<p>A full PHP development environment for Docker.</p>
 
-<p>It contains pre-packaged Docker Images that provides you a wonderful <em>development</em> environment without requiring you to install PHP, NGINX, MySQL, Redis, and any other software on your machines.</p>
+<p>Includes pre-packaged Docker Images, all pre-configured to provide a wonderful PHP development environment.</p>
 
-<p>Laradock is configured to run Laravel Apps by default, and it can be modified to run all kinds of PHP Apps (Symfony, CodeIgniter, WordPress, Drupal&hellip;).</p>
+<p>Laradock is well known in the Laravel community, as the project started with single focus on running Laravel projects on Docker. Later and due to the large adoption from the PHP community, it started supporting other PHP projects like Symfony, CodeIgniter, WordPress, Drupal&hellip;</p>
+
+<p><img src="https://s19.postimg.org/jblfytw9f/laradock-logo.jpg" alt="" /></p>
 
 <h2 id="quick-overview">Quick Overview</h2>
 
-<p>Let&rsquo;s see how easy it is to install <code>NGINX</code>, <code>PHP</code>, <code>Composer</code>, <code>MySQL</code>, <code>Redis</code> and <code>beanstalkd</code>:</p>
+<p>Let&rsquo;s see how easy it is to install <code>NGINX</code>, <code>PHP</code>, <code>Composer</code>, <code>MySQL</code>, <code>Redis</code> and <code>Beanstalkd</code>:</p>
 
 <p>1 - Clone Laradock inside your PHP project:</p>
 
@@ -338,17 +362,74 @@
 <pre><code class="language-shell">docker-compose up -d nginx mysql redis beanstalkd
 </code></pre>
 
-<p>3 - Open your project&rsquo;s <code>.env</code> file and set the following:</p>
+<p>4 - Open your project&rsquo;s <code>.env</code> file and set the following:</p>
 
 <pre><code class="language-shell">DB_HOST=mysql
 REDIS_HOST=redis
 QUEUE_HOST=beanstalkd
 </code></pre>
 
-<p>4 - Open your browser and visit localhost: <code>http://localhost</code>.</p>
+<p>5 - Open your browser and visit localhost: <code>http://localhost</code>.</p>
 
 <pre><code class="language-shell">That's it! enjoy :)
 </code></pre>
+
+<p><a name="features"></a></p>
+
+<h2 id="features">Features</h2>
+
+<ul>
+<li>Easy switch between PHP versions: 7.1, 7.0, 5.6&hellip;</li>
+<li>Choose your favorite database engine: MySQL, Postgres, MariaDB&hellip;</li>
+<li>Run your own combination of software: Memcached, HHVM, Beanstalkd&hellip;</li>
+<li>Every software runs on a separate container: PHP-FPM, NGINX, PHP-CLI&hellip;</li>
+<li>Easy to customize any container, with simple edit to the <code>Dockerfile</code>.</li>
+<li>All Images extends from an official base Image. (Trusted base Images).</li>
+<li>Pre-configured NGINX to host any code at your root directory.</li>
+<li>Can use Laradock per project, or single Laradock for all projects.</li>
+<li>Easy to install/remove software&rsquo;s in Containers using environment variables.</li>
+<li>Clean and well structured Dockerfiles (<code>Dockerfile</code>).</li>
+<li>Latest version of the Docker Compose file (<code>docker-compose</code>).</li>
+<li>Everything is visible and editable.</li>
+<li>Fast Images Builds.</li>
+<li>More to come every week..</li>
+</ul>
+
+<p><a name="Supported-Containers"></a></p>
+
+<h2 id="supported-software-images">Supported Software (Images)</h2>
+
+<p>In adhering to the separation of concerns principle as promoted by Docker, Laradock runs each software on its own Container.
+You can turn On/Off as many instances of as any container without worrying about the configurations, everything works like a charm.</p>
+
+<ul>
+<li><strong>Database Engines:</strong>
+MySQL - MariaDB - MongoDB - Neo4j - RethinkDB - MSSQL - PostgreSQL - Postgres Postgis.</li>
+<li><strong>Cache Engines:</strong>
+Redis - Memcached - Aerospike</li>
+<li><strong>PHP Servers:</strong>
+NGINX - Apache2 - Caddy</li>
+<li><strong>PHP Compilers:</strong>
+PHP FPM - HHVM</li>
+<li><strong>Message Queuing:</strong>
+Beanstalkd - Beanstalkd Console - RabbitMQ - RabbitMQ Console - PHP Worker</li>
+<li><strong>Tools:</strong>
+HAProxy - Jenkins - ElasticSearch - Selenium - Certbot - Mailhog - Minio - Varnish - PhpMyAdmin - Adminer - PgAdmin - MailHog&hellip;</li>
+</ul>
+
+<p>Laradock introduces the <strong>Workspace</strong> Image, as a development environment.
+It contains a rich set of helpful tools, all pre-configured to work and integrate with almost any combination of Containers and tools you may choose.</p>
+
+<p><strong>Workspace Image Tools</strong>
+PHP CLI - Composer - Git - Linuxbrew - Node - V8JS - Gulp - SQLite - xDebug - Envoy - Deployer - Vim - Yarn - SOAP - Drush&hellip;</p>
+
+<p>You can choose, which tools to install in your workspace container and other containers, from the <code>.env</code> file.</p>
+
+<blockquote>
+<p>If you modify <code>docker-compose.yml</code>, <code>.env</code> or any <code>dockerfile</code> file, you must re-build your containers, to see those effects in the running instance.</p>
+</blockquote>
+
+<p>If you can&rsquo;t find your Software in the list, build it yourself and sumit it. Contributions are welcomed :)</p>
 
 <p><a name="what-is-docker"></a></p>
 
@@ -368,24 +449,6 @@ QUEUE_HOST=beanstalkd
 
 <p>Most importantly Docker can run on Development and on Production (same environment everywhere). While Vagrant is designed for Development only, (so you have to re-provision your server on Production every time).</p>
 
-<p><a name="laradock-vs-homestead"></a></p>
-
-<h2 id="laradock-vs-homestead-for-laravel-developers">Laradock VS Homestead (For Laravel Developers)</h2>
-
-<blockquote>
-<p>Laradock It&rsquo;s like Laravel Homestead but for Docker instead of Vagrant.</p>
-</blockquote>
-
-<p>Laradock and <a href="https://laravel.com/docs/master/homestead">Homestead</a> both give you complete virtual development environments. (Without the need to install and configure every single software on your own Operating System).</p>
-
-<ul>
-<li><p>Homestead is a tool that controls Vagrant for you (using Homestead special commands). And Vagrant manages your Virtual Machine.</p></li>
-
-<li><p>Laradock is a tool that controls Docker for you (using Docker &amp; Docker Compose official commands). And Docker manages your Virtual Containers.</p></li>
-</ul>
-
-<p>Running a virtual container is much faster than running a full virtual Machine. Thus <strong>Laradock is much faster than Homestead</strong>.</p>
-
 <p><a name="Demo"></a></p>
 
 <h2 id="demo-video">Demo Video</h2>
@@ -393,110 +456,12 @@ QUEUE_HOST=beanstalkd
 <p>What&rsquo;s better than a <strong>Demo Video</strong>:</p>
 
 <ul>
+<li>Laradock v5.* (soon or never)</li>
 <li>Laradock <a href="https://www.youtube.com/watch?v=TQii1jDa96Y">v4.*</a></li>
 <li>Laradock <a href="https://www.youtube.com/watch?v=-DamFMczwDA">v2.*</a></li>
 <li>Laradock <a href="https://www.youtube.com/watch?v=jGkyO6Is_aI">v0.3</a></li>
 <li>Laradock <a href="https://www.youtube.com/watch?v=3YQsHe6oF80">v0.1</a></li>
 </ul>
-
-<p><a name="features"></a></p>
-
-<h2 id="features">Features</h2>
-
-<ul>
-<li>Easy switch between PHP versions: 7.0, 5.6, 5.5&hellip;</li>
-<li>Choose your favorite database engine: MySQL, Postgres, MariaDB&hellip;</li>
-<li>Run your own combination of software: Memcached, HHVM, Beanstalkd&hellip;</li>
-<li>Every software runs on a separate container: PHP-FPM, NGINX, PHP-CLI&hellip;</li>
-<li>Easy to customize any container, with simple edit to the <code>Dockerfile</code>.</li>
-<li>All Images extends from an official base Image. (Trusted base Images).</li>
-<li>Pre-configured NGINX for Laravel.</li>
-<li>Easy to apply configurations inside containers.</li>
-<li>Clean and well structured Dockerfiles (<code>Dockerfile</code>).</li>
-<li>Latest version of the Docker Compose file (<code>docker-compose</code>).</li>
-<li>Everything is visible and editable.</li>
-<li>Fast Images Builds.</li>
-<li>More to come every week..</li>
-</ul>
-
-<p><a name="Supported-Containers"></a></p>
-
-<h2 id="supported-software-containers">Supported Software (Containers)</h2>
-
-<ul>
-<li><strong>Database Engines:</strong>
-
-<ul>
-<li>MySQL</li>
-<li>MariaDB</li>
-<li>MongoDB</li>
-<li>Neo4j</li>
-<li>RethinkDB</li>
-<li>PostgreSQL</li>
-<li>Postgres Postgis</li>
-</ul></li>
-<li><strong>Cache Engines:</strong>
-
-<ul>
-<li>Redis</li>
-<li>Memcached</li>
-<li>Aerospike</li>
-</ul></li>
-<li><strong>PHP Servers:</strong>
-
-<ul>
-<li>NGINX</li>
-<li>Apache2</li>
-<li>Caddy</li>
-</ul></li>
-<li><strong>PHP Compilers:</strong>
-
-<ul>
-<li>PHP-FPM</li>
-<li>HHVM</li>
-</ul></li>
-<li><strong>Message Queuing Systems:</strong>
-
-<ul>
-<li>Beanstalkd</li>
-<li>Beanstalkd Console</li>
-<li>RabbitMQ</li>
-<li>RabbitMQ Console</li>
-</ul></li>
-<li><strong>Tools:</strong>
-
-<ul>
-<li>PhpMyAdmin</li>
-<li>Adminer</li>
-<li>PgAdmin</li>
-<li>ElasticSearch</li>
-<li>Selenium</li>
-<li>Certbot</li>
-<li>Mailhog</li>
-<li>Minio</li>
-<li>Workspace
-
-<ul>
-<li>PHP7-CLI</li>
-<li>Composer</li>
-<li>Git</li>
-<li>Linuxbrew</li>
-<li>Node</li>
-<li>Gulp</li>
-<li>SQLite</li>
-<li>xDebug</li>
-<li>Envoy</li>
-<li>Deployer</li>
-<li>Vim</li>
-<li>Yarn</li>
-<li>&hellip; Many other supported tools are not documented. (Will be updated soon)</li>
-</ul></li>
-</ul></li>
-</ul>
-
-<blockquote>
-<p>If you can&rsquo;t find your Software, build it yourself and add it to this list. Contributions are welcomed :)</p>
-</blockquote>
 
 <p><a name="Chat"></a></p>
 

@@ -16,15 +16,17 @@
       <guid>http://laradock.io/introduction/</guid>
       <description>
 
-&lt;p&gt;Laradock strives to make the PHP development experience easier and faster.&lt;/p&gt;
+&lt;p&gt;A full PHP development environment for Docker.&lt;/p&gt;
 
-&lt;p&gt;It contains pre-packaged Docker Images that provides you a wonderful &lt;em&gt;development&lt;/em&gt; environment without requiring you to install PHP, NGINX, MySQL, Redis, and any other software on your machines.&lt;/p&gt;
+&lt;p&gt;Includes pre-packaged Docker Images, all pre-configured to provide a wonderful PHP development environment.&lt;/p&gt;
 
-&lt;p&gt;Laradock is configured to run Laravel Apps by default, and it can be modified to run all kinds of PHP Apps (Symfony, CodeIgniter, WordPress, Drupal&amp;hellip;).&lt;/p&gt;
+&lt;p&gt;Laradock is well known in the Laravel community, as the project started with single focus on running Laravel projects on Docker. Later and due to the large adoption from the PHP community, it started supporting other PHP projects like Symfony, CodeIgniter, WordPress, Drupal&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://s19.postimg.org/jblfytw9f/laradock-logo.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;quick-overview&#34;&gt;Quick Overview&lt;/h2&gt;
 
-&lt;p&gt;Let&amp;rsquo;s see how easy it is to install &lt;code&gt;NGINX&lt;/code&gt;, &lt;code&gt;PHP&lt;/code&gt;, &lt;code&gt;Composer&lt;/code&gt;, &lt;code&gt;MySQL&lt;/code&gt;, &lt;code&gt;Redis&lt;/code&gt; and &lt;code&gt;beanstalkd&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s see how easy it is to install &lt;code&gt;NGINX&lt;/code&gt;, &lt;code&gt;PHP&lt;/code&gt;, &lt;code&gt;Composer&lt;/code&gt;, &lt;code&gt;MySQL&lt;/code&gt;, &lt;code&gt;Redis&lt;/code&gt; and &lt;code&gt;Beanstalkd&lt;/code&gt;:&lt;/p&gt;
 
 &lt;p&gt;1 - Clone Laradock inside your PHP project:&lt;/p&gt;
 
@@ -41,17 +43,74 @@
 &lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;docker-compose up -d nginx mysql redis beanstalkd
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;3 - Open your project&amp;rsquo;s &lt;code&gt;.env&lt;/code&gt; file and set the following:&lt;/p&gt;
+&lt;p&gt;4 - Open your project&amp;rsquo;s &lt;code&gt;.env&lt;/code&gt; file and set the following:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;DB_HOST=mysql
 REDIS_HOST=redis
 QUEUE_HOST=beanstalkd
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;4 - Open your browser and visit localhost: &lt;code&gt;http://localhost&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;5 - Open your browser and visit localhost: &lt;code&gt;http://localhost&lt;/code&gt;.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;That&#39;s it! enjoy :)
 &lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a name=&#34;features&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;features&#34;&gt;Features&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Easy switch between PHP versions: 7.1, 7.0, 5.6&amp;hellip;&lt;/li&gt;
+&lt;li&gt;Choose your favorite database engine: MySQL, Postgres, MariaDB&amp;hellip;&lt;/li&gt;
+&lt;li&gt;Run your own combination of software: Memcached, HHVM, Beanstalkd&amp;hellip;&lt;/li&gt;
+&lt;li&gt;Every software runs on a separate container: PHP-FPM, NGINX, PHP-CLI&amp;hellip;&lt;/li&gt;
+&lt;li&gt;Easy to customize any container, with simple edit to the &lt;code&gt;Dockerfile&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;All Images extends from an official base Image. (Trusted base Images).&lt;/li&gt;
+&lt;li&gt;Pre-configured NGINX to host any code at your root directory.&lt;/li&gt;
+&lt;li&gt;Can use Laradock per project, or single Laradock for all projects.&lt;/li&gt;
+&lt;li&gt;Easy to install/remove software&amp;rsquo;s in Containers using environment variables.&lt;/li&gt;
+&lt;li&gt;Clean and well structured Dockerfiles (&lt;code&gt;Dockerfile&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;Latest version of the Docker Compose file (&lt;code&gt;docker-compose&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;Everything is visible and editable.&lt;/li&gt;
+&lt;li&gt;Fast Images Builds.&lt;/li&gt;
+&lt;li&gt;More to come every week..&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a name=&#34;Supported-Containers&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;supported-software-images&#34;&gt;Supported Software (Images)&lt;/h2&gt;
+
+&lt;p&gt;In adhering to the separation of concerns principle as promoted by Docker, Laradock runs each software on its own Container.
+You can turn On/Off as many instances of as any container without worrying about the configurations, everything works like a charm.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Database Engines:&lt;/strong&gt;
+MySQL - MariaDB - MongoDB - Neo4j - RethinkDB - MSSQL - PostgreSQL - Postgres Postgis.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Cache Engines:&lt;/strong&gt;
+Redis - Memcached - Aerospike&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;PHP Servers:&lt;/strong&gt;
+NGINX - Apache2 - Caddy&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;PHP Compilers:&lt;/strong&gt;
+PHP FPM - HHVM&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Message Queuing:&lt;/strong&gt;
+Beanstalkd - Beanstalkd Console - RabbitMQ - RabbitMQ Console - PHP Worker&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Tools:&lt;/strong&gt;
+HAProxy - Jenkins - ElasticSearch - Selenium - Certbot - Mailhog - Minio - Varnish - PhpMyAdmin - Adminer - PgAdmin - MailHog&amp;hellip;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Laradock introduces the &lt;strong&gt;Workspace&lt;/strong&gt; Image, as a development environment.
+It contains a rich set of helpful tools, all pre-configured to work and integrate with almost any combination of Containers and tools you may choose.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Workspace Image Tools&lt;/strong&gt;
+PHP CLI - Composer - Git - Linuxbrew - Node - V8JS - Gulp - SQLite - xDebug - Envoy - Deployer - Vim - Yarn - SOAP - Drush&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;You can choose, which tools to install in your workspace container and other containers, from the &lt;code&gt;.env&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;If you modify &lt;code&gt;docker-compose.yml&lt;/code&gt;, &lt;code&gt;.env&lt;/code&gt; or any &lt;code&gt;dockerfile&lt;/code&gt; file, you must re-build your containers, to see those effects in the running instance.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;If you can&amp;rsquo;t find your Software in the list, build it yourself and sumit it. Contributions are welcomed :)&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&#34;what-is-docker&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
@@ -71,24 +130,6 @@ QUEUE_HOST=beanstalkd
 
 &lt;p&gt;Most importantly Docker can run on Development and on Production (same environment everywhere). While Vagrant is designed for Development only, (so you have to re-provision your server on Production every time).&lt;/p&gt;
 
-&lt;p&gt;&lt;a name=&#34;laradock-vs-homestead&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;laradock-vs-homestead-for-laravel-developers&#34;&gt;Laradock VS Homestead (For Laravel Developers)&lt;/h2&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Laradock It&amp;rsquo;s like Laravel Homestead but for Docker instead of Vagrant.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Laradock and &lt;a href=&#34;https://laravel.com/docs/master/homestead&#34;&gt;Homestead&lt;/a&gt; both give you complete virtual development environments. (Without the need to install and configure every single software on your own Operating System).&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Homestead is a tool that controls Vagrant for you (using Homestead special commands). And Vagrant manages your Virtual Machine.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Laradock is a tool that controls Docker for you (using Docker &amp;amp; Docker Compose official commands). And Docker manages your Virtual Containers.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Running a virtual container is much faster than running a full virtual Machine. Thus &lt;strong&gt;Laradock is much faster than Homestead&lt;/strong&gt;.&lt;/p&gt;
-
 &lt;p&gt;&lt;a name=&#34;Demo&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;demo-video&#34;&gt;Demo Video&lt;/h2&gt;
@@ -96,110 +137,12 @@ QUEUE_HOST=beanstalkd
 &lt;p&gt;What&amp;rsquo;s better than a &lt;strong&gt;Demo Video&lt;/strong&gt;:&lt;/p&gt;
 
 &lt;ul&gt;
+&lt;li&gt;Laradock v5.* (soon or never)&lt;/li&gt;
 &lt;li&gt;Laradock &lt;a href=&#34;https://www.youtube.com/watch?v=TQii1jDa96Y&#34;&gt;v4.*&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Laradock &lt;a href=&#34;https://www.youtube.com/watch?v=-DamFMczwDA&#34;&gt;v2.*&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Laradock &lt;a href=&#34;https://www.youtube.com/watch?v=jGkyO6Is_aI&#34;&gt;v0.3&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Laradock &lt;a href=&#34;https://www.youtube.com/watch?v=3YQsHe6oF80&#34;&gt;v0.1&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;p&gt;&lt;a name=&#34;features&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;features&#34;&gt;Features&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Easy switch between PHP versions: 7.0, 5.6, 5.5&amp;hellip;&lt;/li&gt;
-&lt;li&gt;Choose your favorite database engine: MySQL, Postgres, MariaDB&amp;hellip;&lt;/li&gt;
-&lt;li&gt;Run your own combination of software: Memcached, HHVM, Beanstalkd&amp;hellip;&lt;/li&gt;
-&lt;li&gt;Every software runs on a separate container: PHP-FPM, NGINX, PHP-CLI&amp;hellip;&lt;/li&gt;
-&lt;li&gt;Easy to customize any container, with simple edit to the &lt;code&gt;Dockerfile&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;All Images extends from an official base Image. (Trusted base Images).&lt;/li&gt;
-&lt;li&gt;Pre-configured NGINX for Laravel.&lt;/li&gt;
-&lt;li&gt;Easy to apply configurations inside containers.&lt;/li&gt;
-&lt;li&gt;Clean and well structured Dockerfiles (&lt;code&gt;Dockerfile&lt;/code&gt;).&lt;/li&gt;
-&lt;li&gt;Latest version of the Docker Compose file (&lt;code&gt;docker-compose&lt;/code&gt;).&lt;/li&gt;
-&lt;li&gt;Everything is visible and editable.&lt;/li&gt;
-&lt;li&gt;Fast Images Builds.&lt;/li&gt;
-&lt;li&gt;More to come every week..&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;a name=&#34;Supported-Containers&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;supported-software-containers&#34;&gt;Supported Software (Containers)&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Database Engines:&lt;/strong&gt;
-
-&lt;ul&gt;
-&lt;li&gt;MySQL&lt;/li&gt;
-&lt;li&gt;MariaDB&lt;/li&gt;
-&lt;li&gt;MongoDB&lt;/li&gt;
-&lt;li&gt;Neo4j&lt;/li&gt;
-&lt;li&gt;RethinkDB&lt;/li&gt;
-&lt;li&gt;PostgreSQL&lt;/li&gt;
-&lt;li&gt;Postgres Postgis&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Cache Engines:&lt;/strong&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Redis&lt;/li&gt;
-&lt;li&gt;Memcached&lt;/li&gt;
-&lt;li&gt;Aerospike&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;PHP Servers:&lt;/strong&gt;
-
-&lt;ul&gt;
-&lt;li&gt;NGINX&lt;/li&gt;
-&lt;li&gt;Apache2&lt;/li&gt;
-&lt;li&gt;Caddy&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;PHP Compilers:&lt;/strong&gt;
-
-&lt;ul&gt;
-&lt;li&gt;PHP-FPM&lt;/li&gt;
-&lt;li&gt;HHVM&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Message Queuing Systems:&lt;/strong&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Beanstalkd&lt;/li&gt;
-&lt;li&gt;Beanstalkd Console&lt;/li&gt;
-&lt;li&gt;RabbitMQ&lt;/li&gt;
-&lt;li&gt;RabbitMQ Console&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Tools:&lt;/strong&gt;
-
-&lt;ul&gt;
-&lt;li&gt;PhpMyAdmin&lt;/li&gt;
-&lt;li&gt;Adminer&lt;/li&gt;
-&lt;li&gt;PgAdmin&lt;/li&gt;
-&lt;li&gt;ElasticSearch&lt;/li&gt;
-&lt;li&gt;Selenium&lt;/li&gt;
-&lt;li&gt;Certbot&lt;/li&gt;
-&lt;li&gt;Mailhog&lt;/li&gt;
-&lt;li&gt;Minio&lt;/li&gt;
-&lt;li&gt;Workspace
-
-&lt;ul&gt;
-&lt;li&gt;PHP7-CLI&lt;/li&gt;
-&lt;li&gt;Composer&lt;/li&gt;
-&lt;li&gt;Git&lt;/li&gt;
-&lt;li&gt;Linuxbrew&lt;/li&gt;
-&lt;li&gt;Node&lt;/li&gt;
-&lt;li&gt;Gulp&lt;/li&gt;
-&lt;li&gt;SQLite&lt;/li&gt;
-&lt;li&gt;xDebug&lt;/li&gt;
-&lt;li&gt;Envoy&lt;/li&gt;
-&lt;li&gt;Deployer&lt;/li&gt;
-&lt;li&gt;Vim&lt;/li&gt;
-&lt;li&gt;Yarn&lt;/li&gt;
-&lt;li&gt;&amp;hellip; Many other supported tools are not documented. (Will be updated soon)&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;If you can&amp;rsquo;t find your Software, build it yourself and add it to this list. Contributions are welcomed :)&lt;/p&gt;
-&lt;/blockquote&gt;
 
 &lt;p&gt;&lt;a name=&#34;Chat&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 
@@ -383,11 +326,7 @@ QUEUE_HOST=beanstalkd
 
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: The &lt;code&gt;workspace&lt;/code&gt; and &lt;code&gt;php-fpm&lt;/code&gt; will run automatically in most of the cases, so no need to specify them in the &lt;code&gt;up&lt;/code&gt; command. If you couldn&amp;rsquo;t find them running then you need specify them as follow: &lt;code&gt;docker-compose up -d nginx php-fpm mysql workspace&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;You can select your own combination of containers form the list below:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;&lt;code&gt;nginx&lt;/code&gt;, &lt;code&gt;hhvm&lt;/code&gt;, &lt;code&gt;php-fpm&lt;/code&gt;, &lt;code&gt;mysql&lt;/code&gt;, &lt;code&gt;redis&lt;/code&gt;, &lt;code&gt;postgres&lt;/code&gt;, &lt;code&gt;mariadb&lt;/code&gt;, &lt;code&gt;neo4j&lt;/code&gt;, &lt;code&gt;mongo&lt;/code&gt;, &lt;code&gt;apache2&lt;/code&gt;, &lt;code&gt;caddy&lt;/code&gt;, &lt;code&gt;memcached&lt;/code&gt;, &lt;code&gt;beanstalkd&lt;/code&gt;, &lt;code&gt;beanstalkd-console&lt;/code&gt;, &lt;code&gt;rabbitmq&lt;/code&gt;, &lt;code&gt;beanstalkd-console&lt;/code&gt;, &lt;code&gt;workspace&lt;/code&gt;, &lt;code&gt;phpmyadmin&lt;/code&gt;, &lt;code&gt;adminer&lt;/code&gt;, &lt;code&gt;aerospike&lt;/code&gt;, &lt;code&gt;pgadmin&lt;/code&gt;, &lt;code&gt;elasticsearch&lt;/code&gt;, &lt;code&gt;rethinkdb&lt;/code&gt;, &lt;code&gt;postgres-postgis&lt;/code&gt;, &lt;code&gt;certbot&lt;/code&gt;, &lt;code&gt;mailhog&lt;/code&gt;, &lt;code&gt;minio&lt;/code&gt; and more&amp;hellip;!&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;You can select your own combination of containers form &lt;a href=&#34;http://laradock.io/introduction/#supported-software-images&#34;&gt;this list&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;(Please note that sometimes we forget to update the docs, so check the &lt;code&gt;docker-compose.yml&lt;/code&gt; file to see an updated list of all available containers).&lt;/em&gt;&lt;/p&gt;
 
@@ -1664,6 +1603,691 @@ e) set it to &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
     </item>
     
     <item>
+      <title>Guides</title>
+      <link>http://laradock.io/guides/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://laradock.io/guides/</guid>
+      <description>
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#Digital-Ocean&#34;&gt;Production Setup on Digital Ocean&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#PHPStorm-Debugging&#34;&gt;PHPStorm XDebug Setup&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a name=&#34;Digital-Ocean&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;production-setup-on-digital-ocean&#34;&gt;Production Setup on Digital Ocean&lt;/h1&gt;
+
+&lt;h2 id=&#34;install-docker&#34;&gt;Install Docker&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Visit &lt;a href=&#34;https://cloud.digitalocean.com/login&#34;&gt;DigitalOcean&lt;/a&gt; and login.&lt;/li&gt;
+&lt;li&gt;Click the &lt;code&gt;Create Droplet&lt;/code&gt; button.&lt;/li&gt;
+&lt;li&gt;Open the &lt;code&gt;One-click apps&lt;/code&gt; tab.&lt;/li&gt;
+&lt;li&gt;Select Docker with your preferred version.&lt;/li&gt;
+&lt;li&gt;Continue creating the droplet as you normally would.&lt;/li&gt;
+&lt;li&gt;If needed, check your e-mail for the droplet root password.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;ssh-to-your-server&#34;&gt;SSH to your Server&lt;/h2&gt;
+
+&lt;p&gt;Find the IP address of the droplet in the DigitalOcean interface. Use it to connect to the server.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ssh root@ipaddress
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You may be prompted for a password. Type the one you found within your e-mailbox. It&amp;rsquo;ll then ask you to change the password.&lt;/p&gt;
+
+&lt;p&gt;You can now check if Docker is available:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$root@server:~# docker
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;set-up-your-laravel-project&#34;&gt;Set Up Your Laravel Project&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;$root@server:~# apt-get install git
+$root@server:~# git clone https://github.com/laravel/laravel
+$root@server:~# cd laravel
+$root@server:~/laravel/ git submodule add https://github.com/LaraDock/laradock.git
+$root@server:~/laravel/ cd laradock
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;install-docker-compose-command&#34;&gt;Install docker-compose command&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;$root@server:~/laravel/laradock# curl -L https://github.com/docker/compose/releases/download/1.8.0/run.sh &amp;gt; /usr/local/bin/docker-compose
+$root@server:~/chmod +x /usr/local/bin/docker-compose
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;create-your-laradock-containers&#34;&gt;Create Your LaraDock Containers&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;$root@server:~/laravel/laradock# docker-compose up -d nginx mysql
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Note that more containers are available, find them in the &lt;a href=&#34;http://laradock.io/introduction/#supported-software-containers&#34;&gt;docs&lt;/a&gt; or the &lt;code&gt;docker-compose.yml&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;h2 id=&#34;go-to-your-workspace&#34;&gt;Go to Your Workspace&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;docker-compose exec workspace bash
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;install-and-configure-laravel&#34;&gt;Install and configure Laravel&lt;/h2&gt;
+
+&lt;p&gt;Let&amp;rsquo;s install Laravel&amp;rsquo;s dependencies, add the &lt;code&gt;.env&lt;/code&gt; file, generate the key and give proper permissions to the cache folder.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ root@workspace:/var/www# composer install
+$ root@workspace:/var/www# cp .env.example .env
+$ root@workspace:/var/www# php artisan key:generate
+$ root@workspace:/var/www# exit
+$root@server:~/laravel/laradock# cd ..
+$root@server:~/laravel# sudo chmod -R 777 storage bootstrap/cache
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You can then view your Laravel site by visiting the IP address of your server in your browser. For example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;http://192.168.1.1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;It should show you the Laravel default welcome page.&lt;/p&gt;
+
+&lt;p&gt;However, we want it to show up using your custom domain name, as well.&lt;/p&gt;
+
+&lt;h2 id=&#34;using-your-own-domain-name&#34;&gt;Using Your Own Domain Name&lt;/h2&gt;
+
+&lt;p&gt;Login to your DNS provider, such as Godaddy, Namecheap.&lt;/p&gt;
+
+&lt;p&gt;Point the Custom Domain Name Server to:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ns1.digitalocean.com
+ns2.digitalocean.com
+ns3.digitalocean.com
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Within DigitalOcean, you&amp;rsquo;ll need to change some settings, too.&lt;/p&gt;
+
+&lt;p&gt;Visit: &lt;a href=&#34;https://cloud.digitalocean.com/networking/domains&#34;&gt;https://cloud.digitalocean.com/networking/domains&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Add your domain name and choose the server IP you&amp;rsquo;d provision earlier.&lt;/p&gt;
+
+&lt;h2 id=&#34;serving-site-with-nginx-http-only&#34;&gt;Serving Site With NGINX (HTTP ONLY)&lt;/h2&gt;
+
+&lt;p&gt;Go back to command line.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$root@server:~/laravel/laradock# cd nginx
+$root@server:~/laravel/laradock/nginx# vim laravel.conf
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Remove &lt;code&gt;default_server&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    listen 80 default_server;
+    listen [::]:80 default_server ipv6only=on;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And add &lt;code&gt;server_name&lt;/code&gt; (your custom domain)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    listen 80;
+    listen [::]:80 ipv6only=on;
+    server_name yourdomain.com;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;rebuild-your-nginx&#34;&gt;Rebuild Your Nginx&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;$root@server:~/laravel/laradock/nginx# docker-compose down
+$root@server:~/laravel/laradock/nginx# docker-compose build nginx
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;re-run-your-containers-mysql-and-nginx&#34;&gt;Re Run Your Containers MYSQL and NGINX&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;$root@server:~/laravel/laradock/nginx# docker-compose up -d nginx mysql
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;View Your Site with HTTP ONLY (&lt;a href=&#34;http://yourdomain.com&#34;&gt;http://yourdomain.com&lt;/a&gt;)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;run-site-on-ssl-with-let-s-encrypt-certificate&#34;&gt;Run Site on SSL with Let&amp;rsquo;s Encrypt Certificate&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;Note: You need to Use Caddy here Instead of Nginx&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;To go Caddy Folders and Edit CaddyFile&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$root@server:~/laravel/laradock# cd caddy
+$root@server:~/laravel/laradock/caddy# vim Caddyfile
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Remove 0.0.0.0:80&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;0.0.0.0:80
+root /var/www/public
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;and replace with your &lt;a href=&#34;https://yourdomain.com&#34;&gt;https://yourdomain.com&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;https://yourdomain.com
+root /var/www/public
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;uncomment tls&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#tls self-signed
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;and replace self-signed with your email address&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;tls serverbreaker@gmai.com
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is needed Prior to Creating Let&amp;rsquo;s Encypt&lt;/p&gt;
+
+&lt;h2 id=&#34;run-your-caddy-container-without-the-d-flag-and-generate-ssl-with-let-s-encrypt&#34;&gt;Run Your Caddy Container without the -d flag and Generate SSL with Let&amp;rsquo;s Encrypt&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;$root@server:~/laravel/laradock/caddy# docker-compose up  caddy
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You&amp;rsquo;ll be prompt here to enter your email&amp;hellip; you may enter it or not&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Attaching to laradock_mysql_1, laradock_caddy_1
+caddy_1               | Activating privacy features...
+caddy_1               | Your sites will be served over HTTPS automatically using Let&#39;s Encrypt.
+caddy_1               | By continuing, you agree to the Let&#39;s Encrypt Subscriber Agreement at:
+caddy_1               |   https://letsencrypt.org/documents/LE-SA-v1.0.1-July-27-2015.pdf
+caddy_1               | Activating privacy features... done.
+caddy_1               | https://yourdomain.com
+caddy_1               | http://yourdomain.com
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;After it finishes, press &lt;code&gt;Ctrl&lt;/code&gt; + &lt;code&gt;C&lt;/code&gt; to exit.&lt;/p&gt;
+
+&lt;h2 id=&#34;stop-all-containers-and-rerun-caddy-and-other-containers-on-background&#34;&gt;Stop All Containers and ReRun Caddy and Other Containers on Background&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;$root@server:~/laravel/laradock/caddy# docker-compose down
+$root@server:~/laravel/laradock/caddy# docker-compose up -d mysql caddy
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;View your Site in the Browser Securely Using HTTPS (&lt;a href=&#34;https://yourdomain.com&#34;&gt;https://yourdomain.com&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note that Certificate will be Automatically Renew By Caddy&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;References:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04&#34;&gt;https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.digitalocean.com/products/one-click-apps/docker/&#34;&gt;https://www.digitalocean.com/products/one-click-apps/docker/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.docker.com/engine/installation/linux/ubuntulinux/&#34;&gt;https://docs.docker.com/engine/installation/linux/ubuntulinux/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.docker.com/compose/install/&#34;&gt;https://docs.docker.com/compose/install/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://caddyserver.com/docs/automatic-https&#34;&gt;https://caddyserver.com/docs/automatic-https&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://caddyserver.com/docs/tls&#34;&gt;https://caddyserver.com/docs/tls&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://caddyserver.com/docs/caddyfile&#34;&gt;https://caddyserver.com/docs/caddyfile&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;PHPStorm-Debugging&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;phpstorm-xdebug-setup&#34;&gt;PHPStorm XDebug Setup&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#Intro&#34;&gt;Intro&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#Installation&#34;&gt;Installation&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#CustomizeDockerCompose&#34;&gt;Customize laradock/docker-compose.yml&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#InstallCleanHouse&#34;&gt;Clean House&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#InstallLaraDockDialTone&#34;&gt;LaraDock Dial Tone&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#AddToHosts&#34;&gt;hosts&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#FireWall&#34;&gt;Firewall&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#enablePhpXdebug&#34;&gt;Enable xDebug on php-fpm&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#InstallPHPStorm&#34;&gt;PHPStorm Settings&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#InstallPHPStormConfigs&#34;&gt;Configs&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#Usage&#34;&gt;Usage&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#UsageLaravel&#34;&gt;Laravel&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#UsagePHPStormRunExampleTest&#34;&gt;Run ExampleTest&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#UsagePHPStormDebugExampleTest&#34;&gt;Debug ExampleTest&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#UsagePHPStormDebugSite&#34;&gt;Debug Web Site&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#SSHintoWorkspace&#34;&gt;SSH into workspace&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#InstallKiTTY&#34;&gt;KiTTY&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a name=&#34;Intro&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;intro&#34;&gt;Intro&lt;/h2&gt;
+
+&lt;p&gt;Wiring up &lt;a href=&#34;https://laravel.com/&#34;&gt;Laravel&lt;/a&gt;, &lt;a href=&#34;https://github.com/LaraDock/laradock&#34;&gt;LaraDock&lt;/a&gt; [Laravel+Docker] and &lt;a href=&#34;https://www.jetbrains.com/phpstorm/&#34;&gt;PHPStorm&lt;/a&gt; to play nice together complete with remote xdebug&amp;rsquo;ing as icing on top! Although this guide is based on &lt;code&gt;PHPStorm Windows&lt;/code&gt;,
+you should be able to adjust accordingly. This guide was written based on Docker for Windows Native.&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;Installation&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;This guide assumes the following:
+
+&lt;ul&gt;
+&lt;li&gt;you have already installed and are familiar with Laravel, LaraDock and PHPStorm.&lt;/li&gt;
+&lt;li&gt;you have installed Laravel as a parent of &lt;code&gt;laradock&lt;/code&gt;. This guide assumes &lt;code&gt;/c/_dk/laravel&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a name=&#34;AddToHosts&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;hosts&#34;&gt;hosts&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Add &lt;code&gt;laravel&lt;/code&gt; to your hosts file located on Windows 10 at &lt;code&gt;C:\Windows\System32\drivers\etc\hosts&lt;/code&gt;. It should be set to the IP of your running container. Mine is: &lt;code&gt;10.0.75.2&lt;/code&gt;
+On Windows you can find it by opening Windows &lt;code&gt;Hyper-V Manager&lt;/code&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;img src=&#34;photos/PHPStorm/Settings/WindowsHyperVManager.png&#34; alt=&#34;Windows Hyper-V Manager&#34; /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://github.com/scottlerch/HostsFileEditor&#34;&gt;Hosts File Editor&lt;/a&gt; makes it easy to change your hosts file.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Set &lt;code&gt;laravel&lt;/code&gt; to your docker host IP. See &lt;a href=&#34;photos/SimpleHostsEditor/AddHost_laravel.png&#34;&gt;Example&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a name=&#34;FireWall&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;firewall&#34;&gt;Firewall&lt;/h2&gt;
+
+&lt;p&gt;Your PHPStorm will need to be able to receive a connection from PHP xdebug either your running workspace or php-fpm containers on port 9000. This means that your Windows Firewall should either enable connections from the Application PHPStorm OR the port.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;It is important to note that if the Application PHPStorm is NOT enabled in the firewall, you will not be able to recreate a rule to override that.&lt;/li&gt;
+&lt;li&gt;Also be aware that if you are installing/upgrade different versions of PHPStorm, you MAY have orphaned references to PHPStorm in your Firewall! You may decide to remove orphaned references however in either case, make sure that they are set to receive public TCP traffic.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;edit-laradock-docker-compose-yml&#34;&gt;Edit laradock/docker-compose.yml&lt;/h3&gt;
+
+&lt;p&gt;Set the following variables:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;### Workspace Utilities Container ###############
+
+    workspace:
+        build:
+            context: ./workspace
+            args:
+                - INSTALL_XDEBUG=true
+                - INSTALL_WORKSPACE_SSH=true
+                ...
+
+
+### PHP-FPM Container #####################
+
+    php-fpm:
+        build:
+            context: ./php-fpm
+            args:
+                - INSTALL_XDEBUG=true
+                ...
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;edit-xdebug-ini-files&#34;&gt;Edit xdebug.ini files&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;laradock/workspace/xdebug.ini&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;laradock/php-fpm/xdebug.ini&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Set the following variables:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;xdebug.remote_autostart=1
+xdebug.remote_enable=1
+xdebug.remote_connect_back=1
+xdebug.cli_color=1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a name=&#34;InstallCleanHouse&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;need-to-clean-house-first&#34;&gt;Need to clean house first?&lt;/h3&gt;
+
+&lt;p&gt;Make sure you are starting with a clean state. For example, do you have other LaraDock containers and images?
+Here are a few things I use to clean things up.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Delete all containers using &lt;code&gt;grep laradock_&lt;/code&gt; on the names, see: &lt;a href=&#34;https://linuxconfig.org/remove-all-containners-based-on-docker-image-name&#34;&gt;Remove all containers based on docker image name&lt;/a&gt;.
+&lt;code&gt;docker ps -a | awk &#39;{ print $1,$2 }&#39; | grep laradock_ | awk &#39;{print $1}&#39; | xargs -I {} docker rm {}&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Delete all images containing &lt;code&gt;laradock&lt;/code&gt;.
+&lt;code&gt;docker images | awk &#39;{print $1,$2,$3}&#39; | grep laradock_ | awk &#39;{print $3}&#39; | xargs -I {} docker rmi {}&lt;/code&gt;
+&lt;strong&gt;Note:&lt;/strong&gt; This will only delete images that were built with &lt;code&gt;LaraDock&lt;/code&gt;, &lt;strong&gt;NOT&lt;/strong&gt; &lt;code&gt;laradock/*&lt;/code&gt; which are pulled down by &lt;code&gt;LaraDock&lt;/code&gt; such as &lt;code&gt;laradock/workspace&lt;/code&gt;, etc.
+&lt;strong&gt;Note:&lt;/strong&gt; Some may fail with:
+&lt;code&gt;Error response from daemon: conflict: unable to delete 3f38eaed93df (cannot be forced) - image has dependent child images&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;I added this to my &lt;code&gt;.bashrc&lt;/code&gt; to remove orphaned images.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;dclean() {
+    processes=`docker ps -q -f status=exited`
+    if [ -n &amp;quot;$processes&amp;quot; ]; thend
+      docker rm $processes
+    fi
+
+    images=`docker images -q -f dangling=true`
+    if [ -n &amp;quot;$images&amp;quot; ]; then
+      docker rmi $images
+    fi
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;If you frequently switch configurations for LaraDock, you may find that adding the following and added to your &lt;code&gt;.bashrc&lt;/code&gt; or equivalent useful:
+```&lt;/p&gt;
+
+&lt;h1 id=&#34;remove-laravel-containers&#34;&gt;remove laravel* containers&lt;/h1&gt;
+
+&lt;h1 id=&#34;remove-laravel-images&#34;&gt;remove laravel_* images&lt;/h1&gt;
+
+&lt;p&gt;dcleanlaradockfunction()
+{
+	echo &amp;lsquo;Removing ALL containers associated with laradock&amp;rsquo;
+	docker ps -a | awk &amp;lsquo;{ print $1,$2 }&amp;rsquo; | grep laradock | awk &amp;lsquo;{print $1}&amp;rsquo; | xargs -I {} docker rm {}&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;	# remove ALL images associated with laradock_
+	# does NOT delete laradock/* which are hub images
+	echo &amp;lsquo;Removing ALL images associated with laradock&lt;em&gt;&amp;lsquo;
+	docker images | awk &amp;lsquo;{print $1,$2,$3}&amp;rsquo; | grep laradock&lt;/em&gt; | awk &amp;lsquo;{print $3}&amp;rsquo; | xargs -I {} docker rmi {}&lt;/p&gt;
+
+&lt;p&gt;	echo &amp;lsquo;Listing all laradock docker hub images&amp;hellip;&amp;rsquo;
+	docker images | grep laradock&lt;/p&gt;
+
+&lt;p&gt;	echo &amp;lsquo;dcleanlaradock completed&amp;rsquo;
+}&lt;/p&gt;
+
+&lt;h1 id=&#34;associate-the-above-function-with-an-alias&#34;&gt;associate the above function with an alias&lt;/h1&gt;
+
+&lt;h1 id=&#34;so-can-recall-lookup-by-typing-alias&#34;&gt;so can recall/lookup by typing &amp;lsquo;alias&amp;rsquo;&lt;/h1&gt;
+
+&lt;p&gt;alias dcleanlaradock=dcleanlaradockfunction&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+&amp;lt;a name=&amp;quot;InstallLaraDockDialTone&amp;quot;&amp;gt;&amp;lt;/a&amp;gt;
+## Let&#39;s get a dial-tone with Laravel
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;barebones-at-this-point&#34;&gt;barebones at this point&lt;/h1&gt;
+
+&lt;p&gt;docker-compose up -d nginx mysql&lt;/p&gt;
+
+&lt;h1 id=&#34;run&#34;&gt;run&lt;/h1&gt;
+
+&lt;p&gt;docker-compose ps&lt;/p&gt;
+
+&lt;h1 id=&#34;should-see&#34;&gt;Should see:&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code&gt;      Name                        Command             State                     Ports
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;laradock_mysql_1            docker-entrypoint.sh mysqld   Up       0.0.0.0:3306-&amp;gt;3306/tcp
+laradock_nginx_1            nginx                         Up       0.0.0.0:443-&amp;gt;443/tcp, 0.0.0.0:80-&amp;gt;80/tcp
+laradock_php-fpm_1          php-fpm                       Up       9000/tcp
+laradock_volumes_data_1     true                          Exit 0
+laradock_volumes_source_1   true                          Exit 0
+laradock_workspace_1        /sbin/my_init                 Up       0.0.0.0:2222-&amp;gt;22/tcp&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+&amp;lt;a name=&amp;quot;enablePhpXdebug&amp;quot;&amp;gt;&amp;lt;/a&amp;gt;
+## Enable xDebug on php-fpm
+In a host terminal sitting in the laradock folder, run: `./xdebugPhpFpm status`
+You should see something like the following:
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;xDebug status
+laradock_php-fpm_1
+PHP 7.0.9 (cli) (built: Aug 10 2016 19:45:48) ( NTS )
+Copyright &amp;copy; 1997-2016 The PHP Group
+Zend Engine v3.0.0, Copyright &amp;copy; 1998-2016 Zend Technologies
+    with Xdebug v2.4.1, Copyright &amp;copy; 2002-2016, by Derick Rethans
+``&lt;code&gt;
+Other commands include&lt;/code&gt;./xdebugPhpFpm start | stop`.&lt;/p&gt;
+
+&lt;p&gt;If you have enabled &lt;code&gt;xdebug=true&lt;/code&gt; in &lt;code&gt;docker-compose.yml/php-fpm&lt;/code&gt;, &lt;code&gt;xdebug&lt;/code&gt; will already be running when
+&lt;code&gt;php-fpm&lt;/code&gt; is started and listening for debug info on port 9000.&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;InstallPHPStormConfigs&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;phpstorm-settings&#34;&gt;PHPStorm Settings&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Here are some settings that are known to work:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;Settings/BuildDeploymentConnection&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;img src=&#34;photos/PHPStorm/Settings/BuildDeploymentConnection.png&#34; alt=&#34;Settings/BuildDeploymentConnection&#34; /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;Settings/BuildDeploymentConnectionMappings&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;img src=&#34;photos/PHPStorm/Settings/BuildDeploymentConnectionMappings.png&#34; alt=&#34;Settings/BuildDeploymentConnectionMappings&#34; /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;Settings/BuildDeploymentDebugger&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;img src=&#34;photos/PHPStorm/Settings/BuildDeploymentDebugger.png&#34; alt=&#34;Settings/BuildDeploymentDebugger&#34; /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;Settings/EditRunConfigurationRemoteWebDebug&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;img src=&#34;photos/PHPStorm/Settings/EditRunConfigurationRemoteWebDebug.png&#34; alt=&#34;Settings/EditRunConfigurationRemoteWebDebug&#34; /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;Settings/EditRunConfigurationRemoteExampleTestDebug&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;img src=&#34;photos/PHPStorm/Settings/EditRunConfigurationRemoteExampleTestDebug.png&#34; alt=&#34;Settings/EditRunConfigurationRemoteExampleTestDebug&#34; /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;Settings/LangsPHPDebug&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;img src=&#34;photos/PHPStorm/Settings/LangsPHPDebug.png&#34; alt=&#34;Settings/LangsPHPDebug&#34; /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;Settings/LangsPHPInterpreters&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;img src=&#34;photos/PHPStorm/Settings/LangsPHPInterpreters.png&#34; alt=&#34;Settings/LangsPHPInterpreters&#34; /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;Settings/LangsPHPPHPUnit&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;img src=&#34;photos/PHPStorm/Settings/LangsPHPPHPUnit.png&#34; alt=&#34;Settings/LangsPHPPHPUnit&#34; /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;Settings/LangsPHPServers&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;img src=&#34;photos/PHPStorm/Settings/LangsPHPServers.png&#34; alt=&#34;Settings/LangsPHPServers&#34; /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;RemoteHost&lt;/code&gt;
+To switch on this view, go to: &lt;code&gt;Menu/Tools/Deployment/Browse Remote Host&lt;/code&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;img src=&#34;photos/PHPStorm/RemoteHost.png&#34; alt=&#34;RemoteHost&#34; /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;RemoteWebDebug&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;img src=&#34;photos/PHPStorm/DebugRemoteOn.png&#34; alt=&#34;DebugRemoteOn&#34; /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;EditRunConfigurationRemoteWebDebug&lt;/code&gt;
+Go to: &lt;code&gt;Menu/Run/Edit Configurations&lt;/code&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;img src=&#34;photos/PHPStorm/Settings/EditRunConfigurationRemoteWebDebug.png&#34; alt=&#34;EditRunConfigurationRemoteWebDebug&#34; /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;EditRunConfigurationRemoteExampleTestDebug&lt;/code&gt;
+Go to: &lt;code&gt;Menu/Run/Edit Configurations&lt;/code&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;img src=&#34;photos/PHPStorm/Settings/EditRunConfigurationRemoteExampleTestDebug.png&#34; alt=&#34;EditRunConfigurationRemoteExampleTestDebug&#34; /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;WindowsFirewallAllowedApps&lt;/code&gt;
+Go to: &lt;code&gt;Control Panel\All Control Panel Items\Windows Firewall\Allowed apps&lt;/code&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;img src=&#34;photos/PHPStorm/Settings/WindowsFirewallAllowedApps.png&#34; alt=&#34;WindowsFirewallAllowedApps.png&#34; /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;hosts&lt;/code&gt;
+Edit: &lt;code&gt;C:\Windows\System32\drivers\etc\hosts&lt;/code&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;img src=&#34;photos/PHPStorm/Settings/hosts.png&#34; alt=&#34;WindowsFirewallAllowedApps.png&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;#enablePhpXdebug&#34;&gt;Enable xDebug on php-fpm&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a name=&#34;Usage&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;usage&#34;&gt;Usage&lt;/h2&gt;
+
+&lt;p&gt;&lt;a name=&#34;UsagePHPStormRunExampleTest&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;run-exampletest&#34;&gt;Run ExampleTest&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;right-click on &lt;code&gt;tests/ExampleTest.php&lt;/code&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Select: &lt;code&gt;Run &#39;ExampleTest.php&#39;&lt;/code&gt; or &lt;code&gt;Ctrl+Shift+F10&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Should pass!! You just ran a remote test via SSH!&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a name=&#34;UsagePHPStormDebugExampleTest&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;debug-exampletest&#34;&gt;Debug ExampleTest&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Open to edit: &lt;code&gt;tests/ExampleTest.php&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Add a BreakPoint on line 16: &lt;code&gt;$this-&amp;gt;visit(&#39;/&#39;)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;right-click on &lt;code&gt;tests/ExampleTest.php&lt;/code&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Select: &lt;code&gt;Debug &#39;ExampleTest.php&#39;&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Should have stopped at the BreakPoint!! You are now debugging locally against a remote Laravel project via SSH!&lt;/li&gt;
+&lt;li&gt;&lt;img src=&#34;photos/PHPStorm/RemoteTestDebuggingSuccess.png&#34; alt=&#34;Remote Test Debugging Success&#34; /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a name=&#34;UsagePHPStormDebugSite&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;debug-website&#34;&gt;Debug WebSite&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;In case xDebug is disabled, from the &lt;code&gt;laradock&lt;/code&gt; folder run:
+&lt;code&gt;./xdebugPhpFpm start&lt;/code&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;To switch xdebug off, run:
+&lt;code&gt;./xdebugPhpFpm stop&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Start Remote Debugging&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;img src=&#34;photos/PHPStorm/DebugRemoteOn.png&#34; alt=&#34;DebugRemoteOn&#34; /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Open to edit: &lt;code&gt;bootstrap/app.php&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Add a BreakPoint on line 14: &lt;code&gt;$app = new Illuminate\Foundation\Application(&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Reload &lt;a href=&#34;http://laravel/&#34;&gt;Laravel Site&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Should have stopped at the BreakPoint!! You are now debugging locally against a remote Laravel project via SSH!&lt;/li&gt;
+&lt;li&gt;&lt;img src=&#34;photos/PHPStorm/RemoteDebuggingSuccess.png&#34; alt=&#34;Remote Debugging Success&#34; /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a name=&#34;SSHintoWorkspace&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;let-s-shell-into-workspace&#34;&gt;Let&amp;rsquo;s shell into workspace&lt;/h2&gt;
+
+&lt;p&gt;Assuming that you are in laradock folder, type:
+&lt;code&gt;ssh -i workspace/insecure_id_rsa -p2222 root@laravel&lt;/code&gt;
+&lt;strong&gt;Cha Ching!!!!&lt;/strong&gt;
+- &lt;code&gt;workspace/insecure_id_rsa.ppk&lt;/code&gt; may become corrupted. In which case:
+    - fire up &lt;code&gt;puttygen&lt;/code&gt;
+    - import &lt;code&gt;workspace/insecure_id_rsa&lt;/code&gt;
+    - save private key to &lt;code&gt;workspace/insecure_id_rsa.ppk&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a name=&#34;InstallKiTTY&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;kitty&#34;&gt;KiTTY&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.9bis.net/kitty/&#34;&gt;Kitty&lt;/a&gt; KiTTY is a fork from version 0.67 of PuTTY.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Here are some settings that are working for me:
+
+&lt;ul&gt;
+&lt;li&gt;&lt;img src=&#34;photos/KiTTY/Session.png&#34; alt=&#34;Session&#34; /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;img src=&#34;photos/KiTTY/Terminal.png&#34; alt=&#34;Terminal&#34; /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;img src=&#34;photos/KiTTY/Window.png&#34; alt=&#34;Window&#34; /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;img src=&#34;photos/KiTTY/WindowAppearance.png&#34; alt=&#34;WindowAppearance&#34; /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;img src=&#34;photos/KiTTY/Connection.png&#34; alt=&#34;Connection&#34; /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;img src=&#34;photos/KiTTY/ConnectionData.png&#34; alt=&#34;ConnectionData&#34; /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;img src=&#34;photos/KiTTY/ConnectionSSH.png&#34; alt=&#34;ConnectionSSH&#34; /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;img src=&#34;photos/KiTTY/ConnectionSSHAuth.png&#34; alt=&#34;ConnectionSSHAuth&#34; /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;img src=&#34;photos/KiTTY/TerminalShell.png&#34; alt=&#34;TerminalShell&#34; /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Help &amp; Questions</title>
+      <link>http://laradock.io/help/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://laradock.io/help/</guid>
+      <description>&lt;p&gt;Join the chat room on &lt;a href=&#34;https://gitter.im/Laradock/laradock&#34;&gt;Gitter&lt;/a&gt; and get help and support from the community.&lt;/p&gt;
+
+&lt;p&gt;You can as well can open an &lt;a href=&#34;https://github.com/laradock/laradock/issues&#34;&gt;issue&lt;/a&gt; on Github (will be labeled as Question) and discuss it with people on &lt;a href=&#34;https://gitter.im/Laradock/laradock&#34;&gt;Gitter&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Related Projects</title>
       <link>http://laradock.io/related-projects/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -1683,18 +2307,6 @@ These Docker Compose projects have piqued our interest:&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;If you want your project listed here, please open an issue.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Help &amp; Questions</title>
-      <link>http://laradock.io/help/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://laradock.io/help/</guid>
-      <description>&lt;p&gt;Join the chat room on &lt;a href=&#34;https://gitter.im/Laradock/laradock&#34;&gt;Gitter&lt;/a&gt; and get help and support from the community.&lt;/p&gt;
-
-&lt;p&gt;You can as well can open an &lt;a href=&#34;https://github.com/laradock/laradock/issues&#34;&gt;issue&lt;/a&gt; on Github (will be labeled as Question) and discuss it with people on &lt;a href=&#34;https://gitter.im/Laradock/laradock&#34;&gt;Gitter&lt;/a&gt;.&lt;/p&gt;
 </description>
     </item>
     
@@ -1738,20 +2350,26 @@ features, by not reporting duplicate issues.&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;Laradock uses &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; as website generator tool, with the &lt;a href=&#34;http://themes.gohugo.io/theme/material-docs/&#34;&gt;Material Docs theme&lt;/a&gt;. You might need to check their docs quickly.&lt;/p&gt;
 
-&lt;ol&gt;
-&lt;li&gt;Install &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; on your machine (easy thing).&lt;/li&gt;
-&lt;li&gt;Open the &lt;code&gt;DOCUMENTATION/_settings/content&lt;/code&gt; and search for the markdown file you want to edit (every folder represents a section in the menu).&lt;/li&gt;
-&lt;li&gt;Delete the &lt;code&gt;/docs&lt;/code&gt; folder from the root.&lt;/li&gt;
-&lt;li&gt;When you finish editing, go to &lt;code&gt;DOCUMENTATION/_settings/&lt;/code&gt; and run the &lt;code&gt;hugo&lt;/code&gt; command to generate the HTML docs (inside new &lt;code&gt;/docs&lt;/code&gt; folder).&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;Go the &lt;code&gt;DOCUMENTATION/content&lt;/code&gt; and search for the markdown file you want to edit&lt;/p&gt;
+
+&lt;p&gt;Note: Every folder represents a section in the sidebar &amp;ldquo;Menu&amp;rdquo;. And every page and sidebar has a &lt;code&gt;weight&lt;/code&gt; number to show it&amp;rsquo;s position in the site.&lt;/p&gt;
+
+&lt;p&gt;To update the sidebar or add a new section to it, you can edit this &lt;code&gt;DOCUMENTATION/config.toml&lt;/code&gt; toml file.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;The site will be auto-generated in the &lt;code&gt;docs/&lt;/code&gt; folder by &lt;a href=&#34;https://travis-ci.org/laradock/laradock/&#34;&gt;Travis CI&lt;/a&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;to-host-the-website-locally&#34;&gt;To Host the website locally&lt;/h3&gt;
 
-&lt;p&gt;Go to &lt;code&gt;DOCUMENTATION/_settings&lt;/code&gt; in your terminal and run &lt;code&gt;hugo serve&lt;/code&gt; to host the website locally.&lt;/p&gt;
-
-&lt;h3 id=&#34;edit-the-sidebar&#34;&gt;Edit the sidebar&lt;/h3&gt;
-
-&lt;p&gt;To add a new section to the sidebar or edit existing one, you need to edit this file &lt;code&gt;DOCUMENTATION/_settings/config.toml&lt;/code&gt;.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Install &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; on your machine.&lt;/li&gt;
+&lt;li&gt;Edit the &lt;code&gt;DOCUMENTATION/content&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Delete the &lt;code&gt;/docs&lt;/code&gt; folder from the root.&lt;/li&gt;
+&lt;li&gt;After you finish the editing, go to &lt;code&gt;DOCUMENTATION/&lt;/code&gt; and run the &lt;code&gt;hugo&lt;/code&gt; command to generate the HTML docs (inside a new &lt;code&gt;/docs&lt;/code&gt; folder).&lt;/li&gt;
+&lt;/ol&gt;
 
 &lt;h2 id=&#34;how-to-support-new-software-add-new-container&#34;&gt;How to support new Software (Add new Container)&lt;/h2&gt;
 

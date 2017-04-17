@@ -13,7 +13,7 @@
     <meta name="generator" content="Hugo 0.19" />
 
     
-    <meta name="description" content="Laradock documentations.">
+    <meta name="description" content="Full PHP development environment for Docker.">
     
     <link rel="canonical" href="http://laradock.io/getting-started/">
     
@@ -22,7 +22,7 @@
 
     <meta property="og:url" content="http://laradock.io/getting-started/">
     <meta property="og:title" content="Laradock">
-    
+    <meta property="og:image" content="http://laradock.io/images/logo.png">
     <meta name="apple-mobile-web-app-title" content="Laradock">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -129,15 +129,19 @@
 <main class="main">
 	<div class="drawer">
 		<nav aria-label="Navigation">
-  
-    
+  <a href="http://laradock.io/" class="project">
+    <div class="banner">
+      
+        <div class="logo">
+          <img src="http://laradock.io/images/logo.png">
+        </div>
       
       
         
         
       
-    
-  
+    </div>
+  </a>
 
   <div class="scrollable">
     <div class="wrapper">
@@ -214,9 +218,9 @@
 
 
 
-<a  title="Related Projects" href="http://laradock.io/related-projects/">
+<a  title="Giudes" href="http://laradock.io/guides/">
 	
-	Related Projects
+	Giudes
 </a>
 
 
@@ -235,6 +239,24 @@
 <a  title="Help &amp; Questions" href="http://laradock.io/help/">
 	
 	Help &amp; Questions
+</a>
+
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Related Projects" href="http://laradock.io/related-projects/">
+	
+	Related Projects
 </a>
 
 
@@ -477,11 +499,7 @@
 
 <p><strong>Note</strong>: The <code>workspace</code> and <code>php-fpm</code> will run automatically in most of the cases, so no need to specify them in the <code>up</code> command. If you couldn&rsquo;t find them running then you need specify them as follow: <code>docker-compose up -d nginx php-fpm mysql workspace</code>.</p>
 
-<p>You can select your own combination of containers form the list below:</p>
-
-<blockquote>
-<p><code>nginx</code>, <code>hhvm</code>, <code>php-fpm</code>, <code>mysql</code>, <code>redis</code>, <code>postgres</code>, <code>mariadb</code>, <code>neo4j</code>, <code>mongo</code>, <code>apache2</code>, <code>caddy</code>, <code>memcached</code>, <code>beanstalkd</code>, <code>beanstalkd-console</code>, <code>rabbitmq</code>, <code>beanstalkd-console</code>, <code>workspace</code>, <code>phpmyadmin</code>, <code>adminer</code>, <code>aerospike</code>, <code>pgadmin</code>, <code>elasticsearch</code>, <code>rethinkdb</code>, <code>postgres-postgis</code>, <code>certbot</code>, <code>mailhog</code>, <code>minio</code> and more&hellip;!</p>
-</blockquote>
+<p>You can select your own combination of containers form <a href="http://laradock.io/introduction/#supported-software-images">this list</a>.</p>
 
 <p><em>(Please note that sometimes we forget to update the docs, so check the <code>docker-compose.yml</code> file to see an updated list of all available containers).</em></p>
 

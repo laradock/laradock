@@ -29,7 +29,6 @@ services:
           - INSTALL_DEPLOYER=${WORKSPACE_INSTALL_DEPLOYER}
           - INSTALL_LINUXBREW=${WORKSPACE_INSTALL_LINUXBREW}
           - INSTALL_MC=${WORKSPACE_INSTALL_MC}
-          - INSTALL_SYMFONY=${WORKSPACE_INSTALL_SYMFONY}
           - PUID=${WORKSPACE_PUID}
           - PGID=${WORKSPACE_PGID}
           - NODE_VERSION=${WORKSPACE_NODE_VERSION}
@@ -64,12 +63,14 @@ services:
           - INSTALL_EXIF=${PHP_FPM_INSTALL_EXIF}
           - INSTALL_AEROSPIKE_EXTENSION=${PHP_FPM_INSTALL_AEROSPIKE_EXTENSION}
           - INSTALL_MYSQLI=${PHP_FPM_INSTALL_MYSQLI}
-          - INSTALL_MYSQL=${PHP_FPM_INSTALL_MYSQL}
           - INSTALL_TOKENIZER=${PHP_FPM_INSTALL_TOKENIZER}
           - INSTALL_INTL=${PHP_FPM_INSTALL_INTL}
+          - INSTALL_GHOSTSCRIPT=${PHP_FPM_INSTALL_GHOSTSCRIPT}
         dockerfile: "Dockerfile-${PHP_VERSION}"
       volumes_from:
         - applications
+      volumes:
+        - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
       expose:
         - "9000"
       depends_on:
@@ -82,6 +83,7 @@ services:
         - backend
 
 ### PHP Worker Container #####################################
+
     php-worker:
       build:
         context: ./php-worker
@@ -173,7 +175,7 @@ services:
         - MYSQL_PASSWORD=${MYSQL_PASSWORD}
         - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       volumes:
-        - mysql:/var/lib/mysql
+        - ${DATA_SAVE_PATH}/mysql:/var/lib/mysql
       ports:
         - "${MYSQL_PORT}:3306"
       networks:
@@ -206,7 +208,7 @@ services:
         - SA_PASSWORD=${MSSQL_PASSWORD}
         - ACCEPT_EULA=Y
       volumes:
-        - mssql:/var/opt/mssql
+        - ${DATA_SAVE_PATH}/mssql:/var/opt/mssql
       ports:
         - "${MSSQL_PORT}:1433"
       networks:
@@ -217,7 +219,7 @@ services:
     mariadb:
       build: ./mariadb
       volumes:
-        - mariadb:/var/lib/mysql
+        - ${DATA_SAVE_PATH}/mariadb:/var/lib/mysql
       ports:
         - "${MARIADB_PORT}:3306"
       environment:
@@ -233,7 +235,7 @@ services:
     postgres:
       build: ./postgres
       volumes:
-        - postgres:/var/lib/postgresql/data
+        - ${DATA_SAVE_PATH}/postgres:/var/lib/postgresql/data
       ports:
         - "${POSTGRES_PORT}:5432"
       environment:
@@ -248,7 +250,7 @@ services:
     postgres-postgis:
       build: ./postgres-postgis
       volumes:
-        - postgres:/var/lib/postgresql/data
+        - ${DATA_SAVE_PATH}/postgres:/var/lib/postgresql/data
       ports:
         - "${POSTGRES_PORT}:5432"
       environment:
@@ -268,7 +270,7 @@ services:
       environment:
         - NEO4J_AUTH=default:secret
       volumes:
-        - neo4j:/var/lib/neo4j/data
+        - ${DATA_SAVE_PATH}/neo4j:/var/lib/neo4j/data
       networks:
         - backend
 
@@ -279,7 +281,7 @@ services:
       ports:
         - "27017:27017"
       volumes:
-        - mongo:/data/db
+        - ${DATA_SAVE_PATH}/mongo:/data/db
       networks:
         - backend
 
@@ -290,7 +292,7 @@ services:
       ports:
         - "8090:8080"
       volumes:
-        - rethinkdb:/data/rethinkdb_data
+        - ${DATA_SAVE_PATH}/rethinkdb:/data/rethinkdb_data
       networks:
         - backend
 
@@ -299,7 +301,7 @@ services:
     redis:
       build: ./redis
       volumes:
-        - redis:/data
+        - ${DATA_SAVE_PATH}/redis:/data
       ports:
         - "6379:6379"
       networks:
@@ -312,7 +314,7 @@ services:
       volumes_from:
         - workspace
       volumes:
-        - aerospike:/opt/aerospike/data
+        - ${DATA_SAVE_PATH}/aerospike:/opt/aerospike/data
       ports:
         - "3000:3000"
         - "3001:3001"
@@ -326,7 +328,7 @@ services:
     memcached:
       build: ./memcached
       volumes:
-        - memcached:/var/lib/memcached
+        - ${DATA_SAVE_PATH}/memcached:/var/lib/memcached
       ports:
         - "${MEMCACHED_HOST_PORT}:11211"
       depends_on:
@@ -421,6 +423,7 @@ services:
         - php-fpm
       networks:
         - frontend
+        - backend
 
 ### pgAdmin Container #######################################
 
@@ -532,6 +535,19 @@ services:
       links:
         - proxy
         - proxy2
+
+### Jenkins ###################################################
+    jenkins:
+      build: ./jenkins
+      environment:
+        JAVA_OPTS: "-Djava.awt.headless=true"
+      ports:
+        - "${JENKINS_HOST_SLAVE_AGENT_PORT}:50000"
+        - "${JENKINS_HOST_HTTP_PORT}:8080"
+      privileged: true
+      volumes:
+        - ${JENKINS_HOME}:/var/jenkins_home
+        - /var/run/docker.sock:/var/run/docker.sock
 
 ### Networks Setup ############################################
 

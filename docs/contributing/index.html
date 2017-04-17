@@ -13,7 +13,7 @@
     <meta name="generator" content="Hugo 0.19" />
 
     
-    <meta name="description" content="Laradock documentations.">
+    <meta name="description" content="Full PHP development environment for Docker.">
     
     <link rel="canonical" href="http://laradock.io/contributing/">
     
@@ -22,7 +22,7 @@
 
     <meta property="og:url" content="http://laradock.io/contributing/">
     <meta property="og:title" content="Laradock">
-    
+    <meta property="og:image" content="http://laradock.io/images/logo.png">
     <meta name="apple-mobile-web-app-title" content="Laradock">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -129,15 +129,19 @@
 <main class="main">
 	<div class="drawer">
 		<nav aria-label="Navigation">
-  
-    
+  <a href="http://laradock.io/" class="project">
+    <div class="banner">
+      
+        <div class="logo">
+          <img src="http://laradock.io/images/logo.png">
+        </div>
       
       
         
         
       
-    
-  
+    </div>
+  </a>
 
   <div class="scrollable">
     <div class="wrapper">
@@ -211,9 +215,9 @@
 
 
 
-<a  title="Related Projects" href="http://laradock.io/related-projects/">
+<a  title="Giudes" href="http://laradock.io/guides/">
 	
-	Related Projects
+	Giudes
 </a>
 
 
@@ -232,6 +236,24 @@
 <a  title="Help &amp; Questions" href="http://laradock.io/help/">
 	
 	Help &amp; Questions
+</a>
+
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Related Projects" href="http://laradock.io/related-projects/">
+	
+	Related Projects
 </a>
 
 
@@ -345,20 +367,26 @@ features, by not reporting duplicate issues.</em></p>
 
 <p>Laradock uses <a href="https://gohugo.io/">Hugo</a> as website generator tool, with the <a href="http://themes.gohugo.io/theme/material-docs/">Material Docs theme</a>. You might need to check their docs quickly.</p>
 
-<ol>
-<li>Install <a href="https://gohugo.io/">Hugo</a> on your machine (easy thing).</li>
-<li>Open the <code>DOCUMENTATION/_settings/content</code> and search for the markdown file you want to edit (every folder represents a section in the menu).</li>
-<li>Delete the <code>/docs</code> folder from the root.</li>
-<li>When you finish editing, go to <code>DOCUMENTATION/_settings/</code> and run the <code>hugo</code> command to generate the HTML docs (inside new <code>/docs</code> folder).</li>
-</ol>
+<p>Go the <code>DOCUMENTATION/content</code> and search for the markdown file you want to edit</p>
+
+<p>Note: Every folder represents a section in the sidebar &ldquo;Menu&rdquo;. And every page and sidebar has a <code>weight</code> number to show it&rsquo;s position in the site.</p>
+
+<p>To update the sidebar or add a new section to it, you can edit this <code>DOCUMENTATION/config.toml</code> toml file.</p>
+
+<blockquote>
+<p>The site will be auto-generated in the <code>docs/</code> folder by <a href="https://travis-ci.org/laradock/laradock/">Travis CI</a>.</p>
+</blockquote>
+
+<p><br></p>
 
 <h3 id="to-host-the-website-locally">To Host the website locally</h3>
 
-<p>Go to <code>DOCUMENTATION/_settings</code> in your terminal and run <code>hugo serve</code> to host the website locally.</p>
-
-<h3 id="edit-the-sidebar">Edit the sidebar</h3>
-
-<p>To add a new section to the sidebar or edit existing one, you need to edit this file <code>DOCUMENTATION/_settings/config.toml</code>.</p>
+<ol>
+<li>Install <a href="https://gohugo.io/">Hugo</a> on your machine.</li>
+<li>Edit the <code>DOCUMENTATION/content</code>.</li>
+<li>Delete the <code>/docs</code> folder from the root.</li>
+<li>After you finish the editing, go to <code>DOCUMENTATION/</code> and run the <code>hugo</code> command to generate the HTML docs (inside a new <code>/docs</code> folder).</li>
+</ol>
 
 <h2 id="how-to-support-new-software-add-new-container">How to support new Software (Add new Container)</h2>
 
@@ -496,7 +524,7 @@ git push origin my-fix-branch -f
 <nav class="pagination" aria-label="Footer">
   <div class="previous">
   
-      <a href="http://laradock.io/help/" title="Help &amp; Questions">
+      <a href="http://laradock.io/related-projects/" title="Related Projects">
         <span class="direction">
           Previous
         </span>
@@ -506,7 +534,7 @@ git push origin my-fix-branch -f
           </div>
           <div class="stretch">
             <div class="title">
-              Help &amp; Questions
+              Related Projects
             </div>
           </div>
         </div>

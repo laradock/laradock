@@ -10,7 +10,7 @@
 #    https://hub.docker.com/r/laradock/php-fpm/tags/
 #
 
-FROM laradock/php-fpm:7.0--1.2
+FROM laradock/php-fpm:7.0--1.4
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
@@ -34,7 +34,6 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 # in the `docker-compose.yml` before the build.
 # Example:
 #   - INSTALL_ZIP_ARCHIVE=true
-#   - ...
 #
 
 #####################################
@@ -60,9 +59,13 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     docker-php-ext-enable xdebug \
 ;fi
 
+# Copy xdebug configration for remote debugging
+COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+
 #####################################
-# PHP REDIS EXTENSION FOR PHP 7.0
+# PHP REDIS EXTENSION FOR PHP 7
 #####################################
+
 ARG INSTALL_PHPREDIS=false
 RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
     # Install Php Redis Extension
@@ -70,9 +73,6 @@ RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
     &&  rm -rf /tmp/pear \
     &&  docker-php-ext-enable redis \
 ;fi
-
-# Copy xdebug configration for remote debugging
-COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 #####################################
 # MongoDB:
@@ -134,10 +134,8 @@ RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
 ARG INSTALL_EXIF=false
 RUN if [ ${INSTALL_EXIF} = true ]; then \
     # Enable Exif PHP extentions requirements
-    docker-php-ext-install exif && \
-    docker-php-ext-enable exif \
+    docker-php-ext-install exif \
 ;fi
-
 
 #####################################
 # PHP Aerospike:
@@ -165,10 +163,10 @@ RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = true ]; then \
 #####################################
 # Opcache:
 #####################################
+
 ARG INSTALL_OPCACHE=false
 RUN if [ ${INSTALL_OPCACHE} = true ]; then \
-    docker-php-ext-install opcache && \
-    docker-php-ext-enable opcache \
+    docker-php-ext-install opcache \
 ;fi
 
 # Copy opcache configration
@@ -177,9 +175,10 @@ COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 #####################################
 # Mysqli Modifications:
 #####################################
+
 ARG INSTALL_MYSQLI=false
-RUN if [ ${INSTALL_MYSQLI} = true ]; then \    
-     docker-php-ext-install mysqli \
+RUN if [ ${INSTALL_MYSQLI} = true ]; then \
+    docker-php-ext-install mysqli \
 ;fi
 
 #####################################
@@ -188,12 +187,13 @@ RUN if [ ${INSTALL_MYSQLI} = true ]; then \
 
 ARG INSTALL_TOKENIZER=false
 RUN if [ ${INSTALL_TOKENIZER} = true ]; then \
-     docker-php-ext-install tokenizer \
+    docker-php-ext-install tokenizer \
 ;fi
 
 #####################################
 # SQL SERVER:
 #####################################
+
 ARG MSSQL=false
 RUN if [ ${MSSQL} = true ]; then \
 
@@ -242,8 +242,16 @@ RUN if [ ${MSSQL} = true ]; then \
         && ldd lib64/libmsodbcsql-13.0.so.0.0 \
         && ./install.sh install --accept-license \
         && ls -l /opt/microsoft/msodbcsql/ \
-        && odbcinst -q -d -n "ODBC Driver 13 for SQL Server" && \
+        && odbcinst -q -d -n "ODBC Driver 13 for SQL Server" \
 
+    #####################################
+    # Install pdo_dblib
+    #####################################
+
+    && docker-php-ext-install pdo \
+    && docker-php-ext-configure pdo_dblib --with-libdir=/lib/x86_64-linux-gnu \
+    && docker-php-ext-install pdo_dblib \
+    && docker-php-ext-enable pdo_dblib && \
 
     #####################################
     # Install sqlsrv y pdo_sqlsrv
@@ -262,8 +270,6 @@ RUN if [ ${MSSQL} = true ]; then \
     && locale-gen \
 ;fi
 
-
-
 #####################################
 # Human Language and Character Encoding Support:
 #####################################
@@ -280,8 +286,8 @@ RUN if [ ${INSTALL_INTL} = true ]; then \
 # GHOSTSCRIPT:
 #####################################
 
-ARG GHOSTSCRIPT=false
-RUN if [ ${GHOSTSCRIPT} = true ]; then \
+ARG INSTALL_GHOSTSCRIPT=false
+RUN if [ ${INSTALL_GHOSTSCRIPT} = true ]; then \
     # Install the ghostscript extension
     # for PDF editing
     apt-get -y update \
@@ -289,7 +295,6 @@ RUN if [ ${GHOSTSCRIPT} = true ]; then \
     poppler-utils \
     ghostscript \
 ;fi
-
 
 #
 #--------------------------------------------------------------------------
@@ -300,7 +305,7 @@ RUN if [ ${GHOSTSCRIPT} = true ]; then \
 ADD ./laravel.ini /usr/local/etc/php/conf.d
 ADD ./laravel.pool.conf /usr/local/etc/php-fpm.d/
 
-RUN rm -r /var/lib/apt/lists/*
+#RUN rm -r /var/lib/apt/lists/*
 
 RUN usermod -u 1000 www-data
 

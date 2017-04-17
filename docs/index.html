@@ -13,7 +13,7 @@
     <meta name="generator" content="Hugo 0.19" />
 
     
-    <meta name="description" content="Laradock documentations.">
+    <meta name="description" content="Full PHP development environment for Docker.">
     
     <link rel="canonical" href="http://laradock.io/">
     
@@ -22,7 +22,7 @@
 
     <meta property="og:url" content="http://laradock.io/">
     <meta property="og:title" content="Laradock">
-    
+    <meta property="og:image" content="http://laradock.io/images/logo.png">
     <meta name="apple-mobile-web-app-title" content="Laradock">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -132,15 +132,19 @@
 <main class="main">
 	<div class="drawer">
 		<nav aria-label="Navigation">
-  
-    
+  <a href="http://laradock.io/" class="project">
+    <div class="banner">
+      
+        <div class="logo">
+          <img src="http://laradock.io/images/logo.png">
+        </div>
       
       
         
         
       
-    
-  
+    </div>
+  </a>
 
   <div class="scrollable">
     <div class="wrapper">
@@ -214,9 +218,9 @@
 
 
 
-<a  title="Related Projects" href="http://laradock.io/related-projects/">
+<a  title="Giudes" href="http://laradock.io/guides/">
 	
-	Related Projects
+	Giudes
 </a>
 
 
@@ -235,6 +239,24 @@
 <a  title="Help &amp; Questions" href="http://laradock.io/help/">
 	
 	Help &amp; Questions
+</a>
+
+
+
+  
+</li>
+
+
+
+<li>
+  
+    
+
+
+
+<a  title="Related Projects" href="http://laradock.io/related-projects/">
+	
+	Related Projects
 </a>
 
 
@@ -314,15 +336,17 @@
 
 				
 
-<p>Laradock strives to make the PHP development experience easier and faster.</p>
+<p>A full PHP development environment for Docker.</p>
 
-<p>It contains pre-packaged Docker Images that provides you a wonderful <em>development</em> environment without requiring you to install PHP, NGINX, MySQL, Redis, and any other software on your machines.</p>
+<p>Includes pre-packaged Docker Images, all pre-configured to provide a wonderful PHP development environment.</p>
 
-<p>Laradock is configured to run Laravel Apps by default, and it can be modified to run all kinds of PHP Apps (Symfony, CodeIgniter, WordPress, Drupal&hellip;).</p>
+<p>Laradock is well known in the Laravel community, as the project started with single focus on running Laravel projects on Docker. Later and due to the large adoption from the PHP community, it started supporting other PHP projects like Symfony, CodeIgniter, WordPress, Drupal&hellip;</p>
+
+<p><img src="https://s19.postimg.org/jblfytw9f/laradock-logo.jpg" alt="" /></p>
 
 <h2 id="quick-overview">Quick Overview</h2>
 
-<p>Let&rsquo;s see how easy it is to install <code>NGINX</code>, <code>PHP</code>, <code>Composer</code>, <code>MySQL</code>, <code>Redis</code> and <code>beanstalkd</code>:</p>
+<p>Let&rsquo;s see how easy it is to install <code>NGINX</code>, <code>PHP</code>, <code>Composer</code>, <code>MySQL</code>, <code>Redis</code> and <code>Beanstalkd</code>:</p>
 
 <p>1 - Clone Laradock inside your PHP project:</p>
 
@@ -339,17 +363,74 @@
 <pre><code class="language-shell">docker-compose up -d nginx mysql redis beanstalkd
 </code></pre>
 
-<p>3 - Open your project&rsquo;s <code>.env</code> file and set the following:</p>
+<p>4 - Open your project&rsquo;s <code>.env</code> file and set the following:</p>
 
 <pre><code class="language-shell">DB_HOST=mysql
 REDIS_HOST=redis
 QUEUE_HOST=beanstalkd
 </code></pre>
 
-<p>4 - Open your browser and visit localhost: <code>http://localhost</code>.</p>
+<p>5 - Open your browser and visit localhost: <code>http://localhost</code>.</p>
 
 <pre><code class="language-shell">That's it! enjoy :)
 </code></pre>
+
+<p><a name="features"></a></p>
+
+<h2 id="features">Features</h2>
+
+<ul>
+<li>Easy switch between PHP versions: 7.1, 7.0, 5.6&hellip;</li>
+<li>Choose your favorite database engine: MySQL, Postgres, MariaDB&hellip;</li>
+<li>Run your own combination of software: Memcached, HHVM, Beanstalkd&hellip;</li>
+<li>Every software runs on a separate container: PHP-FPM, NGINX, PHP-CLI&hellip;</li>
+<li>Easy to customize any container, with simple edit to the <code>Dockerfile</code>.</li>
+<li>All Images extends from an official base Image. (Trusted base Images).</li>
+<li>Pre-configured NGINX to host any code at your root directory.</li>
+<li>Can use Laradock per project, or single Laradock for all projects.</li>
+<li>Easy to install/remove software&rsquo;s in Containers using environment variables.</li>
+<li>Clean and well structured Dockerfiles (<code>Dockerfile</code>).</li>
+<li>Latest version of the Docker Compose file (<code>docker-compose</code>).</li>
+<li>Everything is visible and editable.</li>
+<li>Fast Images Builds.</li>
+<li>More to come every week..</li>
+</ul>
+
+<p><a name="Supported-Containers"></a></p>
+
+<h2 id="supported-software-images">Supported Software (Images)</h2>
+
+<p>In adhering to the separation of concerns principle as promoted by Docker, Laradock runs each software on its own Container.
+You can turn On/Off as many instances of as any container without worrying about the configurations, everything works like a charm.</p>
+
+<ul>
+<li><strong>Database Engines:</strong>
+MySQL - MariaDB - MongoDB - Neo4j - RethinkDB - MSSQL - PostgreSQL - Postgres Postgis.</li>
+<li><strong>Cache Engines:</strong>
+Redis - Memcached - Aerospike</li>
+<li><strong>PHP Servers:</strong>
+NGINX - Apache2 - Caddy</li>
+<li><strong>PHP Compilers:</strong>
+PHP FPM - HHVM</li>
+<li><strong>Message Queuing:</strong>
+Beanstalkd - Beanstalkd Console - RabbitMQ - RabbitMQ Console - PHP Worker</li>
+<li><strong>Tools:</strong>
+HAProxy - Jenkins - ElasticSearch - Selenium - Certbot - Mailhog - Minio - Varnish - PhpMyAdmin - Adminer - PgAdmin - MailHog&hellip;</li>
+</ul>
+
+<p>Laradock introduces the <strong>Workspace</strong> Image, as a development environment.
+It contains a rich set of helpful tools, all pre-configured to work and integrate with almost any combination of Containers and tools you may choose.</p>
+
+<p><strong>Workspace Image Tools</strong>
+PHP CLI - Composer - Git - Linuxbrew - Node - V8JS - Gulp - SQLite - xDebug - Envoy - Deployer - Vim - Yarn - SOAP - Drush&hellip;</p>
+
+<p>You can choose, which tools to install in your workspace container and other containers, from the <code>.env</code> file.</p>
+
+<blockquote>
+<p>If you modify <code>docker-compose.yml</code>, <code>.env</code> or any <code>dockerfile</code> file, you must re-build your containers, to see those effects in the running instance.</p>
+</blockquote>
+
+<p>If you can&rsquo;t find your Software in the list, build it yourself and sumit it. Contributions are welcomed :)</p>
 
 <p><a name="what-is-docker"></a></p>
 
@@ -369,24 +450,6 @@ QUEUE_HOST=beanstalkd
 
 <p>Most importantly Docker can run on Development and on Production (same environment everywhere). While Vagrant is designed for Development only, (so you have to re-provision your server on Production every time).</p>
 
-<p><a name="laradock-vs-homestead"></a></p>
-
-<h2 id="laradock-vs-homestead-for-laravel-developers">Laradock VS Homestead (For Laravel Developers)</h2>
-
-<blockquote>
-<p>Laradock It&rsquo;s like Laravel Homestead but for Docker instead of Vagrant.</p>
-</blockquote>
-
-<p>Laradock and <a href="https://laravel.com/docs/master/homestead">Homestead</a> both give you complete virtual development environments. (Without the need to install and configure every single software on your own Operating System).</p>
-
-<ul>
-<li><p>Homestead is a tool that controls Vagrant for you (using Homestead special commands). And Vagrant manages your Virtual Machine.</p></li>
-
-<li><p>Laradock is a tool that controls Docker for you (using Docker &amp; Docker Compose official commands). And Docker manages your Virtual Containers.</p></li>
-</ul>
-
-<p>Running a virtual container is much faster than running a full virtual Machine. Thus <strong>Laradock is much faster than Homestead</strong>.</p>
-
 <p><a name="Demo"></a></p>
 
 <h2 id="demo-video">Demo Video</h2>
@@ -394,110 +457,12 @@ QUEUE_HOST=beanstalkd
 <p>What&rsquo;s better than a <strong>Demo Video</strong>:</p>
 
 <ul>
+<li>Laradock v5.* (soon or never)</li>
 <li>Laradock <a href="https://www.youtube.com/watch?v=TQii1jDa96Y">v4.*</a></li>
 <li>Laradock <a href="https://www.youtube.com/watch?v=-DamFMczwDA">v2.*</a></li>
 <li>Laradock <a href="https://www.youtube.com/watch?v=jGkyO6Is_aI">v0.3</a></li>
 <li>Laradock <a href="https://www.youtube.com/watch?v=3YQsHe6oF80">v0.1</a></li>
 </ul>
-
-<p><a name="features"></a></p>
-
-<h2 id="features">Features</h2>
-
-<ul>
-<li>Easy switch between PHP versions: 7.0, 5.6, 5.5&hellip;</li>
-<li>Choose your favorite database engine: MySQL, Postgres, MariaDB&hellip;</li>
-<li>Run your own combination of software: Memcached, HHVM, Beanstalkd&hellip;</li>
-<li>Every software runs on a separate container: PHP-FPM, NGINX, PHP-CLI&hellip;</li>
-<li>Easy to customize any container, with simple edit to the <code>Dockerfile</code>.</li>
-<li>All Images extends from an official base Image. (Trusted base Images).</li>
-<li>Pre-configured NGINX for Laravel.</li>
-<li>Easy to apply configurations inside containers.</li>
-<li>Clean and well structured Dockerfiles (<code>Dockerfile</code>).</li>
-<li>Latest version of the Docker Compose file (<code>docker-compose</code>).</li>
-<li>Everything is visible and editable.</li>
-<li>Fast Images Builds.</li>
-<li>More to come every week..</li>
-</ul>
-
-<p><a name="Supported-Containers"></a></p>
-
-<h2 id="supported-software-containers">Supported Software (Containers)</h2>
-
-<ul>
-<li><strong>Database Engines:</strong>
-
-<ul>
-<li>MySQL</li>
-<li>MariaDB</li>
-<li>MongoDB</li>
-<li>Neo4j</li>
-<li>RethinkDB</li>
-<li>PostgreSQL</li>
-<li>Postgres Postgis</li>
-</ul></li>
-<li><strong>Cache Engines:</strong>
-
-<ul>
-<li>Redis</li>
-<li>Memcached</li>
-<li>Aerospike</li>
-</ul></li>
-<li><strong>PHP Servers:</strong>
-
-<ul>
-<li>NGINX</li>
-<li>Apache2</li>
-<li>Caddy</li>
-</ul></li>
-<li><strong>PHP Compilers:</strong>
-
-<ul>
-<li>PHP-FPM</li>
-<li>HHVM</li>
-</ul></li>
-<li><strong>Message Queuing Systems:</strong>
-
-<ul>
-<li>Beanstalkd</li>
-<li>Beanstalkd Console</li>
-<li>RabbitMQ</li>
-<li>RabbitMQ Console</li>
-</ul></li>
-<li><strong>Tools:</strong>
-
-<ul>
-<li>PhpMyAdmin</li>
-<li>Adminer</li>
-<li>PgAdmin</li>
-<li>ElasticSearch</li>
-<li>Selenium</li>
-<li>Certbot</li>
-<li>Mailhog</li>
-<li>Minio</li>
-<li>Workspace
-
-<ul>
-<li>PHP7-CLI</li>
-<li>Composer</li>
-<li>Git</li>
-<li>Linuxbrew</li>
-<li>Node</li>
-<li>Gulp</li>
-<li>SQLite</li>
-<li>xDebug</li>
-<li>Envoy</li>
-<li>Deployer</li>
-<li>Vim</li>
-<li>Yarn</li>
-<li>&hellip; Many other supported tools are not documented. (Will be updated soon)</li>
-</ul></li>
-</ul></li>
-</ul>
-
-<blockquote>
-<p>If you can&rsquo;t find your Software, build it yourself and add it to this list. Contributions are welcomed :)</p>
-</blockquote>
 
 <p><a name="Chat"></a></p>
 
@@ -676,11 +641,7 @@ QUEUE_HOST=beanstalkd
 
 <p><strong>Note</strong>: The <code>workspace</code> and <code>php-fpm</code> will run automatically in most of the cases, so no need to specify them in the <code>up</code> command. If you couldn&rsquo;t find them running then you need specify them as follow: <code>docker-compose up -d nginx php-fpm mysql workspace</code>.</p>
 
-<p>You can select your own combination of containers form the list below:</p>
-
-<blockquote>
-<p><code>nginx</code>, <code>hhvm</code>, <code>php-fpm</code>, <code>mysql</code>, <code>redis</code>, <code>postgres</code>, <code>mariadb</code>, <code>neo4j</code>, <code>mongo</code>, <code>apache2</code>, <code>caddy</code>, <code>memcached</code>, <code>beanstalkd</code>, <code>beanstalkd-console</code>, <code>rabbitmq</code>, <code>beanstalkd-console</code>, <code>workspace</code>, <code>phpmyadmin</code>, <code>adminer</code>, <code>aerospike</code>, <code>pgadmin</code>, <code>elasticsearch</code>, <code>rethinkdb</code>, <code>postgres-postgis</code>, <code>certbot</code>, <code>mailhog</code>, <code>minio</code> and more&hellip;!</p>
-</blockquote>
+<p>You can select your own combination of containers form <a href="http://laradock.io/introduction/#supported-software-images">this list</a>.</p>
 
 <p><em>(Please note that sometimes we forget to update the docs, so check the <code>docker-compose.yml</code> file to see an updated list of all available containers).</em></p>
 
@@ -1950,6 +1911,681 @@ e) set it to <code>true</code></p>
 </ul>
 
 			
+				<h1>Guides </h1>
+
+				
+
+<ul>
+<li><a href="#Digital-Ocean">Production Setup on Digital Ocean</a></li>
+<li><a href="#PHPStorm-Debugging">PHPStorm XDebug Setup</a></li>
+</ul>
+
+<p><a name="Digital-Ocean"></a></p>
+
+<h1 id="production-setup-on-digital-ocean">Production Setup on Digital Ocean</h1>
+
+<h2 id="install-docker">Install Docker</h2>
+
+<ul>
+<li>Visit <a href="https://cloud.digitalocean.com/login">DigitalOcean</a> and login.</li>
+<li>Click the <code>Create Droplet</code> button.</li>
+<li>Open the <code>One-click apps</code> tab.</li>
+<li>Select Docker with your preferred version.</li>
+<li>Continue creating the droplet as you normally would.</li>
+<li>If needed, check your e-mail for the droplet root password.</li>
+</ul>
+
+<h2 id="ssh-to-your-server">SSH to your Server</h2>
+
+<p>Find the IP address of the droplet in the DigitalOcean interface. Use it to connect to the server.</p>
+
+<pre><code>ssh root@ipaddress
+</code></pre>
+
+<p>You may be prompted for a password. Type the one you found within your e-mailbox. It&rsquo;ll then ask you to change the password.</p>
+
+<p>You can now check if Docker is available:</p>
+
+<pre><code>$root@server:~# docker
+</code></pre>
+
+<h2 id="set-up-your-laravel-project">Set Up Your Laravel Project</h2>
+
+<pre><code>$root@server:~# apt-get install git
+$root@server:~# git clone https://github.com/laravel/laravel
+$root@server:~# cd laravel
+$root@server:~/laravel/ git submodule add https://github.com/LaraDock/laradock.git
+$root@server:~/laravel/ cd laradock
+</code></pre>
+
+<h2 id="install-docker-compose-command">Install docker-compose command</h2>
+
+<pre><code>$root@server:~/laravel/laradock# curl -L https://github.com/docker/compose/releases/download/1.8.0/run.sh &gt; /usr/local/bin/docker-compose
+$root@server:~/chmod +x /usr/local/bin/docker-compose
+</code></pre>
+
+<h2 id="create-your-laradock-containers">Create Your LaraDock Containers</h2>
+
+<pre><code>$root@server:~/laravel/laradock# docker-compose up -d nginx mysql
+</code></pre>
+
+<p>Note that more containers are available, find them in the <a href="http://laradock.io/introduction/#supported-software-containers">docs</a> or the <code>docker-compose.yml</code> file.</p>
+
+<h2 id="go-to-your-workspace">Go to Your Workspace</h2>
+
+<pre><code>docker-compose exec workspace bash
+</code></pre>
+
+<h2 id="install-and-configure-laravel">Install and configure Laravel</h2>
+
+<p>Let&rsquo;s install Laravel&rsquo;s dependencies, add the <code>.env</code> file, generate the key and give proper permissions to the cache folder.</p>
+
+<pre><code>$ root@workspace:/var/www# composer install
+$ root@workspace:/var/www# cp .env.example .env
+$ root@workspace:/var/www# php artisan key:generate
+$ root@workspace:/var/www# exit
+$root@server:~/laravel/laradock# cd ..
+$root@server:~/laravel# sudo chmod -R 777 storage bootstrap/cache
+</code></pre>
+
+<p>You can then view your Laravel site by visiting the IP address of your server in your browser. For example:</p>
+
+<pre><code>http://192.168.1.1
+</code></pre>
+
+<p>It should show you the Laravel default welcome page.</p>
+
+<p>However, we want it to show up using your custom domain name, as well.</p>
+
+<h2 id="using-your-own-domain-name">Using Your Own Domain Name</h2>
+
+<p>Login to your DNS provider, such as Godaddy, Namecheap.</p>
+
+<p>Point the Custom Domain Name Server to:</p>
+
+<pre><code>ns1.digitalocean.com
+ns2.digitalocean.com
+ns3.digitalocean.com
+</code></pre>
+
+<p>Within DigitalOcean, you&rsquo;ll need to change some settings, too.</p>
+
+<p>Visit: <a href="https://cloud.digitalocean.com/networking/domains">https://cloud.digitalocean.com/networking/domains</a></p>
+
+<p>Add your domain name and choose the server IP you&rsquo;d provision earlier.</p>
+
+<h2 id="serving-site-with-nginx-http-only">Serving Site With NGINX (HTTP ONLY)</h2>
+
+<p>Go back to command line.</p>
+
+<pre><code>$root@server:~/laravel/laradock# cd nginx
+$root@server:~/laravel/laradock/nginx# vim laravel.conf
+</code></pre>
+
+<p>Remove <code>default_server</code></p>
+
+<pre><code>    listen 80 default_server;
+    listen [::]:80 default_server ipv6only=on;
+</code></pre>
+
+<p>And add <code>server_name</code> (your custom domain)</p>
+
+<pre><code>    listen 80;
+    listen [::]:80 ipv6only=on;
+    server_name yourdomain.com;
+</code></pre>
+
+<h2 id="rebuild-your-nginx">Rebuild Your Nginx</h2>
+
+<pre><code>$root@server:~/laravel/laradock/nginx# docker-compose down
+$root@server:~/laravel/laradock/nginx# docker-compose build nginx
+</code></pre>
+
+<h2 id="re-run-your-containers-mysql-and-nginx">Re Run Your Containers MYSQL and NGINX</h2>
+
+<pre><code>$root@server:~/laravel/laradock/nginx# docker-compose up -d nginx mysql
+</code></pre>
+
+<p><strong>View Your Site with HTTP ONLY (<a href="http://yourdomain.com">http://yourdomain.com</a>)</strong></p>
+
+<h2 id="run-site-on-ssl-with-let-s-encrypt-certificate">Run Site on SSL with Let&rsquo;s Encrypt Certificate</h2>
+
+<p><strong>Note: You need to Use Caddy here Instead of Nginx</strong></p>
+
+<p>To go Caddy Folders and Edit CaddyFile</p>
+
+<pre><code>$root@server:~/laravel/laradock# cd caddy
+$root@server:~/laravel/laradock/caddy# vim Caddyfile
+</code></pre>
+
+<p>Remove 0.0.0.0:80</p>
+
+<pre><code>0.0.0.0:80
+root /var/www/public
+</code></pre>
+
+<p>and replace with your <a href="https://yourdomain.com">https://yourdomain.com</a></p>
+
+<pre><code>https://yourdomain.com
+root /var/www/public
+</code></pre>
+
+<p>uncomment tls</p>
+
+<pre><code>#tls self-signed
+</code></pre>
+
+<p>and replace self-signed with your email address</p>
+
+<pre><code>tls serverbreaker@gmai.com
+</code></pre>
+
+<p>This is needed Prior to Creating Let&rsquo;s Encypt</p>
+
+<h2 id="run-your-caddy-container-without-the-d-flag-and-generate-ssl-with-let-s-encrypt">Run Your Caddy Container without the -d flag and Generate SSL with Let&rsquo;s Encrypt</h2>
+
+<pre><code>$root@server:~/laravel/laradock/caddy# docker-compose up  caddy
+</code></pre>
+
+<p>You&rsquo;ll be prompt here to enter your email&hellip; you may enter it or not</p>
+
+<pre><code>Attaching to laradock_mysql_1, laradock_caddy_1
+caddy_1               | Activating privacy features...
+caddy_1               | Your sites will be served over HTTPS automatically using Let's Encrypt.
+caddy_1               | By continuing, you agree to the Let's Encrypt Subscriber Agreement at:
+caddy_1               |   https://letsencrypt.org/documents/LE-SA-v1.0.1-July-27-2015.pdf
+caddy_1               | Activating privacy features... done.
+caddy_1               | https://yourdomain.com
+caddy_1               | http://yourdomain.com
+</code></pre>
+
+<p>After it finishes, press <code>Ctrl</code> + <code>C</code> to exit.</p>
+
+<h2 id="stop-all-containers-and-rerun-caddy-and-other-containers-on-background">Stop All Containers and ReRun Caddy and Other Containers on Background</h2>
+
+<pre><code>$root@server:~/laravel/laradock/caddy# docker-compose down
+$root@server:~/laravel/laradock/caddy# docker-compose up -d mysql caddy
+</code></pre>
+
+<p>View your Site in the Browser Securely Using HTTPS (<a href="https://yourdomain.com">https://yourdomain.com</a>)</p>
+
+<p><strong>Note that Certificate will be Automatically Renew By Caddy</strong></p>
+
+<blockquote>
+<p>References:</p>
+
+<ul>
+<li><a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04">https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04</a></li>
+<li><a href="https://www.digitalocean.com/products/one-click-apps/docker/">https://www.digitalocean.com/products/one-click-apps/docker/</a></li>
+<li><a href="https://docs.docker.com/engine/installation/linux/ubuntulinux/">https://docs.docker.com/engine/installation/linux/ubuntulinux/</a></li>
+<li><a href="https://docs.docker.com/compose/install/">https://docs.docker.com/compose/install/</a></li>
+<li><a href="https://caddyserver.com/docs/automatic-https">https://caddyserver.com/docs/automatic-https</a></li>
+<li><a href="https://caddyserver.com/docs/tls">https://caddyserver.com/docs/tls</a></li>
+<li><a href="https://caddyserver.com/docs/caddyfile">https://caddyserver.com/docs/caddyfile</a></li>
+</ul>
+</blockquote>
+
+<p><br>
+<br>
+<br>
+<br>
+<br></p>
+
+<p><a name="PHPStorm-Debugging"></a></p>
+
+<h1 id="phpstorm-xdebug-setup">PHPStorm XDebug Setup</h1>
+
+<ul>
+<li><a href="#Intro">Intro</a></li>
+<li><a href="#Installation">Installation</a>
+
+<ul>
+<li><a href="#CustomizeDockerCompose">Customize laradock/docker-compose.yml</a>
+
+<ul>
+<li><a href="#InstallCleanHouse">Clean House</a></li>
+<li><a href="#InstallLaraDockDialTone">LaraDock Dial Tone</a></li>
+<li><a href="#AddToHosts">hosts</a></li>
+<li><a href="#FireWall">Firewall</a></li>
+<li><a href="#enablePhpXdebug">Enable xDebug on php-fpm</a></li>
+</ul></li>
+<li><a href="#InstallPHPStorm">PHPStorm Settings</a>
+
+<ul>
+<li><a href="#InstallPHPStormConfigs">Configs</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#Usage">Usage</a>
+
+<ul>
+<li><a href="#UsageLaravel">Laravel</a>
+
+<ul>
+<li><a href="#UsagePHPStormRunExampleTest">Run ExampleTest</a></li>
+<li><a href="#UsagePHPStormDebugExampleTest">Debug ExampleTest</a></li>
+<li><a href="#UsagePHPStormDebugSite">Debug Web Site</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#SSHintoWorkspace">SSH into workspace</a>
+
+<ul>
+<li><a href="#InstallKiTTY">KiTTY</a></li>
+</ul></li>
+</ul>
+
+<p><a name="Intro"></a></p>
+
+<h2 id="intro">Intro</h2>
+
+<p>Wiring up <a href="https://laravel.com/">Laravel</a>, <a href="https://github.com/LaraDock/laradock">LaraDock</a> [Laravel+Docker] and <a href="https://www.jetbrains.com/phpstorm/">PHPStorm</a> to play nice together complete with remote xdebug&rsquo;ing as icing on top! Although this guide is based on <code>PHPStorm Windows</code>,
+you should be able to adjust accordingly. This guide was written based on Docker for Windows Native.</p>
+
+<p><a name="Installation"></a></p>
+
+<h2 id="installation">Installation</h2>
+
+<ul>
+<li>This guide assumes the following:
+
+<ul>
+<li>you have already installed and are familiar with Laravel, LaraDock and PHPStorm.</li>
+<li>you have installed Laravel as a parent of <code>laradock</code>. This guide assumes <code>/c/_dk/laravel</code>.</li>
+</ul></li>
+</ul>
+
+<p><a name="AddToHosts"></a></p>
+
+<h2 id="hosts">hosts</h2>
+
+<ul>
+<li><p>Add <code>laravel</code> to your hosts file located on Windows 10 at <code>C:\Windows\System32\drivers\etc\hosts</code>. It should be set to the IP of your running container. Mine is: <code>10.0.75.2</code>
+On Windows you can find it by opening Windows <code>Hyper-V Manager</code>.</p>
+
+<ul>
+<li><img src="photos/PHPStorm/Settings/WindowsHyperVManager.png" alt="Windows Hyper-V Manager" /></li>
+</ul></li>
+
+<li><p><a href="https://github.com/scottlerch/HostsFileEditor">Hosts File Editor</a> makes it easy to change your hosts file.</p>
+
+<ul>
+<li>Set <code>laravel</code> to your docker host IP. See <a href="photos/SimpleHostsEditor/AddHost_laravel.png">Example</a>.</li>
+</ul></li>
+</ul>
+
+<p><a name="FireWall"></a></p>
+
+<h2 id="firewall">Firewall</h2>
+
+<p>Your PHPStorm will need to be able to receive a connection from PHP xdebug either your running workspace or php-fpm containers on port 9000. This means that your Windows Firewall should either enable connections from the Application PHPStorm OR the port.</p>
+
+<ul>
+<li>It is important to note that if the Application PHPStorm is NOT enabled in the firewall, you will not be able to recreate a rule to override that.</li>
+<li>Also be aware that if you are installing/upgrade different versions of PHPStorm, you MAY have orphaned references to PHPStorm in your Firewall! You may decide to remove orphaned references however in either case, make sure that they are set to receive public TCP traffic.</li>
+</ul>
+
+<h3 id="edit-laradock-docker-compose-yml">Edit laradock/docker-compose.yml</h3>
+
+<p>Set the following variables:</p>
+
+<pre><code>### Workspace Utilities Container ###############
+
+    workspace:
+        build:
+            context: ./workspace
+            args:
+                - INSTALL_XDEBUG=true
+                - INSTALL_WORKSPACE_SSH=true
+                ...
+
+
+### PHP-FPM Container #####################
+
+    php-fpm:
+        build:
+            context: ./php-fpm
+            args:
+                - INSTALL_XDEBUG=true
+                ...
+
+</code></pre>
+
+<h3 id="edit-xdebug-ini-files">Edit xdebug.ini files</h3>
+
+<ul>
+<li><code>laradock/workspace/xdebug.ini</code></li>
+<li><code>laradock/php-fpm/xdebug.ini</code></li>
+</ul>
+
+<p>Set the following variables:</p>
+
+<pre><code>xdebug.remote_autostart=1
+xdebug.remote_enable=1
+xdebug.remote_connect_back=1
+xdebug.cli_color=1
+</code></pre>
+
+<p><a name="InstallCleanHouse"></a></p>
+
+<h3 id="need-to-clean-house-first">Need to clean house first?</h3>
+
+<p>Make sure you are starting with a clean state. For example, do you have other LaraDock containers and images?
+Here are a few things I use to clean things up.</p>
+
+<ul>
+<li><p>Delete all containers using <code>grep laradock_</code> on the names, see: <a href="https://linuxconfig.org/remove-all-containners-based-on-docker-image-name">Remove all containers based on docker image name</a>.
+<code>docker ps -a | awk '{ print $1,$2 }' | grep laradock_ | awk '{print $1}' | xargs -I {} docker rm {}</code></p></li>
+
+<li><p>Delete all images containing <code>laradock</code>.
+<code>docker images | awk '{print $1,$2,$3}' | grep laradock_ | awk '{print $3}' | xargs -I {} docker rmi {}</code>
+<strong>Note:</strong> This will only delete images that were built with <code>LaraDock</code>, <strong>NOT</strong> <code>laradock/*</code> which are pulled down by <code>LaraDock</code> such as <code>laradock/workspace</code>, etc.
+<strong>Note:</strong> Some may fail with:
+<code>Error response from daemon: conflict: unable to delete 3f38eaed93df (cannot be forced) - image has dependent child images</code></p></li>
+
+<li><p>I added this to my <code>.bashrc</code> to remove orphaned images.</p>
+
+<pre><code>dclean() {
+    processes=`docker ps -q -f status=exited`
+    if [ -n &quot;$processes&quot; ]; thend
+      docker rm $processes
+    fi
+
+    images=`docker images -q -f dangling=true`
+    if [ -n &quot;$images&quot; ]; then
+      docker rmi $images
+    fi
+}
+</code></pre></li>
+
+<li><p>If you frequently switch configurations for LaraDock, you may find that adding the following and added to your <code>.bashrc</code> or equivalent useful:
+```</p>
+
+<h1 id="remove-laravel-containers">remove laravel* containers</h1>
+
+<h1 id="remove-laravel-images">remove laravel_* images</h1>
+
+<p>dcleanlaradockfunction()
+{
+	echo &lsquo;Removing ALL containers associated with laradock&rsquo;
+	docker ps -a | awk &lsquo;{ print $1,$2 }&rsquo; | grep laradock | awk &lsquo;{print $1}&rsquo; | xargs -I {} docker rm {}</p></li>
+</ul>
+
+<p>	# remove ALL images associated with laradock_
+	# does NOT delete laradock/* which are hub images
+	echo &lsquo;Removing ALL images associated with laradock<em>&lsquo;
+	docker images | awk &lsquo;{print $1,$2,$3}&rsquo; | grep laradock</em> | awk &lsquo;{print $3}&rsquo; | xargs -I {} docker rmi {}</p>
+
+<p>	echo &lsquo;Listing all laradock docker hub images&hellip;&rsquo;
+	docker images | grep laradock</p>
+
+<p>	echo &lsquo;dcleanlaradock completed&rsquo;
+}</p>
+
+<h1 id="associate-the-above-function-with-an-alias">associate the above function with an alias</h1>
+
+<h1 id="so-can-recall-lookup-by-typing-alias">so can recall/lookup by typing &lsquo;alias&rsquo;</h1>
+
+<p>alias dcleanlaradock=dcleanlaradockfunction</p>
+
+<pre><code>
+&lt;a name=&quot;InstallLaraDockDialTone&quot;&gt;&lt;/a&gt;
+## Let's get a dial-tone with Laravel
+
+</code></pre>
+
+<h1 id="barebones-at-this-point">barebones at this point</h1>
+
+<p>docker-compose up -d nginx mysql</p>
+
+<h1 id="run">run</h1>
+
+<p>docker-compose ps</p>
+
+<h1 id="should-see">Should see:</h1>
+
+<pre><code>      Name                        Command             State                     Ports
+</code></pre>
+
+<hr />
+
+<p>laradock_mysql_1            docker-entrypoint.sh mysqld   Up       0.0.0.0:3306-&gt;3306/tcp
+laradock_nginx_1            nginx                         Up       0.0.0.0:443-&gt;443/tcp, 0.0.0.0:80-&gt;80/tcp
+laradock_php-fpm_1          php-fpm                       Up       9000/tcp
+laradock_volumes_data_1     true                          Exit 0
+laradock_volumes_source_1   true                          Exit 0
+laradock_workspace_1        /sbin/my_init                 Up       0.0.0.0:2222-&gt;22/tcp</p>
+
+<pre><code>
+&lt;a name=&quot;enablePhpXdebug&quot;&gt;&lt;/a&gt;
+## Enable xDebug on php-fpm
+In a host terminal sitting in the laradock folder, run: `./xdebugPhpFpm status`
+You should see something like the following:
+</code></pre>
+
+<p>xDebug status
+laradock_php-fpm_1
+PHP 7.0.9 (cli) (built: Aug 10 2016 19:45:48) ( NTS )
+Copyright &copy; 1997-2016 The PHP Group
+Zend Engine v3.0.0, Copyright &copy; 1998-2016 Zend Technologies
+    with Xdebug v2.4.1, Copyright &copy; 2002-2016, by Derick Rethans
+``<code>
+Other commands include</code>./xdebugPhpFpm start | stop`.</p>
+
+<p>If you have enabled <code>xdebug=true</code> in <code>docker-compose.yml/php-fpm</code>, <code>xdebug</code> will already be running when
+<code>php-fpm</code> is started and listening for debug info on port 9000.</p>
+
+<p><a name="InstallPHPStormConfigs"></a></p>
+
+<h2 id="phpstorm-settings">PHPStorm Settings</h2>
+
+<ul>
+<li><p>Here are some settings that are known to work:</p>
+
+<ul>
+<li><p><code>Settings/BuildDeploymentConnection</code></p>
+
+<ul>
+<li><img src="photos/PHPStorm/Settings/BuildDeploymentConnection.png" alt="Settings/BuildDeploymentConnection" /></li>
+</ul></li>
+
+<li><p><code>Settings/BuildDeploymentConnectionMappings</code></p>
+
+<ul>
+<li><img src="photos/PHPStorm/Settings/BuildDeploymentConnectionMappings.png" alt="Settings/BuildDeploymentConnectionMappings" /></li>
+</ul></li>
+
+<li><p><code>Settings/BuildDeploymentDebugger</code></p>
+
+<ul>
+<li><img src="photos/PHPStorm/Settings/BuildDeploymentDebugger.png" alt="Settings/BuildDeploymentDebugger" /></li>
+</ul></li>
+
+<li><p><code>Settings/EditRunConfigurationRemoteWebDebug</code></p>
+
+<ul>
+<li><img src="photos/PHPStorm/Settings/EditRunConfigurationRemoteWebDebug.png" alt="Settings/EditRunConfigurationRemoteWebDebug" /></li>
+</ul></li>
+
+<li><p><code>Settings/EditRunConfigurationRemoteExampleTestDebug</code></p>
+
+<ul>
+<li><img src="photos/PHPStorm/Settings/EditRunConfigurationRemoteExampleTestDebug.png" alt="Settings/EditRunConfigurationRemoteExampleTestDebug" /></li>
+</ul></li>
+
+<li><p><code>Settings/LangsPHPDebug</code></p>
+
+<ul>
+<li><img src="photos/PHPStorm/Settings/LangsPHPDebug.png" alt="Settings/LangsPHPDebug" /></li>
+</ul></li>
+
+<li><p><code>Settings/LangsPHPInterpreters</code></p>
+
+<ul>
+<li><img src="photos/PHPStorm/Settings/LangsPHPInterpreters.png" alt="Settings/LangsPHPInterpreters" /></li>
+</ul></li>
+
+<li><p><code>Settings/LangsPHPPHPUnit</code></p>
+
+<ul>
+<li><img src="photos/PHPStorm/Settings/LangsPHPPHPUnit.png" alt="Settings/LangsPHPPHPUnit" /></li>
+</ul></li>
+
+<li><p><code>Settings/LangsPHPServers</code></p>
+
+<ul>
+<li><img src="photos/PHPStorm/Settings/LangsPHPServers.png" alt="Settings/LangsPHPServers" /></li>
+</ul></li>
+
+<li><p><code>RemoteHost</code>
+To switch on this view, go to: <code>Menu/Tools/Deployment/Browse Remote Host</code>.</p>
+
+<ul>
+<li><img src="photos/PHPStorm/RemoteHost.png" alt="RemoteHost" /></li>
+</ul></li>
+
+<li><p><code>RemoteWebDebug</code></p>
+
+<ul>
+<li><img src="photos/PHPStorm/DebugRemoteOn.png" alt="DebugRemoteOn" /></li>
+</ul></li>
+
+<li><p><code>EditRunConfigurationRemoteWebDebug</code>
+Go to: <code>Menu/Run/Edit Configurations</code>.</p>
+
+<ul>
+<li><img src="photos/PHPStorm/Settings/EditRunConfigurationRemoteWebDebug.png" alt="EditRunConfigurationRemoteWebDebug" /></li>
+</ul></li>
+
+<li><p><code>EditRunConfigurationRemoteExampleTestDebug</code>
+Go to: <code>Menu/Run/Edit Configurations</code>.</p>
+
+<ul>
+<li><img src="photos/PHPStorm/Settings/EditRunConfigurationRemoteExampleTestDebug.png" alt="EditRunConfigurationRemoteExampleTestDebug" /></li>
+</ul></li>
+
+<li><p><code>WindowsFirewallAllowedApps</code>
+Go to: <code>Control Panel\All Control Panel Items\Windows Firewall\Allowed apps</code>.</p>
+
+<ul>
+<li><img src="photos/PHPStorm/Settings/WindowsFirewallAllowedApps.png" alt="WindowsFirewallAllowedApps.png" /></li>
+</ul></li>
+
+<li><p><code>hosts</code>
+Edit: <code>C:\Windows\System32\drivers\etc\hosts</code>.</p>
+
+<ul>
+<li><p><img src="photos/PHPStorm/Settings/hosts.png" alt="WindowsFirewallAllowedApps.png" /></p></li>
+
+<li><p><a href="#enablePhpXdebug">Enable xDebug on php-fpm</a></p></li>
+</ul></li>
+</ul></li>
+</ul>
+
+<p><a name="Usage"></a></p>
+
+<h2 id="usage">Usage</h2>
+
+<p><a name="UsagePHPStormRunExampleTest"></a></p>
+
+<h3 id="run-exampletest">Run ExampleTest</h3>
+
+<ul>
+<li>right-click on <code>tests/ExampleTest.php</code>
+
+<ul>
+<li>Select: <code>Run 'ExampleTest.php'</code> or <code>Ctrl+Shift+F10</code>.</li>
+<li>Should pass!! You just ran a remote test via SSH!</li>
+</ul></li>
+</ul>
+
+<p><a name="UsagePHPStormDebugExampleTest"></a></p>
+
+<h3 id="debug-exampletest">Debug ExampleTest</h3>
+
+<ul>
+<li>Open to edit: <code>tests/ExampleTest.php</code></li>
+<li>Add a BreakPoint on line 16: <code>$this-&gt;visit('/')</code></li>
+<li>right-click on <code>tests/ExampleTest.php</code>
+
+<ul>
+<li>Select: <code>Debug 'ExampleTest.php'</code>.</li>
+<li>Should have stopped at the BreakPoint!! You are now debugging locally against a remote Laravel project via SSH!</li>
+<li><img src="photos/PHPStorm/RemoteTestDebuggingSuccess.png" alt="Remote Test Debugging Success" /></li>
+</ul></li>
+</ul>
+
+<p><a name="UsagePHPStormDebugSite"></a></p>
+
+<h3 id="debug-website">Debug WebSite</h3>
+
+<ul>
+<li><p>In case xDebug is disabled, from the <code>laradock</code> folder run:
+<code>./xdebugPhpFpm start</code>.</p>
+
+<ul>
+<li>To switch xdebug off, run:
+<code>./xdebugPhpFpm stop</code></li>
+</ul></li>
+
+<li><p>Start Remote Debugging</p>
+
+<ul>
+<li><img src="photos/PHPStorm/DebugRemoteOn.png" alt="DebugRemoteOn" /></li>
+</ul></li>
+
+<li><p>Open to edit: <code>bootstrap/app.php</code></p></li>
+
+<li><p>Add a BreakPoint on line 14: <code>$app = new Illuminate\Foundation\Application(</code></p></li>
+
+<li><p>Reload <a href="http://laravel/">Laravel Site</a></p>
+
+<ul>
+<li>Should have stopped at the BreakPoint!! You are now debugging locally against a remote Laravel project via SSH!</li>
+<li><img src="photos/PHPStorm/RemoteDebuggingSuccess.png" alt="Remote Debugging Success" /></li>
+</ul></li>
+</ul>
+
+<p><a name="SSHintoWorkspace"></a></p>
+
+<h2 id="let-s-shell-into-workspace">Let&rsquo;s shell into workspace</h2>
+
+<p>Assuming that you are in laradock folder, type:
+<code>ssh -i workspace/insecure_id_rsa -p2222 root@laravel</code>
+<strong>Cha Ching!!!!</strong>
+- <code>workspace/insecure_id_rsa.ppk</code> may become corrupted. In which case:
+    - fire up <code>puttygen</code>
+    - import <code>workspace/insecure_id_rsa</code>
+    - save private key to <code>workspace/insecure_id_rsa.ppk</code></p>
+
+<p><a name="InstallKiTTY"></a></p>
+
+<h3 id="kitty">KiTTY</h3>
+
+<p><a href="http://www.9bis.net/kitty/">Kitty</a> KiTTY is a fork from version 0.67 of PuTTY.</p>
+
+<ul>
+<li>Here are some settings that are working for me:
+
+<ul>
+<li><img src="photos/KiTTY/Session.png" alt="Session" /></li>
+<li><img src="photos/KiTTY/Terminal.png" alt="Terminal" /></li>
+<li><img src="photos/KiTTY/Window.png" alt="Window" /></li>
+<li><img src="photos/KiTTY/WindowAppearance.png" alt="WindowAppearance" /></li>
+<li><img src="photos/KiTTY/Connection.png" alt="Connection" /></li>
+<li><img src="photos/KiTTY/ConnectionData.png" alt="ConnectionData" /></li>
+<li><img src="photos/KiTTY/ConnectionSSH.png" alt="ConnectionSSH" /></li>
+<li><img src="photos/KiTTY/ConnectionSSHAuth.png" alt="ConnectionSSHAuth" /></li>
+<li><img src="photos/KiTTY/TerminalShell.png" alt="TerminalShell" /></li>
+</ul></li>
+</ul>
+
+			
+				<h1>Help &amp; Questions </h1>
+
+				<p>Join the chat room on <a href="https://gitter.im/Laradock/laradock">Gitter</a> and get help and support from the community.</p>
+
+<p>You can as well can open an <a href="https://github.com/laradock/laradock/issues">issue</a> on Github (will be labeled as Question) and discuss it with people on <a href="https://gitter.im/Laradock/laradock">Gitter</a>.</p>
+
+			
 				<h1>Related Projects </h1>
 
 				<p>Laradock related projects:</p>
@@ -1966,13 +2602,6 @@ These Docker Compose projects have piqued our interest:</li>
 </ul>
 
 <p>If you want your project listed here, please open an issue.</p>
-
-			
-				<h1>Help &amp; Questions </h1>
-
-				<p>Join the chat room on <a href="https://gitter.im/Laradock/laradock">Gitter</a> and get help and support from the community.</p>
-
-<p>You can as well can open an <a href="https://github.com/laradock/laradock/issues">issue</a> on Github (will be labeled as Question) and discuss it with people on <a href="https://gitter.im/Laradock/laradock">Gitter</a>.</p>
 
 			
 				<h1>Contributing </h1>
@@ -2011,20 +2640,26 @@ features, by not reporting duplicate issues.</em></p>
 
 <p>Laradock uses <a href="https://gohugo.io/">Hugo</a> as website generator tool, with the <a href="http://themes.gohugo.io/theme/material-docs/">Material Docs theme</a>. You might need to check their docs quickly.</p>
 
-<ol>
-<li>Install <a href="https://gohugo.io/">Hugo</a> on your machine (easy thing).</li>
-<li>Open the <code>DOCUMENTATION/_settings/content</code> and search for the markdown file you want to edit (every folder represents a section in the menu).</li>
-<li>Delete the <code>/docs</code> folder from the root.</li>
-<li>When you finish editing, go to <code>DOCUMENTATION/_settings/</code> and run the <code>hugo</code> command to generate the HTML docs (inside new <code>/docs</code> folder).</li>
-</ol>
+<p>Go the <code>DOCUMENTATION/content</code> and search for the markdown file you want to edit</p>
+
+<p>Note: Every folder represents a section in the sidebar &ldquo;Menu&rdquo;. And every page and sidebar has a <code>weight</code> number to show it&rsquo;s position in the site.</p>
+
+<p>To update the sidebar or add a new section to it, you can edit this <code>DOCUMENTATION/config.toml</code> toml file.</p>
+
+<blockquote>
+<p>The site will be auto-generated in the <code>docs/</code> folder by <a href="https://travis-ci.org/laradock/laradock/">Travis CI</a>.</p>
+</blockquote>
+
+<p><br></p>
 
 <h3 id="to-host-the-website-locally">To Host the website locally</h3>
 
-<p>Go to <code>DOCUMENTATION/_settings</code> in your terminal and run <code>hugo serve</code> to host the website locally.</p>
-
-<h3 id="edit-the-sidebar">Edit the sidebar</h3>
-
-<p>To add a new section to the sidebar or edit existing one, you need to edit this file <code>DOCUMENTATION/_settings/config.toml</code>.</p>
+<ol>
+<li>Install <a href="https://gohugo.io/">Hugo</a> on your machine.</li>
+<li>Edit the <code>DOCUMENTATION/content</code>.</li>
+<li>Delete the <code>/docs</code> folder from the root.</li>
+<li>After you finish the editing, go to <code>DOCUMENTATION/</code> and run the <code>hugo</code> command to generate the HTML docs (inside a new <code>/docs</code> folder).</li>
+</ol>
 
 <h2 id="how-to-support-new-software-add-new-container">How to support new Software (Add new Container)</h2>
 
