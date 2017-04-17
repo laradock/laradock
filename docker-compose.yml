@@ -181,6 +181,23 @@ services:
       networks:
         - backend
 
+### Percona Container #########################################
+
+    percona:
+      build:
+        context: ./percona
+      environment:
+        - MYSQL_DATABASE=${PERCONA_DATABASE}
+        - MYSQL_USER=${PERCONA_USER}
+        - MYSQL_PASSWORD=${PERCONA_PASSWORD}
+        - MYSQL_ROOT_PASSWORD=${PERCONA_ROOT_PASSWORD}
+      volumes:
+        - percona:/var/lib/mysql
+      ports:
+        - "${PERCONA_PORT}:3306"
+      networks:
+        - backend
+
 ### MSSQL Container #########################################
 
     mssql:
@@ -544,6 +561,8 @@ networks:
 
 volumes:
   mysql:
+    driver: "local"
+  percona:
     driver: "local"
   mssql:
     driver: "local"
