@@ -81,7 +81,7 @@ Your folder structure should look like this:
 
 *Or you can keep `default.conf` as it is, and create a separate config `my-site.conf` file for it.*
 
-**In case of Apache:** :P 
+**In case of Apache:** :P
 
 <br>
 
@@ -168,7 +168,7 @@ docker-compose up -d nginx mysql
 
 You can select your own combination of containers form the list below:
 
-> `nginx`, `hhvm`, `php-fpm`, `mysql`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `rabbitmq`, `beanstalkd-console`, `workspace`, `phpmyadmin`, `adminer`, `aerospike`, `pgadmin`, `elasticsearch`, `rethinkdb`, `postgres-postgis`, `certbot`, `mailhog`, `minio` and more...!
+> `nginx`, `hhvm`, `php-fpm`, `mysql`, `percona`, `redis`, `postgres`, `mariadb`, `neo4j`, `mongo`, `apache2`, `caddy`, `memcached`, `beanstalkd`, `beanstalkd-console`, `rabbitmq`, `beanstalkd-console`, `workspace`, `phpmyadmin`, `adminer`, `aerospike`, `pgadmin`, `elasticsearch`, `rethinkdb`, `postgres-postgis`, `certbot`, `mailhog`, `minio` and more...!
 
 *(Please note that sometimes we forget to update the docs, so check the `docker-compose.yml` file to see an updated list of all available containers).*
 
@@ -186,7 +186,7 @@ docker-compose exec workspace bash
 docker exec -it {workspace-container-id} bash
 ```
 
-**Note:** You can add `--user=laradock` to have files created as your host's user. Example: 
+**Note:** You can add `--user=laradock` to have files created as your host's user. Example:
 
 ```shell
 docker-compose exec --user=laradock workspace bash
@@ -206,6 +206,6 @@ DB_HOST=mysql
 *If you want to install Laravel as PHP project, see [How to Install Laravel in a Docker Container](#Install-Laravel).*
 
 <br>
-5 - Open your browser and visit your localhost address `http://localhost/`. If you followed the multiple projects setup, you can visit `http://project-1.dev/` and `http://project-2.dev/`. But first don't 
+5 - Open your browser and visit your localhost address `http://localhost/`. If you followed the multiple projects setup, you can visit `http://project-1.dev/` and `http://project-2.dev/`. But first don't
 
 
