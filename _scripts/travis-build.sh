@@ -3,6 +3,8 @@
 #### Build the Docker Images
 if [ -n "${PHP_VERSION}" ]; then
     cp env-example .env
+    sed -i -- 's/=false/=true/g' .env
+    cat .env
     docker-compose build
     docker images
 fi
