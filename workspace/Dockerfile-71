@@ -11,7 +11,7 @@
 #
 
 # placeholder. Need change after new image would be built.
-FROM laradock/workspace:1.3
+FROM laradock/workspace:1.6
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
