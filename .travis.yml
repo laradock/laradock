@@ -8,7 +8,7 @@ env:
     - PHP_VERSION=56
     - PHP_VERSION=70
     - PHP_VERSION=71
-    - HUGO_VERSION=0.19
+    - HUGO_VERSION=0.20.2
 
 script: ./_scripts/travis-build.sh
 

@@ -279,10 +279,10 @@ you should be able to adjust accordingly. This guide was written based on Docker
 ## hosts
 - Add `laravel` to your hosts file located on Windows 10 at `C:\Windows\System32\drivers\etc\hosts`. It should be set to the IP of your running container. Mine is: `10.0.75.2`
 On Windows you can find it by opening Windows `Hyper-V Manager`.
-    - ![Windows Hyper-V Manager](photos/PHPStorm/Settings/WindowsHyperVManager.png)
+    - ![Windows Hyper-V Manager](images/photos/PHPStorm/Settings/WindowsHyperVManager.png)
 
 - [Hosts File Editor](https://github.com/scottlerch/HostsFileEditor) makes it easy to change your hosts file.
-    - Set `laravel` to your docker host IP. See [Example](photos/SimpleHostsEditor/AddHost_laravel.png).
+    - Set `laravel` to your docker host IP. See [Example](images/photos/SimpleHostsEditor/AddHost_laravel.png).
 
 
 <a name="FireWall"></a>
@@ -428,54 +428,54 @@ If you have enabled `xdebug=true` in `docker-compose.yml/php-fpm`, `xdebug` will
 ## PHPStorm Settings
 - Here are some settings that are known to work:
     - `Settings/BuildDeploymentConnection`
-        - ![Settings/BuildDeploymentConnection](photos/PHPStorm/Settings/BuildDeploymentConnection.png)
+        - ![Settings/BuildDeploymentConnection](images/photos/PHPStorm/Settings/BuildDeploymentConnection.png)
 
     - `Settings/BuildDeploymentConnectionMappings`
-        - ![Settings/BuildDeploymentConnectionMappings](photos/PHPStorm/Settings/BuildDeploymentConnectionMappings.png)
+        - ![Settings/BuildDeploymentConnectionMappings](images/photos/PHPStorm/Settings/BuildDeploymentConnectionMappings.png)
 
     - `Settings/BuildDeploymentDebugger`
-        - ![Settings/BuildDeploymentDebugger](photos/PHPStorm/Settings/BuildDeploymentDebugger.png)
+        - ![Settings/BuildDeploymentDebugger](images/photos/PHPStorm/Settings/BuildDeploymentDebugger.png)
 
     - `Settings/EditRunConfigurationRemoteWebDebug`
-        - ![Settings/EditRunConfigurationRemoteWebDebug](photos/PHPStorm/Settings/EditRunConfigurationRemoteWebDebug.png)
+        - ![Settings/EditRunConfigurationRemoteWebDebug](images/photos/PHPStorm/Settings/EditRunConfigurationRemoteWebDebug.png)
 
     - `Settings/EditRunConfigurationRemoteExampleTestDebug`
-        - ![Settings/EditRunConfigurationRemoteExampleTestDebug](photos/PHPStorm/Settings/EditRunConfigurationRemoteExampleTestDebug.png)
+        - ![Settings/EditRunConfigurationRemoteExampleTestDebug](images/photos/PHPStorm/Settings/EditRunConfigurationRemoteExampleTestDebug.png)
 
     - `Settings/LangsPHPDebug`
-        - ![Settings/LangsPHPDebug](photos/PHPStorm/Settings/LangsPHPDebug.png)
+        - ![Settings/LangsPHPDebug](images/photos/PHPStorm/Settings/LangsPHPDebug.png)
 
     - `Settings/LangsPHPInterpreters`
-        - ![Settings/LangsPHPInterpreters](photos/PHPStorm/Settings/LangsPHPInterpreters.png)
+        - ![Settings/LangsPHPInterpreters](images/photos/PHPStorm/Settings/LangsPHPInterpreters.png)
 
     - `Settings/LangsPHPPHPUnit`
-        - ![Settings/LangsPHPPHPUnit](photos/PHPStorm/Settings/LangsPHPPHPUnit.png)
+        - ![Settings/LangsPHPPHPUnit](images/photos/PHPStorm/Settings/LangsPHPPHPUnit.png)
 
     - `Settings/LangsPHPServers`
-        - ![Settings/LangsPHPServers](photos/PHPStorm/Settings/LangsPHPServers.png)
+        - ![Settings/LangsPHPServers](images/photos/PHPStorm/Settings/LangsPHPServers.png)
 
     - `RemoteHost`
         To switch on this view, go to: `Menu/Tools/Deployment/Browse Remote Host`.
-        - ![RemoteHost](photos/PHPStorm/RemoteHost.png)
+        - ![RemoteHost](images/photos/PHPStorm/RemoteHost.png)
 
     - `RemoteWebDebug`
-        - ![DebugRemoteOn](photos/PHPStorm/DebugRemoteOn.png)
+        - ![DebugRemoteOn](images/photos/PHPStorm/DebugRemoteOn.png)
 
     - `EditRunConfigurationRemoteWebDebug`
         Go to: `Menu/Run/Edit Configurations`.
-        - ![EditRunConfigurationRemoteWebDebug](photos/PHPStorm/Settings/EditRunConfigurationRemoteWebDebug.png)
+        - ![EditRunConfigurationRemoteWebDebug](images/photos/PHPStorm/Settings/EditRunConfigurationRemoteWebDebug.png)
 
     - `EditRunConfigurationRemoteExampleTestDebug`
         Go to: `Menu/Run/Edit Configurations`.
-        - ![EditRunConfigurationRemoteExampleTestDebug](photos/PHPStorm/Settings/EditRunConfigurationRemoteExampleTestDebug.png)
+        - ![EditRunConfigurationRemoteExampleTestDebug](images/photos/PHPStorm/Settings/EditRunConfigurationRemoteExampleTestDebug.png)
 
     - `WindowsFirewallAllowedApps`
         Go to: `Control Panel\All Control Panel Items\Windows Firewall\Allowed apps`.
-        - ![WindowsFirewallAllowedApps.png](photos/PHPStorm/Settings/WindowsFirewallAllowedApps.png)
+        - ![WindowsFirewallAllowedApps.png](images/photos/PHPStorm/Settings/WindowsFirewallAllowedApps.png)
 
     - `hosts`
         Edit: `C:\Windows\System32\drivers\etc\hosts`.
-        - ![WindowsFirewallAllowedApps.png](photos/PHPStorm/Settings/hosts.png)
+        - ![WindowsFirewallAllowedApps.png](images/photos/PHPStorm/Settings/hosts.png)
 
         - [Enable xDebug on php-fpm](#enablePhpXdebug)
 
@@ -497,7 +497,7 @@ If you have enabled `xdebug=true` in `docker-compose.yml/php-fpm`, `xdebug` will
 - right-click on `tests/ExampleTest.php`
     - Select: `Debug 'ExampleTest.php'`.
     - Should have stopped at the BreakPoint!! You are now debugging locally against a remote Laravel project via SSH!
-    - ![Remote Test Debugging Success](photos/PHPStorm/RemoteTestDebuggingSuccess.png)
+    - ![Remote Test Debugging Success](images/photos/PHPStorm/RemoteTestDebuggingSuccess.png)
 
 
 <a name="UsagePHPStormDebugSite"></a>
@@ -508,13 +508,13 @@ If you have enabled `xdebug=true` in `docker-compose.yml/php-fpm`, `xdebug` will
 `./xdebugPhpFpm stop`
 
 - Start Remote Debugging
-    - ![DebugRemoteOn](photos/PHPStorm/DebugRemoteOn.png)
+    - ![DebugRemoteOn](images/photos/PHPStorm/DebugRemoteOn.png)
 
 - Open to edit: `bootstrap/app.php`
 - Add a BreakPoint on line 14: `$app = new Illuminate\Foundation\Application(`
 - Reload [Laravel Site](http://laravel/)
     - Should have stopped at the BreakPoint!! You are now debugging locally against a remote Laravel project via SSH!
-    - ![Remote Debugging Success](photos/PHPStorm/RemoteDebuggingSuccess.png)
+    - ![Remote Debugging Success](images/photos/PHPStorm/RemoteDebuggingSuccess.png)
 
 
 <a name="SSHintoWorkspace"></a>
@@ -533,14 +533,14 @@ Assuming that you are in laradock folder, type:
 [Kitty](http://www.9bis.net/kitty/) KiTTY is a fork from version 0.67 of PuTTY.
 
 - Here are some settings that are working for me:
-    - ![Session](photos/KiTTY/Session.png)
-    - ![Terminal](photos/KiTTY/Terminal.png)
-    - ![Window](photos/KiTTY/Window.png)
-    - ![WindowAppearance](photos/KiTTY/WindowAppearance.png)
-    - ![Connection](photos/KiTTY/Connection.png)
-    - ![ConnectionData](photos/KiTTY/ConnectionData.png)
-    - ![ConnectionSSH](photos/KiTTY/ConnectionSSH.png)
-    - ![ConnectionSSHAuth](photos/KiTTY/ConnectionSSHAuth.png)
-    - ![TerminalShell](photos/KiTTY/TerminalShell.png)
+    - ![Session](images/photos/KiTTY/Session.png)
+    - ![Terminal](images/photos/KiTTY/Terminal.png)
+    - ![Window](images/photos/KiTTY/Window.png)
+    - ![WindowAppearance](images/photos/KiTTY/WindowAppearance.png)
+    - ![Connection](images/photos/KiTTY/Connection.png)
+    - ![ConnectionData](images/photos/KiTTY/ConnectionData.png)
+    - ![ConnectionSSH](images/photos/KiTTY/ConnectionSSH.png)
+    - ![ConnectionSSHAuth](images/photos/KiTTY/ConnectionSSHAuth.png)
+    - ![TerminalShell](images/photos/KiTTY/TerminalShell.png)
 
 

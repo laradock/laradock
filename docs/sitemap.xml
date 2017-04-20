@@ -34,32 +34,37 @@
   </url>
   
   <url>
-    <loc>http://laradock.io/contributing/</loc>
+    <loc>http://laradock.io/categories.html</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://laradock.io/documentation/</loc>
+    <loc>http://laradock.io/contributing.html</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://laradock.io/getting-started/</loc>
+    <loc>http://laradock.io/documentation.html</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://laradock.io/guides/</loc>
+    <loc>http://laradock.io/getting-started.html</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://laradock.io/help/</loc>
+    <loc>http://laradock.io/guides.html</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://laradock.io/introduction/</loc>
+    <loc>http://laradock.io/help.html</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://laradock.io/introduction.html</loc>
     <priority>0</priority>
   </url>
   
@@ -69,12 +74,17 @@
   </url>
   
   <url>
-    <loc>http://laradock.io/license/</loc>
+    <loc>http://laradock.io/license.html</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://laradock.io/related-projects/</loc>
+    <loc>http://laradock.io/related-projects.html</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://laradock.io/tags.html</loc>
     <priority>0</priority>
   </url>
   

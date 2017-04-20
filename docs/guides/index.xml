@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Guides on Laradock</title>
+    <link>http://laradock.io/guides.html</link>
+    <description>Recent content in Guides on Laradock</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="http://laradock.io/guides/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Guides</title>
+      <link>http://laradock.io/guides/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://laradock.io/guides/</guid>
+      <description>Production Setup on Digital Ocean PHPStorm XDebug Setup  
+Production Setup on Digital Ocean Install Docker  Visit DigitalOcean and login. Click the Create Droplet button. Open the One-click apps tab. Select Docker with your preferred version. Continue creating the droplet as you normally would. If needed, check your e-mail for the droplet root password.  SSH to your Server Find the IP address of the droplet in the DigitalOcean interface.</description>
+    </item>
+    
+  </channel>
+</rss>
