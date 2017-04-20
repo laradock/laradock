@@ -1,17 +1,16 @@
-### Application
-# Point to your application code, wish should be available at `/var/www`
+### Paths
+# Application: Point to your application code, will be available at `/var/www`.
 APPLICATION=../
 
-### Save Data Path (mysql redis mongo...)
+# Data: For all storage systems
 DATA_SAVE_PATH=../data
 
-### PHP version (Does not apply for HHVM)
-# PHP_VERSION=56
+### PHP version (Does not apply to HHVM)
+# Accepted values: 71 - 70 - 56.
 PHP_VERSION=70
-# PHP_VERSION=71
 
 ### PHP interpreter
-# PHP_INTERPRETER=hhvm
+# Accepted values: hhvm - php-fpm
 PHP_INTERPRETER=php-fpm
 
 ### WORKSPACE Container
@@ -135,6 +134,9 @@ SELENIUM_PORT=4444
 ### MINIO Container
 MINIO_PORT=9000
 
+### ADMINER Container
+ADM_PORT=88
+
 ### PHP MY ADMIN Container
 # PMA_DB_ENGINE=mariadb
 PMA_DB_ENGINE=mysql
@@ -142,9 +144,6 @@ PMA_USER=default
 PMA_PASSWORD=secret
 PMA_ROOT_PASSWORD=secret
 PMA_PORT=88
-
-### ADMINER Container
-ADM_PORT=88
 
 ### VARNISH Container
 VARNISH_CONFIG=/etc/varnish/default.vcl
