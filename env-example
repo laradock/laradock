@@ -58,6 +58,16 @@ NGINX_HOST_HTTPS_PORT=443
 NGINX_HOST_LOG_PATH=./logs/nginx/
 NGINX_SITES_PATH=./nginx/sites/
 
+### Blackfire Container
+# Create an account on blackfire.io
+# Don't enable blackfire and xDebug at the same time
+# see https://blackfire.io/docs/24-days/06-installation#install-probe-debian
+INSTALL_BLACKFIRE=false
+BLACKFIRE_CLIENT_ID=<client_id>
+BLACKFIRE_CLIENT_TOKEN=<client_token>
+BLACKFIRE_SERVER_ID=<server_id>
+BLACKFIRE_SERVER_TOKEN=<server_token>
+
 ### APACHE Container
 APACHE_HOST_HTTP_PORT=80
 APACHE_HOST_HTTPS_PORT=443
