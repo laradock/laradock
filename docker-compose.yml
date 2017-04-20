@@ -435,6 +435,7 @@ services:
         - postgres
       networks:
         - frontend
+        - backend
 
 ### ElasticSearch Container #################################
 
