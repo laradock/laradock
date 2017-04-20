@@ -302,6 +302,7 @@ RUN if [ ${INSTALL_GHOSTSCRIPT} = true ]; then \
 #--------------------------------------------------------------------------
 #
 
+ADD ./datetime.ini /usr/local/etc/php/conf.d
 ADD ./laravel.ini /usr/local/etc/php/conf.d
 ADD ./laravel.pool.conf /usr/local/etc/php-fpm.d/
 
