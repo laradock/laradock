@@ -24,6 +24,7 @@ services:
                 - INSTALL_AEROSPIKE_EXTENSION=false
                 - COMPOSER_GLOBAL_INSTALL=true
                 - INSTALL_WORKSPACE_SSH=false
+                - INSTALL_WKHTMLTOPDF=true
                 - PUID=1000
                 - PGID=1000
                 - NODE_VERSION=stable
@@ -48,6 +49,7 @@ services:
                 - INSTALL_ZIP_ARCHIVE=false
                 - INSTALL_MEMCACHED=false
                 - INSTALL_OPCACHE=false
+                - INSTALL_WKHTMLTOPDF=true
                 - INSTALL_AEROSPIKE_EXTENSION=false
                 - CODEIGNITER=false
                 - INSTALL_EXIF=true
@@ -65,7 +67,7 @@ services:
             # IMPORTANT: Set the Remote Interpreter entry matching name to `laravel`
             - PHP_IDE_CONFIG=serverName=laravel
 
-            
+
 ### PHP Worker Container #####################################
     php-worker:
       build:
@@ -92,7 +94,7 @@ services:
             - "443:443"
         depends_on:
             - php-fpm
-            
+
 ### PostgreSQL Container ####################################
 
     postgres:
