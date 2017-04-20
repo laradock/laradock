@@ -388,6 +388,25 @@ RUN if [ ${INSTALL_MC} = true ]; then\
     chmod +x /usr/local/bin/mc \
 ;fi
 
+#####################################
+# wkhtmltopdf:
+#####################################
+USER root
+
+ARG INSTALL_WKHTMLTOPDF=true
+RUN if [ ${INSTALL_WKHTMLTOPDF} = true ]; then \
+    # Install all dependencies
+    apt-get install -y \
+    libxrender1 \
+    libfontconfig1 \
+    libx11-dev \
+    libjpeg62 \
+    libxtst6 \
+    wget \
+    && wget https://github.com/h4cc/wkhtmltopdf-amd64/blob/master/bin/wkhtmltopdf-amd64?raw=true -O /usr/local/bin/wkhtmltopdf \
+    && chmod +x /usr/local/bin/wkhtmltopdf \
+;fi
+
 USER laradock
 
 #
