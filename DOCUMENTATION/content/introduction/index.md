@@ -93,7 +93,7 @@ PHP FPM - HHVM
 - **Message Queuing:**
 Beanstalkd - Beanstalkd Console - RabbitMQ - RabbitMQ Console - PHP Worker
 - **Tools:**
-HAProxy - Jenkins - ElasticSearch - Selenium - Certbot - Mailhog - Minio - Varnish - PhpMyAdmin - Adminer - PgAdmin - MailHog...
+HAProxy - Jenkins - ElasticSearch - Selenium - Certbot - Mailhog - Minio - Varnish - PhpMyAdmin - Adminer - PgAdmin - MailHog - [Blackfire](https://blackfire.io)...
 
 Laradock introduces the **Workspace** Image, as a development environment.
 It contains a rich set of helpful tools, all pre-configured to work and integrate with almost any combination of Containers and tools you may choose.

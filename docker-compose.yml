@@ -16,6 +16,7 @@ services:
         context: ./workspace
         args:
           - INSTALL_XDEBUG=${WORKSPACE_INSTALL_XDEBUG}
+          - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
           - INSTALL_SOAP=${WORKSPACE_INSTALL_SOAP}
           - INSTALL_MONGO=${WORKSPACE_INSTALL_MONGO}
           - INSTALL_NODE=${WORKSPACE_INSTALL_NODE}
@@ -34,6 +35,8 @@ services:
           - NODE_VERSION=${WORKSPACE_NODE_VERSION}
           - YARN_VERSION=${WORKSPACE_YARN_VERSION}
           - TZ=${WORKSPACE_TIMEZONE}
+          - BLACKFIRE_CLIENT_ID=${BLACKFIRE_CLIENT_ID}
+          - BLACKFIRE_CLIENT_TOKEN=${BLACKFIRE_CLIENT_TOKEN}
         dockerfile: "Dockerfile-${PHP_VERSION}"
       volumes_from:
         - applications
@@ -53,6 +56,7 @@ services:
         context: ./php-fpm
         args:
           - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
+          - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
           - INSTALL_SOAP=${PHP_FPM_INSTALL_SOAP}
           - INSTALL_MONGO=${PHP_FPM_INSTALL_MONGO}
           - INSTALL_ZIP_ARCHIVE=${PHP_FPM_INSTALL_ZIP_ARCHIVE}
@@ -113,6 +117,18 @@ services:
         - php-fpm
       networks:
         - frontend
+        - backend
+
+### Blackfire Container #################################
+
+    blackfire:
+      image: blackfire/blackfire
+      environment:
+        - BLACKFIRE_SERVER_ID=${BLACKFIRE_SERVER_ID}
+        - BLACKFIRE_SERVER_TOKEN=${BLACKFIRE_SERVER_TOKEN}
+      depends_on:
+        - php-fpm
+      networks:
         - backend
 
 ### Apache Server Container #################################
