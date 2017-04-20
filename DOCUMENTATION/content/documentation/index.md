@@ -336,11 +336,11 @@ By installing xDebug, you are enabling it to run on startup by default.
 
 To control the behavior of xDebug (in the `php-fpm` Container), you can run the following commands from the Laradock root folder, (at the same prompt where you run docker-compose):
 
-- Stop xDebug from running by default: `./xdebugPhpFpm stop`.
-- Start xDebug by default: `./xdebugPhpFpm start`.
-- See the status: `./xdebugPhpFpm status`.
+- Stop xDebug from running by default: `.php-fpm/xdebug stop`.
+- Start xDebug by default: `.php-fpm/xdebug start`.
+- See the status: `.php-fpm/xdebug status`.
 
-Note: If `./xdebugPhpFpm` doesn't execute and gives `Permission Denied` error the problem can be that file `xdebugPhpFpm` doesn't have execution access. This can be fixed by running `chmod` command  with desired access permissions.
+Note: If `.php-fpm/xdebug` doesn't execute and gives `Permission Denied` error the problem can be that file `xdebug` doesn't have execution access. This can be fixed by running `chmod` command  with desired access permissions.
 
 
 

@@ -607,12 +607,12 @@ xdebug.remote_connect_back=1
 <p>To control the behavior of xDebug (in the <code>php-fpm</code> Container), you can run the following commands from the Laradock root folder, (at the same prompt where you run docker-compose):</p>
 
 <ul>
-<li>Stop xDebug from running by default: <code>./xdebugPhpFpm stop</code>.</li>
-<li>Start xDebug by default: <code>./xdebugPhpFpm start</code>.</li>
-<li>See the status: <code>./xdebugPhpFpm status</code>.</li>
+<li>Stop xDebug from running by default: <code>.php-fpm/xdebug stop</code>.</li>
+<li>Start xDebug by default: <code>.php-fpm/xdebug start</code>.</li>
+<li>See the status: <code>.php-fpm/xdebug status</code>.</li>
 </ul>
 
-<p>Note: If <code>./xdebugPhpFpm</code> doesn&rsquo;t execute and gives <code>Permission Denied</code> error the problem can be that file <code>xdebugPhpFpm</code> doesn&rsquo;t have execution access. This can be fixed by running <code>chmod</code> command  with desired access permissions.</p>
+<p>Note: If <code>.php-fpm/xdebug</code> doesn&rsquo;t execute and gives <code>Permission Denied</code> error the problem can be that file <code>xdebug</code> doesn&rsquo;t have execution access. This can be fixed by running <code>chmod</code> command  with desired access permissions.</p>
 
 <p><br>
 <a name="Install-Deployer"></a></p>

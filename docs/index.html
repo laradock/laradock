@@ -614,7 +614,7 @@ PHP CLI - Composer - Git - Linuxbrew - Node - V8JS - Gulp - SQLite - xDebug - En
 
 <ul>
 <li>Upgrade to Docker <a href="https://www.docker.com/products/docker">Native</a> for Mac/Windows (Recommended). Check out <a href="http://laradock.io/documentation/#upgrading-laradock">Upgrading Laradock</a></li>
-<li>Use Laradock v3.*. Visit the <a href="https://github.com/laradock/laradock/tree/LaraDock-ToolBox">LaraDock-ToolBox</a> branch. <em>(outdated)</em></li>
+<li>Use Laradock v3.*. Visit the <a href="https://github.com/laradock/laradock/tree/Laradock-ToolBox">Laradock-ToolBox</a> branch. <em>(outdated)</em></li>
 </ul>
 
 <p><br></p>
@@ -953,12 +953,12 @@ xdebug.remote_connect_back=1
 <p>To control the behavior of xDebug (in the <code>php-fpm</code> Container), you can run the following commands from the Laradock root folder, (at the same prompt where you run docker-compose):</p>
 
 <ul>
-<li>Stop xDebug from running by default: <code>./xdebugPhpFpm stop</code>.</li>
-<li>Start xDebug by default: <code>./xdebugPhpFpm start</code>.</li>
-<li>See the status: <code>./xdebugPhpFpm status</code>.</li>
+<li>Stop xDebug from running by default: <code>.php-fpm/xdebug stop</code>.</li>
+<li>Start xDebug by default: <code>.php-fpm/xdebug start</code>.</li>
+<li>See the status: <code>.php-fpm/xdebug status</code>.</li>
 </ul>
 
-<p>Note: If <code>./xdebugPhpFpm</code> doesn&rsquo;t execute and gives <code>Permission Denied</code> error the problem can be that file <code>xdebugPhpFpm</code> doesn&rsquo;t have execution access. This can be fixed by running <code>chmod</code> command  with desired access permissions.</p>
+<p>Note: If <code>.php-fpm/xdebug</code> doesn&rsquo;t execute and gives <code>Permission Denied</code> error the problem can be that file <code>xdebug</code> doesn&rsquo;t have execution access. This can be fixed by running <code>chmod</code> command  with desired access permissions.</p>
 
 <p><br>
 <a name="Install-Deployer"></a></p>
@@ -1954,7 +1954,7 @@ e) set it to <code>true</code></p>
 <pre><code>$root@server:~# apt-get install git
 $root@server:~# git clone https://github.com/laravel/laravel
 $root@server:~# cd laravel
-$root@server:~/laravel/ git submodule add https://github.com/LaraDock/laradock.git
+$root@server:~/laravel/ git submodule add https://github.com/Laradock/laradock.git
 $root@server:~/laravel/ cd laradock
 </code></pre>
 
@@ -1964,7 +1964,7 @@ $root@server:~/laravel/ cd laradock
 $root@server:~/chmod +x /usr/local/bin/docker-compose
 </code></pre>
 
-<h2 id="create-your-laradock-containers">Create Your LaraDock Containers</h2>
+<h2 id="create-your-laradock-containers">Create Your Laradock Containers</h2>
 
 <pre><code>$root@server:~/laravel/laradock# docker-compose up -d nginx mysql
 </code></pre>
@@ -2144,7 +2144,7 @@ $root@server:~/laravel/laradock/caddy# docker-compose up -d mysql caddy
 
 <ul>
 <li><a href="#InstallCleanHouse">Clean House</a></li>
-<li><a href="#InstallLaraDockDialTone">LaraDock Dial Tone</a></li>
+<li><a href="#InstallLaradockDialTone">Laradock Dial Tone</a></li>
 <li><a href="#AddToHosts">hosts</a></li>
 <li><a href="#FireWall">Firewall</a></li>
 <li><a href="#enablePhpXdebug">Enable xDebug on php-fpm</a></li>
@@ -2177,7 +2177,7 @@ $root@server:~/laravel/laradock/caddy# docker-compose up -d mysql caddy
 
 <h2 id="intro">Intro</h2>
 
-<p>Wiring up <a href="https://laravel.com/">Laravel</a>, <a href="https://github.com/LaraDock/laradock">LaraDock</a> [Laravel+Docker] and <a href="https://www.jetbrains.com/phpstorm/">PHPStorm</a> to play nice together complete with remote xdebug&rsquo;ing as icing on top! Although this guide is based on <code>PHPStorm Windows</code>,
+<p>Wiring up <a href="https://laravel.com/">Laravel</a>, <a href="https://github.com/Laradock/laradock">Laradock</a> [Laravel+Docker] and <a href="https://www.jetbrains.com/phpstorm/">PHPStorm</a> to play nice together complete with remote xdebug&rsquo;ing as icing on top! Although this guide is based on <code>PHPStorm Windows</code>,
 you should be able to adjust accordingly. This guide was written based on Docker for Windows Native.</p>
 
 <p><a name="Installation"></a></p>
@@ -2188,7 +2188,7 @@ you should be able to adjust accordingly. This guide was written based on Docker
 <li>This guide assumes the following:
 
 <ul>
-<li>you have already installed and are familiar with Laravel, LaraDock and PHPStorm.</li>
+<li>you have already installed and are familiar with Laravel, Laradock and PHPStorm.</li>
 <li>you have installed Laravel as a parent of <code>laradock</code>. This guide assumes <code>/c/_dk/laravel</code>.</li>
 </ul></li>
 </ul>
@@ -2268,7 +2268,7 @@ xdebug.cli_color=1
 
 <h3 id="need-to-clean-house-first">Need to clean house first?</h3>
 
-<p>Make sure you are starting with a clean state. For example, do you have other LaraDock containers and images?
+<p>Make sure you are starting with a clean state. For example, do you have other Laradock containers and images?
 Here are a few things I use to clean things up.</p>
 
 <ul>
@@ -2277,7 +2277,7 @@ Here are a few things I use to clean things up.</p>
 
 <li><p>Delete all images containing <code>laradock</code>.
 <code>docker images | awk '{print $1,$2,$3}' | grep laradock_ | awk '{print $3}' | xargs -I {} docker rmi {}</code>
-<strong>Note:</strong> This will only delete images that were built with <code>LaraDock</code>, <strong>NOT</strong> <code>laradock/*</code> which are pulled down by <code>LaraDock</code> such as <code>laradock/workspace</code>, etc.
+<strong>Note:</strong> This will only delete images that were built with <code>Laradock</code>, <strong>NOT</strong> <code>laradock/*</code> which are pulled down by <code>Laradock</code> such as <code>laradock/workspace</code>, etc.
 <strong>Note:</strong> Some may fail with:
 <code>Error response from daemon: conflict: unable to delete 3f38eaed93df (cannot be forced) - image has dependent child images</code></p></li>
 
@@ -2296,7 +2296,7 @@ Here are a few things I use to clean things up.</p>
 }
 </code></pre></li>
 
-<li><p>If you frequently switch configurations for LaraDock, you may find that adding the following and added to your <code>.bashrc</code> or equivalent useful:
+<li><p>If you frequently switch configurations for Laradock, you may find that adding the following and added to your <code>.bashrc</code> or equivalent useful:
 ```</p>
 
 <h1 id="remove-laravel-containers">remove laravel* containers</h1>
@@ -2327,7 +2327,7 @@ Here are a few things I use to clean things up.</p>
 <p>alias dcleanlaradock=dcleanlaradockfunction</p>
 
 <pre><code>
-&lt;a name=&quot;InstallLaraDockDialTone&quot;&gt;&lt;/a&gt;
+&lt;a name=&quot;InstallLaradockDialTone&quot;&gt;&lt;/a&gt;
 ## Let's get a dial-tone with Laravel
 
 </code></pre>
@@ -2357,7 +2357,7 @@ laradock_workspace_1        /sbin/my_init                 Up       0.0.0.0:2222-
 <pre><code>
 &lt;a name=&quot;enablePhpXdebug&quot;&gt;&lt;/a&gt;
 ## Enable xDebug on php-fpm
-In a host terminal sitting in the laradock folder, run: `./xdebugPhpFpm status`
+In a host terminal sitting in the laradock folder, run: `.php-fpm/xdebug status`
 You should see something like the following:
 </code></pre>
 
@@ -2368,7 +2368,7 @@ Copyright &copy; 1997-2016 The PHP Group
 Zend Engine v3.0.0, Copyright &copy; 1998-2016 Zend Technologies
     with Xdebug v2.4.1, Copyright &copy; 2002-2016, by Derick Rethans
 ``<code>
-Other commands include</code>./xdebugPhpFpm start | stop`.</p>
+Other commands include</code>.php-fpm/xdebug start | stop`.</p>
 
 <p>If you have enabled <code>xdebug=true</code> in <code>docker-compose.yml/php-fpm</code>, <code>xdebug</code> will already be running when
 <code>php-fpm</code> is started and listening for debug info on port 9000.</p>
@@ -2519,11 +2519,11 @@ Edit: <code>C:\Windows\System32\drivers\etc\hosts</code>.</p>
 
 <ul>
 <li><p>In case xDebug is disabled, from the <code>laradock</code> folder run:
-<code>./xdebugPhpFpm start</code>.</p>
+<code>.php-fpm/xdebug start</code>.</p>
 
 <ul>
 <li>To switch xdebug off, run:
-<code>./xdebugPhpFpm stop</code></li>
+<code>.php-fpm/xdebug stop</code></li>
 </ul></li>
 
 <li><p>Start Remote Debugging</p>

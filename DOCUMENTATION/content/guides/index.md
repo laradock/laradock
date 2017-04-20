@@ -45,7 +45,7 @@ $root@server:~# docker
 $root@server:~# apt-get install git
 $root@server:~# git clone https://github.com/laravel/laravel
 $root@server:~# cd laravel
-$root@server:~/laravel/ git submodule add https://github.com/LaraDock/laradock.git
+$root@server:~/laravel/ git submodule add https://github.com/Laradock/laradock.git
 $root@server:~/laravel/ cd laradock
 ```
 
@@ -56,7 +56,7 @@ $root@server:~/laravel/laradock# curl -L https://github.com/docker/compose/relea
 $root@server:~/chmod +x /usr/local/bin/docker-compose
 ```
 
-## Create Your LaraDock Containers
+## Create Your Laradock Containers
 
 ```
 $root@server:~/laravel/laradock# docker-compose up -d nginx mysql
@@ -248,7 +248,7 @@ View your Site in the Browser Securely Using HTTPS (https://yourdomain.com)
 - [Installation](#Installation)
     - [Customize laradock/docker-compose.yml](#CustomizeDockerCompose)
         - [Clean House](#InstallCleanHouse)
-        - [LaraDock Dial Tone](#InstallLaraDockDialTone)
+        - [Laradock Dial Tone](#InstallLaradockDialTone)
         - [hosts](#AddToHosts)
         - [Firewall](#FireWall)
         - [Enable xDebug on php-fpm](#enablePhpXdebug)
@@ -265,14 +265,14 @@ View your Site in the Browser Securely Using HTTPS (https://yourdomain.com)
 <a name="Intro"></a>
 ## Intro
 
-Wiring up [Laravel](https://laravel.com/), [LaraDock](https://github.com/LaraDock/laradock) [Laravel+Docker] and [PHPStorm](https://www.jetbrains.com/phpstorm/) to play nice together complete with remote xdebug'ing as icing on top! Although this guide is based on `PHPStorm Windows`,
+Wiring up [Laravel](https://laravel.com/), [Laradock](https://github.com/Laradock/laradock) [Laravel+Docker] and [PHPStorm](https://www.jetbrains.com/phpstorm/) to play nice together complete with remote xdebug'ing as icing on top! Although this guide is based on `PHPStorm Windows`,
 you should be able to adjust accordingly. This guide was written based on Docker for Windows Native.
 
 <a name="Installation"></a>
 ## Installation
 
 - This guide assumes the following:
-    - you have already installed and are familiar with Laravel, LaraDock and PHPStorm.
+    - you have already installed and are familiar with Laravel, Laradock and PHPStorm.
     - you have installed Laravel as a parent of `laradock`. This guide assumes `/c/_dk/laravel`.
 
 <a name="AddToHosts"></a>
@@ -332,7 +332,7 @@ xdebug.cli_color=1
 
 <a name="InstallCleanHouse"></a>
 ### Need to clean house first?
-Make sure you are starting with a clean state. For example, do you have other LaraDock containers and images?
+Make sure you are starting with a clean state. For example, do you have other Laradock containers and images?
 Here are a few things I use to clean things up.
 
 - Delete all containers using `grep laradock_` on the names, see: [Remove all containers based on docker image name](https://linuxconfig.org/remove-all-containners-based-on-docker-image-name).
@@ -340,7 +340,7 @@ Here are a few things I use to clean things up.
 
 - Delete all images containing `laradock`.
 `docker images | awk '{print $1,$2,$3}' | grep laradock_ | awk '{print $3}' | xargs -I {} docker rmi {}`
-**Note:** This will only delete images that were built with `LaraDock`, **NOT** `laradock/*` which are pulled down by `LaraDock` such as `laradock/workspace`, etc.
+**Note:** This will only delete images that were built with `Laradock`, **NOT** `laradock/*` which are pulled down by `Laradock` such as `laradock/workspace`, etc.
 **Note:** Some may fail with:
 `Error response from daemon: conflict: unable to delete 3f38eaed93df (cannot be forced) - image has dependent child images`
 
@@ -359,7 +359,7 @@ Here are a few things I use to clean things up.
     }
     ```
 
-- If you frequently switch configurations for LaraDock, you may find that adding the following and added to your `.bashrc` or equivalent useful:
+- If you frequently switch configurations for Laradock, you may find that adding the following and added to your `.bashrc` or equivalent useful:
 ```
 # remove laravel* containers
 # remove laravel_* images
@@ -383,7 +383,7 @@ dcleanlaradockfunction()
 alias dcleanlaradock=dcleanlaradockfunction
 ```
 
-<a name="InstallLaraDockDialTone"></a>
+<a name="InstallLaradockDialTone"></a>
 ## Let's get a dial-tone with Laravel
 
 ```
@@ -408,7 +408,7 @@ laradock_workspace_1        /sbin/my_init                 Up       0.0.0.0:2222-
 
 <a name="enablePhpXdebug"></a>
 ## Enable xDebug on php-fpm
-In a host terminal sitting in the laradock folder, run: `./xdebugPhpFpm status`
+In a host terminal sitting in the laradock folder, run: `.php-fpm/xdebug status`
 You should see something like the following:
 ```
 xDebug status
@@ -418,7 +418,7 @@ Copyright (c) 1997-2016 The PHP Group
 Zend Engine v3.0.0, Copyright (c) 1998-2016 Zend Technologies
     with Xdebug v2.4.1, Copyright (c) 2002-2016, by Derick Rethans
 ```
-Other commands include `./xdebugPhpFpm start | stop`.
+Other commands include `.php-fpm/xdebug start | stop`.
 
 If you have enabled `xdebug=true` in `docker-compose.yml/php-fpm`, `xdebug` will already be running when
 `php-fpm` is started and listening for debug info on port 9000.
@@ -503,9 +503,9 @@ If you have enabled `xdebug=true` in `docker-compose.yml/php-fpm`, `xdebug` will
 <a name="UsagePHPStormDebugSite"></a>
 ### Debug WebSite
 - In case xDebug is disabled, from the `laradock` folder run:
-`./xdebugPhpFpm start`.
+`.php-fpm/xdebug start`.
     - To switch xdebug off, run:
-`./xdebugPhpFpm stop`
+`.php-fpm/xdebug stop`
 
 - Start Remote Debugging
     - ![DebugRemoteOn](photos/PHPStorm/DebugRemoteOn.png)

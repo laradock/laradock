@@ -4,7 +4,7 @@
 #--------------------------------------------------------------------------
 #
 # To edit the 'php-fpm' base Image, visit its repository on Github
-#    https://github.com/LaraDock/php-fpm
+#    https://github.com/Laradock/php-fpm
 #
 # To change its version, see the available Tags on the Docker Hub:
 #    https://hub.docker.com/r/laradock/php-fpm/tags/
@@ -22,7 +22,7 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 # Mandatory Software's such as ("mcrypt", "pdo_mysql", "libssl-dev", ....)
 # are installed on the base image 'laradock/php-fpm' image. If you want
 # to add more Software's or remove existing one, you need to edit the
-# base image (https://github.com/LaraDock/php-fpm).
+# base image (https://github.com/Laradock/php-fpm).
 #
 
 #

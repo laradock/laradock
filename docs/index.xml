@@ -299,7 +299,7 @@ PHP CLI - Composer - Git - Linuxbrew - Node - V8JS - Gulp - SQLite - xDebug - En
 
 &lt;ul&gt;
 &lt;li&gt;Upgrade to Docker &lt;a href=&#34;https://www.docker.com/products/docker&#34;&gt;Native&lt;/a&gt; for Mac/Windows (Recommended). Check out &lt;a href=&#34;http://laradock.io/documentation/#upgrading-laradock&#34;&gt;Upgrading Laradock&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Use Laradock v3.*. Visit the &lt;a href=&#34;https://github.com/laradock/laradock/tree/LaraDock-ToolBox&#34;&gt;LaraDock-ToolBox&lt;/a&gt; branch. &lt;em&gt;(outdated)&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Use Laradock v3.*. Visit the &lt;a href=&#34;https://github.com/laradock/laradock/tree/Laradock-ToolBox&#34;&gt;Laradock-ToolBox&lt;/a&gt; branch. &lt;em&gt;(outdated)&lt;/em&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
@@ -643,12 +643,12 @@ xdebug.remote_connect_back=1
 &lt;p&gt;To control the behavior of xDebug (in the &lt;code&gt;php-fpm&lt;/code&gt; Container), you can run the following commands from the Laradock root folder, (at the same prompt where you run docker-compose):&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Stop xDebug from running by default: &lt;code&gt;./xdebugPhpFpm stop&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Start xDebug by default: &lt;code&gt;./xdebugPhpFpm start&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;See the status: &lt;code&gt;./xdebugPhpFpm status&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Stop xDebug from running by default: &lt;code&gt;.php-fpm/xdebug stop&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Start xDebug by default: &lt;code&gt;.php-fpm/xdebug start&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;See the status: &lt;code&gt;.php-fpm/xdebug status&lt;/code&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Note: If &lt;code&gt;./xdebugPhpFpm&lt;/code&gt; doesn&amp;rsquo;t execute and gives &lt;code&gt;Permission Denied&lt;/code&gt; error the problem can be that file &lt;code&gt;xdebugPhpFpm&lt;/code&gt; doesn&amp;rsquo;t have execution access. This can be fixed by running &lt;code&gt;chmod&lt;/code&gt; command  with desired access permissions.&lt;/p&gt;
+&lt;p&gt;Note: If &lt;code&gt;.php-fpm/xdebug&lt;/code&gt; doesn&amp;rsquo;t execute and gives &lt;code&gt;Permission Denied&lt;/code&gt; error the problem can be that file &lt;code&gt;xdebug&lt;/code&gt; doesn&amp;rsquo;t have execution access. This can be fixed by running &lt;code&gt;chmod&lt;/code&gt; command  with desired access permissions.&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;
 &lt;a name=&#34;Install-Deployer&#34;&gt;&lt;/a&gt;&lt;/p&gt;
@@ -1649,7 +1649,7 @@ e) set it to &lt;code&gt;true&lt;/code&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$root@server:~# apt-get install git
 $root@server:~# git clone https://github.com/laravel/laravel
 $root@server:~# cd laravel
-$root@server:~/laravel/ git submodule add https://github.com/LaraDock/laradock.git
+$root@server:~/laravel/ git submodule add https://github.com/Laradock/laradock.git
 $root@server:~/laravel/ cd laradock
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -1659,7 +1659,7 @@ $root@server:~/laravel/ cd laradock
 $root@server:~/chmod +x /usr/local/bin/docker-compose
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;create-your-laradock-containers&#34;&gt;Create Your LaraDock Containers&lt;/h2&gt;
+&lt;h2 id=&#34;create-your-laradock-containers&#34;&gt;Create Your Laradock Containers&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code&gt;$root@server:~/laravel/laradock# docker-compose up -d nginx mysql
 &lt;/code&gt;&lt;/pre&gt;
@@ -1839,7 +1839,7 @@ $root@server:~/laravel/laradock/caddy# docker-compose up -d mysql caddy
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#InstallCleanHouse&#34;&gt;Clean House&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#InstallLaraDockDialTone&#34;&gt;LaraDock Dial Tone&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#InstallLaradockDialTone&#34;&gt;Laradock Dial Tone&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#AddToHosts&#34;&gt;hosts&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#FireWall&#34;&gt;Firewall&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#enablePhpXdebug&#34;&gt;Enable xDebug on php-fpm&lt;/a&gt;&lt;/li&gt;
@@ -1872,7 +1872,7 @@ $root@server:~/laravel/laradock/caddy# docker-compose up -d mysql caddy
 
 &lt;h2 id=&#34;intro&#34;&gt;Intro&lt;/h2&gt;
 
-&lt;p&gt;Wiring up &lt;a href=&#34;https://laravel.com/&#34;&gt;Laravel&lt;/a&gt;, &lt;a href=&#34;https://github.com/LaraDock/laradock&#34;&gt;LaraDock&lt;/a&gt; [Laravel+Docker] and &lt;a href=&#34;https://www.jetbrains.com/phpstorm/&#34;&gt;PHPStorm&lt;/a&gt; to play nice together complete with remote xdebug&amp;rsquo;ing as icing on top! Although this guide is based on &lt;code&gt;PHPStorm Windows&lt;/code&gt;,
+&lt;p&gt;Wiring up &lt;a href=&#34;https://laravel.com/&#34;&gt;Laravel&lt;/a&gt;, &lt;a href=&#34;https://github.com/Laradock/laradock&#34;&gt;Laradock&lt;/a&gt; [Laravel+Docker] and &lt;a href=&#34;https://www.jetbrains.com/phpstorm/&#34;&gt;PHPStorm&lt;/a&gt; to play nice together complete with remote xdebug&amp;rsquo;ing as icing on top! Although this guide is based on &lt;code&gt;PHPStorm Windows&lt;/code&gt;,
 you should be able to adjust accordingly. This guide was written based on Docker for Windows Native.&lt;/p&gt;
 
 &lt;p&gt;&lt;a name=&#34;Installation&#34;&gt;&lt;/a&gt;&lt;/p&gt;
@@ -1883,7 +1883,7 @@ you should be able to adjust accordingly. This guide was written based on Docker
 &lt;li&gt;This guide assumes the following:
 
 &lt;ul&gt;
-&lt;li&gt;you have already installed and are familiar with Laravel, LaraDock and PHPStorm.&lt;/li&gt;
+&lt;li&gt;you have already installed and are familiar with Laravel, Laradock and PHPStorm.&lt;/li&gt;
 &lt;li&gt;you have installed Laravel as a parent of &lt;code&gt;laradock&lt;/code&gt;. This guide assumes &lt;code&gt;/c/_dk/laravel&lt;/code&gt;.&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -1963,7 +1963,7 @@ xdebug.cli_color=1
 
 &lt;h3 id=&#34;need-to-clean-house-first&#34;&gt;Need to clean house first?&lt;/h3&gt;
 
-&lt;p&gt;Make sure you are starting with a clean state. For example, do you have other LaraDock containers and images?
+&lt;p&gt;Make sure you are starting with a clean state. For example, do you have other Laradock containers and images?
 Here are a few things I use to clean things up.&lt;/p&gt;
 
 &lt;ul&gt;
@@ -1972,7 +1972,7 @@ Here are a few things I use to clean things up.&lt;/p&gt;
 
 &lt;li&gt;&lt;p&gt;Delete all images containing &lt;code&gt;laradock&lt;/code&gt;.
 &lt;code&gt;docker images | awk &#39;{print $1,$2,$3}&#39; | grep laradock_ | awk &#39;{print $3}&#39; | xargs -I {} docker rmi {}&lt;/code&gt;
-&lt;strong&gt;Note:&lt;/strong&gt; This will only delete images that were built with &lt;code&gt;LaraDock&lt;/code&gt;, &lt;strong&gt;NOT&lt;/strong&gt; &lt;code&gt;laradock/*&lt;/code&gt; which are pulled down by &lt;code&gt;LaraDock&lt;/code&gt; such as &lt;code&gt;laradock/workspace&lt;/code&gt;, etc.
+&lt;strong&gt;Note:&lt;/strong&gt; This will only delete images that were built with &lt;code&gt;Laradock&lt;/code&gt;, &lt;strong&gt;NOT&lt;/strong&gt; &lt;code&gt;laradock/*&lt;/code&gt; which are pulled down by &lt;code&gt;Laradock&lt;/code&gt; such as &lt;code&gt;laradock/workspace&lt;/code&gt;, etc.
 &lt;strong&gt;Note:&lt;/strong&gt; Some may fail with:
 &lt;code&gt;Error response from daemon: conflict: unable to delete 3f38eaed93df (cannot be forced) - image has dependent child images&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
 
@@ -1991,7 +1991,7 @@ Here are a few things I use to clean things up.&lt;/p&gt;
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;If you frequently switch configurations for LaraDock, you may find that adding the following and added to your &lt;code&gt;.bashrc&lt;/code&gt; or equivalent useful:
+&lt;li&gt;&lt;p&gt;If you frequently switch configurations for Laradock, you may find that adding the following and added to your &lt;code&gt;.bashrc&lt;/code&gt; or equivalent useful:
 ```&lt;/p&gt;
 
 &lt;h1 id=&#34;remove-laravel-containers&#34;&gt;remove laravel* containers&lt;/h1&gt;
@@ -2022,7 +2022,7 @@ Here are a few things I use to clean things up.&lt;/p&gt;
 &lt;p&gt;alias dcleanlaradock=dcleanlaradockfunction&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;
-&amp;lt;a name=&amp;quot;InstallLaraDockDialTone&amp;quot;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a name=&amp;quot;InstallLaradockDialTone&amp;quot;&amp;gt;&amp;lt;/a&amp;gt;
 ## Let&#39;s get a dial-tone with Laravel
 
 &lt;/code&gt;&lt;/pre&gt;
@@ -2052,7 +2052,7 @@ laradock_workspace_1        /sbin/my_init                 Up       0.0.0.0:2222-
 &lt;pre&gt;&lt;code&gt;
 &amp;lt;a name=&amp;quot;enablePhpXdebug&amp;quot;&amp;gt;&amp;lt;/a&amp;gt;
 ## Enable xDebug on php-fpm
-In a host terminal sitting in the laradock folder, run: `./xdebugPhpFpm status`
+In a host terminal sitting in the laradock folder, run: `.php-fpm/xdebug status`
 You should see something like the following:
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -2063,7 +2063,7 @@ Copyright &amp;copy; 1997-2016 The PHP Group
 Zend Engine v3.0.0, Copyright &amp;copy; 1998-2016 Zend Technologies
     with Xdebug v2.4.1, Copyright &amp;copy; 2002-2016, by Derick Rethans
 ``&lt;code&gt;
-Other commands include&lt;/code&gt;./xdebugPhpFpm start | stop`.&lt;/p&gt;
+Other commands include&lt;/code&gt;.php-fpm/xdebug start | stop`.&lt;/p&gt;
 
 &lt;p&gt;If you have enabled &lt;code&gt;xdebug=true&lt;/code&gt; in &lt;code&gt;docker-compose.yml/php-fpm&lt;/code&gt;, &lt;code&gt;xdebug&lt;/code&gt; will already be running when
 &lt;code&gt;php-fpm&lt;/code&gt; is started and listening for debug info on port 9000.&lt;/p&gt;
@@ -2214,11 +2214,11 @@ Edit: &lt;code&gt;C:\Windows\System32\drivers\etc\hosts&lt;/code&gt;.&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;In case xDebug is disabled, from the &lt;code&gt;laradock&lt;/code&gt; folder run:
-&lt;code&gt;./xdebugPhpFpm start&lt;/code&gt;.&lt;/p&gt;
+&lt;code&gt;.php-fpm/xdebug start&lt;/code&gt;.&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;To switch xdebug off, run:
-&lt;code&gt;./xdebugPhpFpm stop&lt;/code&gt;&lt;/li&gt;
+&lt;code&gt;.php-fpm/xdebug stop&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;Start Remote Debugging&lt;/p&gt;
