@@ -1,11 +1,17 @@
-### Paths
-# Application: Point to your application code, will be available at `/var/www`.
+############################
+# General Setup
+############################
+
+### Application Path
+# Point to your application code, will be available at `/var/www`.
 APPLICATION=../
 
-# Data: For all storage systems
+### Data Path:
+# For all storage systems.
 DATA_SAVE_PATH=../data
 
-### PHP version (Does not apply to HHVM)
+### PHP version
+# Applies to the Workspace and PHP-FPM containers (Does not apply to HHVM)
 # Accepted values: 71 - 70 - 56.
 PHP_VERSION=70
 
@@ -13,7 +19,11 @@ PHP_VERSION=70
 # Accepted values: hhvm - php-fpm
 PHP_INTERPRETER=php-fpm
 
-### WORKSPACE Container
+############################
+# Containers Customization
+############################
+
+### WORKSPACE Container ################################################################################################
 WORKSPACE_INSTALL_XDEBUG=false
 WORKSPACE_INSTALL_SOAP=false
 WORKSPACE_INSTALL_MONGO=false
@@ -35,7 +45,7 @@ WORKSPACE_YARN_VERSION=latest
 WORKSPACE_TIMEZONE=UTC
 WORKSPACE_SSH_PORT=2222
 
-### PHP_FPM Container
+### PHP_FPM Container ##################################################################################################
 PHP_FPM_INSTALL_XDEBUG=false
 PHP_FPM_INSTALL_MONGO=false
 PHP_FPM_INSTALL_SOAP=false
@@ -51,83 +61,83 @@ PHP_FPM_INSTALL_TOKENIZER=false
 PHP_FPM_INSTALL_INTL=false
 PHP_FPM_INSTALL_GHOSTSCRIPT=false
 
-### NGINX Container
+### NGINX Container ####################################################################################################
 NGINX_HOST_HTTP_PORT=80
 NGINX_HOST_HTTPS_PORT=443
 NGINX_HOST_LOG_PATH=./logs/nginx/
 NGINX_SITES_PATH=./nginx/sites/
 
-### APACHE Container
+### APACHE Container ###################################################################################################
 APACHE_HOST_HTTP_PORT=80
 APACHE_HOST_HTTPS_PORT=443
 APACHE2_PHP_SOCKET=php-fpm:9000
 APACHE_HOST_LOG_PATH=./logs/apache2
 PHP_SOCKET=php-fpm:9000
 
-### MYSQL Container
+### MYSQL Container ####################################################################################################
 MYSQL_DATABASE=default
 MYSQL_USER=default
 MYSQL_PASSWORD=secret
 MYSQL_PORT=3306
 MYSQL_ROOT_PASSWORD=root
 
-### Percona Container
+### Percona Container ##################################################################################################
 PERCONA_DATABASE=homestead
 PERCONA_USER=homestead
 PERCONA_PASSWORD=secret
 PERCONA_PORT=3306
 PERCONA_ROOT_PASSWORD=root
 
-### MSSQL Container
+### MSSQL Container ####################################################################################################
 MSSQL_DATABASE=homestead
 MSSQL_PASSWORD=yourStrong(!)Password
 MSSQL_PORT=1433
 
-### MARIADB Container
+### MARIADB Container ##################################################################################################
 MARIADB_DATABASE=default
 MARIADB_USER=default
 MARIADB_PASSWORD=secret
 MARIADB_PORT=3306
 MARIADB_ROOT_PASSWORD=root
 
-### POSTGRES Container
+### POSTGRES Container #################################################################################################
 POSTGRES_DB=default
 POSTGRES_USER=default
 POSTGRES_PASSWORD=secret
 POSTGRES_PORT=5432
 
-### RABBITMQ Container
+### RABBITMQ Container #################################################################################################
 RABBITMQ_NODE_HOST_PORT=5672
 RABBITMQ_MANAGEMENT_HTTP_HOST_PORT=15672
 RABBITMQ_MANAGEMENT_HTTPS_HOST_PORT=15671
 RABBITMQ_DEFAULT_USER=guest
 RABBITMQ_DEFAULT_PASS=guest
 
-### ELASTICSEARCH Container
+### ELASTICSEARCH Container ############################################################################################
 ELASTICSEARCH_HOST_HTTP_PORT=9200
 ELASTICSEARCH_HOST_TRANSPORT_PORT=9300
 
-### MEMCACHED Container
+### MEMCACHED Container ################################################################################################
 MEMCACHED_HOST_PORT=11211
 
-### BEANSTALKD CONSOLE
+### BEANSTALKD CONSOLE #################################################################################################
 BEANSTALKD_CONSOLE_BUILD_PATH=./beanstalkd-console
 BEANSTALKD_CONSOLE_CONTAINER_NAME=beanstalkd-console
 BEANSTALKD_CONSOLE_HOST_PORT=2080
 
-### BEANSTALKD Container
+### BEANSTALKD Container ###############################################################################################
 BEANSTALKD_HOST_PORT=11300
 
-### SELENIUM Container
+### SELENIUM Container #################################################################################################
 SELENIUM_PORT=4444
 
-### MINIO Container
+### MINIO Container ####################################################################################################
 MINIO_PORT=9000
 
-### ADMINER Container
+### ADMINER Container ##################################################################################################
 ADM_PORT=88
 
-### PHP MY ADMIN Container
+### PHP MY ADMIN Container #############################################################################################
 # PMA_DB_ENGINE=mariadb
 PMA_DB_ENGINE=mysql
 PMA_USER=default
@@ -135,36 +145,45 @@ PMA_PASSWORD=secret
 PMA_ROOT_PASSWORD=secret
 PMA_PORT=88
 
-### VARNISH Container
+### VARNISH Container ##################################################################################################
 VARNISH_CONFIG=/etc/varnish/default.vcl
 VARNISH_PORT=8080
 VARNISH_BACKEND_PORT=8888
 VARNISHD_PARAMS=-p default_ttl=3600 -p default_grace=3600
 
-### Varnish Proxy 1 Container
+### Varnish Proxy 1 Container ##########################################################################################
 VARNISH_PROXY1_CACHE_SIZE=128m
 VARNISH_PROXY1_BACKEND_HOST=workspace
 VARNISH_PROXY1_SERVER=SERVER1
 
-### Varnish Proxy 2 Container
+### Varnish Proxy 2 Container ##########################################################################################
 VARNISH_PROXY2_CACHE_SIZE=128m
 VARNISH_PROXY2_BACKEND_HOST=workspace
 VARNISH_PROXY2_SERVER=SERVER2
 
-### HAPROXY Container
+### HAPROXY Container ##################################################################################################
 HAPROXY_HOST_HTTP_PORT=8085
 
-### JENKINS Container
+### JENKINS Container ##################################################################################################
 JENKINS_HOST_HTTP_PORT=8090
 JENKINS_HOST_SLAVE_AGENT_PORT=50000
 JENKINS_HOME=./jenkins/jenkins_home
 
-### MISC
+##### TO BE CONTINUE .................................
+# ......... Missing: neo4j mongo rethinkdb redis aerospike pgadmin...
+# .........
+# .........
+
+############################
+# Miscellaneous
+############################
+
 # Replace with your Docker Host IP (will be appended to /etc/hosts)
 DOCKER_HOST_IP=10.0.75.1
+
 # The Remote Interpreter entry matching name `laradock`
 PHP_IDE_CONFIG=serverName=laradock
+
 # Fix for windows users to make sure the application path works.
 COMPOSE_CONVERT_WINDOWS_PATHS=1
 
-### to be continue neo4j mongo rethinkdb redis aerospike pgadmin ...
