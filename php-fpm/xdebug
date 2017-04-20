@@ -94,7 +94,7 @@ case $@ in
         echo "xDebug [Stop | Start | Status] in the ${PHP_FPM_CONTAINER} container."
         echo "xDebug must have already been installed."
         echo "Usage:"
-        echo "  ./xdebugPhpFpm stop|start|status"
+        echo "  .php-fpm/xdebug stop|start|status"
 
 esac
 

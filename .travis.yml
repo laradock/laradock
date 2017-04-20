@@ -10,7 +10,7 @@ env:
     - PHP_VERSION=71
     - HUGO_VERSION=0.19
 
-script: ./_scripts/travis-build.sh
+script: ./travis-build.sh
 
 deploy:
   provider: pages

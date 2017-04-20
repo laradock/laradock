@@ -138,7 +138,7 @@ You can rename the config files, project folders and domains as you like, just m
 If you are using **Docker Toolbox** (VM), do one of the following:
 
 - Upgrade to Docker [Native](https://www.docker.com/products/docker) for Mac/Windows (Recommended). Check out [Upgrading Laradock](/documentation/#upgrading-laradock)
-- Use Laradock v3.\*. Visit the [LaraDock-ToolBox](https://github.com/laradock/laradock/tree/LaraDock-ToolBox) branch. *(outdated)*
+- Use Laradock v3.\*. Visit the [Laradock-ToolBox](https://github.com/laradock/laradock/tree/Laradock-ToolBox) branch. *(outdated)*
 
 <br>
 

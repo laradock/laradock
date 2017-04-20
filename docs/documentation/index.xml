@@ -288,12 +288,12 @@ xdebug.remote_connect_back=1
 &lt;p&gt;To control the behavior of xDebug (in the &lt;code&gt;php-fpm&lt;/code&gt; Container), you can run the following commands from the Laradock root folder, (at the same prompt where you run docker-compose):&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Stop xDebug from running by default: &lt;code&gt;./xdebugPhpFpm stop&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Start xDebug by default: &lt;code&gt;./xdebugPhpFpm start&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;See the status: &lt;code&gt;./xdebugPhpFpm status&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Stop xDebug from running by default: &lt;code&gt;.php-fpm/xdebug stop&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Start xDebug by default: &lt;code&gt;.php-fpm/xdebug start&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;See the status: &lt;code&gt;.php-fpm/xdebug status&lt;/code&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Note: If &lt;code&gt;./xdebugPhpFpm&lt;/code&gt; doesn&amp;rsquo;t execute and gives &lt;code&gt;Permission Denied&lt;/code&gt; error the problem can be that file &lt;code&gt;xdebugPhpFpm&lt;/code&gt; doesn&amp;rsquo;t have execution access. This can be fixed by running &lt;code&gt;chmod&lt;/code&gt; command  with desired access permissions.&lt;/p&gt;
+&lt;p&gt;Note: If &lt;code&gt;.php-fpm/xdebug&lt;/code&gt; doesn&amp;rsquo;t execute and gives &lt;code&gt;Permission Denied&lt;/code&gt; error the problem can be that file &lt;code&gt;xdebug&lt;/code&gt; doesn&amp;rsquo;t have execution access. This can be fixed by running &lt;code&gt;chmod&lt;/code&gt; command  with desired access permissions.&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;
 &lt;a name=&#34;Install-Deployer&#34;&gt;&lt;/a&gt;&lt;/p&gt;
