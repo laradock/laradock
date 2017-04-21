@@ -4,13 +4,13 @@
 #--------------------------------------------------------------------------
 #
 # To edit the 'php-fpm' base Image, visit its repository on Github
-#    https://github.com/LaraDock/php-fpm
+#    https://github.com/Laradock/php-fpm
 #
 # To change its version, see the available Tags on the Docker Hub:
 #    https://hub.docker.com/r/laradock/php-fpm/tags/
 #
 
-FROM laradock/php-fpm:5.6--1.2
+FROM laradock/php-fpm:1.4-v5.6
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
@@ -22,7 +22,7 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 # Mandatory Software's such as ("mcrypt", "pdo_mysql", "libssl-dev", ....)
 # are installed on the base image 'laradock/php-fpm' image. If you want
 # to add more Software's or remove existing one, you need to edit the
-# base image (https://github.com/LaraDock/php-fpm).
+# base image (https://github.com/Laradock/php-fpm).
 #
 
 #
@@ -44,7 +44,7 @@ ARG INSTALL_SOAP=false
 RUN if [ ${INSTALL_SOAP} = true ]; then \
     # Install the soap extension
     apt-get -y update && \
-    apt-get -y install libxml2-dev && \ 
+    apt-get -y install libxml2-dev php-soap && \
     docker-php-ext-install soap \
 ;fi
 
@@ -55,12 +55,40 @@ RUN if [ ${INSTALL_SOAP} = true ]; then \
 ARG INSTALL_XDEBUG=false
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     # Install the xdebug extension
-    pecl install xdebug && \
-    docker-php-ext-enable xdebug \
+    # pecl install xdebug && docker-php-ext-enable xdebug \
+    # workaround for https://github.com/docker-library/php/issues/133
+    #     - Xdebug breaks on access to class static property
+    apt-get install -y php5-xdebug && \
+	echo "zend_extension=/usr/lib/php5/20131226/xdebug.so" > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
 ;fi
 
 # Copy xdebug configration for remote debugging
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+
+#####################################
+# Blackfire:
+#####################################
+
+ARG INSTALL_BLACKFIRE=false
+RUN if [ ${INSTALL_XDEBUG} = false -a ${INSTALL_BLACKFIRE} = true ]; then \
+    version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
+    && curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/linux/amd64/$version \
+    && tar zxpf /tmp/blackfire-probe.tar.gz -C /tmp \
+    && mv /tmp/blackfire-*.so $(php -r "echo ini_get('extension_dir');")/blackfire.so \
+    && printf "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8707\n" > $PHP_INI_DIR/conf.d/blackfire.ini \
+;fi
+
+#####################################
+# PHP REDIS EXTENSION FOR PHP 5
+#####################################
+
+ARG INSTALL_PHPREDIS=false
+RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
+    # Install Php Redis Extension
+    pecl install -o -f redis \
+    &&  rm -rf /tmp/pear \
+    &&  docker-php-ext-enable redis \
+;fi
 
 #####################################
 # MongoDB:
@@ -80,8 +108,7 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
 ARG INSTALL_ZIP_ARCHIVE=false
 RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
     # Install the zip extension
-    pecl install zip && \
-    docker-php-ext-enable zip \
+    docker-php-ext-install zip \
 ;fi
 
 #####################################
@@ -101,8 +128,18 @@ RUN if [ ${INSTALL_BCMATH} = true ]; then \
 ARG INSTALL_MEMCACHED=false
 RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
     # Install the php memcached extension
-    pecl install memcached && \
+    pecl install memcached-2.2.0 && \
     docker-php-ext-enable memcached \
+;fi
+
+#####################################
+# Exif:
+#####################################
+
+ARG INSTALL_EXIF=false
+RUN if [ ${INSTALL_EXIF} = true ]; then \
+    # Enable Exif PHP extentions requirements
+    docker-php-ext-install exif \
 ;fi
 
 #####################################
@@ -125,6 +162,7 @@ RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = true ]; then \
         && make install \
     ) \
     && rm /tmp/aerospike-client-php.tar.gz \
+    && docker-php-ext-enable aerospike \
 ;fi
 
 #####################################
@@ -133,22 +171,54 @@ RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = true ]; then \
 
 ARG INSTALL_OPCACHE=false
 RUN if [ ${INSTALL_OPCACHE} = true ]; then \
-    docker-php-ext-install opcache && \
-    docker-php-ext-enable opcache \
+    docker-php-ext-install opcache \
 ;fi
 
 # Copy opcache configration
 COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
 #####################################
-# Codeigniter Modifications:
+# Mysqli Modifications:
 #####################################
 
-ARG CODEIGNITER=false
-RUN if [ ${CODEIGNITER} = true ]; then \
-    # Install Codeigniter PHP extentions requirements
-     docker-php-ext-install mysqli && \
-     docker-php-ext-install tokenizer \
+ARG INSTALL_MYSQLI=false
+# MySQL extenstion is available for Php5.6 and lower only
+COPY ./mysql.ini /usr/local/etc/php/conf.d/mysql.ini
+RUN if [ ${INSTALL_MYSQLI} = true ]; then \
+    docker-php-ext-install mysql && \
+    docker-php-ext-install mysqli \
+;fi
+
+#####################################
+# Tokenizer Modifications:
+#####################################
+
+ARG INSTALL_TOKENIZER=false
+RUN if [ ${INSTALL_TOKENIZER} = true ]; then \
+    docker-php-ext-install tokenizer \
+;fi
+
+#####################################
+# Human Language and Character Encoding Support:
+#####################################
+
+ARG INSTALL_INTL=false
+RUN if [ ${INSTALL_INTL} = true ]; then \
+    # Install intl and requirements
+    apt-get install -y zlib1g-dev libicu-dev g++ && \
+    docker-php-ext-configure intl && \
+    docker-php-ext-install intl \
+;fi
+
+#####################################
+# GHOSTSCRIPT:
+#####################################
+
+ARG INSTALL_GHOSTSCRIPT=false
+RUN if [ ${INSTALL_GHOSTSCRIPT} = true ]; then \
+    # Install the ghostscript extension for PDF editing
+    apt-get update && \
+    apt-get install -y poppler-utils ghostscript \
 ;fi
 
 #
@@ -160,7 +230,7 @@ RUN if [ ${CODEIGNITER} = true ]; then \
 ADD ./laravel.ini /usr/local/etc/php/conf.d
 ADD ./laravel.pool.conf /usr/local/etc/php-fpm.d/
 
-RUN rm -r /var/lib/apt/lists/*
+#RUN rm -r /var/lib/apt/lists/*
 
 RUN usermod -u 1000 www-data
 

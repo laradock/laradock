@@ -4,13 +4,13 @@
 #--------------------------------------------------------------------------
 #
 # To edit the 'php-fpm' base Image, visit its repository on Github
-#    https://github.com/LaraDock/php-fpm
+#    https://github.com/Laradock/php-fpm
 #
 # To change its version, see the available Tags on the Docker Hub:
 #    https://hub.docker.com/r/laradock/php-fpm/tags/
 #
 
-FROM laradock/php-fpm:7.0--1.2
+FROM laradock/php-fpm:1.4-v7.0
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
@@ -22,7 +22,7 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 # Mandatory Software's such as ("mcrypt", "pdo_mysql", "libssl-dev", ....)
 # are installed on the base image 'laradock/php-fpm' image. If you want
 # to add more Software's or remove existing one, you need to edit the
-# base image (https://github.com/LaraDock/php-fpm).
+# base image (https://github.com/Laradock/php-fpm).
 #
 
 #
@@ -34,7 +34,6 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 # in the `docker-compose.yml` before the build.
 # Example:
 #   - INSTALL_ZIP_ARCHIVE=true
-#   - ...
 #
 
 #####################################
@@ -45,7 +44,7 @@ ARG INSTALL_SOAP=false
 RUN if [ ${INSTALL_SOAP} = true ]; then \
     # Install the soap extension
     apt-get -y update && \
-    apt-get -y install libxml2-dev && \ 
+    apt-get -y install libxml2-dev php-soap && \
     docker-php-ext-install soap \
 ;fi
 
@@ -60,9 +59,26 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     docker-php-ext-enable xdebug \
 ;fi
 
+# Copy xdebug configration for remote debugging
+COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+
 #####################################
-# PHP REDIS EXTENSION FOR PHP 7.0
+# Blackfire:
 #####################################
+
+ARG INSTALL_BLACKFIRE=false
+RUN if [ ${INSTALL_XDEBUG} = false -a ${INSTALL_BLACKFIRE} = true ]; then \
+    version=$(php -r "echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;") \
+    && curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/linux/amd64/$version \
+    && tar zxpf /tmp/blackfire-probe.tar.gz -C /tmp \
+    && mv /tmp/blackfire-*.so $(php -r "echo ini_get('extension_dir');")/blackfire.so \
+    && printf "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8707\n" > $PHP_INI_DIR/conf.d/blackfire.ini \
+;fi
+
+#####################################
+# PHP REDIS EXTENSION FOR PHP 7
+#####################################
+
 ARG INSTALL_PHPREDIS=false
 RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
     # Install Php Redis Extension
@@ -70,9 +86,6 @@ RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
     &&  rm -rf /tmp/pear \
     &&  docker-php-ext-enable redis \
 ;fi
-
-# Copy xdebug configration for remote debugging
-COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 #####################################
 # MongoDB:
@@ -92,8 +105,7 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
 ARG INSTALL_ZIP_ARCHIVE=false
 RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
     # Install the zip extension
-    pecl install zip && \
-    docker-php-ext-enable zip \
+    docker-php-ext-install zip \
 ;fi
 
 #####################################
@@ -129,6 +141,16 @@ RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
 ;fi
 
 #####################################
+# Exif:
+#####################################
+
+ARG INSTALL_EXIF=false
+RUN if [ ${INSTALL_EXIF} = true ]; then \
+    # Enable Exif PHP extentions requirements
+    docker-php-ext-install exif \
+;fi
+
+#####################################
 # PHP Aerospike:
 #####################################
 
@@ -148,29 +170,144 @@ RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = true ]; then \
         && make install \
     ) \
     && rm /tmp/aerospike-client-php.tar.gz \
+    && docker-php-ext-enable aerospike \
 ;fi
 
 #####################################
 # Opcache:
 #####################################
+
 ARG INSTALL_OPCACHE=false
 RUN if [ ${INSTALL_OPCACHE} = true ]; then \
-    docker-php-ext-install opcache && \
-    docker-php-ext-enable opcache \
+    docker-php-ext-install opcache \
 ;fi
 
 # Copy opcache configration
 COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
 #####################################
-# Codeigniter Modifications:
+# Mysqli Modifications:
 #####################################
 
-ARG CODEIGNITER=false
-RUN if [ ${CODEIGNITER} = true ]; then \
-    # Install Codeigniter PHP extentions requirements
-     docker-php-ext-install mysqli && \
-     docker-php-ext-install tokenizer \
+ARG INSTALL_MYSQLI=false
+RUN if [ ${INSTALL_MYSQLI} = true ]; then \
+    docker-php-ext-install mysqli \
+;fi
+
+#####################################
+# Tokenizer Modifications:
+#####################################
+
+ARG INSTALL_TOKENIZER=false
+RUN if [ ${INSTALL_TOKENIZER} = true ]; then \
+    docker-php-ext-install tokenizer \
+;fi
+
+#####################################
+# SQL SERVER:
+#####################################
+
+ARG MSSQL=false
+RUN if [ ${MSSQL} = true ]; then \
+
+    #####################################
+    # Install Depenencies:
+    #####################################
+        apt-get update && \
+        apt-get install -y --force-yes wget apt-transport-https curl freetds-common php5-odbc libsybdb5 freetds-bin unixodbc unixodbc-dev php5-sybase && \
+
+    #####################################
+    #  The following steps were taken from
+    #  Microsoft's github account:
+    #  https://github.com/Microsoft/msphpsql/wiki/Dockerfile-for-getting-pdo_sqlsrv-for-PHP-7.0-on-Debian-in-3-ways
+    #####################################
+
+    # Add PHP 7 repository
+    # for Debian jessie
+    # And System upgrade
+        echo "deb http://packages.dotdeb.org jessie all" \
+        | tee /etc/apt/sources.list.d/dotdeb.list \
+        && wget -qO- https://www.dotdeb.org/dotdeb.gpg \
+        | apt-key add - \
+        && apt-get update \
+        && apt-get upgrade -qq && \
+
+    # Install UnixODBC
+    # Compile odbc_config as it is not part of unixodbc package
+        apt-get install -y whiptail \
+        unixodbc libgss3 odbcinst devscripts debhelper dh-exec dh-autoreconf libreadline-dev libltdl-dev \
+        && dget -u -x http://http.debian.net/debian/pool/main/u/unixodbc/unixodbc_2.3.1-3.dsc \
+        && cd unixodbc-*/ \
+        && dpkg-buildpackage -uc -us -B -d \
+        && cp -v ./exe/odbc_config /usr/local/bin/ && \
+
+    # Fake uname for install.sh
+        printf '#!/bin/bash\nif [ "$*" == "-p" ]; then echo "x86_64"; else /bin/uname "$@"; fi' \
+        | tee /usr/local/bin/uname \
+        && chmod +x /usr/local/bin/uname && \
+
+    # Microsoft ODBC Driver 13 for Linux
+    # Note: There's a copy of this tar on my hubiC
+        wget -nv -O msodbcsql-13.0.0.0.tar.gz \
+        "https://meetsstorenew.blob.core.windows.net/contianerhd/Ubuntu%2013.0%20Tar/msodbcsql-13.0.0.0.tar.gz?st=2016-10-18T17%3A29%3A00Z&se=2022-10-19T17%3A29%3A00Z&sp=rl&sv=2015-04-05&sr=b&sig=cDwPfrouVeIQf0vi%2BnKt%2BzX8Z8caIYvRCmicDL5oknY%3D" \
+        && tar -xf msodbcsql-13.0.0.0.tar.gz \
+        && cd msodbcsql-*/ \
+        && ldd lib64/libmsodbcsql-13.0.so.0.0 \
+        && ./install.sh install --accept-license \
+        && ls -l /opt/microsoft/msodbcsql/ \
+        && odbcinst -q -d -n "ODBC Driver 13 for SQL Server" \
+
+    #####################################
+    # Install pdo_dblib
+    #####################################
+
+    && docker-php-ext-install pdo \
+    && docker-php-ext-configure pdo_dblib --with-libdir=/lib/x86_64-linux-gnu \
+    && docker-php-ext-install pdo_dblib \
+    && docker-php-ext-enable pdo_dblib && \
+
+    #####################################
+    # Install sqlsrv y pdo_sqlsrv
+    # extensions:
+    #####################################
+
+    pecl install sqlsrv-4.0.6 && \
+    pecl install pdo_sqlsrv-4.0.6 && \
+
+    #####################################
+    # Set locales for the container
+    #####################################
+
+    apt-get install -y locales \
+    && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
+    && locale-gen \
+;fi
+
+#####################################
+# Human Language and Character Encoding Support:
+#####################################
+
+ARG INSTALL_INTL=false
+RUN if [ ${INSTALL_INTL} = true ]; then \
+    # Install intl and requirements
+    apt-get -y update \
+    && apt-get install -y zlib1g-dev libicu-dev g++ && \
+    docker-php-ext-configure intl && \
+    docker-php-ext-install intl \
+;fi
+
+#####################################
+# GHOSTSCRIPT:
+#####################################
+
+ARG INSTALL_GHOSTSCRIPT=false
+RUN if [ ${INSTALL_GHOSTSCRIPT} = true ]; then \
+    # Install the ghostscript extension
+    # for PDF editing
+    apt-get -y update \
+    && apt-get install -y \
+    poppler-utils \
+    ghostscript \
 ;fi
 
 #
@@ -182,7 +319,7 @@ RUN if [ ${CODEIGNITER} = true ]; then \
 ADD ./laravel.ini /usr/local/etc/php/conf.d
 ADD ./laravel.pool.conf /usr/local/etc/php-fpm.d/
 
-RUN rm -r /var/lib/apt/lists/*
+#RUN rm -r /var/lib/apt/lists/*
 
 RUN usermod -u 1000 www-data
 
