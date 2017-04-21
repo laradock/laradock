@@ -2,7 +2,7 @@ FROM alpine:3.4
 
 MAINTAINER Eric Pfeiffer <computerfr33k@users.noreply.github.com>
 
-ENV caddy_version=0.9.5
+ENV caddy_version=0.10.0
 
 LABEL caddy_version="$caddy_version" architecture="amd64"
 
@@ -12,7 +12,7 @@ RUN apk update \
 
 RUN curl --silent --show-error --fail --location \
         --header "Accept: application/tar+gzip, application/x-gzip, application/octet-stream" -o - \
-        "https://caddyserver.com/download/build?os=linux&arch=amd64&features=cloudflare%2Cdigitalocean%2Cdnsimple%2Cdyn%2Cgooglecloud%2Clinode%2Croute53" \
+        "https://caddyserver.com/download/linux/amd64?plugins=http.cgi,http.filemanager,http.git,tls.dns.cloudflare,tls.dns.digitalocean,tls.dns.dnsimple,tls.dns.dyn,tls.dns.googlecloud,tls.dns.linode,tls.dns.route53" \
         | tar --no-same-owner -C /usr/bin/ -xz caddy \
     && mv /usr/bin/caddy /usr/bin/caddy \
     && chmod 0755 /usr/bin/caddy
