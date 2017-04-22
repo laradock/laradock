@@ -5,6 +5,7 @@ title = "Laradock"
 theme = "hugo-material-docs"
 metadataformat = "yaml"
 canonifyurls = true
+uglyurls = true
 # Enable Google Analytics by entering your tracking id
 googleAnalytics = "UA-37514928-9"
 
