@@ -118,8 +118,10 @@ If you can't find your Software in the list, build it yourself and sumit it. Con
 <a name="what-is-docker"></a>
 ## What is Docker?
 
-[Docker](https://www.docker.com) is an open-source project that automates the deployment of applications inside software containers, by providing an additional layer of abstraction and automation of [operating-system-level virtualization](https://en.wikipedia.org/wiki/Operating-system-level_virtualization) on Linux, Mac OS and Windows.
-
+[Docker](https://www.docker.com) is an open platform for developing, shipping, and running applications.
+Docker enables you to separate your applications from your infrastructure so you can deliver software quickly.
+With Docker, you can manage your infrastructure in the same ways you manage your applications.
+By taking advantage of Docker’s methodologies for shipping, testing, and deploying code quickly, you can significantly reduce the delay between writing code and running it in production.
 
 
 
