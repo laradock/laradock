@@ -9,8 +9,10 @@
 # To change its version, see the available Tags on the Docker Hub:
 #    https://hub.docker.com/r/laradock/workspace/tags/
 #
+# Note: Base Image name format {image-tag}-{php-version}
+#
 
-FROM laradock/workspace:1.6
+FROM laradock/workspace:1.7-70
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
