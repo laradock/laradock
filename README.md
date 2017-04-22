@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/laradock/laradock.svg?branch=master)](https://travis-ci.org/laradock/laradock)
-
 ![](https://s19.postimg.org/jblfytw9f/laradock-logo.jpg)
+
+[![Build Status](https://travis-ci.org/laradock/laradock.svg?branch=master)](https://travis-ci.org/laradock/laradock)
 
 > Use Docker first and learn about it later.
 
@@ -23,6 +23,7 @@ A Docker PHP development environment that facilitates running **PHP** Apps on **
 - [Dwi Fahni Denni](https://github.com/zeroc0d3) @zeroc0d3
 - [Thor Erik](https://github.com/thorerik) @thorerik
 - [Winfried van Loon](https://github.com/winfried-van-loon) @winfried-van-loon
+- Join Us.
 
 ## License
 

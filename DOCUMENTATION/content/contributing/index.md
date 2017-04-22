@@ -5,15 +5,16 @@ weight: 7
 ---
 
 
-Your contribution is more than welcome.
-
-## I have a Question/Problem
+## Have a Question
 
 If you have questions about how to use Laradock, please direct your questions to the discussion on [Gitter](https://gitter.im/Laradock/laradock). If you believe your question could help others, then consider opening an [Issue](https://github.com/laradock/laradock/issues) (it will be labeled as `Question`) And you can still seek help on Gitter for it.
 
-## I found an Issue
+
+
+## Found an Issue
+
 If have an issue or you found a typo in the documentation, you can help us by
-opnening an [Issue](https://github.com/laradock/laradock/issues). 
+opnening an [Issue](https://github.com/laradock/laradock/issues).
 
 **Steps to do before opening an Issue:**
 
@@ -27,14 +28,14 @@ If your issue appears to be a bug, and hasn't been reported, then open a new iss
 features, by not reporting duplicate issues.*
 
 
-## I want a Feature
+
+## Want a Feature
 You can request a new feature by submitting an [Issue](https://github.com/laradock/laradock/issues) (it will be labeled as `Feature Suggestion`). If you would like to implement a new feature then consider submitting a Pull Request yourself.
 
 
 
 
-
-## I want to update the Documentation (Site)
+## Update the Documentation (Site)
 
 Laradock uses [Hugo](https://gohugo.io/) as website generator tool, with the [Material Docs theme](http://themes.gohugo.io/theme/material-docs/). You might need to check their docs quickly.
 
@@ -47,9 +48,8 @@ To update the sidebar or add a new section to it, you can edit this `DOCUMENTATI
 > The site will be auto-generated in the `docs/` folder by [Travis CI](https://travis-ci.org/laradock/laradock/).
 
 
-<br>
 
-### To Host the website locally
+### Host the documentation locally
 
 1. Install [Hugo](https://gohugo.io/) on your machine.
 2. Edit the `DOCUMENTATION/content`.
@@ -59,33 +59,70 @@ To update the sidebar or add a new section to it, you can edit this `DOCUMENTATI
 
 
 
-## How to support new Software (Add new Container)
+## Support new Software (Add new Container)
 
-* Create folder with the software name.
+* Forke the repo and clone the code.
 
-* Add a `Dockerfile`, write your code there.
+* Create folder as the software name (example: `mysql` - `nginx`).
 
-* You may add additional files in the software folder.
+* Add your `Dockerfile` in the folder "you may add additional files as well".
 
 * Add the software to the `docker-compose.yml` file.
 
-* Make sure you follow our commenting style.
+* Make sure you follow the same code/comments style.
 
-* Add the software in the `Documentation`.
+* Add the environment variables to the `env-example` if you have any.
 
-## Edit existing Software (Edit a Container)
+* **MOST IMPORTANTLY** updated the `Documentation`, add as much information.
 
-* Open the software (container) folder.
+* Submit a Pull Request, to the `master` branch.
 
-* Edit the files you want to update.
 
-* **Note:** If you want to edit the base image of the `Workspace` or the `php-fpm` Containers, 
-you need to edit their Docker-files from their GitHub repositories. For more info read their Dockerfiles comment on the Laradock repository.
+
+## Edit supported Software (Edit a Container)
+
+* Forke the repo and clone the code.
+
+* Open the software (container) folder (example: `mysql` - `nginx`).
+
+* Edit the files.
 
 * Make sure to update the `Documentation` in case you made any changes.
 
+* Submit a Pull Request, to the `master` branch.
 
-## Pull Request
+
+
+
+## Edit Base Image
+
+* Open any dockerfile, copy the base image name (example: `FROM phusion/baseimage:latest`).
+
+* Search for the image in the [Docker Hub](https://hub.docker.com/search/) and find the source..
+
+*Most of the image in Laradock are offical images, these projects live in other repositories and maintainer by other orgnizations.*
+
+**Note:** Laradock has two base images for (`Workspace` and `php-fpm`, mainly made to speed up the build time on your machine.
+
+* Find the dockerfiles, edit them and submit a Pull Request.
+
+* When updating a Laradock base image (`Workspace` or `php-fpm`), ask a project maintainer "Admin" to build a new image after your PR is merged.
+
+**Note:** after the base image is updated, every dockerfile that uses that image, needs to update his base image tag to get the updated code.
+
+
+
+
+
+
+
+
+<br>
+
+
+
+
+## Submit Pull Request Instructions
 
 ### 1. Before Submitting a Pull Request (PR)
 
