@@ -9,8 +9,10 @@
 # To change its version, see the available Tags on the Docker Hub:
 #    https://hub.docker.com/r/laradock/php-fpm/tags/
 #
+# Note: Base Image name format {image-tag}-{php-version}
+#
 
-FROM laradock/php-fpm:1.4-v5.6
+FROM laradock/php-fpm:1.4-56
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
