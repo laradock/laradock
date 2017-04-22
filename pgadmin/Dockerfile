@@ -1,5 +1,5 @@
 FROM fenglc/pgadmin4
-
-MAINTAINER Bo-Yi Wu <appleboy.tw@gmail.com>
+ADD pg /usr/bin
+MAINTAINER Huadong Zuo <admin@zuohuadong.cn>
 
 EXPOSE 5050
