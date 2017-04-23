@@ -1,6 +1,6 @@
 # Docs: https://caddyserver.com/docs/caddyfile
 0.0.0.0:80
-root /var/www/public
+root /var/www
 fastcgi / php-fpm:9000 php {
     index index.php
 }

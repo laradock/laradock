@@ -19,6 +19,6 @@ RUN curl --silent --show-error --fail --location \
 
 EXPOSE 80 443 2015
 
-WORKDIR /var/www/public
+WORKDIR /var/www
 
 CMD ["/usr/bin/caddy", "-conf", "/etc/Caddyfile"]
