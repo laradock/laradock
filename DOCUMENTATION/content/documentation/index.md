@@ -699,6 +699,8 @@ docker-compose up -d mysql phpmyadmin
 docker-compose up -d mariadb phpmyadmin
 ```
 
+*Note: To use with MariaDB, open `.env` and set `PMA_DB_ENGINE=mysql` to `PMA_DB_ENGINE=mariadb`.*
+
 2 - Open your browser and visit the localhost on port **8080**:  `http://localhost:8080`
 
 
