@@ -14,7 +14,7 @@ DATA_SAVE_PATH=/tmp
 
 ### PHP version
 # Applies to the Workspace and PHP-FPM containers (Does not apply to HHVM)
-# Accepted values: 71 - 70 - 56
+# Accepted values: 71 - 70 - 56 - 53
 
 PHP_VERSION=71
 
