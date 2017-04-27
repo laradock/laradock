@@ -64,20 +64,23 @@ Laradock 努力简化创建开发环境过程。
 让我们了解使用它安装 `NGINX`, `PHP`, `Composer`, `MySQL` 和 `Redis`，然后运行 `Laravel`
 
 1. 将 Laradock 放到你的 Laravel 项目中：
-
 ```bash
 git clone https://github.com/laradock/laradock.git
 ```
 
-2. 进入 Laradock 目录，然后运行这些容器。
+2. 进入 Laradock 目录
+ ```bash
+cp env-example .env
+```
 
+3. 运行这些容器。
 ```bash
 docker-compose up -d nginx mysql redis
 ```
 
-3. 打开你的 `.env` 文件，然后设置 `mysql` 的 `DB_HOST` 和  `redis` 的`REDIS_HOST`。
+4. 打开你的Laravel 项目的 `.env` 文件，然后设置 `mysql` 的 `DB_HOST` 和  `redis` 的`REDIS_HOST`。
 
-4. 打开浏览器，访问 localhost：
+5. 打开浏览器，访问 localhost：
 
 <a name="features"></a>
 ### 特点
@@ -461,7 +464,7 @@ REDIS_HOST=redis
 ],
 ```
 
-3 - 启用 Redis 缓存或者开启 Session 管理也在 `.env` 文件中用 `redis` 替换默认 `file` 设置 `CACHE_DRIVER` 和 `SESSION_DRIVER` 
+3 - 启用 Redis 缓存或者开启 Session 管理也在 `.env` 文件中用 `redis` 替换默认 `file` 设置 `CACHE_DRIVER` 和 `SESSION_DRIVER`
 
 ```env
 CACHE_DRIVER=redis
