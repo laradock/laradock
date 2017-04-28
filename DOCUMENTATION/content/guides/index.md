@@ -428,54 +428,54 @@ If you have enabled `xdebug=true` in `docker-compose.yml/php-fpm`, `xdebug` will
 ## PHPStorm Settings
 - Here are some settings that are known to work:
     - `Settings/BuildDeploymentConnection`
-        - ![Settings/BuildDeploymentConnection](images/photos/PHPStorm/Settings/BuildDeploymentConnection.png)
+        - ![Settings/BuildDeploymentConnection](/images/photos/PHPStorm/Settings/BuildDeploymentConnection.png)
 
     - `Settings/BuildDeploymentConnectionMappings`
-        - ![Settings/BuildDeploymentConnectionMappings](images/photos/PHPStorm/Settings/BuildDeploymentConnectionMappings.png)
+        - ![Settings/BuildDeploymentConnectionMappings](/images/photos/PHPStorm/Settings/BuildDeploymentConnectionMappings.png)
 
     - `Settings/BuildDeploymentDebugger`
-        - ![Settings/BuildDeploymentDebugger](images/photos/PHPStorm/Settings/BuildDeploymentDebugger.png)
+        - ![Settings/BuildDeploymentDebugger](/images/photos/PHPStorm/Settings/BuildDeploymentDebugger.png)
 
     - `Settings/EditRunConfigurationRemoteWebDebug`
-        - ![Settings/EditRunConfigurationRemoteWebDebug](images/photos/PHPStorm/Settings/EditRunConfigurationRemoteWebDebug.png)
+        - ![Settings/EditRunConfigurationRemoteWebDebug](/images/photos/PHPStorm/Settings/EditRunConfigurationRemoteWebDebug.png)
 
     - `Settings/EditRunConfigurationRemoteExampleTestDebug`
-        - ![Settings/EditRunConfigurationRemoteExampleTestDebug](images/photos/PHPStorm/Settings/EditRunConfigurationRemoteExampleTestDebug.png)
+        - ![Settings/EditRunConfigurationRemoteExampleTestDebug](/images/photos/PHPStorm/Settings/EditRunConfigurationRemoteExampleTestDebug.png)
 
     - `Settings/LangsPHPDebug`
-        - ![Settings/LangsPHPDebug](images/photos/PHPStorm/Settings/LangsPHPDebug.png)
+        - ![Settings/LangsPHPDebug](/images/photos/PHPStorm/Settings/LangsPHPDebug.png)
 
     - `Settings/LangsPHPInterpreters`
-        - ![Settings/LangsPHPInterpreters](images/photos/PHPStorm/Settings/LangsPHPInterpreters.png)
+        - ![Settings/LangsPHPInterpreters](/images/photos/PHPStorm/Settings/LangsPHPInterpreters.png)
 
     - `Settings/LangsPHPPHPUnit`
-        - ![Settings/LangsPHPPHPUnit](images/photos/PHPStorm/Settings/LangsPHPPHPUnit.png)
+        - ![Settings/LangsPHPPHPUnit](/images/photos/PHPStorm/Settings/LangsPHPPHPUnit.png)
 
     - `Settings/LangsPHPServers`
-        - ![Settings/LangsPHPServers](images/photos/PHPStorm/Settings/LangsPHPServers.png)
+        - ![Settings/LangsPHPServers](/images/photos/PHPStorm/Settings/LangsPHPServers.png)
 
     - `RemoteHost`
         To switch on this view, go to: `Menu/Tools/Deployment/Browse Remote Host`.
-        - ![RemoteHost](images/photos/PHPStorm/RemoteHost.png)
+        - ![RemoteHost](/images/photos/PHPStorm/RemoteHost.png)
 
     - `RemoteWebDebug`
-        - ![DebugRemoteOn](images/photos/PHPStorm/DebugRemoteOn.png)
+        - ![DebugRemoteOn](/images/photos/PHPStorm/DebugRemoteOn.png)
 
     - `EditRunConfigurationRemoteWebDebug`
         Go to: `Menu/Run/Edit Configurations`.
-        - ![EditRunConfigurationRemoteWebDebug](images/photos/PHPStorm/Settings/EditRunConfigurationRemoteWebDebug.png)
+        - ![EditRunConfigurationRemoteWebDebug](/images/photos/PHPStorm/Settings/EditRunConfigurationRemoteWebDebug.png)
 
     - `EditRunConfigurationRemoteExampleTestDebug`
         Go to: `Menu/Run/Edit Configurations`.
-        - ![EditRunConfigurationRemoteExampleTestDebug](images/photos/PHPStorm/Settings/EditRunConfigurationRemoteExampleTestDebug.png)
+        - ![EditRunConfigurationRemoteExampleTestDebug](/images/photos/PHPStorm/Settings/EditRunConfigurationRemoteExampleTestDebug.png)
 
     - `WindowsFirewallAllowedApps`
         Go to: `Control Panel\All Control Panel Items\Windows Firewall\Allowed apps`.
-        - ![WindowsFirewallAllowedApps.png](images/photos/PHPStorm/Settings/WindowsFirewallAllowedApps.png)
+        - ![WindowsFirewallAllowedApps.png](/images/photos/PHPStorm/Settings/WindowsFirewallAllowedApps.png)
 
     - `hosts`
         Edit: `C:\Windows\System32\drivers\etc\hosts`.
-        - ![WindowsFirewallAllowedApps.png](images/photos/PHPStorm/Settings/hosts.png)
+        - ![WindowsFirewallAllowedApps.png](/images/photos/PHPStorm/Settings/hosts.png)
 
         - [Enable xDebug on php-fpm](#enablePhpXdebug)
 
@@ -497,7 +497,7 @@ If you have enabled `xdebug=true` in `docker-compose.yml/php-fpm`, `xdebug` will
 - right-click on `tests/ExampleTest.php`
     - Select: `Debug 'ExampleTest.php'`.
     - Should have stopped at the BreakPoint!! You are now debugging locally against a remote Laravel project via SSH!
-    - ![Remote Test Debugging Success](images/photos/PHPStorm/RemoteTestDebuggingSuccess.png)
+    - ![Remote Test Debugging Success](/images/photos/PHPStorm/RemoteTestDebuggingSuccess.png)
 
 
 <a name="UsagePHPStormDebugSite"></a>
@@ -508,13 +508,13 @@ If you have enabled `xdebug=true` in `docker-compose.yml/php-fpm`, `xdebug` will
 `.php-fpm/xdebug stop`
 
 - Start Remote Debugging
-    - ![DebugRemoteOn](images/photos/PHPStorm/DebugRemoteOn.png)
+    - ![DebugRemoteOn](/images/photos/PHPStorm/DebugRemoteOn.png)
 
 - Open to edit: `bootstrap/app.php`
 - Add a BreakPoint on line 14: `$app = new Illuminate\Foundation\Application(`
 - Reload [Laravel Site](http://laravel/)
     - Should have stopped at the BreakPoint!! You are now debugging locally against a remote Laravel project via SSH!
-    - ![Remote Debugging Success](images/photos/PHPStorm/RemoteDebuggingSuccess.png)
+    - ![Remote Debugging Success](/images/photos/PHPStorm/RemoteDebuggingSuccess.png)
 
 
 <a name="SSHintoWorkspace"></a>
@@ -533,14 +533,14 @@ Assuming that you are in laradock folder, type:
 [Kitty](http://www.9bis.net/kitty/) KiTTY is a fork from version 0.67 of PuTTY.
 
 - Here are some settings that are working for me:
-    - ![Session](images/photos/KiTTY/Session.png)
-    - ![Terminal](images/photos/KiTTY/Terminal.png)
-    - ![Window](images/photos/KiTTY/Window.png)
-    - ![WindowAppearance](images/photos/KiTTY/WindowAppearance.png)
-    - ![Connection](images/photos/KiTTY/Connection.png)
-    - ![ConnectionData](images/photos/KiTTY/ConnectionData.png)
-    - ![ConnectionSSH](images/photos/KiTTY/ConnectionSSH.png)
-    - ![ConnectionSSHAuth](images/photos/KiTTY/ConnectionSSHAuth.png)
-    - ![TerminalShell](images/photos/KiTTY/TerminalShell.png)
+    - ![Session](/images/photos/KiTTY/Session.png)
+    - ![Terminal](/images/photos/KiTTY/Terminal.png)
+    - ![Window](/images/photos/KiTTY/Window.png)
+    - ![WindowAppearance](/images/photos/KiTTY/WindowAppearance.png)
+    - ![Connection](/images/photos/KiTTY/Connection.png)
+    - ![ConnectionData](/images/photos/KiTTY/ConnectionData.png)
+    - ![ConnectionSSH](/images/photos/KiTTY/ConnectionSSH.png)
+    - ![ConnectionSSHAuth](/images/photos/KiTTY/ConnectionSSHAuth.png)
+    - ![TerminalShell](/images/photos/KiTTY/TerminalShell.png)
 
 
