@@ -6,13 +6,13 @@ ARG PHP_SOCKET=php-fpm:9000
 
 ENV WEB_PHP_SOCKET=$PHP_SOCKET
 
-ENV WEB_DOCUMENT_ROOT=/var/www/
+ENV WEB_DOCUMENT_ROOT=/var/www/public/
 
 EXPOSE 80 443
 
-WORKDIR /var/www/
+WORKDIR /var/www/public/
 
-ADD vhost.conf /etc/apache2/sites-enabled/vhost.conf
+COPY vhost.conf /etc/apache2/sites-enabled/vhost.conf
 
 ENTRYPOINT ["/opt/docker/bin/entrypoint.sh"]
 
