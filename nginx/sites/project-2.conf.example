@@ -4,7 +4,7 @@ server {
     listen [::]:80;
 
     server_name project-2.dev;
-    root /var/www/project-2;
+    root /var/www/project-2/public;
     index index.php index.html index.htm;
 
     location / {
@@ -30,6 +30,3 @@ server {
         log_not_found off;
     }
 }
-
-
-

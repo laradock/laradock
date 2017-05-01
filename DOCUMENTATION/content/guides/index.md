@@ -4,14 +4,11 @@ type: index
 weight: 4
 ---
 
+- [Production Setup on Digital Ocean](#Digital-Ocean)
+- [PHPStorm XDebug Setup](#PHPStorm-Debugging)
 
+[]()
 
-* [Production Setup on Digital Ocean](#Digital-Ocean)
-* [PHPStorm XDebug Setup](#PHPStorm-Debugging)
-
-
-
-<a name="Digital-Ocean"></a>
 # Production Setup on Digital Ocean
 
 ## Install Docker
@@ -107,7 +104,7 @@ ns3.digitalocean.com
 
 Within DigitalOcean, you'll need to change some settings, too.
 
-Visit: https://cloud.digitalocean.com/networking/domains
+Visit: <https://cloud.digitalocean.com/networking/domains>
 
 Add your domain name and choose the server IP you'd provision earlier.
 
@@ -148,7 +145,7 @@ $root@server:~/laravel/laradock/nginx# docker-compose build nginx
 $root@server:~/laravel/laradock/nginx# docker-compose up -d nginx mysql
 ```
 
-**View Your Site with HTTP ONLY (http://yourdomain.com)**
+**View Your Site with HTTP ONLY (<http://yourdomain.com>)**
 
 ## Run Site on SSL with Let's Encrypt Certificate
 
@@ -165,14 +162,14 @@ Remove 0.0.0.0:80
 
 ```
 0.0.0.0:80
-root /var/www
+root /var/www/public
 ```
 
-and replace with your https://yourdomain.com
+and replace with your <https://yourdomain.com>
 
 ```
 https://yourdomain.com
-root /var/www
+root /var/www/public
 ```
 
 uncomment tls
@@ -217,83 +214,93 @@ $root@server:~/laravel/laradock/caddy# docker-compose down
 $root@server:~/laravel/laradock/caddy# docker-compose up -d mysql caddy
 ```
 
-View your Site in the Browser Securely Using HTTPS (https://yourdomain.com)
+View your Site in the Browser Securely Using HTTPS (<https://yourdomain.com>)
 
 **Note that Certificate will be Automatically Renew By Caddy**
 
->References:
->
-- [https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04)
-- [https://www.digitalocean.com/products/one-click-apps/docker/](https://www.digitalocean.com/products/one-click-apps/docker/)
-- [https://docs.docker.com/engine/installation/linux/ubuntulinux/](https://docs.docker.com/engine/installation/linux/ubuntulinux/)
-- [https://docs.docker.com/compose/install/](https://docs.docker.com/compose/install/)
-- [https://caddyserver.com/docs/automatic-https](https://caddyserver.com/docs/automatic-https)
-- [https://caddyserver.com/docs/tls](https://caddyserver.com/docs/tls)
-- [https://caddyserver.com/docs/caddyfile](https://caddyserver.com/docs/caddyfile)
+> References:
 
+> - <https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04>
+> - <https://www.digitalocean.com/products/one-click-apps/docker/>
+> - <https://docs.docker.com/engine/installation/linux/ubuntulinux/>
+> - <https://docs.docker.com/compose/install/>
+> - <https://caddyserver.com/docs/automatic-https>
+> - <https://caddyserver.com/docs/tls>
+> - <https://caddyserver.com/docs/caddyfile>
 
+<br><br><br><br><br>
 
+[]()
 
-
-<br>
-<br>
-<br>
-<br>
-<br>
-
-<a name="PHPStorm-Debugging"></a>
 # PHPStorm XDebug Setup
 
 - [Intro](#Intro)
 - [Installation](#Installation)
-    - [Customize laradock/docker-compose.yml](#CustomizeDockerCompose)
-        - [Clean House](#InstallCleanHouse)
-        - [Laradock Dial Tone](#InstallLaradockDialTone)
-        - [hosts](#AddToHosts)
-        - [Firewall](#FireWall)
-        - [Enable xDebug on php-fpm](#enablePhpXdebug)
-    - [PHPStorm Settings](#InstallPHPStorm)
-        - [Configs](#InstallPHPStormConfigs)
-- [Usage](#Usage)
-    - [Laravel](#UsageLaravel)
-        - [Run ExampleTest](#UsagePHPStormRunExampleTest)
-        - [Debug ExampleTest](#UsagePHPStormDebugExampleTest)
-        - [Debug Web Site](#UsagePHPStormDebugSite)
-- [SSH into workspace](#SSHintoWorkspace)
-    - [KiTTY](#InstallKiTTY)
 
-<a name="Intro"></a>
+  - [Customize laradock/docker-compose.yml](#CustomizeDockerCompose)
+
+    - [Clean House](#InstallCleanHouse)
+    - [Laradock Dial Tone](#InstallLaradockDialTone)
+    - [hosts](#AddToHosts)
+    - [Firewall](#FireWall)
+    - [Enable xDebug on php-fpm](#enablePhpXdebug)
+
+  - [PHPStorm Settings](#InstallPHPStorm)
+
+    - [Configs](#InstallPHPStormConfigs)
+
+- [Usage](#Usage)
+
+  - [Laravel](#UsageLaravel)
+
+    - [Run ExampleTest](#UsagePHPStormRunExampleTest)
+    - [Debug ExampleTest](#UsagePHPStormDebugExampleTest)
+    - [Debug Web Site](#UsagePHPStormDebugSite)
+
+- [SSH into workspace](#SSHintoWorkspace)
+
+  - [KiTTY](#InstallKiTTY)
+
+[]()
+
 ## Intro
 
-Wiring up [Laravel](https://laravel.com/), [Laradock](https://github.com/Laradock/laradock) [Laravel+Docker] and [PHPStorm](https://www.jetbrains.com/phpstorm/) to play nice together complete with remote xdebug'ing as icing on top! Although this guide is based on `PHPStorm Windows`,
-you should be able to adjust accordingly. This guide was written based on Docker for Windows Native.
+Wiring up [Laravel](https://laravel.com/), [Laradock](https://github.com/Laradock/laradock) [Laravel+Docker] and [PHPStorm](https://www.jetbrains.com/phpstorm/) to play nice together complete with remote xdebug'ing as icing on top! Although this guide is based on `PHPStorm Windows`, you should be able to adjust accordingly. This guide was written based on Docker for Windows Native.
 
-<a name="Installation"></a>
+[]()
+
 ## Installation
 
 - This guide assumes the following:
-    - you have already installed and are familiar with Laravel, Laradock and PHPStorm.
-    - you have installed Laravel as a parent of `laradock`. This guide assumes `/c/_dk/laravel`.
 
-<a name="AddToHosts"></a>
+  - you have already installed and are familiar with Laravel, Laradock and PHPStorm.
+  - you have installed Laravel as a parent of `laradock`. This guide assumes `/c/_dk/laravel`.
+
+[]()
+
 ## hosts
-- Add `laravel` to your hosts file located on Windows 10 at `C:\Windows\System32\drivers\etc\hosts`. It should be set to the IP of your running container. Mine is: `10.0.75.2`
-On Windows you can find it by opening Windows `Hyper-V Manager`.
-    - ![Windows Hyper-V Manager](images/photos/PHPStorm/Settings/WindowsHyperVManager.png)
+
+- Add `laravel` to your hosts file located on Windows 10 at `C:\Windows\System32\drivers\etc\hosts`. It should be set to the IP of your running container. Mine is: `10.0.75.2` On Windows you can find it by opening Windows `Hyper-V Manager`.
+
+  - ![Windows Hyper-V Manager](images/photos/PHPStorm/Settings/WindowsHyperVManager.png)
 
 - [Hosts File Editor](https://github.com/scottlerch/HostsFileEditor) makes it easy to change your hosts file.
-    - Set `laravel` to your docker host IP. See [Example](images/photos/SimpleHostsEditor/AddHost_laravel.png).
 
+  - Set `laravel` to your docker host IP. See [Example](images/photos/SimpleHostsEditor/AddHost_laravel.png).
 
-<a name="FireWall"></a>
+[]()
+
 ## Firewall
-Your PHPStorm will need to be able to receive a connection from PHP xdebug either your running workspace or php-fpm containers on port 9000. This means that your Windows Firewall should either enable connections from the Application PHPStorm OR the port.
+
+Your PHPStorm will need to be able to receive a connection from PHP xdebug either your running workspace or php-fpm containers on port 9000\. This means that your Windows Firewall should either enable connections from the Application PHPStorm OR the port.
 
 - It is important to note that if the Application PHPStorm is NOT enabled in the firewall, you will not be able to recreate a rule to override that.
 - Also be aware that if you are installing/upgrade different versions of PHPStorm, you MAY have orphaned references to PHPStorm in your Firewall! You may decide to remove orphaned references however in either case, make sure that they are set to receive public TCP traffic.
 
 ### Edit laradock/docker-compose.yml
+
 Set the following variables:
+
 ```
 ### Workspace Utilities Container ###############
 
@@ -314,14 +321,15 @@ Set the following variables:
             args:
                 - INSTALL_XDEBUG=true
                 ...
-
 ```
 
 ### Edit xdebug.ini files
+
 - `laradock/workspace/xdebug.ini`
 - `laradock/php-fpm/xdebug.ini`
 
 Set the following variables:
+
 ```
 xdebug.remote_autostart=1
 xdebug.remote_enable=1
@@ -329,23 +337,19 @@ xdebug.remote_connect_back=1
 xdebug.cli_color=1
 ```
 
+[]()
 
-<a name="InstallCleanHouse"></a>
 ### Need to clean house first?
-Make sure you are starting with a clean state. For example, do you have other Laradock containers and images?
-Here are a few things I use to clean things up.
 
-- Delete all containers using `grep laradock_` on the names, see: [Remove all containers based on docker image name](https://linuxconfig.org/remove-all-containners-based-on-docker-image-name).
-`docker ps -a | awk '{ print $1,$2 }' | grep laradock_ | awk '{print $1}' | xargs -I {} docker rm {}`
+Make sure you are starting with a clean state. For example, do you have other Laradock containers and images? Here are a few things I use to clean things up.
 
-- Delete all images containing `laradock`.
-`docker images | awk '{print $1,$2,$3}' | grep laradock_ | awk '{print $3}' | xargs -I {} docker rmi {}`
-**Note:** This will only delete images that were built with `Laradock`, **NOT** `laradock/*` which are pulled down by `Laradock` such as `laradock/workspace`, etc.
-**Note:** Some may fail with:
-`Error response from daemon: conflict: unable to delete 3f38eaed93df (cannot be forced) - image has dependent child images`
+- Delete all containers using `grep laradock_` on the names, see: [Remove all containers based on docker image name](https://linuxconfig.org/remove-all-containners-based-on-docker-image-name). `docker ps -a | awk '{ print $1,$2 }' | grep laradock_ | awk '{print $1}' | xargs -I {} docker rm {}`
+
+- Delete all images containing `laradock`. `docker images | awk '{print $1,$2,$3}' | grep laradock_ | awk '{print $3}' | xargs -I {} docker rmi {}` **Note:** This will only delete images that were built with `Laradock`, **NOT** `laradock/*` which are pulled down by `Laradock` such as `laradock/workspace`, etc. **Note:** Some may fail with: `Error response from daemon: conflict: unable to delete 3f38eaed93df (cannot be forced) - image has dependent child images`
 
 - I added this to my `.bashrc` to remove orphaned images.
-    ```
+
+  ```
     dclean() {
         processes=`docker ps -q -f status=exited`
         if [ -n "$processes" ]; thend
@@ -357,33 +361,35 @@ Here are a few things I use to clean things up.
           docker rmi $images
         fi
     }
-    ```
+  ```
 
 - If you frequently switch configurations for Laradock, you may find that adding the following and added to your `.bashrc` or equivalent useful:
-```
-# remove laravel* containers
-# remove laravel_* images
-dcleanlaradockfunction()
-{
-	echo 'Removing ALL containers associated with laradock'
-	docker ps -a | awk '{ print $1,$2 }' | grep laradock | awk '{print $1}' | xargs -I {} docker rm {}
 
-	# remove ALL images associated with laradock_
-	# does NOT delete laradock/* which are hub images
-	echo 'Removing ALL images associated with laradock_'
-	docker images | awk '{print $1,$2,$3}' | grep laradock_ | awk '{print $3}' | xargs -I {} docker rmi {}
+  ```
+  # remove laravel* containers
+  # remove laravel_* images
+  dcleanlaradockfunction()
+  {
+    echo 'Removing ALL containers associated with laradock'
+    docker ps -a | awk '{ print $1,$2 }' | grep laradock | awk '{print $1}' | xargs -I {} docker rm {}
 
-	echo 'Listing all laradock docker hub images...'
-	docker images | grep laradock
+    # remove ALL images associated with laradock_
+    # does NOT delete laradock/* which are hub images
+    echo 'Removing ALL images associated with laradock_'
+    docker images | awk '{print $1,$2,$3}' | grep laradock_ | awk '{print $3}' | xargs -I {} docker rmi {}
 
-	echo 'dcleanlaradock completed'
-}
-# associate the above function with an alias
-# so can recall/lookup by typing 'alias'
-alias dcleanlaradock=dcleanlaradockfunction
-```
+    echo 'Listing all laradock docker hub images...'
+    docker images | grep laradock
 
-<a name="InstallLaradockDialTone"></a>
+    echo 'dcleanlaradock completed'
+  }
+  # associate the above function with an alias
+  # so can recall/lookup by typing 'alias'
+  alias dcleanlaradock=dcleanlaradockfunction
+  ```
+
+[]()
+
 ## Let's get a dial-tone with Laravel
 
 ```
@@ -402,14 +408,14 @@ laradock_php-fpm_1          php-fpm                       Up       9000/tcp
 laradock_volumes_data_1     true                          Exit 0
 laradock_volumes_source_1   true                          Exit 0
 laradock_workspace_1        /sbin/my_init                 Up       0.0.0.0:2222->22/tcp
-
-
 ```
 
-<a name="enablePhpXdebug"></a>
+[]()
+
 ## Enable xDebug on php-fpm
-In a host terminal sitting in the laradock folder, run: `.php-fpm/xdebug status`
-You should see something like the following:
+
+In a host terminal sitting in the laradock folder, run: `.php-fpm/xdebug status` You should see something like the following:
+
 ```
 xDebug status
 laradock_php-fpm_1
@@ -418,129 +424,150 @@ Copyright (c) 1997-2016 The PHP Group
 Zend Engine v3.0.0, Copyright (c) 1998-2016 Zend Technologies
     with Xdebug v2.4.1, Copyright (c) 2002-2016, by Derick Rethans
 ```
+
 Other commands include `.php-fpm/xdebug start | stop`.
 
-If you have enabled `xdebug=true` in `docker-compose.yml/php-fpm`, `xdebug` will already be running when
-`php-fpm` is started and listening for debug info on port 9000.
+If you have enabled `xdebug=true` in `docker-compose.yml/php-fpm`, `xdebug` will already be running when `php-fpm` is started and listening for debug info on port 9000.
 
+[]()
 
-<a name="InstallPHPStormConfigs"></a>
 ## PHPStorm Settings
+
 - Here are some settings that are known to work:
-    - `Settings/BuildDeploymentConnection`
-        - ![Settings/BuildDeploymentConnection](/images/photos/PHPStorm/Settings/BuildDeploymentConnection.png)
 
-    - `Settings/BuildDeploymentConnectionMappings`
-        - ![Settings/BuildDeploymentConnectionMappings](/images/photos/PHPStorm/Settings/BuildDeploymentConnectionMappings.png)
+  - `Settings/BuildDeploymentConnection`
 
-    - `Settings/BuildDeploymentDebugger`
-        - ![Settings/BuildDeploymentDebugger](/images/photos/PHPStorm/Settings/BuildDeploymentDebugger.png)
+    - ![Settings/BuildDeploymentConnection](/images/photos/PHPStorm/Settings/BuildDeploymentConnection.png)
 
-    - `Settings/EditRunConfigurationRemoteWebDebug`
-        - ![Settings/EditRunConfigurationRemoteWebDebug](/images/photos/PHPStorm/Settings/EditRunConfigurationRemoteWebDebug.png)
+  - `Settings/BuildDeploymentConnectionMappings`
 
-    - `Settings/EditRunConfigurationRemoteExampleTestDebug`
-        - ![Settings/EditRunConfigurationRemoteExampleTestDebug](/images/photos/PHPStorm/Settings/EditRunConfigurationRemoteExampleTestDebug.png)
+    - ![Settings/BuildDeploymentConnectionMappings](/images/photos/PHPStorm/Settings/BuildDeploymentConnectionMappings.png)
 
-    - `Settings/LangsPHPDebug`
-        - ![Settings/LangsPHPDebug](/images/photos/PHPStorm/Settings/LangsPHPDebug.png)
+  - `Settings/BuildDeploymentDebugger`
 
-    - `Settings/LangsPHPInterpreters`
-        - ![Settings/LangsPHPInterpreters](/images/photos/PHPStorm/Settings/LangsPHPInterpreters.png)
+    - ![Settings/BuildDeploymentDebugger](/images/photos/PHPStorm/Settings/BuildDeploymentDebugger.png)
 
-    - `Settings/LangsPHPPHPUnit`
-        - ![Settings/LangsPHPPHPUnit](/images/photos/PHPStorm/Settings/LangsPHPPHPUnit.png)
+  - `Settings/EditRunConfigurationRemoteWebDebug`
 
-    - `Settings/LangsPHPServers`
-        - ![Settings/LangsPHPServers](/images/photos/PHPStorm/Settings/LangsPHPServers.png)
+    - ![Settings/EditRunConfigurationRemoteWebDebug](/images/photos/PHPStorm/Settings/EditRunConfigurationRemoteWebDebug.png)
 
-    - `RemoteHost`
-        To switch on this view, go to: `Menu/Tools/Deployment/Browse Remote Host`.
-        - ![RemoteHost](/images/photos/PHPStorm/RemoteHost.png)
+  - `Settings/EditRunConfigurationRemoteExampleTestDebug`
 
-    - `RemoteWebDebug`
-        - ![DebugRemoteOn](/images/photos/PHPStorm/DebugRemoteOn.png)
+    - ![Settings/EditRunConfigurationRemoteExampleTestDebug](/images/photos/PHPStorm/Settings/EditRunConfigurationRemoteExampleTestDebug.png)
 
-    - `EditRunConfigurationRemoteWebDebug`
-        Go to: `Menu/Run/Edit Configurations`.
-        - ![EditRunConfigurationRemoteWebDebug](/images/photos/PHPStorm/Settings/EditRunConfigurationRemoteWebDebug.png)
+  - `Settings/LangsPHPDebug`
 
-    - `EditRunConfigurationRemoteExampleTestDebug`
-        Go to: `Menu/Run/Edit Configurations`.
-        - ![EditRunConfigurationRemoteExampleTestDebug](/images/photos/PHPStorm/Settings/EditRunConfigurationRemoteExampleTestDebug.png)
+    - ![Settings/LangsPHPDebug](/images/photos/PHPStorm/Settings/LangsPHPDebug.png)
 
-    - `WindowsFirewallAllowedApps`
-        Go to: `Control Panel\All Control Panel Items\Windows Firewall\Allowed apps`.
-        - ![WindowsFirewallAllowedApps.png](/images/photos/PHPStorm/Settings/WindowsFirewallAllowedApps.png)
+  - `Settings/LangsPHPInterpreters`
 
-    - `hosts`
-        Edit: `C:\Windows\System32\drivers\etc\hosts`.
-        - ![WindowsFirewallAllowedApps.png](/images/photos/PHPStorm/Settings/hosts.png)
+    - ![Settings/LangsPHPInterpreters](/images/photos/PHPStorm/Settings/LangsPHPInterpreters.png)
 
-        - [Enable xDebug on php-fpm](#enablePhpXdebug)
+  - `Settings/LangsPHPPHPUnit`
 
+    - ![Settings/LangsPHPPHPUnit](/images/photos/PHPStorm/Settings/LangsPHPPHPUnit.png)
 
+  - `Settings/LangsPHPServers`
 
-<a name="Usage"></a>
+    - ![Settings/LangsPHPServers](/images/photos/PHPStorm/Settings/LangsPHPServers.png)
+
+  - `RemoteHost` To switch on this view, go to: `Menu/Tools/Deployment/Browse Remote Host`.
+
+    - ![RemoteHost](/images/photos/PHPStorm/RemoteHost.png)
+
+  - `RemoteWebDebug`
+
+    - ![DebugRemoteOn](/images/photos/PHPStorm/DebugRemoteOn.png)
+
+  - `EditRunConfigurationRemoteWebDebug` Go to: `Menu/Run/Edit Configurations`.
+
+    - ![EditRunConfigurationRemoteWebDebug](/images/photos/PHPStorm/Settings/EditRunConfigurationRemoteWebDebug.png)
+
+  - `EditRunConfigurationRemoteExampleTestDebug` Go to: `Menu/Run/Edit Configurations`.
+
+    - ![EditRunConfigurationRemoteExampleTestDebug](/images/photos/PHPStorm/Settings/EditRunConfigurationRemoteExampleTestDebug.png)
+
+  - `WindowsFirewallAllowedApps` Go to: `Control Panel\All Control Panel Items\Windows Firewall\Allowed apps`.
+
+    - ![WindowsFirewallAllowedApps.png](/images/photos/PHPStorm/Settings/WindowsFirewallAllowedApps.png)
+
+  - `hosts` Edit: `C:\Windows\System32\drivers\etc\hosts`.
+
+    - ![WindowsFirewallAllowedApps.png](/images/photos/PHPStorm/Settings/hosts.png)
+
+    - [Enable xDebug on php-fpm](#enablePhpXdebug)
+
+[]()
+
 ## Usage
 
-<a name="UsagePHPStormRunExampleTest"></a>
-### Run ExampleTest
-- right-click on `tests/ExampleTest.php`
-    - Select: `Run 'ExampleTest.php'` or `Ctrl+Shift+F10`.
-    - Should pass!! You just ran a remote test via SSH!
+[]()
 
-<a name="UsagePHPStormDebugExampleTest"></a>
+### Run ExampleTest
+
+- right-click on `tests/ExampleTest.php`
+
+  - Select: `Run 'ExampleTest.php'` or `Ctrl+Shift+F10`.
+  - Should pass!! You just ran a remote test via SSH!
+
+[]()
+
 ### Debug ExampleTest
+
 - Open to edit: `tests/ExampleTest.php`
 - Add a BreakPoint on line 16: `$this->visit('/')`
 - right-click on `tests/ExampleTest.php`
-    - Select: `Debug 'ExampleTest.php'`.
-    - Should have stopped at the BreakPoint!! You are now debugging locally against a remote Laravel project via SSH!
-    - ![Remote Test Debugging Success](/images/photos/PHPStorm/RemoteTestDebuggingSuccess.png)
 
+  - Select: `Debug 'ExampleTest.php'`.
+  - Should have stopped at the BreakPoint!! You are now debugging locally against a remote Laravel project via SSH!
+  - ![Remote Test Debugging Success](/images/photos/PHPStorm/RemoteTestDebuggingSuccess.png)
 
-<a name="UsagePHPStormDebugSite"></a>
+[]()
+
 ### Debug WebSite
-- In case xDebug is disabled, from the `laradock` folder run:
-`.php-fpm/xdebug start`.
-    - To switch xdebug off, run:
-`.php-fpm/xdebug stop`
+
+- In case xDebug is disabled, from the `laradock` folder run: `.php-fpm/xdebug start`.
+
+  - To switch xdebug off, run: `.php-fpm/xdebug stop`
 
 - Start Remote Debugging
-    - ![DebugRemoteOn](/images/photos/PHPStorm/DebugRemoteOn.png)
+
+  - ![DebugRemoteOn](/images/photos/PHPStorm/DebugRemoteOn.png)
 
 - Open to edit: `bootstrap/app.php`
+
 - Add a BreakPoint on line 14: `$app = new Illuminate\Foundation\Application(`
 - Reload [Laravel Site](http://laravel/)
-    - Should have stopped at the BreakPoint!! You are now debugging locally against a remote Laravel project via SSH!
-    - ![Remote Debugging Success](/images/photos/PHPStorm/RemoteDebuggingSuccess.png)
 
+  - Should have stopped at the BreakPoint!! You are now debugging locally against a remote Laravel project via SSH!
+  - ![Remote Debugging Success](/images/photos/PHPStorm/RemoteDebuggingSuccess.png)
 
-<a name="SSHintoWorkspace"></a>
+[]()
+
 ## Let's shell into workspace
-Assuming that you are in laradock folder, type:
-`ssh -i workspace/insecure_id_rsa -p2222 root@laravel`
-**Cha Ching!!!!**
-- `workspace/insecure_id_rsa.ppk` may become corrupted. In which case:
-    - fire up `puttygen`
-    - import `workspace/insecure_id_rsa`
-    - save private key to `workspace/insecure_id_rsa.ppk`
 
-<a name="InstallKiTTY"></a>
+Assuming that you are in laradock folder, type: `ssh -i workspace/insecure_id_rsa -p2222 root@laravel` **Cha Ching!!!!**
+
+- `workspace/insecure_id_rsa.ppk` may become corrupted. In which case:
+
+  - fire up `puttygen`
+  - import `workspace/insecure_id_rsa`
+  - save private key to `workspace/insecure_id_rsa.ppk`
+
+[]()
 
 ### KiTTY
+
 [Kitty](http://www.9bis.net/kitty/) KiTTY is a fork from version 0.67 of PuTTY.
 
 - Here are some settings that are working for me:
-    - ![Session](/images/photos/KiTTY/Session.png)
-    - ![Terminal](/images/photos/KiTTY/Terminal.png)
-    - ![Window](/images/photos/KiTTY/Window.png)
-    - ![WindowAppearance](/images/photos/KiTTY/WindowAppearance.png)
-    - ![Connection](/images/photos/KiTTY/Connection.png)
-    - ![ConnectionData](/images/photos/KiTTY/ConnectionData.png)
-    - ![ConnectionSSH](/images/photos/KiTTY/ConnectionSSH.png)
-    - ![ConnectionSSHAuth](/images/photos/KiTTY/ConnectionSSHAuth.png)
-    - ![TerminalShell](/images/photos/KiTTY/TerminalShell.png)
 
-
+  - ![Session](/images/photos/KiTTY/Session.png)
+  - ![Terminal](/images/photos/KiTTY/Terminal.png)
+  - ![Window](/images/photos/KiTTY/Window.png)
+  - ![WindowAppearance](/images/photos/KiTTY/WindowAppearance.png)
+  - ![Connection](/images/photos/KiTTY/Connection.png)
+  - ![ConnectionData](/images/photos/KiTTY/ConnectionData.png)
+  - ![ConnectionSSH](/images/photos/KiTTY/ConnectionSSH.png)
+  - ![ConnectionSSHAuth](/images/photos/KiTTY/ConnectionSSHAuth.png)
+  - ![TerminalShell](/images/photos/KiTTY/TerminalShell.png)

@@ -5,7 +5,7 @@
 ### Application Path
 # Point to your application code, will be available at `/var/www`.
 
-APPLICATION=../public/
+APPLICATION=../
 
 ### Data Path:
 # For all storage systems.
@@ -239,4 +239,3 @@ PHP_IDE_CONFIG=serverName=laradock
 # Fix for windows users to make sure the application path works.
 
 COMPOSE_CONVERT_WINDOWS_PATHS=1
-
