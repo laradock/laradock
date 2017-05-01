@@ -202,7 +202,7 @@ RUN if [ ${INSTALL_MYSQLI} = true ]; then \
 
 ARG INSTALL_TOKENIZER=false
 RUN if [ ${INSTALL_TOKENIZER} = true ]; then \
-     docker-php-ext-install tokenizer \
+    docker-php-ext-install tokenizer \
 ;fi
 
 #####################################
