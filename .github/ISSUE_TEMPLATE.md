@@ -1,10 +1,11 @@
 ### Info:
 - Docker version (`$ docker --version`):
 - Laradock commit (`$ git rev-parse HEAD`):
-- System:
+- System (`place x between the [ ]`):
 	- [ ] Mac
 	- [ ] PC
 	- [ ] Linux
+	- Info:
 
 ### Issue:
 ##### What seems to be going wrong?
