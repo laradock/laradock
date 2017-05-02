@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+#### halt script on error
+set -e
+
 #### Build the Docker Images
 if [ -n "${PHP_VERSION}" ]; then
     cp env-example .env
