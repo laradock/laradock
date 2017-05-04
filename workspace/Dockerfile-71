@@ -376,7 +376,7 @@ RUN if [ ${INSTALL_LINUXBREW} = true ]; then \
       libexpat-dev libncurses-dev && \
 
     # Install the Linuxbrew
-    git clone https://github.com/Homebrew/linuxbrew.git ~/.linuxbrew && \
+    git clone --depth=1 https://github.com/Homebrew/linuxbrew.git ~/.linuxbrew && \
 
     echo "" >> ~/.bashrc && \
     echo 'export PKG_CONFIG_PATH"=/usr/local/lib/pkgconfig:/usr/local/lib64/pkgconfig:/usr/lib64/pkgconfig:/usr/lib/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib64/pkgconfig:/usr/share/pkgconfig:$PKG_CONFIG_PATH"' >> ~/.bashrc && \
