@@ -3,6 +3,12 @@
 #### halt script on error
 set -e
 
+echo '##### Print docker version'
+docker --version
+
+echo '##### Print environment'
+env | sort
+
 #### Build the Docker Images
 if [ -n "${PHP_VERSION}" ]; then
     cp env-example .env
