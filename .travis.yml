@@ -10,6 +10,11 @@ env:
     - PHP_VERSION=71
     - HUGO_VERSION=0.20.2
 
+# Installing a newer Docker version
+before_install:
+  - sudo apt-get update
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-engine
+
 script: ./travis-build.sh
 
 deploy:
