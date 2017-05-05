@@ -80,5 +80,5 @@ esac
 
 if [ "$tail" != "" ]
 then
-    docker-compose -f $script_dir/docker-compose.yml exec --user=laradock workspace /bin/bash -c "$tail"
+    cd ${script_dir} && docker-compose exec --user=laradock workspace /bin/bash -c "$tail"
 fi
