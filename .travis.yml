@@ -4,10 +4,39 @@ services:
   - docker
 
 env:
-  matrix:
-    - PHP_VERSION=56
-    - PHP_VERSION=70
-    - PHP_VERSION=71
+  matrix:  
+    - PHP_VERSION=56 BUILD_SERVICE="applications blackfire minio percona nginx caddy apache2 mysql mariadb phpmyadmin postgres postgres-postgis pgadmin neo4j mongo redis"
+    - PHP_VERSION=70 BUILD_SERVICE="applications blackfire minio percona nginx caddy apache2 mysql mariadb phpmyadmin postgres postgres-postgis pgadmin neo4j mongo redis"
+    - PHP_VERSION=71 BUILD_SERVICE="applications blackfire minio percona nginx caddy apache2 mysql mariadb phpmyadmin postgres postgres-postgis pgadmin neo4j mongo redis"
+
+    - PHP_VERSION=56 BUILD_SERVICE=workspace
+    - PHP_VERSION=70 BUILD_SERVICE=workspace
+    - PHP_VERSION=71 BUILD_SERVICE=workspace
+
+    - PHP_VERSION=56 BUILD_SERVICE=php-fpm
+    - PHP_VERSION=70 BUILD_SERVICE=php-fpm
+    - PHP_VERSION=71 BUILD_SERVICE=php-fpm
+
+    - PHP_VERSION=56 BUILD_SERVICE="php-worker hhvm"
+    - PHP_VERSION=70 BUILD_SERVICE="php-worker hhvm"
+    - PHP_VERSION=71 BUILD_SERVICE="php-worker hhvm"
+
+    - PHP_VERSION=56 BUILD_SERVICE=mssql
+    - PHP_VERSION=70 BUILD_SERVICE=mssql
+    - PHP_VERSION=71 BUILD_SERVICE=mssql
+
+    - PHP_VERSION=56 BUILD_SERVICE=rethinkdb
+    - PHP_VERSION=70 BUILD_SERVICE=rethinkdb
+    - PHP_VERSION=71 BUILD_SERVICE=rethinkdb
+
+    - PHP_VERSION=56 BUILD_SERVICE=aerospike
+    - PHP_VERSION=70 BUILD_SERVICE=aerospike
+    - PHP_VERSION=71 BUILD_SERVICE=aerospike
+
+    - PHP_VERSION=56 BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq adminer elasticsearch certbot mailhog selenium jenkins proxy proxy2 balancer"
+    - PHP_VERSION=70 BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq adminer elasticsearch certbot mailhog selenium jenkins proxy proxy2 balancer"
+    - PHP_VERSION=71 BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq adminer elasticsearch certbot mailhog selenium jenkins proxy proxy2 balancer"
+
     - HUGO_VERSION=0.20.2
 
 # Installing a newer Docker version
