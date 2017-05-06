@@ -15,7 +15,7 @@ if [ -n "${PHP_VERSION}" ]; then
     sed -i -- "s/PHP_VERSION=.*/PHP_VERSION=${PHP_VERSION}/g" .env
     sed -i -- 's/=false/=true/g' .env
     cat .env
-    docker-compose build
+    docker-compose build ${BUILD_SERVICE}
     docker images
 fi
 
