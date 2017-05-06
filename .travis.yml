@@ -5,9 +5,9 @@ services:
 
 env:
   matrix:  
-    - PHP_VERSION=56 BUILD_SERVICE="applications blackfire minio percona"
-    - PHP_VERSION=70 BUILD_SERVICE="applications blackfire minio percona"
-    - PHP_VERSION=71 BUILD_SERVICE="applications blackfire minio percona"
+    - PHP_VERSION=56 BUILD_SERVICE="applications blackfire minio percona nginx caddy apache2"
+    - PHP_VERSION=70 BUILD_SERVICE="applications blackfire minio percona nginx caddy apache2"
+    - PHP_VERSION=71 BUILD_SERVICE="applications blackfire minio percona nginx caddy apache2"
 
     - PHP_VERSION=56 BUILD_SERVICE=workspace
     - PHP_VERSION=70 BUILD_SERVICE=workspace
@@ -21,10 +21,6 @@ env:
     - PHP_VERSION=70 BUILD_SERVICE="php-worker hhvm"
     - PHP_VERSION=71 BUILD_SERVICE="php-worker hhvm"
 
-    - PHP_VERSION=56 BUILD_SERVICE="nginx caddy apache2"
-    - PHP_VERSION=70 BUILD_SERVICE="nginx caddy apache2"
-    - PHP_VERSION=71 BUILD_SERVICE="nginx caddy apache2"
-
     - PHP_VERSION=56 BUILD_SERVICE="mysql mariadb phpmyadmin"
     - PHP_VERSION=70 BUILD_SERVICE="mysql mariadb phpmyadmin"
     - PHP_VERSION=71 BUILD_SERVICE="mysql mariadb phpmyadmin"
@@ -33,13 +29,9 @@ env:
     - PHP_VERSION=70 BUILD_SERVICE=mssql
     - PHP_VERSION=71 BUILD_SERVICE=mssql
 
-    - PHP_VERSION=56 BUILD_SERVICE="postgres postgres-postgis pgadmin"
-    - PHP_VERSION=70 BUILD_SERVICE="postgres postgres-postgis pgadmin"
-    - PHP_VERSION=71 BUILD_SERVICE="postgres postgres-postgis pgadmin"
-
-    - PHP_VERSION=56 BUILD_SERVICE="neo4j mongo redis"
-    - PHP_VERSION=70 BUILD_SERVICE="neo4j mongo redis"
-    - PHP_VERSION=71 BUILD_SERVICE="neo4j mongo redis"
+    - PHP_VERSION=56 BUILD_SERVICE="postgres postgres-postgis pgadmin neo4j mongo redis"
+    - PHP_VERSION=70 BUILD_SERVICE="postgres postgres-postgis pgadmin neo4j mongo redis"
+    - PHP_VERSION=71 BUILD_SERVICE="postgres postgres-postgis pgadmin neo4j mongo redis"
 
     - PHP_VERSION=56 BUILD_SERVICE=rethinkdb
     - PHP_VERSION=70 BUILD_SERVICE=rethinkdb
@@ -49,21 +41,9 @@ env:
     - PHP_VERSION=70 BUILD_SERVICE=aerospike
     - PHP_VERSION=71 BUILD_SERVICE=aerospike
 
-    - PHP_VERSION=56 BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq"
-    - PHP_VERSION=70 BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq"
-    - PHP_VERSION=71 BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq"
-
-    - PHP_VERSION=56 BUILD_SERVICE="adminer elasticsearch certbot mailhog"
-    - PHP_VERSION=70 BUILD_SERVICE="adminer elasticsearch certbot mailhog"
-    - PHP_VERSION=71 BUILD_SERVICE="adminer elasticsearch certbot mailhog"
-
-    - PHP_VERSION=56 BUILD_SERVICE="selenium jenkins"
-    - PHP_VERSION=70 BUILD_SERVICE="selenium jenkins"
-    - PHP_VERSION=71 BUILD_SERVICE="selenium jenkins"
-
-    - PHP_VERSION=56 BUILD_SERVICE="proxy proxy2 balancer"
-    - PHP_VERSION=70 BUILD_SERVICE="proxy proxy2 balancer"
-    - PHP_VERSION=71 BUILD_SERVICE="proxy proxy2 balancer"
+    - PHP_VERSION=56 BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq adminer elasticsearch certbot mailhog selenium jenkins proxy proxy2 balancer"
+    - PHP_VERSION=70 BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq adminer elasticsearch certbot mailhog selenium jenkins proxy proxy2 balancer"
+    - PHP_VERSION=71 BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq adminer elasticsearch certbot mailhog selenium jenkins proxy proxy2 balancer"
 
     - HUGO_VERSION=0.20.2
 
