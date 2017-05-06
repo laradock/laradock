@@ -5,9 +5,9 @@ services:
 
 env:
   matrix:  
-    - PHP_VERSION=56 BUILD_SERVICE=applications
-    - PHP_VERSION=70 BUILD_SERVICE=applications
-    - PHP_VERSION=71 BUILD_SERVICE=applications
+    - PHP_VERSION=56 BUILD_SERVICE="applications blackfire minio percona"
+    - PHP_VERSION=70 BUILD_SERVICE="applications blackfire minio percona"
+    - PHP_VERSION=71 BUILD_SERVICE="applications blackfire minio percona"
 
     - PHP_VERSION=56 BUILD_SERVICE=workspace
     - PHP_VERSION=70 BUILD_SERVICE=workspace
@@ -17,137 +17,53 @@ env:
     - PHP_VERSION=70 BUILD_SERVICE=php-fpm
     - PHP_VERSION=71 BUILD_SERVICE=php-fpm
 
-    - PHP_VERSION=56 BUILD_SERVICE=php-worker
-    - PHP_VERSION=70 BUILD_SERVICE=php-worker
-    - PHP_VERSION=71 BUILD_SERVICE=php-worker
+    - PHP_VERSION=56 BUILD_SERVICE="php-worker hhvm"
+    - PHP_VERSION=70 BUILD_SERVICE="php-worker hhvm"
+    - PHP_VERSION=71 BUILD_SERVICE="php-worker hhvm"
 
-    - PHP_VERSION=56 BUILD_SERVICE=nginx
-    - PHP_VERSION=70 BUILD_SERVICE=nginx
-    - PHP_VERSION=71 BUILD_SERVICE=nginx
+    - PHP_VERSION=56 BUILD_SERVICE="nginx caddy apache2"
+    - PHP_VERSION=70 BUILD_SERVICE="nginx caddy apache2"
+    - PHP_VERSION=71 BUILD_SERVICE="nginx caddy apache2"
 
-    - PHP_VERSION=56 BUILD_SERVICE=blackfire
-    - PHP_VERSION=70 BUILD_SERVICE=blackfire
-    - PHP_VERSION=71 BUILD_SERVICE=blackfire
-
-    - PHP_VERSION=56 BUILD_SERVICE=apache2
-    - PHP_VERSION=70 BUILD_SERVICE=apache2
-    - PHP_VERSION=71 BUILD_SERVICE=apache2
-
-    - PHP_VERSION=56 BUILD_SERVICE=hhvm
-    - PHP_VERSION=70 BUILD_SERVICE=hhvm
-    - PHP_VERSION=71 BUILD_SERVICE=hhvm
-
-    - PHP_VERSION=56 BUILD_SERVICE=minio
-    - PHP_VERSION=70 BUILD_SERVICE=minio
-    - PHP_VERSION=71 BUILD_SERVICE=minio
-
-    - PHP_VERSION=56 BUILD_SERVICE=mysql
-    - PHP_VERSION=70 BUILD_SERVICE=mysql
-    - PHP_VERSION=71 BUILD_SERVICE=mysql
-
-    - PHP_VERSION=56 BUILD_SERVICE=percona
-    - PHP_VERSION=70 BUILD_SERVICE=percona
-    - PHP_VERSION=71 BUILD_SERVICE=percona
+    - PHP_VERSION=56 BUILD_SERVICE="mysql mariadb phpmyadmin"
+    - PHP_VERSION=70 BUILD_SERVICE="mysql mariadb phpmyadmin"
+    - PHP_VERSION=71 BUILD_SERVICE="mysql mariadb phpmyadmin"
 
     - PHP_VERSION=56 BUILD_SERVICE=mssql
     - PHP_VERSION=70 BUILD_SERVICE=mssql
     - PHP_VERSION=71 BUILD_SERVICE=mssql
 
-    - PHP_VERSION=56 BUILD_SERVICE=mariadb
-    - PHP_VERSION=70 BUILD_SERVICE=mariadb
-    - PHP_VERSION=71 BUILD_SERVICE=mariadb
+    - PHP_VERSION=56 BUILD_SERVICE="postgres postgres-postgis pgadmin"
+    - PHP_VERSION=70 BUILD_SERVICE="postgres postgres-postgis pgadmin"
+    - PHP_VERSION=71 BUILD_SERVICE="postgres postgres-postgis pgadmin"
 
-    - PHP_VERSION=56 BUILD_SERVICE=postgres
-    - PHP_VERSION=70 BUILD_SERVICE=postgres
-    - PHP_VERSION=71 BUILD_SERVICE=postgres
-
-    - PHP_VERSION=56 BUILD_SERVICE=postgres-postgis
-    - PHP_VERSION=70 BUILD_SERVICE=postgres-postgis
-    - PHP_VERSION=71 BUILD_SERVICE=postgres-postgis
-
-    - PHP_VERSION=56 BUILD_SERVICE=neo4j
-    - PHP_VERSION=70 BUILD_SERVICE=neo4j
-    - PHP_VERSION=71 BUILD_SERVICE=neo4j
-
-    - PHP_VERSION=56 BUILD_SERVICE=mongo
-    - PHP_VERSION=70 BUILD_SERVICE=mongo
-    - PHP_VERSION=71 BUILD_SERVICE=mongo
+    - PHP_VERSION=56 BUILD_SERVICE="neo4j mongo redis"
+    - PHP_VERSION=70 BUILD_SERVICE="neo4j mongo redis"
+    - PHP_VERSION=71 BUILD_SERVICE="neo4j mongo redis"
 
     - PHP_VERSION=56 BUILD_SERVICE=rethinkdb
     - PHP_VERSION=70 BUILD_SERVICE=rethinkdb
     - PHP_VERSION=71 BUILD_SERVICE=rethinkdb
 
-    - PHP_VERSION=56 BUILD_SERVICE=redis
-    - PHP_VERSION=70 BUILD_SERVICE=redis
-    - PHP_VERSION=71 BUILD_SERVICE=redis
-
     - PHP_VERSION=56 BUILD_SERVICE=aerospike
     - PHP_VERSION=70 BUILD_SERVICE=aerospike
     - PHP_VERSION=71 BUILD_SERVICE=aerospike
 
-    - PHP_VERSION=56 BUILD_SERVICE=memcached
-    - PHP_VERSION=70 BUILD_SERVICE=memcached
-    - PHP_VERSION=71 BUILD_SERVICE=memcached
+    - PHP_VERSION=56 BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq"
+    - PHP_VERSION=70 BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq"
+    - PHP_VERSION=71 BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq"
 
-    - PHP_VERSION=56 BUILD_SERVICE=beanstalkd
-    - PHP_VERSION=70 BUILD_SERVICE=beanstalkd
-    - PHP_VERSION=71 BUILD_SERVICE=beanstalkd
+    - PHP_VERSION=56 BUILD_SERVICE="adminer elasticsearch certbot mailhog"
+    - PHP_VERSION=70 BUILD_SERVICE="adminer elasticsearch certbot mailhog"
+    - PHP_VERSION=71 BUILD_SERVICE="adminer elasticsearch certbot mailhog"
 
-    - PHP_VERSION=56 BUILD_SERVICE=rabbitmq
-    - PHP_VERSION=70 BUILD_SERVICE=rabbitmq
-    - PHP_VERSION=71 BUILD_SERVICE=rabbitmq
+    - PHP_VERSION=56 BUILD_SERVICE="selenium jenkins"
+    - PHP_VERSION=70 BUILD_SERVICE="selenium jenkins"
+    - PHP_VERSION=71 BUILD_SERVICE="selenium jenkins"
 
-    - PHP_VERSION=56 BUILD_SERVICE=beanstalkd-console
-    - PHP_VERSION=70 BUILD_SERVICE=beanstalkd-console
-    - PHP_VERSION=71 BUILD_SERVICE=beanstalkd-console
-
-    - PHP_VERSION=56 BUILD_SERVICE=caddy
-    - PHP_VERSION=70 BUILD_SERVICE=caddy
-    - PHP_VERSION=71 BUILD_SERVICE=caddy
-
-    - PHP_VERSION=56 BUILD_SERVICE=phpmyadmin
-    - PHP_VERSION=70 BUILD_SERVICE=phpmyadmin
-    - PHP_VERSION=71 BUILD_SERVICE=phpmyadmin
-
-    - PHP_VERSION=56 BUILD_SERVICE=adminer
-    - PHP_VERSION=70 BUILD_SERVICE=adminer
-    - PHP_VERSION=71 BUILD_SERVICE=adminer
-
-    - PHP_VERSION=56 BUILD_SERVICE=pgadmin
-    - PHP_VERSION=70 BUILD_SERVICE=pgadmin
-    - PHP_VERSION=71 BUILD_SERVICE=pgadmin
-
-    - PHP_VERSION=56 BUILD_SERVICE=elasticsearch
-    - PHP_VERSION=70 BUILD_SERVICE=elasticsearch
-    - PHP_VERSION=71 BUILD_SERVICE=elasticsearch
-
-    - PHP_VERSION=56 BUILD_SERVICE=certbot
-    - PHP_VERSION=70 BUILD_SERVICE=certbot
-    - PHP_VERSION=71 BUILD_SERVICE=certbot
-
-    - PHP_VERSION=56 BUILD_SERVICE=mailhog
-    - PHP_VERSION=70 BUILD_SERVICE=mailhog
-    - PHP_VERSION=71 BUILD_SERVICE=mailhog
-
-    - PHP_VERSION=56 BUILD_SERVICE=selenium
-    - PHP_VERSION=70 BUILD_SERVICE=selenium
-    - PHP_VERSION=71 BUILD_SERVICE=selenium
-
-    - PHP_VERSION=56 BUILD_SERVICE=proxy
-    - PHP_VERSION=70 BUILD_SERVICE=proxy
-    - PHP_VERSION=71 BUILD_SERVICE=proxy
-
-    - PHP_VERSION=56 BUILD_SERVICE=proxy2
-    - PHP_VERSION=70 BUILD_SERVICE=proxy2
-    - PHP_VERSION=71 BUILD_SERVICE=proxy2
-
-    - PHP_VERSION=56 BUILD_SERVICE=balancer
-    - PHP_VERSION=70 BUILD_SERVICE=balancer
-    - PHP_VERSION=71 BUILD_SERVICE=balancer
-
-    - PHP_VERSION=56 BUILD_SERVICE=jenkins
-    - PHP_VERSION=70 BUILD_SERVICE=jenkins
-    - PHP_VERSION=71 BUILD_SERVICE=jenkins
+    - PHP_VERSION=56 BUILD_SERVICE="proxy proxy2 balancer"
+    - PHP_VERSION=70 BUILD_SERVICE="proxy proxy2 balancer"
+    - PHP_VERSION=71 BUILD_SERVICE="proxy proxy2 balancer"
 
     - HUGO_VERSION=0.20.2
 
