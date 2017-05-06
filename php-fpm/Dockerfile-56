@@ -45,7 +45,7 @@ MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 ARG INSTALL_SOAP=false
 RUN if [ ${INSTALL_SOAP} = true ]; then \
     # Install the soap extension
-    apt-get -y update && \
+    apt-get update -yqq && \
     apt-get -y install libxml2-dev php-soap && \
     docker-php-ext-install soap \
 ;fi
@@ -219,7 +219,7 @@ RUN if [ ${INSTALL_INTL} = true ]; then \
 ARG INSTALL_GHOSTSCRIPT=false
 RUN if [ ${INSTALL_GHOSTSCRIPT} = true ]; then \
     # Install the ghostscript extension for PDF editing
-    apt-get update && \
+    apt-get update -yqq && \
     apt-get install -y poppler-utils ghostscript \
 ;fi
 
