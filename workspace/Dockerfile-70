@@ -458,8 +458,8 @@ RUN if [ ${INSTALL_MSSQL} = true ]; then \
     # extensions:
     #####################################
 
-    pecl install sqlsrv-4.0.6 && \
-    pecl install pdo_sqlsrv-4.0.6 && \
+    pecl install sqlsrv-4.0.8 && \
+    pecl install pdo_sqlsrv-4.0.8 && \
 
     #####################################
     # Set locales for the container
