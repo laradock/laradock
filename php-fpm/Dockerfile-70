@@ -303,8 +303,8 @@ RUN if [ ${INSTALL_MSSQL} = true ]; then \
     apt-get install -y locales \
     && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
     && locale-gen \
-    && echo "extension=sqlsrv.so" > /etc/php/7.0/cli/conf.d/20-sqlsrv.ini \
-    && echo "extension=pdo_sqlsrv.so" > /etc/php/7.0/cli/conf.d/20-pdo_sqlsrv.ini \
+    && echo "extension=sqlsrv.so" > /usr/local/etc/php/conf.d/20-sqlsrv.ini \
+    && echo "extension=pdo_sqlsrv.so" > /usr/local/etc/php/conf.d/20-pdo_sqlsrv.ini \
 ;fi
 
 #
@@ -313,7 +313,7 @@ RUN if [ ${INSTALL_MSSQL} = true ]; then \
 #--------------------------------------------------------------------------
 #
 
-ADD ./laravel.ini /usr/local/etc/php/conf.d
+ADD ./laravel.ini /usr/local/etc/php/conf.d/
 ADD ./laravel.pool.conf /usr/local/etc/php-fpm.d/
 
 #RUN rm -r /var/lib/apt/lists/*
