@@ -30,7 +30,7 @@ if [ -n "${HUGO_VERSION}" ]; then
     mv ./${HUGO_BIN}/${HUGO_BIN} $HOME/bin/hugo
 
     # Remove existing docs
-    rm -r ./docs
+    rm -rf ./docs
 
     # Build docs
     cd DOCUMENTATION
