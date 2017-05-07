@@ -278,13 +278,13 @@ RUN if [ ${INSTALL_YARN} = true ]; then \
 #####################################
 USER root
 
-ARG INSTALL_AEROSPIKE_EXTENSION=true
-ENV INSTALL_AEROSPIKE_EXTENSION ${INSTALL_AEROSPIKE_EXTENSION}
+ARG INSTALL_AEROSPIKE=true
+ENV INSTALL_AEROSPIKE ${INSTALL_AEROSPIKE}
 
 # Copy aerospike configration for remote debugging
 COPY ./aerospike.ini /etc/php/7.0/cli/conf.d/aerospike.ini
 
-RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = true ]; then \
+RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
     # Install the php aerospike extension
     curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/aerospike/aerospike-client-php/archive/3.4.14.tar.gz" \
     && mkdir -p aerospike-client-php \
@@ -298,7 +298,7 @@ RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = true ]; then \
     && rm /tmp/aerospike-client-php.tar.gz \
 ;fi
 
-RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = false ]; then \
+RUN if [ ${INSTALL_AEROSPIKE} = false ]; then \
     rm /etc/php/7.0/cli/conf.d/aerospike.ini \
 ;fi
 
@@ -307,10 +307,10 @@ RUN if [ ${INSTALL_AEROSPIKE_EXTENSION} = false ]; then \
 #####################################
 USER root
 
-ARG INSTALL_V8JS_EXTENSION=false
-ENV INSTALL_V8JS_EXTENSION ${INSTALL_V8JS_EXTENSION}
+ARG INSTALL_V8JS=false
+ENV INSTALL_V8JS ${INSTALL_V8JS}
 
-RUN if [ ${INSTALL_V8JS_EXTENSION} = true ]; then \
+RUN if [ ${INSTALL_V8JS} = true ]; then \
     # Install the php V8JS extension
     add-apt-repository -y ppa:pinepain/libv8-5.4 \
     && apt-get update -yqq \
