@@ -145,6 +145,10 @@ If you are using **Docker Toolbox** (VM), do one of the following:
 
 <br>
 
+We recommend using a Docker version which is newer than 1.13. 
+
+<br>
+
 >**Warning:** If you used an older version of Laradock it's highly recommended to rebuild the containers you need to use [see how you rebuild a container](#Build-Re-build-Containers) in order to prevent as much errors as possible.
 
 <br>
@@ -207,6 +211,4 @@ DB_HOST=mysql
 *If you want to install Laravel as PHP project, see [How to Install Laravel in a Docker Container](#Install-Laravel).*
 
 <br>
-5 - Open your browser and visit your localhost address `http://localhost/`. If you followed the multiple projects setup, you can visit `http://project-1.dev/` and `http://project-2.dev/`. But first don't 
-
-
+5 - Open your browser and visit your localhost address `http://localhost/`. If you followed the multiple projects setup, you can visit `http://project-1.dev/` and `http://project-2.dev/`.
