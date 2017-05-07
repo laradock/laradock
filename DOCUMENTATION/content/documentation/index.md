@@ -1239,11 +1239,11 @@ You are free to modify the `aliases.sh` as you see fit, adding your own aliases 
 <br>
 a) open the `docker-compose.yml` file
 <br>
-b) search for the `INSTALL_AEROSPIKE_EXTENSION` argument under the Workspace Container
+b) search for the `INSTALL_AEROSPIKE` argument under the Workspace Container
 <br>
 c) set it to `true`
 <br>
-d) search for the `INSTALL_AEROSPIKE_EXTENSION` argument under the PHP-FPM Container
+d) search for the `INSTALL_AEROSPIKE` argument under the PHP-FPM Container
 <br>
 e) set it to `true`
 
@@ -1254,13 +1254,13 @@ It should be like this:
         build:
             context: ./workspace
             args:
-                - INSTALL_AEROSPIKE_EXTENSION=true
+                - INSTALL_AEROSPIKE=true
     ...
     php-fpm:
         build:
             context: ./php-fpm
             args:
-                - INSTALL_AEROSPIKE_EXTENSION=true
+                - INSTALL_AEROSPIKE=true
     ...
 ```
 
