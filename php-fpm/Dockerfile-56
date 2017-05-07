@@ -93,6 +93,17 @@ RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
 ;fi
 
 #####################################
+# Swoole EXTENSION FOR PHP 5
+#####################################
+
+ARG INSTALL_SWOOLE=false
+RUN if [ ${INSTALL_SWOOLE} = true ]; then \
+    # Install Php Swoole Extension
+    pecl install swoole \
+    &&  docker-php-ext-enable swoole \
+;fi
+
+#####################################
 # MongoDB:
 #####################################
 
