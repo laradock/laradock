@@ -153,9 +153,28 @@ You might use the `--no-cache` option if you want full rebuilding (`docker-compo
 
 
 
+<br>
+<a name="Docker-Sync"></a>
+
+## Docker-Sync
+
+Docker on the Mac [is slow](https://github.com/docker/for-mac/issues/77), at the time of writing. Especially for larger projects, this can be a problem. The problem is [older than March 2016](https://forums.docker.com/t/file-access-in-mounted-volumes-extremely-slow-cpu-bound/8076) - as it's a such a long-running issue, we're including it in the docs here. 
+
+The problem originates in bind-mount performance on MacOS. Docker for Mac uses osxfs by default. This is not without reason, it has [a lot of advantages](https://docs.docker.com/docker-for-mac/osxfs/).
+
+Solutions to resolve this issue are easily installed however, we're hoping it'll be fixed by Docker themselves over time. They are currently [adding "cached and delegated" options](https://github.com/docker/for-mac/issues/77#issuecomment-283996750), which is partly available for Docker Edge.
+
+Options are [to switch over to NFS](https://github.com/IFSight/d4m-nfs) which is the simplest. The fastest option is [Docker-Sync "native"](https://github.com/EugenMayer/docker-sync) which is still quite easy to install.
+
+Clone [this repo](https://github.com/EugenMayer/docker-sync-boilerplate) to your machine, copy `default/docker-sync.yml` to your Laradock directory and run `docker-sync-stack start`. Be sure to use `docker-sync-stack clean` to stop and `docker-compose build` to rebuild. More information can be found [in the Docker-sync docs](https://github.com/EugenMayer/docker-sync).
+
+
+
+
 
 <br>
 <a name="Add-Docker-Images"></a>
+
 ## Add more Software (Docker Images)
 
 To add an image (software), just edit the `docker-compose.yml` and add your container details, to do so you need to be familiar with the [docker compose file syntax](https://docs.docker.com/compose/compose-file/).
