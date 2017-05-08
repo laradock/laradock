@@ -17,6 +17,8 @@ RUN curl --silent --show-error --fail --location \
     && mv /usr/bin/caddy /usr/bin/caddy \
     && chmod 0755 /usr/bin/caddy
 
+COPY Caddyfile /etc/Caddyfile
+
 EXPOSE 80 443 2015
 
 WORKDIR /var/www/public
