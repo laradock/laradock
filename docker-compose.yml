@@ -298,7 +298,7 @@ services:
     mongo:
       build: ./mongo
       ports:
-        - "27017:27017"
+        - "${MONGODB_PORT}:27017"
       volumes:
         - ${DATA_SAVE_PATH}/mongo:/data/db
       networks:
@@ -309,7 +309,7 @@ services:
     rethinkdb:
       build: ./rethinkdb
       ports:
-        - "8090:8080"
+        - "${RETHINKDB_PORT}:8080"
       volumes:
         - ${DATA_SAVE_PATH}/rethinkdb:/data/rethinkdb_data
       networks:
@@ -335,10 +335,10 @@ services:
       volumes:
         - ${DATA_SAVE_PATH}/aerospike:/opt/aerospike/data
       ports:
-        - "3000:3000"
-        - "3001:3001"
-        - "3002:3002"
-        - "3003:3003"
+        - "${AEROSPIKE_SERVICE_PORT}:3000"
+        - "${AEROSPIKE_FABRIC_PORT}:3001"
+        - "${AEROSPIKE_HEARTBEAT_PORT}:3002"
+        - "${AEROSPIKE_INFO_PORT}:3003"
       networks:
         - backend
 

@@ -215,6 +215,20 @@ BLACKFIRE_CLIENT_TOKEN=<client_token>
 BLACKFIRE_SERVER_ID=<server_id>
 BLACKFIRE_SERVER_TOKEN=<server_token>
 
+### AEROSPIKE ##########################################################################################################
+
+AEROSPIKE_SERVICE_PORT=3000
+AEROSPIKE_FABRIC_PORT=3001
+AEROSPIKE_HEARTBEAT_PORT=3002
+AEROSPIKE_INFO_PORT=3003
+
+### RETHINKDB ##########################################################################################################
+
+RETHINKDB_PORT=8090
+
+### MONGODB ############################################################################################################
+
+MONGODB_PORT=27017
 
 ##### TO BE CONTINUE .................................
 
