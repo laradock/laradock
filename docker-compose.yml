@@ -568,6 +568,10 @@ services:
       volumes:
         - ${JENKINS_HOME}:/var/jenkins_home
         - /var/run/docker.sock:/var/run/docker.sock
+      networks:
+        - frontend
+        - backend
+
 
 ### Networks Setup ############################################
 
