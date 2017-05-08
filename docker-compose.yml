@@ -194,6 +194,7 @@ services:
         - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       volumes:
         - ${DATA_SAVE_PATH}/mysql:/var/lib/mysql
+        - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
       ports:
         - "${MYSQL_PORT}:3306"
       networks:
