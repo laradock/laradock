@@ -216,12 +216,28 @@ BLACKFIRE_CLIENT_TOKEN=<client_token>
 BLACKFIRE_SERVER_ID=<server_id>
 BLACKFIRE_SERVER_TOKEN=<server_token>
 
+### AEROSPIKE ##########################################################################################################
+
+AEROSPIKE_SERVICE_PORT=3000
+AEROSPIKE_FABRIC_PORT=3001
+AEROSPIKE_HEARTBEAT_PORT=3002
+AEROSPIKE_INFO_PORT=3003
+
+### RETHINKDB ##########################################################################################################
+
+RETHINKDB_PORT=8090
+
+### MONGODB ############################################################################################################
+
+MONGODB_PORT=27017
+
 ### CADDY ##############################################################################################################
 
 CADDY_HOST_HTTP_PORT=80
 CADDY_HOST_HTTPS_PORT=443
 CADDY_HOST_LOG_PATH=./logs/caddy
 CADDY_CUSTOM_CADDYFILE=./caddy/Caddyfile
+
 
 ##### TO BE CONTINUE .................................
 
