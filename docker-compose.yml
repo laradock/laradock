@@ -399,16 +399,15 @@ services:
 
     caddy:
       build: ./caddy
-      ports:
-        - "80:80"
-        - "443:443"
-        - "2015:2015"
       volumes_from:
         - applications
       volumes:
-        - ./caddy/Caddyfile:/etc/Caddyfile
-        - ./logs/caddy:/var/log/caddy
-        - caddy:/root/.caddy
+        - ${CADDY_CUSTOM_CADDYFILE}:/etc/Caddyfile
+        - ${CADDY_HOST_LOG_PATH}:/var/log/caddy
+        - ${DATA_SAVE_PATH}:/root/.caddy
+      ports:
+        - "${CADDY_HOST_HTTP_PORT}:80"
+        - "${CADDY_HOST_HTTPS_PORT}:443"
       depends_on:
         - php-fpm
       networks:
