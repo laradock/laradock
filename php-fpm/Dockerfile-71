@@ -90,6 +90,17 @@ RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
 ;fi
 
 #####################################
+# Swoole EXTENSION FOR PHP 7
+#####################################
+
+ARG INSTALL_SWOOLE=false
+RUN if [ ${INSTALL_SWOOLE} = true ]; then \
+    # Install Php Swoole Extension
+    pecl install swoole \
+    &&  docker-php-ext-enable swoole \
+;fi
+
+#####################################
 # MongoDB:
 #####################################
 
@@ -166,7 +177,7 @@ RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
     # Fix dependencies for PHPUnit within aerospike extension
     apt-get update -yqq && \
     apt-get -y install sudo wget && \
-    
+
     # Install the php aerospike extension
     curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/aerospike/aerospike-client-php/archive/3.4.14.tar.gz" \
     && mkdir -p aerospike-client-php \
