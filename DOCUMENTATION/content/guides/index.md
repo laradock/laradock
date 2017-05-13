@@ -55,6 +55,10 @@ $root@server:~/laravel/ cd laradock
 $root@server:~/laravel/laradock# curl -L https://github.com/docker/compose/releases/download/1.8.0/run.sh > /usr/local/bin/docker-compose
 $root@server:~/chmod +x /usr/local/bin/docker-compose
 ```
+##  Enter the laradock folder and rename env-example to .env.
+```
+$root@server:~/laravel/laradock# cp env-example .env
+```
 
 ## Create Your Laradock Containers
 
@@ -138,8 +142,8 @@ And add `server_name` (your custom domain)
 ## Rebuild Your Nginx
 
 ```
-$root@server:~/laravel/laradock/nginx# docker-compose down
-$root@server:~/laravel/laradock/nginx# docker-compose build nginx
+$root@server:~/laravel/laradock# docker-compose down
+$root@server:~/laravel/laradock# docker-compose build nginx
 ```
 
 ## Re Run Your Containers MYSQL and NGINX
