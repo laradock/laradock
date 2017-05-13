@@ -23,6 +23,8 @@ A Docker PHP development environment that facilitates running **PHP** Apps on **
 - [Dwi Fahni Denni](https://github.com/zeroc0d3) @zeroc0d3
 - [Thor Erik](https://github.com/thorerik) @thorerik
 - [Winfried van Loon](https://github.com/winfried-van-loon) @winfried-van-loon
+- [TJ Miller](https://github.com/sixlive) @sixlive
+- [Yu-Lung Shao (Allen)](https://github.com/bestlong) @bestlong
 - Join Us.
 
 ## License
