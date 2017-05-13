@@ -72,6 +72,7 @@ services:
           - INSTALL_TOKENIZER=${PHP_FPM_INSTALL_TOKENIZER}
           - INSTALL_INTL=${PHP_FPM_INSTALL_INTL}
           - INSTALL_GHOSTSCRIPT=${PHP_FPM_INSTALL_GHOSTSCRIPT}
+          - INSTALL_LDAP=${PHP_FPM_INSTALL_LDAP}
         dockerfile: "Dockerfile-${PHP_VERSION}"
       volumes_from:
         - applications

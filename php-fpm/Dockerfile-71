@@ -253,6 +253,18 @@ RUN if [ ${INSTALL_GHOSTSCRIPT} = true ]; then \
 ;fi
 
 #####################################
+# LDAP:
+#####################################
+
+ARG INSTALL_LDAP=false
+RUN if [ ${INSTALL_LDAP} = true ]; then \
+    apt-get update -yqq && \
+    apt-get install -y libldap2-dev && \
+    docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
+    docker-php-ext-install ldap \
+;fi
+
+#####################################
 # SQL SERVER:
 #####################################
 ARG INSTALL_MSSQL=false

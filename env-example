@@ -68,6 +68,7 @@ PHP_FPM_INSTALL_MYSQLI=false
 PHP_FPM_INSTALL_TOKENIZER=false
 PHP_FPM_INSTALL_INTL=false
 PHP_FPM_INSTALL_GHOSTSCRIPT=false
+PHP_FPM_INSTALL_LDAP=false
 PHP_FPM_INSTALL_SWOOLE=false
 
 ### NGINX ##############################################################################################################
