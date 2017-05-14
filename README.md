@@ -1,6 +1,6 @@
 ![](https://s19.postimg.org/jblfytw9f/laradock-logo.jpg)
 
-[![Build Status](https://travis-ci.org/laradock/laradock.svg?branch=master)](https://travis-ci.org/laradock/laradock)
+[![Build Status](https://travis-ci.org/laradock/laradock.svg?branch=master)](https://travis-ci.org/laradock/laradock) [![GitHub issues](https://img.shields.io/github/issues/laradock/laradock.svg)](https://github.com/laradock/laradock/issues) [![GitHub forks](https://img.shields.io/github/forks/laradock/laradock.svg)](https://github.com/laradock/laradock/network) [![GitHub stars](https://img.shields.io/github/stars/laradock/laradock.svg)](https://github.com/laradock/laradock/stargazers) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/laradock/laradock/master/LICENSE)
 
 > Use Docker first and learn about it later.
 
