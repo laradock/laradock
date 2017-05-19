@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #### halt script on error
-set -e
+set -xe
 
 echo '##### Print docker version'
 docker --version
