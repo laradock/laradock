@@ -108,7 +108,7 @@ You can choose, which tools to install in your workspace container and other con
 
 
 
-If you can't find your Software in the list, build it yourself and sumit it. Contributions are welcomed :)
+If you can't find your Software in the list, build it yourself and submit it. Contributions are welcomed :)
 
 
 
