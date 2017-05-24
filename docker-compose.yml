@@ -484,13 +484,14 @@ services:
 
     pgadmin:
       build: ./pgadmin
-      ports:
-        - "5050:5050"
       depends_on:
         - postgres
+        - nginx-proxy
       networks:
         - frontend
         - backend
+      environment:
+        - VIRTUAL_HOST=${PGA_VIRTUAL_HOST}
 
 ### ElasticSearch Container #################################
 

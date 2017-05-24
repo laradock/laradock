@@ -183,6 +183,10 @@ PMA_PASSWORD=secret
 PMA_ROOT_PASSWORD=secret
 PMA_VIRTUAL_HOST=phpmyadmin.local
 
+### PG ADMIN ############################################################################################################
+
+PGA_VIRTUAL_HOST=pgadmin.local
+
 ### VARNISH ############################################################################################################
 
 VARNISH_CONFIG=/etc/varnish/default.vcl
