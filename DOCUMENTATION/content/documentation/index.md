@@ -708,10 +708,44 @@ More details about this [here](https://github.com/jenssegers/laravel-mongodb#ins
 
 
 <br>
+<a name="Use-Nginx-Proxy"></a>
+## Use NGINX Proxy
+
+It starts automatically when you start nginx, apache2, phpmyadmin, adminer or pgadmin containers. So don't worry.
+
+NGINX Proxy is the way to forget about any juggling with ports. Instead of `http://localhost:8080` for phpMyAdmin just use `phpmyadmin.local`. Start any number of nginx, apache with (if you want) different versions of PHP simultaneously.
+
+# Usage
+
+1 - Open your `hosts` file with `sudo nano /etc/hosts` and add predefined domains
+```
+127.0.0.1 phpmyadmin.local
+127.0.0.1 adminer.local
+127.0.0.1 pgadmin.local
+and any number of your own hosts
+```
+
+2 - Open .env and add your custom domains
+```
+NGINX_VIRTUAL_HOSTS=localhost,laradock.dev     // here
+APACHE_VIRTUAL_HOSTS=laradock.dev,sample.dev   // or here
+```
+depending of what you use nginx or apache or to both because you can use it simultaneously.
+
+More information about Nginx-Proxy [here](https://github.com/jwilder/nginx-proxy).
+
+
+
+
+
+
+<br>
 <a name="Use-phpMyAdmin"></a>
 ## Use PhpMyAdmin
 
-1 - Run the phpMyAdmin Container (`phpmyadmin`) with the `docker-compose up` command. Example:
+1 - Add predefined domains from **Use NGINX Proxy**
+
+2 - Run the phpMyAdmin Container (`phpmyadmin`) with the `docker-compose up` command. Example:
 
 ```bash
 # use with mysql
@@ -723,7 +757,7 @@ docker-compose up -d mariadb phpmyadmin
 
 *Note: To use with MariaDB, open `.env` and set `PMA_DB_ENGINE=mysql` to `PMA_DB_ENGINE=mariadb`.*
 
-2 - Open your browser and visit the localhost on port **8080**:  `http://localhost:8080`
+3 - Open your browser and visit `http://phpmyadmin.local`
 
 
 
@@ -734,13 +768,15 @@ docker-compose up -d mariadb phpmyadmin
 <a name="Use-Adminer"></a>
 ## Use Adminer
 
-1 - Run the Adminer Container (`adminer`) with the `docker-compose up` command. Example:
+1 - Add predefined domains from **Use NGINX Proxy**
+
+2 - Run the Adminer Container (`adminer`) with the `docker-compose up` command. Example:
 
 ```bash
 docker-compose up -d adminer  
 ```
 
-2 - Open your browser and visit the localhost on port **8080**:  `http://localhost:8080`
+3 - Open your browser and visit `http://adminer.local`
 
 **Note:** We've locked Adminer to version 4.3.0 as at the time of writing [it contained a major bug](https://sourceforge.net/p/adminer/bugs-and-features/548/) preventing PostgreSQL users from logging in. If that bug is fixed (or if you're not using PostgreSQL) feel free to set Adminer to the latest version within [the Dockerfile](https://github.com/laradock/laradock/blob/master/adminer/Dockerfile#L1): `FROM adminer:latest`
 
@@ -752,13 +788,15 @@ docker-compose up -d adminer
 <a name="Use-pgAdmin"></a>
 ## Use PgAdmin
 
-1 - Run the pgAdmin Container (`pgadmin`) with the `docker-compose up` command. Example:
+1 - Add predefined domains from **Use NGINX Proxy**
+
+2 - Run the pgAdmin Container (`pgadmin`) with the `docker-compose up` command. Example:
 
 ```bash
 docker-compose up -d postgres pgadmin
 ```
 
-2 - Open your browser and visit the localhost on port **5050**:  `http://localhost:5050`
+3 - Open your browser and visit `http://pgadmin.local`
 
 
 
@@ -1104,7 +1142,15 @@ Assuming your custom domain is `laravel.dev`
 127.0.0.1    laravel.dev
 ```
 
-2 - Open your browser and visit `{http://laravel.dev}`
+2 - Open .env and add your custom domain
+```
+NGINX_VIRTUAL_HOSTS=localhost,laradock.dev,laravel.dev     // here
+APACHE_VIRTUAL_HOSTS=laradock.dev,sample.dev,laravel.dev   // or here
+```
+depending of what you will use nginx or apache for this domain. Remember that you can use nginx and apache simultaneously.
+
+
+3 - Open your browser and visit `{http://laravel.dev}`
 
 
 Optionally you can define the server name in the NGINX configuration file, like this:
