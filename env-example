@@ -10,7 +10,7 @@ APPLICATION=../
 ### Data Path:
 # For all storage systems.
 
-DATA_SAVE_PATH=/tmp
+DATA_SAVE_PATH=~/laradock/data
 
 ### PHP version
 # Applies to the Workspace and PHP-FPM containers (Does not apply to HHVM)
