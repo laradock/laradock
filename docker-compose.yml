@@ -566,6 +566,7 @@ services:
         - proxy2
 
 ### Jenkins ###################################################
+
     jenkins:
       build: ./jenkins
       environment:
@@ -581,6 +582,19 @@ services:
         - frontend
         - backend
 
+### Laravel Echo Server #######################################
+    laravel-echo-server:
+      build:
+        context: ./laravel-echo-server
+      volumes:
+        - ./laravel-echo-server/laravel-echo-server.json:/app/laravel-echo-server.json:ro
+      ports:
+        - "${LARAVEL_ECHO_SERVER_PORT}:6001"
+      links:
+        - redis
+      networks:
+        - frontend
+        - backend
 
 ### Networks Setup ############################################
 
