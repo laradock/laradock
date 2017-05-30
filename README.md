@@ -25,6 +25,7 @@ A Docker PHP development environment that facilitates running **PHP** Apps on **
 - [Winfried van Loon](https://github.com/winfried-van-loon) @winfried-van-loon
 - [TJ Miller](https://github.com/sixlive) @sixlive
 - [Yu-Lung Shao (Allen)](https://github.com/bestlong) @bestlong
+- [Milan Urukalo](https://github.com/urukalo) @urukalo
 - Join Us.
 
 ## License
