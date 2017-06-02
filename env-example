@@ -137,6 +137,10 @@ RABBITMQ_DEFAULT_PASS=guest
 ELASTICSEARCH_HOST_HTTP_PORT=9200
 ELASTICSEARCH_HOST_TRANSPORT_PORT=9300
 
+### KIBANA #############################################################################################################
+
+KIBANA_HTTP_PORT=5601
+
 ### MEMCACHED ##########################################################################################################
 
 MEMCACHED_HOST_PORT=11211
