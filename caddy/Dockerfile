@@ -2,7 +2,7 @@ FROM alpine:3.4
 
 MAINTAINER Eric Pfeiffer <computerfr33k@users.noreply.github.com>
 
-ENV caddy_version=0.10.0
+ENV caddy_version=0.10.3
 
 LABEL caddy_version="$caddy_version" architecture="amd64"
 
