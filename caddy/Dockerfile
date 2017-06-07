@@ -8,7 +8,7 @@ LABEL caddy_version="$caddy_version" architecture="amd64"
 
 RUN apk update \
     && apk upgrade \
-    && apk add tar curl git
+    && apk add tar curl git openssh
 
 RUN curl --silent --show-error --fail --location \
         --header "Accept: application/tar+gzip, application/x-gzip, application/octet-stream" -o - \
