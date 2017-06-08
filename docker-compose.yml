@@ -98,6 +98,8 @@ services:
         context: ./php-worker
       volumes_from:
         - applications
+      volumes:
+        - ./logs/supervisor/:/var/log/supervisor
       depends_on:
         - workspace
       extra_hosts:
