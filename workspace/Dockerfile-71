@@ -347,7 +347,7 @@ RUN echo "" >> ~/.bashrc && \
 #####################################
 USER laradock
 
-ARG INSTALL_LARAVEL_ENVOY=true
+ARG INSTALL_LARAVEL_ENVOY=false
 ENV INSTALL_LARAVEL_ENVOY ${INSTALL_LARAVEL_ENVOY}
 
 RUN if [ ${INSTALL_LARAVEL_ENVOY} = true ]; then \
@@ -360,7 +360,7 @@ RUN if [ ${INSTALL_LARAVEL_ENVOY} = true ]; then \
 #####################################
 USER root
 
-ARG INSTALL_LARAVEL_INSTALLER=true
+ARG INSTALL_LARAVEL_INSTALLER=false
 ENV INSTALL_LARAVEL_INSTALLER ${INSTALL_LARAVEL_INSTALLER}
 
 RUN if [ ${INSTALL_LARAVEL_INSTALLER} = true ]; then \
@@ -390,7 +390,7 @@ RUN if [ ${INSTALL_DEPLOYER} = true ]; then \
 #####################################
 USER root
 
-ARG INSTALL_LINUXBREW=true
+ARG INSTALL_LINUXBREW=false
 ENV INSTALL_LINUXBREW ${INSTALL_LINUXBREW}
 
 RUN if [ ${INSTALL_LINUXBREW} = true ]; then \
@@ -420,7 +420,7 @@ RUN if [ ${INSTALL_LINUXBREW} = true ]; then \
 #####################################
 # SQL SERVER:
 #####################################
-ARG INSTALL_MSSQL=true
+ARG INSTALL_MSSQL=false
 ENV INSTALL_MSSQL ${INSTALL_MSSQL}
 
 RUN if [ ${INSTALL_MSSQL} = true ]; then \
