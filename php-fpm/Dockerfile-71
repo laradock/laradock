@@ -184,6 +184,12 @@ RUN if [ ${GHOSTSCRIPT} = true ]; then \
 ;fi
 
 #####################################
+# Image Magick:
+#####################################
+RUN apt-get -y update \
+    && apt-get install imagemagick -y
+
+#####################################
 # wkhtmltopdf:
 #####################################
 

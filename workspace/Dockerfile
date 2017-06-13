@@ -389,6 +389,12 @@ RUN if [ ${INSTALL_MC} = true ]; then\
 ;fi
 
 #####################################
+# Image Magick:
+#####################################
+RUN apt-get -y update \
+    && apt-get install imagemagick -y
+
+#####################################
 # wkhtmltopdf:
 #####################################
 USER root
