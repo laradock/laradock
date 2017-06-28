@@ -518,6 +518,7 @@ services:
         - "8025:8025"
       networks:
         - frontend
+        - backend
 
 ### Selenium Container ########################################
 
