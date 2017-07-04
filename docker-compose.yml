@@ -201,6 +201,8 @@ services:
       volumes:
         - ${DATA_SAVE_PATH}/mysql:/var/lib/mysql
         - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      depends_on:
+        - workspace
       ports:
         - "${MYSQL_PORT}:3306"
       networks:
