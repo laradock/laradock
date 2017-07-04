@@ -192,14 +192,17 @@ The NGINX Log file is stored in the `logs/nginx` directory.
 However to view the logs of all the other containers (MySQL, PHP-FPM,...) you can run this:
 
 ```bash
-docker logs {container-name}
+docker-compose logs {container-name}
+```
+
+```bash
+docker-compose logs -f {container-name}
 ```
 
 More [options](https://docs.docker.com/compose/reference/logs/)
 
-```bash
-docker logs -f {container-name}
-```
+
+
 
 
 
@@ -1054,6 +1057,19 @@ The default username and password for the root MySQL user are `root` and `root `
 4 - Run any commands `show databases`, `show tables`, `select * from.....`.
 
 
+
+
+
+<br>
+<a name="Create-Multiple-Databases"></a>
+## Create Multiple Databases (MySQL)
+
+Create `createdb.sql` from `mysql/docker-entrypoint-initdb.d/createdb.sql.example` in `mysql/docker-entrypoint-initdb.d/*` and add your SQL syntax as follow:
+
+```sql
+CREATE DATABASE IF NOT EXISTS `your_db_1` COLLATE 'utf8_general_ci' ;
+GRANT ALL ON `your_db_1`.* TO 'mysql_user'@'%' ;
+```
 
 
 
