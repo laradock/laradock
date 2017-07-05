@@ -200,7 +200,7 @@ services:
         - TZ=${WORKSPACE_TIMEZONE}
       volumes:
         - ${DATA_SAVE_PATH}/mysql:/var/lib/mysql
-        - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+        - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
       ports:
         - "${MYSQL_PORT}:3306"
       networks:
@@ -218,7 +218,7 @@ services:
         - MYSQL_ROOT_PASSWORD=${PERCONA_ROOT_PASSWORD}
       volumes:
         - ${DATA_SAVE_PATH}/percona:/var/lib/mysql
-        - ./percona/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+        - ${PERCONA_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
       ports:
         - "${PERCONA_PORT}:3306"
       networks:
@@ -246,7 +246,7 @@ services:
       build: ./mariadb
       volumes:
         - ${DATA_SAVE_PATH}/mariadb:/var/lib/mysql
-        - ./mariadb/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+        - ${MARIADB_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
       ports:
         - "${MARIADB_PORT}:3306"
       environment:
