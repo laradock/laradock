@@ -158,7 +158,7 @@ You might use the `--no-cache` option if you want full rebuilding (`docker-compo
 
 ## Docker-Sync
 
-Docker on the Mac [is slow](https://github.com/docker/for-mac/issues/77), at the time of writing. Especially for larger projects, this can be a problem. The problem is [older than March 2016](https://forums.docker.com/t/file-access-in-mounted-volumes-extremely-slow-cpu-bound/8076) - as it's a such a long-running issue, we're including it in the docs here. 
+Docker on the Mac [is slow](https://github.com/docker/for-mac/issues/77), at the time of writing. Especially for larger projects, this can be a problem. The problem is [older than March 2016](https://forums.docker.com/t/file-access-in-mounted-volumes-extremely-slow-cpu-bound/8076) - as it's a such a long-running issue, we're including it in the docs here.
 
 The problem originates in bind-mount performance on MacOS. Docker for Mac uses osxfs by default. This is not without reason, it has [a lot of advantages](https://docs.docker.com/docker-for-mac/osxfs/).
 
@@ -737,7 +737,7 @@ docker-compose up -d mariadb phpmyadmin
 1 - Run the Adminer Container (`adminer`) with the `docker-compose up` command. Example:
 
 ```bash
-docker-compose up -d adminer  
+docker-compose up -d adminer
 ```
 
 2 - Open your browser and visit the localhost on port **8080**:  `http://localhost:8080`
@@ -1020,6 +1020,26 @@ To change the default forwarded port for ssh:
 			- "2222:22" # Edit this line
     ...
 ```
+
+
+
+
+
+
+<br>
+<a name="Change-the-MySQL-Version"></a>
+## Change the (MySQL) Version
+By default **MySQL 8.0** is running.
+
+MySQL 8.0 is a development release.  You may prefer to use the latest stable version, or an even older release.  If you wish, you can change the MySQL image that is used.
+
+Open up your .env file and set the `MYSQL_VERSION` variable to the version you would like to install.
+
+```
+MYSQL_VERSION=5.7
+```
+
+Available versions are: 5.5, 5.6, 5.7, 8.0, or latest.  See https://store.docker.com/images/mysql for more information.
 
 
 
