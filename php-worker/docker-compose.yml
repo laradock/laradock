@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+
+  ### PHP Worker Container
+  php-worker:
+    build:
+      context: ./php-worker
+    volumes_from:
+      - applications
+    depends_on:
+      - workspace
+    extra_hosts:
+      - "dockerhost:${DOCKER_HOST_IP}"
+    networks:
+      - backend
