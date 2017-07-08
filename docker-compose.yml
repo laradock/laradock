@@ -2,13 +2,6 @@ version: '2'
 
 services:
 
-### Applications Code Container #############################
-
-    applications:
-      image: tianon/true
-      volumes:
-        - ${APPLICATION}:/var/www
-
 ### Workspace Utilities Container ###########################
 
     workspace:
@@ -620,14 +613,6 @@ services:
       networks:
         - frontend
         - backend
-
-### Networks Setup ############################################
-
-networks:
-  frontend:
-    driver: "bridge"
-  backend:
-    driver: "bridge"
 
 ### Volumes Setup #############################################
 
