@@ -1,0 +1,18 @@
+#!/bin/bash
+
+compose_option()
+{
+  local dcpath="$1"
+  if $(contains "$1" "${all_modules[@]}"); then
+    dcpath="./$1"
+  fi
+  if [[ -e "${dcpath}/docker-compose.yml" ]]; then
+    command_arg " -f ${dcpath}/docker-compose.yml"
+  fi
+}
+
+output_dockercompose_args()
+{
+  foreach compose_option "${all_modules[@]}"
+  foreach compose_option "$@"
+}
