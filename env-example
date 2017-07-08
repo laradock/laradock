@@ -95,6 +95,7 @@ MYSQL_USER=default
 MYSQL_PASSWORD=secret
 MYSQL_PORT=3306
 MYSQL_ROOT_PASSWORD=root
+MYSQL_ENTRYPOINT_INITDB=./mysql/docker-entrypoint-initdb.d
 
 ### Percona ############################################################################################################
 
@@ -103,6 +104,7 @@ PERCONA_USER=homestead
 PERCONA_PASSWORD=secret
 PERCONA_PORT=3306
 PERCONA_ROOT_PASSWORD=root
+PERCONA_ENTRYPOINT_INITDB=./percona/docker-entrypoint-initdb.d
 
 ### MSSQL ##############################################################################################################
 
@@ -117,6 +119,7 @@ MARIADB_USER=default
 MARIADB_PASSWORD=secret
 MARIADB_PORT=3306
 MARIADB_ROOT_PASSWORD=root
+MARIADB_ENTRYPOINT_INITDB=./mariadb/docker-entrypoint-initdb.d
 
 ### POSTGRES ###########################################################################################################
 
