@@ -258,6 +258,17 @@ RUN if [ ${INSTALL_MSSQL} = true ]; then \
     docker-php-ext-enable mssql pdo pdo_dblib \
 ;fi
 
+#####################################
+# Image optimizers:
+#####################################
+USER root
+ARG INSTALL_IMAGE_OPTIMIZERS=false
+ENV INSTALL_IMAGE_OPTIMIZERS ${INSTALL_IMAGE_OPTIMIZERS}
+RUN if [ ${INSTALL_IMAGE_OPTIMIZERS} = true ]; then \
+    apt-get update -yqq && \
+    apt-get install -y --force-yes jpegoptim optipng pngquant gifsicle \
+;fi
+
 #
 #--------------------------------------------------------------------------
 # Final Touch
