@@ -2,46 +2,6 @@ version: '2'
 
 services:
 
-### PHP-FPM Container #######################################
-
-    php-fpm:
-      build:
-        context: ./php-fpm
-        args:
-          - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
-          - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
-          - INSTALL_SOAP=${PHP_FPM_INSTALL_SOAP}
-          - INSTALL_MONGO=${PHP_FPM_INSTALL_MONGO}
-          - INSTALL_MSSQL=${PHP_FPM_INSTALL_MSSQL}
-          - INSTALL_ZIP_ARCHIVE=${PHP_FPM_INSTALL_ZIP_ARCHIVE}
-          - INSTALL_BCMATH=${PHP_FPM_INSTALL_BCMATH}
-          - INSTALL_PHPREDIS=${PHP_FPM_INSTALL_PHPREDIS}
-          - INSTALL_MEMCACHED=${PHP_FPM_INSTALL_MEMCACHED}
-          - INSTALL_OPCACHE=${PHP_FPM_INSTALL_OPCACHE}
-          - INSTALL_EXIF=${PHP_FPM_INSTALL_EXIF}
-          - INSTALL_AEROSPIKE=${PHP_FPM_INSTALL_AEROSPIKE}
-          - INSTALL_MYSQLI=${PHP_FPM_INSTALL_MYSQLI}
-          - INSTALL_TOKENIZER=${PHP_FPM_INSTALL_TOKENIZER}
-          - INSTALL_INTL=${PHP_FPM_INSTALL_INTL}
-          - INSTALL_GHOSTSCRIPT=${PHP_FPM_INSTALL_GHOSTSCRIPT}
-          - INSTALL_LDAP=${PHP_FPM_INSTALL_LDAP}
-          - INSTALL_SWOOLE=${PHP_FPM_INSTALL_SWOOLE}
-        dockerfile: "Dockerfile-${PHP_VERSION}"
-      volumes_from:
-        - applications
-      volumes:
-        - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
-      expose:
-        - "9000"
-      depends_on:
-        - workspace
-      extra_hosts:
-        - "dockerhost:${DOCKER_HOST_IP}"
-      environment:
-        - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
-      networks:
-        - backend
-
 ### PHP Worker Container #####################################
 
     php-worker:
