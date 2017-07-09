@@ -8,6 +8,7 @@ declare -a all_modules=(
   'blackfire'
   'apache2'
   'hhvm'
+  'minio'
 )
 
 declare -A command_map=(
