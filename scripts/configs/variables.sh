@@ -14,6 +14,7 @@ declare -a all_modules=(
   'mssql'
   'mariadb'
   'postgres'
+  'postgres-postgis'
 )
 
 declare -A command_map=(
