@@ -16,6 +16,7 @@ declare -a all_modules=(
   'postgres'
   'postgres-postgis'
   'neo4j'
+  'mongo'
 )
 
 declare -A command_map=(
