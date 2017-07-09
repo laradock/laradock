@@ -36,7 +36,7 @@ declare -A command_map=(
 
 declare -A command_opts=(
   ['environvars:template']=':o:a'
-  ['environvars:evaluate']=':o:a'
+  ['environvars:evaluate']=':o:t:a'
   ['dockercompose:args']=':a'
 )
 
@@ -45,7 +45,7 @@ declare -A command_opts=(
 # corresponding shorthand, separated by a colon.
 declare -A option_aliases=(
   ['environvars:template']="--output:-o --all:-a"
-  ['environvars:evaluate']="--output:-o --all:-a"
+  ['environvars:evaluate']="--output:-o --all:-a --template:-t"
   ['dockercompose:args']='--all:-a'
 )
 
