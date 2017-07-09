@@ -5,6 +5,15 @@ error()
   echo "ERR: $@" 1>&2
 }
 
+ifelse()
+{
+  if [[ 0 -eq $? ]]; then
+    "$1" "$2"
+  else
+    "$1" "$3"
+  fi
+}
+
 foreach()
 {
   local element

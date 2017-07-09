@@ -2,10 +2,7 @@
 
 compose_option()
 {
-  local dcpath="$1"
-  if $(contains "$1" "${all_modules[@]}"); then
-    dcpath="./$1"
-  fi
+  local dcpath="$(contains "$1" "${all_modules[@]}"; ifelse 'echo' "$LARADOCK_ROOT/$1" "$1")"
   if [[ -e "${dcpath}/docker-compose.yml" ]]; then
     command_arg " -f ${dcpath}/docker-compose.yml"
   fi
