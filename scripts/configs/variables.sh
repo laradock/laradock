@@ -11,6 +11,7 @@ declare -a all_modules=(
   'minio'
   'mysql'
   'percona'
+  'mssql'
 )
 
 declare -A command_map=(
