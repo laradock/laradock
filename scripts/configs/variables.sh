@@ -20,6 +20,7 @@ declare -a all_modules=(
   'rethinkdb'
   'redis'
   'aerospike'
+  'memcached'
 )
 
 declare -A command_map=(

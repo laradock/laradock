@@ -16,10 +16,6 @@ ELASTICSEARCH_HOST_TRANSPORT_PORT=9300
 
 KIBANA_HTTP_PORT=5601
 
-### MEMCACHED ##########################################################################################################
-
-MEMCACHED_HOST_PORT=11211
-
 ### BEANSTALKD CONSOLE #################################################################################################
 
 BEANSTALKD_CONSOLE_BUILD_PATH=./beanstalkd-console

@@ -2,19 +2,6 @@ version: '2'
 
 services:
 
-### Memcached Container #####################################
-
-    memcached:
-      build: ./memcached
-      volumes:
-        - ${DATA_SAVE_PATH}/memcached:/var/lib/memcached
-      ports:
-        - "${MEMCACHED_HOST_PORT}:11211"
-      depends_on:
-        - php-fpm
-      networks:
-        - backend
-
 ### Beanstalkd Container ####################################
 
     beanstalkd:
