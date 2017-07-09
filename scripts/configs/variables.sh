@@ -10,6 +10,7 @@ declare -a all_modules=(
   'hhvm'
   'minio'
   'mysql'
+  'percona'
 )
 
 declare -A command_map=(

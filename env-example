@@ -1,13 +1,4 @@
 
-### Percona ############################################################################################################
-
-PERCONA_DATABASE=homestead
-PERCONA_USER=homestead
-PERCONA_PASSWORD=secret
-PERCONA_PORT=3306
-PERCONA_ROOT_PASSWORD=root
-PERCONA_ENTRYPOINT_INITDB=./percona/docker-entrypoint-initdb.d
-
 ### MSSQL ##############################################################################################################
 
 MSSQL_DATABASE=homestead
