@@ -1,8 +1,13 @@
 #!/bin/bash
 
-to_bash_script()
+to_load_script()
 {
-  sed -re 's/^(.*)=.*$/\1=$\{\1\}/' \
+  sed -re 's/^([^=]*)=(.*)$/'$1'[\1]="\2"/'
+}
+
+to_output_script()
+{
+  sed -re 's/^([^=]*)=.*$/\1=$\{'$1'[\1]\}/' \
        -e 's/`/\\`/g' \
        -e '/^#/ s/\$/\\$/g' \
        -e '1 i\cat - <<EOF' \
@@ -39,8 +44,9 @@ output_environvars()
 output_processed_environvars()
 {
   local output="${options[o]:-/dev/stdout}"
+  local -A environvars=( )
+  local content=$(output_environvars)
 
-  output_environvars | (evaluate ; source "$@" ; \
-    (output_environvars | to_bash_script | evaluate) \
-  ) > "$output"
+  (echo "$content"; cat "$@") | to_load_script environvars | \
+    (evaluate; echo "$content" | to_output_script environvars | evaluate > "$output")
 }
