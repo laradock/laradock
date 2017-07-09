@@ -23,6 +23,7 @@ declare -a all_modules=(
   'memcached'
   'beanstalkd'
   'rabbitmq'
+  'beanstalkd-console'
 )
 
 declare -A command_map=(

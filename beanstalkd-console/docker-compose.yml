@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+
+  ### Beanstalkd Console Container
+  beanstalkd-console:
+    build: ./beanstalkd-console
+    ports:
+      - "2080:2080"
+    depends_on:
+      - beanstalkd
+    networks:
+      - backend

@@ -8,12 +8,6 @@ ELASTICSEARCH_HOST_TRANSPORT_PORT=9300
 
 KIBANA_HTTP_PORT=5601
 
-### BEANSTALKD CONSOLE #################################################################################################
-
-BEANSTALKD_CONSOLE_BUILD_PATH=./beanstalkd-console
-BEANSTALKD_CONSOLE_CONTAINER_NAME=beanstalkd-console
-BEANSTALKD_CONSOLE_HOST_PORT=2080
-
 ### SELENIUM ###########################################################################################################
 
 SELENIUM_PORT=4444
