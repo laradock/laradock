@@ -11,7 +11,6 @@ execute_command()
   else
     replace_option_aliases "${arguments[@]}"
     process_command_arguments "${arguments[@]}"
-
     "${command_map[$COMMAND]}" "${arguments[@]}"
   fi
 }
