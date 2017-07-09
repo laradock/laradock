@@ -2,20 +2,6 @@ version: '2'
 
 services:
 
-### HHVM Container ##########################################
-
-    hhvm:
-      build: ./hhvm
-      volumes_from:
-        - applications
-      expose:
-        - "9000"
-      depends_on:
-        - workspace
-      networks:
-        - frontend
-        - backend
-
 ### Minio Container #########################################
 
     minio:

@@ -7,6 +7,7 @@ declare -a all_modules=(
   'nginx'
   'blackfire'
   'apache2'
+  'hhvm'
 )
 
 declare -A command_map=(
