@@ -15,6 +15,7 @@ declare -a all_modules=(
   'mariadb'
   'postgres'
   'postgres-postgis'
+  'neo4j'
 )
 
 declare -A command_map=(

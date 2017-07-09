@@ -2,20 +2,6 @@ version: '2'
 
 services:
 
-### Neo4j Container #########################################
-
-    neo4j:
-      build: ./neo4j
-      ports:
-        - "7474:7474"
-        - "1337:1337"
-      environment:
-        - NEO4J_AUTH=default:secret
-      volumes:
-        - ${DATA_SAVE_PATH}/neo4j:/var/lib/neo4j/data
-      networks:
-        - backend
-
 ### MongoDB Container #######################################
 
     mongo:
