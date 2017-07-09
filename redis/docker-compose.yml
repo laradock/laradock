@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+
+  ### Redis Container
+  redis:
+    build: ./redis
+    volumes:
+      - ${DATA_SAVE_PATH}/redis:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - backend

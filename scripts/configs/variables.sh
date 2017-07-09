@@ -18,6 +18,7 @@ declare -a all_modules=(
   'neo4j'
   'mongo'
   'rethinkdb'
+  'redis'
 )
 
 declare -A command_map=(
