@@ -17,16 +17,16 @@ declare -A command_map=(
 )
 
 declare -A command_opts=(
-  ['envvars:template']=':o:'
-  ['envvars:executed']=':o:'
+  ['envvars:template']=':o:a'
+  ['envvars:executed']=':o:a'
 )
 
 # A space delimited list of pairs of aliases.
 # Each pair consists of the long form and its
 # corresponding shorthand, separated by a colon.
 declare -A option_aliases=(
-  ['envvars:template']="--output:-o"
-  ['envvars:executed']="--output:-o"
+  ['envvars:template']="--output:-o --all:-a"
+  ['envvars:executed']="--output:-o --all:-a"
 )
 
 # Number of columns (width) of the section dividers/headers

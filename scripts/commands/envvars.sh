@@ -11,10 +11,8 @@ to_bash_script()
 
 echo_environ()
 {
-  local transform='echo_divheader'
-  if [ "$1" == '--1st' ]; then
-    transform='cat'; shift
-  fi
+  local nodiv=$(test "$1" == '--nodiv'; ifelse true false)
+  local transform=$($nodiv; ifelse cat echo_divheader); if $nodiv; then shift; fi
   local envpath="$(contains "$1" "${all_modules[@]}"; ifelse "$LARADOCK_ROOT/$1" "$1")"
   if [[ -e "${envpath}/.env.example" ]]; then
     cat "${envpath}/.env.example" | $transform | prepend_empty_line
@@ -23,18 +21,18 @@ echo_environ()
 
 output_environvars()
 {
-  [[ $# -eq 0 ]] && set ${all_modules[@]}
+  [[ $# -eq 0 || ${options[a]} ]] && set "${all_modules[@]}" "$@"
 
   local index="$LARADOCK_ROOT/index"
   local output="${options[o]:-/dev/stdout}"
 
   ( # output
     echo_header "General Setup"
-    echo_environ --1st "$index"
+    echo_environ --nodiv "$index"
     echo_header "Containers Customization"
     foreach echo_environ "$@"
     echo_header "Miscellaneous"
-    echo_environ "$index/misc"
+    echo_environ --nodiv "$index/misc"
   ) > "$output"
 }
 

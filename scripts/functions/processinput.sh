@@ -37,7 +37,7 @@ process_command_arguments()
     case $opt in
       \?) error "invalid option '-$OPTARG'";;
       :)  error "option -$OPTARG requires an argument";;
-      *)  options["$opt"]="$OPTARG";;
+      *)  options["$opt"]="${OPTARG:-true}";;
     esac
   done
   shift $((OPTIND-1))
