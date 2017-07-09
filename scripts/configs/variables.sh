@@ -17,6 +17,7 @@ declare -a all_modules=(
   'postgres-postgis'
   'neo4j'
   'mongo'
+  'rethinkdb'
 )
 
 declare -A command_map=(
