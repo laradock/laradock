@@ -6,6 +6,7 @@ declare -a all_modules=(
   'php-worker'
   'nginx'
   'blackfire'
+  'apache2'
 )
 
 declare -A command_map=(
