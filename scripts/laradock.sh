@@ -29,7 +29,7 @@ source "$SCRIPTS_PATH/functions/executor.sh"
 # Include Commands
 #-----------------------------------------------------------
 
-source "$SCRIPTS_PATH/commands/envvars.sh"
+source "$SCRIPTS_PATH/commands/environvars.sh"
 source "$SCRIPTS_PATH/commands/dockercompose.sh"
 
 #-----------------------------------------------------------
