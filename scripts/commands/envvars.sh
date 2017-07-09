@@ -33,6 +33,8 @@ output_environvars()
     echo_environ --1st "$index"
     echo_header "Containers Customization"
     foreach echo_environ "$@"
+    echo_header "Miscellaneous"
+    echo_environ "$index/misc"
   ) > "$output"
 }
 
