@@ -12,6 +12,7 @@ declare -a all_modules=(
   'mysql'
   'percona'
   'mssql'
+  'mariadb'
 )
 
 declare -A command_map=(
