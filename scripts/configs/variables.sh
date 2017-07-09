@@ -9,6 +9,7 @@ declare -a all_modules=(
   'apache2'
   'hhvm'
   'minio'
+  'mysql'
 )
 
 declare -A command_map=(
