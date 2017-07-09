@@ -22,10 +22,6 @@ BEANSTALKD_CONSOLE_BUILD_PATH=./beanstalkd-console
 BEANSTALKD_CONSOLE_CONTAINER_NAME=beanstalkd-console
 BEANSTALKD_CONSOLE_HOST_PORT=2080
 
-### BEANSTALKD #########################################################################################################
-
-BEANSTALKD_HOST_PORT=11300
-
 ### SELENIUM ###########################################################################################################
 
 SELENIUM_PORT=4444

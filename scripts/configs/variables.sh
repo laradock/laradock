@@ -21,6 +21,7 @@ declare -a all_modules=(
   'redis'
   'aerospike'
   'memcached'
+  'beanstalkd'
 )
 
 declare -A command_map=(
