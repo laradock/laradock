@@ -1,10 +1,5 @@
 #!/bin/bash
 
-command_arg()
-{
-  echo -n "$@"
-}
-
 prepend_empty_line()
 {
   sed -e '1 i\ ' | sed -e '1 s/ //'
