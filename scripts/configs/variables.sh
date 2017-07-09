@@ -22,6 +22,7 @@ declare -a all_modules=(
   'aerospike'
   'memcached'
   'beanstalkd'
+  'rabbitmq'
 )
 
 declare -A command_map=(
