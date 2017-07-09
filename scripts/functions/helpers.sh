@@ -8,9 +8,9 @@ error()
 ifelse()
 {
   if [[ 0 -eq $? ]]; then
-    "$1" "$2"
+    echo "$1"
   else
-    "$1" "$3"
+    echo "$2"
   fi
 }
 

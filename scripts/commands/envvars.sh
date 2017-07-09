@@ -15,7 +15,7 @@ echo_environ()
   if [ "$1" == '--1st' ]; then
     transform='cat'; shift
   fi
-  local envpath="$(contains "$1" "${all_modules[@]}"; ifelse 'echo' "$LARADOCK_ROOT/$1" "$1")"
+  local envpath="$(contains "$1" "${all_modules[@]}"; ifelse "$LARADOCK_ROOT/$1" "$1")"
   if [[ -e "${envpath}/.env.example" ]]; then
     cat "${envpath}/.env.example" | $transform | prepend_empty_line
   fi
