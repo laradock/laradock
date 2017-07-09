@@ -13,6 +13,7 @@ declare -a all_modules=(
   'percona'
   'mssql'
   'mariadb'
+  'postgres'
 )
 
 declare -A command_map=(

@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+
+  ### PostgreSQL Container
+  postgres:
+    build: ./postgres
+    volumes:
+      - ${DATA_SAVE_PATH}/postgres:/var/lib/postgresql/data
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    networks:
+      - backend
