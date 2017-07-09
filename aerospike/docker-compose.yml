@@ -1,0 +1,18 @@
+version: '2'
+
+services:
+
+  ### Aerospike Container
+  aerospike:
+    build: ./aerospike
+    volumes_from:
+      - workspace
+    volumes:
+      - ${DATA_SAVE_PATH}/aerospike:/opt/aerospike/data
+    ports:
+      - "${AEROSPIKE_SERVICE_PORT}:3000"
+      - "${AEROSPIKE_FABRIC_PORT}:3001"
+      - "${AEROSPIKE_HEARTBEAT_PORT}:3002"
+      - "${AEROSPIKE_INFO_PORT}:3003"
+    networks:
+      - backend

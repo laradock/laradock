@@ -19,6 +19,7 @@ declare -a all_modules=(
   'mongo'
   'rethinkdb'
   'redis'
+  'aerospike'
 )
 
 declare -A command_map=(

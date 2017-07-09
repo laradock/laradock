@@ -83,13 +83,6 @@ JENKINS_HOST_HTTP_PORT=8090
 JENKINS_HOST_SLAVE_AGENT_PORT=50000
 JENKINS_HOME=./jenkins/jenkins_home
 
-### AEROSPIKE ##########################################################################################################
-
-AEROSPIKE_SERVICE_PORT=3000
-AEROSPIKE_FABRIC_PORT=3001
-AEROSPIKE_HEARTBEAT_PORT=3002
-AEROSPIKE_INFO_PORT=3003
-
 ### CADDY ##############################################################################################################
 
 CADDY_HOST_HTTP_PORT=80
