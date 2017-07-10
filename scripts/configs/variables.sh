@@ -33,6 +33,7 @@ declare -a all_modules=(
   'certbot'
   'mailhog'
   'selenium'
+  'varnish'
 )
 
 declare -A command_map=(

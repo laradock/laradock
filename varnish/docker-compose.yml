@@ -1,0 +1,39 @@
+version: '2'
+
+services:
+
+  ### Varnish Proxy 1
+  proxy:
+    build: ./varnish
+    expose:
+      - ${VARNISH_PORT}
+    environment:
+      - VARNISH_CONFIG=${VARNISH_CONFIG}
+      - CACHE_SIZE=${VARNISH_PROXY1_CACHE_SIZE}
+      - VARNISHD_PARAMS=${VARNISHD_PARAMS}
+      - VARNISH_PORT=${VARNISH_PORT}
+      - BACKEND_HOST=${VARNISH_PROXY1_BACKEND_HOST}
+      - BACKEND_PORT=${VARNISH_BACKEND_PORT}
+      - VARNISH_SERVER=${VARNISH_PROXY1_SERVER}
+    links:
+      - workspace
+    networks:
+      - frontend
+
+  ### Varnish Proxy 2
+  proxy2:
+    build: ./varnish
+    expose:
+      - ${VARNISH_PORT}
+    environment:
+      - VARNISH_CONFIG=${VARNISH_CONFIG}
+      - CACHE_SIZE=${VARNISH_PROXY2_CACHE_SIZE}
+      - VARNISHD_PARAMS=${VARNISHD_PARAMS}
+      - VARNISH_PORT=${VARNISH_PORT}
+      - BACKEND_HOST=${VARNISH_PROXY2_BACKEND_HOST}
+      - BACKEND_PORT=${VARNISH_BACKEND_PORT}
+      - VARNISH_SERVER=${VARNISH_PROXY2_SERVER}
+    links:
+      - workspace
+    networks:
+      - frontend
