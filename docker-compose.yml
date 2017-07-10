@@ -2,17 +2,6 @@ version: '2'
 
 services:
 
-### Selenium Container ########################################
-
-    selenium:
-      build: ./selenium
-      ports:
-        - "${SELENIUM_PORT}:4444"
-      volumes:
-        - /dev/shm:/dev/shm
-      networks:
-        - frontend
-
 ### Varnish Proxy 1 ##########################################
 
     proxy:

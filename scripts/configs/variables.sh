@@ -32,6 +32,7 @@ declare -a all_modules=(
   'kibana'
   'certbot'
   'mailhog'
+  'selenium'
 )
 
 declare -A command_map=(
