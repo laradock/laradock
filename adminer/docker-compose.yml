@@ -15,3 +15,7 @@ services:
     networks:
       - frontend
       - backend
+
+volumes:
+  adminer:
+    driver: "local"

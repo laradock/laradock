@@ -11,3 +11,7 @@ services:
       - ${DATA_SAVE_PATH}/rethinkdb:/data/rethinkdb_data
     networks:
       - backend
+
+volumes:
+  rethinkdb:
+    driver: "local"

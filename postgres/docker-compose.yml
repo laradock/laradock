@@ -15,3 +15,7 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     networks:
       - backend
+
+volumes:
+  postgres:
+    driver: "local"

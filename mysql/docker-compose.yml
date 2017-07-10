@@ -19,3 +19,7 @@ services:
       - "${MYSQL_PORT}:3306"
     networks:
       - backend
+
+volumes:
+  mysql:
+    driver: "local"

@@ -14,3 +14,7 @@ services:
       - ${DATA_SAVE_PATH}/neo4j:/var/lib/neo4j/data
     networks:
       - backend
+
+volumes:
+  neo4j:
+    driver: "local"

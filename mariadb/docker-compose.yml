@@ -17,3 +17,7 @@ services:
       - MYSQL_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
     networks:
       - backend
+
+volumes:
+  mariadb:
+    driver: "local"

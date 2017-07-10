@@ -25,3 +25,9 @@ services:
     networks:
       - frontend
       - backend
+
+volumes:
+  elasticsearch-data:
+    driver: "local"
+  elasticsearch-plugins:
+    driver: "local"

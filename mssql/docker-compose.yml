@@ -16,3 +16,7 @@ services:
       - "${MSSQL_PORT}:1433"
     networks:
       - backend
+
+volumes:
+  mssql:
+    driver: "local"

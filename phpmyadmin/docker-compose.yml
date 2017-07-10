@@ -17,3 +17,7 @@ services:
     networks:
       - frontend
       - backend
+
+volumes:
+  phpmyadmin:
+    driver: "local"

@@ -16,3 +16,7 @@ services:
       - "${AEROSPIKE_INFO_PORT}:3003"
     networks:
       - backend
+
+volumes:
+  aerospike:
+    driver: "local"

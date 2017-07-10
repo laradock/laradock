@@ -11,3 +11,7 @@ services:
       - "6379:6379"
     networks:
       - backend
+
+volumes:
+  redis:
+    driver: "local"

@@ -18,3 +18,7 @@ services:
       - "${PERCONA_PORT}:3306"
     networks:
       - backend
+
+volumes:
+  percona:
+    driver: "local"

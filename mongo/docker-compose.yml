@@ -11,3 +11,7 @@ services:
       - ${DATA_SAVE_PATH}/mongo:/data/db
     networks:
       - backend
+
+volumes:
+  mongo:
+    driver: "local"

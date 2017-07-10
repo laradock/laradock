@@ -14,3 +14,7 @@ services:
       - MINIO_SECRET_KEY=secretkey
     networks:
       - frontend
+
+volumes:
+  minio:
+    driver: "local"

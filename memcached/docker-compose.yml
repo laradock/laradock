@@ -13,3 +13,7 @@ services:
       - php-fpm
     networks:
       - backend
+
+volumes:
+  memcached:
+    driver: "local"
