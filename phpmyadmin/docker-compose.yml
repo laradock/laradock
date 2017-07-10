@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+
+  ### phpMyAdmin Container
+  phpmyadmin:
+    build: ./phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - MYSQL_USER=${PMA_USER}
+      - MYSQL_PASSWORD=${PMA_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${PMA_ROOT_PASSWORD}
+    ports:
+      - "${PMA_PORT}:80"
+    depends_on:
+      - "${PMA_DB_ENGINE}"
+    networks:
+      - frontend
+      - backend

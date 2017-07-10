@@ -25,6 +25,7 @@ declare -a all_modules=(
   'rabbitmq'
   'beanstalkd-console'
   'caddy'
+  'phpmyadmin'
 )
 
 declare -A command_map=(

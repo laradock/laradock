@@ -17,19 +17,6 @@ SELENIUM_PORT=4444
 ADM_PORT=8080
 ADM_INSTALL_MSSQL=false
 
-### PHP MY ADMIN #######################################################################################################
-
-# Accepted values: mariadb - mysql
-
-PMA_DB_ENGINE=mysql
-
-# Credentials/Port:
-
-PMA_USER=default
-PMA_PASSWORD=secret
-PMA_ROOT_PASSWORD=secret
-PMA_PORT=8080
-
 ### VARNISH ############################################################################################################
 
 VARNISH_CONFIG=/etc/varnish/default.vcl
