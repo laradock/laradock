@@ -28,6 +28,7 @@ declare -a all_modules=(
   'phpmyadmin'
   'adminer'
   'pgadmin'
+  'elasticsearch'
 )
 
 declare -A command_map=(
