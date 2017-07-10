@@ -35,6 +35,7 @@ declare -a all_modules=(
   'selenium'
   'varnish'
   'haproxy'
+  'jenkins'
 )
 
 declare -A command_map=(
