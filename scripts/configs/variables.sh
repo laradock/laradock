@@ -30,6 +30,7 @@ declare -a all_modules=(
   'pgadmin'
   'elasticsearch'
   'kibana'
+  'certbot'
 )
 
 declare -A command_map=(
