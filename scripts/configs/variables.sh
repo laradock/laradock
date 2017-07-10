@@ -29,6 +29,7 @@ declare -a all_modules=(
   'adminer'
   'pgadmin'
   'elasticsearch'
+  'kibana'
 )
 
 declare -A command_map=(
