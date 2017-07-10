@@ -27,6 +27,7 @@ declare -a all_modules=(
   'caddy'
   'phpmyadmin'
   'adminer'
+  'pgadmin'
 )
 
 declare -A command_map=(

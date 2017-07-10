@@ -2,18 +2,6 @@ version: '2'
 
 services:
 
-### pgAdmin Container #######################################
-
-    pgadmin:
-      build: ./pgadmin
-      ports:
-        - "5050:5050"
-      depends_on:
-        - postgres
-      networks:
-        - frontend
-        - backend
-
 ### ElasticSearch Container #################################
 
     elasticsearch:
