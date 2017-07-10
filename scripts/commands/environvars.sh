@@ -45,8 +45,8 @@ output_processed_environvars()
 {
   local output="${options[o]:-/dev/stdout}"
   local -A environvars=( )
-  local content="$( ([[ -n "${options[t]}" && -e "${options[t]}" ]] && cat "${options[t]}") || output_environvars)"
+  local content="$( ([[ -n "${options[t]}" ]] && [[ -e "${options[t]}" || "${options[t]}" == '-' ]] && cat "${options[t]}") || output_environvars)"
 
-  (echo "$content"; cat "$@") | to_load_script environvars | \
+  (echo "$content"; [[ $# -gt 0 ]] && cat "$@") | to_load_script environvars | \
     (evaluate; echo "$content" | to_output_script environvars | evaluate > "$output")
 }
