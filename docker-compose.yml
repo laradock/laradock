@@ -2,25 +2,6 @@ version: '2'
 
 services:
 
-### Caddy Server Container ##################################
-
-    caddy:
-      build: ./caddy
-      volumes_from:
-        - applications
-      volumes:
-        - ${CADDY_CUSTOM_CADDYFILE}:/etc/Caddyfile
-        - ${CADDY_HOST_LOG_PATH}:/var/log/caddy
-        - ${DATA_SAVE_PATH}:/root/.caddy
-      ports:
-        - "${CADDY_HOST_HTTP_PORT}:80"
-        - "${CADDY_HOST_HTTPS_PORT}:443"
-      depends_on:
-        - php-fpm
-      networks:
-        - frontend
-        - backend
-
 ### phpMyAdmin Container ####################################
 
     phpmyadmin:

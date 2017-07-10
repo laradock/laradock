@@ -24,6 +24,7 @@ declare -a all_modules=(
   'beanstalkd'
   'rabbitmq'
   'beanstalkd-console'
+  'caddy'
 )
 
 declare -A command_map=(
