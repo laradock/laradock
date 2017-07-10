@@ -36,6 +36,7 @@ declare -a all_modules=(
   'varnish'
   'haproxy'
   'jenkins'
+  'laravel-echo-server'
 )
 
 declare -A command_map=(
