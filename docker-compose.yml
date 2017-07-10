@@ -2,18 +2,6 @@ version: '2'
 
 services:
 
-### Balancer Haproxy ##########################################
-
-    balancer:
-      build: ./haproxy
-      ports:
-        - "${HAPROXY_HOST_HTTP_PORT}:8085"
-      volumes:
-        - /var/run/docker.sock:/var/run/docker.sock
-      links:
-        - proxy
-        - proxy2
-
 ### Jenkins ###################################################
 
     jenkins:

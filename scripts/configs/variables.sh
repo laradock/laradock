@@ -34,6 +34,7 @@ declare -a all_modules=(
   'mailhog'
   'selenium'
   'varnish'
+  'haproxy'
 )
 
 declare -A command_map=(
