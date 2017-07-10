@@ -26,6 +26,7 @@ declare -a all_modules=(
   'beanstalkd-console'
   'caddy'
   'phpmyadmin'
+  'adminer'
 )
 
 declare -A command_map=(

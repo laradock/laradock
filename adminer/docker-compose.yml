@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+
+  ### Adminer Container
+  adminer:
+    build:
+      context: ./adminer
+      args:
+        - INSTALL_MSSQL=${ADM_INSTALL_MSSQL}
+    ports:
+      - "${ADM_PORT}:8080"
+    depends_on:
+      - php-fpm
+    networks:
+      - frontend
+      - backend
