@@ -31,6 +31,7 @@ declare -a all_modules=(
   'elasticsearch'
   'kibana'
   'certbot'
+  'mailhog'
 )
 
 declare -A command_map=(
