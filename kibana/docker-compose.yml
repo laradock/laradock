@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+
+  ### Kibana Container
+  kibana:
+    build: ./kibana
+    ports:
+      - "${KIBANA_HTTP_PORT}:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - frontend
+      - backend

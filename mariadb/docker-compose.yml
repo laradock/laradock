@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+
+  ### MariaDB Container
+  mariadb:
+    build: ./mariadb
+    volumes:
+      - ${DATA_SAVE_PATH}/mariadb:/var/lib/mysql
+      - ${MARIADB_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+    ports:
+      - "${MARIADB_PORT}:3306"
+    environment:
+      - MYSQL_DATABASE=${MARIADB_DATABASE}
+      - MYSQL_USER=${MARIADB_USER}
+      - MYSQL_PASSWORD=${MARIADB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+    networks:
+      - backend
+
+volumes:
+  mariadb:
+    driver: "local"

@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+
+  ### Blackfire Container
+  blackfire:
+    image: blackfire/blackfire
+    environment:
+      - BLACKFIRE_SERVER_ID=${BLACKFIRE_SERVER_ID}
+      - BLACKFIRE_SERVER_TOKEN=${BLACKFIRE_SERVER_TOKEN}
+    depends_on:
+      - php-fpm
+    networks:
+      - backend

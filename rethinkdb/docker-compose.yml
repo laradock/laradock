@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+
+  ### RethinkDB Container
+  rethinkdb:
+    build: ./rethinkdb
+    ports:
+      - "${RETHINKDB_PORT}:8080"
+    volumes:
+      - ${DATA_SAVE_PATH}/rethinkdb:/data/rethinkdb_data
+    networks:
+      - backend
+
+volumes:
+  rethinkdb:
+    driver: "local"

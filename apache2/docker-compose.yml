@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+
+  ### Apache Server Container
+  apache2:
+    build:
+      context: ./apache2
+      args:
+        - PHP_SOCKET=${PHP_SOCKET}
+    volumes_from:
+      - applications
+    volumes:
+      - ${APACHE_HOST_LOG_PATH}:/var/log/apache2
+      - ${APACHE_SITES_PATH}:/etc/apache2/sites-available
+    ports:
+      - "${APACHE_HOST_HTTP_PORT}:80"
+      - "${APACHE_HOST_HTTPS_PORT}:443"
+    depends_on:
+      - php-fpm
+    networks:
+      - frontend
+      - backend

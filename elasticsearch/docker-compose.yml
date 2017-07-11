@@ -1,0 +1,33 @@
+version: '2'
+
+services:
+
+  ### ElasticSearch Container
+  elasticsearch:
+    build: ./elasticsearch
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+      - elasticsearch-plugins:/usr/share/elasticsearch/plugins
+    environment:
+      - cluster.name=laradock-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    mem_limit: 512m
+    ports:
+      - "${ELASTICSEARCH_HOST_HTTP_PORT}:9200"
+      - "${ELASTICSEARCH_HOST_TRANSPORT_PORT}:9300"
+    depends_on:
+      - php-fpm
+    networks:
+      - frontend
+      - backend
+
+volumes:
+  elasticsearch-data:
+    driver: "local"
+  elasticsearch-plugins:
+    driver: "local"

@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+
+  ### Percona Container
+  percona:
+    build:
+      context: ./percona
+    environment:
+      - MYSQL_DATABASE=${PERCONA_DATABASE}
+      - MYSQL_USER=${PERCONA_USER}
+      - MYSQL_PASSWORD=${PERCONA_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${PERCONA_ROOT_PASSWORD}
+    volumes:
+      - ${DATA_SAVE_PATH}/percona:/var/lib/mysql
+      - ${PERCONA_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+    ports:
+      - "${PERCONA_PORT}:3306"
+    networks:
+      - backend
+
+volumes:
+  percona:
+    driver: "local"

@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+
+  ### Minio Container
+  minio:
+    build: ./minio
+    volumes:
+      - minio:/export
+    ports:
+      - "${MINIO_PORT}:9000"
+    environment:
+      - MINIO_ACCESS_KEY=access
+      - MINIO_SECRET_KEY=secretkey
+    networks:
+      - frontend
+
+volumes:
+  minio:
+    driver: "local"
