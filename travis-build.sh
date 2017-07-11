@@ -11,6 +11,7 @@ env | sort
 
 #### Build the Docker Images
 if [ -n "${PHP_VERSION}" ]; then
+    chmod +x scripts/laradock.sh
     scripts/laradock.sh environvars:template | scripts/laradock.sh environvars:evaluate --template /dev/stdin --output .env
     sed -i -- "s/PHP_VERSION=.*/PHP_VERSION=${PHP_VERSION}/g" .env
     sed -i -- 's/=false/=true/g' .env
