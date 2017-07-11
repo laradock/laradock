@@ -28,7 +28,7 @@ output_environvars()
 {
   [[ $# -eq 0 || ${options[a]} ]] && set "${all_modules[@]}" "$@"
 
-  local index="$LARADOCK_ROOT/index"
+  local index="$LARADOCK_ROOT"
   local output="${options[o]:-/dev/stdout}"
 
   ( # output

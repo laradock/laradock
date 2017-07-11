@@ -10,7 +10,7 @@ compose_option()
 
 output_dockercompose_args()
 {
-  compose_option "$LARADOCK_ROOT/index"
+  compose_option "$LARADOCK_ROOT"
   [[ $# -eq 0 || ${options[a]} ]] && foreach compose_option "${all_modules[@]}"
   foreach compose_option "$@"
 }
