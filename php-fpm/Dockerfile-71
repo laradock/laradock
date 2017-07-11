@@ -207,6 +207,15 @@ RUN if [ ${INSTALL_WKHTMLTOPDF} = true ]; then \
     && chmod +x /usr/local/bin/wkhtmltopdf \
 ;fi
 
+
+#####################################
+# locales:
+#####################################
+RUN apt-get -y install locales
+COPY ./locale.gen /etc/locale.gen
+RUN locale-gen
+
+
 #
 #--------------------------------------------------------------------------
 # Final Touch
