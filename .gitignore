@@ -3,3 +3,5 @@
 /data
 .env
 /.project
+/shared/*
+!/shared/.gitkeep
