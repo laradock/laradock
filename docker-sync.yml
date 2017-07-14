@@ -5,5 +5,5 @@ options:
 syncs:
   applications-host-sync: # name of the sync volume
     src: '${APPLICATION}' # host source directory
-    # sync_strategy: 'native_osx' # native_osx is the default
-    # sync_excludes: ['ignored_folder', '.ignored_dot_folder'] # ignored folders form sync
+    sync_strategy: 'native_osx' # native_osx is the default
+    sync_excludes: ['laradock', '.ignored_dot_folder']

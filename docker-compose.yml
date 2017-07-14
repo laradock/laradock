@@ -7,8 +7,8 @@ services:
     applications:
       image: tianon/true
       volumes:
-        - ${APPLICATION}:/var/www
-#        - applications-sync:/var/www:nocopy # nocopy is required
+#        - ${APPLICATION}:/var/www
+        - applications-sync:/var/www:nocopy # nocopy is required
 
 
 ### Workspace Utilities Container ###########################
