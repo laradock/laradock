@@ -672,4 +672,4 @@ volumes:
     driver: "local"
   applications-sync:
     external:
-      name: "applications-sync"
+      name: "applications-host-sync"
