@@ -3,7 +3,7 @@ version: "2"
 options:
   verbose: true
 syncs:
-  applications-host-sync: # name of the sync volume
+  applications-docker-sync: # name of the intermediary sync volume
     compose-dev-file-path: 'docker-compose.sync.yml' # docker-compose override file
 
     src: '${APPLICATION}' # host source directory

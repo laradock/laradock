@@ -57,7 +57,7 @@ fi
 
 if [ "$1" == "up" ] ; then
     print_style "Initializing Docker Sync\n" "info"
-    print_style "May take a long time (15min+) the first run\n" "info"
+    print_style "May take a long time (15min+) on the first run\n" "info"
     docker-sync start;
 
     print_style "Initializing Docker Compose\n" "info"

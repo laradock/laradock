@@ -14,4 +14,4 @@ services:
 volumes:
   applications-sync:
     external:
-      name: "applications-host-sync"
+      name: "applications-docker-sync"
