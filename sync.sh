@@ -34,7 +34,7 @@ fi
 
 if [ "$1" == "up" ] ; then
     print_style "Initializing Docker Sync\n" "info";
-    print_style "(May take a long time (15min+) on the 'Looking for changes' step the first time)\n" "warning";
+    print_style "May take a long time (15 min+) the first time\n" "info";
     docker-sync start;
     print_style "Initializing Docker Compose\n" "info";
     shift; # removing first argument
