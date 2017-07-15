@@ -1,5 +1,19 @@
 #!/bin/bash
 
+# This shell script is an optional tool to simplify
+# the installation and usage of laradock with docker-sync.
+
+# To run, make sure to add permissions to this file:
+# chmod 755 sync.sh
+
+# Usage:
+# Install docker-sync: ./sync.sh install
+# Start workspace with nginx and mysql: ./sync.sh up nginx mysql
+# Open bash inside the workspace: ./sync.sh bash
+# Stop workspace: ./sync.sh down
+# Force sync: ./sync.sh trigger
+# Clean synced files: ./sync.sh clean
+
 # prints colored text
 print_style () {
 
@@ -26,6 +40,7 @@ display_options () {
     print_style "   install" "success"; printf "\t\t Installs docker-sync gem on the host machine.\n";
     print_style "   up [services]" "success"; printf "\t Starts docker-sync and runs docker compose.\n";
     print_style "   down" "success"; printf "\t\t\t Stops containers and docker-sync.\n";
+    print_style "   bash" "success"; printf "\t\t\t Opens bash on the workspace\n";
     print_style "   trigger" "success"; printf "\t\t Manually triggers the synchronization of files.\n";
     print_style "   clean" "warning"; printf "\t\t Removes all files from the docker-sync container.\n";
 }
@@ -56,6 +71,9 @@ elif [ "$1" == "install" ]; then
     print_style "Installing docker-sync\n" "info";
     gem install docker-sync;
 
+elif [ "$1" == "bash" ]; then
+    docker-compose exec workspace bash;
+
 elif [ "$1" == "trigger" ]; then
     print_style "Manually triggering sync between host and docker-sync container.\n" "info";
     docker-sync sync;
@@ -63,6 +81,7 @@ elif [ "$1" == "trigger" ]; then
 elif [ "$1" == "clean" ]; then
     print_style "Removing and cleaning up files from the docker-sync container.\n" "warning";
     docker-sync clean;
+
 
 else
     print_style "Invalid arguments.\n" "danger";
