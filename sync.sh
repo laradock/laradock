@@ -35,15 +35,15 @@ fi
 if [ "$1" == "up" ] ; then
     print_style "Initializing Docker Sync\n" "info";
     print_style "(May take a long time (15min+) on the 'Looking for changes' step the first time)\n" "warning";
-    docker-sync start;
-    print_style "Initializing Docker Compose\n" "info";
-    shift; # removing first argument
+    docker-sync start &&
+    print_style "Initializing Docker Compose\n" "info" &&
+    shift && # removing first argument
     docker-compose -f docker-compose.yml -f docker-compose.sync.yml up -d ${@};
 
 elif [ "$1" == "down" ]; then
     print_style "Stopping Docker Compose\n" "info";
-    docker-compose down;
-    print_style "Stopping Docker Sync\n" "info";
+    docker-compose down &&
+    print_style "Stopping Docker Sync\n" "info" &&
     docker-sync stop;
 
 elif [ "$1" == "install" ]; then
