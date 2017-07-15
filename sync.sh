@@ -37,12 +37,16 @@ print_style () {
 
 display_options () {
     printf "Available options:\n";
-    print_style "   install" "info"; printf "\t\t Installs docker-sync gem on the host machine.\n";
-    print_style "   up [services]" "success"; printf "\t Starts docker-sync and runs docker compose.\n";
-    print_style "   down" "success"; printf "\t\t\t Stops containers and docker-sync.\n";
+    print_style "   up [services]" "success"; printf "\t Starts workspace and services.\n";
+    print_style "   down" "success"; printf "\t\t\t Stops services.\n";
     print_style "   bash" "success"; printf "\t\t\t Opens bash on the workspace.\n";
-    print_style "   trigger" "success"; printf "\t\t Manually triggers the synchronization of files.\n";
-    print_style "   clean" "warning"; printf "\t\t Removes all files from docker-sync.\n";
+    print_style "   build" "success"; printf "\t\t\t Builds images.\n";
+
+    print_style "   sync install" "info"; printf "\t\t Installs docker-sync gem on the host machine.\n";
+    print_style "   sync up [services]" "success"; printf "\t Starts docker-sync and runs docker compose.\n";
+    print_style "   sync down" "success"; printf "\t\t\t Stops containers and docker-sync.\n";
+    print_style "   sync trigger" "success"; printf "\t\t Manually triggers the synchronization of files.\n";
+    print_style "   sync clean" "warning"; printf "\t\t Removes all files from docker-sync.\n";
 }
 
 if [[ $# -eq 0 ]] ; then
