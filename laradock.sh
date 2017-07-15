@@ -7,12 +7,12 @@
 # chmod 755 sync.sh
 
 # Usage:
-# Install docker-sync: ./sync.sh install
-# Start sync and services with nginx and mysql: ./sync.sh up nginx mysql
-# Open bash inside the workspace: ./sync.sh bash
-# Stop containers and sync: ./sync.sh down
-# Force sync: ./sync.sh trigger
-# Clean synced files: ./sync.sh clean
+# Install docker-sync: ./laradock.sh sync install
+# Start sync and services with nginx and mysql: ./laradock.sh sync up nginx mysql
+# Stop containers and sync: ./laradock.sh sync down
+# Open bash inside the workspace: ./laradock.sh bash
+# Force sync: ./laradock.sh sync trigger
+# Clean synced files: ./laradock.sh sync clean
 
 # prints colored text
 print_style () {
@@ -53,7 +53,7 @@ fi
 
 if [ "$1" == "sync" ] ; then
     shift; # removing first argument
-    print_style "Using Docker Sync\n" "info";
+    print_style "Using docker-sync to speed up Docker on OSX and Windows.\n" "success";
 
     if [ "$1" == "up" ] ; then
         print_style "Initializing Docker Sync\n" "info";
@@ -88,7 +88,7 @@ if [ "$1" == "sync" ] ; then
         exit 1
     fi
 else
-    print_style "Not using synced files might be slow on OSX and Windows. Use 'sync' option to speed up.\n";
+    print_style "Not using docker-sync might might be slow on OSX and Windows. Use 'sync' option to speed up.\n";
 
     if [ "$1" == "up" ] ; then
         print_style "Initializing Docker Compose\n" "info";
@@ -98,6 +98,10 @@ else
     elif [ "$1" == "down" ]; then
         print_style "Stopping Docker Compose\n" "info";
         docker-compose down;
+
+    elif [ "$1" == "build" ]; then
+        print_style "Building workspace\n" "info";
+        docker-compose build workspace;
 
     elif [ "$1" == "bash" ]; then
         docker-compose exec workspace bash;
