@@ -18,71 +18,74 @@
 print_style () {
 
     if [ "$2" == "info" ] ; then
-        COLOR="96m";
+        COLOR="96m"
     elif [ "$2" == "success" ] ; then
-        COLOR="92m";
+        COLOR="92m"
     elif [ "$2" == "warning" ] ; then
-        COLOR="93m";
+        COLOR="93m"
     elif [ "$2" == "danger" ] ; then
-        COLOR="91m";
+        COLOR="91m"
     else #default color
-        COLOR="0m";
+        COLOR="0m"
     fi
 
-    STARTCOLOR="\e[$COLOR";
-    ENDCOLOR="\e[0m";
+    STARTCOLOR="\e[$COLOR"
+    ENDCOLOR="\e[0m"
 
-    printf "$STARTCOLOR%b$ENDCOLOR" "$1";
+    printf "$STARTCOLOR%b$ENDCOLOR" "$1"
 }
 
 display_options () {
     printf "Available options:\n";
-    print_style "   install" "info"; printf "\t\t Installs docker-sync gem on the host machine.\n";
-    print_style "   up [services]" "success"; printf "\t Starts docker-sync and runs docker compose.\n";
-    print_style "   down" "success"; printf "\t\t\t Stops containers and docker-sync.\n";
-    print_style "   bash" "success"; printf "\t\t\t Opens bash on the workspace.\n";
-    print_style "   trigger" "success"; printf "\t\t Manually triggers the synchronization of files.\n";
-    print_style "   clean" "warning"; printf "\t\t Removes all files from docker-sync.\n";
+    print_style "   install" "info"; printf "\t\t Installs docker-sync gem on the host machine.\n"
+    print_style "   up [services]" "success"; printf "\t Starts docker-sync and runs docker compose.\n"
+    print_style "   down" "success"; printf "\t\t\t Stops containers and docker-sync.\n"
+    print_style "   bash" "success"; printf "\t\t\t Opens bash on the workspace.\n"
+    print_style "   trigger" "success"; printf "\t\t Manually triggers the synchronization of files.\n"
+    print_style "   clean" "warning"; printf "\t\t Removes all files from docker-sync.\n"
 }
 
 if [[ $# -eq 0 ]] ; then
-    print_style "Missing arguments.\n" "danger";
-    display_options;
+    print_style "Missing arguments.\n" "danger"
+    display_options
     exit 1
 fi
 
 if [ "$1" == "up" ] ; then
-    print_style "Initializing Docker Sync\n" "info";
-    print_style "May take a long time (15min+) the first run\n" "info";
+    value=$(<sync-services.txt)
+    echo "$value"
+
+    print_style "Initializing Docker Sync\n" "info"
+    print_style "May take a long time (15min+) the first run\n" "info"
     docker-sync start;
 
-    print_style "Initializing Docker Compose\n" "info";
-    shift; # removing first argument
-    docker-compose -f docker-compose.yml -f docker-compose.sync.yml up -d ${@};
+    print_style "Initializing Docker Compose\n" "info"
+    shift # removing first argument
+    docker-compose -f docker-compose.yml -f docker-compose.sync.yml up -d "$value"
 
 elif [ "$1" == "down" ]; then
-    print_style "Stopping Docker Compose\n" "info";
-    docker-compose down;
+    print_style "Stopping Docker Compose\n" "info"
+    docker-compose down
 
-    print_style "Stopping Docker Sync\n" "info";
-    docker-sync stop;
+    print_style "Stopping Docker Sync\n" "info"
+    docker-sync stop
 
 elif [ "$1" == "bash" ]; then
-    docker-compose exec workspace bash;
+    docker-compose exec workspace bash
 
 elif [ "$1" == "install" ]; then
-    print_style "Installing docker-sync\n" "info";
-    gem install docker-sync;
+    print_style "Installing docker-sync\n" "info"
+    gem install docker-sync
 
 elif [ "$1" == "trigger" ]; then
-    print_style "Manually triggering sync between host and docker-sync container.\n" "info";
+    print_style "Manually triggering sync between host and docker-sync container.\n" "info"
     docker-sync sync;
 
 elif [ "$1" == "clean" ]; then
-    print_style "Removing and cleaning up files from the docker-sync container.\n" "warning";
-    docker-sync clean;
+    print_style "Removing and cleaning up files from the docker-sync container.\n" "warning"
+    docker-sync clean
 else
-    print_style "Invalid arguments.\n" "danger";
-    display_options;
+    print_style "Invalid arguments.\n" "danger"
+    display_options
     exit 1
 fi
