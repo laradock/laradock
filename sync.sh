@@ -1,39 +1,60 @@
 #!/bin/bash
+
+# prints colored text
+print_style () {
+
+    if [ "$2" == "info" ] ; then
+        COLOR="1;96m";
+    elif [ "$2" == "success" ] ; then
+        COLOR="1;92m";
+    elif [ "$2" == "warning" ] ; then
+        COLOR="1;93m";
+    elif [ "$2" == "danger" ] ; then
+        COLOR="1;31m";
+    else #white
+        COLOR="1;97m";
+    fi
+
+    printf "\e[$COLOR%-6s\e[m" "$1";
+}
+
 if [[ $# -eq 0 ]] ; then
-    printf "Available commands:\n";
-    printf "   install\t\t Installs docker-sync gem on the host machine.\n";
-    printf "   up <services>\t Starts docker-sync and runs docker compose.\n";
-    printf "   down \t\t Stops containers and docker-sync.\n";
-    printf "   trigger \t\t Manually triggers the synchronization of files.\n";
-    printf "   clean \t\t Removes all synched files from docker-sync container.\n";
+    print_style "Invalid argument." 'danger'; printf " Available commands:\n";
+    print_style "   install" "success"; printf "\t\t Installs docker-sync gem on the host machine.\n";
+    print_style "   up <services>" "success"; printf "\t Starts docker-sync and runs docker compose.\n";
+    print_style "   down" "success"; printf "\t\t\t Stops containers and docker-sync.\n";
+    print_style "   trigger" "success"; printf "\t\t Manually triggers the synchronization of files.\n";
+    print_style "   clean" "warning"; printf "\t\t Removes all synched files from docker-sync container.\n";
+
     exit 1
 fi
 
 if [ "$1" == "up" ] ; then
-    printf "Initializing Docker Sync (may take several minutes the first time)";
+    print_style "Initializing Docker Sync\n" 'info';
+    print_style "(May take a long time (15min+) on the 'Looking for changes' step the first time)\n" 'warning';
     docker-sync start;
-    printf "Initializing Docker Compose";
+    print_style "Initializing Docker Compose\n" 'info';
     shift; # removing first argument
     docker-compose -f docker-compose.yml -f docker-compose.sync.yml up -d ${@};
 
 elif [ "$1" == "down" ]; then
-    printf "Stopping Docker Compose";
+    print_style "Stopping Docker Compose\n" 'info';
     docker-compose down;
-    printf "Stopping Docker Sync";
+    print_style "Stopping Docker Sync\n" 'info';
     docker-sync stop;
 
 elif [ "$1" == "install" ]; then
-    printf "Installing docker-sync";
+    print_style "Installing docker-sync" 'info';
     gem install docker-sync;
 
 elif [ "$1" == "trigger" ]; then
-    printf "Manually triggering sync between host and docker-sync container.";
+    print_style "Manually triggering sync between host and docker-sync container.\n" 'info';
     docker-sync sync;
 
 elif [ "$1" == "clean" ]; then
-    printf "Removing and cleaning up files from the docker-sync container.";
+    print_style "Removing and cleaning up files from the docker-sync container.\n" 'warning';
     docker-sync clean;
 
 else
-    printf "Invalid argument. Use 'up','down','install','trigger' or 'clean' ";
+    print_style "Invalid argument. Use 'up','down','install','trigger' or 'clean'\n" 'danger';
 fi
