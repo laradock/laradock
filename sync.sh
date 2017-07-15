@@ -5,7 +5,7 @@ if [[ $# -eq 0 ]] ; then
 fi
 
 if [ "$1" == "up" ] ; then
-    echo "Initializing Docker Sync";
+    echo "Initializing Docker Sync (may take several minutes the first time)";
     docker-sync start;
     echo "Initializing Docker Compose";
     shift; # removing first argument
