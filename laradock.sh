@@ -4,13 +4,14 @@ if [[ $# -eq 0 ]] ; then
     exit 1
 fi
 
-echo -e "Default \e[44mBlue";
+echo -e '\E[37;44m'"\033[1mContact List\033[0m";
+
 
 if [ "$1" == "up" ] ; then
     echo "Initializing Docker Sync";
     docker-sync start;
     echo "Initializing Docker Compose";
-    docker-compose -f docker-compose.yml -f docker-compose.sync.yml $@ -d;
+    docker-compose -f docker-compose.yml -f docker-compose.sync.yml -d $@;
 elif [ "$1" == "down" ]; then
     echo "Stopping Docker Compose";
     docker-compose down;
