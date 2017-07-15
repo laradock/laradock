@@ -14,9 +14,6 @@
 # Install docker-sync: ./sync.sh install
 # Start sync and services with nginx and mysql: ./sync.sh up nginx mysql
 # Stop containers and sync: ./sync.sh down
-# Open bash inside the workspace: ./sync.sh bash
-# Force sync: ./sync.sh sync
-# Clean synced files: ./sync.sh clean
 
 # prints colored text
 print_style () {
