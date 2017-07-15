@@ -4,14 +4,12 @@ if [[ $# -eq 0 ]] ; then
     exit 1
 fi
 
-echo -e '\E[37;44m'"\033[1mContact List\033[0m";
-
-
 if [ "$1" == "up" ] ; then
     echo "Initializing Docker Sync";
     docker-sync start;
     echo "Initializing Docker Compose";
-    docker-compose -f docker-compose.yml -f docker-compose.sync.yml up -d ${@:2};
+    shift; # removing first argument
+    docker-compose -f docker-compose.yml -f docker-compose.sync.yml up -d ${@};
 elif [ "$1" == "down" ]; then
     echo "Stopping Docker Compose";
     docker-compose down;
@@ -25,5 +23,5 @@ elif [ "$1" == "sync" ]; then
 elif [ "$1" == "clean" ]; then
     docker-sync clean;
 else
-    echo "Invalid arguments. Use 'up' or 'down'";
+    echo "Invalid argument. Use 'up','down','install','sync' or 'clean' ";
 fi
