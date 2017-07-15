@@ -7,9 +7,7 @@ services:
     applications:
       image: tianon/true
       volumes:
-#        - ${APPLICATION}:/var/www
-        - applications-sync:/var/www:nocopy # nocopy is required
-
+        - ${APPLICATION}:/var/www
 
 ### Workspace Utilities Container ###########################
 
@@ -670,6 +668,3 @@ volumes:
     driver: "local"
   elasticsearch-plugins:
     driver: "local"
-  applications-sync:
-    external:
-      name: "applications-host-sync"

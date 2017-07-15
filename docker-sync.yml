@@ -6,5 +6,5 @@ syncs:
   applications-host-sync: # name of the sync volume
     src: '${APPLICATION}' # host source directory
     sync_userid: 1000 # giving permissions to www-data user (as defined in nginx and php-fpm Dockerfiles)
-    sync_strategy: 'native_osx' # native_osx is the default
+    sync_strategy: 'native_osx' # for windows use 'unison' for linux docker-sync is not necessary
     sync_excludes: ['laradock', '.ignored_dot_folder'] # ignored directories
