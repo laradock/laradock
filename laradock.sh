@@ -13,5 +13,5 @@ else
     echo "Stopping Docker Compose";
     docker-compose down;
     echo "Stopping Docker Sync";
-    docker-sync start;
+    docker-sync stop;
 fi
