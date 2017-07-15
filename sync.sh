@@ -2,20 +2,22 @@
 
 # prints colored text
 print_style () {
-
     if [ "$2" == "info" ] ; then
-        COLOR="1;96m";
+        COLOR="96m";
     elif [ "$2" == "success" ] ; then
-        COLOR="1;92m";
+        COLOR="92m";
     elif [ "$2" == "warning" ] ; then
-        COLOR="1;93m";
+        COLOR="93m";
     elif [ "$2" == "danger" ] ; then
-        COLOR="1;31m";
+        COLOR="41m";
     else #white
-        COLOR="1;97m";
+        COLOR="97m";
     fi
 
-    printf "\e[$COLOR%-6s\e[m" "$1";
+    STARTCOLOR="\e[1;$COLOR";
+    ENDCOLOR="\e[m";
+
+    printf "$STARTCOLOR%b$ENDCOLOR" "$1";
 }
 
 if [[ $# -eq 0 ]] ; then
@@ -30,7 +32,7 @@ if [[ $# -eq 0 ]] ; then
 fi
 
 if [ "$1" == "up" ] ; then
-    print_style "Initializing Docker Sync\n" 'info';
+    print_style "Initializing Docker Sync\n" "info";
     print_style "(May take a long time (15min+) on the 'Looking for changes' step the first time)\n" 'warning';
     docker-sync start;
     print_style "Initializing Docker Compose\n" 'info';
@@ -44,7 +46,7 @@ elif [ "$1" == "down" ]; then
     docker-sync stop;
 
 elif [ "$1" == "install" ]; then
-    print_style "Installing docker-sync" 'info';
+    print_style "Installing docker-sync\n" 'info';
     gem install docker-sync;
 
 elif [ "$1" == "trigger" ]; then
@@ -56,5 +58,5 @@ elif [ "$1" == "clean" ]; then
     docker-sync clean;
 
 else
-    print_style "Invalid argument. Use 'up','down','install','trigger' or 'clean'\n" 'danger';
+    print_style "Invalid argument. Use 'up','down','install','trigger' or 'clean'" 'danger';
 fi
