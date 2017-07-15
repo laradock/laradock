@@ -11,7 +11,7 @@ if [ "$1" == "up" ] ; then
     echo "Initializing Docker Sync";
     docker-sync start;
     echo "Initializing Docker Compose";
-    docker-compose -f docker-compose.yml -f docker-compose.sync.yml -d $@;
+    docker-compose -f docker-compose.yml -f docker-compose.sync.yml up -d $@;
 elif [ "$1" == "down" ]; then
     echo "Stopping Docker Compose";
     docker-compose down;
