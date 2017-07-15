@@ -8,9 +8,9 @@
 
 # Usage:
 # Install docker-sync: ./sync.sh install
-# Start workspace with nginx and mysql: ./sync.sh up nginx mysql
+# Start sync and services with nginx and mysql: ./sync.sh up nginx mysql
 # Open bash inside the workspace: ./sync.sh bash
-# Stop workspace: ./sync.sh down
+# Stop containers and sync: ./sync.sh down
 # Force sync: ./sync.sh trigger
 # Clean synced files: ./sync.sh clean
 
@@ -51,40 +51,61 @@ if [[ $# -eq 0 ]] ; then
     exit 1
 fi
 
-if [ "$1" == "up" ] ; then
-    print_style "Initializing Docker Sync\n" "info";
-    print_style "May take a long time (15min+) the first run\n" "info";
-    docker-sync start;
-
-    print_style "Initializing Docker Compose\n" "info";
+if [ "$1" == "sync" ] ; then
     shift; # removing first argument
-    docker-compose -f docker-compose.yml -f docker-compose.sync.yml up -d ${@};
+    print_style "Using Docker Sync\n" "info";
 
-elif [ "$1" == "down" ]; then
-    print_style "Stopping Docker Compose\n" "info";
-    docker-compose down;
+    if [ "$1" == "up" ] ; then
+        print_style "Initializing Docker Sync\n" "info";
+        print_style "May take a long time (15min+) the first run\n" "info";
+        docker-sync start;
 
-    print_style "Stopping Docker Sync\n" "info";
-    docker-sync stop;
+        print_style "Initializing Docker Compose\n" "info";
+        shift; # removing first argument
+        docker-compose -f docker-compose.yml -f docker-compose.sync.yml up -d ${@};
 
-elif [ "$1" == "install" ]; then
-    print_style "Installing docker-sync\n" "info";
-    gem install docker-sync;
+    elif [ "$1" == "down" ]; then
+        print_style "Stopping Docker Compose\n" "info";
+        docker-compose down;
 
-elif [ "$1" == "bash" ]; then
-    docker-compose exec workspace bash;
+        print_style "Stopping Docker Sync\n" "info";
+        docker-sync stop;
 
-elif [ "$1" == "trigger" ]; then
-    print_style "Manually triggering sync between host and docker-sync container.\n" "info";
-    docker-sync sync;
+    elif [ "$1" == "install" ]; then
+        print_style "Installing docker-sync\n" "info";
+        gem install docker-sync;
 
-elif [ "$1" == "clean" ]; then
-    print_style "Removing and cleaning up files from the docker-sync container.\n" "warning";
-    docker-sync clean;
+    elif [ "$1" == "trigger" ]; then
+        print_style "Manually triggering sync between host and docker-sync container.\n" "info";
+        docker-sync sync;
 
-
+    elif [ "$1" == "clean" ]; then
+        print_style "Removing and cleaning up files from the docker-sync container.\n" "warning";
+        docker-sync clean;
+    else
+        print_style "Invalid arguments.\n" "danger";
+        display_options;
+        exit 1
+    fi
 else
-    print_style "Invalid arguments.\n" "danger";
-    display_options;
-    exit 1
+    print_style "Not using synced files might be slow on OSX and Windows. Use 'sync' option to speed up.\n";
+
+    if [ "$1" == "up" ] ; then
+        print_style "Initializing Docker Compose\n" "info";
+        shift; # removing first argument
+        docker-compose up -d ${@};
+
+    elif [ "$1" == "down" ]; then
+        print_style "Stopping Docker Compose\n" "info";
+        docker-compose down;
+
+    elif [ "$1" == "bash" ]; then
+        docker-compose exec workspace bash;
+
+    else
+        print_style "Invalid arguments.\n" "danger";
+        display_options;
+        exit 1
+    fi
+
 fi
