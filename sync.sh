@@ -42,7 +42,7 @@ display_options () {
     print_style "   up [services]" "success"; printf "\t Starts docker-sync and runs docker compose.\n"
     print_style "   down" "success"; printf "\t\t\t Stops containers and docker-sync.\n"
     print_style "   bash" "success"; printf "\t\t\t Opens bash on the workspace.\n"
-    print_style "   sync" "success"; printf "\t\t Manually triggers the synchronization of files.\n"
+    print_style "   sync" "info"; printf "\t\t\t Manually triggers the synchronization of files.\n"
     print_style "   clean" "danger"; printf "\t\t Removes all files from docker-sync.\n"
 }
 
