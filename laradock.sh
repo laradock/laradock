@@ -8,7 +8,7 @@ if [[ $1 -eq "up" ]] ; then
     echo "Initializing Docker Sync";
     docker-sync start;
     echo "Initializing Docker Compose";
-    docker-compose -f docker-compose.yml -f docker-compose.sync.yml -d nginx mysql;
+    docker-compose -f docker-compose.yml -f docker-compose.sync.yml up -d nginx mysql;
 else
     echo "Stopping Docker Compose";
     docker-compose down;
