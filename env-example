@@ -255,14 +255,19 @@ CADDY_CUSTOM_CADDYFILE=./caddy/Caddyfile
 
 LARAVEL_ECHO_SERVER_PORT=6001
 
+### DOCKER-SYNC ################################################################################################
+
+# osx: 'native_osx' (default)
+# windows: 'unison'
+# linux: docker-sync not required
+
+DOCKER_SYNC_STRATEGY=native_osx
 
 ##### TO BE CONTINUE .................................
 
 # ......... Missing: neo4j mongo rethinkdb redis aerospike pgadmin...
 # .........
 # .........
-
-
 
 ############################
 # Miscellaneous
@@ -281,3 +286,4 @@ PHP_IDE_CONFIG=serverName=laradock
 # Fix for windows users to make sure the application path works.
 
 COMPOSE_CONVERT_WINDOWS_PATHS=1
+

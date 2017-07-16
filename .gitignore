@@ -3,3 +3,4 @@
 /data
 .env
 /.project
+.docker-sync
