@@ -156,21 +156,82 @@ You might use the `--no-cache` option if you want full rebuilding (`docker-compo
 <br>
 <a name="Docker-Sync"></a>
 
-## Docker-Sync
+## Speed up with docker-sync
 
-Docker on the Mac [is slow](https://github.com/docker/for-mac/issues/77), at the time of writing. Especially for larger projects, this can be a problem. The problem is [older than March 2016](https://forums.docker.com/t/file-access-in-mounted-volumes-extremely-slow-cpu-bound/8076) - as it's a such a long-running issue, we're including it in the docs here. 
+Docker for Mac is [slow](https://github.com/docker/for-mac/issues/77) due to poor performance when the application accesses files shared with the host machine. 
+One solution is to use [docker-sync](https://github.com/EugenMayer/docker-sync). 
 
-The problem originates in bind-mount performance on MacOS. Docker for Mac uses osxfs by default. This is not without reason, it has [a lot of advantages](https://docs.docker.com/docker-for-mac/osxfs/).
+In simple terms, docker-sync creates a docker container with a copy of all the application files that can be accessed very quickly from the other containers. 
+On the other hand, docker-sync runs a process on the host machine that continuously tracks and updates files changes from the host to this intermediate container.
 
-Solutions to resolve this issue are easily installed however, we're hoping it'll be fixed by Docker themselves over time. They are currently [adding "cached and delegated" options](https://github.com/docker/for-mac/issues/77#issuecomment-283996750), which is partly available for Docker Edge.
+Out of the box, it comes pre-configured for OS X, but using it on Windows is very easy to set-up by modifying the `DOCKER_SYNC_STRATEGY` on the `.env`
 
-Options are [to switch over to NFS](https://github.com/IFSight/d4m-nfs) which is the simplest. The fastest option is [Docker-Sync "native"](https://github.com/EugenMayer/docker-sync) which is still quite easy to install.
+#### Usage
 
-Clone [this repo](https://github.com/EugenMayer/docker-sync-boilerplate) to your machine, copy `default/docker-sync.yml` to your Laradock directory and run `docker-sync-stack start`. Be sure to use `docker-sync-stack clean` to stop and `docker-compose build` to rebuild. More information can be found [in the Docker-sync docs](https://github.com/EugenMayer/docker-sync).
+Laradock comes with `sync.sh`, an optional bash script, that automates installing, running and stopping docker-sync.  Note that to run the bash script you may need to change the permissions `chmod 755 sync.sh`
+
+1) Configure your Laradock environment as you would normally do and test your application to make sure that your sites are running correctly.
+
+2) Make sure to set `DOCKER_SYNC_STRATEGY` on the `.env`. Read the [syncing strategies](https://github.com/EugenMayer/docker-sync/wiki/8.-Strategies) for details.
+```
+# osx: 'native_osx' (default)
+# windows: 'unison'
+# linux: docker-sync not required
+
+DOCKER_SYNC_STRATEGY=native_osx
+```
+
+2) Install the docker-sync gem on the host-machine:
+```bash
+./sync.sh install
+```
+3) Start docker-sync and the Laradock environment. 
+Specify the services you want to run, as you would normally do with `docker-compose up`
+```bash
+./sync.sh up nginx mysql
+```
+Please note that the first time docker-sync runs, it will copy all the files to the intermediate container and that may take a very long time (15min+).
+4) To stop the environment and docker-sync do:
+```bash
+./sync.sh down
+```
+
+#### Setting up Aliases (optional)
+
+You may create bash profile aliases to avoid having to remember and type these commands for everyday development. 
+Add the following lines to your `~/.bash_profile`:
+
+```bash
+alias devup="cd /PATH_TO_LARADOCK/laradock; ./sync.sh up nginx mysql" #add your services
+alias devbash="cd /PATH_TO_LARADOCK/laradock; ./sync.sh bash"
+alias devdown="cd /PATH_TO_LARADOCK/laradock; ./sync.sh down"
+```
+
+Now from any location on your machine, you can simply run `devup`, `devbash` and `devdown`. 
 
 
+#### Additional Commands
+ 
+Opening bash on the workspace container (to run artisan for example):
+ ```bash
+ ./sync.sh bash
+ ```
+Manually triggering the synchronization of the files:
+```bash
+./sync.sh sync
+```
+Removing and cleaning up the files and the docker-sync container. Use only if you want to rebuild or remove docker-sync completely. The files on the host will be kept untouched.
+```bash
+./sync.sh clean
+```
 
+**Additional Notes:**
 
+- You may run laradock with or without docker-sync at any time using with the same `.env` and `docker-compose.yml`, because the configuration is overridden automatically when docker-sync is used. 
+- You may inspect the `sync.sh` script to learn each of the commands and even add custom ones.
+- If a container cannot access the files on docker-sync, you may need to set a user on the Dockerfile of that container with an id of 1000 (this is the UID that nginx and php-fpm have configured on laradock). Alternatively, you may change the permissions to 777, but this is **not** recommended.
+
+Visit the [docker-sync documentation](https://github.com/EugenMayer/docker-sync/wiki) for more details.
 
 <br>
 <a name="Add-Docker-Images"></a>
