@@ -394,9 +394,7 @@ It should be like this:
     ...
 ```
 
-2 - Re-build the containers `docker-compose build workspace php-fpm`
-
-3 - Open `laradock/workspace/xdebug.ini` and/or `laradock/php-fpm/xdebug.ini` and enable at least the following configurations:
+2 - Open `laradock/workspace/xdebug.ini` and `laradock/php-fpm/xdebug.ini` and enable at least the following configurations:
 
 ```
 xdebug.remote_autostart=1
@@ -404,11 +402,25 @@ xdebug.remote_enable=1
 xdebug.remote_connect_back=1
 ```
 
-For information on how to configure xDebug with your IDE and work it out, check this [Repository](https://github.com/LarryEitel/laravel-laradock-phpstorm).
+3 - Re-build the containers `docker-compose build workspace php-fpm`
+
+For information on how to configure xDebug with your IDE and work it out, check this [Repository](https://github.com/LarryEitel/laravel-laradock-phpstorm) or follow up on the next section if you use linux and PhpStorm.
 
 
+<a name="Setup remote debugging for PhpStorm on Linux"></a>
+## Setup remote debugging for PhpStorm on Linux
 
+ - Make sure you have followed the steps above in the [Install Xdebug section](http://laradock.io/documentation/#install-xdebug). 
 
+ - Make sure Xdebug accepts connections and listens on port 9000. (Should be default configuration).
+
+![Debug Configuration](/images/photos/PHPStorm/linux/configuration/debugConfiguration.png "Debug Configuration").
+
+ - Create a server with name `laradock` (matches **PHP_IDE_CONFIG** key in environment file) and make sure to map project root path with server correctly.
+
+![Server Configuration](/images/photos/PHPStorm/linux/configuration/serverConfiguration.png "Server Configuration").
+
+ - Start listening for debug connections, place a breakpoint and you are good to go !
 
 
 <br>
