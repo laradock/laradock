@@ -92,6 +92,7 @@ PHP_SOCKET=php-fpm:9000
 
 ### MYSQL ##############################################################################################################
 
+MYSQL_VERSION=8.0
 MYSQL_DATABASE=default
 MYSQL_USER=default
 MYSQL_PASSWORD=secret
