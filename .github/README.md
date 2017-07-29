@@ -1,20 +1,32 @@
-![](https://s19.postimg.org/jblfytw9f/laradock-logo.jpg)
+<p align="center">
+    <img src="https://s19.postimg.org/jblfytw9f/laradock-logo.jpg" alt="Laradock Logo"/>
+</p>
 
-[![Build Status](https://travis-ci.org/laradock/laradock.svg?branch=master)](https://travis-ci.org/laradock/laradock) [![GitHub issues](https://img.shields.io/github/issues/laradock/laradock.svg)](https://github.com/laradock/laradock/issues) [![GitHub forks](https://img.shields.io/github/forks/laradock/laradock.svg)](https://github.com/laradock/laradock/network) [![GitHub stars](https://img.shields.io/github/stars/laradock/laradock.svg)](https://github.com/laradock/laradock/stargazers) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/laradock/laradock/master/LICENSE)
+<p align="center">A Docker PHP development environment that facilitates running PHP Apps on Docker</p>
 
-> Use Docker first and learn about it later.
+<p align="center">
+   <a href="https://travis-ci.org/laradock/laradock"><img src="https://travis-ci.org/laradock/laradock.svg?branch=master" alt="Build status"></a>
+   <a href="https://github.com/laradock/laradock/stargazers"><img src="https://img.shields.io/github/stars/laradock/laradock.svg" alt="GitHub stars"></a>
+   <a href="https://github.com/laradock/laradock/network"><img src="https://img.shields.io/github/forks/laradock/laradock.svg" alt="GitHub forks"></a>
+   <a href="https://github.com/laradock/laradock/issues"><img src="https://img.shields.io/github/issues/laradock/laradock.svg" alt="GitHub issues"></a>
+   <a href="https://raw.githubusercontent.com/laradock/laradock/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="GitHub license"></a>
+    <a href="http://laradock.io/contributing"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" alt="contributions welcome"></a>
+</p>
 
-A Docker PHP development environment that facilitates running **PHP** Apps on **Docker**.
+<h4 align="center" style="color:#7d58c2">Use Docker First And Learn About It Later</h4>
 
-[![forthebadge](http://forthebadge.com/images/badges/built-by-developers.svg)](http://zalt.me)
+<p align="center">
+    <a href="https://zalt.me"><img src="http://forthebadge.com/images/badges/built-by-developers.svg" alt="forthebadge" width="240" ></a>
+</p>
+
+
+---
 
 ## Documentation
 
 [**Full Documentation Here**](http://laradock.io)
 
 ## Credits
-
-**Maintainers:**
 
 - [Mahmoud Zalt](https://github.com/Mahmoudz) @mahmoudz | [Twitter](https://twitter.com/Mahmoud_Zalt) | [Site](http://zalt.me)
 - [Bo-Yi Wu](https://github.com/appleboy) @appleboy | [Twitter](https://twitter.com/appleboy)
@@ -31,4 +43,4 @@ A Docker PHP development environment that facilitates running **PHP** Apps on **
 
 ## License
 
-[MIT License](https://github.com/laradock/laradock/blob/master/LICENSE) (MIT)
+[MIT License](https://github.com/laradock/laradock/blob/master/LICENSE)
