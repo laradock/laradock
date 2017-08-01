@@ -112,9 +112,9 @@ Your folder structure should look like this:
 
 2 - Go to `nginx/sites` and create config files to point to different project directory when visiting different domains.
 
-Laradock by default includes `project-1.conf` and `project-2.conf` as working samples.
+Laradock by default includes `app.conf.example`, `laravel.conf.example` and `symfony.conf.example`  as working samples.
 
-3 - change the default names `project-n`:
+3 - change the default names `*.conf`:
 
 You can rename the config files, project folders and domains as you like, just make sure the `root` in the config files, is pointing to the correct project folder name.
 
@@ -123,6 +123,7 @@ You can rename the config files, project folders and domains as you like, just m
 ```
 127.0.0.1  project-1.dev
 127.0.0.1  project-2.dev
+...
 ```
 
 > **Now jump to the [Usage](#Usage) section.**

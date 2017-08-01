@@ -1021,9 +1021,16 @@ To install CodeIgniter 3 on Laradock all you have to do is the following simple 
 3 - Re-build your PHP-FPM Container `docker-compose build php-fpm`.
 
 
+<a name="Install-Symfony"></a>
+## Install Symfony
 
+The installation is very simple, nothing special.
 
+The NGINX sites include a default config file for your Symfony project `symfony.conf.example`, so edit it and make sure the `root` is pointing to your project web directory.
 
+You mihgt to run `docker-compose restart` if the container are already running. 
+
+Visit `symfony.dev`
 
 <br>
 <a name="Misc"></a>
