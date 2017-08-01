@@ -326,6 +326,7 @@ Set the following variables:
 - `laradock/php-fpm/xdebug.ini`
 
 Set the following variables:
+
 ```
 xdebug.remote_autostart=1
 xdebug.remote_enable=1
@@ -336,34 +337,39 @@ xdebug.cli_color=1
 
 <a name="InstallCleanHouse"></a>
 ### Need to clean house first?
+
 Make sure you are starting with a clean state. For example, do you have other Laradock containers and images?
 Here are a few things I use to clean things up.
 
 - Delete all containers using `grep laradock_` on the names, see: [Remove all containers based on docker image name](https://linuxconfig.org/remove-all-containners-based-on-docker-image-name).
+
 `docker ps -a | awk '{ print $1,$2 }' | grep laradock_ | awk '{print $1}' | xargs -I {} docker rm {}`
 
 - Delete all images containing `laradock`.
+
 `docker images | awk '{print $1,$2,$3}' | grep laradock_ | awk '{print $3}' | xargs -I {} docker rmi {}`
 **Note:** This will only delete images that were built with `Laradock`, **NOT** `laradock/*` which are pulled down by `Laradock` such as `laradock/workspace`, etc.
 **Note:** Some may fail with:
 `Error response from daemon: conflict: unable to delete 3f38eaed93df (cannot be forced) - image has dependent child images`
 
 - I added this to my `.bashrc` to remove orphaned images.
-    ```
-    dclean() {
-        processes=`docker ps -q -f status=exited`
-        if [ -n "$processes" ]; thend
-          docker rm $processes
-        fi
 
-        images=`docker images -q -f dangling=true`
-        if [ -n "$images" ]; then
-          docker rmi $images
-        fi
-    }
-    ```
+```
+dclean() {
+    processes=`docker ps -q -f status=exited`
+    if [ -n "$processes" ]; thend
+      docker rm $processes
+    fi
+
+    images=`docker images -q -f dangling=true`
+    if [ -n "$images" ]; then
+      docker rmi $images
+    fi
+}
+```
 
 - If you frequently switch configurations for Laradock, you may find that adding the following and added to your `.bashrc` or equivalent useful:
+
 ```
 # remove laravel* containers
 # remove laravel_* images
@@ -406,14 +412,14 @@ laradock_php-fpm_1          php-fpm                       Up       9000/tcp
 laradock_volumes_data_1     true                          Exit 0
 laradock_volumes_source_1   true                          Exit 0
 laradock_workspace_1        /sbin/my_init                 Up       0.0.0.0:2222->22/tcp
-
-
 ```
 
 <a name="enablePhpXdebug"></a>
 ## Enable xDebug on php-fpm
+
 In a host terminal sitting in the laradock folder, run: `.php-fpm/xdebug status`
 You should see something like the following:
+
 ```
 xDebug status
 laradock_php-fpm_1
@@ -422,6 +428,7 @@ Copyright (c) 1997-2016 The PHP Group
 Zend Engine v3.0.0, Copyright (c) 1998-2016 Zend Technologies
     with Xdebug v2.4.1, Copyright (c) 2002-2016, by Derick Rethans
 ```
+
 Other commands include `.php-fpm/xdebug start | stop`.
 
 If you have enabled `xdebug=true` in `docker-compose.yml/php-fpm`, `xdebug` will already be running when
@@ -430,6 +437,7 @@ If you have enabled `xdebug=true` in `docker-compose.yml/php-fpm`, `xdebug` will
 
 <a name="InstallPHPStormConfigs"></a>
 ## PHPStorm Settings
+
 - Here are some settings that are known to work:
     - `Settings/BuildDeploymentConnection`
         - ![Settings/BuildDeploymentConnection](/images/photos/PHPStorm/Settings/BuildDeploymentConnection.png)
