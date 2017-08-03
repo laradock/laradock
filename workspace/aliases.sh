@@ -34,7 +34,7 @@ alias composer:dump="composer dump-autoload -o"
 alias db:reset="php artisan migrate:reset && php artisan migrate --seed"
 alias migrate="php artisan migrate"
 alias seed="php artisan:seed"
-alias phpunit="./vendor/bin/phpunit"
+alias phpunit="vendor/bin/phpunit"
 
 
 # requires installation of 'https://www.npmjs.com/package/npms-cli'
