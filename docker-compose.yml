@@ -107,13 +107,14 @@ services:
       networks:
         - backend
 
-### Nginx Server Container ##################################
+### NGINX Server Container ##################################
 
     nginx:
       build:
         context: ./nginx
         args:
-          - PHP_UPSTREAM=php-fpm
+          - PHP_UPSTREAM_CONTAINER=${NGINX_PHP_UPSTREAM_CONTAINER}
+          - PHP_UPSTREAM_PORT=${NGINX_PHP_UPSTREAM_PORT}
       volumes_from:
         - applications
       volumes:
@@ -146,7 +147,8 @@ services:
       build:
         context: ./apache2
         args:
-          - PHP_SOCKET=${PHP_SOCKET}
+          - PHP_UPSTREAM_CONTAINER=${APACHE_PHP_UPSTREAM_CONTAINER}
+          - PHP_UPSTREAM_PORT=${APACHE_PHP_UPSTREAM_PORT}
       volumes_from:
         - applications
       volumes:
