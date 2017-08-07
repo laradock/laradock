@@ -320,14 +320,6 @@ RUN echo "" >> ~/.bashrc && \
     echo 'export PATH="/var/www/vendor/bin:$PATH"' >> ~/.bashrc
 
 #####################################
-# Laravel Artisan Alias
-#####################################
-USER root
-
-RUN echo "" >> ~/.bashrc && \
-    echo 'alias art="php artisan"' >> ~/.bashrc
-
-#####################################
 # Laravel Envoy:
 #####################################
 USER laradock
@@ -441,6 +433,41 @@ RUN if [ ${INSTALL_IMAGE_OPTIMIZERS} = true ]; then \
 ;fi
 
 USER laradock
+
+#####################################
+# Symfony:
+#####################################
+USER root
+ARG INSTALL_SYMFONY=false
+ENV INSTALL_SYMFONY ${INSTALL_SYMFONY}
+RUN if [ ${INSTALL_SYMFONY} = true ]; then \
+
+  mkdir -p /usr/local/bin \
+  && curl -LsS https://symfony.com/installer -o /usr/local/bin/symfony \
+  && chmod a+x /usr/local/bin/symfony \
+
+  #  Symfony 3 alias
+  && echo 'alias dev="php bin/console -e=dev"' >> ~/.bashrc \
+  && echo 'alias prod="php bin/console -e=prod"' >> ~/.bashrc \
+
+  #  Symfony 2 alias
+  #  && echo 'alias dev="php app/console -e=dev"' >> ~/.bashrc \
+  #  && echo 'alias prod="php app/console -e=prod"' >> ~/.bashrc \
+
+;fi
+
+#####################################
+# PYTHON:
+#####################################
+
+ARG INSTALL_PYTHON=false
+ENV INSTALL_PYTHON ${INSTALL_PYTHON}
+RUN if [ ${INSTALL_PYTHON} = true ]; then \
+  apt-get update \
+  && apt-get -y install python python-pip python-dev build-essential  \
+  && pip install --upgrade pip  \
+  && pip install --upgrade virtualenv \
+;fi
 
 #
 #--------------------------------------------------------------------------

@@ -337,14 +337,6 @@ RUN echo "" >> ~/.bashrc && \
     echo 'export PATH="/var/www/vendor/bin:$PATH"' >> ~/.bashrc
 
 #####################################
-# Laravel Artisan Alias
-#####################################
-USER root
-
-RUN echo "" >> ~/.bashrc && \
-    echo 'alias art="php artisan"' >> ~/.bashrc
-
-#####################################
 # Laravel Envoy:
 #####################################
 USER laradock
@@ -511,6 +503,19 @@ RUN if [ ${INSTALL_MC} = true ]; then\
 ;fi
 
 #####################################
+# Image optimizers:
+#####################################
+USER root
+ARG INSTALL_IMAGE_OPTIMIZERS=false
+ENV INSTALL_IMAGE_OPTIMIZERS ${INSTALL_IMAGE_OPTIMIZERS}
+RUN if [ ${INSTALL_IMAGE_OPTIMIZERS} = true ]; then \
+    apt-get install -y --force-yes jpegoptim optipng pngquant gifsicle && \
+    if [ ${INSTALL_NODE} = true ]; then \
+        . ~/.bashrc && npm install -g svgo \
+    ;fi\
+;fi
+
+#####################################
 # Symfony:
 #####################################
 USER root
@@ -530,19 +535,6 @@ RUN if [ ${INSTALL_SYMFONY} = true ]; then \
   #  && echo 'alias dev="php app/console -e=dev"' >> ~/.bashrc \
   #  && echo 'alias prod="php app/console -e=prod"' >> ~/.bashrc \
 
-;fi
-
-#####################################
-# Image optimizers:
-#####################################
-USER root
-ARG INSTALL_IMAGE_OPTIMIZERS=false
-ENV INSTALL_IMAGE_OPTIMIZERS ${INSTALL_IMAGE_OPTIMIZERS}
-RUN if [ ${INSTALL_IMAGE_OPTIMIZERS} = true ]; then \
-    apt-get install -y --force-yes jpegoptim optipng pngquant gifsicle && \
-    if [ ${INSTALL_NODE} = true ]; then \
-        . ~/.bashrc && npm install -g svgo \
-    ;fi\
 ;fi
 
 #####################################
