@@ -1,15 +1,15 @@
-FROM alpine:3.4
+FROM alpine:3.5
 
 MAINTAINER Eric Pfeiffer <computerfr33k@users.noreply.github.com>
 
-ENV caddy_version=0.10.3
+ENV caddy_version=0.10.5
 ARG plugins=http.git
 
 LABEL caddy_version="$caddy_version" architecture="amd64"
 
 RUN apk update \
     && apk upgrade \
-    && apk add tar curl git openssh
+    && apk add --no-cache openssh-client git tar curl
 
 RUN curl --silent --show-error --fail --location \
         --header "Accept: application/tar+gzip, application/x-gzip, application/octet-stream" -o - \
