@@ -22,9 +22,12 @@
 
 ---
 
-## Documentation
+<p align="center">
+	<a href="http://laradock.io">
+	   <img src="https://s19.postimg.org/ecnn9vdw3/Screen_Shot_2017-08-01_at_5.08.54_AM.png" width=300px" alt="Laradock Docs"/>
+	</a>
+</p>
 
-[**Full Documentation Here**](http://laradock.io)
 
 ## Credits
 
