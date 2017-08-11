@@ -8,6 +8,7 @@ weight: 4
 
 * [Production Setup on Digital Ocean](#Digital-Ocean)
 * [PHPStorm XDebug Setup](#PHPStorm-Debugging)
+* [Running Laravel Dusk Test](#Laravel-Dusk)
 
 
 
@@ -555,4 +556,149 @@ Assuming that you are in laradock folder, type:
     - ![ConnectionSSHAuth](/images/photos/KiTTY/ConnectionSSHAuth.png)
     - ![TerminalShell](/images/photos/KiTTY/TerminalShell.png)
 
+<br>
+<br>
+<br>
+<br>
+<br>
 
+<a name="Laravel-Dusk"></a>
+# Running Laravel Dusk Tests
+
+- [Intro](#dusk-intro)
+- [DNS Setup](#dns-setup)
+- [Docker Compose Setup](#docker-compose)
+- [Laravel Dusk Setup](#laravel-dusk-setup)
+- [Running Laravel Dusk Tests](#running-tests)
+
+<a name="dusk-intro"></a>
+## Intro
+Setting up Laravel Dusk tests to run with Laradock appears be something that
+eludes most Laradock users. This guide is designed to show you how to wire them
+up to work together. This guide is written with macOS and Linux in mind. As such,
+it's only been tested on macOS. Feel free to create pull requests to update the guide
+for Windows-specific instructions.
+
+This guide assumes you know how to use a DNS forwarder such as `dnsmasq` or are comfortable
+with editing the `/etc/hosts` file for one-off DNS changes.
+
+<a name="dns-setup"></a>
+## DNS Setup
+According to RFC-2606, only four TLDs are reserved for local testing[^1]:
+
+- `.test`
+- `.example`
+- `.invalid`
+- `.localhost`
+
+A common TLD used for local development is `.dev`, but newer versions of Google
+Chrome (such as the one bundled with the Selenium Docker image), will fail to
+resolve that DNS as there will appear to be a name collision.
+
+The recommended extension is `.test` for your Laravel web apps because you're
+running tests. Using a DNS forwarder such as `dnsmasq` or by editing the `/etc/hosts`
+file, configure the host to point to `localhost`.
+
+For example, in your `/etc/hosts` file:
+```
+##
+# Host Database
+#
+# localhost is used to configure the loopback interface
+# when the system is booting.  Do not change this entry.
+##
+127.0.0.1       localhost
+255.255.255.255 broadcasthost
+::1             localhost
+127.0.0.1       myapp.test
+```
+
+This will ensure that when navigating to `myapp.test`, it will route the
+request to `127.0.0.1` which will be handled by Nginx in Laradock.
+
+<a name="docker-compose"></a>
+## Docker Compose setup
+In order to make the Selenium container talk to the Nginx container appropriately,
+the `docker-compose.yml` needs to be edited to accommodate this. Make the following
+changes:
+
+```yaml
+...
+selenium:
+  ...
+  depends_on:
+  - nginx
+  links:
+  - nginx:<your_domain>
+```
+
+This allows network communication between the Nginx and Selenium containers
+and it also ensures that when starting the Selenium container, the Nginx
+container starts up first unless it's already running. This allows
+the Selenium container to make requests to the Nginx container, which is
+necessary for running Dusk tests. These changes also link the `nginx` environment
+variable to the domain you wired up in your hosts file.
+
+<a name="laravel-dusk-setup"></a>
+## Laravel Dusk Setup
+
+In order to make Laravel Dusk make the proper request to the Selenium container,
+you have to edit the `DuskTestCase.php` file that's provided on the initial
+installation of Laravel Dusk. The change you have to make deals with the URL the
+Remote Web Driver attempts to use to set up the Selenium session.
+
+One recommendation for this is to add a separate config option in your `.env.dusk.local`
+so it's still possible to run your Dusk tests locally should you want to.
+
+### .env.dusk.local
+```
+...
+USE_SELENIUM=true
+```
+
+### DuskTestCase.php
+```php
+abstract class DuskTestCase extends BaseTestCase
+{
+...
+    protected function driver()
+    {
+        if (env('USE_SELENIUM', 'false') == 'true') {
+            return RemoteWebDriver::create(
+                'http://selenium:4444/wd/hub', DesiredCapabilities::chrome()
+            );
+        } else {
+            return RemoteWebDriver::create(
+                'http://localhost:9515', DesiredCapabilities::chrome()
+            );
+        }
+    }
+}
+```
+
+<a name="running-tests"></a>
+## Running Laravel Dusk Tests
+
+Now that you have everything set up, to run your Dusk tests, you have to SSH
+into the workspace container as you normally would:
+```docker-compose exec --user=laradock workspace bash```
+
+Once inside, you can change directory to your application and run:
+
+```php artisan dusk```
+
+One way to make this easier from your project is to create a helper script. Here's one such example:
+```bash
+#!/usr/bin/env sh
+
+LARADOCK_HOME="path/to/laradock"
+
+pushd ${LARADOCK_HOME}
+
+docker-compose exec --user=laradock workspace bash -c "cd my-project && php artisan dusk && exit"
+```
+
+This invokes the Dusk command from inside the workspace container but when the script completes
+execution, it returns your session to your project directory.
+
+[^1]: [Don't Use .dev for Development](https://iyware.com/dont-use-dev-for-development/)
