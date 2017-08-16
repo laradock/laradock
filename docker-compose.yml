@@ -100,6 +100,7 @@ services:
     php-worker:
       build:
         context: ./php-worker
+        dockerfile: "Dockerfile-${PHP_VERSION}"
       volumes_from:
         - applications
       depends_on:
