@@ -5,3 +5,4 @@
 /.project
 /shared/*
 !/shared/.gitkeep
+.docker-sync

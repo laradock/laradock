@@ -1,0 +1,62 @@
+language: bash
+sudo: required
+services:
+  - docker
+
+env:
+  matrix:  
+    - PHP_VERSION=56 BUILD_SERVICE="applications blackfire minio percona nginx caddy apache2 mysql mariadb phpmyadmin postgres postgres-postgis pgadmin neo4j mongo redis"
+    - PHP_VERSION=70 BUILD_SERVICE="applications blackfire minio percona nginx caddy apache2 mysql mariadb phpmyadmin postgres postgres-postgis pgadmin neo4j mongo redis"
+    - PHP_VERSION=71 BUILD_SERVICE="applications blackfire minio percona nginx caddy apache2 mysql mariadb phpmyadmin postgres postgres-postgis pgadmin neo4j mongo redis"
+
+    - PHP_VERSION=56 BUILD_SERVICE=workspace
+    - PHP_VERSION=70 BUILD_SERVICE=workspace
+    - PHP_VERSION=71 BUILD_SERVICE=workspace
+
+    - PHP_VERSION=56 BUILD_SERVICE=php-fpm
+    - PHP_VERSION=70 BUILD_SERVICE=php-fpm
+    - PHP_VERSION=71 BUILD_SERVICE=php-fpm
+
+    - PHP_VERSION=56 BUILD_SERVICE="php-worker hhvm"
+    - PHP_VERSION=70 BUILD_SERVICE="php-worker hhvm"
+    - PHP_VERSION=71 BUILD_SERVICE="php-worker hhvm"
+
+    - PHP_VERSION=56 BUILD_SERVICE=mssql
+    - PHP_VERSION=70 BUILD_SERVICE=mssql
+    - PHP_VERSION=71 BUILD_SERVICE=mssql
+
+    - PHP_VERSION=56 BUILD_SERVICE=rethinkdb
+    - PHP_VERSION=70 BUILD_SERVICE=rethinkdb
+    - PHP_VERSION=71 BUILD_SERVICE=rethinkdb
+
+    - PHP_VERSION=56 BUILD_SERVICE=aerospike
+    - PHP_VERSION=70 BUILD_SERVICE=aerospike
+    - PHP_VERSION=71 BUILD_SERVICE=aerospike
+
+    - PHP_VERSION=56 BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq adminer elasticsearch certbot mailhog selenium jenkins proxy proxy2 balancer"
+    - PHP_VERSION=70 BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq adminer elasticsearch certbot mailhog selenium jenkins proxy proxy2 balancer"
+    - PHP_VERSION=71 BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq adminer elasticsearch certbot mailhog selenium jenkins proxy proxy2 balancer"
+
+    - HUGO_VERSION=0.20.2
+
+# Installing a newer Docker version
+before_install:
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  - sudo apt-get update
+  - sudo apt-get -y install docker-ce
+  - docker version
+
+script: ./travis-build.sh
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  local_dir: docs
+  github_token: $GITHUB_TOKEN
+  on:
+    branch: master
+    condition: -n "${HUGO_VERSION}"
+
+notifications:
+  email: false
