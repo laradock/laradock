@@ -331,7 +331,6 @@ RUN if [ ${INSTALL_IMAGE_OPTIMIZERS} = true ]; then \
     apt-get update -yqq && \
     apt-get install -y --force-yes jpegoptim optipng pngquant gifsicle \
 ;fi
->>>>>>> upstream-master
 
 #
 #--------------------------------------------------------------------------
