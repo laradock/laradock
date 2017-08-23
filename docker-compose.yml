@@ -213,6 +213,7 @@ services:
         - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
       ports:
         - "${MYSQL_PORT}:3306"
+      user: "1000:50"
       networks:
         - backend
 
@@ -477,7 +478,7 @@ services:
       networks:
         - frontend
         - backend
-      
+
 
 ### ElasticSearch Container #################################
 
