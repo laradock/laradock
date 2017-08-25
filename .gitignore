@@ -1,7 +1,6 @@
 .idea
 /logs
 /data
-.env
 /.project
 /shared/*
 !/shared/.gitkeep
