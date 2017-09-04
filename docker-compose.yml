@@ -23,14 +23,19 @@ services:
           - INSTALL_NODE=${WORKSPACE_INSTALL_NODE}
           - INSTALL_YARN=${WORKSPACE_INSTALL_YARN}
           - INSTALL_DRUSH=${WORKSPACE_INSTALL_DRUSH}
+          - INSTALL_DRUPAL_CONSOLE=${WORKSPACE_INSTALL_DRUPAL_CONSOLE}
           - INSTALL_AEROSPIKE=${WORKSPACE_INSTALL_AEROSPIKE}
           - INSTALL_V8JS=${WORKSPACE_INSTALL_V8JS}
           - COMPOSER_GLOBAL_INSTALL=${WORKSPACE_COMPOSER_GLOBAL_INSTALL}
           - INSTALL_WORKSPACE_SSH=${WORKSPACE_INSTALL_WORKSPACE_SSH}
           - INSTALL_LARAVEL_ENVOY=${WORKSPACE_INSTALL_LARAVEL_ENVOY}
+          - INSTALL_LARAVEL_INSTALLER=${WORKSPACE_INSTALL_LARAVEL_INSTALLER}
           - INSTALL_DEPLOYER=${WORKSPACE_INSTALL_DEPLOYER}
           - INSTALL_LINUXBREW=${WORKSPACE_INSTALL_LINUXBREW}
           - INSTALL_MC=${WORKSPACE_INSTALL_MC}
+          - INSTALL_SYMFONY=${WORKSPACE_INSTALL_SYMFONY}
+          - INSTALL_PYTHON=${WORKSPACE_INSTALL_PYTHON}
+          - INSTALL_IMAGE_OPTIMIZERS=${WORKSPACE_INSTALL_IMAGE_OPTIMIZERS}
           - PUID=${WORKSPACE_PUID}
           - PGID=${WORKSPACE_PGID}
           - NODE_VERSION=${WORKSPACE_NODE_VERSION}
@@ -74,6 +79,7 @@ services:
           - INSTALL_GHOSTSCRIPT=${PHP_FPM_INSTALL_GHOSTSCRIPT}
           - INSTALL_LDAP=${PHP_FPM_INSTALL_LDAP}
           - INSTALL_SWOOLE=${PHP_FPM_INSTALL_SWOOLE}
+          - INSTALL_IMAGE_OPTIMIZERS=${PHP_FPM_INSTALL_IMAGE_OPTIMIZERS}
         dockerfile: "Dockerfile-${PHP_VERSION}"
       volumes_from:
         - applications
@@ -95,6 +101,7 @@ services:
     php-worker:
       build:
         context: ./php-worker
+        dockerfile: "Dockerfile-${PHP_VERSION}"
       volumes_from:
         - applications
       depends_on:
@@ -104,13 +111,14 @@ services:
       networks:
         - backend
 
-### Nginx Server Container ##################################
+### NGINX Server Container ##################################
 
     nginx:
       build:
         context: ./nginx
         args:
-          - PHP_UPSTREAM=php-fpm
+          - PHP_UPSTREAM_CONTAINER=${NGINX_PHP_UPSTREAM_CONTAINER}
+          - PHP_UPSTREAM_PORT=${NGINX_PHP_UPSTREAM_PORT}
       volumes_from:
         - applications
       volumes:
@@ -143,12 +151,13 @@ services:
       build:
         context: ./apache2
         args:
-          - PHP_SOCKET=${PHP_SOCKET}
+          - PHP_UPSTREAM_CONTAINER=${APACHE_PHP_UPSTREAM_CONTAINER}
+          - PHP_UPSTREAM_PORT=${APACHE_PHP_UPSTREAM_PORT}
       volumes_from:
         - applications
       volumes:
         - ${APACHE_HOST_LOG_PATH}:/var/log/apache2
-        - ./apache2/sites:/etc/apache2/sites-available
+        - ${APACHE_SITES_PATH}:/etc/apache2/sites-available
       ports:
         - "${APACHE_HOST_HTTP_PORT}:80"
         - "${APACHE_HOST_HTTPS_PORT}:443"
@@ -191,16 +200,20 @@ services:
     mysql:
       build:
         context: ./mysql
+        args:
+          - MYSQL_VERSION=${MYSQL_VERSION}
       environment:
         - MYSQL_DATABASE=${MYSQL_DATABASE}
         - MYSQL_USER=${MYSQL_USER}
         - MYSQL_PASSWORD=${MYSQL_PASSWORD}
         - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+        - TZ=${WORKSPACE_TIMEZONE}
       volumes:
         - ${DATA_SAVE_PATH}/mysql:/var/lib/mysql
-        - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+        - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
       ports:
         - "${MYSQL_PORT}:3306"
+      user: "1000:50"
       networks:
         - backend
 
@@ -216,7 +229,7 @@ services:
         - MYSQL_ROOT_PASSWORD=${PERCONA_ROOT_PASSWORD}
       volumes:
         - ${DATA_SAVE_PATH}/percona:/var/lib/mysql
-        - ./percona/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+        - ${PERCONA_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
       ports:
         - "${PERCONA_PORT}:3306"
       networks:
@@ -244,7 +257,7 @@ services:
       build: ./mariadb
       volumes:
         - ${DATA_SAVE_PATH}/mariadb:/var/lib/mysql
-        - ./mariadb/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+        - ${MARIADB_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
       ports:
         - "${MARIADB_PORT}:3306"
       environment:
@@ -328,7 +341,7 @@ services:
       volumes:
         - ${DATA_SAVE_PATH}/redis:/data
       ports:
-        - "6379:6379"
+        - "${REDIS_PORT}:6379"
       networks:
         - backend
 
@@ -440,7 +453,10 @@ services:
 ### Adminer Container ####################################
 
     adminer:
-      build: ./adminer
+      build:
+        context: ./adminer
+        args:
+          - INSTALL_MSSQL=${ADM_INSTALL_MSSQL}
       ports:
         - "${ADM_PORT}:8080"
       depends_on:
@@ -455,11 +471,14 @@ services:
       build: ./pgadmin
       ports:
         - "5050:5050"
+      volumes:
+        - ${DATA_SAVE_PATH}/pgadmin-backup:/var/lib/pgadmin4/data/storage/pgadmin4
       depends_on:
         - postgres
       networks:
         - frontend
         - backend
+
 
 ### ElasticSearch Container #################################
 
@@ -468,11 +487,33 @@ services:
       volumes:
         - elasticsearch-data:/usr/share/elasticsearch/data
         - elasticsearch-plugins:/usr/share/elasticsearch/plugins
+      environment:
+        - cluster.name=laradock-cluster
+        - bootstrap.memory_lock=true
+        - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+      ulimits:
+        memlock:
+          soft: -1
+          hard: -1
+      mem_limit: 512m
       ports:
         - "${ELASTICSEARCH_HOST_HTTP_PORT}:9200"
         - "${ELASTICSEARCH_HOST_TRANSPORT_PORT}:9300"
       depends_on:
         - php-fpm
+      networks:
+        - frontend
+        - backend
+
+
+### Kibana Container #######################################
+
+    kibana:
+      build: ./kibana
+      ports:
+        - "${KIBANA_HTTP_PORT}:5601"
+      depends_on:
+        - elasticsearch
       networks:
         - frontend
         - backend
@@ -500,6 +541,7 @@ services:
         - "8025:8025"
       networks:
         - frontend
+        - backend
 
 ### Selenium Container ########################################
 
@@ -563,6 +605,7 @@ services:
         - proxy2
 
 ### Jenkins ###################################################
+
     jenkins:
       build: ./jenkins
       environment:
@@ -578,6 +621,19 @@ services:
         - frontend
         - backend
 
+### Laravel Echo Server #######################################
+    laravel-echo-server:
+      build:
+        context: ./laravel-echo-server
+      volumes:
+        - ./laravel-echo-server/laravel-echo-server.json:/app/laravel-echo-server.json:ro
+      ports:
+        - "${LARAVEL_ECHO_SERVER_PORT}:6001"
+      links:
+        - redis
+      networks:
+        - frontend
+        - backend
 
 ### Networks Setup ############################################
 

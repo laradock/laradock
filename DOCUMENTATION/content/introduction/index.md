@@ -83,17 +83,21 @@ In adhering to the separation of concerns principle as promoted by Docker, Larad
 You can turn On/Off as many instances of as any container without worrying about the configurations, everything works like a charm.
 
 - **Database Engines:**
-MySQL - MariaDB - Percona - MongoDB - Neo4j - RethinkDB - MSSQL - PostgreSQL - Postgres Postgis.
+MySQL - MariaDB - Percona - MongoDB - Neo4j - RethinkDB - MSSQL - PostgreSQL - Postgres-PostGIS.
+- **Database Management:**
+PhpMyAdmin - Adminer - PgAdmin
 - **Cache Engines:**
 Redis - Memcached - Aerospike
 - **PHP Servers:**
 NGINX - Apache2 - Caddy
 - **PHP Compilers:**
 PHP FPM - HHVM
-- **Message Queuing:**
-Beanstalkd - Beanstalkd Console - RabbitMQ - RabbitMQ Console - PHP Worker
-- **Tools:**
-HAProxy - Jenkins - ElasticSearch - Selenium - Certbot - Mailhog - Minio - Varnish - PhpMyAdmin - Adminer - PgAdmin - MailHog - [Blackfire](https://blackfire.io)...
+- **Message Queueing:**
+Beanstalkd - RabbitMQ - PHP Worker
+- **Queueing Management:**
+Beanstalkd Console - RabbitMQ Console
+- **Random Tools:**
+HAProxy - Certbot - Blackfire - Selenium - Jenkins - ElasticSearch - Kibana - Mailhog - Minio - Varnish - Swoole - Laravel Echo...
 
 Laradock introduces the **Workspace** Image, as a development environment.
 It contains a rich set of helpful tools, all pre-configured to work and integrate with almost any combination of Containers and tools you may choose.
@@ -148,7 +152,7 @@ Most importantly Docker can run on Development and on Production (same environme
 
 What's better than a **Demo Video**:
 
-- Laradock v5.* (soon or never)
+- Laradock v5.* (should be next!)
 - Laradock [v4.*](https://www.youtube.com/watch?v=TQii1jDa96Y)
 - Laradock [v2.*](https://www.youtube.com/watch?v=-DamFMczwDA)
 - Laradock [v0.3](https://www.youtube.com/watch?v=jGkyO6Is_aI)

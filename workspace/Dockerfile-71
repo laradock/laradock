@@ -113,13 +113,17 @@ COPY ./aliases.sh /home/laradock/aliases.sh
 RUN echo "" >> ~/.bashrc && \
     echo "# Load Custom Aliases" >> ~/.bashrc && \
     echo "source /home/laradock/aliases.sh" >> ~/.bashrc && \
-    echo "" >> ~/.bashrc
+	echo "" >> ~/.bashrc && \
+	sed -i 's/\r//' /home/laradock/aliases.sh && \
+	sed -i 's/^#! \/bin\/sh/#! \/bin\/bash/' /home/laradock/aliases.sh
 
 USER root
 RUN echo "" >> ~/.bashrc && \
     echo "# Load Custom Aliases" >> ~/.bashrc && \
     echo "source /home/laradock/aliases.sh" >> ~/.bashrc && \
-    echo "" >> ~/.bashrc
+	echo "" >> ~/.bashrc && \
+	sed -i 's/\r//' /home/laradock/aliases.sh && \
+	sed -i 's/^#! \/bin\/sh/#! \/bin\/bash/' /home/laradock/aliases.sh
 
 #####################################
 # xDebug:
@@ -128,7 +132,8 @@ RUN echo "" >> ~/.bashrc && \
 ARG INSTALL_XDEBUG=false
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     # Load the xdebug extension only with phpunit commands
-    apt-get install -y --force-yes php-xdebug && \
+    apt-get update && \
+    apt-get install -y --force-yes php7.1-xdebug && \
     sed -i 's/^;//g' /etc/php/7.1/cli/conf.d/20-xdebug.ini && \
     echo "alias phpunit='php -dzend_extension=xdebug.so /var/www/vendor/bin/phpunit'" >> ~/.bashrc \
 ;fi
@@ -182,7 +187,8 @@ ENV INSTALL_MONGO ${INSTALL_MONGO}
 RUN if [ ${INSTALL_MONGO} = true ]; then \
     # Install the mongodb extension
     pecl install mongodb && \
-    echo "extension=mongodb.so" >> /etc/php/7.1/cli/conf.d/30-mongodb.ini \
+    echo "extension=mongodb.so" >> /etc/php/7.1/mods-available/mongodb.ini && \
+    ln -s /etc/php/7.1/mods-available/mongodb.ini /etc/php/7.1/cli/conf.d/30-mongodb.ini \
 ;fi
 
 #####################################
@@ -193,10 +199,26 @@ ENV DRUSH_VERSION 8.1.2
 ARG INSTALL_DRUSH=false
 ENV INSTALL_DRUSH ${INSTALL_DRUSH}
 RUN if [ ${INSTALL_DRUSH} = true ]; then \
+    apt-get update -yqq && \
+    apt-get -y install mysql-client && \
     # Install Drush 8 with the phar file.
     curl -fsSL -o /usr/local/bin/drush https://github.com/drush-ops/drush/releases/download/$DRUSH_VERSION/drush.phar | bash && \
     chmod +x /usr/local/bin/drush && \
     drush core-status \
+;fi
+
+#####################################
+# Drupal Console:
+#####################################
+USER root
+ARG INSTALL_DRUPAL_CONSOLE=false
+ENV INSTALL_DRUPAL_CONSOLE ${INSTALL_DRUPAL_CONSOLE}
+RUN if [ ${INSTALL_DRUPAL_CONSOLE} = true ]; then \
+    apt-get update -yqq && \
+    apt-get -y install mysql-client && \
+    curl https://drupalconsole.com/installer -L -o drupal.phar && \
+    mv drupal.phar /usr/local/bin/drupal && \
+    chmod +x /usr/local/bin/drupal \
 ;fi
 
 USER laradock
@@ -330,25 +352,34 @@ RUN echo "" >> ~/.bashrc && \
     echo 'export PATH="/var/www/vendor/bin:$PATH"' >> ~/.bashrc
 
 #####################################
-# Laravel Artisan Alias
-#####################################
-USER root
-
-RUN echo "" >> ~/.bashrc && \
-    echo 'alias art="php artisan"' >> ~/.bashrc
-
-#####################################
 # Laravel Envoy:
 #####################################
 USER laradock
 
-ARG INSTALL_LARAVEL_ENVOY=true
+ARG INSTALL_LARAVEL_ENVOY=false
 ENV INSTALL_LARAVEL_ENVOY ${INSTALL_LARAVEL_ENVOY}
 
 RUN if [ ${INSTALL_LARAVEL_ENVOY} = true ]; then \
     # Install the Laravel Envoy
     composer global require "laravel/envoy=~1.0" \
 ;fi
+
+#####################################
+# Laravel Installer:
+#####################################
+USER root
+
+ARG INSTALL_LARAVEL_INSTALLER=false
+ENV INSTALL_LARAVEL_INSTALLER ${INSTALL_LARAVEL_INSTALLER}
+
+RUN if [ ${INSTALL_LARAVEL_INSTALLER} = true ]; then \
+    # Install the Laravel Installer
+	echo "" >> ~/.bashrc && \
+	echo 'export PATH="~/.composer/vendor/bin:$PATH"' >> ~/.bashrc \
+	&& composer global require "laravel/installer" \
+;fi
+
+USER laradock
 
 #####################################
 # Deployer:
@@ -368,7 +399,7 @@ RUN if [ ${INSTALL_DEPLOYER} = true ]; then \
 #####################################
 USER root
 
-ARG INSTALL_LINUXBREW=true
+ARG INSTALL_LINUXBREW=false
 ENV INSTALL_LINUXBREW ${INSTALL_LINUXBREW}
 
 RUN if [ ${INSTALL_LINUXBREW} = true ]; then \
@@ -398,7 +429,7 @@ RUN if [ ${INSTALL_LINUXBREW} = true ]; then \
 #####################################
 # SQL SERVER:
 #####################################
-ARG INSTALL_MSSQL=true
+ARG INSTALL_MSSQL=false
 ENV INSTALL_MSSQL ${INSTALL_MSSQL}
 
 RUN if [ ${INSTALL_MSSQL} = true ]; then \
@@ -489,6 +520,21 @@ RUN if [ ${INSTALL_MC} = true ]; then\
 ;fi
 
 #####################################
+# Image optimizers:
+#####################################
+USER root
+ARG INSTALL_IMAGE_OPTIMIZERS=false
+ENV INSTALL_IMAGE_OPTIMIZERS ${INSTALL_IMAGE_OPTIMIZERS}
+RUN if [ ${INSTALL_IMAGE_OPTIMIZERS} = true ]; then \
+    apt-get install -y --force-yes jpegoptim optipng pngquant gifsicle && \
+    if [ ${INSTALL_NODE} = true ]; then \
+        . ~/.bashrc && npm install -g svgo \
+    ;fi\
+;fi
+
+USER laradock
+
+#####################################
 # Symfony:
 #####################################
 USER root
@@ -510,7 +556,19 @@ RUN if [ ${INSTALL_SYMFONY} = true ]; then \
 
 ;fi
 
-USER laradock
+#####################################
+# PYTHON:
+#####################################
+
+ARG INSTALL_PYTHON=false
+ENV INSTALL_PYTHON ${INSTALL_PYTHON}
+RUN if [ ${INSTALL_PYTHON} = true ]; then \
+  apt-get update \
+  && apt-get -y install python python-pip python-dev build-essential  \
+  && pip install --upgrade pip  \
+  && pip install --upgrade virtualenv \
+;fi
+
 
 #
 #--------------------------------------------------------------------------

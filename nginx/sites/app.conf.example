@@ -3,8 +3,8 @@ server {
     listen 80;
     listen [::]:80;
 
-    server_name project-2.dev;
-    root /var/www/project-2/public;
+    server_name app.dev;
+    root /var/www/app;
     index index.php index.html index.htm;
 
     location / {
@@ -29,4 +29,7 @@ server {
         root /var/www/letsencrypt/;
         log_not_found off;
     }
+
+    error_log /var/log/nginx/app_error.log;
+    access_log /var/log/nginx/app_access.log;
 }

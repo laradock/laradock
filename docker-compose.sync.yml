@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+
+### Applications Code Container #############################
+
+    applications:
+      image: tianon/true
+      volumes:
+        - applications-sync:/var/www:nocopy # nocopy is required
+
+### Volumes Setup #############################################
+
+volumes:
+  applications-sync:
+    external:
+      name: "applications-docker-sync"

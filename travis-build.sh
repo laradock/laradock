@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #### halt script on error
-set -e
+set -xe
 
 echo '##### Print docker version'
 docker --version
@@ -26,7 +26,7 @@ if [ -n "${HUGO_VERSION}" ]; then
 
     # Download hugo binary
     curl -L https://github.com/spf13/hugo/releases/download/v$HUGO_VERSION/$HUGO_PACKAGE.tar.gz | tar xz
-    mkdir $HOME/bin
+    mkdir -p $HOME/bin
     mv ./${HUGO_BIN}/${HUGO_BIN} $HOME/bin/hugo
 
     # Remove existing docs
