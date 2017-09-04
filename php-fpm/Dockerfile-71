@@ -78,7 +78,7 @@ RUN if [ ${INSTALL_XDEBUG} = false -a ${INSTALL_BLACKFIRE} = true ]; then \
 ;fi
 
 #####################################
-# PHP REDIS EXTENSION FOR PHP 7
+# PHP REDIS EXTENSION FOR PHP 7.0
 #####################################
 
 ARG INSTALL_PHPREDIS=false
