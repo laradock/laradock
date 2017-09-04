@@ -192,7 +192,7 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
 ;fi
 
 #####################################
-# PHP REDIS EXTENSION FOR PHP 7
+# PHP REDIS EXTENSION FOR PHP 7.1
 #####################################
 
 ARG INSTALL_PHPREDIS=false
