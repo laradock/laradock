@@ -276,6 +276,9 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
     echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm' >> ~/.bashrc \
 ;fi
 
+# Add PATH for node
+ENV PATH $PATH:$NVM_DIR/versions/node/v${NODE_VERSION}/bin
+
 #####################################
 # YARN:
 #####################################
