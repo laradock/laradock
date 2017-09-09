@@ -83,6 +83,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Add the composer.json
 COPY ./composer.json /home/laradock/.composer/composer.json
+COPY ./config.json /home/laradock/.composer/config.json
 
 # Make sure that ~/.composer belongs to laradock
 RUN chown -R laradock:laradock /home/laradock/.composer
@@ -253,10 +254,12 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
     # Install nvm (A Node Version Manager)
     curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash && \
         . $NVM_DIR/nvm.sh && \
+        NVM_NODEJS_ORG_MIRROR=https://npm.taobao.org/mirrors/node nvm install stable && \
         nvm install ${NODE_VERSION} && \
         nvm use ${NODE_VERSION} && \
         nvm alias ${NODE_VERSION} && \
-        npm install -g gulp bower vue-cli \
+        npm install -g cnpm --registry=https://registry.npm.taobao.org && \
+        cnpm install -g gulp bower vue-cli vue-router vuex \
 ;fi
 
 # Wouldn't execute when added to the RUN statement in the above block
