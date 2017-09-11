@@ -638,6 +638,16 @@ services:
         - frontend
         - backend
 
+### AWS EB-CLI ####
+    aws:
+      build:
+        context: ./aws
+      volumes_from:
+        - applications
+      depends_on:
+        - workspace
+      tty: true
+
 ### Networks Setup ############################################
 
 networks:
