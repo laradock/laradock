@@ -922,6 +922,26 @@ docker-compose up -d minio
   ```
 
 
+
+<br>
+<a name="Use-AWS"></a>
+## Use AWS
+
+1 - Configure AWS:
+  - make sure to add your SSH keys in aws/ssh_keys folder
+
+2 - Run the Aws Container (`aws`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d aws
+```
+
+3 - Access the aws container with `docker-compose exec aws bash`
+
+4 - To start using eb cli inside the container, initiaze your project first by doing 'eb init'. Read the [aws eb cli](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-configuration.html) docs for more details.
+
+
+
 <br>
 <a name="CodeIgniter"></a>
 
