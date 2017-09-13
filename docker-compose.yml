@@ -218,7 +218,9 @@ services:
         - "${MYSQL_PORT}:3306"
       user: "1000:50"
       networks:
-        - backend
+        backend:
+          aliases:
+            - db
 
 ### Percona Container #########################################
 
