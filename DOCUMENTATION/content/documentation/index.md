@@ -922,6 +922,26 @@ docker-compose up -d minio
   ```
 
 
+
+<br>
+<a name="Use-AWS"></a>
+## Use AWS
+
+1 - Configure AWS:
+  - make sure to add your SSH keys in aws/ssh_keys folder
+
+2 - Run the Aws Container (`aws`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d aws
+```
+
+3 - Access the aws container with `docker-compose exec aws bash`
+
+4 - To start using eb cli inside the container, initiaze your project first by doing 'eb init'. Read the [aws eb cli](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-configuration.html) docs for more details.
+
+
+
 <br>
 <a name="CodeIgniter"></a>
 
@@ -1660,3 +1680,7 @@ This error sometimes happens because your Laravel application isn't running on t
   2. Change the `DB_HOST` variable on env with the IP that you received from previous step.
 * Option B
    1. Change the `DB_HOST` value to the same name as the MySQL docker container. The Laradock docker-compose file currently has this as `mysql`
+
+## I get stuck when building ngxinx on `fetch http://mirrors.aliyun.com/alpine/v3.5/main/x86_64/APKINDEX.tar.gz`
+
+As stated on [#749](https://github.com/laradock/laradock/issues/749#issuecomment-293296687), removing the line `RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories` from `nginx/Dockerfile` solves the problem.		

@@ -195,6 +195,19 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
 ;fi
 
 #####################################
+# PHP REDIS EXTENSION FOR PHP 5.6
+#####################################
+
+ARG INSTALL_PHPREDIS=false
+ENV INSTALL_PHPREDIS ${INSTALL_PHPREDIS}
+RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
+    # Install Php Redis extension
+    printf "\n" | pecl -q install -o -f redis && \
+    echo "extension=redis.so" >> /etc/php/5.6/mods-available/redis.ini && \
+    phpenmod redis \
+;fi
+
+#####################################
 # Drush:
 #####################################
 USER root
@@ -262,6 +275,9 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
     echo 'export NVM_DIR="/home/laradock/.nvm"' >> ~/.bashrc && \
     echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm' >> ~/.bashrc \
 ;fi
+
+# Add PATH for node
+ENV PATH $PATH:$NVM_DIR/versions/node/v${NODE_VERSION}/bin
 
 #####################################
 # YARN:
@@ -481,6 +497,16 @@ RUN if [ ${INSTALL_PYTHON} = true ]; then \
   && apt-get -y install python python-pip python-dev build-essential  \
   && pip install --upgrade pip  \
   && pip install --upgrade virtualenv \
+;fi
+
+#####################################
+# ImageMagick:
+#####################################
+USER root
+ARG INSTALL_IMAGEMAGICK=false
+ENV INSTALL_IMAGEMAGICK ${INSTALL_IMAGEMAGICK}
+RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
+    apt-get install -y --force-yes imagemagick php-imagick \
 ;fi
 
 #

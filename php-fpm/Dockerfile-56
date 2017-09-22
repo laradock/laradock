@@ -87,7 +87,7 @@ RUN if [ ${INSTALL_XDEBUG} = false -a ${INSTALL_BLACKFIRE} = true ]; then \
 ARG INSTALL_PHPREDIS=false
 RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
     # Install Php Redis Extension
-    pecl install -o -f redis \
+    printf "\n" | pecl install -o -f redis \
     &&  rm -rf /tmp/pear \
     &&  docker-php-ext-enable redis \
 ;fi
@@ -269,6 +269,19 @@ RUN if [ ${INSTALL_IMAGE_OPTIMIZERS} = true ]; then \
     apt-get install -y --force-yes jpegoptim optipng pngquant gifsicle \
 ;fi
 
+#####################################
+# ImageMagick:
+#####################################
+USER root
+ARG INSTALL_IMAGEMAGICK=false
+ENV INSTALL_IMAGEMAGICK ${INSTALL_IMAGEMAGICK}
+RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
+    apt-get update -y && \
+    apt-get install -y libmagickwand-dev imagemagick && \ 
+    pecl install imagick && \
+    docker-php-ext-enable imagick \
+;fi
+
 #
 #--------------------------------------------------------------------------
 # Final Touch
@@ -276,7 +289,7 @@ RUN if [ ${INSTALL_IMAGE_OPTIMIZERS} = true ]; then \
 #
 
 ADD ./laravel.ini /usr/local/etc/php/conf.d
-ADD ./laravel.pool.conf /usr/local/etc/php-fpm.d/
+ADD ./xlaravel.pool.conf /usr/local/etc/php-fpm.d/
 
 #RUN rm -r /var/lib/apt/lists/*
 

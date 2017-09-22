@@ -19,6 +19,7 @@ services:
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
           - INSTALL_SOAP=${WORKSPACE_INSTALL_SOAP}
           - INSTALL_MONGO=${WORKSPACE_INSTALL_MONGO}
+          - INSTALL_PHPREDIS=${WORKSPACE_INSTALL_PHPREDIS}
           - INSTALL_MSSQL=${WORKSPACE_INSTALL_MSSQL}
           - INSTALL_NODE=${WORKSPACE_INSTALL_NODE}
           - INSTALL_YARN=${WORKSPACE_INSTALL_YARN}
@@ -36,6 +37,7 @@ services:
           - INSTALL_SYMFONY=${WORKSPACE_INSTALL_SYMFONY}
           - INSTALL_PYTHON=${WORKSPACE_INSTALL_PYTHON}
           - INSTALL_IMAGE_OPTIMIZERS=${WORKSPACE_INSTALL_IMAGE_OPTIMIZERS}
+          - INSTALL_IMAGEMAGICK=${WORKSPACE_INSTALL_IMAGEMAGICK}
           - PUID=${WORKSPACE_PUID}
           - PGID=${WORKSPACE_PGID}
           - NODE_VERSION=${WORKSPACE_NODE_VERSION}
@@ -80,6 +82,7 @@ services:
           - INSTALL_LDAP=${PHP_FPM_INSTALL_LDAP}
           - INSTALL_SWOOLE=${PHP_FPM_INSTALL_SWOOLE}
           - INSTALL_IMAGE_OPTIMIZERS=${PHP_FPM_INSTALL_IMAGE_OPTIMIZERS}
+          - INSTALL_IMAGEMAGICK=${PHP_FPM_INSTALL_IMAGEMAGICK}
         dockerfile: "Dockerfile-${PHP_VERSION}"
       volumes_from:
         - applications
@@ -153,6 +156,7 @@ services:
         args:
           - PHP_UPSTREAM_CONTAINER=${APACHE_PHP_UPSTREAM_CONTAINER}
           - PHP_UPSTREAM_PORT=${APACHE_PHP_UPSTREAM_PORT}
+          - PHP_UPSTREAM_TIMEOUT=${APACHE_PHP_UPSTREAM_TIMEOUT}
       volumes_from:
         - applications
       volumes:
@@ -213,7 +217,6 @@ services:
         - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
       ports:
         - "${MYSQL_PORT}:3306"
-      user: "1000:50"
       networks:
         - backend
 
@@ -634,6 +637,16 @@ services:
       networks:
         - frontend
         - backend
+
+### AWS EB-CLI ####
+    aws:
+      build:
+        context: ./aws
+      volumes_from:
+        - applications
+      depends_on:
+        - workspace
+      tty: true
 
 ### Networks Setup ############################################
 
