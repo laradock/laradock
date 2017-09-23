@@ -590,6 +590,21 @@ RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
     apt-get install -y --force-yes imagemagick php-imagick \
 ;fi
 
+#####################################
+# Terraform:
+#####################################
+USER root
+ARG INSTALL_TERRAFORM=false
+ENV INSTALL_TERRAFORM ${INSTALL_TERRAFORM}
+RUN if [ ${INSTALL_TERRAFORM} = true ]; then \
+    apt-get update -yqq \
+    && apt-get -y install sudo wget unzip \
+    && wget https://releases.hashicorp.com/terraform/0.10.6/terraform_0.10.6_linux_amd64.zip \
+    && unzip terraform_0.10.6_linux_amd64.zip \
+    && mv terraform /usr/local/bin \
+    && rm terraform_0.10.6_linux_amd64.zip \
+;fi
+
 #
 #--------------------------------------------------------------------------
 # Final Touch
