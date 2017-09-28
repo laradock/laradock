@@ -624,6 +624,35 @@ RUN if [ ${INSTALL_TERRAFORM} = true ]; then \
     && rm terraform_0.10.6_linux_amd64.zip \
 ;fi
 
+#####################################
+# Dusk Dependencies:
+#####################################
+USER root
+ARG INSTALL_DUSK_DEPS=false
+ENV INSTALL_DUSK_DEPS ${INSTALL_DUSK_DEPS}
+RUN if [ ${INSTALL_DUSK_DEPS} = true ]; then \
+  # Install required packages
+  add-apt-repository ppa:ondrej/php \
+  && apt-get update \
+  && apt-get -y install zip wget unzip xdg-utils \
+    libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4 xvfb \
+    gtk2-engines-pixbuf xfonts-cyrillic xfonts-100dpi xfonts-75dpi \
+    xfonts-base xfonts-scalable x11-apps \
+
+  # Install Google Chrome
+  && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+  && dpkg -i --force-depends google-chrome-stable_current_amd64.deb \
+  && apt-get -y -f install \
+  && dpkg -i --force-depends google-chrome-stable_current_amd64.deb \
+  && rm google-chrome-stable_current_amd64.deb \
+
+  # Install Chrome Driver
+  && wget https://chromedriver.storage.googleapis.com/2.31/chromedriver_linux64.zip \
+  && unzip chromedriver_linux64.zip \
+  && mv chromedriver /usr/local/bin/ \
+  && rm chromedriver_linux64.zip \
+;fi
+
 #
 #--------------------------------------------------------------------------
 # Final Touch
