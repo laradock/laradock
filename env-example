@@ -30,6 +30,7 @@ PHP_INTERPRETER=php-fpm
 ### WORKSPACE ##########################################################################################################
 
 WORKSPACE_INSTALL_XDEBUG=false
+WORKSPACE_INSTALL_LDAP=false
 WORKSPACE_INSTALL_SOAP=false
 WORKSPACE_INSTALL_MONGO=false
 WORKSPACE_INSTALL_PHPREDIS=false
