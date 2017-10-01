@@ -222,6 +222,25 @@ services:
       networks:
         - backend
 
+### Grafana Container #########################################
+
+    grafana:
+      build:
+        context: ./grafana
+      volumes:
+        - ${DATA_SAVE_PATH}/grafana:/var/lib/grafana
+      ports:
+        - "3000:3000"
+      depends_on:
+        - mysql
+      networks:
+        - backend
+
+    #grafana-storage:
+    #    image: busybox:latest
+    #    volumes:
+    #      - ${DATA_SAVE_PATH}/grafana:/var/lib/grafana
+
 ### Percona Container #########################################
 
     percona:
