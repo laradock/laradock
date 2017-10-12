@@ -1,6 +1,6 @@
 FROM golang
 
-ARG version="0.10.9"
+MAINTAINER Huadong Zuo <admin@zuohuadong.cn>
 
 ARG plugins="git"
 
