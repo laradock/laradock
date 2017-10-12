@@ -39,23 +39,21 @@ Choose the setup the best suits your needs.
 git submodule add https://github.com/Laradock/laradock.git
 ```
 
-**Notes:**
+Note: If you are not using Git yet for your project, you can use `git clone` instead of `git submodule `.
 
-- If you are not using Git yet for your project, you can use `git clone` instead of `git submodule `.
-
-- Note 2: To keep track of your Laradock changes, between your projects and also keep Laradock updated. [Check this](/documentation/#keep-track-of-your-laradock-changes)
+*To keep track of your Laradock changes, between your projects and also keep Laradock updated [check these docs](/documentation/#keep-track-of-your-laradock-changes)*
 
 
 Your folder structure should look like this:
 
 ```
 + project-a
-	+ laradock-a
+  + laradock-a
 + project-b
-	+ laradock-b
+  + laradock-b
 ```
 
-(It's important to rename the folders differently in each project.)
+*(It's important to rename the laradock folders to unique name in each project, if you want to run laradock per project).*
 
 > **Now jump to the [Usage](#Usage) section.**
 
@@ -77,14 +75,19 @@ Your folder structure should look like this:
 
 2 - Edit your web server sites configuration.
 
-**In case of NGINX:** open `nginx/sites/default.conf` and change the `root` from `/var/www/public` to `/var/www/{my-project-folder-name}/public`.
+We'll need to do step 1 of the [Usage](#Usage) section now to make this happen.
 
-*Or you can keep `default.conf` as it is, and create a separate config `my-site.conf` file for it.*
+```
+cp env-example .env
+```
 
-**In case of Apache:** :P 
+At the top, change the `APPLICATION` variable to your project path.
 
-<br>
+```
+APPLICATION=../project-z/
+```
 
+Make sure to replace `project-z` with your project folder name.
 
 > **Now jump to the [Usage](#Usage) section.**
 
@@ -109,9 +112,9 @@ Your folder structure should look like this:
 
 2 - Go to `nginx/sites` and create config files to point to different project directory when visiting different domains.
 
-Laradock by default includes `project-1.conf` and `project-2.conf` as working samples.
+Laradock by default includes `app.conf.example`, `laravel.conf.example` and `symfony.conf.example`  as working samples.
 
-3 - change the default names `project-n`:
+3 - change the default names `*.conf`:
 
 You can rename the config files, project folders and domains as you like, just make sure the `root` in the config files, is pointing to the correct project folder name.
 
@@ -120,6 +123,7 @@ You can rename the config files, project folders and domains as you like, just m
 ```
 127.0.0.1  project-1.dev
 127.0.0.1  project-2.dev
+...
 ```
 
 > **Now jump to the [Usage](#Usage) section.**
@@ -142,11 +146,15 @@ If you are using **Docker Toolbox** (VM), do one of the following:
 
 <br>
 
+We recommend using a Docker version which is newer than 1.13. 
+
+<br>
+
 >**Warning:** If you used an older version of Laradock it's highly recommended to rebuild the containers you need to use [see how you rebuild a container](#Build-Re-build-Containers) in order to prevent as much errors as possible.
 
 <br>
 
-1 - Enter the laradock folder and rename `env-example` to `.env`
+1 - Enter the laradock folder and copy `env-example` to `.env`
 
 ```shell
 cp env-example .env
@@ -204,6 +212,4 @@ DB_HOST=mysql
 *If you want to install Laravel as PHP project, see [How to Install Laravel in a Docker Container](#Install-Laravel).*
 
 <br>
-5 - Open your browser and visit your localhost address `http://localhost/`. If you followed the multiple projects setup, you can visit `http://project-1.dev/` and `http://project-2.dev/`. But first don't 
-
-
+5 - Open your browser and visit your localhost address `http://localhost/`. If you followed the multiple projects setup, you can visit `http://project-1.dev/` and `http://project-2.dev/`.

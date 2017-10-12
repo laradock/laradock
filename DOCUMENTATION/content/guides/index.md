@@ -8,6 +8,7 @@ weight: 4
 
 * [Production Setup on Digital Ocean](#Digital-Ocean)
 * [PHPStorm XDebug Setup](#PHPStorm-Debugging)
+* [Running Laravel Dusk Test](#Laravel-Dusk)
 
 
 
@@ -54,6 +55,10 @@ $root@server:~/laravel/ cd laradock
 ```
 $root@server:~/laravel/laradock# curl -L https://github.com/docker/compose/releases/download/1.8.0/run.sh > /usr/local/bin/docker-compose
 $root@server:~/chmod +x /usr/local/bin/docker-compose
+```
+##  Enter the laradock folder and rename env-example to .env.
+```
+$root@server:~/laravel/laradock# cp env-example .env
 ```
 
 ## Create Your Laradock Containers
@@ -138,8 +143,8 @@ And add `server_name` (your custom domain)
 ## Rebuild Your Nginx
 
 ```
-$root@server:~/laravel/laradock/nginx# docker-compose down
-$root@server:~/laravel/laradock/nginx# docker-compose build nginx
+$root@server:~/laravel/laradock# docker-compose down
+$root@server:~/laravel/laradock# docker-compose build nginx
 ```
 
 ## Re Run Your Containers MYSQL and NGINX
@@ -279,10 +284,10 @@ you should be able to adjust accordingly. This guide was written based on Docker
 ## hosts
 - Add `laravel` to your hosts file located on Windows 10 at `C:\Windows\System32\drivers\etc\hosts`. It should be set to the IP of your running container. Mine is: `10.0.75.2`
 On Windows you can find it by opening Windows `Hyper-V Manager`.
-    - ![Windows Hyper-V Manager](photos/PHPStorm/Settings/WindowsHyperVManager.png)
+    - ![Windows Hyper-V Manager](images/photos/PHPStorm/Settings/WindowsHyperVManager.png)
 
 - [Hosts File Editor](https://github.com/scottlerch/HostsFileEditor) makes it easy to change your hosts file.
-    - Set `laravel` to your docker host IP. See [Example](photos/SimpleHostsEditor/AddHost_laravel.png).
+    - Set `laravel` to your docker host IP. See [Example](images/photos/SimpleHostsEditor/AddHost_laravel.png).
 
 
 <a name="FireWall"></a>
@@ -322,6 +327,7 @@ Set the following variables:
 - `laradock/php-fpm/xdebug.ini`
 
 Set the following variables:
+
 ```
 xdebug.remote_autostart=1
 xdebug.remote_enable=1
@@ -332,34 +338,39 @@ xdebug.cli_color=1
 
 <a name="InstallCleanHouse"></a>
 ### Need to clean house first?
+
 Make sure you are starting with a clean state. For example, do you have other Laradock containers and images?
 Here are a few things I use to clean things up.
 
 - Delete all containers using `grep laradock_` on the names, see: [Remove all containers based on docker image name](https://linuxconfig.org/remove-all-containners-based-on-docker-image-name).
+
 `docker ps -a | awk '{ print $1,$2 }' | grep laradock_ | awk '{print $1}' | xargs -I {} docker rm {}`
 
 - Delete all images containing `laradock`.
+
 `docker images | awk '{print $1,$2,$3}' | grep laradock_ | awk '{print $3}' | xargs -I {} docker rmi {}`
 **Note:** This will only delete images that were built with `Laradock`, **NOT** `laradock/*` which are pulled down by `Laradock` such as `laradock/workspace`, etc.
 **Note:** Some may fail with:
 `Error response from daemon: conflict: unable to delete 3f38eaed93df (cannot be forced) - image has dependent child images`
 
 - I added this to my `.bashrc` to remove orphaned images.
-    ```
-    dclean() {
-        processes=`docker ps -q -f status=exited`
-        if [ -n "$processes" ]; thend
-          docker rm $processes
-        fi
 
-        images=`docker images -q -f dangling=true`
-        if [ -n "$images" ]; then
-          docker rmi $images
-        fi
-    }
-    ```
+```
+dclean() {
+    processes=`docker ps -q -f status=exited`
+    if [ -n "$processes" ]; thend
+      docker rm $processes
+    fi
+
+    images=`docker images -q -f dangling=true`
+    if [ -n "$images" ]; then
+      docker rmi $images
+    fi
+}
+```
 
 - If you frequently switch configurations for Laradock, you may find that adding the following and added to your `.bashrc` or equivalent useful:
+
 ```
 # remove laravel* containers
 # remove laravel_* images
@@ -402,14 +413,14 @@ laradock_php-fpm_1          php-fpm                       Up       9000/tcp
 laradock_volumes_data_1     true                          Exit 0
 laradock_volumes_source_1   true                          Exit 0
 laradock_workspace_1        /sbin/my_init                 Up       0.0.0.0:2222->22/tcp
-
-
 ```
 
 <a name="enablePhpXdebug"></a>
 ## Enable xDebug on php-fpm
+
 In a host terminal sitting in the laradock folder, run: `.php-fpm/xdebug status`
 You should see something like the following:
+
 ```
 xDebug status
 laradock_php-fpm_1
@@ -418,6 +429,7 @@ Copyright (c) 1997-2016 The PHP Group
 Zend Engine v3.0.0, Copyright (c) 1998-2016 Zend Technologies
     with Xdebug v2.4.1, Copyright (c) 2002-2016, by Derick Rethans
 ```
+
 Other commands include `.php-fpm/xdebug start | stop`.
 
 If you have enabled `xdebug=true` in `docker-compose.yml/php-fpm`, `xdebug` will already be running when
@@ -426,56 +438,57 @@ If you have enabled `xdebug=true` in `docker-compose.yml/php-fpm`, `xdebug` will
 
 <a name="InstallPHPStormConfigs"></a>
 ## PHPStorm Settings
+
 - Here are some settings that are known to work:
     - `Settings/BuildDeploymentConnection`
-        - ![Settings/BuildDeploymentConnection](photos/PHPStorm/Settings/BuildDeploymentConnection.png)
+        - ![Settings/BuildDeploymentConnection](/images/photos/PHPStorm/Settings/BuildDeploymentConnection.png)
 
     - `Settings/BuildDeploymentConnectionMappings`
-        - ![Settings/BuildDeploymentConnectionMappings](photos/PHPStorm/Settings/BuildDeploymentConnectionMappings.png)
+        - ![Settings/BuildDeploymentConnectionMappings](/images/photos/PHPStorm/Settings/BuildDeploymentConnectionMappings.png)
 
     - `Settings/BuildDeploymentDebugger`
-        - ![Settings/BuildDeploymentDebugger](photos/PHPStorm/Settings/BuildDeploymentDebugger.png)
+        - ![Settings/BuildDeploymentDebugger](/images/photos/PHPStorm/Settings/BuildDeploymentDebugger.png)
 
     - `Settings/EditRunConfigurationRemoteWebDebug`
-        - ![Settings/EditRunConfigurationRemoteWebDebug](photos/PHPStorm/Settings/EditRunConfigurationRemoteWebDebug.png)
+        - ![Settings/EditRunConfigurationRemoteWebDebug](/images/photos/PHPStorm/Settings/EditRunConfigurationRemoteWebDebug.png)
 
     - `Settings/EditRunConfigurationRemoteExampleTestDebug`
-        - ![Settings/EditRunConfigurationRemoteExampleTestDebug](photos/PHPStorm/Settings/EditRunConfigurationRemoteExampleTestDebug.png)
+        - ![Settings/EditRunConfigurationRemoteExampleTestDebug](/images/photos/PHPStorm/Settings/EditRunConfigurationRemoteExampleTestDebug.png)
 
     - `Settings/LangsPHPDebug`
-        - ![Settings/LangsPHPDebug](photos/PHPStorm/Settings/LangsPHPDebug.png)
+        - ![Settings/LangsPHPDebug](/images/photos/PHPStorm/Settings/LangsPHPDebug.png)
 
     - `Settings/LangsPHPInterpreters`
-        - ![Settings/LangsPHPInterpreters](photos/PHPStorm/Settings/LangsPHPInterpreters.png)
+        - ![Settings/LangsPHPInterpreters](/images/photos/PHPStorm/Settings/LangsPHPInterpreters.png)
 
     - `Settings/LangsPHPPHPUnit`
-        - ![Settings/LangsPHPPHPUnit](photos/PHPStorm/Settings/LangsPHPPHPUnit.png)
+        - ![Settings/LangsPHPPHPUnit](/images/photos/PHPStorm/Settings/LangsPHPPHPUnit.png)
 
     - `Settings/LangsPHPServers`
-        - ![Settings/LangsPHPServers](photos/PHPStorm/Settings/LangsPHPServers.png)
+        - ![Settings/LangsPHPServers](/images/photos/PHPStorm/Settings/LangsPHPServers.png)
 
     - `RemoteHost`
         To switch on this view, go to: `Menu/Tools/Deployment/Browse Remote Host`.
-        - ![RemoteHost](photos/PHPStorm/RemoteHost.png)
+        - ![RemoteHost](/images/photos/PHPStorm/RemoteHost.png)
 
     - `RemoteWebDebug`
-        - ![DebugRemoteOn](photos/PHPStorm/DebugRemoteOn.png)
+        - ![DebugRemoteOn](/images/photos/PHPStorm/DebugRemoteOn.png)
 
     - `EditRunConfigurationRemoteWebDebug`
         Go to: `Menu/Run/Edit Configurations`.
-        - ![EditRunConfigurationRemoteWebDebug](photos/PHPStorm/Settings/EditRunConfigurationRemoteWebDebug.png)
+        - ![EditRunConfigurationRemoteWebDebug](/images/photos/PHPStorm/Settings/EditRunConfigurationRemoteWebDebug.png)
 
     - `EditRunConfigurationRemoteExampleTestDebug`
         Go to: `Menu/Run/Edit Configurations`.
-        - ![EditRunConfigurationRemoteExampleTestDebug](photos/PHPStorm/Settings/EditRunConfigurationRemoteExampleTestDebug.png)
+        - ![EditRunConfigurationRemoteExampleTestDebug](/images/photos/PHPStorm/Settings/EditRunConfigurationRemoteExampleTestDebug.png)
 
     - `WindowsFirewallAllowedApps`
         Go to: `Control Panel\All Control Panel Items\Windows Firewall\Allowed apps`.
-        - ![WindowsFirewallAllowedApps.png](photos/PHPStorm/Settings/WindowsFirewallAllowedApps.png)
+        - ![WindowsFirewallAllowedApps.png](/images/photos/PHPStorm/Settings/WindowsFirewallAllowedApps.png)
 
     - `hosts`
         Edit: `C:\Windows\System32\drivers\etc\hosts`.
-        - ![WindowsFirewallAllowedApps.png](photos/PHPStorm/Settings/hosts.png)
+        - ![WindowsFirewallAllowedApps.png](/images/photos/PHPStorm/Settings/hosts.png)
 
         - [Enable xDebug on php-fpm](#enablePhpXdebug)
 
@@ -497,7 +510,7 @@ If you have enabled `xdebug=true` in `docker-compose.yml/php-fpm`, `xdebug` will
 - right-click on `tests/ExampleTest.php`
     - Select: `Debug 'ExampleTest.php'`.
     - Should have stopped at the BreakPoint!! You are now debugging locally against a remote Laravel project via SSH!
-    - ![Remote Test Debugging Success](photos/PHPStorm/RemoteTestDebuggingSuccess.png)
+    - ![Remote Test Debugging Success](/images/photos/PHPStorm/RemoteTestDebuggingSuccess.png)
 
 
 <a name="UsagePHPStormDebugSite"></a>
@@ -508,13 +521,13 @@ If you have enabled `xdebug=true` in `docker-compose.yml/php-fpm`, `xdebug` will
 `.php-fpm/xdebug stop`
 
 - Start Remote Debugging
-    - ![DebugRemoteOn](photos/PHPStorm/DebugRemoteOn.png)
+    - ![DebugRemoteOn](/images/photos/PHPStorm/DebugRemoteOn.png)
 
 - Open to edit: `bootstrap/app.php`
 - Add a BreakPoint on line 14: `$app = new Illuminate\Foundation\Application(`
 - Reload [Laravel Site](http://laravel/)
     - Should have stopped at the BreakPoint!! You are now debugging locally against a remote Laravel project via SSH!
-    - ![Remote Debugging Success](photos/PHPStorm/RemoteDebuggingSuccess.png)
+    - ![Remote Debugging Success](/images/photos/PHPStorm/RemoteDebuggingSuccess.png)
 
 
 <a name="SSHintoWorkspace"></a>
@@ -533,14 +546,340 @@ Assuming that you are in laradock folder, type:
 [Kitty](http://www.9bis.net/kitty/) KiTTY is a fork from version 0.67 of PuTTY.
 
 - Here are some settings that are working for me:
-    - ![Session](photos/KiTTY/Session.png)
-    - ![Terminal](photos/KiTTY/Terminal.png)
-    - ![Window](photos/KiTTY/Window.png)
-    - ![WindowAppearance](photos/KiTTY/WindowAppearance.png)
-    - ![Connection](photos/KiTTY/Connection.png)
-    - ![ConnectionData](photos/KiTTY/ConnectionData.png)
-    - ![ConnectionSSH](photos/KiTTY/ConnectionSSH.png)
-    - ![ConnectionSSHAuth](photos/KiTTY/ConnectionSSHAuth.png)
-    - ![TerminalShell](photos/KiTTY/TerminalShell.png)
+    - ![Session](/images/photos/KiTTY/Session.png)
+    - ![Terminal](/images/photos/KiTTY/Terminal.png)
+    - ![Window](/images/photos/KiTTY/Window.png)
+    - ![WindowAppearance](/images/photos/KiTTY/WindowAppearance.png)
+    - ![Connection](/images/photos/KiTTY/Connection.png)
+    - ![ConnectionData](/images/photos/KiTTY/ConnectionData.png)
+    - ![ConnectionSSH](/images/photos/KiTTY/ConnectionSSH.png)
+    - ![ConnectionSSHAuth](/images/photos/KiTTY/ConnectionSSHAuth.png)
+    - ![TerminalShell](/images/photos/KiTTY/TerminalShell.png)
+
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<a name="Laravel-Dusk"></a>
+# Running Laravel Dusk Tests
+
+- [Option 1: Without Selenium](#option1-dusk)
+- [Option 2: With Selenium](#option2-dusk)
+
+<a name="option1-dusk"></a>
+## Option 1: Without Selenium
+
+- [Intro](#option1-dusk-intro)
+- [Workspace Setup](#option1-workspace-setup)
+- [Application Setup](#option1-application-setup)
+- [Choose Chrome Driver Version (Optional)](#option1-choose-chrome-driver-version)
+- [Run Dusk Tests](#option1-run-dusk-tests)
+
+<a name="option1-dusk-intro"></a>
+### Intro
+
+This is a guide to run Dusk tests in your `workspace` container with headless
+google-chrome and chromedriver. It has been tested with Laravel 5.4 and 5.5.
+
+<a name="option1-workspace-setup"></a>
+### Workspace Setup
+
+Update your .env with following entries:
+
+```
+...
+# Install Laravel installer bin to setup demo app
+WORKSPACE_INSTALL_LARAVEL_INSTALLER=true
+...
+# Install all the necessary dependencies for running Dusk tests
+WORKSPACE_INSTALL_DUSK_DEPS=true
+...
+```
+
+Then run below to build your workspace.
+
+```
+docker-compose build workspace
+```
+
+<a name="option1-application-setup"></a>
+### Application Setup
+
+Run a `workspace` container and you will be inside the container at `/var/www` directory.
+
+```
+docker-compose run workspace bash
+
+/var/www#> _
+```
+
+Create new Laravel application named `dusk-test` and install Laravel Dusk package.
+
+```
+/var/www> laravel new dusk-test
+/var/www> cd dusk-test
+/var/www/dusk-test> composer require --dev laravel/dusk
+/var/www/dusk-test> php artisan dusk:install
+```
+
+Create `.env.dusk.local` by copying from `.env` file.
+
+```
+/var/www/dusk-test> cp .env .env.dusk.local
+```
+
+Update the `APP_URL` entry in `.env.dusk.local` to local Laravel server.
+
+```
+APP_URL=http://localhost:8000
+```
+
+You will need to run chromedriver with `headless` and `no-sandbox` flag. In Laravel Dusk 2.x it is
+already set `headless` so you just need to add `no-sandbox` flag. If you on previous version 1.x,
+you will need to update your `DustTestCase#driver` as shown below. 
 
 
+```
+<?php
+
+...
+
+abstract class DuskTestCase extends BaseTestCase
+{
+    ...
+
+    /**
+    * Update chrome driver with below flags
+    */
+    protected function driver()
+    {
+        $options = (new ChromeOptions)->addArguments([
+            '--disable-gpu',
+            '--headless',
+            '--no-sandbox'
+        ]);
+
+        return RemoteWebDriver::create(
+            'http://localhost:9515', DesiredCapabilities::chrome()->setCapability(
+                ChromeOptions::CAPABILITY, $options
+            )
+        );
+    }
+}
+```
+
+<a name="option1-choose-chrome-driver-version"></a>
+### Choose Chrome Driver Version (Optional)
+
+You could choose to use either:
+
+1. Chrome Driver shipped with Laravel Dusk. (Default)
+2. Chrome Driver installed in `workspace` container. (Required tweak on DuskTestCase class)
+
+For Laravel 2.x, you need to update `DuskTestCase#prepare` method if you wish to go with option #2.
+
+```
+
+<?php
+
+...
+abstract class DuskTestCase extends BaseTestCase
+{
+    ...
+    public static function prepare()
+    {
+        // Only add this line if you wish to use chrome driver installed in workspace container.
+        // You might want to read the file path from env file.
+        static::useChromedriver('/usr/local/bin/chromedriver');
+
+        static::startChromeDriver();
+    }
+```
+
+For Laravel 1.x, you need to add `DuskTestCase#buildChromeProcess` method if you wish to go with option #2.
+
+```
+<?php
+
+...
+use Symfony\Component\Process\ProcessBuilder;
+
+abstract class DuskTestCase extends BaseTestCase
+{
+    ...
+
+    /**
+    * Only add this method if you wish to use chrome driver installed in workspace container
+    */
+    protected static function buildChromeProcess()
+    {
+        return (new ProcessBuilder())
+            ->setPrefix('chromedriver')
+            ->getProcess()
+            ->setEnv(static::chromeEnvironment());
+    }
+
+    ...
+}
+```
+
+<a name="option1-run-dusk-tests"></a>
+### Run Dusk Tests
+
+Run local server in `workspace` container and run Dusk tests.
+
+```
+# alias to run Laravel server in the background (php artisan serve --quiet &)
+/var/www/dusk-test> serve
+# alias to run Dusk tests (php artisan dusk)
+/var/www/dusk-test> dusk
+
+PHPUnit 6.4.0 by Sebastian Bergmann and contributors.
+
+.                                                                   1 / 1 (100%)
+
+Time: 837 ms, Memory: 6.00MB
+```
+
+<a name="option2-dusk"></a>
+## Option 2: With Selenium
+
+- [Intro](#dusk-intro)
+- [DNS Setup](#dns-setup)
+- [Docker Compose Setup](#docker-compose)
+- [Laravel Dusk Setup](#laravel-dusk-setup)
+- [Running Laravel Dusk Tests](#running-tests)
+
+<a name="dusk-intro"></a>
+### Intro
+Setting up Laravel Dusk tests to run with Laradock appears be something that
+eludes most Laradock users. This guide is designed to show you how to wire them
+up to work together. This guide is written with macOS and Linux in mind. As such,
+it's only been tested on macOS. Feel free to create pull requests to update the guide
+for Windows-specific instructions.
+
+This guide assumes you know how to use a DNS forwarder such as `dnsmasq` or are comfortable
+with editing the `/etc/hosts` file for one-off DNS changes.
+
+<a name="dns-setup"></a>
+### DNS Setup
+According to RFC-2606, only four TLDs are reserved for local testing[^1]:
+
+- `.test`
+- `.example`
+- `.invalid`
+- `.localhost`
+
+A common TLD used for local development is `.dev`, but newer versions of Google
+Chrome (such as the one bundled with the Selenium Docker image), will fail to
+resolve that DNS as there will appear to be a name collision.
+
+The recommended extension is `.test` for your Laravel web apps because you're
+running tests. Using a DNS forwarder such as `dnsmasq` or by editing the `/etc/hosts`
+file, configure the host to point to `localhost`.
+
+For example, in your `/etc/hosts` file:
+```
+##
+# Host Database
+#
+# localhost is used to configure the loopback interface
+# when the system is booting.  Do not change this entry.
+##
+127.0.0.1       localhost
+255.255.255.255 broadcasthost
+::1             localhost
+127.0.0.1       myapp.test
+```
+
+This will ensure that when navigating to `myapp.test`, it will route the
+request to `127.0.0.1` which will be handled by Nginx in Laradock.
+
+<a name="docker-compose"></a>
+### Docker Compose setup
+In order to make the Selenium container talk to the Nginx container appropriately,
+the `docker-compose.yml` needs to be edited to accommodate this. Make the following
+changes:
+
+```yaml
+...
+selenium:
+  ...
+  depends_on:
+  - nginx
+  links:
+  - nginx:<your_domain>
+```
+
+This allows network communication between the Nginx and Selenium containers
+and it also ensures that when starting the Selenium container, the Nginx
+container starts up first unless it's already running. This allows
+the Selenium container to make requests to the Nginx container, which is
+necessary for running Dusk tests. These changes also link the `nginx` environment
+variable to the domain you wired up in your hosts file.
+
+<a name="laravel-dusk-setup"></a>
+### Laravel Dusk Setup
+
+In order to make Laravel Dusk make the proper request to the Selenium container,
+you have to edit the `DuskTestCase.php` file that's provided on the initial
+installation of Laravel Dusk. The change you have to make deals with the URL the
+Remote Web Driver attempts to use to set up the Selenium session.
+
+One recommendation for this is to add a separate config option in your `.env.dusk.local`
+so it's still possible to run your Dusk tests locally should you want to.
+
+#### .env.dusk.local
+```
+...
+USE_SELENIUM=true
+```
+
+#### DuskTestCase.php
+```php
+abstract class DuskTestCase extends BaseTestCase
+{
+...
+    protected function driver()
+    {
+        if (env('USE_SELENIUM', 'false') == 'true') {
+            return RemoteWebDriver::create(
+                'http://selenium:4444/wd/hub', DesiredCapabilities::chrome()
+            );
+        } else {
+            return RemoteWebDriver::create(
+                'http://localhost:9515', DesiredCapabilities::chrome()
+            );
+        }
+    }
+}
+```
+
+<a name="running-tests"></a>
+### Running Laravel Dusk Tests
+
+Now that you have everything set up, to run your Dusk tests, you have to SSH
+into the workspace container as you normally would:
+```docker-compose exec --user=laradock workspace bash```
+
+Once inside, you can change directory to your application and run:
+
+```php artisan dusk```
+
+One way to make this easier from your project is to create a helper script. Here's one such example:
+```bash
+#!/usr/bin/env sh
+
+LARADOCK_HOME="path/to/laradock"
+
+pushd ${LARADOCK_HOME}
+
+docker-compose exec --user=laradock workspace bash -c "cd my-project && php artisan dusk && exit"
+```
+
+This invokes the Dusk command from inside the workspace container but when the script completes
+execution, it returns your session to your project directory.
+
+[^1]: [Don't Use .dev for Development](https://iyware.com/dont-use-dev-for-development/)
