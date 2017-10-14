@@ -550,6 +550,17 @@ services:
         - frontend
         - backend
 
+### MailDev Container #######################################
+
+    maildev:
+      build: ./maildev
+      ports:
+        - "${MAILDEV_HTTP_PORT}:80"
+        - "${MAILDEV_SMTP_PORT}:25"
+      networks:
+        - frontend
+        - backend
+
 ### Selenium Container ########################################
 
     selenium:

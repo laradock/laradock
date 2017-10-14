@@ -205,6 +205,11 @@ PMA_PASSWORD=secret
 PMA_ROOT_PASSWORD=secret
 PMA_PORT=8080
 
+### MAILDEV ############################################################################################################
+
+MAILDEV_HTTP_PORT=1080
+MAILDEV_SMTP_PORT=25
+
 ### VARNISH ############################################################################################################
 
 VARNISH_CONFIG=/etc/varnish/default.vcl
