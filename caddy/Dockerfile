@@ -1,22 +1,17 @@
-FROM alpine:3.5
+FROM golang
 
-MAINTAINER Eric Pfeiffer <computerfr33k@users.noreply.github.com>
+MAINTAINER Huadong Zuo <admin@zuohuadong.cn>
 
-ENV caddy_version=0.10.5
-ARG plugins=http.git
+ARG plugins="git"
 
-LABEL caddy_version="$caddy_version" architecture="amd64"
+## If you come frome china, please ues it.
 
-RUN apk update \
-    && apk upgrade \
-    && apk add --no-cache openssh-client git tar curl
+# RUN echo "172.217.6.127 golang.org" >> /etc/hosts
 
-RUN curl --silent --show-error --fail --location \
-        --header "Accept: application/tar+gzip, application/x-gzip, application/octet-stream" -o - \
-        "https://caddyserver.com/download/linux/amd64?plugins=${plugins}" \
-        | tar --no-same-owner -C /usr/bin/ -xz caddy \
-    && mv /usr/bin/caddy /usr/bin/caddy \
-    && chmod 0755 /usr/bin/caddy
+RUN go get github.com/abiosoft/caddyplug/caddyplug \
+    && caddyplug install-caddy \
+    && caddyplug install git
+RUN caddy --version
 
 EXPOSE 80 443 2015
 
