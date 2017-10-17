@@ -76,6 +76,7 @@ PHP_FPM_INSTALL_OPCACHE=false
 PHP_FPM_INSTALL_EXIF=false
 PHP_FPM_INSTALL_AEROSPIKE=false
 PHP_FPM_INSTALL_MYSQLI=false
+PHP_FPM_INSTALL_POSTGRES=false
 PHP_FPM_INSTALL_TOKENIZER=false
 PHP_FPM_INSTALL_INTL=false
 PHP_FPM_INSTALL_GHOSTSCRIPT=false
@@ -204,6 +205,11 @@ PMA_USER=default
 PMA_PASSWORD=secret
 PMA_ROOT_PASSWORD=secret
 PMA_PORT=8080
+
+### MAILDEV ############################################################################################################
+
+MAILDEV_HTTP_PORT=1080
+MAILDEV_SMTP_PORT=25
 
 ### VARNISH ############################################################################################################
 
