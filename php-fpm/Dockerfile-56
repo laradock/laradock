@@ -62,6 +62,17 @@ RUN if [ ${INSTALL_PGSQL} = true ]; then \
 ;fi
 
 #####################################
+# pgsql client
+#####################################
+
+ARG PHP_FPM_PG_CLIENT=true
+RUN if [ ${PHP_FPM_PG_CLIENT} = true ]; then \
+    # Install the pgsql clint
+    apt-get update -yqq && \
+    apt-get install -y postgresql-client \
+;fi
+
+#####################################
 # xDebug:
 #####################################
 
