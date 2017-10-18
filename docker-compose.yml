@@ -230,9 +230,7 @@ services:
       volumes:
         - ${DATA_SAVE_PATH}/grafana:/var/lib/grafana
       ports:
-        - "3000:3000"
-      depends_on:
-        - mysql
+        - "${GRAFANA_PORT}:3000"
       networks:
         - backend
 
