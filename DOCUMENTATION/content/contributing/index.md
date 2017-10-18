@@ -14,7 +14,7 @@ If you have questions about how to use Laradock, please direct your questions to
 ## Found an Issue
 
 If have an issue or you found a typo in the documentation, you can help us by
-opnening an [Issue](https://github.com/laradock/laradock/issues).
+opening an [Issue](https://github.com/laradock/laradock/issues).
 
 **Steps to do before opening an Issue:**
 
@@ -24,7 +24,7 @@ opnening an [Issue](https://github.com/laradock/laradock/issues).
 
 If your issue appears to be a bug, and hasn't been reported, then open a new issue.
 
-*This Help us to maximize the effort we can spend fixing issues and adding new
+*This helps us maximize the effort we can spend fixing issues and adding new
 features, by not reporting duplicate issues.*
 
 
@@ -61,7 +61,7 @@ To update the sidebar or add a new section to it, you can edit this `DOCUMENTATI
 
 ## Support new Software (Add new Container)
 
-* Forke the repo and clone the code.
+* Fork the repo and clone the code.
 
 * Create folder as the software name (example: `mysql` - `nginx`).
 
@@ -81,7 +81,7 @@ To update the sidebar or add a new section to it, you can edit this `DOCUMENTATI
 
 ## Edit supported Software (Edit a Container)
 
-* Forke the repo and clone the code.
+* Fork the repo and clone the code.
 
 * Open the software (container) folder (example: `mysql` - `nginx`).
 

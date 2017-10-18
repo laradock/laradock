@@ -33,9 +33,9 @@ env:
     - PHP_VERSION=70 BUILD_SERVICE=aerospike
     - PHP_VERSION=71 BUILD_SERVICE=aerospike
 
-    - PHP_VERSION=56 BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq adminer elasticsearch certbot mailhog selenium jenkins proxy proxy2 balancer"
-    - PHP_VERSION=70 BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq adminer elasticsearch certbot mailhog selenium jenkins proxy proxy2 balancer"
-    - PHP_VERSION=71 BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq adminer elasticsearch certbot mailhog selenium jenkins proxy proxy2 balancer"
+    - PHP_VERSION=56 BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq adminer elasticsearch certbot mailhog maildev selenium jenkins proxy proxy2 balancer"
+    - PHP_VERSION=70 BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq adminer elasticsearch certbot mailhog maildev selenium jenkins proxy proxy2 balancer"
+    - PHP_VERSION=71 BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq adminer elasticsearch certbot mailhog maildev selenium jenkins proxy proxy2 balancer"
 
     - HUGO_VERSION=0.20.2
 

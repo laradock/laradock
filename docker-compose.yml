@@ -40,8 +40,10 @@ services:
           - INSTALL_IMAGE_OPTIMIZERS=${WORKSPACE_INSTALL_IMAGE_OPTIMIZERS}
           - INSTALL_IMAGEMAGICK=${WORKSPACE_INSTALL_IMAGEMAGICK}
           - INSTALL_TERRAFORM=${WORKSPACE_INSTALL_TERRAFORM}
+          - INSTALL_DUSK_DEPS=${WORKSPACE_INSTALL_DUSK_DEPS}
           - PUID=${WORKSPACE_PUID}
           - PGID=${WORKSPACE_PGID}
+          - CHROME_DRIVER_VERSION=${WORKSPACE_CHROME_DRIVER_VERSION}
           - NODE_VERSION=${WORKSPACE_NODE_VERSION}
           - YARN_VERSION=${WORKSPACE_YARN_VERSION}
           - TZ=${WORKSPACE_TIMEZONE}
@@ -544,6 +546,17 @@ services:
       ports:
         - "1025:1025"
         - "8025:8025"
+      networks:
+        - frontend
+        - backend
+
+### MailDev Container #######################################
+
+    maildev:
+      build: ./maildev
+      ports:
+        - "${MAILDEV_HTTP_PORT}:80"
+        - "${MAILDEV_SMTP_PORT}:25"
       networks:
         - frontend
         - backend
