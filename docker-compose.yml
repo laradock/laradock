@@ -222,23 +222,6 @@ services:
       networks:
         - backend
 
-### Grafana Container #########################################
-
-    grafana:
-      build:
-        context: ./grafana
-      volumes:
-        - ${DATA_SAVE_PATH}/grafana:/var/lib/grafana
-      ports:
-        - "${GRAFANA_PORT}:3000"
-      networks:
-        - backend
-
-    #grafana-storage:
-    #    image: busybox:latest
-    #    volumes:
-    #      - ${DATA_SAVE_PATH}/grafana:/var/lib/grafana
-
 ### Percona Container #########################################
 
     percona:
@@ -641,6 +624,18 @@ services:
         - /var/run/docker.sock:/var/run/docker.sock
       networks:
         - frontend
+        - backend
+
+### Grafana Container #########################################
+
+    grafana:
+      build:
+        context: ./grafana
+      volumes:
+        - ${DATA_SAVE_PATH}/grafana:/var/lib/grafana
+      ports:
+        - "${GRAFANA_PORT}:3000"
+      networks:
         - backend
 
 ### Laravel Echo Server #######################################
