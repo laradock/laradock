@@ -58,6 +58,7 @@ WORKSPACE_NODE_VERSION=stable
 WORKSPACE_YARN_VERSION=latest
 WORKSPACE_TIMEZONE=UTC
 WORKSPACE_SSH_PORT=2222
+WORKSPACE_PG_CLIENT=true
 
 ### PHP_FPM ############################################################################################################
 
