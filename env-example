@@ -242,6 +242,10 @@ JENKINS_HOST_HTTP_PORT=8090
 JENKINS_HOST_SLAVE_AGENT_PORT=50000
 JENKINS_HOME=./jenkins/jenkins_home
 
+### GRAFANA ############################################################################################################
+
+GRAFANA_PORT=3000
+
 ### BLACKFIRE ##########################################################################################################
 
 # Create an account on blackfire.io. Don't enable blackfire and xDebug at the same time.
