@@ -195,11 +195,11 @@ ENV INSTALL_AEROSPIKE ${INSTALL_AEROSPIKE}
 COPY ./aerospike.ini /usr/local/etc/php/conf.d/aerospike.ini
 RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
     # Install the php aerospike extension
-    curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/aerospike/aerospike-client-php/archive/3.4.14.tar.gz" \
+    curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/aerospike/aerospike-client-php/archive/master.tar.gz" \
     && mkdir -p aerospike-client-php \
     && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
     && ( \
-        cd aerospike-client-php/src/aerospike \
+        cd aerospike-client-php/src \
         && phpize \
         && ./build.sh \
         && make install \
@@ -227,6 +227,15 @@ COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 ARG INSTALL_MYSQLI=false
 RUN if [ ${INSTALL_MYSQLI} = true ]; then \
     docker-php-ext-install mysqli \
+;fi
+
+#####################################
+# postgres Modifications:
+#####################################
+
+ARG INSTALL_POSTGRES=false
+RUN if [ ${INSTALL_POSTGRES} = true ]; then \
+    docker-php-ext-install pgsql \
 ;fi
 
 #####################################

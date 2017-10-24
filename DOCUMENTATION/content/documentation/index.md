@@ -943,6 +943,24 @@ docker-compose up -d aws
 
 
 <br>
+<a name="Use-Grafana"></a>
+## Use Grafana
+
+1 - Configure Grafana: Change Port using `GRAFANA_PORT` if you wish to. Default is port 3000.
+
+2 - Run the Grafana Container (`grafana`) with the `docker-compose up`command:
+
+```bash
+docker-compose up -d grafana
+```
+
+3 - Open your browser and visit the localhost on port **3000** at the following URL: `http://localhost:3000`
+
+4 - Login using the credentials User = `admin` Passwort = `admin`. Change the password in the webinterface if you want to.
+
+
+
+<br>
 <a name="CodeIgniter"></a>
 
 

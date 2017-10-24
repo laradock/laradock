@@ -30,6 +30,7 @@ PHP_INTERPRETER=php-fpm
 ### WORKSPACE ##########################################################################################################
 
 WORKSPACE_INSTALL_XDEBUG=false
+WORKSPACE_INSTALL_LDAP=false
 WORKSPACE_INSTALL_SOAP=false
 WORKSPACE_INSTALL_MONGO=false
 WORKSPACE_INSTALL_PHPREDIS=false
@@ -52,8 +53,10 @@ WORKSPACE_INSTALL_PYTHON=false
 WORKSPACE_INSTALL_IMAGE_OPTIMIZERS=false
 WORKSPACE_INSTALL_IMAGEMAGICK=false
 WORKSPACE_INSTALL_TERRAFORM=false
+WORKSPACE_INSTALL_DUSK_DEPS=false
 WORKSPACE_PUID=1000
 WORKSPACE_PGID=1000
+WORKSPACE_CHROME_DRIVER_VERSION=2.32
 WORKSPACE_NODE_VERSION=stable
 WORKSPACE_YARN_VERSION=latest
 WORKSPACE_TIMEZONE=UTC
@@ -75,6 +78,7 @@ PHP_FPM_INSTALL_EXIF=false
 PHP_FPM_INSTALL_AEROSPIKE=false
 PHP_FPM_INSTALL_MYSQLI=false
 PHP_FPM_INSTALL_PGSQL=false
+PHP_FPM_INSTALL_POSTGRES=false
 PHP_FPM_INSTALL_TOKENIZER=false
 PHP_FPM_INSTALL_INTL=false
 PHP_FPM_INSTALL_GHOSTSCRIPT=false
@@ -204,6 +208,11 @@ PMA_PASSWORD=secret
 PMA_ROOT_PASSWORD=secret
 PMA_PORT=8080
 
+### MAILDEV ############################################################################################################
+
+MAILDEV_HTTP_PORT=1080
+MAILDEV_SMTP_PORT=25
+
 ### VARNISH ############################################################################################################
 
 VARNISH_CONFIG=/etc/varnish/default.vcl
@@ -234,6 +243,10 @@ HAPROXY_HOST_HTTP_PORT=8085
 JENKINS_HOST_HTTP_PORT=8090
 JENKINS_HOST_SLAVE_AGENT_PORT=50000
 JENKINS_HOME=./jenkins/jenkins_home
+
+### GRAFANA ############################################################################################################
+
+GRAFANA_PORT=3000
 
 ### BLACKFIRE ##########################################################################################################
 

@@ -69,6 +69,7 @@ alias migrate="php artisan migrate"
 alias refresh="php artisan migrate:refresh"
 alias rollback="php artisan migrate:rollback"
 alias seed="php artisan:seed"
+alias serve="php artisan serve --quiet &"
 
 alias phpunit="./vendor/bin/phpunit"
 alias pu="phpunit"
@@ -87,6 +88,9 @@ alias ra="reload"
 alias reload="source ~/.aliases && echo \"$COL_GREEN ==> Aliases Reloaded... $COL_RESET \n \""
 alias run="npm run"
 alias tree="xtree"
+
+# Xvfb
+alias xvfb="Xvfb -ac :0 -screen 0 1024x768x16 &"
 
 # requires installation of 'https://www.npmjs.com/package/npms-cli'
 alias npms="npms search"

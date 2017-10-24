@@ -189,6 +189,7 @@ ARG INSTALL_MONGO=false
 ENV INSTALL_MONGO ${INSTALL_MONGO}
 RUN if [ ${INSTALL_MONGO} = true ]; then \
     # Install the mongodb extension
+    pecl channel-update pecl.php.net && \
     pecl install mongodb && \
     echo "extension=mongodb.so" >> /etc/php/5.6/mods-available/mongodb.ini && \
     ln -s /etc/php/5.6/mods-available/mongodb.ini /etc/php/5.6/cli/conf.d/30-mongodb.ini \
@@ -533,6 +534,35 @@ RUN if [ ${WORKSPACE_PG_CLIENT} = true ]; then \
     # Install the pgsql clint
     apt-get update -yqq && \
     apt-get -y install postgresql-client \
+;fi
+
+#####################################
+# Dusk Dependencies:
+#####################################
+USER root
+ARG INSTALL_DUSK_DEPS=false
+ENV INSTALL_DUSK_DEPS ${INSTALL_DUSK_DEPS}
+RUN if [ ${INSTALL_DUSK_DEPS} = true ]; then \
+  # Install required packages
+  add-apt-repository ppa:ondrej/php \
+  && apt-get update \
+  && apt-get -y install zip wget unzip xdg-utils \
+    libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4 xvfb \
+    gtk2-engines-pixbuf xfonts-cyrillic xfonts-100dpi xfonts-75dpi \
+    xfonts-base xfonts-scalable x11-apps \
+
+  # Install Google Chrome
+  && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+  && dpkg -i --force-depends google-chrome-stable_current_amd64.deb \
+  && apt-get -y -f install \
+  && dpkg -i --force-depends google-chrome-stable_current_amd64.deb \
+  && rm google-chrome-stable_current_amd64.deb \
+
+  # Install Chrome Driver
+  && wget https://chromedriver.storage.googleapis.com/2.31/chromedriver_linux64.zip \
+  && unzip chromedriver_linux64.zip \
+  && mv chromedriver /usr/local/bin/ \
+  && rm chromedriver_linux64.zip \
 ;fi
 
 #

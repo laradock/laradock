@@ -18,6 +18,7 @@ services:
           - INSTALL_XDEBUG=${WORKSPACE_INSTALL_XDEBUG}
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
           - INSTALL_SOAP=${WORKSPACE_INSTALL_SOAP}
+          - INSTALL_LDAP=${WORKSPACE_INSTALL_LDAP}
           - INSTALL_MONGO=${WORKSPACE_INSTALL_MONGO}
           - INSTALL_PHPREDIS=${WORKSPACE_INSTALL_PHPREDIS}
           - INSTALL_MSSQL=${WORKSPACE_INSTALL_MSSQL}
@@ -39,8 +40,10 @@ services:
           - INSTALL_IMAGE_OPTIMIZERS=${WORKSPACE_INSTALL_IMAGE_OPTIMIZERS}
           - INSTALL_IMAGEMAGICK=${WORKSPACE_INSTALL_IMAGEMAGICK}
           - INSTALL_TERRAFORM=${WORKSPACE_INSTALL_TERRAFORM}
+          - INSTALL_DUSK_DEPS=${WORKSPACE_INSTALL_DUSK_DEPS}
           - PUID=${WORKSPACE_PUID}
           - PGID=${WORKSPACE_PGID}
+          - CHROME_DRIVER_VERSION=${WORKSPACE_CHROME_DRIVER_VERSION}
           - NODE_VERSION=${WORKSPACE_NODE_VERSION}
           - YARN_VERSION=${WORKSPACE_YARN_VERSION}
           - TZ=${WORKSPACE_TIMEZONE}
@@ -549,6 +552,17 @@ services:
         - frontend
         - backend
 
+### MailDev Container #######################################
+
+    maildev:
+      build: ./maildev
+      ports:
+        - "${MAILDEV_HTTP_PORT}:80"
+        - "${MAILDEV_SMTP_PORT}:25"
+      networks:
+        - frontend
+        - backend
+
 ### Selenium Container ########################################
 
     selenium:
@@ -625,6 +639,18 @@ services:
         - /var/run/docker.sock:/var/run/docker.sock
       networks:
         - frontend
+        - backend
+
+### Grafana Container #########################################
+
+    grafana:
+      build:
+        context: ./grafana
+      volumes:
+        - ${DATA_SAVE_PATH}/grafana:/var/lib/grafana
+      ports:
+        - "${GRAFANA_PORT}:3000"
+      networks:
         - backend
 
 ### Laravel Echo Server #######################################

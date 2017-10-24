@@ -565,6 +565,187 @@ Assuming that you are in laradock folder, type:
 <a name="Laravel-Dusk"></a>
 # Running Laravel Dusk Tests
 
+- [Option 1: Without Selenium](#option1-dusk)
+- [Option 2: With Selenium](#option2-dusk)
+
+<a name="option1-dusk"></a>
+## Option 1: Without Selenium
+
+- [Intro](#option1-dusk-intro)
+- [Workspace Setup](#option1-workspace-setup)
+- [Application Setup](#option1-application-setup)
+- [Choose Chrome Driver Version (Optional)](#option1-choose-chrome-driver-version)
+- [Run Dusk Tests](#option1-run-dusk-tests)
+
+<a name="option1-dusk-intro"></a>
+### Intro
+
+This is a guide to run Dusk tests in your `workspace` container with headless
+google-chrome and chromedriver. It has been tested with Laravel 5.4 and 5.5.
+
+<a name="option1-workspace-setup"></a>
+### Workspace Setup
+
+Update your .env with following entries:
+
+```
+...
+# Install Laravel installer bin to setup demo app
+WORKSPACE_INSTALL_LARAVEL_INSTALLER=true
+...
+# Install all the necessary dependencies for running Dusk tests
+WORKSPACE_INSTALL_DUSK_DEPS=true
+...
+```
+
+Then run below to build your workspace.
+
+```
+docker-compose build workspace
+```
+
+<a name="option1-application-setup"></a>
+### Application Setup
+
+Run a `workspace` container and you will be inside the container at `/var/www` directory.
+
+```
+docker-compose run workspace bash
+
+/var/www#> _
+```
+
+Create new Laravel application named `dusk-test` and install Laravel Dusk package.
+
+```
+/var/www> laravel new dusk-test
+/var/www> cd dusk-test
+/var/www/dusk-test> composer require --dev laravel/dusk
+/var/www/dusk-test> php artisan dusk:install
+```
+
+Create `.env.dusk.local` by copying from `.env` file.
+
+```
+/var/www/dusk-test> cp .env .env.dusk.local
+```
+
+Update the `APP_URL` entry in `.env.dusk.local` to local Laravel server.
+
+```
+APP_URL=http://localhost:8000
+```
+
+You will need to run chromedriver with `headless` and `no-sandbox` flag. In Laravel Dusk 2.x it is
+already set `headless` so you just need to add `no-sandbox` flag. If you on previous version 1.x,
+you will need to update your `DustTestCase#driver` as shown below. 
+
+
+```
+<?php
+
+...
+
+abstract class DuskTestCase extends BaseTestCase
+{
+    ...
+
+    /**
+    * Update chrome driver with below flags
+    */
+    protected function driver()
+    {
+        $options = (new ChromeOptions)->addArguments([
+            '--disable-gpu',
+            '--headless',
+            '--no-sandbox'
+        ]);
+
+        return RemoteWebDriver::create(
+            'http://localhost:9515', DesiredCapabilities::chrome()->setCapability(
+                ChromeOptions::CAPABILITY, $options
+            )
+        );
+    }
+}
+```
+
+<a name="option1-choose-chrome-driver-version"></a>
+### Choose Chrome Driver Version (Optional)
+
+You could choose to use either:
+
+1. Chrome Driver shipped with Laravel Dusk. (Default)
+2. Chrome Driver installed in `workspace` container. (Required tweak on DuskTestCase class)
+
+For Laravel 2.x, you need to update `DuskTestCase#prepare` method if you wish to go with option #2.
+
+```
+
+<?php
+
+...
+abstract class DuskTestCase extends BaseTestCase
+{
+    ...
+    public static function prepare()
+    {
+        // Only add this line if you wish to use chrome driver installed in workspace container.
+        // You might want to read the file path from env file.
+        static::useChromedriver('/usr/local/bin/chromedriver');
+
+        static::startChromeDriver();
+    }
+```
+
+For Laravel 1.x, you need to add `DuskTestCase#buildChromeProcess` method if you wish to go with option #2.
+
+```
+<?php
+
+...
+use Symfony\Component\Process\ProcessBuilder;
+
+abstract class DuskTestCase extends BaseTestCase
+{
+    ...
+
+    /**
+    * Only add this method if you wish to use chrome driver installed in workspace container
+    */
+    protected static function buildChromeProcess()
+    {
+        return (new ProcessBuilder())
+            ->setPrefix('chromedriver')
+            ->getProcess()
+            ->setEnv(static::chromeEnvironment());
+    }
+
+    ...
+}
+```
+
+<a name="option1-run-dusk-tests"></a>
+### Run Dusk Tests
+
+Run local server in `workspace` container and run Dusk tests.
+
+```
+# alias to run Laravel server in the background (php artisan serve --quiet &)
+/var/www/dusk-test> serve
+# alias to run Dusk tests (php artisan dusk)
+/var/www/dusk-test> dusk
+
+PHPUnit 6.4.0 by Sebastian Bergmann and contributors.
+
+.                                                                   1 / 1 (100%)
+
+Time: 837 ms, Memory: 6.00MB
+```
+
+<a name="option2-dusk"></a>
+## Option 2: With Selenium
+
 - [Intro](#dusk-intro)
 - [DNS Setup](#dns-setup)
 - [Docker Compose Setup](#docker-compose)
@@ -572,7 +753,7 @@ Assuming that you are in laradock folder, type:
 - [Running Laravel Dusk Tests](#running-tests)
 
 <a name="dusk-intro"></a>
-## Intro
+### Intro
 Setting up Laravel Dusk tests to run with Laradock appears be something that
 eludes most Laradock users. This guide is designed to show you how to wire them
 up to work together. This guide is written with macOS and Linux in mind. As such,
@@ -583,7 +764,7 @@ This guide assumes you know how to use a DNS forwarder such as `dnsmasq` or are 
 with editing the `/etc/hosts` file for one-off DNS changes.
 
 <a name="dns-setup"></a>
-## DNS Setup
+### DNS Setup
 According to RFC-2606, only four TLDs are reserved for local testing[^1]:
 
 - `.test`
@@ -617,7 +798,7 @@ This will ensure that when navigating to `myapp.test`, it will route the
 request to `127.0.0.1` which will be handled by Nginx in Laradock.
 
 <a name="docker-compose"></a>
-## Docker Compose setup
+### Docker Compose setup
 In order to make the Selenium container talk to the Nginx container appropriately,
 the `docker-compose.yml` needs to be edited to accommodate this. Make the following
 changes:
@@ -640,7 +821,7 @@ necessary for running Dusk tests. These changes also link the `nginx` environmen
 variable to the domain you wired up in your hosts file.
 
 <a name="laravel-dusk-setup"></a>
-## Laravel Dusk Setup
+### Laravel Dusk Setup
 
 In order to make Laravel Dusk make the proper request to the Selenium container,
 you have to edit the `DuskTestCase.php` file that's provided on the initial
@@ -650,13 +831,13 @@ Remote Web Driver attempts to use to set up the Selenium session.
 One recommendation for this is to add a separate config option in your `.env.dusk.local`
 so it's still possible to run your Dusk tests locally should you want to.
 
-### .env.dusk.local
+#### .env.dusk.local
 ```
 ...
 USE_SELENIUM=true
 ```
 
-### DuskTestCase.php
+#### DuskTestCase.php
 ```php
 abstract class DuskTestCase extends BaseTestCase
 {
@@ -677,7 +858,7 @@ abstract class DuskTestCase extends BaseTestCase
 ```
 
 <a name="running-tests"></a>
-## Running Laravel Dusk Tests
+### Running Laravel Dusk Tests
 
 Now that you have everything set up, to run your Dusk tests, you have to SSH
 into the workspace container as you normally would:

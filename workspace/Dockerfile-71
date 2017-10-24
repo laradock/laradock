@@ -70,6 +70,19 @@ RUN if [ ${INSTALL_SOAP} = true ]; then \
 ;fi
 
 #####################################
+# LDAP:
+#####################################
+
+ARG INSTALL_LDAP=false
+ENV INSTALL_LDAP ${INSTALL_LDAP}
+
+RUN if [ ${INSTALL_LDAP} = true ]; then \
+    apt-get update -yqq && \
+    apt-get install -y libldap2-dev && \
+    apt-get install -y php7.1-ldap \
+;fi
+
+#####################################
 # Set Timezone
 #####################################
 
@@ -325,11 +338,11 @@ RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
     apt-get -y install sudo wget && \
 
     # Install the php aerospike extension
-    curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/aerospike/aerospike-client-php/archive/3.4.14.tar.gz" \
+    curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/aerospike/aerospike-client-php/archive/master.tar.gz" \
     && mkdir -p aerospike-client-php \
     && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
     && ( \
-        cd aerospike-client-php/src/aerospike \
+        cd aerospike-client-php/src \
         && phpize \
         && ./build.sh \
         && make install \
@@ -618,6 +631,32 @@ RUN if [ ${WORKSPACE_PG_CLIENT} = true ]; then \
     # Install the pgsql clint
     apt-get update -yqq && \
     apt-get -y install postgresql-client \
+;fi
+
+#####################################
+# Dusk Dependencies:
+#####################################
+USER root
+ARG CHROME_DRIVER_VERSION=stable
+ENV CHROME_DRIVER_VERSION ${CHROME_DRIVER_VERSION}
+ARG INSTALL_DUSK_DEPS=false
+ENV INSTALL_DUSK_DEPS ${INSTALL_DUSK_DEPS}
+RUN if [ ${INSTALL_DUSK_DEPS} = true ]; then \
+  add-apt-repository ppa:ondrej/php \
+  && apt-get update \
+  && apt-get -y install zip wget unzip xdg-utils \
+    libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4 xvfb \
+    gtk2-engines-pixbuf xfonts-cyrillic xfonts-100dpi xfonts-75dpi \
+    xfonts-base xfonts-scalable x11-apps \
+  && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+  && dpkg -i --force-depends google-chrome-stable_current_amd64.deb \
+  && apt-get -y -f install \
+  && dpkg -i --force-depends google-chrome-stable_current_amd64.deb \
+  && rm google-chrome-stable_current_amd64.deb \
+  && wget https://chromedriver.storage.googleapis.com/${CHROME_DRIVER_VERSION}/chromedriver_linux64.zip \
+  && unzip chromedriver_linux64.zip \
+  && mv chromedriver /usr/local/bin/ \
+  && rm chromedriver_linux64.zip \
 ;fi
 
 #
