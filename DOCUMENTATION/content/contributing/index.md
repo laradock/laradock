@@ -13,7 +13,7 @@ If you have questions about how to use Laradock, please direct your questions to
 
 ## Found an Issue
 
-If have an issue or you found a typo in the documentation, you can help us by
+If you have an issue or you found a typo in the documentation, you can help us by
 opening an [Issue](https://github.com/laradock/laradock/issues).
 
 **Steps to do before opening an Issue:**
