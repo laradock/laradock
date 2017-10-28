@@ -51,6 +51,28 @@ RUN if [ ${INSTALL_SOAP} = true ]; then \
 ;fi
 
 #####################################
+# pgsql
+#####################################
+
+ARG INSTALL_PGSQL=false
+RUN if [ ${INSTALL_PGSQL} = true ]; then \
+    # Install the pgsql extension
+    apt-get update -yqq && \
+    docker-php-ext-install pgsql \
+;fi
+
+#####################################
+# pgsql client
+#####################################
+
+ARG INSTALL_PG_CLIENT=false
+RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
+    # Install the pgsql client
+    apt-get update -yqq && \
+    apt-get install -y postgresql-client \
+;fi
+
+#####################################
 # xDebug:
 #####################################
 
@@ -214,6 +236,15 @@ COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 ARG INSTALL_MYSQLI=false
 RUN if [ ${INSTALL_MYSQLI} = true ]; then \
     docker-php-ext-install mysqli \
+;fi
+
+#####################################
+# postgres Modifications:
+#####################################
+
+ARG INSTALL_POSTGRES=false
+RUN if [ ${INSTALL_POSTGRES} = true ]; then \
+    docker-php-ext-install pgsql \
 ;fi
 
 #####################################
