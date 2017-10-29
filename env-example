@@ -88,6 +88,10 @@ PHP_FPM_INSTALL_IMAGE_OPTIMIZERS=false
 PHP_FPM_INSTALL_IMAGEMAGICK=false
 PHP_FPM_INSTALL_PG_CLIENT=false
 
+### PHP_WORKER #########################################################################################################
+
+PHP_WORKER_INSTALL_PGSQL=false
+
 ### NGINX ##############################################################################################################
 
 NGINX_HOST_HTTP_PORT=80

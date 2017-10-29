@@ -541,11 +541,18 @@ b) add a new service container by simply copy-paste this section below PHP-FPM c
 ```yaml
     php-worker:
       build:
-        context: ./php-fpm
-        dockerfile: Dockerfile-70 # or Dockerfile-56, choose your PHP-FPM container setting
+        context: ./php-worker
+        dockerfile: "Dockerfile-${PHP_VERSION}" #Dockerfile-71 or #Dockerfile-70 available
+        args:
+          - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL} #Optionally install PGSQL PHP drivers
       volumes_from:
         - applications
-      command: php artisan queue:work
+      depends_on:
+        - workspace
+      extra_hosts:
+        - "dockerhost:${DOCKER_HOST_IP}"
+      networks:
+        - backend
 ```
 2 - Start everything up
 
