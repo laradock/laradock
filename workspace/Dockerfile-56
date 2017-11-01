@@ -12,7 +12,7 @@
 # Note: Base Image name format {image-tag}-{php-version}
 #
 
-FROM laradock/workspace:1.8-56
+FROM laradock/workspace:1.9-56
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
@@ -523,6 +523,18 @@ RUN if [ ${INSTALL_TERRAFORM} = true ]; then \
     && unzip terraform_0.10.6_linux_amd64.zip \
     && mv terraform /usr/local/bin \
     && rm terraform_0.10.6_linux_amd64.zip \
+;fi
+
+#####################################
+# pgsql client
+#####################################
+USER root
+ARG INSTALL_PG_CLIENT=false
+ENV INSTALL_PG_CLIENT ${INSTALL_PG_CLIENT}
+RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
+    # Install the pgsql clint
+    apt-get update -yqq && \
+    apt-get -y install postgresql-client \
 ;fi
 
 #####################################
