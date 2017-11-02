@@ -114,6 +114,8 @@ services:
         - "80:80"
       volumes:
         - /var/run/docker.sock:/tmp/docker.sock:ro
+        - ${NGINX_PROXY_CONF}:/etc/nginx/conf.d/my_proxy.conf:ro
+        - ${NGINX_PROXY_VHOST_PATH}:/etc/nginx/vhost.d:ro
       networks:
         - frontend
         - backend
