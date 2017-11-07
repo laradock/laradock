@@ -230,15 +230,6 @@ RUN if [ ${INSTALL_MYSQLI} = true ]; then \
 ;fi
 
 #####################################
-# postgres Modifications:
-#####################################
-
-ARG INSTALL_POSTGRES=false
-RUN if [ ${INSTALL_POSTGRES} = true ]; then \
-    docker-php-ext-install pgsql \
-;fi
-
-#####################################
 # Tokenizer Modifications:
 #####################################
 
