@@ -83,6 +83,18 @@ RUN if [ ${INSTALL_LDAP} = true ]; then \
 ;fi
 
 #####################################
+# IMAP:
+#####################################
+
+ARG INSTALL_IMAP=false
+ENV INSTALL_IMAP ${INSTALL_IMAP}
+
+RUN if [ ${INSTALL_IMAP} = true ]; then \
+    apt-get update -yqq && \
+    apt-get install -y php7.1-imap \
+;fi
+
+#####################################
 # Set Timezone
 #####################################
 

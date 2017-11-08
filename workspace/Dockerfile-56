@@ -70,6 +70,21 @@ RUN if [ ${INSTALL_SOAP} = true ]; then \
 ;fi
 
 #####################################
+# IMAP:
+#####################################
+USER root
+
+ARG INSTALL_IMAP=false
+ENV INSTALL_IMAP ${INSTALL_IMAP}
+
+RUN if [ ${INSTALL_IMAP} = true ]; then \
+  # Install the PHP IMAP extension
+  add-apt-repository -y ppa:ondrej/php && \
+  apt-get update -yqq && \
+  apt-get -y install php5.6-imap \
+;fi
+
+#####################################
 # Set Timezone
 #####################################
 
