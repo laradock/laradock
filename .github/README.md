@@ -37,6 +37,7 @@
 
 ## Contributors
 
+#### Core contributors:
 - [Mahmoud Zalt](https://github.com/Mahmoudz) @mahmoudz | [Twitter](https://twitter.com/Mahmoud_Zalt) | [Site](http://zalt.me)
 - [Bo-Yi Wu](https://github.com/appleboy) @appleboy | [Twitter](https://twitter.com/appleboy)
 - [Philippe Trépanier](https://github.com/philtrep) @philtrep
@@ -49,17 +50,25 @@
 - [Milan Urukalo](https://github.com/urukalo) @urukalo
 - [Vince Chu](https://github.com/vwchu) @vwchu
 - [Huadong Zuo](https://github.com/zuohuadong) @zuohuadong
-- Join us, by contributing.
+- Join us, by submitting 20 useful PR's.
+
+#### Awesome contributors:
+- See full list [here](https://github.com/apiato/apiato/graphs/contributors).
 
 
 ## Donations
 
-Help keeping the project development going, by [contributing](http://laradock.io/contributing/) or donating. 
-Thanks in advance.
+> Help keeping the project development going, by [contributing](http://laradock.io/contributing) or donating a little. 
+> Thanks in advance.
+
+Donate directly via [Paypal](https://www.paypal.me/mzalt)
 
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/mzalt) 
 
-[![Beerpay](https://beerpay.io/apiato/apiato/badge.svg?style=flat)](https://beerpay.io/laradock/laradock)
+or show your support via [Beerpay](https://beerpay.io/laradock/laradock) 
+
+[![Beerpay](https://beerpay.io/laradock/laradock/badge.svg?style=flat)](https://beerpay.io/laradock/laradock)
+
 
 ## License
 

@@ -116,6 +116,11 @@ If you can't find your Software in the list, build it yourself and submit it. Co
 
 
 
+## Sponsors
+
+<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/JHiroABWV9N5QKgcFuTA2NxX/laradock/laradock'>
+  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/JHiroABWV9N5QKgcFuTA2NxX/laradock/laradock.svg' />
+</a>
 
 
 
@@ -172,19 +177,19 @@ You are welcome to join our chat room on Gitter.
 [![Gitter](https://badges.gitter.im/Laradock/laradock.svg)](https://gitter.im/Laradock/laradock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 
-## Sponsors
 
-<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/JHiroABWV9N5QKgcFuTA2NxX/laradock/laradock'>
-  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/JHiroABWV9N5QKgcFuTA2NxX/laradock/laradock.svg' />
-</a>
 
 
 <a name="Donations"></a>
 ## Donations
 
-Help keeping the project development going, by [contributing](http://laradock.io/contributing/) or donating. 
-Thanks in advance.
+> Help keeping the project development going, by [contributing](http://laradock.io/contributing) or donating a little. 
+> Thanks in advance.
+
+Donate directly via [Paypal](https://www.paypal.me/mzalt)
 
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/mzalt) 
 
-[![Beerpay](https://beerpay.io/apiato/apiato/badge.svg?style=flat)](https://beerpay.io/laradock/laradock)
+or show your support via [Beerpay](https://beerpay.io/laradock/laradock) 
+
+[![Beerpay](https://beerpay.io/laradock/laradock/badge.svg?style=flat)](https://beerpay.io/laradock/laradock)
