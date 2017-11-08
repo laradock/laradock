@@ -4,7 +4,9 @@ services:
   - docker
 
 env:
-  matrix:  
+  matrix:
+    - HUGO_VERSION=0.20.2
+
     - PHP_VERSION=56 BUILD_SERVICE="applications blackfire minio percona nginx caddy apache2 mysql mariadb phpmyadmin postgres postgres-postgis pgadmin neo4j mongo redis"
     - PHP_VERSION=70 BUILD_SERVICE="applications blackfire minio percona nginx caddy apache2 mysql mariadb phpmyadmin postgres postgres-postgis pgadmin neo4j mongo redis"
     - PHP_VERSION=71 BUILD_SERVICE="applications blackfire minio percona nginx caddy apache2 mysql mariadb phpmyadmin postgres postgres-postgis pgadmin neo4j mongo redis"
@@ -36,8 +38,6 @@ env:
     - PHP_VERSION=56 BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq adminer elasticsearch certbot mailhog maildev selenium jenkins proxy proxy2 balancer"
     - PHP_VERSION=70 BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq adminer elasticsearch certbot mailhog maildev selenium jenkins proxy proxy2 balancer"
     - PHP_VERSION=71 BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq adminer elasticsearch certbot mailhog maildev selenium jenkins proxy proxy2 balancer"
-
-    - HUGO_VERSION=0.20.2
 
 # Installing a newer Docker version
 before_install:
