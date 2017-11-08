@@ -170,3 +170,17 @@ What's better than a **Demo Video**:
 You are welcome to join our chat room on Gitter.
 
 [![Gitter](https://badges.gitter.im/Laradock/laradock.svg)](https://gitter.im/Laradock/laradock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
+
+
+
+
+<a name="Donations"></a>
+## Donations
+
+Help keeping the project development going, by [contributing](http://laradock.io/contributing/) or donating. 
+Thanks in advance.
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/mzalt) 
+
+[![Beerpay](https://beerpay.io/apiato/apiato/badge.svg?style=flat)](https://beerpay.io/laradock/laradock)

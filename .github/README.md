@@ -44,6 +44,16 @@
 - [Vince Chu](https://github.com/vwchu) @vwchu
 - Join Us.
 
+
+## Donations
+
+Help keeping the project development going, by [contributing](http://laradock.io/contributing/) or donating. 
+Thanks in advance.
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/mzalt) 
+
+[![Beerpay](https://beerpay.io/apiato/apiato/badge.svg?style=flat)](https://beerpay.io/laradock/laradock)
+
 ## License
 
 [MIT License](https://github.com/laradock/laradock/blob/master/LICENSE)
