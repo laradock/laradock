@@ -48,7 +48,8 @@
 - [Yu-Lung Shao (Allen)](https://github.com/bestlong) @bestlong
 - [Milan Urukalo](https://github.com/urukalo) @urukalo
 - [Vince Chu](https://github.com/vwchu) @vwchu
-- Join Us.
+- [Huadong Zuo](https://github.com/zuohuadong) @zuohuadong
+- Join us, by contributing.
 
 
 ## Donations
