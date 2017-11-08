@@ -172,7 +172,11 @@ You are welcome to join our chat room on Gitter.
 [![Gitter](https://badges.gitter.im/Laradock/laradock.svg)](https://gitter.im/Laradock/laradock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 
+## Sponsors
 
+<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/JHiroABWV9N5QKgcFuTA2NxX/laradock/laradock'>
+  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/JHiroABWV9N5QKgcFuTA2NxX/laradock/laradock.svg' />
+</a>
 
 
 <a name="Donations"></a>

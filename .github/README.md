@@ -29,7 +29,13 @@
 </p>
 
 
-## Credits
+## Sponsors
+
+<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/JHiroABWV9N5QKgcFuTA2NxX/laradock/laradock'>
+  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/JHiroABWV9N5QKgcFuTA2NxX/laradock/laradock.svg' />
+</a>
+
+## Contributors
 
 - [Mahmoud Zalt](https://github.com/Mahmoudz) @mahmoudz | [Twitter](https://twitter.com/Mahmoud_Zalt) | [Site](http://zalt.me)
 - [Bo-Yi Wu](https://github.com/appleboy) @appleboy | [Twitter](https://twitter.com/appleboy)
