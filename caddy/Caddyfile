@@ -25,6 +25,6 @@
     #  dns cloudflare
     #}
 }
-laradock.demo {
+laradock.demo:80 {
     root /var/www/public
 }
