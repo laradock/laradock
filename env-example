@@ -322,4 +322,3 @@ PHP_IDE_CONFIG=serverName=laradock
 # Fix for windows users to make sure the application path works.
 
 COMPOSE_CONVERT_WINDOWS_PATHS=1
-
