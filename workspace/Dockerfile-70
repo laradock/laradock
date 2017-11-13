@@ -16,6 +16,9 @@ FROM laradock/workspace:1.9-70
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
+# Remove Faillog and Lastlog to reduce the size of the final image.
+RUN rm /var/log/lastlog /var/log/faillog
+
 #
 #--------------------------------------------------------------------------
 # Mandatory Software's Installation
