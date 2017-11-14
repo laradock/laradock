@@ -108,9 +108,17 @@ font-weight:700;
     OVERRIDING THE DEFAULT STYLES - By Mahmoud Zalt (mahmoud@zalt.me) for Laradock.io
 */
 
-.project .logo img{
-    width: 140px;
-    height: 140px;
+
+.project .logo img {
+    max-width: 100%;
+    height: auto;
     background: transparent;
     border-radius: 0%;
+}
+
+.project .banner {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
 }
