@@ -2,6 +2,11 @@
 # General Setup
 ###########################################################
 
+### Environment ########################################################################################################
+# If you're in China, or you need to change sources, will be set CHANGE_SOURCE to true in .env.
+
+CHANGE_SOURCE=false
+
 ### Application Path ###################################################################################################
 # Point to your code, will be available at `/var/www`.
 
