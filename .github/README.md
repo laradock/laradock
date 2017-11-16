@@ -26,9 +26,9 @@ Submodule this repo into your project:
 git submodule add --name laradock-my-project --force https://github.com/heyorca/laradock.git laradock-my-project
 ```
 
-Create the laradock-env and laradock-docker-compose.yml files in your project directory. You can copy the examples from the laradock-my-project directory (example-env and docker-composer.yml.example). Modify these files based on your project needs.
+Run `./setup.sh` from the laradock directory.
 
-Your project tree should look like something like this:
+Your project tree should look something like this:
 
 ```
 - my-project
@@ -36,13 +36,15 @@ Your project tree should look like something like this:
     - stuff
     - laradock-my-project (submodule)
         - .env (symlink to ../laradock-env)
-        - docker-compose (symlink to ../laradock-docker-compose)
+        - docker-compose.yml (symlink to ../laradock-docker-compose)
         - some-other-stuff
     - laradock-env
     - laradock-docker-compose.yml
 ```
     
-Run `docker-compose up` from the laradock directory and you should see dockers running based on the parent laradock-env and laradock-docker-compose.yml file.
+You can modify the generated laradock-env and laradock-docker-compose.yml file in your project directory based on your needs. 
+
+Run `sudo docker-compose up` from the laradock directory and the docker environments will run based on those two files.
 
 Visit <a href="https://github.com/laradock/laradock">laradock</a> to learn more.
 
