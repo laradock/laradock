@@ -54,9 +54,7 @@ ENV PUID ${PUID}
 ENV PGID ${PGID}
 
 RUN groupadd -g ${PGID} laradock && \
-    useradd -u ${PUID} -g laradock -m laradock && \
-    apt-get update -yqq && \
-    apt-get install -y python2.7
+    useradd -u ${PUID} -g laradock -m laradock
 
 #####################################
 # SOAP:
@@ -686,8 +684,7 @@ RUN if [ ${INSTALL_DUSK_DEPS} = true ]; then \
 # Clean up
 USER root
 RUN apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-    npm config set python /usr/bin/python2.7
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Set default work directory
 WORKDIR /var/www
