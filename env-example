@@ -2,6 +2,11 @@
 # General Setup
 ###########################################################
 
+### Docker compose files ###############################################################################################
+# Select which docker-compose files to include.
+
+COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml
+
 ### Application Path ###################################################################################################
 # Point to your code, will be available at `/var/www`.
 
