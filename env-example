@@ -7,6 +7,9 @@
 
 COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml
 
+# Replace the above with the following line if you wish to use docker-sync.
+# COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml:docker-compose.sync.yml
+
 ### Application Path ###################################################################################################
 # Point to your code, will be available at `/var/www`.
 
