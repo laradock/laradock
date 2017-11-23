@@ -2,19 +2,6 @@
 # General Setup
 ###########################################################
 
-### Environment ########################################################################################################
-# If you're in China, or you need to change sources, will be set CHANGE_SOURCE to true in .env.
-
-CHANGE_SOURCE=false
-
-### Docker compose files ###############################################################################################
-# Select which docker-compose files to include.
-
-COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml
-
-# Replace the above with the following line if you wish to use docker-sync.
-# COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml:docker-compose.sync.yml
-
 ### Application Path ###################################################################################################
 # Point to your code, will be available at `/var/www`.
 
@@ -35,6 +22,12 @@ PHP_INTERPRETER=php-fpm
 
 DATA_SAVE_PATH=~/.laradock/data
 
+### Docker compose files ###############################################################################################
+# Select which docker-compose files to include.
+# If using docker-sync. Set the value to: docker-compose.yml:docker-compose.dev.yml:docker-compose.sync.yml
+
+COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml
+
 ### Docker Host IP #####################################################################################################
 # Enter your Docker Host IP (will be appended to /etc/hosts). Default is `10.0.75.1`
 
@@ -49,6 +42,11 @@ PHP_IDE_CONFIG=serverName=laradock
 # A fix for Windows users, to ensure the application path works.
 
 COMPOSE_CONVERT_WINDOWS_PATHS=1
+
+### Environment ########################################################################################################
+# If you're in China, or you need to change sources, will be set CHANGE_SOURCE to true in .env.
+
+CHANGE_SOURCE=false
 
 ########################################################################################################################
 
