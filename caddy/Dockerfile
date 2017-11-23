@@ -1,17 +1,15 @@
-FROM golang
+FROM zuohuadong/caddy:alpine
+
 
 MAINTAINER Huadong Zuo <admin@zuohuadong.cn>
 
-ARG plugins="git"
+ARG plugins="cors"
 
-## If you come frome china, please ues it.
+## ARG plugins="cors cgi cloudflare azure linode"
 
-# RUN echo "172.217.6.127 golang.org" >> /etc/hosts
 
-RUN go get github.com/abiosoft/caddyplug/caddyplug \
-    && caddyplug install-caddy \
-    && caddyplug install git
-RUN caddy --version
+RUN caddyplug install ${plugins}
+    
 
 EXPOSE 80 443 2015
 
