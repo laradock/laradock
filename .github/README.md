@@ -33,7 +33,7 @@
 
 Support this project by becoming a sponsor. 
 
-Your logo will show up on the [github repository](https://github.com/laradock/laradock/) index page and the [documentation](http://apiato.io/) main page, with a link to your website. [[Become a sponsor](https://opencollective.com/laradock#sponsor)]
+Your logo will show up on the [github repository](https://github.com/laradock/laradock/) index page and the [documentation](http://laradock.io/) main page, with a link to your website. [[Become a sponsor](https://opencollective.com/laradock#sponsor)]
 
 <a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/JHiroABWV9N5QKgcFuTA2NxX/laradock/laradock'>
   <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/JHiroABWV9N5QKgcFuTA2NxX/laradock/laradock.svg' />
@@ -83,7 +83,7 @@ Donate directly via [Paypal](https://www.paypal.me/mzalt)
 
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/mzalt) 
 
-or become a backer on [Open Collective](https://opencollective.com/apiato#backer)
+or become a backer on [Open Collective](https://opencollective.com/laradock#backer)
 
 <a href="https://opencollective.com/laradock#backers" target="_blank"><img src="https://opencollective.com/laradock/backers.svg?width=890"></a>
 
