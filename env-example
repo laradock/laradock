@@ -2,6 +2,11 @@
 # General Setup
 ###########################################################
 
+### Environment ########################################################################################################
+# If you're in China, or you need to change sources, will be set CHANGE_SOURCE to true in .env.
+
+CHANGE_SOURCE=false
+
 ### Docker compose files ###############################################################################################
 # Select which docker-compose files to include.
 
