@@ -63,7 +63,7 @@ if [ "$1" == "up" ] ; then
 
 elif [ "$1" == "down" ]; then
     print_style "Stopping Docker Compose\n" "info"
-    docker-compose down
+    docker-compose stop
 
     print_style "Stopping Docker Sync\n" "info"
     docker-sync stop
