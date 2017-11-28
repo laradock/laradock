@@ -30,6 +30,8 @@ COPY supervisord.conf /etc/supervisord.conf
 #
 	# -- Your awesome modifications go here -- #
 
+RUN docker-php-ext-install pcntl
+
 
 #
 #--------------------------------------------------------------------------
