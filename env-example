@@ -29,10 +29,10 @@ DATA_SAVE_PATH=~/.laradock/data
 #COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml:docker-compose.sync.yml
 
 # docker-compose.dev version
-#COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml
+COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml
 
 # Cross-platform version
-COMPOSE_FILE=docker-compose.yml
+#COMPOSE_FILE=docker-compose.yml
 
 ### Docker Host IP #####################################################################################################
 # Enter your Docker Host IP (will be appended to /etc/hosts). Default is `10.0.75.1`
