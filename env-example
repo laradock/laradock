@@ -24,9 +24,15 @@ DATA_SAVE_PATH=~/.laradock/data
 
 ### Docker compose files ###############################################################################################
 # Select which docker-compose files to include.
-# If using docker-sync. Set the value to: docker-compose.yml:docker-compose.dev.yml:docker-compose.sync.yml
 
+# If using docker-sync.
+#COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml:docker-compose.sync.yml
+
+# docker-compose.dev version
 COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml
+
+# Cross-platform version
+#COMPOSE_FILE=docker-compose.yml
 
 ### Docker Host IP #####################################################################################################
 # Enter your Docker Host IP (will be appended to /etc/hosts). Default is `10.0.75.1`
