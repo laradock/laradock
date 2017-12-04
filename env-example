@@ -27,6 +27,7 @@ DATA_SAVE_PATH=~/.laradock/data
 # If using docker-sync. Set the value to: docker-compose.yml:docker-compose.dev.yml:docker-compose.sync.yml
 # Change the separator from : to ; on Windows
 
+COMPOSE_PATH_SEPARATOR=:
 COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml
 
 ### Docker Host IP #####################################################################################################
