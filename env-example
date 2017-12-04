@@ -25,6 +25,7 @@ DATA_SAVE_PATH=~/.laradock/data
 ### Docker compose files ###############################################################################################
 # Select which docker-compose files to include.
 # If using docker-sync. Set the value to: docker-compose.yml:docker-compose.dev.yml:docker-compose.sync.yml
+# Change the separator from : to ; on Windows
 
 COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml
 
