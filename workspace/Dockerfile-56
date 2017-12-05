@@ -73,6 +73,19 @@ RUN if [ ${INSTALL_SOAP} = true ]; then \
 ;fi
 
 #####################################
+# LDAP:
+#####################################
+
+ARG INSTALL_LDAP=false
+ENV INSTALL_LDAP ${INSTALL_LDAP}
+
+RUN if [ ${INSTALL_LDAP} = true ]; then \
+    apt-get update -yqq && \
+    apt-get install -y libldap2-dev && \
+    apt-get install -y php5.6-ldap \
+;fi
+
+#####################################
 # IMAP:
 #####################################
 USER root
