@@ -19,9 +19,11 @@ env:
     - PHP_VERSION=70 BUILD_SERVICE=php-fpm
     - PHP_VERSION=71 BUILD_SERVICE=php-fpm
 
-    - PHP_VERSION=56 BUILD_SERVICE="php-worker hhvm"
-    - PHP_VERSION=70 BUILD_SERVICE="php-worker hhvm"
-    - PHP_VERSION=71 BUILD_SERVICE="php-worker hhvm"
+    - PHP_VERSION=hhvm BUILD_SERVICE="hhvm"
+
+    # - PHP_VERSION=56 BUILD_SERVICE="php-worker"
+    - PHP_VERSION=70 BUILD_SERVICE="php-worker"
+    - PHP_VERSION=71 BUILD_SERVICE="php-worker"
 
     - PHP_VERSION=56 BUILD_SERVICE=mssql
     - PHP_VERSION=70 BUILD_SERVICE=mssql
