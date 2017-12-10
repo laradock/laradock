@@ -39,6 +39,7 @@ env:
 
     - PHP_VERSION="N/A" BUILD_SERVICE="adminer phpmyadmin pgadmin"
     - PHP_VERSION="N/A" BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq elasticsearch certbot mailhog maildev selenium jenkins proxy proxy2 balancer"
+    - PHP_VERSION="N/A" BUILD_SERVICE="kibana grafana laravel-echo-server aws"
 
 # Installing a newer Docker version
 before_install:
