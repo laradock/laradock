@@ -7,10 +7,6 @@ env:
   matrix:
     - HUGO_VERSION=0.20.2
 
-    - PHP_VERSION=56 BUILD_SERVICE="applications blackfire minio percona nginx caddy apache2 mysql mariadb postgres postgres-postgis neo4j mongo redis"
-    - PHP_VERSION=70 BUILD_SERVICE="applications blackfire minio percona nginx caddy apache2 mysql mariadb postgres postgres-postgis neo4j mongo redis"
-    - PHP_VERSION=71 BUILD_SERVICE="applications blackfire minio percona nginx caddy apache2 mysql mariadb postgres postgres-postgis neo4j mongo redis"
-
     - PHP_VERSION=56 BUILD_SERVICE=workspace
     - PHP_VERSION=70 BUILD_SERVICE=workspace
     - PHP_VERSION=71 BUILD_SERVICE=workspace
@@ -37,6 +33,7 @@ env:
     - PHP_VERSION=70 BUILD_SERVICE=aerospike
     - PHP_VERSION=71 BUILD_SERVICE=aerospike
 
+    - PHP_VERSION=NA BUILD_SERVICE="applications blackfire minio percona nginx caddy apache2 mysql mariadb postgres postgres-postgis neo4j mongo redis"
     - PHP_VERSION=NA BUILD_SERVICE="adminer phpmyadmin pgadmin"
     - PHP_VERSION=NA BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq elasticsearch certbot mailhog maildev selenium jenkins proxy proxy2 balancer"
     - PHP_VERSION=NA BUILD_SERVICE="kibana grafana laravel-echo-server"
