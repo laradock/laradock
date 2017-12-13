@@ -198,7 +198,8 @@ services:
     minio:
       build: ./minio
       volumes:
-        - minio:/export
+        - ${DATA_SAVE_PATH}/minio/data:/export
+        - ${DATA_SAVE_PATH}/minio/config:/root/.minio
       ports:
         - "${MINIO_PORT}:9000"
       environment:
@@ -206,6 +207,7 @@ services:
         - MINIO_SECRET_KEY=secretkey
       networks:
         - frontend
+        - backend
 
 ### MySQL Container #########################################
 
