@@ -3,7 +3,7 @@ server {
     listen 80;
     listen [::]:80;
 
-    server_name symfony.dev;
+    server_name symfony.test;
     root /var/www/projects/symfony/web;
     index index.php index.html index.htm;
 

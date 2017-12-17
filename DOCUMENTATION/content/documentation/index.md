@@ -1002,7 +1002,7 @@ To install CodeIgniter 3 on Laradock all you have to do is the following simple 
 
 4 - Run `docker-compose restart` if the container was already running, before the step above.
 
-5 - Visit `symfony.dev`
+5 - Visit `symfony.test`
 
 <br>
 <a name="Misc"></a>
@@ -1167,21 +1167,21 @@ If you need <a href="#MySQL-access-from-host">MySQL access from your host</a>, d
 <a name="Use-custom-Domain"></a>
 ## Use custom Domain (instead of the Docker IP)
 
-Assuming your custom domain is `laravel.dev`
+Assuming your custom domain is `laravel.test`
 
-1 - Open your `/etc/hosts` file and map your localhost address `127.0.0.1` to the `laravel.dev` domain, by adding the following:
+1 - Open your `/etc/hosts` file and map your localhost address `127.0.0.1` to the `laravel.test` domain, by adding the following:
 
 ```bash
-127.0.0.1    laravel.dev
+127.0.0.1    laravel.test
 ```
 
-2 - Open your browser and visit `{http://laravel.dev}`
+2 - Open your browser and visit `{http://laravel.test}`
 
 
 Optionally you can define the server name in the NGINX configuration file, like this:
 
 ```conf
-server_name laravel.dev;
+server_name laravel.test;
 ```
 
 
