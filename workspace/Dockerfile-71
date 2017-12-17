@@ -12,7 +12,7 @@
 # Note: Base Image name format {image-tag}-{php-version}
 #
 
-FROM laradock/workspace:1.9-71
+FROM laradock/workspace:2.0-71
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 

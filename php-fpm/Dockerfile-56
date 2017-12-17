@@ -12,7 +12,7 @@
 # Note: Base Image name format {image-tag}-{php-version}
 #
 
-FROM laradock/php-fpm:1.4-56
+FROM laradock/php-fpm:2.0-56
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
