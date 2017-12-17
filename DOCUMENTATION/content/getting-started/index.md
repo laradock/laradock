@@ -125,6 +125,7 @@ You can rename the config files, project folders and domains as you like, just m
 127.0.0.1  project-2.dev
 ...
 ```
+If you use Chrome 63 or above for development, don't use `.dev`. [Why?](https://laravel-news.com/chrome-63-now-forces-dev-domains-https). Instead use `.localhost`, `.invalid`, `.test`, or `.example`.
 
 > **Now jump to the [Usage](#Usage) section.**
 
