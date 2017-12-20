@@ -435,11 +435,11 @@ To learn more about how Docker publishes ports, please read [this excellent post
 <a name="Use-Jenkins"></a>
 ## Use Jenkins
 
-1) Boot the container `docker-compose exec jenkins bash`
+1) Boot the container `docker-compose up -d jenkins`. To enter the container type `docker-compose exec jenkins bash`.
 
 2) Go to `http://localhost:8090/` (if you didn't chanhed your default port mapping) 
 
-3) Authenticate:
+3) Authenticate from the web app.
 
 - Default username is `admin`.
 - Default password is `docker-compose exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword`. 
