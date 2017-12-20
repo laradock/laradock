@@ -616,7 +616,7 @@ services:
       networks:
         - frontend
 
-### Balancer Haproxy ##########################################
+### HAProxy Load Balancer ####################################
 
     haproxy:
       build: ./haproxy
