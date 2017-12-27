@@ -157,6 +157,18 @@ RUN if [ ${INSTALL_BCMATH} = true ]; then \
 ;fi
 
 #####################################
+# GMP (GNU Multiple Precision):
+#####################################
+
+ARG INSTALL_GMP=false
+RUN if [ ${INSTALL_GMP} = true ]; then \
+    # Install the GMP extension
+	apt-get update -yqq && \
+	apt-get install -y libgmp-dev && \ 
+    docker-php-ext-install gmp \
+;fi
+
+#####################################
 # PHP Memcached:
 #####################################
 
