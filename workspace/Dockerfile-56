@@ -227,6 +227,21 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
 ;fi
 
 #####################################
+# AMQP:
+#####################################
+
+# Check if Mongo needs to be installed
+ARG INSTALL_AMQP=false
+ENV INSTALL_AMQP ${INSTALL_AMQP}
+RUN if [ ${INSTALL_AMQP} = true ]; then \
+    apt-get install librabbitmq-dev -y && \
+    # Install the mongodb extension
+    pecl -q install amqp && \
+    echo "extension=amqp.so" >> /etc/php/5.6/mods-available/amqp.ini && \
+    ln -s /etc/php/5.6/mods-available/amqp.ini /etc/php/5.6/cli/conf.d/30-amqp.ini \
+;fi
+
+#####################################
 # PHP REDIS EXTENSION FOR PHP 5.6
 #####################################
 
