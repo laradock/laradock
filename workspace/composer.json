@@ -1,11 +1,6 @@
 {
     "require": {
-        "kherge/box": "~2.4",
         "psy/psysh": "@stable",
-        "squizlabs/php_codesniffer": "^2.7",
-        "friendsofphp/php-cs-fixer": "^2.0",
-        "phpmd/phpmd": "^2.5",
-        "tightenco/jigsaw": "^1.0",
         "hirak/prestissimo": "^0.3"
     }
 } 

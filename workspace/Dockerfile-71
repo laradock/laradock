@@ -147,6 +147,18 @@ USER root
 COPY ./crontab /etc/cron.d
 RUN chmod -R 644 /etc/cron.d
 
+COPY ./composer.json /root/.composer/composer.json
+COPY ./config.json /root/.composer/config.json
+
+# If you're in China, or you need to change sources, will be set CHANGE_SOURCE to true in .env.
+
+ARG CHANGE_SOURCE=false
+ENV CHANGE_SOURCE ${CHANGE_SOURCE}
+RUN if [ ${CHANGE_SOURCE} = true ]; then \
+    composer config -g repo.packagist composer https://packagist.phpcomposer.com && \
+    composer config -g process-timeout 2000 \
+;fi
+
 #####################################
 # User Aliases
 #####################################
