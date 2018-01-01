@@ -42,11 +42,13 @@ RUN rm /var/log/lastlog /var/log/faillog
 #   - ...
 #
 
-ARG CHANGE_SOURCE=false
+ARG CHANGE_SOURCE=true
 ENV CHANGE_SOURCE ${CHANGE_SOURCE}
 RUN if [ ${CHANGE_SOURCE} = true ]; then \
-    sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list \
+    echo "Change Source" \
 ;fi
+
+RUN echo ${CHANGE_SOURCE}
 
 #####################################
 # Non-Root User:
@@ -61,6 +63,14 @@ ENV PGID ${PGID}
 
 RUN groupadd -g ${PGID} laradock && \
     useradd -u ${PUID} -g laradock -m laradock
+
+#ARG CHANGE_SOURCE=false
+#ENV CHANGE_SOURCE ${CHANGE_SOURCE}
+RUN if [ ${CHANGE_SOURCE} = true ]; then \
+    sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list \
+;fi
+
+RUN cat /etc/apt/sources.list
 
 #####################################
 # SOAP:
@@ -124,8 +134,8 @@ USER laradock
 
 # If you're in China, or you need to change sources, will be set CHANGE_SOURCE to true in .env.
 
-ARG CHANGE_SOURCE=false
-ENV CHANGE_SOURCE ${CHANGE_SOURCE}
+#ARG CHANGE_SOURCE=false
+#ENV CHANGE_SOURCE ${CHANGE_SOURCE}
 RUN if [ ${CHANGE_SOURCE} = true ]; then \
     composer config -g repo.packagist composer https://packagist.phpcomposer.com && \
     composer config -g process-timeout 2000 \
@@ -152,8 +162,8 @@ COPY ./config.json /root/.composer/config.json
 
 # If you're in China, or you need to change sources, will be set CHANGE_SOURCE to true in .env.
 
-ARG CHANGE_SOURCE=false
-ENV CHANGE_SOURCE ${CHANGE_SOURCE}
+#ARG CHANGE_SOURCE=false
+#ENV CHANGE_SOURCE ${CHANGE_SOURCE}
 RUN if [ ${CHANGE_SOURCE} = true ]; then \
     composer config -g repo.packagist composer https://packagist.phpcomposer.com && \
     composer config -g process-timeout 2000 \
@@ -301,8 +311,8 @@ ENV NODE_VERSION ${NODE_VERSION}
 ARG INSTALL_NODE=false
 ENV INSTALL_NODE ${INSTALL_NODE}
 ENV NVM_DIR /home/laradock/.nvm
-ARG CHANGE_SOURCE=false
-ENV CHANGE_SOURCE ${CHANGE_SOURCE}
+#ARG CHANGE_SOURCE=false
+#ENV CHANGE_SOURCE ${CHANGE_SOURCE}
 RUN if [ ${INSTALL_NODE} = true && ${CHANGE_SOURCE} = true ]; then \
     echo "" >> ~/.bashrc && \
     echo 'export NVM_NODEJS_ORG_MIRROR=https://npm.taobao.org/mirrors/node' >> ~/.bashrc && \
@@ -499,7 +509,11 @@ USER root
 
 ARG INSTALL_LINUXBREW=false
 ENV INSTALL_LINUXBREW ${INSTALL_LINUXBREW}
-
+#ARG CHANGE_SOURCE=false
+#ENV CHANGE_SOURCE ${CHANGE_SOURCE}
+RUN if [ ${CHANGE_SOURCE} = true ]; then \
+    sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list \
+;fi
 RUN if [ ${INSTALL_LINUXBREW} = true ]; then \
 
     # Preparation
@@ -529,6 +543,12 @@ RUN if [ ${INSTALL_LINUXBREW} = true ]; then \
 #####################################
 ARG INSTALL_MSSQL=false
 ENV INSTALL_MSSQL ${INSTALL_MSSQL}
+
+#ARG CHANGE_SOURCE=false
+#ENV CHANGE_SOURCE ${CHANGE_SOURCE}
+RUN if [ ${CHANGE_SOURCE} = true ]; then \
+    sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list \
+;fi
 
 RUN if [ ${INSTALL_MSSQL} = true ]; then \
     #####################################
