@@ -1,0 +1,11 @@
+{
+    "config": {
+        "process-timeout": 2000
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
+        }
+    }
+}

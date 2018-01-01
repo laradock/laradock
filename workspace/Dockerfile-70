@@ -117,6 +117,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Add the composer.json
 COPY ./composer.json /home/laradock/.composer/composer.json
+COPY ./config.json /home/laradock/.composer/config.json
 
 # Make sure that ~/.composer belongs to laradock
 RUN chown -R laradock:laradock /home/laradock/.composer
