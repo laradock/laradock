@@ -42,6 +42,12 @@ RUN rm /var/log/lastlog /var/log/faillog
 #   - ...
 #
 
+ARG CHANGE_SOURCE=false
+ENV CHANGE_SOURCE ${CHANGE_SOURCE}
+RUN if [ ${CHANGE_SOURCE} = true ]; then \
+    sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list \
+;fi
+
 #####################################
 # Non-Root User:
 #####################################
@@ -119,12 +125,21 @@ COPY ./composer.json /home/laradock/.composer/composer.json
 RUN chown -R laradock:laradock /home/laradock/.composer
 USER laradock
 
+# If you're in China, or you need to change sources, will be set CHANGE_SOURCE to true in .env.
+
+ARG CHANGE_SOURCE=false
+ENV CHANGE_SOURCE ${CHANGE_SOURCE}
+RUN if [ ${CHANGE_SOURCE} = true ]; then \
+    composer config -g repo.packagist composer https://packagist.phpcomposer.com && \
+    composer config -g process-timeout 2000 \
+;fi
+
 # Check if global install need to be ran
 ARG COMPOSER_GLOBAL_INSTALL=false
 ENV COMPOSER_GLOBAL_INSTALL ${COMPOSER_GLOBAL_INSTALL}
 RUN if [ ${COMPOSER_GLOBAL_INSTALL} = true ]; then \
     # run the install
-    composer global install \
+    composer global install -vvv \
 ;fi
 
 # Export composer vendor path
@@ -281,6 +296,16 @@ ENV NODE_VERSION ${NODE_VERSION}
 ARG INSTALL_NODE=false
 ENV INSTALL_NODE ${INSTALL_NODE}
 ENV NVM_DIR /home/laradock/.nvm
+ARG CHANGE_SOURCE=false
+ENV CHANGE_SOURCE ${CHANGE_SOURCE}
+RUN if [ ${INSTALL_NODE} = true && ${CHANGE_SOURCE} = true ]; then \
+    echo "" >> ~/.bashrc && \
+    echo 'export NVM_NODEJS_ORG_MIRROR=https://npm.taobao.org/mirrors/node' >> ~/.bashrc && \
+    echo 'registry=https://registry.npm.taobao.org' >> ~/.npmrc && \
+    echo 'registry "https://registry.npm.taobao.org"' >> ~/.yarnrc && \
+    NVM_NODEJS_ORG_MIRROR=https://npm.taobao.org/mirrors/node \
+;fi
+
 RUN if [ ${INSTALL_NODE} = true ]; then \
     # Install nvm (A Node Version Manager)
     curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash && \
@@ -289,6 +314,11 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
         nvm use ${NODE_VERSION} && \
         nvm alias ${NODE_VERSION} && \
         npm install -g gulp bower vue-cli \
+;fi
+
+RUN if [ ${INSTALL_NODE} = true && ${CHANGE_SOURCE} = true ]; then \
+    npm --registry https://registry.npm.taobao.org install -g cnpm cyarn nrm && \
+    npm config set registry https://registry.npm.taobao.org \
 ;fi
 
 # Wouldn't execute when added to the RUN statement in the above block
@@ -391,7 +421,7 @@ ENV INSTALL_LARAVEL_ENVOY ${INSTALL_LARAVEL_ENVOY}
 
 RUN if [ ${INSTALL_LARAVEL_ENVOY} = true ]; then \
     # Install the Laravel Envoy
-    composer global require "laravel/envoy=~1.0" \
+    composer global require "laravel/envoy=~1.0" -vvv \
 ;fi
 
 #####################################
@@ -406,7 +436,7 @@ RUN if [ ${INSTALL_LARAVEL_INSTALLER} = true ]; then \
     # Install the Laravel Installer
     echo "" >> ~/.bashrc && \
     echo 'export PATH="~/.composer/vendor/bin:$PATH"' >> ~/.bashrc \
-    && composer global require "laravel/installer" \
+    && composer global require "laravel/installer" -vvv \
 ;fi
 
 USER laradock
@@ -421,7 +451,7 @@ ENV INSTALL_DEPLOYER ${INSTALL_DEPLOYER}
 
 RUN if [ ${INSTALL_DEPLOYER} = true ]; then \
     # Install the Deployer
-    composer global require "deployer/deployer" \
+    composer global require "deployer/deployer" -vvv \
 ;fi
 
 #####################################
