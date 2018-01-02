@@ -1,0 +1,3 @@
+[submodule "apply-app"]
+	path = apply-app
+	url = https://github.com/kironuniversity/apply-app
