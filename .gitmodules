@@ -1,3 +1,6 @@
 [submodule "apply-app"]
 	path = apply-app
 	url = https://github.com/kironuniversity/apply-app
+[submodule "campus-frontend"]
+	path = campus-frontend
+	url = https://github.com/kironuniversity/campus-frontend
