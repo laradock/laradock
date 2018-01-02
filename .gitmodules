@@ -1,12 +1,16 @@
 [submodule "apply-app"]
 	path = apply-app
 	url = https://github.com/kironuniversity/apply-app
+	branch = master
 [submodule "campus-frontend"]
 	path = campus-frontend
 	url = https://github.com/kironuniversity/campus-frontend
+	branch = master
 [submodule "kiron-graphql"]
 	path = kiron-graphql
 	url = https://github.com/kironuniversity/kiron-graphql
+	branch = master
 [submodule "services"]
 	path = services
 	url = https://github.com/kironuniversity/services
+	branch = master
