@@ -4,3 +4,6 @@
 [submodule "campus-frontend"]
 	path = campus-frontend
 	url = https://github.com/kironuniversity/campus-frontend
+[submodule "kiron-graphql"]
+	path = kiron-graphql
+	url = https://github.com/kironuniversity/kiron-graphql
