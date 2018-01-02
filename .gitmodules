@@ -7,3 +7,6 @@
 [submodule "kiron-graphql"]
 	path = kiron-graphql
 	url = https://github.com/kironuniversity/kiron-graphql
+[submodule "services"]
+	path = services
+	url = https://github.com/kironuniversity/services
