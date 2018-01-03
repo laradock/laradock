@@ -334,6 +334,44 @@ services:
         - workspace
       tty: true
 
+
+### Own Services ##############################################
+
+    campus-frontend:
+        build:
+            context: campus-frontend
+            dockerfile: Dockerfile-dev
+        environment:
+          - ENV=development
+          - GRAPHQL_URL=http://kiron-graphql:1337
+          - API_URL=http://api.localhost/
+        volumes:
+          - ./campus-frontend/src:/usr/app/campus-frontend/src:cached
+          - ./campus-frontend/internals:/usr/app/campus-frontend/internals:cached
+          - ./campus-frontend/package.json:/usr/app/campus-frontend/package.json
+          - ./campus-frontend/yarn.lock:/usr/app/campus-frontend/yarn.lock
+    kiron-graphql:
+        image: kiron-graphql
+        build:
+            context: kiron-graphql/
+            dockerfile: Dockerfile-dev
+        command: bash -c "yarn && yarn start"
+        volumes:
+          - ./kiron-graphql/src:/usr/src/app/src/:cached
+          - ./kiron-graphql/package.json:/usr/src/app/package.json
+          - ./kiron-graphql/schema.graphql:/usr/src/app/schema.graphql
+          - ./kiron-graphql/yarn.lock:/usr/src/app/yarn.lock
+          - ./kiron-graphql/.flowconfig:/usr/src/app/.flowconfig
+        ports:
+          - "1337:1337"
+        environment:
+          - API_URL=http://api.localhost/api/
+          - "AUTH_TOKEN=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlz\
+            cyI6Imh0dHBzOi8vc2VydmljZXMvYXBpL2NhbGxiYWNrIiwiaWF0IjoxNDg3OTY2M\
+            jM0LCJleHAiOjI0ODc5Njk4MzQsIm5iZiI6MTQ4Nzk2NjIzNCwianRpIjoiNTUyYz\
+            kwYWQzYWYwMmMwZTQxNjAxNzA5N2Y1YmRlZTgifQ.dMYuOurZadzZb4tChKs7K9W3\
+            Zohy3f78V-WIdN_pe0w"
+
 ### Networks Setup ############################################
 
 networks:
