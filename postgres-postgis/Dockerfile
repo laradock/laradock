@@ -1,4 +1,4 @@
-FROM mdillon/postgis:latest
+FROM mdillon/postgis:9.6-alpine
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
