@@ -3,7 +3,7 @@ server {
     listen 80;
     listen [::]:80;
 
-    server_name laravel.localhost;
+    server_name laravel.app;
     root /var/www/laravel/public;
     index index.php index.html index.htm;
 
