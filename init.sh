@@ -1,8 +1,11 @@
 #!/bin/bash
 
+
 ETC_HOSTS_FILE="/etc/hosts"
 
 domains=("internal" "curriculum" "api" "campus-frontend")
+
+cp base-env .env
 
 read -p "Do you want to load secrets from lastpass? (y/n)" -n 1 -r
 echo
