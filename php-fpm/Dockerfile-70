@@ -68,8 +68,10 @@ RUN if [ ${INSTALL_PGSQL} = true ]; then \
 ARG INSTALL_PG_CLIENT=false
 RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
     # Install the pgsql client
+    sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main" >> /etc/apt/sources.list.d/pgdg.list' && \
+    curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -  && \
     apt-get update -yqq && \
-    apt-get install -y postgresql-client \
+    apt-get install -y postgresql-client-9.6 \
 ;fi
 
 #####################################
@@ -191,8 +193,8 @@ RUN if [ ${INSTALL_EXIF} = true ]; then \
 
 ARG INSTALL_AEROSPIKE=false
 ENV INSTALL_AEROSPIKE ${INSTALL_AEROSPIKE}
+# COPY ./aerospike.ini /usr/local/etc/php/conf.d/aerospike.ini
 # Copy aerospike configration for remote debugging
-COPY ./aerospike.ini /usr/local/etc/php/conf.d/aerospike.ini
 RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
     # Install the php aerospike extension
     curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/aerospike/aerospike-client-php/archive/master.tar.gz" \
@@ -323,10 +325,20 @@ ARG INSTALL_IMAGEMAGICK=false
 ENV INSTALL_IMAGEMAGICK ${INSTALL_IMAGEMAGICK}
 RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
     apt-get update -y && \
-    apt-get install -y libmagickwand-dev imagemagick && \ 
+    apt-get install -y libmagickwand-dev imagemagick && \
     pecl install imagick && \
     docker-php-ext-enable imagick \
 ;fi
+
+#####################################
+# lp_solve:
+#####################################
+RUN apt-get update -y && \
+    apt-get install -y git lp-solve && \
+    git clone https://github.com/rsereda/php7_lp_solver.git /usr/lib/lp_solve_5.5 && \
+    ln -s /usr/lib/lp_solve/liblpsolve55.so /usr/lib && \
+    docker-php-ext-configure /usr/lib/lp_solve_5.5/src/lp_solve_5.5/extra/PHP/ --with-phplpsolve55=../../ && \
+    docker-php-ext-install /usr/lib/lp_solve_5.5/src/lp_solve_5.5/extra/PHP/
 
 #
 #--------------------------------------------------------------------------

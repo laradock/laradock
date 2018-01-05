@@ -69,7 +69,7 @@ ARG INSTALL_PG_CLIENT=false
 RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
     # Install the pgsql client
     apt-get update -yqq && \
-    apt-get install -y postgresql-client \
+    apt-get install -y postgresql-client-9.6 \
 ;fi
 
 #####################################
@@ -330,7 +330,7 @@ ARG INSTALL_IMAGEMAGICK=false
 ENV INSTALL_IMAGEMAGICK ${INSTALL_IMAGEMAGICK}
 RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
     apt-get update -y && \
-    apt-get install -y libmagickwand-dev imagemagick && \ 
+    apt-get install -y libmagickwand-dev imagemagick && \
     pecl install imagick && \
     docker-php-ext-enable imagick \
 ;fi
