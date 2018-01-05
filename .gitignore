@@ -2,6 +2,7 @@
 /logs
 /data
 .env
+.lpass-env
 /.project
 .docker-sync
 /jenkins/jenkins_home
