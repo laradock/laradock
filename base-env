@@ -20,7 +20,7 @@ PHP_INTERPRETER=php-fpm
 ### Data Path ##########################################################################################################
 # Choose storage path on your machine. For all storage systems.
 
-DATA_SAVE_PATH=~/.laradock/data
+DATA_SAVE_PATH=./data
 
 ### Docker compose files ###############################################################################################
 # Select which docker-compose files to include.
@@ -127,6 +127,7 @@ NGINX_HOST_HTTP_PORT=80
 NGINX_HOST_HTTPS_PORT=443
 NGINX_HOST_LOG_PATH=./logs/nginx/
 NGINX_SITES_PATH=./nginx/sites/
+NGINX_CERTS_PATH=./nginx/certs/
 NGINX_PHP_UPSTREAM_CONTAINER=php-fpm
 NGINX_PHP_UPSTREAM_PORT=9000
 
@@ -136,8 +137,8 @@ REDIS_PORT=6379
 
 ### POSTGRES ###########################################################################################################
 
-POSTGRES_DB=default
-POSTGRES_USER=default
+POSTGRES_DB=kiron
+POSTGRES_USER=kiron
 POSTGRES_PASSWORD=secret
 POSTGRES_PORT=5432
 
