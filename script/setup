@@ -11,7 +11,8 @@ set -e
 
 cd "$(dirname "$0")/.."
 
-git pull --recurse-submodules
+git pull
+git submodule update --remote
 
 script/setenv
 

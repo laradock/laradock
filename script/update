@@ -7,7 +7,8 @@ set -e
 cd "$(dirname "$0")/.."
 
 echo "==> Fetching updates form git..."
-git pull --recurse-submodules
+git pull
+git submodule update --remote
 
 script/setenv
 
