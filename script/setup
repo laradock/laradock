@@ -11,6 +11,8 @@ set -e
 
 cd "$(dirname "$0")/.."
 
+git pull --recurse-submodules
+
 script/setenv
 
 echo "==> Add Domains to ${ETC_HOSTS_FILE} and trust self signed certificates."
