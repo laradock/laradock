@@ -5,6 +5,7 @@ set -e
 cd "$(dirname "$0")/.."
 
 cp base-env .env
+touch .lpass-env
 
 read -p "Do you want to load secrets from lastpass? (y/n)" -n 1 -r
 echo
