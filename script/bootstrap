@@ -25,5 +25,5 @@ echo "==> Loading fresh DB base data from UAT..."
 docker-compose exec --user=laradock workspace bash -c 'cd internal-october && php artisan dbtransfer:importtableset "Table Sets"'
 docker-compose exec --user=laradock workspace bash -c 'cd internal-october && php artisan dbtransfer:importtableset "Base Tables"'
 
-echo "==> Stop workspace container..."
-docker-compose stop workspace
+echo "==> Stop workspace, redis and postgres containers..."
+docker-compose stop workspace redis postgres
