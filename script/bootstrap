@@ -18,8 +18,12 @@ docker-compose exec --user=laradock workspace bash -c 'cd internal-october && co
 docker-compose exec --user=laradock workspace bash -c 'cd curriculum && composer install --no-progress --optimize-autoloader'
 docker-compose exec --user=laradock workspace bash -c 'cd api && composer install --no-progress --optimize-autoloader'
 
-echo "==> Updating db..."
+echo "==> Migrating DB..."
 docker-compose exec --user=laradock workspace bash -c 'cd internal-october && php artisan october:up'
+
+echo "==> Loading fresh DB base data from UAT..."
+docker-compose exec --user=laradock workspace bash -c 'cd internal-october && php artisan dbtransfer:importtableset "Table Sets"'
+docker-compose exec --user=laradock workspace bash -c 'cd internal-october && php artisan dbtransfer:importtableset "Base Tables"'
 
 echo "==> Stop workspace container..."
 docker-compose stop workspace
