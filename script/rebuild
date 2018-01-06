@@ -8,6 +8,4 @@ cd "$(dirname "$0")/.."
 
 docker-compose down -v --rmi all
 
-git pull --recurse-submodules
-
 script/setup
