@@ -5,7 +5,7 @@ Clone this repository with the following command:
 `git clone --recursive --jobs 8 https://github.com/kironuniversity/kirondev.git`
 
 Afterwards execute:
-
+`cd kirondev`
 `script/setup` 
 
 to setup the environment for the first time.
