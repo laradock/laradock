@@ -54,11 +54,13 @@ RUN if [ ${INSTALL_SOAP} = true ]; then \
 # pgsql
 #####################################
 
-ARG INSTALL_PGSQL=false
-RUN if [ ${INSTALL_PGSQL} = true ]; then \
-    # Install the pgsql extension
+ARG INSTALL_PG_CLIENT=false
+RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
+    # Install the pgsql client
+    sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main" >> /etc/apt/sources.list.d/pgdg.list' && \
+    curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -  && \
     apt-get update -yqq && \
-    docker-php-ext-install pgsql \
+    apt-get install -y postgresql-client-9.6 \
 ;fi
 
 #####################################

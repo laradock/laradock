@@ -642,11 +642,12 @@ RUN if [ ${INSTALL_TERRAFORM} = true ]; then \
 #####################################
 USER root
 ARG INSTALL_PG_CLIENT=false
-ENV INSTALL_PG_CLIENT ${INSTALL_PG_CLIENT}
 RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
-    # Install the pgsql clint
+    # Install the pgsql client
+    sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main" >> /etc/apt/sources.list.d/pgdg.list' && \
+    curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -  && \
     apt-get update -yqq && \
-    apt-get -y install postgresql-client \
+    apt-get install -y postgresql-client-9.6 \
 ;fi
 
 #####################################
