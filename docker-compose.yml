@@ -12,6 +12,7 @@ services:
     workspace:
       env_file:
           - ./services/env_file
+          - .lpass-env
       build:
         context: ./workspace
         args:
