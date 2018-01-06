@@ -3,6 +3,7 @@
 cd "${BASH_SOURCE%/*}" || exit
 cd ../
 
+echo "==> This may build a container please wait until the build finished to enter you password!"
 echo "Please enter your @kiron.ngo username usualle first_name.last_name followed by [ENTER]:"
 read username
 
