@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# script/update: Update and rebuild the while environment .
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+docker-compose down -v --rmi all
+
+git pull --recurse-submodules
+
+services="`cat script/services.lst`"
+docker-compose build --pull --no-cache $services
+
+script/bootstrap

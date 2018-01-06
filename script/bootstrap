@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# script/bootstrap: Resolve all dependencies that the application requires to
+#                   run.
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+echo "==> Bootstrapping (Installing Dependencies & Migrating Database)..."
+
+echo "==> Start workspace container..."
+docker-compose up -d workspace
+sleep 1
+
+echo "==> Install dependencies..."
+docker-compose exec --user=laradock workspace bash -c 'cd internal-october && composer install --no-progress --optimize-autoloader'
+docker-compose exec --user=laradock workspace bash -c 'cd curriculum && composer install --no-progress --optimize-autoloader'
+docker-compose exec --user=laradock workspace bash -c 'cd api && composer install --no-progress --optimize-autoloader'
+
+echo "==> Updating db..."
+docker-compose exec --user=laradock workspace bash -c 'cd internal-october && php artisan october:up'
+
+echo "==> Stop workspace container..."
+docker-compose stop workspace

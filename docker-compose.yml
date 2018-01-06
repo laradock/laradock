@@ -54,6 +54,9 @@ services:
         dockerfile: "Dockerfile-${PHP_VERSION}"
       volumes_from:
         - applications
+      depends_on:
+        - postgres
+        - redis
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       ports:

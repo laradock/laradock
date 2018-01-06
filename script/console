@@ -1,0 +1,35 @@
+#!/bin/sh
+
+# Changed from environment to service compared to official GitHub script
+# script/console: Launch a console for the application. Optionally allow an
+#                 service to be passed in to let the script handle the
+#                 specific requirements for connecting to a console for that
+#                 service.
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+if [ -n "$1" ]; then
+    # use first argument as an environment name. Use this to decide how to connect
+    # to the appropriate console.
+    if [ "$1" = "workspace" ]; then
+        docker-compose exec --user=laradock workspace bash
+    elif [ "$1" = "php" ] || [ d"$1" = "services" ]; then
+        docker-compose exec php-fpm bash
+    elif [ "$1" = "nginx" ]; then
+        docker-compose exec nginx bash
+    elif [ "$1" = "campus-frtonend" ] || [ "$1" = "campus" ]; then
+        docker-compose exec campus-frontend bash
+    elif [ "$1" = "graphql" ] || [ "$1" = "kiron-graphql" ]; then
+        docker-compose exec kiron-graphql sh
+    elif [ "$1" = "postgres" ] || [ "$1" = "db" ] || [ "$1" = "database" ]; then
+        docker-compose exec postgres sh
+    else
+        echo "Sorry, I don't know how to connect to the service '$1'."
+        echo "Try to enter workspace, services, nginx, campus, graphql or porstgres";
+        exit 1
+    fi
+else
+    docker-compose exec --user=laradock workspace bash
+fi

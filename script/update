@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# script/update: Update application to run for its current checkout.
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+echo "==> Fetching updates form git..."
+git pull --recurse-submodules
+
+script/setenv
+
+script/bootstrap

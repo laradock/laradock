@@ -2,23 +2,33 @@
 
 Clone this repository with the following command:
 
-`git clone --recursive https://github.com/kironuniversity/kirondev.git`
+`git clone --recursive --jobs 8 https://github.com/kironuniversity/kirondev.git`
 
 Afterwards execute:
 
-`sh init.sh`
+`script/setup` 
 
-to bring up the environment for the first time.
+to setup the environment for the first time.
 
 # Usage
 
+The script structure is mostly taken from GitHubs [scripts to rule them all](https://github.com/github/scripts-to-rule-them-all).
+
 ### Basics
 
-You should use `sh start.sh`  to bring up the project instead of using docker-compose directly. It will run necesary database migrations if needed and overwrite and update the base environment file. To stop the environement you can use `docker-compose stop` or `sh stop.sh`.
+You should use `script/start`  to bring up the project instead of using docker-compose directly. To stop the environement you can use `docker-compose stop` or `script/stop`.
 
-### Lastpass 
+To update all projects to the latest master you should use `script/update`, it will also update the environment, the database and the php dependencies. If you just want to get your database and dependencies up to date use `script/boostrap`. If you need to load and environment update run `script/setenv`, but be careful this will overwrite your .env in the kirondev folder.
 
-See `scripts/load-lpass.sh` for an example usage of the lastpass-cli.
+If there are bigger changes affecting docker images use `script/rebuild` to update the whole environment including images and volumes. **Be careful changes might get lost here**.
+
+### Accessing service containers
+
+For convenient shell access to the containers you can use `script/console service`, where service is the docker-compose service you want to connect to including some shortcuts like db, campus or graphql. If you don't provide any service it will connect you to the workspace container. **If you don't use the script make sure to use the laradock user to connect to the workspace container and sh instead of bash for alpine based containers.**
+
+### Lastpass. 
+
+See `script/load-lpass` for an example usage of the lastpass-cli.
 
 # General Information
 A huge part of this dev environment is based on [laradock](http://laradock.io/) ([GitHub](https://github.com/laradock/laradock)).
@@ -30,7 +40,7 @@ The actual code and some containers are loaded via submodules. Thats why you hav
 
 You will need to generate a valid ssl certifictae, there is a script which does this for you in the scripts folder:
 
-`sh scripts/generate_cert.sh newdomain`
+`script/generate_cert newdomain`
 
 It will create the according key and cert file in nginx/certs.
 
@@ -41,7 +51,7 @@ Copy one of the existing nginx files in `nginx/config` and name it `newdomain.co
 
 ### 3. Add to init.sh
 
-Add your new domain to the array in `init.sh`.
+Add your new domain to the array in `script/setup.sh`.
 
 # Links
 Forks: [How to update a fork / laradock](https://www.atlassian.com/git/articles/git-forks-and-upstreams)
@@ -54,6 +64,8 @@ Submodules:
 - [Stackoverflow: let submodule track latest chages](https://stackoverflow.com/questions/9189575/git-submodule-tracking-latest)
 - [Stackoverflow: Submodules HEAD detached from master](https://stackoverflow.com/questions/18770545/why-is-my-git-submodule-head-detached-from-master)
 
-SSL setup: 
+SSL setup: [Mostly taken from here](https://gist.github.com/jed/6147872)
 
- - [Complete explanation](https://gist.github.com/jed/6147872)
+Script file structure form GitHub: [https://github.com/github/scripts-to-rule-them-all](https://github.com/github/scripts-to-rule-them-all)
+
+ 

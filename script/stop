@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# script/stop: Stop all services
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+docker-compose stop

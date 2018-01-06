@@ -1,0 +1,14 @@
+#!/bin/sh
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+cp base-env .env
+
+read -p "Do you want to load secrets from lastpass? (y/n)" -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    sh scripts/load-lpass.sh
+fi

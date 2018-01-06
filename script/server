@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# script/server: Launch the application and any extra required processes
+#                locally.
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+echo "If you pulled changes running the update script first is strongly recommended!"
+echo
+echo "==> Starting services"
+services="`cat script/services.lst`"
+docker-compose up -d $services
+echo "==> Services Started "
+echo "Visit sites:"
+echo "           campus-frontend.app"
+echo "           api.app"
+echo "           internal.app"
+echo "           curriculum.app"
+echo "           localhost:1337 for graphiql"
+echo "Run script/stop to stop all services"
+echo "######################################################"
