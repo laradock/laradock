@@ -10,5 +10,5 @@ read -p "Do you want to load secrets from lastpass? (y/n)" -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
-    sh scripts/load-lpass.sh
+    script/load-lpass
 fi
