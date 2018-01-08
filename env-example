@@ -85,6 +85,7 @@ WORKSPACE_INSTALL_IMAGEMAGICK=false
 WORKSPACE_INSTALL_TERRAFORM=false
 WORKSPACE_INSTALL_DUSK_DEPS=false
 WORKSPACE_INSTALL_PG_CLIENT=false
+WORKSPACE_INSTALL_SWOOLE=false
 WORKSPACE_PUID=1000
 WORKSPACE_PGID=1000
 WORKSPACE_CHROME_DRIVER_VERSION=2.32
@@ -152,6 +153,9 @@ MYSQL_ENTRYPOINT_INITDB=./mysql/docker-entrypoint-initdb.d
 
 ### REDIS ##############################################################################################################
 
+# redis版本可选4.0和3.2
+# 密码是 root
+REDIS_VERSION=4.0
 REDIS_PORT=6379
 
 ### Percona ############################################################################################################
