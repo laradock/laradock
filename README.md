@@ -16,7 +16,7 @@ The script structure is mostly taken from GitHubs [scripts to rule them all](htt
 
 ### Basics
 
-You should use `script/start`  to bring up the project instead of using docker-compose directly. To stop the environement you can use `docker-compose stop` or `script/stop`.
+You should use `script/server`  to bring up the project instead of using docker-compose directly. To stop the environement you can use `docker-compose stop` or `script/stop`.
 
 To update all projects to the latest master you should use `script/update`, it will also update the environment, the database and the php dependencies. If you just want to get your database and dependencies up to date use `script/boostrap`. If you need to load and environment update run `script/setenv`, but be careful this will overwrite your .env in the kirondev folder.
 
