@@ -41,6 +41,7 @@ services:
           - INSTALL_TERRAFORM=${WORKSPACE_INSTALL_TERRAFORM}
           - INSTALL_DUSK_DEPS=${WORKSPACE_INSTALL_DUSK_DEPS}
           - INSTALL_PG_CLIENT=${WORKSPACE_INSTALL_PG_CLIENT}
+          - INSTALL_SWOOLE=${WORKSPACE_INSTALL_SWOOLE}
           - PUID=${WORKSPACE_PUID}
           - PGID=${WORKSPACE_PGID}
           - CHROME_DRIVER_VERSION=${WORKSPACE_CHROME_DRIVER_VERSION}
@@ -350,11 +351,17 @@ services:
 ### Redis Container #########################################
 
     redis:
-      build: ./redis
+      image: redis:${REDIS_VERSION}
       volumes:
-        - ${DATA_SAVE_PATH}/redis:/data
+        - /etc/localtime:/etc/localtime:ro
+        - ./redis/${REDIS_VERSION}:/etc/redis:ro
+        - ${DATA_SAVE_PATH}/redis/data:/data
+        - ./logs/redis:/var/log/redis
       ports:
         - "${REDIS_PORT}:6379"
+      command:
+        - redis-server
+        - /etc/redis/redis.conf
       networks:
         - backend
 

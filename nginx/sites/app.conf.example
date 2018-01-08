@@ -3,7 +3,7 @@ server {
     listen 80;
     listen [::]:80;
 
-    server_name app.test;
+    server_name app.top;
     root /var/www/app;
     index index.php index.html index.htm;
 
