@@ -137,11 +137,6 @@ Your logo will show up on the [github repository](https://github.com/laradock/la
 <a href="https://opencollective.com/laradock/sponsor/8/website" target="_blank"><img src="https://opencollective.com/laradock/sponsor/8/avatar.svg"></a>
 <a href="https://opencollective.com/laradock/sponsor/9/website" target="_blank"><img src="https://opencollective.com/laradock/sponsor/9/avatar.svg"></a>
 
-<a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/JHiroABWV9N5QKgcFuTA2NxX/laradock/laradock'>
-  <img alt='Sponsor' width='888' height='68' src='https://app.codesponsor.io/embed/JHiroABWV9N5QKgcFuTA2NxX/laradock/laradock.svg' />
-</a>
-
-
 
 
 <a name="what-is-docker"></a>
