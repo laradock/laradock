@@ -232,6 +232,18 @@ RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
 ;fi
 
 #####################################
+# Swoole EXTENSION FOR PHP 7
+#####################################
+
+ARG INSTALL_SWOOLE=false
+RUN if [ ${INSTALL_SWOOLE} = true ]; then \
+    # Install Php Swoole Extension
+    pecl -q install swoole && \
+    echo "extension=swoole.so" >> /etc/php/7.1/mods-available/swoole.ini && \
+    ln -s /etc/php/7.1/mods-available/swoole.ini /etc/php/7.1/cli/conf.d/20-swoole.ini \
+;fi
+
+#####################################
 # Drush:
 #####################################
 USER root
