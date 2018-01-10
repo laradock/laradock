@@ -353,7 +353,6 @@ services:
     redis:
       image: redis:${REDIS_VERSION}
       volumes:
-        - /etc/localtime:/etc/localtime:ro
         - ./redis/${REDIS_VERSION}:/etc/redis:ro
         - ${DATA_SAVE_PATH}/redis/data:/data
         - ./logs/redis:/var/log/redis
