@@ -3,6 +3,12 @@
 # dock清理,清楚所有数据
 dcleandockfunction()
 {
+  echo '停止laradock'
+  laradock=`docker-compose ps -q`
+  if [ -n "$laradock" ]; then
+   docker-compose down
+  fi
+
   echo '停止所有的容器'
   container=`docker ps -a -q`
     if [ -n "$container" ]; then
