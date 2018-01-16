@@ -415,8 +415,6 @@ services:
     lpass:
         image: lastpass-cli
         build: ./lastpass-cli
-        volumes:
-            - ~/.lpass:/home/lpass/.lpass
         tty: true
 
 
