@@ -7,9 +7,81 @@ services:
     applications:
       image: tianon/true
 
+### Laravel-Ubuntu ####
+    laravel-ubuntu:
+      build:
+        context: ./laravel-ubuntu
+        dockerfile: "Dockerfile"
+      entrypoint: /root/entrypoint.sh
+      ports:
+        - '80:80'
+      volumes_from:
+        - applications
+      volumes:
+        - ./logs/laravel-ubuntu/:/var/log/nginx
+        - ./laravel-ubuntu/sites/:/etc/nginx/sites-enabled
+        - ./laravel-ubuntu/entrypoint.sh:/root/entrypoint.sh
+        # - ${APPLICATION}:/var/www
+
+### NodeJs ####
+    nodejs:
+      build:
+        # context: ./nodejs
+        context: ./laravel-ubuntu
+        dockerfile: "Dockerfile"
+      environment:
+        - NODE_ENV=development
+      volumes_from:
+        - applications
+      volumes:
+        - ./nodejs/entrypoint.sh:/entrypoint.sh
+      tty: true
+      networks:
+        - frontend
+        - backend
+      working_dir: ${NODEJS_WORK_DIR}
+      entrypoint: bash -c "/entrypoint.sh"
+
+### Xenial ####
+    xenial:
+      build:
+        context: ./xenial
+        dockerfile: "Dockerfile"
+      volumes_from:
+        - applications
+      # volumes:
+      #   - ${APPLICATION}:/var/www
+      extra_hosts:
+        - "dockerhost:${DOCKER_HOST_IP}"
+      ports:
+        - "${WORKSPACE_SSH_PORT}:22"
+      tty: true
+      networks:
+        - frontend
+        - backend
+
+### Pipeline ####
+    pipeline:
+      build:
+        context: ./pipeline
+        dockerfile: "Dockerfile"
+      volumes_from:
+        - applications
+      # volumes:
+      #   - ${APPLICATION}:/var/www
+      extra_hosts:
+        - "dockerhost:${DOCKER_HOST_IP}"
+      ports:
+        - "${WORKSPACE_SSH_PORT}:22"
+      tty: true
+      networks:
+        - frontend
+        - backend
+
 ### Workspace Utilities Container ###########################
 
     workspace:
+      image: ${WORKSPACE_IMAGE_NAME}
       build:
         context: ./workspace
         args:
@@ -19,7 +91,6 @@ services:
           - INSTALL_LDAP=${WORKSPACE_INSTALL_LDAP}
           - INSTALL_IMAP=${WORKSPACE_INSTALL_IMAP}
           - INSTALL_MONGO=${WORKSPACE_INSTALL_MONGO}
-          - INSTALL_AMQP=${WORKSPACE_INSTALL_AMQP}
           - INSTALL_PHPREDIS=${WORKSPACE_INSTALL_PHPREDIS}
           - INSTALL_MSSQL=${WORKSPACE_INSTALL_MSSQL}
           - INSTALL_NODE=${WORKSPACE_INSTALL_NODE}
@@ -42,7 +113,9 @@ services:
           - INSTALL_TERRAFORM=${WORKSPACE_INSTALL_TERRAFORM}
           - INSTALL_DUSK_DEPS=${WORKSPACE_INSTALL_DUSK_DEPS}
           - INSTALL_PG_CLIENT=${WORKSPACE_INSTALL_PG_CLIENT}
-          - INSTALL_SWOOLE=${WORKSPACE_INSTALL_SWOOLE}
+          - INSTALL_MYSQL_CLIENT=${WORKSPACE_INSTALL_MYSQL_CLIENT}
+          - INSTALL_PRESTISSIMO=${WORKSPACE_INSTALL_PRESTISSIMO}
+          - INSTALL_GEM=${WORKSPACE_INSTALL_GEM}
           - PUID=${WORKSPACE_PUID}
           - PGID=${WORKSPACE_PGID}
           - CHROME_DRIVER_VERSION=${WORKSPACE_CHROME_DRIVER_VERSION}
@@ -54,6 +127,9 @@ services:
         dockerfile: "Dockerfile-${PHP_VERSION}"
       volumes_from:
         - applications
+      volumes:
+        - "${HOME}/.ssh/taufekpbww_id_rsa:/root/.ssh/id_rsa"
+        # - ${APPLICATION}:/var/www
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       ports:
@@ -73,11 +149,9 @@ services:
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
           - INSTALL_SOAP=${PHP_FPM_INSTALL_SOAP}
           - INSTALL_MONGO=${PHP_FPM_INSTALL_MONGO}
-          - INSTALL_AMQP=${PHP_FPM_INSTALL_AMQP}
           - INSTALL_MSSQL=${PHP_FPM_INSTALL_MSSQL}
           - INSTALL_ZIP_ARCHIVE=${PHP_FPM_INSTALL_ZIP_ARCHIVE}
           - INSTALL_BCMATH=${PHP_FPM_INSTALL_BCMATH}
-          - INSTALL_GMP=${PHP_FPM_INSTALL_GMP}
           - INSTALL_PHPREDIS=${PHP_FPM_INSTALL_PHPREDIS}
           - INSTALL_MEMCACHED=${PHP_FPM_INSTALL_MEMCACHED}
           - INSTALL_OPCACHE=${PHP_FPM_INSTALL_OPCACHE}
@@ -98,6 +172,7 @@ services:
         - applications
       volumes:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
+        # - ${APPLICATION}:/var/www
       expose:
         - "9000"
       depends_on:
@@ -108,6 +183,10 @@ services:
         - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
       networks:
         - backend
+      mem_limit: 1000000000
+      memswap_limit: 2000000000
+      mem_reservation: 512m
+      cpuset: 0,1
 
 ### PHP Worker Container #####################################
 
@@ -119,6 +198,8 @@ services:
           - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL}
       volumes_from:
         - applications
+      # volumes:
+      #   - ${APPLICATION}:/var/www
       depends_on:
         - workspace
       extra_hosts:
@@ -137,6 +218,7 @@ services:
       volumes_from:
         - applications
       volumes:
+        # - ${APPLICATION}:/var/www
         - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
         - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
       ports:
@@ -172,6 +254,7 @@ services:
       volumes_from:
         - applications
       volumes:
+        # - ${APPLICATION}:/var/www
         - ${APACHE_HOST_LOG_PATH}:/var/log/apache2
         - ${APACHE_SITES_PATH}:/etc/apache2/sites-available
       ports:
@@ -189,6 +272,8 @@ services:
       build: ./hhvm
       volumes_from:
         - applications
+      # volumes:
+        # - ${APPLICATION}:/var/www
       expose:
         - "9000"
       depends_on:
@@ -202,8 +287,7 @@ services:
     minio:
       build: ./minio
       volumes:
-        - ${DATA_SAVE_PATH}/minio/data:/export
-        - ${DATA_SAVE_PATH}/minio/config:/root/.minio
+        - minio:/export
       ports:
         - "${MINIO_PORT}:9000"
       environment:
@@ -211,7 +295,6 @@ services:
         - MINIO_SECRET_KEY=secretkey
       networks:
         - frontend
-        - backend
 
 ### MySQL Container #########################################
 
@@ -290,7 +373,7 @@ services:
     postgres:
       build: ./postgres
       volumes:
-        - ${DATA_SAVE_PATH}/postgres:/var/lib/postgresql
+        - ${DATA_SAVE_PATH}/postgres:/var/lib/postgresql/data
       ports:
         - "${POSTGRES_PORT}:5432"
       environment:
@@ -507,12 +590,12 @@ services:
       environment:
         - cluster.name=laradock-cluster
         - bootstrap.memory_lock=true
-        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
       ulimits:
         memlock:
           soft: -1
           hard: -1
-      mem_limit: 1024m
+      mem_limit: 512m
       ports:
         - "${ELASTICSEARCH_HOST_HTTP_PORT}:9200"
         - "${ELASTICSEARCH_HOST_TRANSPORT_PORT}:9300"
@@ -620,9 +703,9 @@ services:
       networks:
         - frontend
 
-### HAProxy Load Balancer ####################################
+### Balancer Haproxy ##########################################
 
-    haproxy:
+    balancer:
       build: ./haproxy
       ports:
         - "${HAPROXY_HOST_HTTP_PORT}:8085"
@@ -681,6 +764,8 @@ services:
         context: ./aws
       volumes_from:
         - applications
+      # volumes:
+      #   - ${APPLICATION}:/var/www
       depends_on:
         - workspace
       tty: true
