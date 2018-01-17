@@ -25,9 +25,7 @@ DATA_SAVE_PATH=~/.laradock/data
 ### Docker compose files ###############################################################################################
 # Select which docker-compose files to include.
 # If using docker-sync. Set the value to: docker-compose.yml:docker-compose.dev.yml:docker-compose.sync.yml
-# Change the separator from : to ; on Windows
 
-COMPOSE_PATH_SEPARATOR=:
 COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml
 
 ### Docker Host IP #####################################################################################################
@@ -56,14 +54,19 @@ CHANGE_SOURCE=false
 # Containers Customization
 ###########################################################
 
+### NODEJS #############################################################################################################
+
+NODEJS_WORK_DIR=/var/www/frontend-app
+
 ### WORKSPACE ##########################################################################################################
 
+WORKSPACE_IMAGE_NAME=laradock_workspace
+WORKSPACE_INSTALL_GEM=false
 WORKSPACE_INSTALL_XDEBUG=false
 WORKSPACE_INSTALL_LDAP=false
 WORKSPACE_INSTALL_SOAP=false
 WORKSPACE_INSTALL_IMAP=false
 WORKSPACE_INSTALL_MONGO=false
-WORKSPACE_INSTALL_AMQP=false
 WORKSPACE_INSTALL_PHPREDIS=false
 WORKSPACE_INSTALL_MSSQL=false
 WORKSPACE_INSTALL_NODE=false
@@ -77,6 +80,7 @@ WORKSPACE_INSTALL_WORKSPACE_SSH=false
 WORKSPACE_INSTALL_LARAVEL_ENVOY=false
 WORKSPACE_INSTALL_LARAVEL_INSTALLER=false
 WORKSPACE_INSTALL_DEPLOYER=false
+WORKSPACE_INSTALL_PRESTISSIMO=false
 WORKSPACE_INSTALL_LINUXBREW=false
 WORKSPACE_INSTALL_MC=false
 WORKSPACE_INSTALL_SYMFONY=false
@@ -86,7 +90,7 @@ WORKSPACE_INSTALL_IMAGEMAGICK=false
 WORKSPACE_INSTALL_TERRAFORM=false
 WORKSPACE_INSTALL_DUSK_DEPS=false
 WORKSPACE_INSTALL_PG_CLIENT=false
-WORKSPACE_INSTALL_SWOOLE=false
+WORKSPACE_INSTALL_MYSQL_CLIENT=false
 WORKSPACE_PUID=1000
 WORKSPACE_PGID=1000
 WORKSPACE_CHROME_DRIVER_VERSION=2.32
@@ -99,12 +103,10 @@ WORKSPACE_SSH_PORT=2222
 
 PHP_FPM_INSTALL_XDEBUG=false
 PHP_FPM_INSTALL_MONGO=false
-PHP_FPM_INSTALL_AMQP=false
 PHP_FPM_INSTALL_MSSQL=false
 PHP_FPM_INSTALL_SOAP=false
 PHP_FPM_INSTALL_ZIP_ARCHIVE=false
 PHP_FPM_INSTALL_BCMATH=false
-PHP_FPM_INSTALL_GMP=false
 PHP_FPM_INSTALL_PHPREDIS=false
 PHP_FPM_INSTALL_MEMCACHED=false
 PHP_FPM_INSTALL_OPCACHE=false
