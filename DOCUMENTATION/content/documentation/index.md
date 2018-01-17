@@ -320,7 +320,9 @@ It should be like this:
 ```
 xdebug.remote_autostart=1
 xdebug.remote_enable=1
-xdebug.remote_connect_back=1
+xdebug.remote_connect_back=0
+; NOTE: The dockerhost is your vEthernet (DockerNAT) IP
+xdebug.remote_host=dockerhost
 ```
 
 3 - Re-build the containers `docker-compose build workspace php-fpm`
