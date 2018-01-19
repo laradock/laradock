@@ -1,0 +1,10 @@
+{
+  "schemaPath": "kiron-graphql/schema.graphql",
+  "extensions": {
+    "endpoints": {
+      "local": "http://campus-frontend.app/graphql",
+      "stg": "https://stg-campus.kiron.ngo/graphql",
+      "uat": "https://uat-campus.kiron.ngo/graphql"
+    }
+  }
+}
