@@ -10,25 +10,50 @@ set -e
 
 cd "$(dirname "$0")/.."
 
+CLUSTER=${2:-local}
+
+# Set kube context
+if [ "$CLUSTER" = "uat" ]; then
+    kubectl config use-context uat-cluster
+elif [ "$CLUSTER" = "stg" ]; then
+    kubectl config use-context staging-cluster
+elif [ "$CLUSTER" = "prod" ]; then
+    kubectl config use-context production-cluster
+fi
+
 if [ -n "$1" ]; then
-    # use first argument as an environment name. Use this to decide how to connect
-    # to the appropriate console.
-    if [ "$1" = "workspace" ]; then
-        docker-compose exec --user=laradock workspace bash
-    elif [ "$1" = "php" ] || [ d"$1" = "services" ]; then
-        docker-compose exec php-fpm bash
-    elif [ "$1" = "nginx" ]; then
-        docker-compose exec nginx bash
-    elif [ "$1" = "campus-frtonend" ] || [ "$1" = "campus" ]; then
-        docker-compose exec campus-frontend bash
-    elif [ "$1" = "graphql" ] || [ "$1" = "kiron-graphql" ]; then
-        docker-compose exec kiron-graphql sh
-    elif [ "$1" = "postgres" ] || [ "$1" = "db" ] || [ "$1" = "database" ]; then
-        docker-compose exec postgres sh
+    if [ "$CLUSTER" = "local" ]; then
+        if [ "$1" = "workspace" ]; then
+            docker-compose exec --user=laradock workspace bash
+        elif [ "$1" = "php" ] || [ "$1" = "services" ]; then
+            docker-compose exec php-fpm bash
+        elif [ "$1" = "nginx" ]; then
+            docker-compose exec nginx bash
+        elif [ "$1" = "campus-frtonend" ] || [ "$1" = "campus" ]; then
+            docker-compose exec campus-frontend bash
+        elif [ "$1" = "graphql" ] || [ "$1" = "kiron-graphql" ]; then
+            docker-compose exec kiron-graphql sh
+        elif [ "$1" = "postgres" ] || [ "$1" = "db" ] || [ "$1" = "database" ]; then
+            docker-compose exec postgres sh
+        else
+            echo "Sorry, I don't know how to connect to the service '$1'."
+            echo "Try to enter workspace, services, nginx, campus, graphql or porstgres";
+            exit 1
+        fi
     else
-        echo "Sorry, I don't know how to connect to the service '$1'."
-        echo "Try to enter workspace, services, nginx, campus, graphql or porstgres";
-        exit 1
+        if [ "$1" = "services" ] || [ "$1" = "discourse" ] || [ "$1" = "metabase" ] || [ "$1" = "limesurvey" ] ; then
+            kubectl exec -ti $(kubectl get pods --selector=app=${1} -o=name | sed -n 1p | sed 's/pods\///') bash
+        elif [ "$1" = "apollo-engine" ]; then
+            echo "no shell access"
+        elif [ "$1" = "campus-frtonend" ] || [ "$1" = "campus" ]; then
+            kubectl exec -ti $(kubectl get pods --selector=app=campus-frontend-service -o=name | sed -n 1p | sed 's/pods\///') sh
+        elif [ "$1" = "graphql" ] || [ "$1" = "kiron-graphql" ]; then
+            kubectl exec -ti $(kubectl get pods --selector=app=kiron-graphql -o=name | sed -n 1p | sed 's/pods\///') sh
+        else
+            echo "Sorry, I don't know how to connect to the service '$1'."
+            echo "Try to enter services, campus, graphql, discourse, metabase or limesurvey";
+            exit 1
+        fi
     fi
 else
     docker-compose exec --user=laradock workspace bash
