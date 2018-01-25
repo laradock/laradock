@@ -1,0 +1,67 @@
+#!/bin/sh
+
+# Changed from environment to service compared to official GitHub script
+# script/console: Launch a console for the application. Optionally allow an
+#                 service to be passed in to let the script handle the
+#                 specific requirements for connecting to a console for that
+#                 service.
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+CLUSTER=${2:-local}
+
+# Set kube context
+if [ "$CLUSTER" = "uat" ]; then
+    kubectl config use-context uat-cluster
+elif [ "$CLUSTER" = "stg" ]; then
+    kubectl config use-context staging-cluster
+elif [ "$CLUSTER" = "prod" ]; then
+    kubectl config use-context production-cluster
+fi
+
+if [ -n "$1" ]; then
+    if [ "$CLUSTER" = "local" ]; then
+        if [ "$1" = "workspace" ]; then
+            docker-compose logs --tail=20 workspace
+        elif [ "$1" = "php" ] || [ "$1" = "services" ]; then
+            docker-compose logs --tail=20 php-fpm
+        elif [ "$1" = "nginx" ]; then
+            docker-compose logs --tail=20 nginx
+        elif [ "$1" = "campus-frtonend" ] || [ "$1" = "campus" ]; then
+            docker-compose logs --tail=20 campus-frontend
+        elif [ "$1" = "graphql" ] || [ "$1" = "kiron-graphql" ]; then
+            docker-compose logs --tail=20 kiron-graphql
+        elif [ "$1" = "postgres" ] || [ "$1" = "db" ] || [ "$1" = "database" ]; then
+            docker-compose logs --tail=20 postgres
+        else
+            echo "Sorry, I don't know how to connect to the service '$1'."
+            echo "Try to enter workspace, services, nginx, campus, graphql or porstgres";
+            exit 1
+        fi
+    else
+        if [ "$1" = "services" ] || [ "$1" = "discourse" ] || [ "$1" = "metabase" ] || [ "$1" = "limesurvey" ] || [ "$1" = "apollo-engine" ]; then
+            PODS=$(kubectl get pods --selector=app=${1} -o=name | sed 's/pods\///')
+        elif [ "$1" = "campus-frtonend" ] || [ "$1" = "campus" ]; then
+            PODS=$(kubectl get pods --selector=app=campus-frontend -o=name | sed 's/pods\///')
+        elif [ "$1" = "graphql" ] || [ "$1" = "kiron-graphql" ]; then
+            PODS=$(kubectl get pods --selector=app=kiron-graphql -o=name | sed 's/pods\///')
+        else
+            echo "Sorry, I don't know how to connect to the service '$1'."
+            echo "Try to enter services, campus, graphql, discourse, metabase or limesurvey";
+            exit 1
+        fi
+        echo ""
+        for pod in ${PODS}; do
+            echo "==> Showing 20 last log entries for ${pod}\n"
+            kubectl logs --tail=20 ${pod}
+            echo "\n"
+        done
+    fi
+else
+    echo "\nFor local logs please enter one of the following services:";
+    echo "workspace, services, nginx, campus, graphql or porstgres\n";
+    echo "For logs from kube please enter one of the following services and the cluster uat/stg/prod";
+    echo "services, campus, graphql, discourse, metabase or limesurvey\n";
+fi
