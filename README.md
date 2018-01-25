@@ -22,13 +22,31 @@ To update all projects to the latest master you should use `script/update`, it w
 
 If there are bigger changes affecting docker images use `script/rebuild` to update the whole environment including images and volumes. **Be careful changes might get lost here**.
 
-### Accessing service containers
+### Shell access to service containers and pods
 
-For convenient shell access to the containers you can use `script/console service`, where service is the docker-compose service you want to connect to including some shortcuts like db, campus or graphql. If you don't provide any service it will connect you to the workspace container. **If you don't use the script make sure to use the laradock user to connect to the workspace container and sh instead of bash for alpine based containers.**
+For convenient shell access to the containers you can use:
 
-### Lastpass. 
+`script/console service [environment]`
 
-See `script/load-lpass` for an example usage of the lastpass-cli.
+where **service** is the docker-compose or kubernetes service you want to connect to including some shortcuts like db, campus or graphql. If you don't provide any service it will connect you to the workspace container. If you don't use the script make sure to use the laradock user to connect to the workspace container and sh instead of bash for alpine based containers.
+
+**environment** is local by default, which connects to the docker-compose containers, but you may specify uat, stg or prod to access the kubernetes clusters if kubectl is configured already. In case there are several pods for the given service, it will connect to the first one returned by `kubectl get pods`.
+
+
+### Getting logs
+
+For convenient shell access to the logs you can use:
+
+`script/logs service [environment]`
+
+**service** is the docker-compose or kubernetes service you want to get the logs from.
+
+**environment** is local by default, but you may specify uat, stg or prod to access the kube logs if kubectl is configured already. In case there are several pods for the given service, it will iterate over them and show the logs for all.
+
+**If you call the script without any arguments it will list available services and environments.**
+
+
+## DevOps
 
 # General Information
 A huge part of this dev environment is based on [laradock](http://laradock.io/) ([GitHub](https://github.com/laradock/laradock)).
