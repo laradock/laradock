@@ -427,6 +427,12 @@ RUN echo "" >> ~/.bashrc && \
 #####################################
 # Laravel Envoy:
 #####################################
+# Envoy requires ext-curl
+USER root
+
+apt-get update -yqq \
+&& apt-get install -y php-curl
+    
 USER laradock
 
 ARG INSTALL_LARAVEL_ENVOY=false
