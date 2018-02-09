@@ -954,6 +954,27 @@ docker-compose up -d minio
 
 
 <br>
+<a name="Use-Thumbor"></a>
+## Use Thumbor
+
+Thumbor is a smart imaging service. It enables on-demand crop, resizing and flipping of images. ([Thumbor](https://github.com/thumbor/thumbor))
+
+1 - Configure Thumbor:
+  - Checkout all the options under the thumbor settings
+
+
+2 - Run the Thumbor Container (`minio`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d thumbor
+```
+
+3 - Navigate to an example image on `http://localhost:8000/unsafe/300x300/i.imgur.com/bvjzPct.jpg`
+
+For more documentation on Thumbor visit the [Thumbor documenation](http://thumbor.readthedocs.io/en/latest/index.html) page
+
+
+<br>
 <a name="Use-AWS"></a>
 ## Use AWS
 
