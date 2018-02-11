@@ -674,6 +674,21 @@ services:
       networks:
         - frontend
         - backend
+        
+### Solr Container #########################################
+
+    solr:
+      build:
+        context: ./solr
+        args:
+          - SOLR_VERSION=${SOLR_VERSION}
+          - SOLR_DATAIMPORTHANDLER_MYSQL=${SOLR_DATAIMPORTHANDLER_MYSQL}
+      volumes:
+        - ${DATA_SAVE_PATH}/solr:/opt/solr/server/solr/mycores
+      ports:
+        - "${SOLR_PORT}:8983"
+      networks:
+        - backend
 
 ### AWS EB-CLI ####
     aws:

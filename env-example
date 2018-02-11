@@ -323,6 +323,12 @@ CADDY_CUSTOM_CADDYFILE=./caddy/Caddyfile
 
 LARAVEL_ECHO_SERVER_PORT=6001
 
+### SOLR ###############################################################################################################
+
+SOLR_VERSION=5.5
+SOLR_PORT=8983
+SOLR_DATAIMPORTHANDLER_MYSQL=false
+
 ### DOCKER-SYNC ################################################################################################
 
 # osx: 'native_osx' (default)
