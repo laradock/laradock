@@ -121,7 +121,7 @@ RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
 ARG INSTALL_SWOOLE=false
 RUN if [ ${INSTALL_SWOOLE} = true ]; then \
     # Install Php Swoole Extension
-    pecl install swoole \
+    pecl install swoole-2.0.11 \
     &&  docker-php-ext-enable swoole \
 ;fi
 
