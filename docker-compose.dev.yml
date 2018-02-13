@@ -1,0 +1,9 @@
+version: "2"
+
+services:
+
+### Applications Code Container #############################
+
+    applications:
+      volumes:
+        - ${APPLICATION}:/var/www

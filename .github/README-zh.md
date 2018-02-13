@@ -669,19 +669,19 @@ PHP-CLI 安装在 Workspace 容器，改变 PHP-CLI 版本你需要编辑 `works
 <a name="Use-custom-Domain"></a>
 ### 使用自定义域名 (替换 Docker 的 IP)
 
-假定你的自定义域名是 `laravel.dev`
+假定你的自定义域名是 `laravel.test`
 
-1 - 打开 `/etc/hosts` 文件添加以下内容，映射你的 localhost 地址 `127.0.0.1` 为 `laravel.dev` 域名
+1 - 打开 `/etc/hosts` 文件添加以下内容，映射你的 localhost 地址 `127.0.0.1` 为 `laravel.test` 域名
 ```bash
-127.0.0.1    laravel.dev
+127.0.0.1    laravel.test
 ```
 
-2 - 打开你的浏览器访问 `{http://laravel.dev}`
+2 - 打开你的浏览器访问 `{http://laravel.test}`
 
 你可以在 nginx 配置文件自定义服务器名称,如下:
 
 ```conf
-server_name laravel.dev;
+server_name laravel.test;
 ```
 
 <a name="Enable-Global-Composer-Build-Install"></a>

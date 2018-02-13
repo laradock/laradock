@@ -112,18 +112,20 @@ Your folder structure should look like this:
 
 2 - Go to `nginx/sites` and create config files to point to different project directory when visiting different domains.
 
-Laradock by default includes `project-1.conf` and `project-2.conf` as working samples.
+Laradock by default includes `app.conf.example`, `laravel.conf.example` and `symfony.conf.example`  as working samples.
 
-3 - change the default names `project-n`:
+3 - change the default names `*.conf`:
 
 You can rename the config files, project folders and domains as you like, just make sure the `root` in the config files, is pointing to the correct project folder name.
 
 4 - Add the domains to the **hosts** files.
 
 ```
-127.0.0.1  project-1.dev
-127.0.0.1  project-2.dev
+127.0.0.1  project-1.test
+127.0.0.1  project-2.test
+...
 ```
+If you use Chrome 63 or above for development, don't use `.dev`. [Why?](https://laravel-news.com/chrome-63-now-forces-dev-domains-https). Instead use `.localhost`, `.invalid`, `.test`, or `.example`.
 
 > **Now jump to the [Usage](#Usage) section.**
 
@@ -145,6 +147,10 @@ If you are using **Docker Toolbox** (VM), do one of the following:
 
 <br>
 
+We recommend using a Docker version which is newer than 1.13. 
+
+<br>
+
 >**Warning:** If you used an older version of Laradock it's highly recommended to rebuild the containers you need to use [see how you rebuild a container](#Build-Re-build-Containers) in order to prevent as much errors as possible.
 
 <br>
@@ -157,6 +163,7 @@ cp env-example .env
 
 You can edit the `.env` file to chose which software's you want to be installed in your environment. You can always refer to the `docker-compose.yml` file to see how those variables are been used.
 
+Depending on the host's operating system you may need to change the value given to `COMPOSE_FILE`. When you are running Laradock on Mac OS the correct file separator to use is `:`. When running Laradock from a Windows environment multiple files must be separated with `;`.
 
 2 - Build the enviroment and run it using `docker-compose`
 
@@ -207,6 +214,4 @@ DB_HOST=mysql
 *If you want to install Laravel as PHP project, see [How to Install Laravel in a Docker Container](#Install-Laravel).*
 
 <br>
-5 - Open your browser and visit your localhost address `http://localhost/`. If you followed the multiple projects setup, you can visit `http://project-1.dev/` and `http://project-2.dev/`. But first don't 
-
-
+5 - Open your browser and visit your localhost address `http://localhost/`. If you followed the multiple projects setup, you can visit `http://project-1.test/` and `http://project-2.test/`.

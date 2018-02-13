@@ -1,29 +1,23 @@
 ### Info:
-- Docker version (`$ docker --version`):
-- Laradock commit (`$ git rev-parse HEAD`):
-- System (`place x between the [ ]`):
-	- [ ] Mac
-	- [ ] PC
-	- [ ] Linux
-	- Info:
+- Docker version (`$ docker --version`): 
+- Laradock commit (`$ git rev-parse HEAD`): 
+- System info (Mac, PC, Linux): 
+- System info disto/version: 
 
 ### Issue:
-##### What seems to be going wrong?
-
+<!--- What seems to be wrong? -->
 _____
 
 ### Expected behavior:
-##### What should be happening instead?
-
+<!--- What should happen instead? -->
 _____
 
 ### Reproduce:
-##### How might we be able to reproduce the error?
-
+<!--- How can we reproduce the error? -->
 _____
 
 ### Relevant Code:
 
-  ```
-  // place code here
-  ```
+```
+// place a code sample here
+```
