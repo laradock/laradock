@@ -177,7 +177,7 @@ ARG INSTALL_GMP=false
 RUN if [ ${INSTALL_GMP} = true ]; then \
     # Install the GMP extension
 	apt-get update -yqq && \
-	apt-get install -y libgmp-dev && \ 
+	apt-get install -y libgmp3-dev && \
     docker-php-ext-install gmp \
 ;fi
 
