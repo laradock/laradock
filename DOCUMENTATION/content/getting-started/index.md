@@ -7,7 +7,7 @@ weight: 2
 ## Requirements
 
 - [Git](https://git-scm.com/downloads)
-- [Docker](https://www.docker.com/products/docker/) `>= 1.12`
+- [Docker](https://www.docker.com/products/docker/) `>= 17.12`
 
 
 
