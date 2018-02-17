@@ -409,7 +409,7 @@ RUN if [ ${INSTALL_V8JS} = true ]; then \
     # Install the php V8JS extension
     add-apt-repository -y ppa:pinepain/libv8-5.4 \
     && apt-get update -yqq \
-    && apt-get install -y php-xml php-dev php-pear libv8-5.4 \
+    && apt-get install -y php7.1-xml php7.1-dev php-pear libv8-5.4 \
     && pecl install v8js \
     && echo "extension=v8js.so" >> /etc/php/7.1/cli/php.ini \
 ;fi
@@ -428,7 +428,8 @@ RUN echo "" >> ~/.bashrc && \
 # Laravel Envoy:
 #####################################
 USER root
-    apt-get update -yqq \
+
+RUN apt-get update -yqq \
     && apt-get install -y php-curl
 
 USER laradock
