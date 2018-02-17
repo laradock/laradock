@@ -263,7 +263,7 @@ RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
 ARG INSTALL_SWOOLE=false
 RUN if [ ${INSTALL_SWOOLE} = true ]; then \
     # Install Php Swoole Extension
-    pecl -q install swoole && \
+    pecl -q install swoole-2.0.11 && \
     echo "extension=swoole.so" >> /etc/php/5.6/mods-available/swoole.ini && \
     ln -s /etc/php/5.6/mods-available/swoole.ini /etc/php/5.6/cli/conf.d/20-swoole.ini \
 ;fi
