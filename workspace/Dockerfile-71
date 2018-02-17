@@ -68,7 +68,7 @@ RUN if [ ${INSTALL_SOAP} = true ]; then \
   # Install the PHP SOAP extension
   add-apt-repository -y ppa:ondrej/php && \
   apt-get update -yqq && \
-  apt-get -y install libxml2-dev php7.1-soap \
+  apt-get -y install libxml2-dev php-soap \
 ;fi
 
 #####################################
