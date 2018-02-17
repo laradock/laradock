@@ -13,7 +13,8 @@ env | sort
 if [ -n "${PHP_VERSION}" ]; then
     cp env-example .env
     sed -i -- "s/PHP_VERSION=.*/PHP_VERSION=${PHP_VERSION}/g" .env
-    sed -i -- 's/=false/=true/g' .env
+    sed -i -- 's/=false/=false/g' .env
+    sed -i -- 's/=true/=false/g' .env
     cat .env
     docker-compose build ${BUILD_SERVICE}
     docker images
