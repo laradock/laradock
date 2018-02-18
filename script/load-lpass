@@ -7,6 +7,11 @@ echo "==> This may build a container please wait until the build finished to ent
 echo "Please enter your @kiron.ngo username usualle first_name.last_name followed by [ENTER]:"
 read username
 
+if [[ -z  $username  ]]; then
+  echo "your username is empty, try again."
+  read username
+fi
+
 docker-compose up -d lpass
 docker-compose exec lpass lpass login ${username}@kiron.ngo
 docker-compose exec lpass lpass show --notes 1831093418396261581 > .lpass-env
