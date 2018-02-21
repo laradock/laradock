@@ -124,6 +124,13 @@ RUN if [ ${COMPOSER_GLOBAL_INSTALL} = true ]; then \
     composer global install \
 ;fi
 
+ARG COMPOSER_REPO_PACKAGIST
+ENV COMPOSER_REPO_PACKAGIST ${COMPOSER_REPO_PACKAGIST}
+
+RUN if [ ${COMPOSER_REPO_PACKAGIST} ]; then \
+    composer config -g repo.packagist composer ${COMPOSER_REPO_PACKAGIST} \
+;fi
+
 # Export composer vendor path
 RUN echo "" >> ~/.bashrc && \
 echo 'export PATH="~/.composer/vendor/bin:$PATH"' >> ~/.bashrc
@@ -305,6 +312,8 @@ ARG NODE_VERSION=stable
 ENV NODE_VERSION ${NODE_VERSION}
 ARG INSTALL_NODE=false
 ENV INSTALL_NODE ${INSTALL_NODE}
+ARG NPM_REGISTRY
+ENV NPM_REGISTRY ${NPM_REGISTRY}
 ENV NVM_DIR /home/laradock/.nvm
 RUN if [ ${INSTALL_NODE} = true ]; then \
     # Install nvm (A Node Version Manager)
@@ -313,6 +322,9 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
         nvm install ${NODE_VERSION} && \
         nvm use ${NODE_VERSION} && \
         nvm alias ${NODE_VERSION} && \
+        if [ ${NPM_REGISTRY} ]; then \
+        npm config set registry ${NPM_REGISTRY} \
+        ;fi && \
         npm install -g gulp bower vue-cli \
 ;fi
 
@@ -335,6 +347,10 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
 
 # Add PATH for node
 ENV PATH $PATH:$NVM_DIR/versions/node/v${NODE_VERSION}/bin
+
+RUN if [ ${NPM_REGISTRY} ]; then \
+    . ~/.bashrc && npm config set registry ${NPM_REGISTRY} \
+;fi
 
 #####################################
 # YARN:
@@ -440,6 +456,13 @@ RUN if [ ${INSTALL_LARAVEL_ENVOY} = true ]; then \
 # Laravel Installer:
 #####################################
 USER root
+
+ARG COMPOSER_REPO_PACKAGIST
+ENV COMPOSER_REPO_PACKAGIST ${COMPOSER_REPO_PACKAGIST}
+
+RUN if [ ${COMPOSER_REPO_PACKAGIST} ]; then \
+    composer config -g repo.packagist composer ${COMPOSER_REPO_PACKAGIST} \
+;fi
 
 ARG INSTALL_LARAVEL_INSTALLER=true
 ENV INSTALL_LARAVEL_INSTALLER ${INSTALL_LARAVEL_INSTALLER}
