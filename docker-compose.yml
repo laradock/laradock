@@ -396,6 +396,12 @@ services:
             jM0LCJleHAiOjI0ODc5Njk4MzQsIm5iZiI6MTQ4Nzk2NjIzNCwianRpIjoiNTUyYz\
             kwYWQzYWYwMmMwZTQxNjAxNzA5N2Y1YmRlZTgifQ.dMYuOurZadzZb4tChKs7K9W3\
             Zohy3f78V-WIdN_pe0w"
+          - JWT_SECRET=secret
+          - POSTGRES_PORT=${POSTGRES_PORT}
+          - POSTGRES_DB=${POSTGRES_DB}
+          - POSTGRES_USER=${POSTGRES_USER}
+          - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+          - POSTGRES_HOST=postgres
         networks:
           - frontend
           - backend
