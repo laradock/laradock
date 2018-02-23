@@ -228,8 +228,8 @@ RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
     apt-get update -yqq && \
     apt-get -y install sudo wget && \
 
-    # Install the php aerospike extension
-    curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/aerospike/aerospike-client-php/archive/master.tar.gz" \
+    # Install the php aerospike extension (using 7.2.0-in-progress branch until support for 7.2 on master)
+    curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/aerospike/aerospike-client-php/archive/7.2.0-in-progress.tar.gz" \
     && mkdir -p aerospike-client-php \
     && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
     && ( \
