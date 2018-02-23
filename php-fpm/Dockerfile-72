@@ -67,6 +67,9 @@ RUN if [ ${INSTALL_PGSQL} = true ]; then \
 
 ARG INSTALL_PG_CLIENT=false
 RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
+    # Create folders if not exists (https://github.com/tianon/docker-brew-debian/issues/65)
+    mkdir -p /usr/share/man/man1 && \
+    mkdir -p /usr/share/man/man7 && \
     # Install the pgsql client
     apt-get update -yqq && \
     apt-get install -y postgresql-client \
@@ -174,7 +177,7 @@ ARG INSTALL_GMP=false
 RUN if [ ${INSTALL_GMP} = true ]; then \
     # Install the GMP extension
 	apt-get update -yqq && \
-	apt-get install -y libgmp-dev && \ 
+	apt-get install -y libgmp-dev && \
     docker-php-ext-install gmp \
 ;fi
 
@@ -355,7 +358,7 @@ ARG INSTALL_IMAGEMAGICK=false
 ENV INSTALL_IMAGEMAGICK ${INSTALL_IMAGEMAGICK}
 RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
     apt-get update -y && \
-    apt-get install -y libmagickwand-dev imagemagick && \ 
+    apt-get install -y libmagickwand-dev imagemagick && \
     pecl install imagick && \
     docker-php-ext-enable imagick \
 ;fi
