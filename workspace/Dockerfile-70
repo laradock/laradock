@@ -726,6 +726,12 @@ RUN if [ ${INSTALL_DUSK_DEPS} = true ]; then \
   && rm chromedriver_linux64.zip \
 ;fi
 
+#####################################
+# Check PHP version:
+#####################################
+
+RUN php -v | head -n 1 | grep -q "PHP 7.0."
+
 #
 #--------------------------------------------------------------------------
 # Final Touch

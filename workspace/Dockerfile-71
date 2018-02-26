@@ -424,7 +424,7 @@ RUN if [ ${INSTALL_V8JS} = true ]; then \
     # Install the php V8JS extension
     add-apt-repository -y ppa:pinepain/libv8-5.4 \
     && apt-get update -yqq \
-    && apt-get install -y php-xml php-dev php-pear libv8-5.4 \
+    && apt-get install -y php7.1-xml php7.1-dev php-pear libv8-5.4 \
     && pecl install v8js \
     && echo "extension=v8js.so" >> /etc/php/7.1/cli/php.ini \
 ;fi
@@ -442,6 +442,11 @@ RUN echo "" >> ~/.bashrc && \
 #####################################
 # Laravel Envoy:
 #####################################
+USER root
+
+RUN apt-get update -yqq \
+    && apt-get install -y php-curl
+
 USER laradock
 
 ARG INSTALL_LARAVEL_ENVOY=false
@@ -479,14 +484,18 @@ USER laradock
 #####################################
 # Deployer:
 #####################################
-USER laradock
+USER root
 
 ARG INSTALL_DEPLOYER=false
 ENV INSTALL_DEPLOYER ${INSTALL_DEPLOYER}
 
 RUN if [ ${INSTALL_DEPLOYER} = true ]; then \
     # Install the Deployer
-    composer global require "deployer/deployer" \
+    # Using Phar as currently there is no support for laravel 4 from composer version
+    # Waiting to be resolved on https://github.com/deployphp/deployer/issues/1552
+    curl -LO https://deployer.org/deployer.phar && \
+    mv deployer.phar /usr/local/bin/dep && \
+    chmod +x /usr/local/bin/dep \
 ;fi
 
 #####################################
@@ -725,6 +734,12 @@ RUN if [ ${INSTALL_DUSK_DEPS} = true ]; then \
   && mv chromedriver /usr/local/bin/ \
   && rm chromedriver_linux64.zip \
 ;fi
+
+#####################################
+# Check PHP version:
+#####################################
+
+RUN php -v | head -n 1 | grep -q "PHP 7.1."
 
 #
 #--------------------------------------------------------------------------

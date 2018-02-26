@@ -357,6 +357,12 @@ RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
     docker-php-ext-enable imagick \
 ;fi
 
+#####################################
+# Check PHP version:
+#####################################
+
+RUN php -v | head -n 1 | grep -q "PHP 7.1."
+
 #
 #--------------------------------------------------------------------------
 # Final Touch
