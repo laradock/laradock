@@ -8,9 +8,9 @@
 APPLICATION=../
 
 ### PHP Version ########################################################################################################
-# Select a PHP version of the Workspace and PHP-FPM containers (Does not apply to HHVM). Accepted values: 71 - 70 - 56
+# Select a PHP version of the Workspace and PHP-FPM containers (Does not apply to HHVM). Accepted values: 72 - 71 - 70 - 56
 
-PHP_VERSION=71
+PHP_VERSION=72
 
 ### PHP Interpreter ####################################################################################################
 # Select the PHP Interpreter. Accepted values: hhvm - php-fpm
@@ -67,12 +67,14 @@ WORKSPACE_INSTALL_AMQP=false
 WORKSPACE_INSTALL_PHPREDIS=false
 WORKSPACE_INSTALL_MSSQL=false
 WORKSPACE_INSTALL_NODE=false
+WORKSPACE_NPM_REGISTRY=
 WORKSPACE_INSTALL_YARN=false
 WORKSPACE_INSTALL_DRUSH=false
 WORKSPACE_INSTALL_DRUPAL_CONSOLE=false
 WORKSPACE_INSTALL_AEROSPIKE=false
 WORKSPACE_INSTALL_V8JS=false
 WORKSPACE_COMPOSER_GLOBAL_INSTALL=false
+WORKSPACE_COMPOSER_REPO_PACKAGIST=
 WORKSPACE_INSTALL_WORKSPACE_SSH=false
 WORKSPACE_INSTALL_LARAVEL_ENVOY=false
 WORKSPACE_INSTALL_LARAVEL_INSTALLER=false
