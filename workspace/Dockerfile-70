@@ -55,6 +55,7 @@ ENV PGID ${PGID}
 
 RUN groupadd -g ${PGID} laradock && \
     useradd -u ${PUID} -g laradock -m laradock && \
+    usermod -p "*" laradock && \
     apt-get update -yqq
 
 #####################################
