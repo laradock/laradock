@@ -352,6 +352,19 @@ RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
 ;fi
 
 #####################################
+# IMAP:
+#####################################
+ARG INSTALL_IMAP=false
+ENV INSTALL_IMAP ${INSTALL_IMAP}
+RUN if [ ${INSTALL_IMAP} = true ]; then \
+    apt-get update && \
+    apt-get install -y libc-client-dev libkrb5-dev && \
+    rm -r /var/lib/apt/lists/* && \
+    docker-php-ext-configure imap --with-kerberos --with-imap-ssl && \
+    docker-php-ext-install imap \
+;fi
+
+#####################################
 # Check PHP version:
 #####################################
 
