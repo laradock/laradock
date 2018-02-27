@@ -472,6 +472,19 @@ RUN if [ ${INSTALL_DEPLOYER} = true ]; then \
 ;fi
 
 #####################################
+# Prestissimo:
+#####################################
+USER laradock
+
+ARG INSTALL_PRESTISSIMO=false
+ENV INSTALL_PRESTISSIMO ${INSTALL_PRESTISSIMO}
+
+RUN if [ ${INSTALL_PRESTISSIMO} = true ]; then \
+    # Install Prestissimo
+    composer global require "hirak/prestissimo" \
+;fi
+
+#####################################
 # Linuxbrew:
 #####################################
 USER root
