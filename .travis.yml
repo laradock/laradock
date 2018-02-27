@@ -24,6 +24,7 @@ env:
     - PHP_VERSION=71 BUILD_SERVICE=php-worker
     - PHP_VERSION=72 BUILD_SERVICE=php-worker
 
+    - PHP_VERSION=NA BUILD_SERVICE=solr
     - PHP_VERSION=NA BUILD_SERVICE="mssql rethinkdb aerospike"
     - PHP_VERSION=NA BUILD_SERVICE="applications blackfire minio percona nginx caddy apache2 mysql mariadb postgres postgres-postgis neo4j mongo redis"
     - PHP_VERSION=NA BUILD_SERVICE="adminer phpmyadmin pgadmin"
