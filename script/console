@@ -46,7 +46,7 @@ if [ -n "$1" ]; then
         elif [ "$1" = "apollo-engine" ]; then
             echo "no shell access"
         elif [ "$1" = "campus-frtonend" ] || [ "$1" = "campus" ]; then
-            kubectl exec -ti $(kubectl get pods --selector=app=campus-frontend-service -o=name | sed -n 1p | sed 's/pods\///') sh
+            kubectl exec -ti $(kubectl get pods --selector=app=campus-frontend -o=name | sed -n 1p | sed 's/pods\///') sh
         elif [ "$1" = "graphql" ] || [ "$1" = "kiron-graphql" ]; then
             kubectl exec -ti $(kubectl get pods --selector=app=kiron-graphql -o=name | sed -n 1p | sed 's/pods\///') sh
         else
