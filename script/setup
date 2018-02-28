@@ -11,8 +11,31 @@ set -e
 
 cd "$(dirname "$0")/.."
 
-git pull
-git submodule update --remote
+echo "Do you want to use [h]ttps or [s]ll to clone the repositories? h/s [ENTER]:"
+read protocol
+
+while [ "$protocol" != "s" ] && [ "$protocol" != "h" ]
+do
+  echo "Please enter h or s to choose a git protocol"
+  read protocol
+done
+
+echo "==> Cloning repositories"
+
+function genCloneArg {
+    if [ "$protocol" == "s" ];
+    then
+        echo "git@github.com:kiron/${1}.git"
+    else
+        echo "https://github.com/kiron/${1}.git"
+    fi
+}
+
+repos="`cat script/z-repos.lst`"
+for repo in ${repos[@]}
+do
+    git clone $(genCloneArg $repo)
+done
 
 script/setenv
 
@@ -33,7 +56,7 @@ do
 done
 
 echo "==> Building images"
-services="`cat script/services.lst`"
+services="`cat script/z-services.lst`"
 docker-compose build --pull $services
 
 script/bootstrap
