@@ -6,3 +6,7 @@
 /.project
 .docker-sync
 /jenkins/jenkins_home
+/apply-app
+/services
+/campus-frontend
+/kiron-graphql
