@@ -5,6 +5,29 @@
 
 ETC_HOSTS_FILE="/etc/hosts"
 
+### test if user at docker group
+if id -nG $(whoami) | grep -qw "docker"; then
+    echo $USER belongs to $GROUP
+else
+    echo "$USER does not belong to docker group"
+    sudo usermod -aG docker $(whoami)
+fi
+
+#test if git exist
+if ! [ -x "$(command -v git)" ]; then
+  echo '[-]      git is not installed.' >&2
+  exit 0
+fi
+
+
+
+#test if docker  exist
+if ! [ -x "$(command -v docker-compose)" ]; then
+  echo '[-]      docker-compose is not installed.' >&2
+  exit 0
+fi
+
+
 domains=("internal" "curriculum" "api" "campus-frontend")
 
 set -e
