@@ -818,6 +818,8 @@ docker-compose up -d beanstalkd-console
 
 2 - Open your browser and visit `http://localhost:2080/`
 
+_Note: You can customize the port on which beanstalkd console is listening by changing `BEANSTALKD_CONSOLE_HOST_PORT` in `.env`. The default value is *2080*._
+
 3 - Add the server
 
 - Host: beanstalkd
