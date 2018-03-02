@@ -429,7 +429,7 @@ services:
     beanstalkd-console:
       build: ./beanstalkd-console
       ports:
-        - "2080:2080"
+        - "${BEANSTALKD_CONSOLE_HOST_PORT}:2080"
       depends_on:
         - beanstalkd
       networks:
