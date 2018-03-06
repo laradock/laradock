@@ -1,5 +1,5 @@
 <VirtualHost *:80>
-  ServerName sample.dev
+  ServerName sample.test
   DocumentRoot /var/www/sample/public/
   Options Indexes FollowSymLinks
 

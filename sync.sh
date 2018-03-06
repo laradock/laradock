@@ -59,11 +59,11 @@ if [ "$1" == "up" ] ; then
 
     print_style "Initializing Docker Compose\n" "info"
     shift # removing first argument
-    docker-compose -f docker-compose.yml -f docker-compose.sync.yml up -d ${@}
+    docker-compose up -d ${@}
 
 elif [ "$1" == "down" ]; then
     print_style "Stopping Docker Compose\n" "info"
-    docker-compose down
+    docker-compose stop
 
     print_style "Stopping Docker Sync\n" "info"
     docker-sync stop

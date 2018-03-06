@@ -5,3 +5,4 @@
 /shared/*
 !/shared/.gitkeep
 .docker-sync
+/jenkins/jenkins_home

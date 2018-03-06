@@ -1,7 +1,7 @@
 version: "2"
 
 options:
-  verbose: true
+  verbose: false
 syncs:
   applications-docker-sync: # name of the intermediary sync volume
     compose-dev-file-path: 'docker-compose.sync.yml' # docker-compose override file
