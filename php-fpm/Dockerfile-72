@@ -12,7 +12,7 @@
 # Note: Base Image name format {image-tag}-{php-version}
 #
 
-FROM laradock/php-fpm:2.0-71
+FROM laradock/php-fpm:2.0-72
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
@@ -67,6 +67,9 @@ RUN if [ ${INSTALL_PGSQL} = true ]; then \
 
 ARG INSTALL_PG_CLIENT=false
 RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
+    # Create folders if not exists (https://github.com/tianon/docker-brew-debian/issues/65)
+    mkdir -p /usr/share/man/man1 && \
+    mkdir -p /usr/share/man/man7 && \
     # Install the pgsql client
     apt-get update -yqq && \
     apt-get install -y postgresql-client \
@@ -174,7 +177,7 @@ ARG INSTALL_GMP=false
 RUN if [ ${INSTALL_GMP} = true ]; then \
     # Install the GMP extension
 	apt-get update -yqq && \
-	apt-get install -y libgmp-dev && \ 
+	apt-get install -y libgmp-dev && \
     docker-php-ext-install gmp \
 ;fi
 
@@ -224,8 +227,9 @@ RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
     # Fix dependencies for PHPUnit within aerospike extension
     apt-get update -yqq && \
     apt-get -y install sudo wget && \
-    # Install the php aerospike extension
-    curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/aerospike/aerospike-client-php/archive/master.tar.gz" \
+
+    # Install the php aerospike extension (using 7.2.0-in-progress branch until support for 7.2 on master)
+    curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/aerospike/aerospike-client-php/archive/7.2.0-in-progress.tar.gz" \
     && mkdir -p aerospike-client-php \
     && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
     && ( \
@@ -299,38 +303,6 @@ RUN if [ ${INSTALL_GHOSTSCRIPT} = true ]; then \
 ;fi
 
 #####################################
-# Image Magick:
-#####################################
-RUN apt-get -y update \
-    && apt-get install imagemagick -y
-
-#####################################
-# wkhtmltopdf:
-#####################################
-
-ARG INSTALL_WKHTMLTOPDF=true
-RUN if [ ${INSTALL_WKHTMLTOPDF} = true ]; then \
-    # Install all dependencies
-    apt-get install -y \
-    libxrender1 \
-    libfontconfig1 \
-    libx11-dev \
-    libjpeg62 \
-    libxtst6 \
-    wget \
-    && wget https://github.com/h4cc/wkhtmltopdf-amd64/blob/master/bin/wkhtmltopdf-amd64?raw=true -O /usr/local/bin/wkhtmltopdf \
-    && chmod +x /usr/local/bin/wkhtmltopdf \
-;fi
-
-
-#####################################
-# locales:
-#####################################
-RUN apt-get -y install locales
-COPY ./locale.gen /etc/locale.gen
-RUN locale-gen
-
-#####################################
 # LDAP:
 #####################################
 
@@ -353,13 +325,15 @@ RUN if [ ${INSTALL_MSSQL} = true ]; then \
     # Ref from https://github.com/Microsoft/msphpsql/wiki/Dockerfile-for-adding-pdo_sqlsrv-and-sqlsrv-to-official-php-image
     #####################################
     # Add Microsoft repo for Microsoft ODBC Driver 13 for Linux
-    apt-get update -yqq && apt-get install -y apt-transport-https \
+    apt-get update -yqq && apt-get install -y apt-transport-https gnupg \
         && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
         && curl https://packages.microsoft.com/config/debian/8/prod.list > /etc/apt/sources.list.d/mssql-release.list \
         && apt-get update -yqq \
+
     # Install Dependencies
         && ACCEPT_EULA=Y apt-get install -y unixodbc unixodbc-dev libgss3 odbcinst msodbcsql locales \
         && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen \
+
     # Install pdo_sqlsrv and sqlsrv from PECL. Replace pdo_sqlsrv-4.1.8preview with preferred version.
         && pecl install pdo_sqlsrv-4.1.8preview sqlsrv-4.1.8preview \
         && docker-php-ext-enable pdo_sqlsrv sqlsrv \
@@ -384,7 +358,7 @@ ARG INSTALL_IMAGEMAGICK=false
 ENV INSTALL_IMAGEMAGICK ${INSTALL_IMAGEMAGICK}
 RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
     apt-get update -y && \
-    apt-get install -y libmagickwand-dev imagemagick && \ 
+    apt-get install -y libmagickwand-dev imagemagick && \
     pecl install imagick && \
     docker-php-ext-enable imagick \
 ;fi
@@ -406,7 +380,7 @@ RUN if [ ${INSTALL_IMAP} = true ]; then \
 # Check PHP version:
 #####################################
 
-RUN php -v | head -n 1 | grep -q "PHP 7.1."
+RUN php -v | head -n 1 | grep -q "PHP 7.2."
 
 #
 #--------------------------------------------------------------------------

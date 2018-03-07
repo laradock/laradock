@@ -12,7 +12,7 @@
 # Note: Base Image name format {image-tag}-{php-version}
 #
 
-FROM laradock/workspace:2.0-71
+FROM laradock/workspace:2.0-72
 
 MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
 
@@ -24,7 +24,7 @@ RUN rm /var/log/lastlog /var/log/faillog
 # Mandatory Software's Installation
 #--------------------------------------------------------------------------
 #
-# Mandatory Software's such as ("php7.1-cli", "git", "vim", ....) are
+# Mandatory Software's such as ("php7.2-cli", "git", "vim", ....) are
 # installed on the base image 'laradock/workspace' image. If you want
 # to add more Software's or remove existing one, you need to edit the
 # base image (https://github.com/Laradock/workspace).
@@ -68,7 +68,7 @@ RUN if [ ${INSTALL_SOAP} = true ]; then \
   # Install the PHP SOAP extension
   add-apt-repository -y ppa:ondrej/php && \
   apt-get update -yqq && \
-  apt-get -y install libxml2-dev php7.1-soap \
+  apt-get -y install libxml2-dev php7.2-soap \
 ;fi
 
 #####################################
@@ -81,7 +81,7 @@ ENV INSTALL_LDAP ${INSTALL_LDAP}
 RUN if [ ${INSTALL_LDAP} = true ]; then \
     apt-get update -yqq && \
     apt-get install -y libldap2-dev && \
-    apt-get install -y php7.1-ldap \
+    apt-get install -y php7.2-ldap \
 ;fi
 
 #####################################
@@ -93,7 +93,7 @@ ENV INSTALL_IMAP ${INSTALL_IMAP}
 
 RUN if [ ${INSTALL_IMAP} = true ]; then \
     apt-get update -yqq && \
-    apt-get install -y php7.1-imap \
+    apt-get install -y php7.2-imap \
 ;fi
 
 #####################################
@@ -121,13 +121,6 @@ ENV COMPOSER_GLOBAL_INSTALL ${COMPOSER_GLOBAL_INSTALL}
 RUN if [ ${COMPOSER_GLOBAL_INSTALL} = true ]; then \
     # run the install
     composer global install \
-;fi
-
-ARG COMPOSER_REPO_PACKAGIST
-ENV COMPOSER_REPO_PACKAGIST ${COMPOSER_REPO_PACKAGIST}
-
-RUN if [ ${COMPOSER_REPO_PACKAGIST} ]; then \
-    composer config -g repo.packagist composer ${COMPOSER_REPO_PACKAGIST} \
 ;fi
 
 #####################################
@@ -167,12 +160,12 @@ ARG INSTALL_XDEBUG=false
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     # Load the xdebug extension only with phpunit commands
     apt-get update && \
-    apt-get install -y --force-yes php7.1-xdebug && \
-    sed -i 's/^;//g' /etc/php/7.1/cli/conf.d/20-xdebug.ini && \
+    apt-get install -y --force-yes php7.2-xdebug && \
+    sed -i 's/^;//g' /etc/php/7.2/cli/conf.d/20-xdebug.ini && \
     echo "alias phpunit='php -dzend_extension=xdebug.so /var/www/vendor/bin/phpunit'" >> ~/.bashrc \
 ;fi
 # ADD for REMOTE debugging
-COPY ./xdebug.ini /etc/php/7.1/cli/conf.d/xdebug.ini
+COPY ./xdebug.ini /etc/php/7.2/cli/conf.d/xdebug.ini
 
 #####################################
 # Blackfire:
@@ -223,8 +216,8 @@ ENV INSTALL_MONGO ${INSTALL_MONGO}
 RUN if [ ${INSTALL_MONGO} = true ]; then \
     # Install the mongodb extension
     pecl -q install mongodb && \
-    echo "extension=mongodb.so" >> /etc/php/7.1/mods-available/mongodb.ini && \
-    ln -s /etc/php/7.1/mods-available/mongodb.ini /etc/php/7.1/cli/conf.d/30-mongodb.ini \
+    echo "extension=mongodb.so" >> /etc/php/7.2/mods-available/mongodb.ini && \
+    ln -s /etc/php/7.2/mods-available/mongodb.ini /etc/php/7.2/cli/conf.d/30-mongodb.ini \
 ;fi
 
 #####################################
@@ -238,12 +231,12 @@ RUN if [ ${INSTALL_AMQP} = true ]; then \
     apt-get install librabbitmq-dev -y && \
     # Install the mongodb extension
     pecl -q install amqp && \
-    echo "extension=amqp.so" >> /etc/php/7.1/mods-available/amqp.ini && \
-    ln -s /etc/php/7.1/mods-available/amqp.ini /etc/php/7.1/cli/conf.d/30-amqp.ini \
+    echo "extension=amqp.so" >> /etc/php/7.2/mods-available/amqp.ini && \
+    ln -s /etc/php/7.2/mods-available/amqp.ini /etc/php/7.2/cli/conf.d/30-amqp.ini \
 ;fi
 
 #####################################
-# PHP REDIS EXTENSION FOR PHP 7.1
+# PHP REDIS EXTENSION FOR PHP 7.2
 #####################################
 
 ARG INSTALL_PHPREDIS=false
@@ -251,7 +244,7 @@ ENV INSTALL_PHPREDIS ${INSTALL_PHPREDIS}
 RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
     # Install Php Redis extension
     printf "\n" | pecl -q install -o -f redis && \
-    echo "extension=redis.so" >> /etc/php/7.1/mods-available/redis.ini && \
+    echo "extension=redis.so" >> /etc/php/7.2/mods-available/redis.ini && \
     phpenmod redis \
 ;fi
 
@@ -263,8 +256,8 @@ ARG INSTALL_SWOOLE=false
 RUN if [ ${INSTALL_SWOOLE} = true ]; then \
     # Install Php Swoole Extension
     pecl -q install swoole && \
-    echo "extension=swoole.so" >> /etc/php/7.1/mods-available/swoole.ini && \
-    ln -s /etc/php/7.1/mods-available/swoole.ini /etc/php/7.1/cli/conf.d/20-swoole.ini \
+    echo "extension=swoole.so" >> /etc/php/7.2/mods-available/swoole.ini && \
+    ln -s /etc/php/7.2/mods-available/swoole.ini /etc/php/7.2/cli/conf.d/20-swoole.ini \
 ;fi
 
 #####################################
@@ -308,19 +301,14 @@ ARG NODE_VERSION=stable
 ENV NODE_VERSION ${NODE_VERSION}
 ARG INSTALL_NODE=false
 ENV INSTALL_NODE ${INSTALL_NODE}
-ARG NPM_REGISTRY
-ENV NPM_REGISTRY ${NPM_REGISTRY}
 ENV NVM_DIR /home/laradock/.nvm
 RUN if [ ${INSTALL_NODE} = true ]; then \
     # Install nvm (A Node Version Manager)
-    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash && \
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash && \
         . $NVM_DIR/nvm.sh && \
         nvm install ${NODE_VERSION} && \
         nvm use ${NODE_VERSION} && \
         nvm alias ${NODE_VERSION} && \
-        if [ ${NPM_REGISTRY} ]; then \
-        npm config set registry ${NPM_REGISTRY} \
-        ;fi && \
         npm install -g gulp bower vue-cli \
 ;fi
 
@@ -344,9 +332,6 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
 # Add PATH for node
 ENV PATH $PATH:$NVM_DIR/versions/node/v${NODE_VERSION}/bin
 
-RUN if [ ${NPM_REGISTRY} ]; then \
-    . ~/.bashrc && npm config set registry ${NPM_REGISTRY} \
-;fi
 
 #####################################
 # YARN:
@@ -388,7 +373,7 @@ ARG INSTALL_AEROSPIKE=false
 ENV INSTALL_AEROSPIKE ${INSTALL_AEROSPIKE}
 
 # Copy aerospike configration for remote debugging
-COPY ./aerospike.ini /etc/php/7.1/cli/conf.d/aerospike.ini
+COPY ./aerospike.ini /etc/php/7.2/cli/conf.d/aerospike.ini
 
 RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
     # Fix dependencies for PHPUnit within aerospike extension
@@ -409,7 +394,7 @@ RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
 ;fi
 
 RUN if [ ${INSTALL_AEROSPIKE} = false ]; then \
-    rm /etc/php/7.1/cli/conf.d/aerospike.ini \
+    rm /etc/php/7.2/cli/conf.d/aerospike.ini \
 ;fi
 
 #####################################
@@ -424,9 +409,9 @@ RUN if [ ${INSTALL_V8JS} = true ]; then \
     # Install the php V8JS extension
     add-apt-repository -y ppa:pinepain/libv8-5.4 \
     && apt-get update -yqq \
-    && apt-get install -y php7.1-xml php7.1-dev php-pear libv8-5.4 \
+    && apt-get install -y php-xml php-dev php-pear libv8-5.4 \
     && pecl install v8js \
-    && echo "extension=v8js.so" >> /etc/php/7.1/cli/php.ini \
+    && echo "extension=v8js.so" >> /etc/php/7.2/cli/php.ini \
 ;fi
 
 #####################################
@@ -442,11 +427,6 @@ RUN echo "" >> ~/.bashrc && \
 #####################################
 # Laravel Envoy:
 #####################################
-USER root
-
-RUN apt-get update -yqq \
-    && apt-get install -y php-curl
-
 USER laradock
 
 ARG INSTALL_LARAVEL_ENVOY=false
@@ -461,13 +441,6 @@ RUN if [ ${INSTALL_LARAVEL_ENVOY} = true ]; then \
 # Laravel Installer:
 #####################################
 USER root
-
-ARG COMPOSER_REPO_PACKAGIST
-ENV COMPOSER_REPO_PACKAGIST ${COMPOSER_REPO_PACKAGIST}
-
-RUN if [ ${COMPOSER_REPO_PACKAGIST} ]; then \
-    composer config -g repo.packagist composer ${COMPOSER_REPO_PACKAGIST} \
-;fi
 
 ARG INSTALL_LARAVEL_INSTALLER=false
 ENV INSTALL_LARAVEL_INSTALLER ${INSTALL_LARAVEL_INSTALLER}
@@ -618,8 +591,8 @@ RUN if [ ${INSTALL_MSSQL} = true ]; then \
     apt-get install -y locales \
     && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
     && locale-gen \
-    && echo "extension=sqlsrv.so" > /etc/php/7.1/cli/conf.d/20-sqlsrv.ini \
-    && echo "extension=pdo_sqlsrv.so" > /etc/php/7.1/cli/conf.d/20-pdo_sqlsrv.ini \
+    && echo "extension=sqlsrv.so" > /etc/php/7.2/cli/conf.d/20-sqlsrv.ini \
+    && echo "extension=pdo_sqlsrv.so" > /etc/php/7.2/cli/conf.d/20-pdo_sqlsrv.ini \
 ;fi
 
 #####################################
@@ -752,7 +725,7 @@ RUN if [ ${INSTALL_DUSK_DEPS} = true ]; then \
 # Check PHP version:
 #####################################
 
-RUN php -v | head -n 1 | grep -q "PHP 7.1."
+RUN php -v | head -n 1 | grep -q "PHP 7.2."
 
 #
 #--------------------------------------------------------------------------
