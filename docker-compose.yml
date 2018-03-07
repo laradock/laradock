@@ -7,7 +7,7 @@ services:
     applications:
       image: tianon/true
       volumes:
-        - ${APPLICATION}:/var/www
+        - ${APPLICATION}:/var/www:cached
 
 ### Workspace Utilities Container ###########################
 
@@ -277,7 +277,7 @@ services:
     postgres:
       build: ./postgres
       volumes:
-        - ${DATA_SAVE_PATH}/postgres:/var/lib/postgresql/data
+        #- ${DATA_SAVE_PATH}/postgres:/var/lib/postgresql/data
         - ${DATA_SAVE_PATH}/shared:/root/shared
       ports:
         - "${POSTGRES_PORT}:5432"
@@ -293,7 +293,8 @@ services:
     postgres-postgis:
       build: ./postgres-postgis
       volumes:
-        - ${DATA_SAVE_PATH}/postgres:/var/lib/postgresql/data
+        #- ${DATA_SAVE_PATH}/postgres:/var/lib/postgresql/data
+        - ${DATA_SAVE_PATH}/shared:/root/shared
       ports:
         - "${POSTGRES_PORT}:5432"
       environment:
@@ -343,8 +344,8 @@ services:
 
     redis:
       build: ./redis
-      volumes:
-        - ${DATA_SAVE_PATH}/redis:/data
+      #volumes:
+        #- ${DATA_SAVE_PATH}/redis:/data
       ports:
         - "${REDIS_PORT}:6379"
       networks:
