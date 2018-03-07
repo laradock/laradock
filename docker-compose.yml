@@ -383,6 +383,7 @@ services:
         command: sh -c "yarn && yarn start"
         volumes:
           - ./kiron-graphql/src:/usr/src/app/src/:cached
+          - ./kiron-graphql/npm-packages-offline-cache:/usr/src/app/npm-packages-offline-cache/:cached
           - ./kiron-graphql/package.json:/usr/src/app/package.json
           - ./kiron-graphql/schema.graphql:/usr/src/app/schema.graphql
           - ./kiron-graphql/yarn.lock:/usr/src/app/yarn.lock
