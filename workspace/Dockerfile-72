@@ -407,7 +407,7 @@ ENV INSTALL_V8JS ${INSTALL_V8JS}
 
 RUN if [ ${INSTALL_V8JS} = true ]; then \
     # Install the php V8JS extension
-    add-apt-repository -y ppa:pinepain/libv8-5.4 \
+    add-apt-repository -y ppa:pinepain/libv8-archived \
     && apt-get update -yqq \
     && apt-get install -y php-xml php-dev php-pear libv8-5.4 \
     && pecl install v8js \
