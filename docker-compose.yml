@@ -65,7 +65,7 @@ services:
         - "dockerhost:${DOCKER_HOST_IP}"
       ports:
         - "${WORKSPACE_SSH_PORT}:22"
-      tty: true
+      tty: false
       networks:
         - frontend
         - backend
