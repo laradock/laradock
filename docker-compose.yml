@@ -54,6 +54,7 @@ services:
           - TZ=${WORKSPACE_TIMEZONE}
           - BLACKFIRE_CLIENT_ID=${BLACKFIRE_CLIENT_ID}
           - BLACKFIRE_CLIENT_TOKEN=${BLACKFIRE_CLIENT_TOKEN}
+          - INSTALL_YAF=${WORKSPACE_INSTALL_YAF}
         dockerfile: "Dockerfile-${PHP_VERSION}"
       volumes_from:
         - applications
