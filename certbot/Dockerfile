@@ -1,6 +1,6 @@
 FROM phusion/baseimage:latest
 
-MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
+LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
 COPY run-certbot.sh /root/certbot/run-certbot.sh
 
