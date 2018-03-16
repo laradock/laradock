@@ -1,7 +1,6 @@
 FROM zuohuadong/caddy:alpine
 
-
-MAINTAINER Huadong Zuo <admin@zuohuadong.cn>
+LABEL maintainer="Huadong Zuo <admin@zuohuadong.cn>"
 
 ARG plugins="cors"
 
