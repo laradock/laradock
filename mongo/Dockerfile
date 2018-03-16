@@ -1,6 +1,6 @@
 FROM mongo:latest
 
-MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
+LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
 #COPY mongo.conf /usr/local/etc/mongo/mongo.conf
 

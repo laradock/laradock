@@ -1,6 +1,6 @@
 FROM percona:5.7
 
-MAINTAINER DTUNES <diegotdai@gmai.com>
+LABEL maintainer="DTUNES <diegotdai@gmai.com>"
 
 RUN chown -R mysql:root /var/lib/mysql/
 

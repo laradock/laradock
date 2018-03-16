@@ -1,6 +1,6 @@
 FROM debian:latest
 
-MAINTAINER ZeroC0D3 Team<zeroc0d3.team@gmail.com>
+LABEL maintainer="ZeroC0D3 Team<zeroc0d3.team@gmail.com>"
 
 # Set Environment Variables
 ENV DEBIAN_FRONTEND noninteractive
