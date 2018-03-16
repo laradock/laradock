@@ -1,6 +1,6 @@
 FROM python:slim
 
-MAINTAINER melchabcede@gmail.com
+LABEL maintainer="melchabcede@gmail.com"
 
 RUN pip install --upgrade --no-cache-dir awsebcli
 RUN apt-get -yqq update && apt-get -yqq install git-all
