@@ -1,6 +1,6 @@
 FROM fenglc/pgadmin4
 
-MAINTAINER Huadong Zuo <admin@zuohuadong.cn>
+LABEL maintainer="Huadong Zuo <admin@zuohuadong.cn>"
 
 # user: pgadmin4@pgadmin.org
 # password: admin

@@ -6,7 +6,7 @@
 
 FROM php:7.1-alpine
 
-MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
+LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
 RUN apk --update add wget \
   curl \

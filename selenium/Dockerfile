@@ -1,5 +1,5 @@
 FROM selenium/standalone-chrome
 
-MAINTAINER Edmund Luong <edmundvmluong@gmail.com>
+LABEL maintainer="Edmund Luong <edmundvmluong@gmail.com>"
 
 EXPOSE 4444
