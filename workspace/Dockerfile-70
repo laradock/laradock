@@ -229,12 +229,10 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
 # AMQP:
 #####################################
 
-# Check if Mongo needs to be installed
 ARG INSTALL_AMQP=false
 ENV INSTALL_AMQP ${INSTALL_AMQP}
 RUN if [ ${INSTALL_AMQP} = true ]; then \
     apt-get install librabbitmq-dev -y && \
-    # Install the mongodb extension
     pecl -q install amqp && \
     echo "extension=amqp.so" >> /etc/php/7.0/mods-available/amqp.ini && \
     ln -s /etc/php/7.0/mods-available/amqp.ini /etc/php/7.0/cli/conf.d/30-amqp.ini \
