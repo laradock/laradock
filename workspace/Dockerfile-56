@@ -411,6 +411,23 @@ RUN if [ ${INSTALL_AEROSPIKE} = false ]; then \
 ;fi
 
 #####################################
+# PHP V8JS:
+#####################################
+USER root
+
+ARG INSTALL_V8JS=false
+ENV INSTALL_V8JS ${INSTALL_V8JS}
+
+RUN if [ ${INSTALL_V8JS} = true ]; then \
+    # Install the php V8JS extension
+    add-apt-repository -y ppa:pinepain/libv8-archived \
+    && apt-get update -yqq \
+    && apt-get install -y php5.6-xml php5.6-dev php-pear libv8-dev \
+    && pecl install v8js-0.6.4 \
+    && echo "extension=v8js.so" >> /etc/php/5.6/cli/php.ini \
+;fi
+
+#####################################
 # Non-root user : PHPUnit path
 #####################################
 
@@ -632,6 +649,8 @@ RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
 # Dusk Dependencies:
 #####################################
 USER root
+ARG CHROME_DRIVER_VERSION=stable
+ENV CHROME_DRIVER_VERSION ${CHROME_DRIVER_VERSION}
 ARG INSTALL_DUSK_DEPS=false
 ENV INSTALL_DUSK_DEPS ${INSTALL_DUSK_DEPS}
 RUN if [ ${INSTALL_DUSK_DEPS} = true ]; then \
@@ -642,16 +661,14 @@ RUN if [ ${INSTALL_DUSK_DEPS} = true ]; then \
     libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4 xvfb \
     gtk2-engines-pixbuf xfonts-cyrillic xfonts-100dpi xfonts-75dpi \
     xfonts-base xfonts-scalable x11-apps \
-
   # Install Google Chrome
   && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
   && dpkg -i --force-depends google-chrome-stable_current_amd64.deb \
   && apt-get -y -f install \
   && dpkg -i --force-depends google-chrome-stable_current_amd64.deb \
   && rm google-chrome-stable_current_amd64.deb \
-
   # Install Chrome Driver
-  && wget https://chromedriver.storage.googleapis.com/2.31/chromedriver_linux64.zip \
+  && wget https://chromedriver.storage.googleapis.com/${CHROME_DRIVER_VERSION}/chromedriver_linux64.zip \
   && unzip chromedriver_linux64.zip \
   && mv chromedriver /usr/local/bin/ \
   && rm chromedriver_linux64.zip \
