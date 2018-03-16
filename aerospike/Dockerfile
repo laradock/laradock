@@ -1,6 +1,6 @@
 FROM aerospike:latest
 
-MAINTAINER Luciano Jr <luciano@lucianojr.com.br>
+LABEL maintainer="Luciano Jr <luciano@lucianojr.com.br>"
 
 RUN rm /etc/aerospike/aerospike.conf
 

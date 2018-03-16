@@ -14,7 +14,7 @@
 
 FROM laradock/workspace:2.0-72
 
-MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
+MAINTALABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
 # Remove Faillog and Lastlog to reduce the size of the final image.
 RUN rm /var/log/lastlog /var/log/faillog

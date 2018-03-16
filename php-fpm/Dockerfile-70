@@ -14,7 +14,7 @@
 
 FROM laradock/php-fpm:2.0-70
 
-MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
+LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
 #
 #--------------------------------------------------------------------------
