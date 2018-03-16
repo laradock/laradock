@@ -1,0 +1,62 @@
+# image: docker:latest
+# services:
+#   - docker:dind
+image: jonaskello/docker-and-compose:1.12.1-1.8.0
+services:
+  - docker:1.12.1-dind
+
+before_script:
+  - docker info
+  - docker-compose version
+  - cp env-example .env
+  - sed -i -- "s/=false/=true/g" .env
+  - cat .env
+  - env | sort
+
+build:56:php-fpm:
+  variables:
+    PHP_VERSION: "56"
+  script:
+    - docker-compose build php-fpm
+
+build:70:php-fpm:
+  variables:
+    PHP_VERSION: "70"
+  script:
+    - docker-compose build php-fpm
+
+build:71:php-fpm:
+  variables:
+    PHP_VERSION: "71"
+  script:
+    - docker-compose build php-fpm
+
+build:72:php-fpm:
+  variables:
+    PHP_VERSION: "72"
+  script:
+    - docker-compose build php-fpm
+
+build:56:workspace:
+  variables:
+    PHP_VERSION: "56"
+  script:
+    - docker-compose build workspace
+
+build:70:workspace:
+  variables:
+    PHP_VERSION: "70"
+  script:
+    - docker-compose build workspace
+
+build:71:workspace:
+  variables:
+    PHP_VERSION: "71"
+  script:
+    - docker-compose build workspace
+
+build:72:workspace:
+  variables:
+    PHP_VERSION: "72"
+  script:
+    - docker-compose build workspace
