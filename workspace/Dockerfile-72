@@ -379,16 +379,12 @@ USER root
 ARG INSTALL_AEROSPIKE=false
 ENV INSTALL_AEROSPIKE ${INSTALL_AEROSPIKE}
 
-# Copy aerospike configration for remote debugging
-COPY ./aerospike.ini /etc/php/7.2/cli/conf.d/aerospike.ini
-
 RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
     # Fix dependencies for PHPUnit within aerospike extension
     apt-get update -yqq && \
     apt-get -y install sudo wget && \
-
-    # Install the php aerospike extension
-    curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/aerospike/aerospike-client-php/archive/master.tar.gz" \
+    # Install the php aerospike extension (using 7.2.0-in-progress branch until support for 7.2 on master)
+    curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/aerospike/aerospike-client-php/archive/7.2.0-in-progress.tar.gz" \
     && mkdir -p aerospike-client-php \
     && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
     && ( \
@@ -398,10 +394,9 @@ RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
         && make install \
     ) \
     && rm /tmp/aerospike-client-php.tar.gz \
-;fi
-
-RUN if [ ${INSTALL_AEROSPIKE} = false ]; then \
-    rm /etc/php/7.2/cli/conf.d/aerospike.ini \
+    && echo 'extension=aerospike.so' >> /etc/php/7.2/cli/conf.d/aerospike.ini \
+    && echo 'aerospike.udf.lua_system_path=/usr/local/aerospike/lua' >> /etc/php/7.2/cli/conf.d/aerospike.ini \
+    && echo 'aerospike.udf.lua_user_path=/usr/local/aerospike/usr-lua' >> /etc/php/7.2/cli/conf.d/aerospike.ini \
 ;fi
 
 #####################################
@@ -507,7 +502,6 @@ ARG INSTALL_LINUXBREW=false
 ENV INSTALL_LINUXBREW ${INSTALL_LINUXBREW}
 
 RUN if [ ${INSTALL_LINUXBREW} = true ]; then \
-
     # Preparation
     apt-get upgrade -y && \
     apt-get install -y build-essential make cmake scons curl git \
@@ -515,13 +509,10 @@ RUN if [ ${INSTALL_LINUXBREW} = true ]; then \
       gettext libtool flex bison \
       libbz2-dev libcurl4-openssl-dev \
       libexpat-dev libncurses-dev && \
-
     # Install the Linuxbrew
     git clone --depth=1 https://github.com/Homebrew/linuxbrew.git ~/.linuxbrew && \
-
     echo "" >> ~/.bashrc && \
     echo 'export PKG_CONFIG_PATH"=/usr/local/lib/pkgconfig:/usr/local/lib64/pkgconfig:/usr/lib64/pkgconfig:/usr/lib/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib64/pkgconfig:/usr/share/pkgconfig:$PKG_CONFIG_PATH"' >> ~/.bashrc && \
-
     # Setup linuxbrew
     echo 'export LINUXBREWHOME="$HOME/.linuxbrew"' >> ~/.bashrc && \
     echo 'export PATH="$LINUXBREWHOME/bin:$PATH"' >> ~/.bashrc && \
@@ -601,19 +592,15 @@ USER root
 ARG INSTALL_SYMFONY=false
 ENV INSTALL_SYMFONY ${INSTALL_SYMFONY}
 RUN if [ ${INSTALL_SYMFONY} = true ]; then \
-
   mkdir -p /usr/local/bin \
   && curl -LsS https://symfony.com/installer -o /usr/local/bin/symfony \
   && chmod a+x /usr/local/bin/symfony \
-
   #  Symfony 3 alias
   && echo 'alias dev="php bin/console -e=dev"' >> ~/.bashrc \
   && echo 'alias prod="php bin/console -e=prod"' >> ~/.bashrc \
-
   #  Symfony 2 alias
   #  && echo 'alias dev="php app/console -e=dev"' >> ~/.bashrc \
   #  && echo 'alias prod="php app/console -e=prod"' >> ~/.bashrc \
-
 ;fi
 
 #####################################
