@@ -384,7 +384,6 @@ RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
     apt-get update -yqq && \
     apt-get -y install sudo wget && \
     # Install the php aerospike extension (using 7.2.0-in-progress branch until support for 7.2 on master)
-    COPY ./aerospike.ini /etc/php/7.2/cli/conf.d/aerospike.ini && \
     curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/aerospike/aerospike-client-php/archive/7.2.0-in-progress.tar.gz" \
     && mkdir -p aerospike-client-php \
     && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
@@ -395,6 +394,9 @@ RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
         && make install \
     ) \
     && rm /tmp/aerospike-client-php.tar.gz \
+    && echo 'extension=aerospike.so' >> /etc/php/7.2/cli/conf.d/aerospike.ini \
+    && echo 'aerospike.udf.lua_system_path=/usr/local/aerospike/lua' >> /etc/php/7.2/cli/conf.d/aerospike.ini \
+    && echo 'aerospike.udf.lua_user_path=/usr/local/aerospike/usr-lua' >> /etc/php/7.2/cli/conf.d/aerospike.ini \
 ;fi
 
 #####################################
