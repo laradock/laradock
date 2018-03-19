@@ -216,18 +216,15 @@ RUN if [ ${INSTALL_EXIF} = true ]; then \
 #####################################
 # PHP Aerospike:
 #####################################
+USER root
 
 ARG INSTALL_AEROSPIKE=false
 ENV INSTALL_AEROSPIKE ${INSTALL_AEROSPIKE}
-
-# Copy aerospike configration for remote debugging
-COPY ./aerospike.ini /usr/local/etc/php/conf.d/aerospike.ini
 
 RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
     # Fix dependencies for PHPUnit within aerospike extension
     apt-get update -yqq && \
     apt-get -y install sudo wget && \
-
     # Install the php aerospike extension (using 7.2.0-in-progress branch until support for 7.2 on master)
     curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/aerospike/aerospike-client-php/archive/7.2.0-in-progress.tar.gz" \
     && mkdir -p aerospike-client-php \
@@ -239,10 +236,7 @@ RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
         && make install \
     ) \
     && rm /tmp/aerospike-client-php.tar.gz \
-;fi
-
-RUN if [ ${INSTALL_AEROSPIKE} = false ]; then \
-    rm /usr/local/etc/php/conf.d/aerospike.ini \
+    && docker-php-ext-enable aerospike \
 ;fi
 
 #####################################
