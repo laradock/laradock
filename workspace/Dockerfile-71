@@ -384,6 +384,7 @@ RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
     apt-get update -yqq && \
     apt-get -y install sudo wget && \
     # Install the php aerospike extension
+    COPY aerospike.ini /etc/php/7.1/cli/conf.d/aerospike.ini && \
     curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/aerospike/aerospike-client-php/archive/master.tar.gz" \
     && mkdir -p aerospike-client-php \
     && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
@@ -394,7 +395,6 @@ RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
         && make install \
     ) \
     && rm /tmp/aerospike-client-php.tar.gz \
-    && docker-php-ext-enable aerospike \
 ;fi
 
 #####################################
