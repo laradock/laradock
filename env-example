@@ -137,6 +137,9 @@ NGINX_HOST_LOG_PATH=./logs/nginx/
 NGINX_SITES_PATH=./nginx/sites/
 NGINX_PHP_UPSTREAM_CONTAINER=php-fpm
 NGINX_PHP_UPSTREAM_PORT=9000
+#if want generated self signed certified set to true
+NGINX_SSL_INSTALL=false
+NGINX_SSL_PATH=./nginx/ssl
 
 ### APACHE #############################################################################################################
 

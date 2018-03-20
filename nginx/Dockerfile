@@ -24,6 +24,14 @@ ARG PHP_UPSTREAM_PORT=9000
 RUN echo "upstream php-upstream { server ${PHP_UPSTREAM_CONTAINER}:${PHP_UPSTREAM_PORT}; }" > /etc/nginx/conf.d/upstream.conf \
     && rm /etc/nginx/conf.d/default.conf
 
+ARG NGINX_SSL_INSTALL=false
+ENV NGINX_SSL_INSTALL ${NGINX_SSL_INSTALL}
+RUN if [ ${NGINX_SSL_INSTALL} = true ]; then \
+     apk add --no-cache openssl  \
+    && apk update \
+    && mkdir /etc/nginx/ssl \
+;fi
+
 CMD ["nginx"]
 
 EXPOSE 80 443
