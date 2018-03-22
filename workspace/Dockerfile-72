@@ -54,7 +54,7 @@ ENV PUID ${PUID}
 ENV PGID ${PGID}
 
 RUN groupadd -g ${PGID} laradock && \
-    useradd -u ${PUID} -g laradock -m laradock
+    useradd -u ${PUID} -g laradock -m laradock -G docker_env
 
 #####################################
 # SOAP:
