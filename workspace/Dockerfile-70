@@ -153,6 +153,7 @@ COPY ./aliases.sh /home/laradock/aliases.sh
 
 RUN sed -i 's/\r//' /root/aliases.sh && \
     sed -i 's/\r//' /home/laradock/aliases.sh && \
+    chown laradock:laradock /home/laradock/aliases.sh && \
     echo "" >> ~/.bashrc && \
     echo "# Load Custom Aliases" >> ~/.bashrc && \
     echo "source ~/aliases.sh" >> ~/.bashrc && \
