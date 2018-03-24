@@ -302,11 +302,11 @@ RUN if [ ${INSTALL_LDAP} = true ]; then \
 #####################################
 ARG INSTALL_MSSQL=false
 ENV INSTALL_MSSQL ${INSTALL_MSSQL}
-
-RUN if [ ${INSTALL_MSSQL} = true ]; then \
-    apt-get -y install php5-sybase freetds-bin && \
-    cp /usr/lib/php5/20131226/*.so /usr/local/lib/php/extensions/no-debug-non-zts-20131226/ && \
-    docker-php-ext-enable mssql pdo pdo_dblib \
+RUN set -eux; if [ ${INSTALL_MSSQL} = true ]; then \
+    apt-get -y install php5-sybase freetds-bin \
+    && cp /usr/lib/php5/20131226/*.so /usr/local/lib/php/extensions/no-debug-non-zts-20131226/ \
+    && docker-php-ext-enable pdo_dblib mssql \
+    && php -m | grep -q 'mssql' \
 ;fi
 
 #####################################
