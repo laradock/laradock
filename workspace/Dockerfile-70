@@ -536,7 +536,7 @@ RUN if [ ${INSTALL_LINUXBREW} = true ]; then \
 ARG INSTALL_MSSQL=true
 ENV INSTALL_MSSQL ${INSTALL_MSSQL}
 
-RUN if [ ${INSTALL_MSSQL} = true ]; then \
+RUN set -eux; if [ ${INSTALL_MSSQL} = true ]; then \
     #####################################
     #  The following steps were taken from
     #  https://github.com/Microsoft/msphpsql/wiki/Install-and-configuration
@@ -563,6 +563,8 @@ RUN if [ ${INSTALL_MSSQL} = true ]; then \
     locale-gen && \
     echo "extension=sqlsrv.so"     > /etc/php/7.0/cli/conf.d/20-sqlsrv.ini && \
     echo "extension=pdo_sqlsrv.so" > /etc/php/7.0/cli/conf.d/20-pdo_sqlsrv.ini \
+    && php -m | grep -q 'sqlsrv' \
+    && php -m | grep -q 'pdo_sqlsrv' \
 ;fi
 
 #####################################
