@@ -540,9 +540,12 @@ RUN if [ ${INSTALL_LINUXBREW} = true ]; then \
 ARG INSTALL_MSSQL=false
 ENV INSTALL_MSSQL ${INSTALL_MSSQL}
 
-RUN if [ ${INSTALL_MSSQL} = true ]; then \
+RUN set -eux; if [ ${INSTALL_MSSQL} = true ]; then \
     apt-get -y install php5.6-sybase freetds-bin freetds-common libsybdb5 \
+    && echo "extension=mssql.so" > /etc/php/5.6/cli/conf.d/20-mssql.ini \
     && echo "extension=pdo_dblib.so" > /etc/php/5.6/cli/conf.d/20-pdo_dblib.ini \
+    && php -m | grep -q 'mssql' \
+    && php -m | grep -q 'pdo_dblib' \
 ;fi
 
 #####################################
