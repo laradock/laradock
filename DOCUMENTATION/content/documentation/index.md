@@ -1094,7 +1094,18 @@ To change the default forwarded port for ssh:
     ...
 ```
 
+Then login using:
 
+```bash
+ssh -o PasswordAuthentication=no    \
+    -o StrictHostKeyChecking=no     \
+    -o UserKnownHostsFile=/dev/null \
+    -p 2222                         \
+    -i workspace/insecure_id_rsa    \
+    laradock@localhost
+```
+
+To login as root, replace laradock@locahost with root@localhost.
 
 <br>
 <a name="Change-the-MySQL-Version"></a>
