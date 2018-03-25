@@ -173,6 +173,7 @@ services:
           - PHP_UPSTREAM_CONTAINER=${APACHE_PHP_UPSTREAM_CONTAINER}
           - PHP_UPSTREAM_PORT=${APACHE_PHP_UPSTREAM_PORT}
           - PHP_UPSTREAM_TIMEOUT=${APACHE_PHP_UPSTREAM_TIMEOUT}
+          - DOCUMENT_ROOT=${APACHE_DOCUMENT_ROOT}
       volumes_from:
         - applications
       volumes:

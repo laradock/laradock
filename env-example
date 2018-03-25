@@ -147,6 +147,7 @@ APACHE_SITES_PATH=./apache2/sites
 APACHE_PHP_UPSTREAM_CONTAINER=php-fpm
 APACHE_PHP_UPSTREAM_PORT=9000
 APACHE_PHP_UPSTREAM_TIMEOUT=60
+APACHE_DOCUMENT_ROOT=/var/www/
 
 ### MYSQL ##############################################################################################################
 
