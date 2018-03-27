@@ -8,7 +8,14 @@ cd "$(dirname "$0")/.."
 
 echo "==> Fetching updates form git..."
 git pull
-git submodule update --remote
+repos="`cat script/.repos.lst`"
+for repo in ${repos[@]}
+do
+    cd ${repo}
+    git checkout master
+    git pull
+    cd ..
+done
 
 script/setenv
 
