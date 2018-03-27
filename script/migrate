@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# script/bootstrap: Resolve all dependencies that the application requires to
+#                   run.
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+echo "==> Start workspace container..."
+docker-compose up -d workspace
+
+echo "==> Waiting for DB..."
+while ! docker-compose exec postgres pg_isready 2>&1 | grep 'accepting'; do
+    sleep 1
+done
+
+echo "==> Migrating DB..."
+docker-compose exec --user=laradock workspace bash -c 'cd internal-october && php artisan october:up'
+
+
+read -p "Do you want to load data from UAT? (y/n): " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    echo "==> Loading fresh DB base data from UAT..."
+    docker-compose exec --user=laradock workspace bash -c 'cd internal-october && php artisan dbtransfer:importtableset "Table Sets"'
+    docker-compose exec --user=laradock workspace bash -c 'cd internal-october && php artisan dbtransfer:importtableset "Base Tables"'
+fi
+echo "==> Stop workspace, redis and postgres containers..."
+docker-compose stop workspace redis postgres

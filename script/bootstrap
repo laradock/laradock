@@ -18,12 +18,4 @@ docker-compose exec --user=laradock workspace bash -c 'cd internal-october && co
 docker-compose exec --user=laradock workspace bash -c 'cd curriculum && composer install --no-progress'
 docker-compose exec --user=laradock workspace bash -c 'cd api && composer install --no-progress'
 
-echo "==> Migrating DB..."
-docker-compose exec --user=laradock workspace bash -c 'cd internal-october && php artisan october:up'
-
-echo "==> Loading fresh DB base data from UAT..."
-docker-compose exec --user=laradock workspace bash -c 'cd internal-october && php artisan dbtransfer:importtableset "Table Sets"'
-docker-compose exec --user=laradock workspace bash -c 'cd internal-october && php artisan dbtransfer:importtableset "Base Tables"'
-
-echo "==> Stop workspace, redis and postgres containers..."
-docker-compose stop workspace redis postgres
+script/migrate
