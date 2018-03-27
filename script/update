@@ -8,7 +8,7 @@ cd "$(dirname "$0")/.."
 
 echo "==> Fetching updates form git..."
 git pull
-repos="`cat script/z-repos.lst`"
+repos="`cat script/.repos.lst`"
 for repo in ${repos[@]}
 do
     cd ${repo}

@@ -54,7 +54,7 @@ function genCloneArg {
     fi
 }
 
-repos="`cat script/z-repos.lst`"
+repos="`cat script/.repos.lst`"
 for repo in ${repos[@]}
 do
     git clone $(genCloneArg $repo)
@@ -79,7 +79,7 @@ do
 done
 
 echo "==> Building images"
-services="`cat script/z-services.lst`"
+services="`cat script/.services.lst`"
 docker-compose build --pull $services
 
 script/bootstrap

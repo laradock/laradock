@@ -10,7 +10,7 @@ cd "$(dirname "$0")/.."
 echo "If you pulled changes running the update script first is strongly recommended!"
 echo
 echo "==> Starting services"
-services="`cat script/z-services.lst`"
+services="`cat script/.services.lst`"
 docker-compose up -d $services
 echo "==> Services Started "
 echo "Visit sites:"
