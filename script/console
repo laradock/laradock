@@ -29,7 +29,7 @@ if [ -n "$1" ]; then
             docker-compose exec php-fpm bash
         elif [ "$1" = "nginx" ]; then
             docker-compose exec nginx bash
-        elif [ "$1" = "campus-frtonend" ] || [ "$1" = "campus" ]; then
+        elif [ "$1" = "campus-frontend" ] || [ "$1" = "campus" ]; then
             docker-compose exec campus-frontend bash
         elif [ "$1" = "graphql" ] || [ "$1" = "kiron-graphql" ]; then
             docker-compose exec kiron-graphql sh
