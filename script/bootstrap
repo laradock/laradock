@@ -14,7 +14,7 @@ docker-compose up -d workspace
 sleep 1
 
 echo "==> Install dependencies..."
-docker-compose exec --user=laradock workspace bash -c 'cd internal-october && composer install --no-progress'
-docker-compose exec --user=laradock workspace bash -c 'cd api && composer install --no-progress'
+docker-compose exec --user=laradock workspace bash -c 'cd internal-october && composer install --no-progress --optimize-autoloader'
+docker-compose exec --user=laradock workspace bash -c 'cd api && composer install --no-progress --optimize-autoloader'
 
 script/migrate
