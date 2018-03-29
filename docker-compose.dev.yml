@@ -6,4 +6,4 @@ services:
 
     applications:
       volumes:
-        - ${APPLICATION}:/var/www
+        - ${APPLICATION}:/var/www:cached
