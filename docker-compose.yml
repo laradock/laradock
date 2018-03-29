@@ -162,7 +162,6 @@ services:
             aliases:
                 - api
                 - internal
-                - curriculum
 
 ### Blackfire Container #################################
 

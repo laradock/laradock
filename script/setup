@@ -28,7 +28,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
 fi
 
 
-domains=("internal" "curriculum" "api" "campus-frontend")
+domains=("internal" "api" "campus-frontend")
 
 set -e
 
