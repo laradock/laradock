@@ -389,6 +389,7 @@ services:
           - ./kiron-graphql/.flowconfig:/usr/src/app/.flowconfig
         ports:
           - "1337:1337"
+        env_file: .lpass-env
         environment:
           - API_URL=http://api/api/
           - "AUTH_TOKEN=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlz\
