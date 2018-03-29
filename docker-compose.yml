@@ -508,7 +508,6 @@ services:
       build: ./elasticsearch
       volumes:
         - elasticsearch-data:/usr/share/elasticsearch/data
-        - elasticsearch-plugins:/usr/share/elasticsearch/plugins
       environment:
         - cluster.name=laradock-cluster
         - bootstrap.memory_lock=true
@@ -747,6 +746,4 @@ volumes:
   caddy:
     driver: "local"
   elasticsearch-data:
-    driver: "local"
-  elasticsearch-plugins:
     driver: "local"
