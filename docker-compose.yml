@@ -373,7 +373,3 @@ volumes:
     driver: "local"
   redis:
     driver: "local"
-  elasticsearch-data:
-    driver: "local"
-  elasticsearch-plugins:
-    driver: "local"
