@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # script/server: Launch the application and any extra required processes
 #                locally.
@@ -11,7 +11,7 @@ echo "If you pulled changes running the update script first is strongly recommen
 echo
 echo "==> Starting services"
 services="`cat script/.services.lst`"
-docker-compose up -d $services
+docker-compose up  $services
 echo "==> Services Started "
 echo "Visit sites:"
 echo "           campus-frontend.app"
