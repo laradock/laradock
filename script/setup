@@ -57,7 +57,13 @@ function genCloneArg {
 repos="`cat script/.repos.lst`"
 for repo in ${repos[@]}
 do
-    git clone $(genCloneArg $repo)
+    if [ -d $repo ]; then
+      cd $repo
+      git checkout master
+      git pull
+    else
+      git clone $(genCloneArg $repo)
+    fi
 done
 
 script/setenv
