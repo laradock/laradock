@@ -11,7 +11,7 @@ echo "If you pulled changes running the update script first is strongly recommen
 echo
 echo "==> Starting services"
 services="`cat script/.services.lst`"
-docker-compose up  $services
+docker-compose up -d $services
 echo "==> Services Started "
 echo "Visit sites:"
 echo "           campus-frontend.app"
