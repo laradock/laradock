@@ -55,7 +55,7 @@ ENV PGID ${PGID}
 
 RUN groupadd -g ${PGID} laradock && \
     useradd -u ${PUID} -g laradock -m laradock -G docker_env && \
-    apt-get update -yqq
+    usermod -p "*" laradock
 
 #####################################
 # SOAP:
@@ -151,14 +151,23 @@ RUN chmod -R 644 /etc/cron.d
 #####################################
 USER root
 
+COPY ./aliases.sh /root/aliases.sh
 COPY ./aliases.sh /home/laradock/aliases.sh
+
+RUN sed -i 's/\r//' /root/aliases.sh && \
+    sed -i 's/\r//' /home/laradock/aliases.sh && \
+    chown laradock:laradock /home/laradock/aliases.sh && \
+    echo "" >> ~/.bashrc && \
+    echo "# Load Custom Aliases" >> ~/.bashrc && \
+    echo "source ~/aliases.sh" >> ~/.bashrc && \
+	echo "" >> ~/.bashrc
+
+USER laradock
+
 RUN echo "" >> ~/.bashrc && \
     echo "# Load Custom Aliases" >> ~/.bashrc && \
-    echo "source /home/laradock/aliases.sh" >> ~/.bashrc && \
-	echo "" >> ~/.bashrc && \
-	sed -i 's/\r//' /home/laradock/aliases.sh && \
-	sed -i 's/^#! \/bin\/sh/#! \/bin\/bash/' /home/laradock/aliases.sh && \
-    chown laradock:laradock /home/laradock/aliases.sh
+    echo "source ~/aliases.sh" >> ~/.bashrc && \
+	echo "" >> ~/.bashrc
 
 #####################################
 # xDebug:
@@ -199,8 +208,8 @@ RUN if [ ${INSTALL_XDEBUG} = false -a ${INSTALL_BLACKFIRE} = true ]; then \
 ARG INSTALL_WORKSPACE_SSH=false
 ENV INSTALL_WORKSPACE_SSH ${INSTALL_WORKSPACE_SSH}
 
-ADD insecure_id_rsa /tmp/id_rsa
-ADD insecure_id_rsa.pub /tmp/id_rsa.pub
+COPY insecure_id_rsa /tmp/id_rsa
+COPY insecure_id_rsa.pub /tmp/id_rsa.pub
 
 RUN if [ ${INSTALL_WORKSPACE_SSH} = true ]; then \
     rm -f /etc/service/sshd/down && \
@@ -384,15 +393,15 @@ RUN if [ ${INSTALL_YARN} = true ]; then \
 #####################################
 USER root
 
-ARG INSTALL_AEROSPIKE=true
+ARG INSTALL_AEROSPIKE=false
 ENV INSTALL_AEROSPIKE ${INSTALL_AEROSPIKE}
 
-# Copy aerospike configration for remote debugging
-COPY ./aerospike.ini /etc/php/5.6/cli/conf.d/aerospike.ini
-
 RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
+    # Fix dependencies for PHPUnit within aerospike extension
+    apt-get update -yqq && \
+    apt-get -y install sudo wget && \
     # Install the php aerospike extension
-    curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/aerospike/aerospike-client-php5/archive/3.4.15.tar.gz" \
+    curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/aerospike/aerospike-client-php5/archive/master.tar.gz" \
     && mkdir -p aerospike-client-php \
     && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
     && ( \
@@ -402,10 +411,9 @@ RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
         && make install \
     ) \
     && rm /tmp/aerospike-client-php.tar.gz \
-;fi
-
-RUN if [ ${INSTALL_AEROSPIKE} = false ]; then \
-    rm /etc/php/5.6/cli/conf.d/aerospike.ini \
+    && echo 'extension=aerospike.so' >> /etc/php/5.6/cli/conf.d/aerospike.ini \
+    && echo 'aerospike.udf.lua_system_path=/usr/local/aerospike/lua' >> /etc/php/5.6/cli/conf.d/aerospike.ini \
+    && echo 'aerospike.udf.lua_user_path=/usr/local/aerospike/usr-lua' >> /etc/php/5.6/cli/conf.d/aerospike.ini \
 ;fi
 
 #####################################
@@ -440,7 +448,7 @@ RUN echo "" >> ~/.bashrc && \
 #####################################
 USER laradock
 
-ARG INSTALL_LARAVEL_ENVOY=true
+ARG INSTALL_LARAVEL_ENVOY=false
 ENV INSTALL_LARAVEL_ENVOY ${INSTALL_LARAVEL_ENVOY}
 
 RUN if [ ${INSTALL_LARAVEL_ENVOY} = true ]; then \
@@ -460,7 +468,7 @@ RUN if [ ${COMPOSER_REPO_PACKAGIST} ]; then \
     composer config -g repo.packagist composer ${COMPOSER_REPO_PACKAGIST} \
 ;fi
 
-ARG INSTALL_LARAVEL_INSTALLER=true
+ARG INSTALL_LARAVEL_INSTALLER=false
 ENV INSTALL_LARAVEL_INSTALLER ${INSTALL_LARAVEL_INSTALLER}
 
 RUN if [ ${INSTALL_LARAVEL_INSTALLER} = true ]; then \
@@ -507,7 +515,6 @@ ARG INSTALL_LINUXBREW=true
 ENV INSTALL_LINUXBREW ${INSTALL_LINUXBREW}
 
 RUN if [ ${INSTALL_LINUXBREW} = true ]; then \
-
     # Preparation
     apt-get upgrade -y && \
     apt-get install -y build-essential make cmake scons curl git \
@@ -515,13 +522,10 @@ RUN if [ ${INSTALL_LINUXBREW} = true ]; then \
       gettext libtool flex bison \
       libbz2-dev libcurl4-openssl-dev \
       libexpat-dev libncurses-dev && \
-
     # Install the Linuxbrew
     git clone --depth=1 https://github.com/Homebrew/linuxbrew.git ~/.linuxbrew && \
-
     echo "" >> ~/.bashrc && \
     echo 'export PKG_CONFIG_PATH"=/usr/local/lib/pkgconfig:/usr/local/lib64/pkgconfig:/usr/lib64/pkgconfig:/usr/lib/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib64/pkgconfig:/usr/share/pkgconfig:$PKG_CONFIG_PATH"' >> ~/.bashrc && \
-
     # Setup linuxbrew
     echo 'export LINUXBREWHOME="$HOME/.linuxbrew"' >> ~/.bashrc && \
     echo 'export PATH="$LINUXBREWHOME/bin:$PATH"' >> ~/.bashrc && \
@@ -536,9 +540,12 @@ RUN if [ ${INSTALL_LINUXBREW} = true ]; then \
 ARG INSTALL_MSSQL=false
 ENV INSTALL_MSSQL ${INSTALL_MSSQL}
 
-RUN if [ ${INSTALL_MSSQL} = true ]; then \
+RUN set -eux; if [ ${INSTALL_MSSQL} = true ]; then \
     apt-get -y install php5.6-sybase freetds-bin freetds-common libsybdb5 \
+    && echo "extension=mssql.so" > /etc/php/5.6/cli/conf.d/20-mssql.ini \
     && echo "extension=pdo_dblib.so" > /etc/php/5.6/cli/conf.d/20-pdo_dblib.ini \
+    && php -m | grep -q 'mssql' \
+    && php -m | grep -q 'pdo_dblib' \
 ;fi
 
 #####################################
@@ -577,19 +584,15 @@ USER root
 ARG INSTALL_SYMFONY=false
 ENV INSTALL_SYMFONY ${INSTALL_SYMFONY}
 RUN if [ ${INSTALL_SYMFONY} = true ]; then \
-
   mkdir -p /usr/local/bin \
   && curl -LsS https://symfony.com/installer -o /usr/local/bin/symfony \
   && chmod a+x /usr/local/bin/symfony \
-
   #  Symfony 3 alias
   && echo 'alias dev="php bin/console -e=dev"' >> ~/.bashrc \
   && echo 'alias prod="php bin/console -e=prod"' >> ~/.bashrc \
-
   #  Symfony 2 alias
   #  && echo 'alias dev="php app/console -e=dev"' >> ~/.bashrc \
   #  && echo 'alias prod="php app/console -e=prod"' >> ~/.bashrc \
-
 ;fi
 
 #####################################
