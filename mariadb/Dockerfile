@@ -2,7 +2,7 @@ FROM mariadb:latest
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
-ADD my.cnf /etc/mysql/conf.d/my.cnf
+COPY my.cnf /etc/mysql/conf.d/my.cnf
 
 CMD ["mysqld"]
 

@@ -4,7 +4,7 @@ LABEL maintainer="DTUNES <diegotdai@gmai.com>"
 
 RUN chown -R mysql:root /var/lib/mysql/
 
-ADD my.cnf /etc/mysql/conf.d/my.cnf
+COPY my.cnf /etc/mysql/conf.d/my.cnf
 
 CMD ["mysqld"]
 

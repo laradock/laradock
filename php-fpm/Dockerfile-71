@@ -380,8 +380,8 @@ RUN php -v | head -n 1 | grep -q "PHP 7.1."
 #--------------------------------------------------------------------------
 #
 
-ADD ./laravel.ini /usr/local/etc/php/conf.d
-ADD ./xlaravel.pool.conf /usr/local/etc/php-fpm.d/
+COPY ./laravel.ini /usr/local/etc/php/conf.d
+COPY ./xlaravel.pool.conf /usr/local/etc/php-fpm.d/
 
 #RUN rm -r /var/lib/apt/lists/*
 

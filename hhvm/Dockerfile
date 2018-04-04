@@ -15,7 +15,7 @@ RUN apt-get update -y \
 
 RUN mkdir -p /var/www
 
-ADD server.ini /etc/hhvm/server.ini
+COPY server.ini /etc/hhvm/server.ini
 
 RUN usermod -u 1000 www-data
 
