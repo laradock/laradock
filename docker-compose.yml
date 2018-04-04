@@ -123,6 +123,8 @@ services:
           - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL}
       volumes_from:
         - applications
+      volumes:
+        - ./php-worker/supervisord.d:/etc/supervisord.d
       depends_on:
         - workspace
       extra_hosts:
