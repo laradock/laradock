@@ -62,6 +62,8 @@ services:
       ports:
         - "${WORKSPACE_SSH_PORT}:22"
       tty: true
+      environment:
+        - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
       networks:
         - frontend
         - backend
