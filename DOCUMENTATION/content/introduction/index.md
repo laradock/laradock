@@ -35,7 +35,7 @@ cp env-example .env
 3 - Run your containers:
 
 ```shell
-docker-compose up -d nginx mysql redis beanstalkd
+docker-compose up -d nginx mysql phpmyadmin redis workspace 
 ```
 
 4 - Open your project's `.env` file and set the following:

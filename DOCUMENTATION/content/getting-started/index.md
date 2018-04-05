@@ -161,7 +161,7 @@ We recommend using a Docker version which is newer than 1.13.
 cp env-example .env
 ```
 
-You can edit the `.env` file to chose which software's you want to be installed in your environment. You can always refer to the `docker-compose.yml` file to see how those variables are been used.
+You can edit the `.env` file to choose which software's you want to be installed in your environment. You can always refer to the `docker-compose.yml` file to see how those variables are been used.
 
 Depending on the host's operating system you may need to change the value given to `COMPOSE_FILE`. When you are running Laradock on Mac OS the correct file separator to use is `:`. When running Laradock from a Windows environment multiple files must be separated with `;`.
 
@@ -173,7 +173,7 @@ In this example we'll see how to run NGINX (web server) and MySQL (database engi
 docker-compose up -d nginx mysql
 ```
 
-**Note**: The `workspace` and `php-fpm` will run automatically in most of the cases, so no need to specify them in the `up` command. If you couldn't find them running then you need specify them as follow: `docker-compose up -d nginx php-fpm mysql workspace`.
+**Note**: The web servers `nginx`, `apache`.. all depend on `php-fpm`, means if you just run, them they will automatically run the `php-fpm` for you, so no need to specify them in the `up` command. If you don't see them running then you may need run them as follow: `docker-compose up -d nginx php-fpm mysql...`.
 
 
 You can select your own combination of containers from [this list](http://laradock.io/introduction/#supported-software-images).

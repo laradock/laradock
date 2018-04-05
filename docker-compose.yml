@@ -1,14 +1,48 @@
-version: '2'
+version: '3'
+
+networks:
+  frontend:
+    driver: ${NETWORKS_DRIVER}
+  backend:
+    driver: ${NETWORKS_DRIVER}
+
+volumes:
+  mysql:
+    driver: ${VOLUMES_DRIVER}
+  percona:
+    driver: ${VOLUMES_DRIVER}
+  mssql:
+    driver: ${VOLUMES_DRIVER}
+  postgres:
+    driver: ${VOLUMES_DRIVER}
+  memcached:
+    driver: ${VOLUMES_DRIVER}
+  redis:
+    driver: ${VOLUMES_DRIVER}
+  neo4j:
+    driver: ${VOLUMES_DRIVER}
+  mariadb:
+    driver: ${VOLUMES_DRIVER}
+  mongo:
+    driver: ${VOLUMES_DRIVER}
+  minio:
+    driver: ${VOLUMES_DRIVER}
+  rethinkdb:
+    driver: ${VOLUMES_DRIVER}
+  phpmyadmin:
+    driver: ${VOLUMES_DRIVER}
+  adminer:
+    driver: ${VOLUMES_DRIVER}
+  aerospike:
+    driver: ${VOLUMES_DRIVER}
+  caddy:
+    driver: ${VOLUMES_DRIVER}
+  elasticsearch:
+    driver: ${VOLUMES_DRIVER}
 
 services:
 
-### Applications Code Container #############################
-
-    applications:
-      image: tianon/true
-
-### Workspace Utilities Container ###########################
-
+### Workspace Utilities ##################################
     workspace:
       build:
         context: ./workspace
@@ -55,8 +89,8 @@ services:
           - BLACKFIRE_CLIENT_ID=${BLACKFIRE_CLIENT_ID}
           - BLACKFIRE_CLIENT_TOKEN=${BLACKFIRE_CLIENT_TOKEN}
         dockerfile: "Dockerfile-${PHP_VERSION}"
-      volumes_from:
-        - applications
+      volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       ports:
@@ -68,8 +102,7 @@ services:
         - frontend
         - backend
 
-### PHP-FPM Container #######################################
-
+### PHP-FPM ##############################################
     php-fpm:
       build:
         context: ./php-fpm
@@ -100,14 +133,11 @@ services:
           - INSTALL_IMAGE_OPTIMIZERS=${PHP_FPM_INSTALL_IMAGE_OPTIMIZERS}
           - INSTALL_IMAGEMAGICK=${PHP_FPM_INSTALL_IMAGEMAGICK}
         dockerfile: "Dockerfile-${PHP_VERSION}"
-      volumes_from:
-        - applications
       volumes:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
       expose:
         - "9000"
-      depends_on:
-        - workspace
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       environment:
@@ -115,17 +145,15 @@ services:
       networks:
         - backend
 
-### PHP Worker Container #####################################
-
+### PHP Worker ############################################
     php-worker:
       build:
         context: ./php-worker
         dockerfile: "Dockerfile-${PHP_VERSION}"
         args:
           - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL}
-      volumes_from:
-        - applications
       volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
         - ./php-worker/supervisord.d:/etc/supervisord.d
       depends_on:
         - workspace
@@ -134,17 +162,15 @@ services:
       networks:
         - backend
 
-### NGINX Server Container ##################################
-
+### NGINX Server #########################################
     nginx:
       build:
         context: ./nginx
         args:
           - PHP_UPSTREAM_CONTAINER=${NGINX_PHP_UPSTREAM_CONTAINER}
           - PHP_UPSTREAM_PORT=${NGINX_PHP_UPSTREAM_PORT}
-      volumes_from:
-        - applications
       volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
         - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
         - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
       ports:
@@ -156,8 +182,7 @@ services:
         - frontend
         - backend
 
-### Blackfire Container #################################
-
+### Blackfire ########################################
     blackfire:
       image: blackfire/blackfire
       environment:
@@ -168,8 +193,7 @@ services:
       networks:
         - backend
 
-### Apache Server Container #################################
-
+### Apache Server ########################################
     apache2:
       build:
         context: ./apache2
@@ -178,9 +202,8 @@ services:
           - PHP_UPSTREAM_PORT=${APACHE_PHP_UPSTREAM_PORT}
           - PHP_UPSTREAM_TIMEOUT=${APACHE_PHP_UPSTREAM_TIMEOUT}
           - DOCUMENT_ROOT=${APACHE_DOCUMENT_ROOT}
-      volumes_from:
-        - applications
       volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
         - ${APACHE_HOST_LOG_PATH}:/var/log/apache2
         - ${APACHE_SITES_PATH}:/etc/apache2/sites-available
       ports:
@@ -192,12 +215,11 @@ services:
         - frontend
         - backend
 
-### HHVM Container ##########################################
-
+### HHVM #################################################
     hhvm:
       build: ./hhvm
-      volumes_from:
-        - applications
+      volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
       expose:
         - "9000"
       depends_on:
@@ -206,13 +228,12 @@ services:
         - frontend
         - backend
 
-### Minio Container #########################################
-
+### Minio ################################################
     minio:
       build: ./minio
       volumes:
-        - ${DATA_SAVE_PATH}/minio/data:/export
-        - ${DATA_SAVE_PATH}/minio/config:/root/.minio
+        - ${DATA_PATH_HOST}/minio/data:/export
+        - ${DATA_PATH_HOST}/minio/config:/root/.minio
       ports:
         - "${MINIO_PORT}:9000"
       environment:
@@ -222,8 +243,7 @@ services:
         - frontend
         - backend
 
-### MySQL Container #########################################
-
+### MySQL ################################################
     mysql:
       build:
         context: ./mysql
@@ -236,15 +256,14 @@ services:
         - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
         - TZ=${WORKSPACE_TIMEZONE}
       volumes:
-        - ${DATA_SAVE_PATH}/mysql:/var/lib/mysql
+        - ${DATA_PATH_HOST}/mysql:/var/lib/mysql
         - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
       ports:
         - "${MYSQL_PORT}:3306"
       networks:
         - backend
 
-### Percona Container #########################################
-
+### Percona ################################################
     percona:
       build:
         context: ./percona
@@ -254,15 +273,14 @@ services:
         - MYSQL_PASSWORD=${PERCONA_PASSWORD}
         - MYSQL_ROOT_PASSWORD=${PERCONA_ROOT_PASSWORD}
       volumes:
-        - ${DATA_SAVE_PATH}/percona:/var/lib/mysql
+        - ${DATA_PATH_HOST}/percona:/var/lib/mysql
         - ${PERCONA_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
       ports:
         - "${PERCONA_PORT}:3306"
       networks:
         - backend
 
-### MSSQL Container #########################################
-
+### MSSQL ################################################
     mssql:
       build:
         context: ./mssql
@@ -271,18 +289,17 @@ services:
         - SA_PASSWORD=${MSSQL_PASSWORD}
         - ACCEPT_EULA=Y
       volumes:
-        - ${DATA_SAVE_PATH}/mssql:/var/opt/mssql
+        - ${DATA_PATH_HOST}/mssql:/var/opt/mssql
       ports:
         - "${MSSQL_PORT}:1433"
       networks:
         - backend
 
-### MariaDB Container #######################################
-
+### MariaDB ##############################################
     mariadb:
       build: ./mariadb
       volumes:
-        - ${DATA_SAVE_PATH}/mariadb:/var/lib/mysql
+        - ${DATA_PATH_HOST}/mariadb:/var/lib/mysql
         - ${MARIADB_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
       ports:
         - "${MARIADB_PORT}:3306"
@@ -294,12 +311,11 @@ services:
       networks:
         - backend
 
-### PostgreSQL Container ####################################
-
+### PostgreSQL ###########################################
     postgres:
       build: ./postgres
       volumes:
-        - ${DATA_SAVE_PATH}/postgres:/var/lib/postgresql/data
+        - ${DATA_PATH_HOST}/postgres:/var/lib/postgresql/data
       ports:
         - "${POSTGRES_PORT}:5432"
       environment:
@@ -309,12 +325,11 @@ services:
       networks:
         - backend
 
-### PostgreSQL PostGis Container ############################
-
+### PostgreSQL PostGis ###################################
     postgres-postgis:
       build: ./postgres-postgis
       volumes:
-        - ${DATA_SAVE_PATH}/postgres:/var/lib/postgresql/data
+        - ${DATA_PATH_HOST}/postgres:/var/lib/postgresql/data
       ports:
         - "${POSTGRES_PORT}:5432"
       environment:
@@ -324,8 +339,7 @@ services:
       networks:
         - backend
 
-### Neo4j Container #########################################
-
+### Neo4j ################################################
     neo4j:
       build: ./neo4j
       ports:
@@ -334,51 +348,46 @@ services:
       environment:
         - NEO4J_AUTH=default:secret
       volumes:
-        - ${DATA_SAVE_PATH}/neo4j:/var/lib/neo4j/data
+        - ${DATA_PATH_HOST}/neo4j:/var/lib/neo4j/data
       networks:
         - backend
 
-### MongoDB Container #######################################
-
+### MongoDB ##############################################
     mongo:
       build: ./mongo
       ports:
         - "${MONGODB_PORT}:27017"
       volumes:
-        - ${DATA_SAVE_PATH}/mongo:/data/db
+        - ${DATA_PATH_HOST}/mongo:/data/db
       networks:
         - backend
 
-### RethinkDB Container #######################################
-
+### RethinkDB ##############################################
     rethinkdb:
       build: ./rethinkdb
       ports:
         - "${RETHINKDB_PORT}:8080"
       volumes:
-        - ${DATA_SAVE_PATH}/rethinkdb:/data/rethinkdb_data
+        - ${DATA_PATH_HOST}/rethinkdb:/data/rethinkdb_data
       networks:
         - backend
 
-### Redis Container #########################################
-
+### Redis ################################################
     redis:
       build: ./redis
       volumes:
-        - ${DATA_SAVE_PATH}/redis:/data
+        - ${DATA_PATH_HOST}/redis:/data
       ports:
         - "${REDIS_PORT}:6379"
       networks:
         - backend
 
-### Aerospike c Container ###################################
-
+### Aerospike ##########################################
     aerospike:
       build: ./aerospike
-      volumes_from:
-        - workspace
       volumes:
-        - ${DATA_SAVE_PATH}/aerospike:/opt/aerospike/data
+        - workspace
+        - ${DATA_PATH_HOST}/aerospike:/opt/aerospike/data
       ports:
         - "${AEROSPIKE_SERVICE_PORT}:3000"
         - "${AEROSPIKE_FABRIC_PORT}:3001"
@@ -387,12 +396,11 @@ services:
       networks:
         - backend
 
-### Memcached Container #####################################
-
+### Memcached ############################################
     memcached:
       build: ./memcached
       volumes:
-        - ${DATA_SAVE_PATH}/memcached:/var/lib/memcached
+        - ${DATA_PATH_HOST}/memcached:/var/lib/memcached
       ports:
         - "${MEMCACHED_HOST_PORT}:11211"
       depends_on:
@@ -400,8 +408,7 @@ services:
       networks:
         - backend
 
-### Beanstalkd Container ####################################
-
+### Beanstalkd ###########################################
     beanstalkd:
       build: ./beanstalkd
       ports:
@@ -412,8 +419,7 @@ services:
       networks:
         - backend
 
-### RabbitMQ Container ######################################
-
+### RabbitMQ #############################################
     rabbitmq:
       build: ./rabbitmq
       ports:
@@ -429,8 +435,7 @@ services:
       networks:
         - backend
 
-### Beanstalkd Console Container ############################
-
+### Beanstalkd Console ###################################
     beanstalkd-console:
       build: ./beanstalkd-console
       ports:
@@ -440,16 +445,14 @@ services:
       networks:
         - backend
 
-### Caddy Server Container ##################################
-
+### Caddy Server #########################################
     caddy:
       build: ./caddy
-      volumes_from:
-        - applications
       volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
         - ${CADDY_CUSTOM_CADDYFILE}:/etc/Caddyfile
         - ${CADDY_HOST_LOG_PATH}:/var/log/caddy
-        - ${DATA_SAVE_PATH}:/root/.caddy
+        - ${DATA_PATH_HOST}:/root/.caddy
       ports:
         - "${CADDY_HOST_HTTP_PORT}:80"
         - "${CADDY_HOST_HTTPS_PORT}:443"
@@ -459,8 +462,7 @@ services:
         - frontend
         - backend
 
-### phpMyAdmin Container ####################################
-
+### phpMyAdmin ###########################################
     phpmyadmin:
       build: ./phpmyadmin
       environment:
@@ -476,8 +478,7 @@ services:
         - frontend
         - backend
 
-### Adminer Container ####################################
-
+### Adminer ###########################################
     adminer:
       build:
         context: ./adminer
@@ -491,14 +492,13 @@ services:
         - frontend
         - backend
 
-### pgAdmin Container #######################################
-
+### pgAdmin ##############################################
     pgadmin:
       build: ./pgadmin
       ports:
         - "5050:5050"
       volumes:
-        - ${DATA_SAVE_PATH}/pgadmin-backup:/var/lib/pgadmin/storage/pgadmin4
+        - ${DATA_PATH_HOST}/pgadmin-backup:/var/lib/pgadmin/storage/pgadmin4
       depends_on:
         - postgres
       networks:
@@ -506,12 +506,11 @@ services:
         - backend
 
 
-### ElasticSearch Container #################################
-
+### ElasticSearch ########################################
     elasticsearch:
       build: ./elasticsearch
       volumes:
-        - elasticsearch-data:/usr/share/elasticsearch/data
+        - elasticsearch:/usr/share/elasticsearch/data
       environment:
         - cluster.name=laradock-cluster
         - bootstrap.memory_lock=true
@@ -520,7 +519,6 @@ services:
         memlock:
           soft: -1
           hard: -1
-      mem_limit: 1024m
       ports:
         - "${ELASTICSEARCH_HOST_HTTP_PORT}:9200"
         - "${ELASTICSEARCH_HOST_TRANSPORT_PORT}:9300"
@@ -531,8 +529,7 @@ services:
         - backend
 
 
-### Kibana Container #######################################
-
+### Kibana ##############################################
     kibana:
       build: ./kibana
       ports:
@@ -543,22 +540,20 @@ services:
         - frontend
         - backend
 
-### Certbot Container ##################################
-
+### Certbot #########################################
     certbot:
       build:
         context: ./certbot
       volumes:
         - ./data/certbot/certs/:/var/certs
-        - ./certbot/letsencrypt/:/var/www/letsencrypt
+        - ./certbot/letsencrypt/:${APP_CODE_PATH_CONTAINER}/letsencrypt
       environment:
         - CN="fake.domain.com"
         - EMAIL="fake.email@gmail.com"
       networks:
         - frontend
 
-### Mailhog Container #########################################
-
+### Mailhog ################################################
     mailhog:
       build: ./mailhog
       ports:
@@ -568,8 +563,7 @@ services:
         - frontend
         - backend
 
-### MailDev Container #######################################
-
+### MailDev ##############################################
     maildev:
       build: ./maildev
       ports:
@@ -579,8 +573,7 @@ services:
         - frontend
         - backend
 
-### Selenium Container ########################################
-
+### Selenium ###############################################
     selenium:
       build: ./selenium
       ports:
@@ -590,8 +583,7 @@ services:
       networks:
         - frontend
 
-### Varnish Proxy 1 ##########################################
-
+### Varnish ##########################################
     proxy:
       build: ./varnish
       expose:
@@ -608,8 +600,6 @@ services:
         - workspace
       networks:
         - frontend
-
-### Varnish Proxy 2 ##########################################
 
     proxy2:
       build: ./varnish
@@ -628,8 +618,7 @@ services:
       networks:
         - frontend
 
-### HAProxy Load Balancer ####################################
-
+### HAProxy ####################################
     haproxy:
       build: ./haproxy
       ports:
@@ -641,7 +630,6 @@ services:
         - proxy2
 
 ### Jenkins ###################################################
-
     jenkins:
       build: ./jenkins
       environment:
@@ -657,13 +645,12 @@ services:
         - frontend
         - backend
 
-### Grafana Container #########################################
-
+### Grafana ################################################
     grafana:
       build:
         context: ./grafana
       volumes:
-        - ${DATA_SAVE_PATH}/grafana:/var/lib/grafana
+        - ${DATA_PATH_HOST}/grafana:/var/lib/grafana
       ports:
         - "${GRAFANA_PORT}:3000"
       networks:
@@ -683,8 +670,7 @@ services:
         - frontend
         - backend
         
-### Solr Container #########################################
-
+### Solr ################################################
     solr:
       build:
         context: ./solr
@@ -692,62 +678,18 @@ services:
           - SOLR_VERSION=${SOLR_VERSION}
           - SOLR_DATAIMPORTHANDLER_MYSQL=${SOLR_DATAIMPORTHANDLER_MYSQL}
       volumes:
-        - ${DATA_SAVE_PATH}/solr:/opt/solr/server/solr/mycores
+        - ${DATA_PATH_HOST}/solr:/opt/solr/server/solr/mycores
       ports:
         - "${SOLR_PORT}:8983"
       networks:
         - backend
 
-### AWS EB-CLI ####
+### AWS EB-CLI ################################################
     aws:
       build:
         context: ./aws
-      volumes_from:
-        - applications
+      volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
       depends_on:
         - workspace
       tty: true
-
-### Networks Setup ############################################
-
-networks:
-  frontend:
-    driver: "bridge"
-  backend:
-    driver: "bridge"
-
-### Volumes Setup #############################################
-
-volumes:
-  mysql:
-    driver: "local"
-  percona:
-    driver: "local"
-  mssql:
-    driver: "local"
-  postgres:
-    driver: "local"
-  memcached:
-    driver: "local"
-  redis:
-    driver: "local"
-  neo4j:
-    driver: "local"
-  mariadb:
-    driver: "local"
-  mongo:
-    driver: "local"
-  minio:
-    driver: "local"
-  rethinkdb:
-    driver: "local"
-  phpmyadmin:
-    driver: "local"
-  adminer:
-    driver: "local"
-  aerospike:
-    driver: "local"
-  caddy:
-    driver: "local"
-  elasticsearch-data:
-    driver: "local"

@@ -478,18 +478,14 @@ composer create-project laravel/laravel my-cool-app "5.2.*"
 For more about the Laravel installation click [here](https://laravel.com/docs/master#installing-laravel).
 
 
-3 - Edit `docker-compose.yml` to Map the new application path:
+3 - Edit `.env` to Map the new application path:
 
 By default, Laradock assumes the Laravel application is living in the parent directory of the laradock folder.
 
 Since the new Laravel application is in the `my-cool-app` folder, we need to replace `../:/var/www` with `../my-cool-app/:/var/www`, as follow:
 
-```yaml
-    application:
-		 image: tianon/true
-        volumes:
-            - ../my-cool-app/:/var/www
-    ...
+```dotenv
+  APP_CODE_PATH_HOST=../my-cool-app/
 ```
 4 - Go to that folder and start working..
 
@@ -1525,14 +1521,14 @@ Quick Setup giude, (we recommend you check their docs)
 You can use the d4m-nfs solution in 2 ways, one is using the Laradock built it integration, and the other is using the tool separatly. Below is show case of both methods:
 
 
-#### B.1: using the built in d4m-nfs integration
+### B.1: using the built in d4m-nfs integration
 
 In simple terms, docker-sync creates a docker container with a copy of all the application files that can be accessed very quickly from the other containers.
 On the other hand, docker-sync runs a process on the host machine that continuously tracks and updates files changes from the host to this intermediate container.
 
 Out of the box, it comes pre-configured for OS X, but using it on Windows is very easy to set-up by modifying the `DOCKER_SYNC_STRATEGY` on the `.env`
 
-##### Usage
+#### Usage
 
 Laradock comes with `sync.sh`, an optional bash script, that automates installing, running and stopping docker-sync.  Note that to run the bash script you may need to change the permissions `chmod 755 sync.sh`
 
@@ -1547,22 +1543,24 @@ Laradock comes with `sync.sh`, an optional bash script, that automates installin
 DOCKER_SYNC_STRATEGY=native_osx
 ```
 
-2) Install the docker-sync gem on the host-machine:
+3) set `APP_CODE_PATH_CONTAINER=/var/www` to `APP_CODE_PATH_CONTAINER=/var/www:nocopy` in the .env file
+
+4) Install the docker-sync gem on the host-machine:
 ```bash
 ./sync.sh install
 ```
-3) Start docker-sync and the Laradock environment.
+5) Start docker-sync and the Laradock environment.
 Specify the services you want to run, as you would normally do with `docker-compose up`
 ```bash
 ./sync.sh up nginx mysql
 ```
 Please note that the first time docker-sync runs, it will copy all the files to the intermediate container and that may take a very long time (15min+).
-4) To stop the environment and docker-sync do:
+6) To stop the environment and docker-sync do:
 ```bash
 ./sync.sh down
 ```
 
-##### Setting up Aliases (optional)
+#### Setting up Aliases (optional)
 
 You may create bash profile aliases to avoid having to remember and type these commands for everyday development.
 Add the following lines to your `~/.bash_profile`:
@@ -1576,7 +1574,7 @@ alias devdown="cd /PATH_TO_LARADOCK/laradock; ./sync.sh down"
 Now from any location on your machine, you can simply run `devup`, `devbash` and `devdown`.
 
 
-##### Additional Commands
+#### Additional Commands
 
 Opening bash on the workspace container (to run artisan for example):
  ```bash
@@ -1592,7 +1590,7 @@ Removing and cleaning up the files and the docker-sync container. Use only if yo
 ```
 
 
-##### Additional Notes
+#### Additional Notes
 
 - You may run laradock with or without docker-sync at any time using with the same `.env` and `docker-compose.yml`, because the configuration is overridden automatically when docker-sync is used.
 - You may inspect the `sync.sh` script to learn each of the commands and even add custom ones.
@@ -1609,7 +1607,7 @@ Visit the [docker-sync documentation](https://github.com/EugenMayer/docker-sync/
 
 <br>
 
-#### B.2: using the d4m-nfs tool
+### B.2: using the d4m-nfs tool
 
 [D4m-nfs](https://github.com/IFSight/d4m-nfs) automatically mount NFS volume instead of osxfs one.
 
