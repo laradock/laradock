@@ -47,6 +47,7 @@ services:
       build:
         context: ./workspace
         args:
+          - PHP_VERSION=${PHP_VERSION}
           - INSTALL_XDEBUG=${WORKSPACE_INSTALL_XDEBUG}
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
           - INSTALL_SOAP=${WORKSPACE_INSTALL_SOAP}
@@ -88,7 +89,6 @@ services:
           - TZ=${WORKSPACE_TIMEZONE}
           - BLACKFIRE_CLIENT_ID=${BLACKFIRE_CLIENT_ID}
           - BLACKFIRE_CLIENT_TOKEN=${BLACKFIRE_CLIENT_TOKEN}
-        dockerfile: "Dockerfile-${PHP_VERSION}"
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
       extra_hosts:
@@ -107,6 +107,7 @@ services:
       build:
         context: ./php-fpm
         args:
+          - PHP_VERSION=${PHP_VERSION}
           - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
           - INSTALL_SOAP=${PHP_FPM_INSTALL_SOAP}
@@ -132,7 +133,6 @@ services:
           - INSTALL_SWOOLE=${PHP_FPM_INSTALL_SWOOLE}
           - INSTALL_IMAGE_OPTIMIZERS=${PHP_FPM_INSTALL_IMAGE_OPTIMIZERS}
           - INSTALL_IMAGEMAGICK=${PHP_FPM_INSTALL_IMAGEMAGICK}
-        dockerfile: "Dockerfile-${PHP_VERSION}"
       volumes:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
@@ -149,8 +149,8 @@ services:
     php-worker:
       build:
         context: ./php-worker
-        dockerfile: "Dockerfile-${PHP_VERSION}"
         args:
+          - PHP_VERSION=${PHP_VERSION}
           - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL}
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}

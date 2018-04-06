@@ -215,53 +215,30 @@ The PHP-CLI extensions should be installed in `workspace/Dockerfile`.
 <br>
 <a name="Change-the-PHP-FPM-Version"></a>
 ## Change the (PHP-FPM) Version
-By default **PHP-FPM 7.0** is running.
+By default the latest stable PHP versin is configured to run.
 
 >The PHP-FPM is responsible of serving your application code, you don't have to change the PHP-CLI version if you are planning to run your application on different PHP-FPM version.
 
 
-### A) Switch from PHP `7.0` to PHP `5.6`
+### A) Switch from PHP `7.2` to PHP `5.6`
 
-1 - Open the `docker-compose.yml`.
+1 - Open the `.env`.
 
-2 - Search for `Dockerfile-70` in the PHP container section.
+2 - Search for `PHP_VERSION`.
 
-3 - Change the version number, by replacing `Dockerfile-70` with `Dockerfile-56`, like this:
+3 - Set the desired version number:
 
-```yml
-    php-fpm:
-        build:
-            context: ./php-fpm
-            dockerfile: Dockerfile-56
-    ...
+```dotenv
+PHP_VERSION=5.6
 ```
 
-4 - Finally rebuild the container
+4 - Finally rebuild the image
 
 ```bash
 docker-compose build php-fpm
 ```
 
 > For more details about the PHP base image, visit the [official PHP docker images](https://hub.docker.com/_/php/).
-
-
-### B) Switch from PHP `7.0` or `5.6` to PHP `5.5`
-
-We do not natively support PHP 5.5 anymore, but you can get it in few steps:
-
-1 - Clone `https://github.com/laradock/php-fpm`.
-
-3 - Rename `Dockerfile-56` to `Dockerfile-55`.
-
-3 - Edit the file `FROM php:5.6-fpm` to `FROM php:5.5-fpm`.
-
-4 - Build an image from `Dockerfile-55`.
-
-5 - Open the `docker-compose.yml` file.
-
-6 - Point `php-fpm` to your `Dockerfile-55` file.
-
-
 
 
 
@@ -273,11 +250,23 @@ By default **PHP-CLI 7.0** is running.
 
 >Note: it's not very essential to edit the PHP-CLI version. The PHP-CLI is only used for the Artisan Commands & Composer. It doesn't serve your Application code, this is the PHP-FPM job.
 
-The PHP-CLI is installed in the Workspace container. To change the PHP-CLI version you need to edit the `workspace/Dockerfile`.
+The PHP-CLI is installed in the Workspace container. To change the PHP-CLI version you need to simply change the `PHP_VERSION` in te .env file as follow:
 
-Right now you have to manually edit the `Dockerfile` or create a new one like it's done for the PHP-FPM. (consider contributing).
+1 - Open the `.env`.
 
+2 - Search for `PHP_VERSION`.
 
+3 - Set the desired version number:
+
+```dotenv
+PHP_VERSION=7.2
+```
+
+4 - Finally rebuild the image
+
+```bash
+docker-compose build workspace
+```
 
 
 
@@ -558,7 +547,6 @@ b) add a new service container by simply copy-paste this section below PHP-FPM c
     php-worker:
       build:
         context: ./php-worker
-        dockerfile: "Dockerfile-${PHP_VERSION}" #Dockerfile-71 or #Dockerfile-70 available
         args:
           - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL} #Optionally install PGSQL PHP drivers
       volumes_from:
