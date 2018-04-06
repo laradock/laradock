@@ -7,3 +7,5 @@ services:
     applications:
       volumes:
         - ${APPLICATION}:/var/www:cached
+        - ./.lpass-env:/var/www/api/.env
+        - ./.lpass-env:/var/www/internal-october/.env

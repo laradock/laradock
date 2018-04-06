@@ -70,9 +70,6 @@ services:
 ### PHP-FPM Container #######################################
 
     php-fpm:
-      env_file:
-          - ./services/env_file
-          - .lpass-env
       build:
         context: ./php-fpm
         args:
@@ -119,9 +116,6 @@ services:
 ### PHP Worker Container #####################################
 
     php-worker:
-      env_file:
-          - ./services/env_file
-          - .lpass-env
       build:
         context: ./php-worker
         dockerfile: "Dockerfile-${PHP_VERSION}"
@@ -309,22 +303,9 @@ services:
           - ./kiron-graphql/schema.graphql:/usr/src/app/schema.graphql
           - ./kiron-graphql/yarn.lock:/usr/src/app/yarn.lock
           - ./kiron-graphql/.flowconfig:/usr/src/app/.flowconfig
+          - ./.lpass-env:/usr/src/app/src/.env
         ports:
           - "1337:1337"
-        env_file: .lpass-env
-        environment:
-          - API_URL=http://api/api/
-          - "AUTH_TOKEN=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlz\
-            cyI6Imh0dHBzOi8vc2VydmljZXMvYXBpL2NhbGxiYWNrIiwiaWF0IjoxNDg3OTY2M\
-            jM0LCJleHAiOjI0ODc5Njk4MzQsIm5iZiI6MTQ4Nzk2NjIzNCwianRpIjoiNTUyYz\
-            kwYWQzYWYwMmMwZTQxNjAxNzA5N2Y1YmRlZTgifQ.dMYuOurZadzZb4tChKs7K9W3\
-            Zohy3f78V-WIdN_pe0w"
-          - JWT_SECRET=secret
-          - POSTGRES_PORT=${POSTGRES_PORT}
-          - POSTGRES_DB=${POSTGRES_DB}
-          - POSTGRES_USER=${POSTGRES_USER}
-          - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-          - POSTGRES_HOST=postgres
         networks:
           - frontend
           - backend
