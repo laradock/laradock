@@ -2,6 +2,7 @@
 /logs
 /data
 .env
+.tmp-env
 .lpass-env
 /.project
 .docker-sync
