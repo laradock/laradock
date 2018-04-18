@@ -297,29 +297,21 @@ Your PHPStorm will need to be able to receive a connection from PHP xdebug eithe
 - It is important to note that if the Application PHPStorm is NOT enabled in the firewall, you will not be able to recreate a rule to override that.
 - Also be aware that if you are installing/upgrade different versions of PHPStorm, you MAY have orphaned references to PHPStorm in your Firewall! You may decide to remove orphaned references however in either case, make sure that they are set to receive public TCP traffic.
 
-### Edit laradock/docker-compose.yml
+### Edit laradock/.env
 Set the following variables:
 ```
-### Workspace Utilities Container ###############
+###########################################################
+################ Containers Customization #################
+###########################################################
 
-    workspace:
-        build:
-            context: ./workspace
-            args:
-                - INSTALL_XDEBUG=true
-                - INSTALL_WORKSPACE_SSH=true
-                ...
-
-
-### PHP-FPM Container #####################
-
-    php-fpm:
-        build:
-            context: ./php-fpm
-            args:
-                - INSTALL_XDEBUG=true
-                ...
-
+### WORKSPACE #############################################
+...
+WORKSPACE_INSTALL_XDEBUG=true
+...
+### PHP_FPM ###############################################
+...
+PHP_FPM_INSTALL_XDEBUG=true
+...
 ```
 
 ### Edit xdebug.ini files
