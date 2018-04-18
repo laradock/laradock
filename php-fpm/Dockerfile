@@ -412,7 +412,13 @@ RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     rm /var/log/lastlog /var/log/faillog
 
+ARG PUID=1000
+ENV PUID ${PUID}
+
 RUN usermod -u 1000 www-data
+# hack because usermod -u ${PUID} will be freeze when you have a large uid (domain user)
+RUN sed -i -e "s/:1000:/:${PUID}:/g" /etc/passwd
+
 
 WORKDIR /var/www
 

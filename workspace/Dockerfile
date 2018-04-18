@@ -32,7 +32,7 @@ ARG PGID=1000
 ENV PGID ${PGID}
 
 RUN groupadd -g ${PGID} laradock && \
-    useradd -u ${PUID} -g laradock -m laradock -G docker_env && \
+    useradd -l -u ${PUID} -g laradock -m laradock -G docker_env && \
     usermod -p "*" laradock
 
 #
