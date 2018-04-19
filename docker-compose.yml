@@ -11,7 +11,6 @@ services:
 
     workspace:
       env_file:
-          - ./services/env_file
           - .lpass-env
       build:
         context: ./workspace
@@ -303,7 +302,7 @@ services:
           - ./kiron-graphql/schema.graphql:/usr/src/app/schema.graphql
           - ./kiron-graphql/yarn.lock:/usr/src/app/yarn.lock
           - ./kiron-graphql/.flowconfig:/usr/src/app/.flowconfig
-          - ./.lpass-env:/usr/src/app/src/.env
+          - ./.lpass-env:/usr/src/app/.env
         ports:
           - "1337:1337"
         networks:
