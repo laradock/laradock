@@ -828,7 +828,7 @@ docker-compose up -d elasticsearch
 
 2 - Open your browser and visit the localhost on port **9200**:  `http://localhost:9200`
 
-> The default username is `user` and the default password is `changeme`.
+> The default username is `elastic` and the default password is `changeme`.
 
 ### Install ElasticSearch Plugin
 
