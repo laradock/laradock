@@ -48,6 +48,7 @@ services:
         context: ./workspace
         args:
           - PHP_VERSION=${PHP_VERSION}
+          - AEROSPIKE_PHP_REPOSITORY=${AEROSPIKE_PHP_REPOSITORY}
           - INSTALL_XDEBUG=${WORKSPACE_INSTALL_XDEBUG}
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
           - INSTALL_SOAP=${WORKSPACE_INSTALL_SOAP}
@@ -109,6 +110,7 @@ services:
         context: ./php-fpm
         args:
           - PHP_VERSION=${PHP_VERSION}
+          - AEROSPIKE_PHP_REPOSITORY=${AEROSPIKE_PHP_REPOSITORY}
           - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
           - INSTALL_SOAP=${PHP_FPM_INSTALL_SOAP}
