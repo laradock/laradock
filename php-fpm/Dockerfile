@@ -232,6 +232,7 @@ RUN if [ ${INSTALL_EXIF} = true ]; then \
 USER root
 
 ARG INSTALL_AEROSPIKE=false
+ARG AEROSPIKE_PHP_REPOSITORY=${AEROSPIKE_PHP_REPOSITORY}
 
 RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
     # Fix dependencies for PHPUnit within aerospike extension
