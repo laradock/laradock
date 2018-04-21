@@ -316,7 +316,7 @@ services:
     postgres:
       build: ./postgres
       volumes:
-        - ${DATA_PATH_HOST}/postgres:/var/lib/postgresql/data
+        - d:${DATA_PATH_HOST}/postgres:/var/lib/postgresql/data
       ports:
         - "${POSTGRES_PORT}:5432"
       environment:
