@@ -170,7 +170,7 @@ Depending on the host's operating system you may need to change the value given 
 In this example we'll see how to run NGINX (web server) and MySQL (database engine) to host a PHP Web Scripts:
 
 ```bash
-docker-compose up -d nginx mysql
+docker-compose up -d nginx mysql workspace
 ```
 
 **Note**: The web servers `nginx`, `apache`.. all depend on `php-fpm`, means if you just run, them they will automatically run the `php-fpm` for you, so no need to specify them in the `up` command. If you don't see them running then you may need run them as follow: `docker-compose up -d nginx php-fpm mysql...`.
