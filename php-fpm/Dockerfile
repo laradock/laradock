@@ -410,7 +410,7 @@ RUN if [ ${INSTALL_NEW_RELIC_APM} = true ]; then \
     && sh -c 'echo "deb http://apt.newrelic.com/debian/ newrelic non-free" > /etc/apt/sources.list.d/newrelic.list' \
     && apt-get update \
     && apt-get install -y newrelic-php5 --no-install-recommends \
-    && newrelic-install install
+    && newrelic-install install \
 ;fi
 
 ###########################################################################
