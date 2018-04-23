@@ -288,7 +288,9 @@ RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
 ARG INSTALL_SWOOLE=false
 ARG PHP_VERSION=${PHP_VERSION}
 
-RUN if [ ${INSTALL_SWOOLE} = true && (${PHP_VERSION} == '5.6' || ${PHP_VERSION} == '5.5') ]; then \
+RUN echo ${PHP_VERSION};
+
+RUN if [ ${INSTALL_SWOOLE} = true ] && ( [ ${PHP_VERSION} = 5.6 ] || [ ${PHP_VERSION} = 5.5 ] ) ;then \
         # Install Php Swoole Extension
         pecl -q install swoole-2.0.11 && \
         echo "extension=swoole.so" >> /etc/php/${PHP_VERSION}/mods-available/swoole.ini && \

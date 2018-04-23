@@ -18,8 +18,6 @@ FROM laradock/php-fpm:2.2-${PHP_VERSION}
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
-ARG PHP_VERSION=${PHP_VERSION}
-
 #
 #--------------------------------------------------------------------------
 # Mandatory Software's Installation
@@ -128,7 +126,7 @@ RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
 
 ARG INSTALL_SWOOLE=false
 
-RUN if [ ${INSTALL_SWOOLE} = true && (${PHP_VERSION} == '5.6' || ${PHP_VERSION} == '5.5') ]; then \
+RUN if [ ${INSTALL_SWOOLE} = true ] && ( [ ${PHP_VERSION%.*} = 5.6 ] || [ ${PHP_VERSION%.*} = 5.5 ] ) ;then \
         # Install Php Swoole Extension for php5
         pecl install swoole-2.0.11 \
         &&  docker-php-ext-enable swoole; \
