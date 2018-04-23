@@ -85,10 +85,17 @@ RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
 
 ARG INSTALL_XDEBUG=false
 
-RUN if [ ${INSTALL_XDEBUG} = true ]; then \
-    # Install the xdebug extension
-    pecl install xdebug && \
-    docker-php-ext-enable xdebug \
+RUN if [ ${INSTALL_SWOOLE} = true ] && ( [ ${PHP_VERSION%.*} = 5.6 ] || [ ${PHP_VERSION%.*} = 5.5 ] ) ;then \
+        # Install the xdebug extension
+        # pecl install xdebug && docker-php-ext-enable xdebug \
+        # workaround for https://github.com/docker-library/php/issues/133
+        #     - Xdebug breaks on access to class static property
+        apt-get install -y php5-xdebug && \
+        echo "zend_extension=/usr/lib/php5/20131226/xdebug.so" > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    elif [ ${INSTALL_SWOOLE} = true ]; then \
+        # Install the xdebug extension
+        pecl install xdebug && \
+        docker-php-ext-enable xdebug \
 ;fi
 
 # Copy xdebug configuration for remote debugging
