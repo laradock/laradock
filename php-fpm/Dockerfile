@@ -389,6 +389,31 @@ RUN if [ ${INSTALL_IMAP} = true ]; then \
 ;fi
 
 ###########################################################################
+# New Relic APM Agent:
+###########################################################################
+
+USER root
+
+ARG INSTALL_NEW_RELIC_APM=false
+ARG NEW_RELIC_KEY=0
+ARG NEW_RELIC_SITE_NAME=""
+
+ENV ENVIRONMENT ${NEW_RELIC_SITE_NAME}
+ENV NR_INSTALL_SILENT true
+ENV NR_INSTALL_KEY ${NEW_RELIC_KEY}
+
+RUN if [ ${INSTALL_NEW_RELIC_APM} = true ]; then \
+    cd /opt \
+    && apt-get install -y wget --no-install-recommends \
+    && apt-get install -y gnupg --no-install-recommends \
+    && wget -O - https://download.newrelic.com/548C16BF.gpg | apt-key add - \
+    && sh -c 'echo "deb http://apt.newrelic.com/debian/ newrelic non-free" > /etc/apt/sources.list.d/newrelic.list' \
+    && apt-get update \
+    && apt-get install -y newrelic-php5 --no-install-recommends \
+    && newrelic-install install
+;fi
+
+###########################################################################
 # Check PHP version:
 ###########################################################################
 

@@ -975,6 +975,16 @@ docker-compose up -d grafana
 4 - Login using the credentials User = `admin` Passwort = `admin`. Change the password in the webinterface if you want to.
 
 
+<br>
+<a name="Use New Relic APM"></a>
+## Use New Relic APM
+
+1 - In the PHP-FPM section of your .env file set PHP_FPM_INSTALL_NEW_RELIC_APM to true
+
+2 - Also in the .env set the PHP_FPM_NEW_RELIC_KEY to your new relic key and NEW_RELIC_SITE_NAME to the name of your web site.
+
+3 - (Optional) If you have multiple sites then set each site name in the nginx site file. An example of setting the new relic property is in the example files.
+
 
 <br>
 <a name="CodeIgniter"></a>
