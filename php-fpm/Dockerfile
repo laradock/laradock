@@ -85,14 +85,14 @@ RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
 
 ARG INSTALL_XDEBUG=false
 
-RUN if [ ${INSTALL_SWOOLE} = true ] && ( [ ${PHP_VERSION%.*} = 5.6 ] || [ ${PHP_VERSION%.*} = 5.5 ] ) ;then \
+RUN if [ ${INSTALL_XDEBUG} = true ] && ( [ ${PHP_VERSION%.*} = 5.6 ] || [ ${PHP_VERSION%.*} = 5.5 ] ) ;then \
         # Install the xdebug extension
         # pecl install xdebug && docker-php-ext-enable xdebug \
         # workaround for https://github.com/docker-library/php/issues/133
         #     - Xdebug breaks on access to class static property
         apt-get install -y php5-xdebug && \
-        echo "zend_extension=/usr/lib/php5/20131226/xdebug.so" > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    elif [ ${INSTALL_SWOOLE} = true ]; then \
+        echo "zend_extension=/usr/lib/php5/20131226/xdebug.so" > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
+    elif [ ${INSTALL_XDEBUG} = true ]; then \
         # Install the xdebug extension
         pecl install xdebug && \
         docker-php-ext-enable xdebug \
@@ -199,6 +199,7 @@ ARG INSTALL_GMP=false
 
 RUN if [ ${INSTALL_GMP} = true ]; then \
     # Install the GMP extension
+    ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h && \
 	apt-get install -y libgmp-dev && \
     docker-php-ext-install gmp \
 ;fi
@@ -209,21 +210,25 @@ RUN if [ ${INSTALL_GMP} = true ]; then \
 
 ARG INSTALL_MEMCACHED=false
 
-RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
-    # Install the php memcached extension
-    curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz" \
-    && mkdir -p memcached \
-    && tar -C memcached -zxvf /tmp/memcached.tar.gz --strip 1 \
-    && ( \
-        cd memcached \
-        && phpize \
-        && ./configure \
-        && make -j$(nproc) \
-        && make install \
-    ) \
-    && rm -r memcached \
-    && rm /tmp/memcached.tar.gz \
-    && docker-php-ext-enable memcached \
+RUN if [ ${INSTALL_MEMCACHED} = true ] && ( [ ${PHP_VERSION%.*} = 5.6 ] || [ ${PHP_VERSION%.*} = 5.5 ] ) ;then \
+        # Install the php memcached extension
+        pecl install memcached-2.2.0 && \
+        docker-php-ext-enable memcached; \
+    elif [ ${INSTALL_MEMCACHED} = true ]; then \
+        # Install the php memcached extension
+        curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz" \
+        && mkdir -p memcached \
+        && tar -C memcached -zxvf /tmp/memcached.tar.gz --strip 1 \
+        && ( \
+            cd memcached \
+            && phpize \
+            && ./configure \
+            && make -j$(nproc) \
+            && make install \
+        ) \
+        && rm -r memcached \
+        && rm /tmp/memcached.tar.gz \
+        && docker-php-ext-enable memcached \
 ;fi
 
 ###########################################################################
@@ -244,22 +249,40 @@ RUN if [ ${INSTALL_EXIF} = true ]; then \
 USER root
 
 ARG INSTALL_AEROSPIKE=false
+ARG AEROSPIKE_PHP_REPOSITORY=${AEROSPIKE_PHP_REPOSITORY}
 
-RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
-    # Fix dependencies for PHPUnit within aerospike extension
-    apt-get -y install sudo wget && \
-    # Install the php aerospike extension
-    curl -L -o /tmp/aerospike-client-php.tar.gz ${AEROSPIKE_PHP_REPOSITORY} \
-    && mkdir -p aerospike-client-php \
-    && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
-    && ( \
-        cd aerospike-client-php/src \
-        && phpize \
-        && ./build.sh \
-        && make install \
-    ) \
-    && rm /tmp/aerospike-client-php.tar.gz \
-    && docker-php-ext-enable aerospike \
+RUN if [ ${INSTALL_SWOOLE} = true ] && ( [ ${PHP_VERSION%.*} = 5.6 ] || [ ${PHP_VERSION%.*} = 5.5 ] ) ;then \
+        # Fix dependencies for PHPUnit within aerospike extension
+        apt-get update -yqq && \
+        apt-get -y install sudo wget && \
+        # Install the php aerospike extension
+        curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/aerospike/aerospike-client-php5/archive/master.tar.gz" \
+        && mkdir -p aerospike-client-php \
+        && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
+        && ( \
+            cd aerospike-client-php/src \
+            && phpize \
+            && ./build.sh \
+            && make install \
+        ) \
+        && rm /tmp/aerospike-client-php.tar.gz \
+        && docker-php-ext-enable aerospike; \
+    elif [ ${INSTALL_SWOOLE} = true ]; then \
+        # Fix dependencies for PHPUnit within aerospike extension
+        apt-get update -yqq && \
+        apt-get -y install sudo wget && \
+        # Install the php aerospike extension
+        curl -L -o /tmp/aerospike-client-php.tar.gz ${AEROSPIKE_PHP_REPOSITORY} \
+        && mkdir -p aerospike-client-php \
+        && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
+        && ( \
+            cd aerospike-client-php/src \
+            && phpize \
+            && ./build.sh \
+            && make install \
+        ) \
+        && rm /tmp/aerospike-client-php.tar.gz \
+        && docker-php-ext-enable aerospike \
 ;fi
 
 ###########################################################################
@@ -341,24 +364,29 @@ RUN if [ ${INSTALL_LDAP} = true ]; then \
 
 ARG INSTALL_MSSQL=false
 
-RUN set -eux; if [ ${INSTALL_MSSQL} = true ]; then \
-    ###########################################################################
-    # Ref from https://github.com/Microsoft/msphpsql/wiki/Dockerfile-for-adding-pdo_sqlsrv-and-sqlsrv-to-official-php-image
-    ###########################################################################
-    # Add Microsoft repo for Microsoft ODBC Driver 13 for Linux
-    apt-get install -y apt-transport-https gnupg \
-    && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-    && curl https://packages.microsoft.com/config/debian/8/prod.list > /etc/apt/sources.list.d/mssql-release.list \
-    && apt-get update -yqq \
-    # Install Dependencies
-    && ACCEPT_EULA=Y apt-get install -y unixodbc unixodbc-dev libgss3 odbcinst msodbcsql locales \
-    && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
-    && locale-gen \
-    # Install pdo_sqlsrv and sqlsrv from PECL. Replace pdo_sqlsrv-4.1.8preview with preferred version.
-    && pecl install pdo_sqlsrv-4.1.8preview sqlsrv-4.1.8preview \
-    && docker-php-ext-enable pdo_sqlsrv sqlsrv \
-    && php -m | grep -q 'pdo_sqlsrv' \
-    && php -m | grep -q 'sqlsrv' \
+RUN set -eux; if [ ${INSTALL_MSSQL} = true ] && ( [ ${PHP_VERSION%.*} = 5.6 ] || [ ${PHP_VERSION%.*} = 5.5 ] ) ;then \
+        apt-get -y install php5-sybase freetds-bin \
+        && cp /usr/lib/php5/20131226/*.so /usr/local/lib/php/extensions/no-debug-non-zts-20131226/ \
+        && docker-php-ext-enable pdo_dblib mssql \
+        && php -m | grep -q 'mssql'; \
+    elif [ ${INSTALL_SWOOLE} = true ]; then \
+        ###########################################################################
+        # Ref from https://github.com/Microsoft/msphpsql/wiki/Dockerfile-for-adding-pdo_sqlsrv-and-sqlsrv-to-official-php-image
+        ###########################################################################
+        # Add Microsoft repo for Microsoft ODBC Driver 13 for Linux
+        apt-get install -y apt-transport-https gnupg \
+        && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+        && curl https://packages.microsoft.com/config/debian/8/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+        && apt-get update -yqq \
+        # Install Dependencies
+        && ACCEPT_EULA=Y apt-get install -y unixodbc unixodbc-dev libgss3 odbcinst msodbcsql locales \
+        && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
+        && locale-gen \
+        # Install pdo_sqlsrv and sqlsrv from PECL. Replace pdo_sqlsrv-4.1.8preview with preferred version.
+        && pecl install pdo_sqlsrv-4.1.8preview sqlsrv-4.1.8preview \
+        && docker-php-ext-enable pdo_sqlsrv sqlsrv \
+        && php -m | grep -q 'pdo_sqlsrv' \
+        && php -m | grep -q 'sqlsrv' \
 ;fi
 
 ###########################################################################
@@ -408,19 +436,17 @@ USER root
 
 ARG INSTALL_NEW_RELIC_APM=false
 ARG NEW_RELIC_KEY=0
-ARG NEW_RELIC_SITE_NAME=""
 
-ENV ENVIRONMENT ${NEW_RELIC_SITE_NAME}
 ENV NR_INSTALL_SILENT true
 ENV NR_INSTALL_KEY ${NEW_RELIC_KEY}
 
 RUN if [ ${INSTALL_NEW_RELIC_APM} = true ]; then \
     cd /opt \
-    && apt-get install -y wget --no-install-recommends \
-    && apt-get install -y gnupg --no-install-recommends \
+    && apt-get -qq update \
+    && apt-get install -y wget gnupg --no-install-recommends \
     && wget -O - https://download.newrelic.com/548C16BF.gpg | apt-key add - \
     && sh -c 'echo "deb http://apt.newrelic.com/debian/ newrelic non-free" > /etc/apt/sources.list.d/newrelic.list' \
-    && apt-get update \
+    && apt-get -qq update \
     && apt-get install -y newrelic-php5 --no-install-recommends \
     && newrelic-install install \
 ;fi

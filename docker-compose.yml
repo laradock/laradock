@@ -136,7 +136,6 @@ services:
           - INSTALL_IMAGEMAGICK=${PHP_FPM_INSTALL_IMAGEMAGICK}
           - INSTALL_NEW_RELIC_APM=${PHP_FPM_INSTALL_NEW_RELIC_APM}
           - NEW_RELIC_KEY=${PHP_FPM_NEW_RELIC_KEY}
-          - NEW_RELIC_SITE_NAME=${PHP_FPM_NEW_RELIC_SITE_NAME}
       volumes:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
