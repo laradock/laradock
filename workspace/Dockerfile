@@ -288,11 +288,16 @@ RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
 ARG INSTALL_SWOOLE=false
 ARG PHP_VERSION=${PHP_VERSION}
 
-RUN if [ ${INSTALL_SWOOLE} = true ]; then \
-    # Install Php Swoole Extension
-    pecl -q install swoole && \
-    echo "extension=swoole.so" >> /etc/php/${PHP_VERSION}/mods-available/swoole.ini && \
-    ln -s /etc/php/${PHP_VERSION}/mods-available/swoole.ini /etc/php/${PHP_VERSION}/cli/conf.d/20-swoole.ini \
+RUN if [ ${INSTALL_SWOOLE} = true && (${PHP_VERSION} == '5.6' || ${PHP_VERSION} == '5.5') ]; then \
+        # Install Php Swoole Extension
+        pecl -q install swoole-2.0.11 && \
+        echo "extension=swoole.so" >> /etc/php/${PHP_VERSION}/mods-available/swoole.ini && \
+        ln -s /etc/php/${PHP_VERSION}/mods-available/swoole.ini /etc/php/${PHP_VERSION}/cli/conf.d/20-swoole.ini \
+    elif [ ${INSTALL_SWOOLE} = true ]; then \
+        # Install Php Swoole Extension
+        pecl -q install swoole && \
+        echo "extension=swoole.so" >> /etc/php/${PHP_VERSION}/mods-available/swoole.ini && \
+        ln -s /etc/php/${PHP_VERSION}/mods-available/swoole.ini /etc/php/${PHP_VERSION}/cli/conf.d/20-swoole.ini \
 ;fi
 
 ###########################################################################

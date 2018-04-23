@@ -18,6 +18,8 @@ FROM laradock/php-fpm:2.2-${PHP_VERSION}
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
+ARG PHP_VERSION=${PHP_VERSION}
+
 #
 #--------------------------------------------------------------------------
 # Mandatory Software's Installation
@@ -126,10 +128,14 @@ RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
 
 ARG INSTALL_SWOOLE=false
 
-RUN if [ ${INSTALL_SWOOLE} = true ]; then \
-    # Install Php Swoole Extension
-    pecl install swoole \
-    &&  docker-php-ext-enable swoole \
+RUN if [ ${INSTALL_SWOOLE} = true && (${PHP_VERSION} == '5.6' || ${PHP_VERSION} == '5.5') ]; then \
+        # Install Php Swoole Extension for php5
+        pecl install swoole-2.0.11 \
+        &&  docker-php-ext-enable swoole \
+    elif [ ${INSTALL_SWOOLE} = true ]; then \
+        # Install Php Swoole Extension for >= php7
+        pecl install swoole \
+        &&  docker-php-ext-enable swoole \
 ;fi
 
 ###########################################################################
@@ -416,8 +422,6 @@ RUN if [ ${INSTALL_NEW_RELIC_APM} = true ]; then \
 ###########################################################################
 # Check PHP version:
 ###########################################################################
-
-ARG PHP_VERSION=${PHP_VERSION}
 
 RUN php -v | head -n 1 | grep -q "PHP ${PHP_VERSION}."
 
