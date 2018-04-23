@@ -131,7 +131,7 @@ ARG INSTALL_SWOOLE=false
 RUN if [ ${INSTALL_SWOOLE} = true && (${PHP_VERSION} == '5.6' || ${PHP_VERSION} == '5.5') ]; then \
         # Install Php Swoole Extension for php5
         pecl install swoole-2.0.11 \
-        &&  docker-php-ext-enable swoole \
+        &&  docker-php-ext-enable swoole; \
     elif [ ${INSTALL_SWOOLE} = true ]; then \
         # Install Php Swoole Extension for >= php7
         pecl install swoole \

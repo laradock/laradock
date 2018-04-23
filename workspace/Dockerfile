@@ -292,7 +292,7 @@ RUN if [ ${INSTALL_SWOOLE} = true && (${PHP_VERSION} == '5.6' || ${PHP_VERSION} 
         # Install Php Swoole Extension
         pecl -q install swoole-2.0.11 && \
         echo "extension=swoole.so" >> /etc/php/${PHP_VERSION}/mods-available/swoole.ini && \
-        ln -s /etc/php/${PHP_VERSION}/mods-available/swoole.ini /etc/php/${PHP_VERSION}/cli/conf.d/20-swoole.ini \
+        ln -s /etc/php/${PHP_VERSION}/mods-available/swoole.ini /etc/php/${PHP_VERSION}/cli/conf.d/20-swoole.ini; \
     elif [ ${INSTALL_SWOOLE} = true ]; then \
         # Install Php Swoole Extension
         pecl -q install swoole && \
