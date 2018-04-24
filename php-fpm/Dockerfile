@@ -276,7 +276,7 @@ RUN if [ ${INSTALL_AEROSPIKE} = true ] && ( [ ${PHP_VERSION%.*} = 5.6 ] || [ ${P
         && mkdir -p aerospike-client-php \
         && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
         && ( \
-            cd aerospike-client-php/src/aerospike \
+            cd aerospike-client-php/src \
             && phpize \
             && ./build.sh \
             && make install \
