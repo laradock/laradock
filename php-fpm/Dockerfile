@@ -435,12 +435,12 @@ RUN if [ ${INSTALL_IMAP} = true ]; then \
 USER root
 
 ARG INSTALL_NEW_RELIC_APM=false
-ARG NEW_RELIC_KEY=0
+ARG NEW_RELIC_KEY
 
 ENV NR_INSTALL_SILENT true
 ENV NR_INSTALL_KEY ${NEW_RELIC_KEY}
 
-RUN if [ ${INSTALL_NEW_RELIC_APM} = true ]; then \
+RUN if [ ${INSTALL_NEW_RELIC_APM} = true ] && [ -z ${NEW_RELIC_KEY} ]; then \
     cd /opt \
     && apt-get -qq update \
     && apt-get install -y wget gnupg --no-install-recommends \

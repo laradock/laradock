@@ -22,7 +22,9 @@ RUN apk --update add wget \
   libgsasl-dev \
   supervisor
 
-RUN docker-php-ext-install mysqli mbstring pdo pdo_mysql tokenizer xml
+# pdo removed from install as poined out in https://github.com/docker-library/php/issues/618 it is not needed
+# as pdo_mysql and pdo_pgsql both install it
+RUN docker-php-ext-install mysqli mbstring pdo_mysql tokenizer xml pcntl
 RUN pecl channel-update pecl.php.net && pecl install memcached mcrypt-1.0.1 && docker-php-ext-enable memcached
 
 # Install PostgreSQL drivers:
