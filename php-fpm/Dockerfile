@@ -251,7 +251,7 @@ USER root
 ARG INSTALL_AEROSPIKE=false
 ARG AEROSPIKE_PHP_REPOSITORY=${AEROSPIKE_PHP_REPOSITORY}
 
-RUN if [ ${INSTALL_SWOOLE} = true ] && ( [ ${PHP_VERSION%.*} = 5.6 ] || [ ${PHP_VERSION%.*} = 5.5 ] ) ;then \
+RUN if [ ${INSTALL_AEROSPIKE} = true ] && ( [ ${PHP_VERSION%.*} = 5.6 ] || [ ${PHP_VERSION%.*} = 5.5 ] ) ;then \
         # Fix dependencies for PHPUnit within aerospike extension
         apt-get update -yqq && \
         apt-get -y install sudo wget && \

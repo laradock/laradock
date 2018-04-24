@@ -240,6 +240,50 @@ RUN if [ ${INSTALL_WORKSPACE_SSH} = true ]; then \
 ;fi
 
 ###########################################################################
+# Drush:
+# Deprecated install of Drush 8 and earlier versions.
+# Drush 9 and up require Drush to be listed as a composer dependency of your site.
+###########################################################################
+
+USER root
+
+ARG INSTALL_DRUSH=false
+ARG DRUSH_VERSION=${DRUSH_VERSION}
+
+RUN if [ ${INSTALL_DRUSH} = true ]; then \
+    apt-get -yqq update && \
+    apt-get -y --no-install-recommends install mysql-client && \
+    curl -fsSL -o /usr/local/bin/drush https://github.com/drush-ops/drush/releases/download/${DRUSH_VERSION}/drush.phar | bash && \
+    chmod +x /usr/local/bin/drush && \
+    drush core-status \
+;fi
+
+###########################################################################
+# PHP V8JS:
+###########################################################################
+
+USER root
+
+ARG INSTALL_V8JS=false
+ARG PHP_VERSION=${PHP_VERSION}
+
+RUN if [ ${INSTALL_V8JS} = true ] && ( [ ${PHP_VERSION} = 5.6 ] || [ ${PHP_VERSION} = 5.5 ] ) ;then \
+        # Install the php V8JS extension
+        add-apt-repository -y ppa:pinepain/libv8-archived \
+        && apt-get update -yqq \
+        && apt-get install -y php5.6-xml php5.6-dev php-pear libv8-dev \
+        && pecl install v8js-0.6.4 \
+        && echo "extension=v8js.so" >> /etc/php/5.6/cli/php.ini; \
+    elif [ ${INSTALL_V8JS} = true ]; then \
+        # Install the php V8JS extension
+        add-apt-repository -y ppa:pinepain/libv8-archived \
+        && apt-get update -yqq \
+        && apt-get install -y php${PHP_VERSION}-xml php${PHP_VERSION}-dev php-pear libv8-5.4 \
+        && pecl install v8js \
+        && echo "extension=v8js.so" >> /etc/php/${PHP_VERSION}/cli/php.ini \
+;fi
+
+###########################################################################
 # MongoDB:
 ###########################################################################
 
@@ -298,24 +342,6 @@ RUN if [ ${INSTALL_SWOOLE} = true ] && ( [ ${PHP_VERSION} = 5.6 ] || [ ${PHP_VER
         pecl -q install swoole && \
         echo "extension=swoole.so" >> /etc/php/${PHP_VERSION}/mods-available/swoole.ini && \
         ln -s /etc/php/${PHP_VERSION}/mods-available/swoole.ini /etc/php/${PHP_VERSION}/cli/conf.d/20-swoole.ini \
-;fi
-
-###########################################################################
-# Drush:
-# Deprecated install of Drush 8 and earlier versions.
-# Drush 9 and up require Drush to be listed as a composer dependency of your site.
-###########################################################################
-
-USER root
-
-ARG INSTALL_DRUSH=false
-ARG DRUSH_VERSION=${DRUSH_VERSION}
-
-RUN if [ ${INSTALL_DRUSH} = true ]; then \
-    apt-get -y install mysql-client && \
-    curl -fsSL -o /usr/local/bin/drush https://github.com/drush-ops/drush/releases/download/${DRUSH_VERSION}/drush.phar | bash && \
-    chmod +x /usr/local/bin/drush && \
-    drush core-status \
 ;fi
 
 ###########################################################################
@@ -422,42 +448,44 @@ USER root
 
 ARG INSTALL_AEROSPIKE=false
 ARG PHP_VERSION=${PHP_VERSION}
+ARG AEROSPIKE_PHP_REPOSITORY=${AEROSPIKE_PHP_REPOSITORY}
 
-RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
-    # Fix dependencies for PHPUnit within aerospike extension
-    apt-get -y install sudo wget && \
-    # Install the php aerospike extension
-    curl -L -o /tmp/aerospike-client-php.tar.gz ${AEROSPIKE_PHP_REPOSITORY} \
-    && mkdir -p aerospike-client-php \
-    && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
-    && ( \
-        cd aerospike-client-php/src \
-        && phpize \
-        && ./build.sh \
-        && make install \
-    ) \
-    && rm /tmp/aerospike-client-php.tar.gz \
-    && echo 'extension=aerospike.so' >> /etc/php/${PHP_VERSION}/cli/conf.d/aerospike.ini \
-    && echo 'aerospike.udf.lua_system_path=/usr/local/aerospike/lua' >> /etc/php/${PHP_VERSION}/cli/conf.d/aerospike.ini \
-    && echo 'aerospike.udf.lua_user_path=/usr/local/aerospike/usr-lua' >> /etc/php/${PHP_VERSION}/cli/conf.d/aerospike.ini \
-;fi
-
-###########################################################################
-# PHP V8JS:
-###########################################################################
-
-USER root
-
-ARG INSTALL_V8JS=false
-ARG PHP_VERSION=${PHP_VERSION}
-
-RUN if [ ${INSTALL_V8JS} = true ]; then \
-    # Install the php V8JS extension
-    add-apt-repository -y ppa:pinepain/libv8-archived \
-    && apt-get update -yqq \
-    && apt-get install -y php${PHP_VERSION}-xml php${PHP_VERSION}-dev php-pear libv8-5.4 \
-    && pecl install v8js \
-    && echo "extension=v8js.so" >> /etc/php/${PHP_VERSION}/cli/php.ini \
+RUN if [ ${INSTALL_AEROSPIKE} = true ] && ( [ ${PHP_VERSION} = 5.6 ] || [ ${PHP_VERSION} = 5.5 ] ) ;then \
+        # Fix dependencies for PHPUnit within aerospike extension
+        apt-get update -yqq && \
+        apt-get -y install sudo wget && \
+        # Install the php aerospike extension
+        curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/aerospike/aerospike-client-php5/archive/master.tar.gz" \
+        && mkdir -p aerospike-client-php \
+        && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
+        && ( \
+            cd aerospike-client-php/src/aerospike \
+            && phpize \
+            && ./build.sh \
+            && make install \
+        ) \
+        && rm /tmp/aerospike-client-php.tar.gz \
+        && echo 'extension=aerospike.so' >> /etc/php/${PHP_VERSION}/cli/conf.d/aerospike.ini \
+        && echo 'aerospike.udf.lua_system_path=/usr/local/aerospike/lua' >> /etc/php/${PHP_VERSION}/cli/conf.d/aerospike.ini \
+        && echo 'aerospike.udf.lua_user_path=/usr/local/aerospike/usr-lua' >> /etc/php/${PHP_VERSION}/cli/conf.d/aerospike.ini; \
+    elif [ ${INSTALL_SWOOLE} = true ]; then \
+        # Fix dependencies for PHPUnit within aerospike extension
+        apt-get update -yqq && \
+        apt-get -y install sudo wget && \
+        # Install the php aerospike extension
+        curl -L -o /tmp/aerospike-client-php.tar.gz ${AEROSPIKE_PHP_REPOSITORY} \
+        && mkdir -p aerospike-client-php \
+        && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
+        && ( \
+            cd aerospike-client-php/src/aerospike \
+            && phpize \
+            && ./build.sh \
+            && make install \
+        ) \
+        && rm /tmp/aerospike-client-php.tar.gz \
+        && echo 'extension=aerospike.so' >> /etc/php/${PHP_VERSION}/cli/conf.d/aerospike.ini \
+        && echo 'aerospike.udf.lua_system_path=/usr/local/aerospike/lua' >> /etc/php/${PHP_VERSION}/cli/conf.d/aerospike.ini \
+        && echo 'aerospike.udf.lua_user_path=/usr/local/aerospike/usr-lua' >> /etc/php/${PHP_VERSION}/cli/conf.d/aerospike.ini \
 ;fi
 
 ###########################################################################
