@@ -288,8 +288,6 @@ RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
 ARG INSTALL_SWOOLE=false
 ARG PHP_VERSION=${PHP_VERSION}
 
-RUN echo ${PHP_VERSION};
-
 RUN if [ ${INSTALL_SWOOLE} = true ] && ( [ ${PHP_VERSION} = 5.6 ] || [ ${PHP_VERSION} = 5.5 ] ) ;then \
         # Install Php Swoole Extension
         pecl -q install swoole-2.0.11 && \
@@ -304,15 +302,17 @@ RUN if [ ${INSTALL_SWOOLE} = true ] && ( [ ${PHP_VERSION} = 5.6 ] || [ ${PHP_VER
 
 ###########################################################################
 # Drush:
+# Deprecated install of Drush 8 and earlier versions.
+# Drush 9 and up require Drush to be listed as a composer dependency of your site.
 ###########################################################################
 
 USER root
 
 ARG INSTALL_DRUSH=false
+ARG DRUSH_VERSION=${DRUSH_VERSION}
 
 RUN if [ ${INSTALL_DRUSH} = true ]; then \
     apt-get -y install mysql-client && \
-    # Install Drush 8 with the phar file.
     curl -fsSL -o /usr/local/bin/drush https://github.com/drush-ops/drush/releases/download/${DRUSH_VERSION}/drush.phar | bash && \
     chmod +x /usr/local/bin/drush && \
     drush core-status \
