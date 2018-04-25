@@ -282,30 +282,19 @@ RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
 ;fi
 
 ###########################################################################
-# Swoole EXTENSION
-###########################################################################
-
-ARG INSTALL_SWOOLE=false
-ARG PHP_VERSION=${PHP_VERSION}
-
-RUN if [ ${INSTALL_SWOOLE} = true ]; then \
-    # Install Php Swoole Extension
-    pecl -q install swoole && \
-    echo "extension=swoole.so" >> /etc/php/${PHP_VERSION}/mods-available/swoole.ini && \
-    ln -s /etc/php/${PHP_VERSION}/mods-available/swoole.ini /etc/php/${PHP_VERSION}/cli/conf.d/20-swoole.ini \
-;fi
-
-###########################################################################
 # Drush:
+# Deprecated install of Drush 8 and earlier versions.
+# Drush 9 and up require Drush to be listed as a composer dependency of your site.
 ###########################################################################
 
 USER root
 
 ARG INSTALL_DRUSH=false
+ARG DRUSH_VERSION=${DRUSH_VERSION}
 
 RUN if [ ${INSTALL_DRUSH} = true ]; then \
-    apt-get -y install mysql-client && \
-    # Install Drush 8 with the phar file.
+    apt-get -yqq update && \
+    apt-get -y --no-install-recommends install mysql-client && \
     curl -fsSL -o /usr/local/bin/drush https://github.com/drush-ops/drush/releases/download/${DRUSH_VERSION}/drush.phar | bash && \
     chmod +x /usr/local/bin/drush && \
     drush core-status \
@@ -415,24 +404,44 @@ USER root
 
 ARG INSTALL_AEROSPIKE=false
 ARG PHP_VERSION=${PHP_VERSION}
+ARG AEROSPIKE_PHP_REPOSITORY=${AEROSPIKE_PHP_REPOSITORY}
 
-RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
-    # Fix dependencies for PHPUnit within aerospike extension
-    apt-get -y install sudo wget && \
-    # Install the php aerospike extension
-    curl -L -o /tmp/aerospike-client-php.tar.gz ${AEROSPIKE_PHP_REPOSITORY} \
-    && mkdir -p aerospike-client-php \
-    && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
-    && ( \
-        cd aerospike-client-php/src \
-        && phpize \
-        && ./build.sh \
-        && make install \
-    ) \
-    && rm /tmp/aerospike-client-php.tar.gz \
-    && echo 'extension=aerospike.so' >> /etc/php/${PHP_VERSION}/cli/conf.d/aerospike.ini \
-    && echo 'aerospike.udf.lua_system_path=/usr/local/aerospike/lua' >> /etc/php/${PHP_VERSION}/cli/conf.d/aerospike.ini \
-    && echo 'aerospike.udf.lua_user_path=/usr/local/aerospike/usr-lua' >> /etc/php/${PHP_VERSION}/cli/conf.d/aerospike.ini \
+RUN if [ ${INSTALL_AEROSPIKE} = true ] && ( [ ${PHP_VERSION} = 5.6 ] || [ ${PHP_VERSION} = 5.5 ] ) ;then \
+        # Fix dependencies for PHPUnit within aerospike extension
+        apt-get update -yqq && \
+        apt-get -y install sudo wget && \
+        # Install the php aerospike extension
+        curl -L -o /tmp/aerospike-client-php.tar.gz "https://github.com/aerospike/aerospike-client-php5/archive/master.tar.gz" \
+        && mkdir -p aerospike-client-php \
+        && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
+        && ( \
+            cd aerospike-client-php/src/aerospike \
+            && phpize \
+            && ./build.sh \
+            && make install \
+        ) \
+        && rm /tmp/aerospike-client-php.tar.gz \
+        && echo 'extension=aerospike.so' >> /etc/php/${PHP_VERSION}/cli/conf.d/aerospike.ini \
+        && echo 'aerospike.udf.lua_system_path=/usr/local/aerospike/lua' >> /etc/php/${PHP_VERSION}/cli/conf.d/aerospike.ini \
+        && echo 'aerospike.udf.lua_user_path=/usr/local/aerospike/usr-lua' >> /etc/php/${PHP_VERSION}/cli/conf.d/aerospike.ini; \
+    elif [ ${INSTALL_AEROSPIKE} = true ]; then \
+        # Fix dependencies for PHPUnit within aerospike extension
+        apt-get update -yqq && \
+        apt-get -y install sudo wget && \
+        # Install the php aerospike extension
+        curl -L -o /tmp/aerospike-client-php.tar.gz ${AEROSPIKE_PHP_REPOSITORY} \
+        && mkdir -p aerospike-client-php \
+        && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
+        && ( \
+            cd aerospike-client-php/src \
+            && phpize \
+            && ./build.sh \
+            && make install \
+        ) \
+        && rm /tmp/aerospike-client-php.tar.gz \
+        && echo 'extension=aerospike.so' >> /etc/php/${PHP_VERSION}/cli/conf.d/aerospike.ini \
+        && echo 'aerospike.udf.lua_system_path=/usr/local/aerospike/lua' >> /etc/php/${PHP_VERSION}/cli/conf.d/aerospike.ini \
+        && echo 'aerospike.udf.lua_user_path=/usr/local/aerospike/usr-lua' >> /etc/php/${PHP_VERSION}/cli/conf.d/aerospike.ini \
 ;fi
 
 ###########################################################################
@@ -444,13 +453,20 @@ USER root
 ARG INSTALL_V8JS=false
 ARG PHP_VERSION=${PHP_VERSION}
 
-RUN if [ ${INSTALL_V8JS} = true ]; then \
-    # Install the php V8JS extension
-    add-apt-repository -y ppa:pinepain/libv8-archived \
-    && apt-get update -yqq \
-    && apt-get install -y php${PHP_VERSION}-xml php${PHP_VERSION}-dev php-pear libv8-5.4 \
-    && pecl install v8js \
-    && echo "extension=v8js.so" >> /etc/php/${PHP_VERSION}/cli/php.ini \
+RUN if [ ${INSTALL_V8JS} = true ] && ( [ ${PHP_VERSION} = 5.6 ] || [ ${PHP_VERSION} = 5.5 ] ) ;then \
+        # Install the php V8JS extension
+        add-apt-repository -y ppa:pinepain/libv8-archived \
+        && apt-get update -yqq \
+        && apt-get install -y php5.6-xml php5.6-dev php-pear libv8-dev \
+        && pecl install v8js-0.6.4 \
+        && echo "extension=v8js.so" >> /etc/php/5.6/cli/php.ini; \
+    elif [ ${INSTALL_V8JS} = true ]; then \
+        # Install the php V8JS extension
+        add-apt-repository -y ppa:pinepain/libv8-archived \
+        && apt-get update -yqq \
+        && apt-get install -y php${PHP_VERSION}-xml php${PHP_VERSION}-dev php-pear libv8-5.4 \
+        && pecl install v8js \
+        && echo "extension=v8js.so" >> /etc/php/${PHP_VERSION}/cli/php.ini \
 ;fi
 
 ###########################################################################
@@ -550,35 +566,41 @@ RUN if [ ${INSTALL_LINUXBREW} = true ]; then \
 ARG INSTALL_MSSQL=false
 ARG PHP_VERSION=${PHP_VERSION}
 
-RUN set -eux; if [ ${INSTALL_MSSQL} = true ]; then \
-    ###########################################################################
-    #  The following steps were taken from
-    #  https://github.com/Microsoft/msphpsql/wiki/Install-and-configuration
-    ###########################################################################
-    curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
-    curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
-    apt-get update -yqq && \
-    ACCEPT_EULA=Y apt-get install -yqq msodbcsql=13.0.1.0-1 mssql-tools=14.0.2.0-1 && \
-    apt-get install -yqq unixodbc-dev-utf16 && \
-    ln -sfn /opt/mssql-tools/bin/sqlcmd-13.0.1.0 /usr/bin/sqlcmd && \
-    ln -sfn /opt/mssql-tools/bin/bcp-13.0.1.0 /usr/bin/bcp && \
-    ACCEPT_EULA=Y apt-get install -yqq \
-        unixodbc \
-        unixodbc-dev \
-        libgss3 \
-        odbcinst \
-        msodbcsql \
-        locales && \
-    echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
-    locale-gen && \
-    pecl install sqlsrv-4.3.0 pdo_sqlsrv-4.3.0 && \
-    apt-get install -y locales && \
-    echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
-    locale-gen && \
-    echo "extension=sqlsrv.so"     > /etc/php/${PHP_VERSION}/cli/conf.d/20-sqlsrv.ini && \
-    echo "extension=pdo_sqlsrv.so" > /etc/php/${PHP_VERSION}/cli/conf.d/20-pdo_sqlsrv.ini \
-    && php -m | grep -q 'sqlsrv' \
-    && php -m | grep -q 'pdo_sqlsrv' \
+RUN set -eux; if [ ${INSTALL_MSSQL} = true ] && ( [ ${PHP_VERSION} = 5.6 ] || [ ${PHP_VERSION} = 5.5 ] ) ;then \
+        apt-get -y install php5.6-sybase freetds-bin freetds-common libsybdb5 \
+        && echo "extension=mssql.so" > /etc/php/5.6/cli/conf.d/20-mssql.ini \
+        && echo "extension=pdo_dblib.so" > /etc/php/5.6/cli/conf.d/20-pdo_dblib.ini \
+        && php -m | grep -q 'mssql' \
+        && php -m | grep -q 'pdo_dblib'; \
+    elif [ ${INSTALL_MSSQL} = true ]; then \
+        ###########################################################################
+        #  The following steps were taken from
+        #  https://github.com/Microsoft/msphpsql/wiki/Install-and-configuration
+        ###########################################################################
+        curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
+        curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
+        apt-get update -yqq && \
+        ACCEPT_EULA=Y apt-get install -yqq msodbcsql=13.0.1.0-1 mssql-tools=14.0.2.0-1 && \
+        apt-get install -yqq unixodbc-dev-utf16 && \
+        ln -sfn /opt/mssql-tools/bin/sqlcmd-13.0.1.0 /usr/bin/sqlcmd && \
+        ln -sfn /opt/mssql-tools/bin/bcp-13.0.1.0 /usr/bin/bcp && \
+        ACCEPT_EULA=Y apt-get install -yqq \
+            unixodbc \
+            unixodbc-dev \
+            libgss3 \
+            odbcinst \
+            msodbcsql \
+            locales && \
+        echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
+        locale-gen && \
+        pecl install sqlsrv-4.3.0 pdo_sqlsrv-4.3.0 && \
+        apt-get install -y locales && \
+        echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
+        locale-gen && \
+        echo "extension=sqlsrv.so"     > /etc/php/${PHP_VERSION}/cli/conf.d/20-sqlsrv.ini && \
+        echo "extension=pdo_sqlsrv.so" > /etc/php/${PHP_VERSION}/cli/conf.d/20-pdo_sqlsrv.ini \
+        && php -m | grep -q 'sqlsrv' \
+        && php -m | grep -q 'pdo_sqlsrv' \
 ;fi
 
 ###########################################################################
@@ -642,6 +664,7 @@ ARG INSTALL_PYTHON=false
 RUN if [ ${INSTALL_PYTHON} = true ]; then \
   apt-get -y install python python-pip python-dev build-essential  \
   && pip install --upgrade pip  \
+  && hash -r pip \
   && pip install --upgrade virtualenv \
 ;fi
 
@@ -718,6 +741,27 @@ RUN if [ ${INSTALL_DUSK_DEPS} = true ]; then \
 ARG PHP_VERSION=${PHP_VERSION}
 
 RUN php -v | head -n 1 | grep -q "PHP ${PHP_VERSION}."
+
+###########################################################################
+# Swoole EXTENSION
+# Make sure this runs after all other installs else you might experiense
+# segmentation faults
+###########################################################################
+
+ARG INSTALL_SWOOLE=false
+ARG PHP_VERSION=${PHP_VERSION}
+
+RUN if [ ${INSTALL_SWOOLE} = true ] && ( [ ${PHP_VERSION} = 5.6 ] || [ ${PHP_VERSION} = 5.5 ] ) ;then \
+        # Install Php Swoole Extension
+        pecl -q install swoole-2.0.11 && \
+        echo "extension=swoole.so" >> /etc/php/${PHP_VERSION}/mods-available/swoole.ini && \
+        ln -s /etc/php/${PHP_VERSION}/mods-available/swoole.ini /etc/php/${PHP_VERSION}/cli/conf.d/20-swoole.ini; \
+    elif [ ${INSTALL_SWOOLE} = true ]; then \
+        # Install Php Swoole Extension
+        pecl -q install swoole && \
+        echo "extension=swoole.so" >> /etc/php/${PHP_VERSION}/mods-available/swoole.ini && \
+        ln -s /etc/php/${PHP_VERSION}/mods-available/swoole.ini /etc/php/${PHP_VERSION}/cli/conf.d/20-swoole.ini \
+;fi
 
 #
 #--------------------------------------------------------------------------
