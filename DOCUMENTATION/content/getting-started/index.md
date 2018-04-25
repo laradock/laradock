@@ -165,6 +165,8 @@ You can edit the `.env` file to choose which software's you want to be installed
 
 Depending on the host's operating system you may need to change the value given to `COMPOSE_FILE`. When you are running Laradock on Mac OS the correct file separator to use is `:`. When running Laradock from a Windows environment multiple files must be separated with `;`.
 
+By default the containers that will be created have the current directory name as suffix (e.g. `laradock_workspace_1`). This can cause mixture of data inside the container volumes if you use laradock in multiple project. In this case, either read the guide for [multiple projects](#B) or change the variable `COMPOSE_PROJECT_NAME` to something unique like your project name.
+
 2 - Build the enviroment and run it using `docker-compose`
 
 In this example we'll see how to run NGINX (web server) and MySQL (database engine) to host a PHP Web Scripts:
