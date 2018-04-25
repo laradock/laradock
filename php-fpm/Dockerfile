@@ -440,7 +440,9 @@ ARG NEW_RELIC_KEY
 ENV NR_INSTALL_SILENT true
 ENV NR_INSTALL_KEY ${NEW_RELIC_KEY}
 
-RUN if [ ${INSTALL_NEW_RELIC_APM} = true ] && [ -z ${NEW_RELIC_KEY} ]; then \
+RUN echo ${NEW_RELIC_KEY}
+
+RUN if [ ${INSTALL_NEW_RELIC_APM} = true ] && [ ${NEW_RELIC_KEY:+1} ]; then \
     cd /opt \
     && apt-get -qq update \
     && apt-get install -y wget gnupg --no-install-recommends \
