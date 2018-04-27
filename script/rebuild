@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # script/update: Update and rebuild the while environment .
 

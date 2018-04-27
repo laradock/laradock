@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # script/stop: Stop all services
 

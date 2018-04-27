@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Changed from environment to service compared to official GitHub script
 # script/console: Launch a console for the application. Optionally allow an
