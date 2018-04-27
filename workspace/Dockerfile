@@ -682,7 +682,11 @@ ARG INSTALL_PG_CLIENT=false
 
 RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
     # Install the pgsql client
-    apt-get -y install postgresql-client \
+    apt-get install wget \
+    && add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main" \
+    && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
+    && apt-get update \
+    && apt-get -y install postgresql-client-10 \
 ;fi
 
 ###########################################################################
