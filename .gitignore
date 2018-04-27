@@ -6,8 +6,16 @@
 .lpass-env
 /.project
 .docker-sync
-/jenkins/jenkins_home
+
+# Repositories
 /apply-app
-/services
 /campus-frontend
+/deploy-campus-frontend
+/deploy-kiron-graphql
+/deploy-services
 /kiron-graphql
+/limesurvey
+/metabase
+/padileia-landing-page
+/phpbase
+/services

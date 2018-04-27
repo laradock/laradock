@@ -1,1 +1,1 @@
-apply-app campus-frontend kiron-graphql services
+apply-app campus-frontend deploy-campus-frontend deploy-kiron-graphql deploy-services kiron-graphql limesurvey metabase padileia-landing-page phpbase services
