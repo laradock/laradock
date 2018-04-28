@@ -1,0 +1,68 @@
+upstream faye_server {
+  server laradock.localhost:9292;
+}
+
+upstream staging {
+  server unix:/home/deploy/laradock.dev/current/tmp/sockets/unicorn-staging.socket fail_timeout=0;
+}
+
+server {
+  listen 443;
+  ssl on;
+  ssl_certificate     /etc/ssl/star_laradock_com.pem;
+  ssl_certificate_key /etc/ssl/laradock.key;
+
+  server_name laradock.localhost;
+  root /home/deploy/laradock.dev/current/public;
+
+  client_max_body_size 300M;
+  keepalive_timeout 120;
+  send_timeout 120;
+
+  error_page 500 /500.html;
+  try_files /system/maintenance.html $uri/index.html $uri @unicorn;
+
+  proxy_http_version 1.1;
+  chunked_transfer_encoding off;
+  proxy_buffering off;
+  proxy_cache off;
+
+  proxy_connect_timeout 43200000;
+  proxy_read_timeout    43200000;
+  proxy_send_timeout    43200000;
+
+  location ~ ^/(assets)/ {
+    root /home/deploy/laradock.dev/current/public;
+    gzip_static on;
+    expires 1y;
+    add_header Cache-Control public;
+    break;
+  }
+
+  location @unicorn {
+    proxy_set_header X-Forwarded-Proto https;
+    proxy_set_header X-Request-Start "t=${msec}000";
+    proxy_set_header X-Forwarded-Forr $proxy_add_x_forwarded_for;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header Host $http_host;
+    proxy_redirect off;
+    proxy_pass http://staging;
+  }
+
+  location /pub-sub {
+    proxy_set_header X-Real-IP  $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_redirect off;
+
+    proxy_pass http://faye_server;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+  }
+
+  if ($http_user_agent ~* (EasouSpider) ) {
+    return 403;
+  }
+
+}
