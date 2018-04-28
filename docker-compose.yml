@@ -1,4 +1,4 @@
-version: '3'
+version: '3.2'
 
 networks:
   frontend:
@@ -45,7 +45,7 @@ services:
 ### Workspace Utilities ##################################
     workspace:
       build:
-        context: ./workspace
+        context: ./docker/workspace
         args:
           - PHP_VERSION=${PHP_VERSION}
           - INSTALL_XDEBUG=${WORKSPACE_INSTALL_XDEBUG}
@@ -106,7 +106,7 @@ services:
 ### PHP-FPM ##############################################
     php-fpm:
       build:
-        context: ./php-fpm
+        context: ./docker/php-fpm
         args:
           - PHP_VERSION=${PHP_VERSION}
           - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
@@ -149,7 +149,7 @@ services:
 ### PHP Worker ############################################
     php-worker:
       build:
-        context: ./php-worker
+        context: ./docker/php-worker
         args:
           - PHP_VERSION=${PHP_VERSION}
           - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL}
@@ -166,7 +166,7 @@ services:
 ### NGINX Server #########################################
     nginx:
       build:
-        context: ./nginx
+        context: ./docker/nginx
         args:
           - PHP_UPSTREAM_CONTAINER=${NGINX_PHP_UPSTREAM_CONTAINER}
           - PHP_UPSTREAM_PORT=${NGINX_PHP_UPSTREAM_PORT}
@@ -197,7 +197,7 @@ services:
 ### Apache Server ########################################
     apache2:
       build:
-        context: ./apache2
+        context: ./docker/apache2
         args:
           - PHP_UPSTREAM_CONTAINER=${APACHE_PHP_UPSTREAM_CONTAINER}
           - PHP_UPSTREAM_PORT=${APACHE_PHP_UPSTREAM_PORT}
@@ -247,7 +247,7 @@ services:
 ### MySQL ################################################
     mysql:
       build:
-        context: ./mysql
+        context: ./docker/mysql
         args:
           - MYSQL_VERSION=${MYSQL_VERSION}
       environment:
@@ -267,7 +267,7 @@ services:
 ### Percona ################################################
     percona:
       build:
-        context: ./percona
+        context: ./docker/percona
       environment:
         - MYSQL_DATABASE=${PERCONA_DATABASE}
         - MYSQL_USER=${PERCONA_USER}
@@ -284,7 +284,7 @@ services:
 ### MSSQL ################################################
     mssql:
       build:
-        context: ./mssql
+        context: ./docker/mssql
       environment:
         - MSSQL_DATABASE=${MSSQL_DATABASE}
         - SA_PASSWORD=${MSSQL_PASSWORD}
@@ -482,7 +482,7 @@ services:
 ### Adminer ###########################################
     adminer:
       build:
-        context: ./adminer
+        context: ./docker/adminer
         args:
           - INSTALL_MSSQL=${ADM_INSTALL_MSSQL}
       ports:
@@ -544,7 +544,7 @@ services:
 ### Certbot #########################################
     certbot:
       build:
-        context: ./certbot
+        context: ./docker/certbot
       volumes:
         - ./data/certbot/certs/:/var/certs
         - ./certbot/letsencrypt/:${APP_CODE_PATH_CONTAINER}/letsencrypt
@@ -649,7 +649,7 @@ services:
 ### Grafana ################################################
     grafana:
       build:
-        context: ./grafana
+        context: ./docker/grafana
       volumes:
         - ${DATA_PATH_HOST}/grafana:/var/lib/grafana
       ports:
@@ -660,7 +660,7 @@ services:
 ### Laravel Echo Server #######################################
     laravel-echo-server:
       build:
-        context: ./laravel-echo-server
+        context: ./docker/laravel-echo-server
       volumes:
         - ./laravel-echo-server/laravel-echo-server.json:/app/laravel-echo-server.json:ro
       ports:
@@ -674,7 +674,7 @@ services:
 ### Solr ################################################
     solr:
       build:
-        context: ./solr
+        context: ./docker/solr
         args:
           - SOLR_VERSION=${SOLR_VERSION}
           - SOLR_DATAIMPORTHANDLER_MYSQL=${SOLR_DATAIMPORTHANDLER_MYSQL}
@@ -688,7 +688,7 @@ services:
 ### AWS EB-CLI ################################################
     aws:
       build:
-        context: ./aws
+        context: ./docker/aws
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
       depends_on:
