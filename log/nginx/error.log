@@ -1,0 +1,856 @@
+2018/04/02 07:01:56 [error] 10#10: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 172.29.0.1, server: laradock.localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://172.29.0.4:9000", host: "localhost:8081"
+2018/04/02 07:02:05 [error] 10#10: *5 connect() failed (111: Connection refused) while connecting to upstream, client: 172.29.0.1, server: laradock.localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://172.29.0.4:9000", host: "localhost:8081"
+2018/04/02 07:05:22 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:05:25 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:05:28 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:05:32 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:05:37 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:05:44 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:05:53 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:06:08 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:06:36 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:07:31 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:08:38 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:09:43 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:10:44 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:11:46 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:12:54 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:13:59 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:15:06 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:16:12 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:17:14 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:18:16 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:19:21 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:20:27 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:21:33 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:22:38 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:23:43 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:24:49 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:25:51 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:26:52 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:27:55 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:28:56 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:29:57 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:30:59 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:32:00 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:33:01 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:34:02 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:35:04 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:36:05 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:37:07 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:38:08 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:39:10 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:40:11 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:41:12 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:42:17 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:43:21 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:44:25 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:45:28 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:46:32 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:47:36 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:48:40 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:49:43 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:50:47 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:51:50 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:52:54 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:53:58 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:55:02 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:56:06 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:57:10 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:58:14 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 07:59:20 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 08:00:24 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 08:01:30 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 08:02:35 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 08:03:40 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 08:04:50 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 09:46:21 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 09:46:47 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 09:47:11 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 09:47:35 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 09:47:58 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:04:11 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:04:25 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:04:32 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:04:42 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:04:49 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:04:55 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:05:00 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:05:08 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:05:23 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:05:50 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:06:42 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:07:43 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:08:44 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:09:45 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:10:46 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:11:47 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:12:48 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:13:49 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:14:50 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:15:51 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:16:52 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:17:53 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:18:54 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:19:54 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:20:55 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:21:57 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:22:57 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:23:58 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:24:59 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:26:00 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:27:01 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:28:03 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:29:04 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:30:05 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:31:06 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:32:07 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:33:08 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:34:09 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:35:10 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:36:10 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:37:11 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:38:12 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:39:13 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:40:14 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:41:15 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:42:16 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:43:17 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:44:18 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:45:20 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:46:24 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:47:27 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:48:28 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:49:29 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:50:30 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:51:31 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:52:33 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:53:36 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:54:38 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:55:42 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:56:43 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:57:43 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:58:46 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 10:59:47 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:00:47 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:01:48 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:02:49 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:03:51 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:04:53 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:05:55 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:06:56 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:07:56 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:08:57 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:09:58 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:11:04 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:12:05 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:13:06 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:14:07 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:15:08 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:16:09 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:17:11 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:18:12 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:19:14 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:20:23 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:21:24 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:22:25 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:23:25 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:24:26 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:25:28 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:26:29 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:27:30 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:28:31 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:29:32 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:30:33 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:31:34 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:32:35 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:33:35 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:34:36 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:35:38 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:36:39 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:37:40 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:38:41 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:39:43 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:40:44 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:41:45 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:42:45 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:43:47 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:44:48 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:45:50 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:46:51 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:47:52 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:48:53 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:49:54 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:50:55 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:51:56 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:52:57 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:53:58 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:54:59 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:56:00 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:57:01 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:58:01 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 11:59:02 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:00:03 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:01:04 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:02:05 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:03:05 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:04:06 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:05:07 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:06:08 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:07:09 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:08:09 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:09:10 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:10:11 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:11:12 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:12:13 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:13:14 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:14:14 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:15:15 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:16:16 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:17:17 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:18:18 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:19:18 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:20:19 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:21:20 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:22:21 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:23:22 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:24:22 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:25:28 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:26:29 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:27:30 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:28:31 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:29:31 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:30:32 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:31:33 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:32:34 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:33:35 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:34:35 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:35:36 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:35:48 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:35:49 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:35:50 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:35:52 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:35:55 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:36:04 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:36:11 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:36:24 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:36:51 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:37:43 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:38:44 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:39:44 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:40:45 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:41:46 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:42:47 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:43:47 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:44:48 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:45:49 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:46:50 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:47:56 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:48:57 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:49:57 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:50:58 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:52:04 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:53:05 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:54:06 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:55:07 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:56:08 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:57:08 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:58:09 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 12:59:10 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:00:11 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:01:11 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:02:12 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:03:13 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:04:14 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:05:15 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:06:15 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:07:16 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:08:17 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:09:18 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:10:19 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:11:20 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:12:20 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:13:26 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:14:27 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:15:28 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:16:28 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:17:29 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:18:30 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:19:31 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:20:37 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:21:37 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:22:38 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:23:39 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:24:40 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:25:41 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:37:58 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:38:01 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:38:03 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:38:05 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:38:08 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:38:13 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:38:21 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:38:40 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:39:08 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:40:00 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:41:02 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:42:03 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:43:04 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:44:06 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:45:08 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:46:10 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:49:34 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:49:38 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:49:41 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:49:44 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:49:47 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:49:51 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:50:01 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:50:11 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 13:57:16 [error] 11#11: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 13:57:22 [error] 8#8: *2 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 14:09:32 [error] 12#12: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 14:50:20 [error] 9#9: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 15:28:00 [error] 11#11: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 15:28:16 [error] 8#8: *3 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 15:28:16 [error] 12#12: *4 open() "/etc/nginx/html/robots.txt" failed (2: No such file or directory), client: 172.29.0.1, server: , request: "GET /robots.txt HTTP/1.1", host: "localhost:8081"
+2018/04/02 15:28:17 [error] 8#8: *3 open() "/etc/nginx/html/favicon.ico" failed (2: No such file or directory), client: 172.29.0.1, server: , request: "GET /favicon.ico HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/"
+2018/04/02 15:30:46 [error] 12#12: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 15:30:52 [error] 12#12: *2 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 15:44:15 [error] 13#13: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 15:47:56 [error] 9#9: *3 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 15:51:01 [error] 11#11: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 16:01:00 [error] 12#12: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 16:01:14 [error] 12#12: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 16:06:31 [error] 9#9: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 16:09:10 [error] 12#12: *2 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 16:09:15 [error] 13#13: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 16:40:08 [error] 8#8: *3 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 16:40:08 [error] 8#8: *5 open() "/etc/nginx/html/robots.txt" failed (2: No such file or directory), client: 172.29.0.1, server: , request: "GET /robots.txt HTTP/1.1", host: "localhost:8081"
+2018/04/02 16:40:39 [error] 8#8: *3 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 16:41:09 [error] 11#11: *8 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 16:41:18 [error] 11#11: *8 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 16:41:21 [error] 11#11: *8 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 16:43:34 [error] 10#10: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 16:43:35 [error] 10#10: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 16:43:36 [error] 10#10: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 16:43:36 [error] 10#10: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 16:43:36 [error] 10#10: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 16:43:36 [error] 10#10: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 16:43:36 [error] 10#10: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 16:59:44 [error] 9#9: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 17:06:30 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 17:06:35 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 17:06:40 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 17:06:44 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 17:06:46 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:20
+2018/04/02 17:06:51 [error] 14#14: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 17:46:41 [error] 7#7: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 17:46:45 [error] 7#7: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 17:47:01 [error] 13#13: *2 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 17:47:03 [error] 11#11: *4 open() "/etc/nginx/html/robots.txt" failed (2: No such file or directory), client: 172.29.0.1, server: , request: "GET /robots.txt HTTP/1.1", host: "localhost:8081"
+2018/04/02 18:13:24 [error] 7#7: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 18:13:27 [error] 7#7: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 18:13:40 [error] 7#7: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 18:13:48 [error] 7#7: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 18:13:54 [error] 13#13: *2 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/02 18:13:59 [error] 13#13: *2 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/04 14:54:55 [alert] 1#1: worker process 12 exited on signal 9
+2018/04/04 14:54:55 [alert] 1#1: worker process 6 exited on signal 9
+2018/04/04 14:54:55 [alert] 1#1: worker process 7 exited on signal 9
+2018/04/04 14:54:55 [alert] 1#1: worker process 8 exited on signal 9
+2018/04/04 14:54:55 [alert] 1#1: worker process 9 exited on signal 9
+2018/04/04 14:54:55 [alert] 1#1: worker process 10 exited on signal 9
+2018/04/04 14:54:55 [alert] 1#1: worker process 11 exited on signal 9
+2018/04/04 14:54:55 [alert] 1#1: worker process 13 exited on signal 9
+2018/04/04 15:59:30 [error] 10#10: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/04 16:45:40 [error] 12#12: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/05 19:06:31 [alert] 1#1: worker process 14 exited on signal 9
+2018/04/05 19:06:31 [alert] 1#1: worker process 7 exited on signal 9
+2018/04/05 19:06:31 [alert] 1#1: worker process 8 exited on signal 9
+2018/04/05 19:06:31 [alert] 1#1: worker process 9 exited on signal 9
+2018/04/05 19:06:31 [alert] 1#1: worker process 10 exited on signal 9
+2018/04/05 19:06:31 [alert] 1#1: worker process 11 exited on signal 9
+2018/04/05 19:06:31 [alert] 1#1: worker process 12 exited on signal 9
+2018/04/05 19:06:31 [alert] 1#1: worker process 13 exited on signal 9
+2018/04/06 19:44:27 [alert] 1#1: worker process 13 exited on signal 9
+2018/04/06 19:44:27 [alert] 1#1: worker process 7 exited on signal 9
+2018/04/06 19:44:27 [alert] 1#1: worker process 8 exited on signal 9
+2018/04/06 19:44:27 [alert] 1#1: worker process 9 exited on signal 9
+2018/04/06 19:44:27 [alert] 1#1: worker process 10 exited on signal 9
+2018/04/06 19:44:27 [alert] 1#1: worker process 11 exited on signal 9
+2018/04/06 19:44:27 [alert] 1#1: worker process 12 exited on signal 9
+2018/04/06 19:44:27 [alert] 1#1: worker process 14 exited on signal 9
+2018/04/07 12:45:45 [alert] 1#1: worker process 12 exited on signal 9
+2018/04/07 12:45:45 [alert] 1#1: worker process 6 exited on signal 9
+2018/04/07 12:45:45 [alert] 1#1: worker process 7 exited on signal 9
+2018/04/07 12:45:45 [alert] 1#1: worker process 8 exited on signal 9
+2018/04/07 12:45:45 [alert] 1#1: worker process 9 exited on signal 9
+2018/04/07 12:45:45 [alert] 1#1: worker process 10 exited on signal 9
+2018/04/07 12:45:45 [alert] 1#1: worker process 11 exited on signal 9
+2018/04/07 12:45:45 [alert] 1#1: worker process 13 exited on signal 9
+2018/04/07 17:11:24 [error] 12#12: *1 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 172.29.0.1, server: , request: "GET / HTTP/1.1", host: "localhost:8081"
+2018/04/10 07:46:00 [alert] 1#1: worker process 6 exited on signal 9
+2018/04/11 08:33:50 [alert] 1#1: worker process 7 exited on signal 9
+2018/04/13 19:36:20 [alert] 1#1: worker process 7 exited on signal 9
+2018/04/14 06:46:58 [alert] 1#1: worker process 7 exited on signal 9
+2018/04/18 17:02:29 [alert] 1#1: worker process 8 exited on signal 9
+2018/04/18 20:56:27 [alert] 1#1: worker process 7 exited on signal 9
+2018/04/22 17:20:17 [error] 7#7: *3 connect() failed (111: Connection refused) while connecting to upstream, client: 172.29.0.1, server: laradock.localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://172.29.0.3:9000", host: "localhost:8081"
+2018/04/23 14:06:50 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/24 13:49:31 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 06:31:16 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 06:31:34 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 06:31:53 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 06:32:11 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 06:32:26 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:36:26 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:36:43 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:37:02 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:37:16 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:37:26 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:37:36 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:37:45 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:37:58 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:38:17 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:38:49 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:39:47 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:40:54 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:42:00 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:43:06 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:44:13 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:45:19 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:46:25 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:47:31 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:48:37 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:49:44 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:50:50 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:51:56 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:53:03 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:54:09 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:55:15 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:56:22 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:57:28 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:58:34 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 11:59:41 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 12:00:47 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 12:01:53 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 12:02:59 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 12:04:05 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 12:05:12 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 12:06:18 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/25 12:17:04 [error] 6#6: *3 connect() failed (111: Connection refused) while connecting to upstream, client: 172.29.0.1, server: laradock.localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://36.86.63.182:9000", host: "localhost:8113"
+2018/04/25 12:17:04 [error] 6#6: *3 connect() failed (111: Connection refused) while connecting to upstream, client: 172.29.0.1, server: laradock.localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://36.86.63.182:9000", host: "localhost:8113"
+2018/04/26 05:00:34 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/26 05:04:37 [error] 7#7: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 172.29.0.1, server: laradock.localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://36.86.63.180:9000", host: "localhost:8113"
+2018/04/26 05:04:37 [error] 7#7: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 172.29.0.1, server: laradock.localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://36.86.63.180:9000", host: "localhost:8113"
+2018/04/27 05:29:49 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:30:02 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:30:12 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:30:25 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:30:37 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:30:49 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:30:57 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:31:11 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:31:32 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:32:04 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:32:56 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:33:57 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:34:58 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:35:59 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:37:00 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:38:01 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:39:02 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:40:03 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:41:04 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:42:06 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:43:07 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:44:08 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:45:09 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:46:10 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:47:11 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:48:14 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:49:15 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:50:16 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:51:17 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:52:18 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:53:19 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:54:20 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:55:21 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:56:22 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:57:23 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:58:26 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 05:59:29 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:00:30 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:01:31 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:02:33 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:03:35 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:04:38 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:05:40 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:06:41 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:07:42 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:08:43 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:09:45 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:10:46 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:11:46 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:12:48 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:13:49 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:14:51 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:15:52 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:16:53 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:17:55 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:18:56 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:19:57 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:20:58 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:21:59 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:23:00 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:24:01 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:25:02 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:26:03 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:27:04 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:28:05 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:29:06 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:30:07 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:31:13 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:32:18 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:33:25 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:34:30 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:35:34 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:36:35 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:37:36 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:38:37 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:39:38 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:40:39 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:41:40 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:42:41 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:43:42 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:44:43 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:45:44 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:46:45 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:47:46 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:48:47 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:49:48 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:50:50 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:51:51 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:52:52 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:53:53 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:54:54 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:55:55 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:56:56 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:58:02 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 06:59:08 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:00:14 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:01:20 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:02:26 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:03:32 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:04:38 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:05:44 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:06:50 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:07:56 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:09:02 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:10:08 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:11:14 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:12:20 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:13:26 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:14:32 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:15:37 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:16:44 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:17:50 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:18:56 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:20:03 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:21:09 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:22:15 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:23:20 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:24:26 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:25:32 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:26:38 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:27:44 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:28:50 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:29:51 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:30:52 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:31:54 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:32:55 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:33:56 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:34:57 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:35:59 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:37:01 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:38:02 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:39:04 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:40:05 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:41:07 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:42:10 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:43:13 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:44:16 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:45:20 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:46:24 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:47:27 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:48:32 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:49:37 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:50:42 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:51:45 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:52:49 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:53:52 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:54:56 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:56:00 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:57:05 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:58:08 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 07:59:10 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 08:00:15 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 08:01:17 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 08:02:18 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 08:03:21 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 08:04:28 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 08:05:30 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 08:06:32 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 08:07:35 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 08:08:37 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 08:09:38 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 08:10:39 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:15:57 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:16:09 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:16:19 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:16:29 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:16:41 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:16:53 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:16:58 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:17:06 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:17:21 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:17:47 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:18:40 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:19:40 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:20:41 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:21:43 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:22:44 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:23:45 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:24:46 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:25:47 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:26:48 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:27:49 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:28:50 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:29:51 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:30:52 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:31:53 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:32:54 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:33:55 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:34:56 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:35:57 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:36:58 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:37:59 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:39:00 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:40:01 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:41:02 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:42:04 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:43:07 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:44:09 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:45:13 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:46:17 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:47:20 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:48:21 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:49:28 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:50:34 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:51:40 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:52:45 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:53:46 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:54:48 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:55:49 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:56:52 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:57:53 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:58:54 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 09:59:55 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:00:56 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:02:00 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:03:02 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:04:08 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:05:09 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:06:11 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:07:12 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:08:13 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:09:14 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:10:15 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:11:21 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:12:27 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:13:33 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:14:38 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:15:42 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:16:43 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:17:44 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:18:51 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:19:56 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:21:02 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:22:08 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:23:14 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:24:20 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:25:26 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:26:32 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:27:39 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:28:45 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:29:51 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:30:52 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:31:53 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:32:54 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:33:55 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:34:56 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:36:03 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:37:09 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:38:15 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:39:21 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:40:27 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:41:33 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:42:40 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:43:46 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:44:53 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:45:59 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:47:04 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:48:10 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:49:17 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:50:23 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:51:24 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:52:30 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:53:36 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:54:42 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:55:48 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:56:50 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:57:51 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 10:59:05 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 11:00:11 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 11:01:17 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/27 11:02:23 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:22:59 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:23:14 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:23:32 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:23:48 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:24:06 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:24:20 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:24:30 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:24:44 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:25:01 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:25:31 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:26:24 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:27:27 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:28:28 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:29:31 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:30:33 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:31:35 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:32:39 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:33:44 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:34:47 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:35:49 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:36:51 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:37:53 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:38:55 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:39:57 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:41:04 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:42:07 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:43:09 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:44:12 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:45:17 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:46:21 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:47:28 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:48:32 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:49:38 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:50:43 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:51:47 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:52:53 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:53:59 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:55:15 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:56:27 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:57:30 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:58:40 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 05:59:45 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:00:52 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:01:57 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:03:03 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:04:08 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:05:17 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:06:25 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:07:28 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:08:30 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:09:32 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:10:38 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:11:44 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:12:51 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:13:57 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:15:04 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:16:07 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:17:09 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:18:15 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:19:22 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:20:29 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:21:35 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:22:42 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:23:44 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:24:46 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:25:49 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:26:51 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:27:54 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:28:56 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:29:58 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:31:00 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:32:02 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:33:03 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:34:05 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:35:20 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:36:25 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:37:32 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:38:35 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:39:43 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:40:49 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:41:52 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:42:59 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:44:06 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:45:12 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:46:19 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:47:23 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:48:29 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:49:36 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:50:42 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:51:49 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:52:50 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:53:52 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:54:54 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:55:56 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:57:03 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:58:10 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 06:59:17 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:00:18 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:01:27 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:02:35 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:03:49 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:04:59 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:06:06 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:07:17 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:08:21 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:09:23 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:10:26 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:11:27 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:12:29 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:13:31 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:14:33 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:15:34 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:16:36 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:17:38 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:18:42 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:19:44 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:20:45 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:21:47 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:22:49 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:23:50 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:24:52 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:25:59 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:27:00 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:28:02 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:29:03 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:30:05 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:31:06 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:32:09 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:33:11 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:34:13 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:35:14 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:36:16 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:37:17 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:38:19 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:39:21 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:40:23 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:41:24 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:42:26 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
+2018/04/28 07:43:28 [emerg] 1#1: host not found in upstream "workspace" in /etc/nginx/conf.d/default.conf:21
