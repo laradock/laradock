@@ -1,0 +1,17 @@
+{{- $tls := env "CONSUL_TLS" -}}
+{{- $ca_file := env "CONSUL_TLSCAFILE" -}}
+{{- $cert_file := env "CONSUL_TLSCERTFILE" -}}
+{{- $key_file := env "CONSUL_TLSKEYFILE" -}}
+{
+    {{if eq $tls "1"}}
+    "ca_file": {{if $ca_file}}"{{$ca_file}}"{{else}}"/etc/consul.d/ssl/ca.pem"{{end}},
+    "cert_file": {{if $cert_file}}"{{$cert_file}}"{{else}}"/etc/consul.d/ssl/server.pem"{{end}},
+    "key_file": {{if $key_file}}"{{$key_file}}"{{else}}"/etc/consul.d/ssl/server-priv-key.pem"{{end}},
+    "verify_server_hostname": true,
+    "verify_incoming": true,
+    "verify_outgoing": true,
+    "ports": {
+        "https": 8501
+    }
+    {{end}}
+}

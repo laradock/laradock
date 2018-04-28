@@ -1,0 +1,3 @@
+#!/usr/bin/with-contenv sh
+
+exec s6-setuidgid consul /bin/consul agent -config-dir /etc/consul.d ${CONSUL_OPTIONS}

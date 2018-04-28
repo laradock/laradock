@@ -1,0 +1,10 @@
+#!/usr/bin/with-contenv sh
+
+if [ ! -z "${CONSUL_AGENT}" ] && [ "${CONSULTEMPLATE_SERVICES}" -eq 1 ]; then
+    count=$(find /etc/consul-template/conf-services.d/ -maxdepth 1 -type f|wc -l)
+    if [ "$count" -gt 0 ]; then
+        echo "==> Enabling services configuration"
+
+        rm -f /etc/services.d/consul-template/down
+    fi
+fi

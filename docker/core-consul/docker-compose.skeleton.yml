@@ -1,0 +1,42 @@
+version: '3.2'
+
+services:
+
+#================================================================================================
+# CORE-CONSUL
+#================================================================================================
+  core-consul:
+    image: bhuisgen/alpine-consul
+    ports:
+      - "8300:8300"       # server RPC
+      - "8301:8301"       # serf LAN
+      - "8301:8301/udp"   # serf LAN (UDP)
+      - "8302:8302"       # serf WAN
+      - "8302:8302/udp"   # serf WAN (UDP)
+      - "8500:8500"       # HTTP
+      - "8501:8501"       # HTTPS
+      - "8600:8600"       # DNS
+      - "8600:8600/udp"   # DNS (UDP)
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      #- /host/data:/var/consul                                           # volume for data
+    environment:
+      - CONSUL_OPTIONS=-server -bootstrap-expect 1 -client 0.0.0.0 -ui    # minimal server options
+      - CONSUL_DATACENTER=local                                           # datacenter
+      - CONSUL_DOMAIN=consul                                              # domain name
+      - CONSUL_ENCRYPT=h2N6R1eyTysjBzzXxAWJvA==                           # encryption key
+      - CONSUL_TLS=1                                                      # enable TLS
+      - CONSUL_TLSCAFILE=/etc/consul.d/ssl/ca.pem                         # TLS CA certificate file
+      - CONSUL_TLSCERTFILE=/etc/consul.d/ssl/server.pem                   # TLS server certificate file
+      - CONSUL_TLSKEYFILE=/etc/consul.d/ssl/server-priv-key.pem           # TLS server certificate key file
+      #- CONSUL_ACLDATACENTER=                                            # ACL authoritative datacenter
+      #- CONSUL_ACLMASTERTOKEN=                                           # ACL master token (server only)
+      #- CONSUL_ACLTOKEN=                                                 # ACL token
+      #- CONSUL_ACLAGENTMASTERTOKEN=                                      # ACL token during server outage (client only)
+      #- CONSUL_ACLAGENTTOKEN=                                            # ACL token for internal operations (client only, ACL token by default)
+      #- CONSUL_ACLREPLICATIONTOKEN=                                      # ACL token for replication outside of datacenter (server only)
+      #- CONSUL_ACLDEFAULTPOLICY=extend-cache                             # ACL default policy (server only)
+      #- CONSUL_ACLDOWNPOLICY=extend-cache                                # ACL down policy
+      #- CONSUL_ACLTTL=30                                                 # ACL TTL (server only)
+      #- CONSUL_ACLENFORCEVERSION8=true                                   # Enforce ACL version 8
+      #- CONSUL_RAFTMULTIPLIER=0                                          # Raft mutliplier

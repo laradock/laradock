@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv sh
+
+if [ ! -z ${CONSUL_AGENT} ]; then
+    echo "==> Deregistering container"
+
+    /etc/cont-consul/deregister
+fi

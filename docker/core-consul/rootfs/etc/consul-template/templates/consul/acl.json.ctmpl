@@ -1,0 +1,22 @@
+{{- $acl_datacenter := env "CONSUL_ACLDATACENTER" -}}
+{{- $acl_master_token := env "CONSUL_ACLMASTERTOKEN" -}}
+{{- $acl_token := env "CONSUL_ACLTOKEN" -}}
+{{- $acl_agent_master_token := env "CONSUL_ACLAGENTMASTERTOKEN" -}}
+{{- $acl_agent_token := env "CONSUL_ACLAGENTTOKEN" -}}
+{{- $acl_replication_token := env "CONSUL_ACLREPLICATIONTOKEN" -}}
+{{- $acl_default_policy := env "CONSUL_ACLDEFAULTPOLICY" -}}
+{{- $acl_down_policy := env "CONSUL_ACLDOWNPOLICY" -}}
+{{- $acl_ttl := env "CONSUL_ACLTTL" -}}
+{{- $acl_enforce_version_8 := env "CONSUL_ACLENFORCEVERSION8" -}}
+{
+    {{if $acl_datacenter}}"acl_datacenter": "{{$acl_datacenter}}",{{end}}
+    {{if $acl_master_token}}"acl_master_token": "{{$acl_master_token}}",{{end}}
+    {{if $acl_token}}"acl_token": "{{$acl_token}}",{{end}}
+    {{if $acl_agent_master_token}}"acl_agent_master_token": "{{$acl_agent_master_token}}",{{end}}
+    {{if $acl_agent_token}}"acl_agent_token": "{{$acl_agent_token}}",{{end}}
+    {{if $acl_replication_token}}"acl_replication_token": "{{$acl_replication_token}}",{{end}}
+    {{if $acl_default_policy}}"acl_default_policy": "{{$acl_default_policy}}",{{end}}
+    {{if $acl_down_policy}}"acl_down_policy": "{{$acl_down_policy}}",{{end}}
+    {{if $acl_ttl}}"acl_ttl": "{{$acl_ttl}}",{{end}}
+    "acl_enforce_version_8": {{if $acl_enforce_version_8}}{{$acl_enforce_version_8}}{{else}}true{{end}}
+}

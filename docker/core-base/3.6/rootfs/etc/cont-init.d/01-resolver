@@ -1,0 +1,51 @@
+#!/usr/bin/with-contenv sh
+
+links=$(ip -o link show|wc -l)
+if [ ${links} -gt 1 ]; then
+    if [ -z "${CONTAINER_HOST}" ]; then
+        CONTAINER_HOST=$(cat /etc/hostname)
+    fi
+
+    if [ -z "${CONTAINER_HOST}" ]; then
+        echo "Failed to get hostname, aborting" >&2
+        exit 1
+    fi
+
+    if [ -z "${CONTAINER_RESOLVER}" ]; then
+        CONTAINER_RESOLVER=route
+    fi
+
+    case "${CONTAINER_RESOLVER}" in
+        interface)
+            if [ -z "${CONTAINER_RESOLVER_INTERFACENAME}" ]; then
+                CONTAINER_RESOLVER_INTERFACENAME=eth0
+            fi
+
+            if [ -z "${CONTAINER_RESOLVER_INTERFACETYPE}" ]; then
+                CONTAINER_RESOLVER_INTERFACETYPE=inet
+            fi
+
+            CONTAINER_IP=$(ip -o addr show "${CONTAINER_RESOLVER_INTERFACENAME}"|grep "${CONTAINER_RESOLVER_INTERFACETYPE} "|awk '{ print $4; }'|sed -e 's/\/.*$//')
+
+            if [ -z "${CONTAINER_IP}" ]; then
+                echo "Failed to get IP address, aborting" >&2
+                exit 2
+            fi
+            ;;
+
+        route)
+            CONTAINER_IP=$(ip route get 1|awk '{ print $NF; exit; }')
+
+            if [ -z "${CONTAINER_IP}" ]; then
+                echo "Failed to get IP address, aborting" >&2
+                exit 2
+            fi
+            ;;
+    esac
+
+    export CONTAINER_HOST
+    export CONTAINER_IP
+
+    printf "%s" "${CONTAINER_HOST}" > /var/run/s6/container_environment/CONTAINER_HOST
+    printf "%s" "${CONTAINER_IP}" > /var/run/s6/container_environment/CONTAINER_IP
+fi

@@ -1,0 +1,6 @@
+{{- $raft_multiplier := env "CONSUL_RAFTMULTIPLIER" -}}
+{
+    "performance": {
+        "raft_multiplier": {{if $raft_multiplier}}{{$raft_multiplier}}{{else}}0{{end}}
+    }
+}

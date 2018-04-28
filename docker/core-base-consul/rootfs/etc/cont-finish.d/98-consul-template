@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv sh
+
+if [ ! -z ${CONSUL_AGENT} ] && [ ${CONSULTEMPLATE_SERVICES} -eq 1 ]; then
+    echo "==> Disabling services configuration"
+
+    touch /etc/services.d/consul-template/down
+fi

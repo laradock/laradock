@@ -1,0 +1,3 @@
+#!/usr/bin/with-contenv sh
+
+exec s6-setuidgid consul consul force-leave "${HOSTNAME}";

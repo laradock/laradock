@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+
+if [ -z "${CONSUL_AGENT}" ]; then
+    exit 0
+fi
+
+options=""
+url="http://${CONSUL_AGENT}:${CONSUL_PORT}"
+
+if [ ! -z "${CONSUL_TLS}" ] && [ "${CONSUL_TLS}" -eq 1 ]; then
+    url="https://${CONSUL_AGENT}:${CONSUL_PORT}"
+
+    if [ ! -z "${CONSUL_TLSCAFILE}" ]; then
+        options="${options} --cacert ${CONSUL_TLSCAFILE}"
+    fi
+
+    if [ ! -z "${CONSUL_TLSCERTFILE}" ]; then
+        options="${options} --cert ${CONSUL_TLSCERTFILE}"
+    fi
+
+    if [ ! -z "${CONSUL_TLSKEYFILE}" ]; then
+        options="${options} --key ${CONSUL_TLSKEYFILE}"
+    fi
+
+    if [ -z "${CONSUL_TLSVERIFY}" ] || [ "${CONSUL_TLSVERIFY}" -ne 1 ]; then
+        options="${options} --insecure"
+    fi
+fi
+
+if [ ! -z "${CONSUL_TOKEN}" ]; then
+    options="${options} --header X-Consul-Token:${CONSUL_TOKEN}"
+fi
+
+status=0
+
+if [ -d /etc/cont-consul/services.d/ ]; then
+    for file in /etc/cont-consul/services.d/*.json; do
+        [ -f "$file" ] || continue
+
+        id=$(jq -r '.ID' "$file") && \
+            name=$(jq -r '.Name' "$file") && \
+            health=$(curl -s ${options} -X GET "${url}/v1/health/service/${name}" \
+                        -G --data-urlencode "passing=true") && \
+            service_ids=$(echo "$health"|jq -r '.[].Service.ID') || break
+
+        check=0
+        for service_id in $service_ids; do
+            if [ "$service_id" == "$id" ]; then
+                check=1
+
+                break
+            fi
+        done
+
+        if [ $check -eq 0 ]; then
+            status=1
+        fi
+    done
+fi
+
+exit $status

@@ -1,0 +1,57 @@
+#!/usr/bin/with-contenv sh
+
+if [ -z "$CONSULTEMPLATE_CONTAINER" ]; then
+    export CONSULTEMPLATE_CONTAINER=1
+    printf "%s" "${CONSULTEMPLATE_CONTAINER}" > /var/run/s6/container_environment/CONSULTEMPLATE_CONTAINER
+fi
+
+if [ -z "$CONSULTEMPLATE_SERVICES" ]; then
+    export CONSULTEMPLATE_SERVICES=1
+    printf "%s" "${CONSULTEMPLATE_SERVICES}" > /var/run/s6/container_environment/CONSULTEMPLATE_SERVICES
+fi
+
+if [ ! -z "${CONSUL_AGENT}" ] && [ "${CONSULTEMPLATE_CONTAINER}" -eq 1 ]; then
+    echo "==> Creating container configuration"
+
+    options="-config /etc/consul-template/conf-cont.d -once -consul-addr ${CONSUL_AGENT}:${CONSUL_PORT}"
+
+    if [ ! -z "${CONSUL_TLS}" ] && [ "${CONSUL_TLS}" -eq 1 ]; then
+        options="${options} -consul-ssl"
+
+        if [ ! -z "${CONSUL_TLSCAFILE}" ]; then
+            options="${options} -consul-ssl-ca-cert ${CONSUL_TLSCAFILE}"
+        fi
+
+        if [ ! -z "${CONSUL_TLSCERTFILE}" ]; then
+            options="${options} -consul-ssl-cert ${CONSUL_TLSCERTFILE}"
+        fi
+
+        if [ ! -z "${CONSUL_TLSKEYFILE}" ]; then
+            options="${options} -consul-ssl-key ${CONSUL_TLSKEYFILE}"
+        fi
+
+        if [ ! -z "${CONSUL_TLSSERVERNAME}" ]; then
+            options="${options} -consul-ssl-server-name ${CONSUL_TLSSERVERNAME}"
+        fi
+
+        if [ ! -z "${CONSUL_TLSVERIFY}" ] && [ "${CONSUL_TLSVERIFY}" -eq 1 ]; then
+            options="${options} -consul-ssl-verify"
+        fi
+    fi
+
+    if [ ! -z "${CONSUL_TOKEN}" ]; then
+        options="${options} -consul-token ${CONSUL_TOKEN}"
+    fi
+
+    options="${options} -kill-signal SIGTERM"
+
+    if [ ! -z "${CONSULTEMPLATE_OPTIONS}" ]; then
+        options="${options} ${CONSULTEMPLATE_OPTIONS}"
+    fi
+
+    consul-template ${options}
+    if [ $? -ne 0 ]; then
+        echo "Failed to render templates, aborting" >&2
+        exit 1
+    fi
+fi

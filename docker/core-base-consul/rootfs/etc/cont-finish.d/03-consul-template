@@ -1,0 +1,8 @@
+#!/usr/bin/with-contenv sh
+
+if [ ! -z ${CONSUL_AGENT} ] && [ ${CONSULTEMPLATE_CONTAINER} -eq 1 ]; then
+    echo "==> Removing container configuration"
+
+    rm -f /etc/cont-consul/services.d/container.json
+    rm -f /etc/cont-consul/checks.d/container-*.json
+fi

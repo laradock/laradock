@@ -1,0 +1,15 @@
+version: '3.2'
+
+services:
+
+#================================================================================================
+# CORE-BASE
+#================================================================================================
+  core-base:
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      #- CONTAINER_HOST=                          # container host (defaut: hostname of the container)
+      #- CONTAINER_RESOLVER=route                 # IP resolver method for container (disable/route/interface, default: route)
+      #- CONTAINER_RESOLVER_INTERFACENAME=eth0    # network interface name for IP resolver (default: eth0)
+      #- CONTAINER_RESOLVER_INTERFACETYPE=inet    # network interface type for IP resolver (inet/inet6, default: inet)

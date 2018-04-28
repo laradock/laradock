@@ -1,0 +1,12 @@
+#!/usr/bin/execlineb -S0
+
+if { s6-test $# -eq 2 }
+
+backtick -in FILENAME {
+    pipeline { s6-echo "${1}" }
+    tr "a-z" "A-Z"
+}
+import -u FILENAME
+
+redirfd -w 1 /var/run/s6/container_environment/${FILENAME}
+s6-echo -n -- ${2}

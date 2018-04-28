@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if [ ! -z "${CONSUL_ACLTOKEN}" ]; then
+    token="-token ${CONSUL_ACLTOKEN}"
+fi
+
+consul info ${token}|awk '/health_score/{if ($3 >= 1) exit 1; else exit 0}'

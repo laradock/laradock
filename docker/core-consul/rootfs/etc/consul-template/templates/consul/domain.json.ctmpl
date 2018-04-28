@@ -1,0 +1,4 @@
+{{- $domain := env "CONSUL_DOMAIN" -}}
+{
+    "domain": {{if $domain}}"{{$domain}}"{{else}}"consul"{{end}}
+}

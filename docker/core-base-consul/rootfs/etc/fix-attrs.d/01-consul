@@ -1,0 +1,2 @@
+/etc/consul.d true root:consul 0640 0750
+/var/lib/consul false consul:consul 0640 0750

@@ -1,0 +1,27 @@
+{{- $host := env "CONTAINER_HOST" -}}
+{{- $ip := env "CONTAINER_IP" -}}
+{{- $name := env "CONSUL_SERVICENAME" -}}
+{{- $check_type := env "CONSUL_CHECKTYPE" -}}
+{{- $check_script := env "CONSUL_CHECKSCRIPT" -}}
+{{- $check_docker_container_id := env "CONSUL_CHECKDOCKERCONTAINERID" -}}
+{{- $check_shell := env "CONSUL_CHECKSHELL" -}}
+{{- $check_interval := env "CONSUL_CHECKINTERVAL" -}}
+{{- $check_deregistercriticalserviceafter := env "CONSUL_DEREGISTERCRITICALSERVICEAFTER" -}}
+{{- if eq $check_type "script" -}}
+{{- if and $host $ip $name $check_script -}}
+{
+    "ID": "{{print $name "-" $host "-script"}}",
+    "Name": "Check script",
+    "ServiceID": "{{print $name "-" $host}}",
+    {{if $check_deregistercriticalserviceafter}}
+    "DeregisterCriticalServiceAfter": "{{$check_deregistercriticalserviceafter}}",
+    {{end}}
+    "Script": "{{$check_script}}",
+    {{if and $check_docker_container_id $check_shell -}}
+    "DockerContainerID": "{{$check_docker_container_id}}",
+    "Shell": "{{$check_shell}}",
+    {{end -}}
+    "Interval": {{if $check_interval}}{{$check_interval}}{{else}}"15s"{{end}}
+}
+{{- end -}}
+{{- end -}}

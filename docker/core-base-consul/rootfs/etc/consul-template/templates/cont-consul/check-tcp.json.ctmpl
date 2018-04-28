@@ -1,0 +1,36 @@
+{{- $host := env "CONTAINER_HOST" -}}
+{{- $ip := env "CONTAINER_IP" -}}
+{{- $name := env "CONSUL_SERVICENAME" -}}
+{{- $port := env "CONSUL_SERVICEPORT" -}}
+{{- $check_type := env "CONSUL_CHECKTYPE" -}}
+{{- $check_addr := env "CONSUL_CHECKADDR" -}}
+{{- $check_port := env "CONSUL_CHECKPORT" -}}
+{{- $check_interval := env "CONSUL_CHECKINTERVAL" -}}
+{{- $check_deregistercriticalserviceafter := env "CONSUL_DEREGISTERCRITICALSERVICEAFTER" -}}
+{{- if eq $check_type "tcp" -}}
+{{- if and $host $ip $name $port $check_addr $check_port -}}
+{
+    "ID": "{{print $name "-" $host "-tcp"}}",
+    "Name": "Check TCP",
+    "ServiceID": "{{print $name "-" $host}}",
+    {{if $check_deregistercriticalserviceafter}}
+    "DeregisterCriticalServiceAfter": "{{$check_deregistercriticalserviceafter}}",
+    {{end}}
+    "TCP": "{{$check_addr}}:{{$check_port}}",
+    "Interval": {{if $check_interval}}{{$check_interval}}{{else}}"15s"{{end}}
+}
+{{- else -}}
+{{- if and $host $ip $name $port -}}
+{
+    "ID": "{{print $name "-" $host "-tcp"}}",
+    "Name": "Check TCP",
+    "ServiceID": "{{print $name "-" $host}}",
+    {{if $check_deregistercriticalserviceafter}}
+    "DeregisterCriticalServiceAfter": "{{$check_deregistercriticalserviceafter}}",
+    {{end}}
+    "TCP": "{{$ip}}:{{$port}}",
+    "Interval": {{if $check_interval}}{{$check_interval}}{{else}}"15s"{{end}}
+}
+{{- end -}}
+{{- end -}}
+{{- end -}}

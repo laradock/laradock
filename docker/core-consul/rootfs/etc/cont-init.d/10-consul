@@ -1,0 +1,24 @@
+#!/usr/bin/with-contenv sh
+
+if [ -z "${CONSUL_CONFIG}" ]; then
+    if [ -z "${CONSUL_CONFIGSCRIPT}" ]; then
+        echo "==> Configuring consul from environment"
+
+        consul-template -config /etc/consul-template/conf-env.d -once
+        if [ $? -ne 0 ]; then
+            echo "Failed to configure from environment, aborting" >&2
+            exit 1
+        fi
+    else
+        echo "==> Configuring consul from script"
+
+        /bin/sh "${CONSUL_CONFIGSCRIPT}"
+        if [ $? -ne 0 ]; then
+            echo "Failed to configure from script, aborting" >&2
+            exit 2
+        fi
+    fi
+
+    export CONSUL_CONFIG=1
+    printf "%s" "${CONSUL_CONFIG}" > /var/run/s6/container_environment/CONSUL_CONFIG
+fi

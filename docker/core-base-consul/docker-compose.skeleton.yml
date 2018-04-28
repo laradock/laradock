@@ -1,0 +1,71 @@
+version: '3.2'
+
+services:
+
+#================================================================================================
+# CORE-BASE-CONSUL
+#================================================================================================
+  core-base-consul:
+    ports:
+      - "1234:1234"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      #- CONTAINER_RESOLVER=route                                   # IP resolver method for container (route/interface, default: route)
+      #- CONTAINER_RESOLVER_INTERFACENAME=eth0                      # network interface name for IP resolver (default: eth0)
+      #- CONTAINER_RESOLVER_INTERFACETYPE=inet                      # network interface type for IP resolver (inet/inet6, default: inet)
+      - CONSUL_AGENT=172.16.0.1                                     # agent hostname
+      - CONSUL_PORT=8500                                            # agent port
+      - CONSUL_TLS=0                                                # enable TLS
+      #- CONSUL_TLSCAFILE=/etc/consul.d/ssl/ca.pem                  # TLS CA certificate file
+      #- CONSUL_TLSCERTFILE=/etc/consul.d/ssl/client.pem            # TLS client certificate file
+      #- CONSUL_TLSKEYFILE=/etc/consul.d/ssl/client-priv-key.pem    # TLS client certificate key file
+      #- CONSUL_TLSSERVERNAME=                                      # SNI server name for validation
+      #- CONSUL_TLSVERIFY=0                                         # enable TLS peer verification
+      #- CONSUL_TOKEN=43480d61-aea9-4a21-9deb-5e68dbc44985          # API token
+      #- CONSUL_KEYPREFIX=path/prefix/                              # keystore prefix path
+      #- CONSUL_RESOLVER=container                                  # IP resolver method for consul service registration (container/route/interface, by default container)
+      #- CONSUL_RESOLVER_INTERFACENAME=eth0                         # network interface name for IP resolver (default: eth0)
+      #- CONSUL_RESOLVER_INTERFACETYPE=inet                         # network interface type for IP resolver (inet/inet6, default: inet)
+      - CONSUL_SERVICENAME=foo                                      # service name to register
+      #- CONSUL_SERVICETAGS=local,foo                               # service tags (optional)
+      - CONSUL_SERVICEPORT=1234                                     # service port
+      #- CONSUL_CHECKTYPE=tcp                                       # health check type (none/http/script/tcp/ttl, default: none)
+      #- CONSUL_CHECKINTERVAL=15s                                   # health check interval
+      #- CONSUL_DEREGISTERCRITICALSERVICEAFTER=0                    # delay after which the service will be deregistered if this check remains critical (0 to disable)
+
+      #
+      # HTTP health check
+      #
+      #- CONSUL_CHECKTYPE=http
+      #- CONSUL_CHECKHTTPURL=http://foo:1234                        # HTTP custom URL
+      #- CONSUL_CHECKHTTPPATH=/                                     # HTTP path for auto-generated URL (http://<container_ip>:<service_port><path>)
+      #- CONSUL_CHECKHTTPTLSSKIPVERIFY=0                            # skip TLS certificate verification
+      #- CONSUL_CHECKINTERVAL=15s                                   # check interval
+      #- CONSUL_DEREGISTERCRITICALSERVICEAFTER=0                    # delay after which the service will be deregistered if this check remains critical (0 to disable)
+
+      #
+      # Script health check
+      #
+      #- CONSUL_CHECKTYPE=script
+      #- CONSUL_CHECKSCRIPT=/usr/local/bin/healthcheck.sh           # script to execute
+      #- CONSUL_CHECKDOCKERCONTAINERID=                             # docker container id
+      #- CONSUL_CHECKSHELL=/bin/bash                                # custom shell
+      #- CONSUL_CHECKINTERVAL=15s                                   # check interval
+      #- CONSUL_DEREGISTERCRITICALSERVICEAFTER=0                    # delay after which the service will be deregistered if this check remains critical (0 to disable)
+
+      #
+      # TCP health check
+      #
+      #- CONSUL_CHECKTYPE=tcp
+      #- CONSUL_CHECKADDR=static                                    # custom TCP address if different from service registration
+      #- CONSUL_CHECKPORT=5678                                      # custom TCP port if different from service registration
+      #- CONSUL_CHECKINTERVAL=15s                                   # check interval
+      #- CONSUL_DEREGISTERCRITICALSERVICEAFTER=0                    # delay after which the service will be deregistered if this check remains critical (0 to disable)
+
+      #
+      # TTL health check
+      #
+      #- CONSUL_CHECKTYPE=ttl
+      #- CONSUL_CHECKTTL=15s                                        # TTL update
+      #- CONSUL_DEREGISTERCRITICALSERVICEAFTER=0                    # delay after which the service will be deregistered if this check remains critical (0 to disable)

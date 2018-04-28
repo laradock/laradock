@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+if [ -z ${CONSUL_AGENT} ]; then
+    exit 0
+fi
+
+options=""
+url="http://${CONSUL_AGENT}:${CONSUL_PORT}"
+
+if [ ! -z "${CONSUL_TLS}" ] && [ "${CONSUL_TLS}" -eq 1 ]; then
+    url="https://${CONSUL_AGENT}:${CONSUL_PORT}"
+
+    if [ ! -z "${CONSUL_TLSCAFILE}" ]; then
+        options="${options} --cacert ${CONSUL_TLSCAFILE}"
+    fi
+
+    if [ ! -z "${CONSUL_TLSCERTFILE}" ]; then
+        options="${options} --cert ${CONSUL_TLSCERTFILE}"
+    fi
+
+    if [ ! -z "${CONSUL_TLSKEYFILE}" ]; then
+        options="${options} --key ${CONSUL_TLSKEYFILE}"
+    fi
+
+    if [ -z "${CONSUL_TLSVERIFY}" ] || [ "${CONSUL_TLSVERIFY}" -ne 1 ]; then
+        options="${options} --insecure"
+    fi
+fi
+
+if [ ! -z "${CONSUL_TOKEN}" ]; then
+    options="${options} --header X-Consul-Token:${CONSUL_TOKEN}"
+fi
+
+status=0
+
+if [ -d /etc/cont-consul/services.d/ ]; then
+    for file in /etc/cont-consul/services.d/*.json; do
+        [ -f "$file" ] || continue
+
+        serviceid=$(jq -r '.ID' "$file") && \
+            [ $(curl -s -w '%{http_code}' --out /dev/null ${options} \
+                -X GET "${url}/v1/agent/service/deregister/${serviceid}") == "200" ] || status=1
+    done
+fi
+
+if [ -d /etc/cont-consul/checks.d/ ]; then
+    for file in /etc/cont-consul/checks.d/*.json; do
+        [ -f "$file" ] || continue
+
+        checkid=$(jq -r '.ID' "$file") && \
+            [ $(curl -s -w '%{http_code}' --out /dev/null ${options} \
+                -X GET "${url}/v1/agent/check/deregister/${checkid}") == "200" ] || status=1
+    done
+fi
+
+exit $status
