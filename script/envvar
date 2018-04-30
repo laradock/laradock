@@ -1,0 +1,66 @@
+#!/bin/bash
+set -e
+
+cd "${BASH_SOURCE%/*}" || exit
+cd ../
+
+envs=(local stg uat prod)
+envIds=(1831093418396261581 7532001887632782248 1891467919924780936 7690962951134799897)
+
+echo "==> This may build a container please wait until the build finished to enter you password!"
+
+if docker ps | grep -q "lastpass-cli"; then
+    echo "Lastpass container already running"
+else
+    echo "Please enter your @kiron.ngo username usually first_name.last_name followed by [ENTER]:"
+    read username
+
+    if [[ -z  $username  ]]; then
+      echo "your username is empty, try again."
+      read username
+    fi
+    echo "Start lastpass container and login"
+    docker-compose up -d lpass
+    docker-compose exec lpass lpass login ${username}@kiron.ngo
+fi
+
+# To create a new one: kubectl create secret generic environment --from-env-file=.tmp-env
+# kubectl create secret generic environment --from-env-file=.tmp-env -o yaml --dry-run | kubectl replace -f-
+
+
+if [ "$1" = "add" ]; then
+    for i in "${!envs[@]}";
+    do
+        docker-compose exec lpass lpass show --sync=now --notes ${envIds[$i]} | tr -d '\r' > .tmp-env
+        if grep -q "${2}=" .tmp-env; then
+            echo "${2} is already set in ${envs[$i]}! Skipping it..."
+        else
+            echo "Please enter the value for ${envs[$i]} and hit [ENTER]:"
+            read value
+            echo "${2}=${value}" >> .tmp-env
+            docker-compose exec -T lpass lpass edit --sync=now --non-interactive --notes ${envIds[$i]} < .tmp-env
+            if [ "${envs[$i]}" = "uat" ]; then
+                kubectl config use-context uat-cluster
+            elif [ "${envs[$i]}" = "stg" ]; then
+                kubectl config use-context staging-cluster
+            elif [ "${envs[$i]}" = "prod" ]; then
+                kubectl config use-context production-cluster
+            fi
+            if [ "${envs[$i]}" = 'local' ]; then
+                echo "${2}=${value}" >> .lpass-env
+            else
+                kubectl create secret generic environment --from-env-file=.tmp-env -o yaml --dry-run | kubectl replace -f-
+            fi
+        fi
+    done
+fi
+echo ""
+echo 'You have to restart your local environement with script/stop script/server to let variable take effect'
+echo 'You can delete pods or do a deploy the get the new environment variables to the containers'
+
+read -p "Are you done with editing the environment? (y/n)" -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    docker-compose stop lpass
+fi
