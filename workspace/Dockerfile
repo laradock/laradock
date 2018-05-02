@@ -302,10 +302,12 @@ RUN if [ ${INSTALL_SWOOLE} = true ]; then \
 USER root
 
 ARG INSTALL_DRUSH=false
+ARG DRUSH_VERSION=${DRUSH_VERSION}
 
 RUN if [ ${INSTALL_DRUSH} = true ]; then \
+    apt-get update -yqq && \
     apt-get -y install mysql-client && \
-    # Install Drush 8 with the phar file.
+    # Install Drush with the phar file.
     curl -fsSL -o /usr/local/bin/drush https://github.com/drush-ops/drush/releases/download/${DRUSH_VERSION}/drush.phar | bash && \
     chmod +x /usr/local/bin/drush && \
     drush core-status \
@@ -320,6 +322,7 @@ USER root
 ARG INSTALL_DRUPAL_CONSOLE=false
 
 RUN if [ ${INSTALL_DRUPAL_CONSOLE} = true ]; then \
+    apt-get update -yqq && \
     apt-get -y install mysql-client && \
     curl https://drupalconsole.com/installer -L -o drupal.phar && \
     mv drupal.phar /usr/local/bin/drupal && \
