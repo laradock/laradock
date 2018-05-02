@@ -7,7 +7,7 @@ cd ../
 envs=(local stg uat prod)
 envIds=(1831093418396261581 7532001887632782248 1891467919924780936 7690962951134799897)
 
-echo "==> This may build a container please wait until the build finished to enter you password!"
+echo "==> This may build a container please wait until the build finished to enter your password!"
 
 if docker ps | grep -q "lastpass-cli"; then
     echo "Lastpass container already running"
@@ -24,40 +24,87 @@ else
     docker-compose exec lpass lpass login ${username}@kiron.ngo
 fi
 
-# To create a new one: kubectl create secret generic environment --from-env-file=.tmp-env
-# kubectl create secret generic environment --from-env-file=.tmp-env -o yaml --dry-run | kubectl replace -f-
-
+function updateKubeEnv {
+    if [ "$1" = "uat" ]; then
+        kubectl config use-context uat-cluster
+    elif [ "$1" = "stg" ]; then
+        kubectl config use-context staging-cluster
+    elif [ "$1" = "prod" ]; then
+        kubectl config use-context production-cluster
+    fi
+    if [ "$1" != 'local' ]; then
+        # This updates an existing secret environment
+        # To create a new one: kubectl create secret generic environment --from-env-file=.tmp-env
+        kubectl create secret generic environment --from-env-file=.tmp-env -o yaml --dry-run | kubectl replace -f-
+    fi
+}
 
 if [ "$1" = "add" ]; then
     for i in "${!envs[@]}";
     do
         docker-compose exec lpass lpass show --sync=now --notes ${envIds[$i]} | tr -d '\r' > .tmp-env
-        if grep -q "${2}=" .tmp-env; then
-            echo "${2} is already set in ${envs[$i]}! Skipping it..."
+        if grep -q "^${2}=" .tmp-env; then
+            echo -e"\nERROR: ${2} is already set in ${envs[$i]}! Skipping it..."
         else
             echo "Please enter the value for ${envs[$i]} and hit [ENTER]:"
             read value
             echo "${2}=${value}" >> .tmp-env
             docker-compose exec -T lpass lpass edit --sync=now --non-interactive --notes ${envIds[$i]} < .tmp-env
-            if [ "${envs[$i]}" = "uat" ]; then
-                kubectl config use-context uat-cluster
-            elif [ "${envs[$i]}" = "stg" ]; then
-                kubectl config use-context staging-cluster
-            elif [ "${envs[$i]}" = "prod" ]; then
-                kubectl config use-context production-cluster
-            fi
             if [ "${envs[$i]}" = 'local' ]; then
                 echo "${2}=${value}" >> .lpass-env
             else
-                kubectl create secret generic environment --from-env-file=.tmp-env -o yaml --dry-run | kubectl replace -f-
+                updateKubeEnv ${envs[$i]}
             fi
         fi
     done
 fi
-echo ""
-echo 'You have to restart your local environement with script/stop script/server to let variable take effect'
-echo 'You can delete pods or do a deploy the get the new environment variables to the containers'
 
+if [ "$1" = "delete" ]; then
+    for i in "${!envs[@]}";
+    do
+        if docker-compose exec lpass lpass show --sync=now --notes ${envIds[$i]} | tr -d '\r'| grep -q "^${2}="; then
+            docker-compose exec lpass lpass show --sync=now --notes ${envIds[$i]} | tr -d '\r' | grep -v "^$2="> .tmp-env
+            docker-compose exec -T lpass lpass edit --sync=now --non-interactive --notes ${envIds[$i]} < .tmp-env
+            if [ "${envs[$i]}" = 'local' ]; then
+                # Reload local sed seems to be different on MacOS and Linux
+                docker-compose exec lpass lpass show --notes ${envIds[$i]} > .lpass-env
+                echo "DB_TRANSFER_ENVNAME=${username}" >> .lpass-env
+            else
+                updateKubeEnv ${envs[$i]}
+            fi
+        else
+            echo -e "\nERROR: ${2} is not set in ${envs[$i]}! Can't delete! Skipping it..."
+        fi
+    done
+fi
+
+if [ "$1" = "update" ]; then
+    if [ "$3" = 'local' ] || [ "$3" = 'stg' ] || [ "$3" = 'uat' ] || [ "$3" = 'prod' ]; then
+        if docker-compose exec lpass lpass show --sync=now --notes ${envIds[$i]} | tr -d '\r'| grep -q "^${2}="; then
+            docker-compose exec lpass lpass show --sync=now --notes ${envIds[$i]} | tr -d '\r' | grep -v "^$2=" > .tmp-env
+            echo "Please enter the value for $3 and hit [ENTER]:"
+            read value
+            echo "${2}=${value}" >> .tmp-env
+            docker-compose exec -T lpass lpass edit --sync=now --non-interactive --notes ${envIds[$i]} < .tmp-env
+            if [ "$3" = 'local' ]; then
+                # Reload local sed seems to be different on MacOS and Linux
+                docker-compose exec lpass lpass show --notes ${envIds[$i]} > .lpass-env
+                echo "DB_TRANSFER_ENVNAME=${username}" >> .lpass-env
+            else
+                updateKubeEnv $3
+            fi
+        else
+            echo -e "\nERROR: ${2} is not set in ${envs[$i]}! Can't update!"
+        fi
+    else
+        echo -e "\nERROR: Invalid environment \"${3}\", please enter local,stg,uat or prod: envvar update VAR local"
+    fi
+fi
+
+echo ""
+echo '==> You have to restart your local environement with script/stop script/server to let variable take effect'
+echo '==> You can delete pods or do a deploy the get the new environment variables to the containers'
+echo ""
 read -p "Are you done with editing the environment? (y/n)" -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]
