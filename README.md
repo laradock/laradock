@@ -52,6 +52,41 @@ For convenient shell access to the logs you can use:
 A huge part of this dev environment is based on [laradock](http://laradock.io/) ([GitHub](https://github.com/laradock/laradock)).
 The actual code and some containers are loaded via submodules. Thats why you have to use the --recursive option on git clone.
 
+# Managing environment variables
+
+**Environment variables schould be written completely in capital letters and underscores.**
+
+### 1. Create new environment variables
+
+To create a new environment variable in all environments you can execute the following command, be prepared to set values for local, staging, uat and production:
+
+`script/envvar add YOUR_VARIABLE_NAME` 
+
+e.g. `script/envvar add DB_PASSWORD`
+
+It will prompt you to input values for each environment after each other.
+
+### 2. Update an existing environment variable
+
+To update an existing environment variable in a signle environment use: 
+
+`script/envvar update YOUR_VARIABLE_NAME ENVIRONMENT`
+
+where ENVIRONMENT should be one of local, stg, uat or production.
+
+e.g. `script/envvar update DB_PASSWORD uat`
+
+The script will ask you to enter the value for your environment variable afterwards.
+
+### 3. Delete an existing environment variable from all environments
+
+To delete an environment variable in all environments use:
+
+`script/envvar delete YOUR_VARIABLE_NAME`
+
+e.g. `script/envvar delete DB_PASSWORD`
+
+
 # Managing Domains / Sites
 
 ###  1. Create new SSL certificate
