@@ -69,6 +69,8 @@ services:
 ### PHP-FPM Container #######################################
 
     php-fpm:
+      env_file:
+          - .lpass-env
       build:
         context: ./php-fpm
         args:
@@ -115,6 +117,8 @@ services:
 ### PHP Worker Container #####################################
 
     php-worker:
+      env_file:
+          - .lpass-env
       build:
         context: ./php-worker
         dockerfile: "Dockerfile-${PHP_VERSION}"
@@ -279,6 +283,8 @@ services:
           - frontend
           - backend
     kiron-graphql:
+        env_file:
+          - .lpass-env
         image: kiron-graphql
         build:
             context: kiron-graphql/
@@ -291,7 +297,6 @@ services:
           - ./kiron-graphql/schema.graphql:/usr/src/app/schema.graphql
           - ./kiron-graphql/yarn.lock:/usr/src/app/yarn.lock
           - ./kiron-graphql/.flowconfig:/usr/src/app/.flowconfig
-          - ./.lpass-env:/usr/src/app/.env
         ports:
           - "1337:1337"
         networks:
