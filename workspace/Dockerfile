@@ -640,7 +640,7 @@ RUN if [ ${INSTALL_SYMFONY} = true ]; then \
 ARG INSTALL_PYTHON=false
 
 RUN if [ ${INSTALL_PYTHON} = true ]; then \
-  apt-get -y install python python-pip python-dev build-essential  \
+  apt-get update -yqq && apt-get -y install python python-pip python-dev build-essential  \
   && pip install --upgrade pip  \
   && pip install --upgrade virtualenv \
 ;fi
