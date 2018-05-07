@@ -641,8 +641,8 @@ ARG INSTALL_PYTHON=false
 
 RUN if [ ${INSTALL_PYTHON} = true ]; then \
   apt-get -y install python python-pip python-dev build-essential  \
-  && pip install --upgrade pip  \
-  && pip install --upgrade virtualenv \
+  && pythom -m pip install --upgrade pip  \
+  && pythom -m pip install --upgrade virtualenv \
 ;fi
 
 ###########################################################################
