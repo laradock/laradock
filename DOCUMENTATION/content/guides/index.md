@@ -50,12 +50,6 @@ $root@server:~/laravel/ git submodule add https://github.com/Laradock/laradock.g
 $root@server:~/laravel/ cd laradock
 ```
 
-## Install docker-compose command
-
-```
-$root@server:~/laravel/laradock# curl -L https://github.com/docker/compose/releases/download/1.8.0/run.sh > /usr/local/bin/docker-compose
-$root@server:~/chmod +x /usr/local/bin/docker-compose
-```
 ##  Enter the laradock folder and rename env-example to .env.
 ```
 $root@server:~/laravel/laradock# cp env-example .env
