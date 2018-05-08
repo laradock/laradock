@@ -4,17 +4,6 @@ LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
 COPY nginx.conf /etc/nginx/
 
-# Install OpenSSL
-
-ARG NGINX_INSTALL_SSL=${NGINX_INSTALL_SSL}
-RUN if [ ${NGINX_INSTALL_SSL} = true ]; then \
-    apk add --no-cache openssl \
-    && mkdir /etc/nginx/ssl 2> /dev/null \
-    && openssl genrsa -out "/etc/nginx/ssl/default.key" 2048 \
-    && openssl req -new -key "/etc/nginx/ssl/default.key" -out "/etc/nginx/ssl/default.csr" -subj "/CN=default/O=default/C=UK" \
-    && openssl x509 -req -days 365 -in "/etc/nginx/ssl/default.csr" -signkey "/etc/nginx/ssl/default.key" -out "/etc/nginx/ssl/default.crt" \
-;fi
-
 # If you're in China, or you need to change sources, will be set CHANGE_SOURCE to true in .env.
 
 ARG CHANGE_SOURCE=false
