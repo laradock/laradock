@@ -57,7 +57,7 @@ COMPOSE_CONVERT_WINDOWS_PATHS=1
 ### Environment ###########################################
 
 # If you need to change the sources (i.e. to China), set CHANGE_SOURCE to true
-CHANGE_SOURCE=false
+CHANGE_SOURCE=true
 
 ### Docker Sync ###########################################
 
@@ -256,7 +256,7 @@ ADM_INSTALL_MSSQL=false
 
 # Accepted values: mariadb - mysql
 
-PMA_DB_ENGINE=mysql
+PMA_DB_ENGINE=mariadb
 
 # Credentials/Port:
 

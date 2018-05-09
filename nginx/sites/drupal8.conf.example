@@ -1,10 +1,10 @@
 server {
 
-    listen 80 default_server;
-    listen [::]:80 default_server ipv6only=on;
+    listen 80;
+    listen [::]:80;
 
     server_name multi.server.host;
-    root /var/www/multipurpose_corporate_profile-8.x-1.0-beta6; ## <-- Your only path reference.
+    root /var/www/drupal;
     index index.php index.html index.htm;
 
     location = /favicon.ico {
@@ -90,7 +90,7 @@ server {
         # PHP 5 socket location.
         #fastcgi_pass unix:/var/run/php5-fpm.sock;
         # PHP 7 socket location.
-        fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+        fastcgi_pass php-upstream;#unix:/var/run/php/php7.0-fpm.sock;
     }
 
     # Fighting with Styles? This little gem is amazing.
