@@ -3,7 +3,7 @@ server {
     listen 80;
     listen [::]:80;
 
-    server_name multi.server.host;
+    server_name mini.server.host;
     root /var/www/drupal;
     index index.php index.html index.htm;
 
