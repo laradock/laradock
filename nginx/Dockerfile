@@ -4,6 +4,13 @@ LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
 COPY nginx.conf /etc/nginx/
 
+# Install OpenSSL
+
+ARG NGINX_INSTALL_SSL=${NGINX_INSTALL_SSL}
+RUN if [ ${NGINX_INSTALL_SSL} = true ]; then \
+    apk add --no-cache openssl \
+;fi
+
 # If you're in China, or you need to change sources, will be set CHANGE_SOURCE to true in .env.
 
 ARG CHANGE_SOURCE=false
