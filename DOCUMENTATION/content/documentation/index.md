@@ -320,7 +320,7 @@ For information on how to configure xDebug with your IDE and work it out, check 
 <a name="Setup remote debugging for PhpStorm on Linux"></a>
 ## Setup remote debugging for PhpStorm on Linux
 
- - Make sure you have followed the steps above in the [Install Xdebug section](http://laradock.io/documentation/#install-xdebug).
+ - Make sure you have followed the steps above in the [Install Xdebug section](#install-xdebug).
 
  - Make sure Xdebug accepts connections and listens on port 9000. (Should be default configuration).
 
