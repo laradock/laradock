@@ -414,7 +414,7 @@ To learn more about how Docker publishes ports, please read [this excellent post
 <a name="Digital-Ocean"></a>
 ## Setup Laravel and Docker on Digital Ocean
 
-### [Full Guide Here](https://github.com/laradock/laradock/blob/master/_guides/digital_ocean.md)
+### [Full Guide Here](/guides/#Digital-Ocean)
 
 
 
@@ -1428,7 +1428,7 @@ It should be like this:
 ## PHPStorm Debugging Guide
 Remote debug Laravel web and phpunit tests.
 
-[**Debugging Guide Here**](https://github.com/laradock/laradock/blob/master/_guides/phpstorm.md)
+[**Debugging Guide Here**](/guides/#PHPStorm-Debugging)
 
 
 
