@@ -33,7 +33,7 @@ ENV PGID ${PGID}
 
 RUN groupadd -g ${PGID} laradock && \
     useradd -u ${PUID} -g laradock -m laradock -G docker_env && \
-    usermod -p "*" laradock
+    usermod -p "*" laradock -s /bin/bash
 
 #
 #--------------------------------------------------------------------------
