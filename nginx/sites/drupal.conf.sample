@@ -90,9 +90,11 @@ server {
         # PHP 5 socket location.
         #fastcgi_pass unix:/var/run/php5-fpm.sock;
         # PHP 7 socket location.
-        fastcgi_pass php-upstream;#unix:/var/run/php/php7.0-fpm.sock;
+        fastcgi_pass php-upstream;
+        #unix:/var/run/php/php7.0-fpm.sock;
         fastcgi_buffers 16 16k;
         fastcgi_buffer_size 32k;
+        fastcgi_read_timeout 480;
     }
 
     # Fighting with Styles? This little gem is amazing.
