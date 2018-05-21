@@ -156,7 +156,8 @@ ARG PHP_VERSION=${PHP_VERSION}
 
 RUN if [ ${INSTALL_SOAP} = true ]; then \
   # Install the PHP SOAP extension
-  apt-get -y install libxml2-dev php${PHP_VERSION}-soap \
+    apt-get update -yqq && \
+    apt-get -y install libxml2-dev php${PHP_VERSION}-soap \
 ;fi
 
 ###########################################################################
@@ -167,6 +168,7 @@ ARG INSTALL_LDAP=false
 ARG PHP_VERSION=${PHP_VERSION}
 
 RUN if [ ${INSTALL_LDAP} = true ]; then \
+    apt-get update -yqq && \
     apt-get install -y libldap2-dev && \
     apt-get install -y php${PHP_VERSION}-ldap \
 ;fi
@@ -179,6 +181,7 @@ ARG INSTALL_IMAP=false
 ARG PHP_VERSION=${PHP_VERSION}
 
 RUN if [ ${INSTALL_IMAP} = true ]; then \
+    apt-get update -yqq && \
     apt-get install -y php${PHP_VERSION}-imap \
 ;fi
 
@@ -193,6 +196,7 @@ ARG PHP_VERSION=${PHP_VERSION}
 
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     # Load the xdebug extension only with phpunit commands
+    apt-get update -yqq && \
     apt-get install -y --force-yes php${PHP_VERSION}-xdebug && \
     sed -i 's/^;//g' /etc/php/${PHP_VERSION}/cli/conf.d/20-xdebug.ini && \
     echo "alias phpunit='php -dzend_extension=xdebug.so /var/www/vendor/bin/phpunit'" >> ~/.bashrc \
@@ -261,6 +265,7 @@ ARG INSTALL_AMQP=false
 ARG PHP_VERSION=${PHP_VERSION}
 
 RUN if [ ${INSTALL_AMQP} = true ]; then \
+    apt-get update -yqq && \
     apt-get install librabbitmq-dev -y && \
     pecl -q install amqp && \
     echo "extension=amqp.so" >> /etc/php/${PHP_VERSION}/mods-available/amqp.ini && \
@@ -304,6 +309,7 @@ USER root
 ARG INSTALL_DRUSH=false
 
 RUN if [ ${INSTALL_DRUSH} = true ]; then \
+    apt-get update -yqq && \
     apt-get -y install mysql-client && \
     # Install Drush 8 with the phar file.
     curl -fsSL -o /usr/local/bin/drush https://github.com/drush-ops/drush/releases/download/${DRUSH_VERSION}/drush.phar | bash && \
@@ -320,6 +326,7 @@ USER root
 ARG INSTALL_DRUPAL_CONSOLE=false
 
 RUN if [ ${INSTALL_DRUPAL_CONSOLE} = true ]; then \
+    apt-get update -yqq && \
     apt-get -y install mysql-client && \
     curl https://drupalconsole.com/installer -L -o drupal.phar && \
     mv drupal.phar /usr/local/bin/drupal && \
@@ -418,6 +425,7 @@ ARG PHP_VERSION=${PHP_VERSION}
 
 RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
     # Fix dependencies for PHPUnit within aerospike extension
+    apt-get update -yqq && \
     apt-get -y install sudo wget && \
     # Install the php aerospike extension
     curl -L -o /tmp/aerospike-client-php.tar.gz ${AEROSPIKE_PHP_REPOSITORY} \
@@ -526,6 +534,7 @@ ARG INSTALL_LINUXBREW=false
 RUN if [ ${INSTALL_LINUXBREW} = true ]; then \
     # Preparation
     apt-get upgrade -y && \
+    apt-get update -yqq && \
     apt-get install -y build-essential make cmake scons curl git \
       ruby autoconf automake autoconf-archive \
       gettext libtool flex bison \
@@ -605,6 +614,7 @@ USER root
 ARG INSTALL_IMAGE_OPTIMIZERS=false
 
 RUN if [ ${INSTALL_IMAGE_OPTIMIZERS} = true ]; then \
+    apt-get update -yqq && \
     apt-get install -y --force-yes jpegoptim optipng pngquant gifsicle && \
     if [ ${INSTALL_NODE} = true ]; then \
         . ~/.bashrc && npm install -g svgo \
@@ -640,8 +650,10 @@ RUN if [ ${INSTALL_SYMFONY} = true ]; then \
 ARG INSTALL_PYTHON=false
 
 RUN if [ ${INSTALL_PYTHON} = true ]; then \
-  apt-get -y install python python-pip python-dev build-essential  \
-  && pip install --upgrade pip  \
+  apt-get update -yqq \
+  && apt-get -y install python python-pip python-dev build-essential  \
+  && pip install --upgrade pip \
+  && hash -r pip \
   && pip install --upgrade virtualenv \
 ;fi
 
@@ -654,6 +666,7 @@ USER root
 ARG INSTALL_IMAGEMAGICK=false
 
 RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
+    apt-get update -yqq && \
     apt-get install -y --force-yes imagemagick php-imagick \
 ;fi
 
@@ -666,6 +679,7 @@ USER root
 ARG INSTALL_TERRAFORM=false
 
 RUN if [ ${INSTALL_TERRAFORM} = true ]; then \
+    apt-get update -yqq && \
     apt-get -y install sudo wget unzip \
     && wget https://releases.hashicorp.com/terraform/0.10.6/terraform_0.10.6_linux_amd64.zip \
     && unzip terraform_0.10.6_linux_amd64.zip \
@@ -682,6 +696,7 @@ ARG INSTALL_PG_CLIENT=false
 
 RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
     # Install the pgsql client
+    apt-get update -yqq && \
     apt-get -y install postgresql-client \
 ;fi
 
@@ -696,7 +711,8 @@ ENV CHROME_DRIVER_VERSION ${CHROME_DRIVER_VERSION}
 ARG INSTALL_DUSK_DEPS=false
 
 RUN if [ ${INSTALL_DUSK_DEPS} = true ]; then \
-  apt-get -y install zip wget unzip xdg-utils \
+  apt-get update -yqq \
+  && apt-get -y install zip wget unzip xdg-utils \
     libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4 xvfb \
     gtk2-engines-pixbuf xfonts-cyrillic xfonts-100dpi xfonts-75dpi \
     xfonts-base xfonts-scalable x11-apps \
