@@ -1058,7 +1058,7 @@ You can add your cron jobs to `workspace/crontab/root` after the `php artisan` l
 
 Make sure you [change the timezone](#Change-the-timezone) if you don't want to use the default (UTC).
 
-If you are on Windows, be sure that the line endings for this file are LF only, or the cron jobs will silently fail.
+If you are on Windows, verify that the line endings for this file are LF only, otherwise the cron jobs will silently fail.
 
 
 
