@@ -1,0 +1,16 @@
+date.timezone=UTC
+display_errors=Off
+log_errors=On
+
+; Maximum amount of memory a script may consume (128MB)
+; http://php.net/memory-limit
+memory_limit = 256M
+; Maximum allowed size for uploaded files.
+; http://php.net/upload-max-filesize
+upload_max_filesize = 20M
+; Sets max size of post data allowed.
+; http://php.net/post-max-size
+post_max_size = 20M
+max_execution_time=600
+default_socket_timeout=3600
+request_terminate_timeout=600

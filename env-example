@@ -57,7 +57,7 @@ COMPOSE_CONVERT_WINDOWS_PATHS=1
 ### Environment ###########################################
 
 # If you need to change the sources (i.e. to China), set CHANGE_SOURCE to true
-CHANGE_SOURCE=false
+CHANGE_SOURCE=true
 
 ### Docker Sync ###########################################
 
@@ -194,7 +194,7 @@ MSSQL_PORT=1433
 
 ### MARIADB ###############################################
 
-MARIADB_DATABASE=default
+MARIADB_DATABASE=default,multipur
 MARIADB_USER=default
 MARIADB_PASSWORD=secret
 MARIADB_PORT=3306
