@@ -256,7 +256,7 @@ ADM_INSTALL_MSSQL=false
 
 # Accepted values: mariadb - mysql
 
-PMA_DB_ENGINE=mysql
+PMA_DB_ENGINE=mariadb
 
 # Credentials/Port:
 
