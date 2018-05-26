@@ -75,6 +75,8 @@ USER root
 
 COPY ./aliases.sh /root/aliases.sh
 COPY ./aliases.sh /home/laradock/aliases.sh
+COPY ./.inputrc /root/.inputrc
+COPY ./.inputrc /home/laradock/.inputrc
 
 RUN sed -i 's/\r//' /root/aliases.sh && \
     sed -i 's/\r//' /home/laradock/aliases.sh && \
