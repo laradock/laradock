@@ -48,6 +48,7 @@ ARG INSTALL_SOAP=false
 
 RUN if [ ${INSTALL_SOAP} = true ]; then \
     # Install the soap extension
+    rm /etc/apt/preferences.d/no-debian-php && \
     apt-get update -yqq && \
     apt-get -y install libxml2-dev php-soap && \
     docker-php-ext-install soap \
@@ -86,9 +87,13 @@ RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
 ARG INSTALL_XDEBUG=false
 
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
-    # Install the xdebug extension
-    pecl install xdebug && \
-    docker-php-ext-enable xdebug \
+  # Install the xdebug extension
+  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+    pecl install xdebug-2.5.5; \
+  else \
+    pecl install xdebug; \
+  fi && \
+  docker-php-ext-enable xdebug \
 ;fi
 
 # Copy xdebug configuration for remote debugging
