@@ -31,7 +31,9 @@ ENV PUID ${PUID}
 ARG PGID=1000
 ENV PGID ${PGID}
 
-RUN groupadd -g ${PGID} laradock && \
+# always run apt update when start and after add new source list, then clean up at end.
+RUN apt-get update -yqq && \
+    groupadd -g ${PGID} laradock && \
     useradd -u ${PUID} -g laradock -m laradock -G docker_env && \
     usermod -p "*" laradock
 
@@ -309,7 +311,11 @@ ARG PHP_VERSION=${PHP_VERSION}
 
 RUN if [ ${INSTALL_SWOOLE} = true ]; then \
     # Install Php Swoole Extension
-    pecl -q install swoole && \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      pecl -q install swoole-2.0.11; \
+    else \
+      pecl -q install swoole; \
+    fi && \
     echo "extension=swoole.so" >> /etc/php/${PHP_VERSION}/mods-available/swoole.ini && \
     ln -s /etc/php/${PHP_VERSION}/mods-available/swoole.ini /etc/php/${PHP_VERSION}/cli/conf.d/20-swoole.ini \
 ;fi
