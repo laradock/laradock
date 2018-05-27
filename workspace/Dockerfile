@@ -31,7 +31,9 @@ ENV PUID ${PUID}
 ARG PGID=1000
 ENV PGID ${PGID}
 
-RUN groupadd -g ${PGID} laradock && \
+# always run apt update when start and after add new source list, then clean up at end.
+RUN apt-get update -yqq && \
+    groupadd -g ${PGID} laradock && \
     useradd -u ${PUID} -g laradock -m laradock -G docker_env && \
     usermod -p "*" laradock
 
@@ -667,7 +669,6 @@ USER root
 ARG INSTALL_IMAGEMAGICK=false
 
 RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
-    apt-get update && \
     apt-get install -y --force-yes imagemagick php-imagick \
 ;fi
 
