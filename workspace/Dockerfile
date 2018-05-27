@@ -194,6 +194,7 @@ USER root
 ARG INSTALL_SUBVERSION=false
 
 RUN if [ ${INSTALL_SUBVERSION} = true ]; then \
+    apt-get update -yqq && \
     apt-get install -y subversion \
 ;fi
 
@@ -546,8 +547,8 @@ ARG INSTALL_LINUXBREW=false
 
 RUN if [ ${INSTALL_LINUXBREW} = true ]; then \
     # Preparation
-    apt-get upgrade -y && \
     apt-get update -yqq && \
+    apt-get upgrade -y && \
     apt-get install -y build-essential make cmake scons curl git \
       ruby autoconf automake autoconf-archive \
       gettext libtool flex bison \
