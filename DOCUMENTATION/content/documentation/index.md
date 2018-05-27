@@ -754,6 +754,21 @@ docker-compose up -d adminer
 
 
 
+<br>
+<a name="Use-Portainer"></a>
+## Use Portainer
+
+1 - Run the Portainer Container (`portainer`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d portainer
+```
+
+2 - Open your browser and visit the localhost on port **9010**:  `http://localhost:9010`
+
+
+
+
 
 <br>
 <a name="Use-pgAdmin"></a>

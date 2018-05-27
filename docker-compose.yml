@@ -697,3 +697,14 @@ services:
       depends_on:
         - workspace
       tty: true
+
+### Portainer ################################################
+    portainer:
+      build:
+        context: ./portainer
+      volumes:
+        - ${DATA_PATH_HOST}/portainer_data:/data
+        - /var/run/docker.sock:/var/run/docker.sock
+      ports:
+        - 9010:9000
+      
