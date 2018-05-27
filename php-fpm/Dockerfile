@@ -18,6 +18,9 @@ FROM laradock/php-fpm:2.2-${PHP_VERSION}
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
+# always run apt update when start and after add new source list, then clean up at end.
+RUN apt-get update -yqq
+
 #
 #--------------------------------------------------------------------------
 # Mandatory Software's Installation
@@ -49,7 +52,6 @@ ARG INSTALL_SOAP=false
 RUN if [ ${INSTALL_SOAP} = true ]; then \
     # Install the soap extension
     rm /etc/apt/preferences.d/no-debian-php && \
-    apt-get update -yqq && \
     apt-get -y install libxml2-dev php-soap && \
     docker-php-ext-install soap \
 ;fi
@@ -296,7 +298,6 @@ ARG INSTALL_INTL=false
 
 RUN if [ ${INSTALL_INTL} = true ]; then \
     # Install intl and requirements
-    apt-get update -yqq && \
     apt-get install -y zlib1g-dev libicu-dev g++ && \
     docker-php-ext-configure intl && \
     docker-php-ext-install intl \
