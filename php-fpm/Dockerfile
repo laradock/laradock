@@ -19,7 +19,8 @@ FROM laradock/php-fpm:2.2-${PHP_VERSION}
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
 # always run apt update when start and after add new source list, then clean up at end.
-RUN apt-get update -yqq
+RUN apt-get update -yqq && \
+    pecl channel-update pecl.php.net
 
 #
 #--------------------------------------------------------------------------
