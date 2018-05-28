@@ -329,7 +329,6 @@ ARG DRUSH_VERSION
 ENV DRUSH_VERSION ${DRUSH_VERSION}
 
 RUN if [ ${INSTALL_DRUSH} = true ]; then \
-    apt-get update -yqq && \
     apt-get -y install mysql-client && \
     # Install Drush with the phar file.
     curl -fsSL -o /usr/local/bin/drush https://github.com/drush-ops/drush/releases/download/${DRUSH_VERSION}/drush.phar | bash && \
@@ -346,7 +345,6 @@ USER root
 ARG INSTALL_DRUPAL_CONSOLE=false
 
 RUN if [ ${INSTALL_DRUPAL_CONSOLE} = true ]; then \
-    apt-get update -yqq && \
     apt-get -y install mysql-client && \
     curl https://drupalconsole.com/installer -L -o drupal.phar && \
     mv drupal.phar /usr/local/bin/drupal && \
