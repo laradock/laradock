@@ -754,6 +754,21 @@ docker-compose up -d adminer
 
 
 
+<br>
+<a name="Use-Portainer"></a>
+## Use Portainer
+
+1 - Run the Portainer Container (`portainer`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d portainer
+```
+
+2 - Open your browser and visit the localhost on port **9010**:  `http://localhost:9010`
+
+
+
+
 
 <br>
 <a name="Use-pgAdmin"></a>
@@ -828,7 +843,7 @@ docker-compose up -d elasticsearch
 
 2 - Open your browser and visit the localhost on port **9200**:  `http://localhost:9200`
 
-> The default username is `user` and the default password is `changeme`.
+> The default username is `elastic` and the default password is `changeme`.
 
 ### Install ElasticSearch Plugin
 
@@ -1057,6 +1072,8 @@ You can add your cron jobs to `workspace/crontab/root` after the `php artisan` l
 ```
 
 Make sure you [change the timezone](#Change-the-timezone) if you don't want to use the default (UTC).
+
+If you are on Windows, verify that the line endings for this file are LF only, otherwise the cron jobs will silently fail.
 
 
 

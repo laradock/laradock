@@ -18,6 +18,10 @@ FROM laradock/php-fpm:2.2-${PHP_VERSION}
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
+# always run apt update when start and after add new source list, then clean up at end.
+RUN apt-get update -yqq && \
+    pecl channel-update pecl.php.net
+
 #
 #--------------------------------------------------------------------------
 # Mandatory Software's Installation
@@ -48,7 +52,7 @@ ARG INSTALL_SOAP=false
 
 RUN if [ ${INSTALL_SOAP} = true ]; then \
     # Install the soap extension
-    apt-get update -yqq && \
+    rm /etc/apt/preferences.d/no-debian-php && \
     apt-get -y install libxml2-dev php-soap && \
     docker-php-ext-install soap \
 ;fi
@@ -85,9 +89,13 @@ RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
 ARG INSTALL_XDEBUG=false
 
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
-    # Install the xdebug extension
-    pecl install xdebug && \
-    docker-php-ext-enable xdebug \
+  # Install the xdebug extension
+  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+    pecl install xdebug-2.5.5; \
+  else \
+    pecl install xdebug; \
+  fi && \
+  docker-php-ext-enable xdebug \
 ;fi
 
 # Copy xdebug configuration for remote debugging
@@ -128,8 +136,12 @@ ARG INSTALL_SWOOLE=false
 
 RUN if [ ${INSTALL_SWOOLE} = true ]; then \
     # Install Php Swoole Extension
-    pecl install swoole \
-    &&  docker-php-ext-enable swoole \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      pecl install swoole-2.0.11; \
+    else \
+      pecl install swoole; \
+    fi && \
+    docker-php-ext-enable swoole \
 ;fi
 
 ###########################################################################
@@ -169,6 +181,16 @@ RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
 ;fi
 
 ###########################################################################
+# pcntl
+###########################################################################
+
+ARG INSTALL_PCNTL=false
+RUN if [ ${INSTALL_PCNTL} = true]; then \
+    # Installs pcntl, helpful for running Horizon
+    docker-php-ext-install pcntl \
+;fi
+
+###########################################################################
 # bcmath:
 ###########################################################################
 
@@ -187,7 +209,10 @@ ARG INSTALL_GMP=false
 
 RUN if [ ${INSTALL_GMP} = true ]; then \
     # Install the GMP extension
-	apt-get install -y libgmp-dev && \
+	  apt-get install -y libgmp-dev && \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h \
+    ;fi && \
     docker-php-ext-install gmp \
 ;fi
 
@@ -291,7 +316,6 @@ ARG INSTALL_INTL=false
 
 RUN if [ ${INSTALL_INTL} = true ]; then \
     # Install intl and requirements
-    apt-get update -yqq && \
     apt-get install -y zlib1g-dev libicu-dev g++ && \
     docker-php-ext-configure intl && \
     docker-php-ext-install intl \
