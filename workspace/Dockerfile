@@ -440,6 +440,7 @@ USER root
 
 ARG INSTALL_AEROSPIKE=false
 ARG PHP_VERSION=${PHP_VERSION}
+ARG AEROSPIKE_PHP_REPOSITORY
 
 RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
     # Fix dependencies for PHPUnit within aerospike extension
