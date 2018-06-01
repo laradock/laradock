@@ -267,15 +267,29 @@ RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
     # Fix dependencies for PHPUnit within aerospike extension
     apt-get -y install sudo wget && \
     # Install the php aerospike extension
-    curl -L -o /tmp/aerospike-client-php.tar.gz ${AEROSPIKE_PHP_REPOSITORY} \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      curl -L -o /tmp/aerospike-client-php.tar.gz https://github.com/aerospike/aerospike-client-php5/archive/master.tar.gz; \
+    else \
+      curl -L -o /tmp/aerospike-client-php.tar.gz ${AEROSPIKE_PHP_REPOSITORY}; \
+    fi \
     && mkdir -p aerospike-client-php \
     && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
-    && ( \
-        cd aerospike-client-php/src \
-        && phpize \
-        && ./build.sh \
-        && make install \
-    ) \
+    && \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      ( \
+          cd aerospike-client-php/src/aerospike \
+          && phpize \
+          && ./build.sh \
+          && make install \
+      ) \
+    else \
+      ( \
+          cd aerospike-client-php/src \
+          && phpize \
+          && ./build.sh \
+          && make install \
+      ) \
+    fi \
     && rm /tmp/aerospike-client-php.tar.gz \
     && docker-php-ext-enable aerospike \
 ;fi
