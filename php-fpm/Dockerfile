@@ -224,7 +224,11 @@ ARG INSTALL_MEMCACHED=false
 
 RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
     # Install the php memcached extension
-    curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz" \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/2.2.0.tar.gz"; \
+    else \
+      curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz"; \
+    fi \
     && mkdir -p memcached \
     && tar -C memcached -zxvf /tmp/memcached.tar.gz --strip 1 \
     && ( \
