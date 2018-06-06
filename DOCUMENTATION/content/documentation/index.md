@@ -1550,7 +1550,7 @@ Laradock comes with `sync.sh`, an optional bash script, that automates installin
 DOCKER_SYNC_STRATEGY=native_osx
 ```
 
-3) set `APP_CODE_PATH_CONTAINER=/var/www` to `APP_CODE_PATH_CONTAINER=/var/www:nocopy` in the .env file
+3) set `APP_CODE_CONTAINER_FLAG` to `APP_CODE_CONTAINER_FLAG=:nocopy` in the .env file
 
 4) Install the docker-sync gem on the host-machine:
 ```bash
