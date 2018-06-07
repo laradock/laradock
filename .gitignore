@@ -1,6 +1,7 @@
 .idea
 /logs
 /data
+/graphql-faker
 .env
 .tmp-env
 .lpass-env

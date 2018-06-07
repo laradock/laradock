@@ -270,7 +270,7 @@ services:
             dockerfile: Dockerfile-dev
         environment:
           - ENV=development
-          - GRAPHQL_URL=http://kiron-graphql:1337
+          - GRAPHQL_URL=http://graphql-faker:9002
           - API_URL=http://api/
         volumes:
           - ./campus-frontend/src:/usr/app/campus-frontend/src:cached
@@ -278,7 +278,7 @@ services:
           - ./campus-frontend/package.json:/usr/app/campus-frontend/package.json
           - ./campus-frontend/yarn.lock:/usr/app/campus-frontend/yarn.lock
         depends_on:
-          - kiron-graphql
+          - graphql-faker
         networks:
           - frontend
           - backend
@@ -299,6 +299,19 @@ services:
           - ./kiron-graphql/.flowconfig:/usr/src/app/.flowconfig
         ports:
           - "1337:1337"
+        networks:
+          - frontend
+          - backend
+    graphql-faker:
+        image: apisguru/graphql-faker
+        entrypoint: /bin/sh
+        command: -c 'sleep 5 && node /usr/local/bin/graphql-faker --extend http://kiron-graphql:1337/graphql --forward--headers Authorization'
+        ports:
+          - "9002:9002"
+        volumes:
+          - ./graphql-faker:/workdir/:cached
+        depends_on:
+          - kiron-graphql
         networks:
           - frontend
           - backend

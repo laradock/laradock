@@ -1,1 +1,1 @@
-workspace nginx php-fpm postgres redis kiron-graphql campus-frontend maildev
+workspace nginx php-fpm postgres redis kiron-graphql campus-frontend maildev graphql-faker
