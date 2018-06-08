@@ -358,7 +358,7 @@ USER laradock
 ###########################################################################
 
 # Check if NVM needs to be installed
-ARG NODE_VERSION=stable
+ARG NODE_VERSION=node
 ENV NODE_VERSION ${NODE_VERSION}
 ARG INSTALL_NODE=false
 ARG NPM_REGISTRY
