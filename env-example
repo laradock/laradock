@@ -322,8 +322,8 @@ AEROSPIKE_INFO_PORT=3003
 
 ## Temp solution, this should be in the dockerfile
 # for all versions "https://github.com/aerospike/aerospike-client-php/archive/master.tar.gz"
-# for php 7.2 (using this branch until the support for 7.2 on master) "https://github.com/aerospike/aerospike-client-php/archive/7.2.0-in-progress.tar.gz"
-AEROSPIKE_PHP_REPOSITORY=https://github.com/aerospike/aerospike-client-php/archive/7.2.0-in-progress.tar.gz
+# for php 7.2 (using this branch until the support for 7.2 on master) "https://github.com/aerospike/aerospike-client-php/archive/7.2.0-release-candidate.tar.gz"
+AEROSPIKE_PHP_REPOSITORY=https://github.com/aerospike/aerospike-client-php/archive/7.2.0-release-candidate.tar.gz
 
 ### RETHINKDB #############################################
 
