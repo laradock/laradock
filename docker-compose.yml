@@ -715,7 +715,8 @@ services:
 
 ### Gitlab ################################################
     gitlab:
-      image: 'gitlab/gitlab-ce:latest'
+      build:
+        context: ./gitlab
       environment:
         GITLAB_OMNIBUS_CONFIG: |
           external_url '${GITLAB_DOMAIN_NAME}' 
