@@ -1,0 +1,2 @@
+*.sh
+!init_gitlab_db.sh
