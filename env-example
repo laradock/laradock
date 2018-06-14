@@ -208,6 +208,7 @@ POSTGRES_DB=default
 POSTGRES_USER=default
 POSTGRES_PASSWORD=secret
 POSTGRES_PORT=5432
+POSTGRES_ENTRYPOINT_INITDB=./postgres/docker-entrypoint-initdb.d
 
 ### RABBITMQ ##############################################
 
@@ -349,3 +350,11 @@ LARAVEL_ECHO_SERVER_PORT=6001
 SOLR_VERSION=5.5
 SOLR_PORT=8983
 SOLR_DATAIMPORTHANDLER_MYSQL=false
+
+### GITLAB ###############################################
+GITLAB_HOST_HTTP_PORT=8989
+GITLAB_HOST_HTTPS_PORT=9898
+GITLAB_HOST_SSH_PORT=2289
+GITLAB_DOMAIN_NAME=http://localhost
+GITLAB_ROOT_PASSWORD=laradock
+GITLAB_HOST_LOG_PATH=./logs/gitlab
