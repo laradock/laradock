@@ -19,7 +19,8 @@ FROM laradock/php-fpm:2.2-${PHP_VERSION}
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
 # always run apt update when start and after add new source list, then clean up at end.
-RUN apt-get update -yqq
+RUN apt-get update -yqq && \
+    pecl channel-update pecl.php.net
 
 #
 #--------------------------------------------------------------------------
@@ -226,7 +227,11 @@ ARG INSTALL_MEMCACHED=false
 
 RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
     # Install the php memcached extension
-    curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz" \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/2.2.0.tar.gz"; \
+    else \
+      curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz"; \
+    fi \
     && mkdir -p memcached \
     && tar -C memcached -zxvf /tmp/memcached.tar.gz --strip 1 \
     && ( \
@@ -259,21 +264,36 @@ RUN if [ ${INSTALL_EXIF} = true ]; then \
 USER root
 
 ARG INSTALL_AEROSPIKE=false
+ARG AEROSPIKE_PHP_REPOSITORY
 
 RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
     # Fix dependencies for PHPUnit within aerospike extension
     apt-get update -yqq && \
     apt-get -y install sudo wget && \
     # Install the php aerospike extension
-    curl -L -o /tmp/aerospike-client-php.tar.gz ${AEROSPIKE_PHP_REPOSITORY} \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      curl -L -o /tmp/aerospike-client-php.tar.gz https://github.com/aerospike/aerospike-client-php5/archive/master.tar.gz; \
+    else \
+      curl -L -o /tmp/aerospike-client-php.tar.gz ${AEROSPIKE_PHP_REPOSITORY}; \
+    fi \
     && mkdir -p aerospike-client-php \
     && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
-    && ( \
-        cd aerospike-client-php/src \
-        && phpize \
-        && ./build.sh \
-        && make install \
-    ) \
+    && \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      ( \
+          cd aerospike-client-php/src/aerospike \
+          && phpize \
+          && ./build.sh \
+          && make install \
+      ) \
+    else \
+      ( \
+          cd aerospike-client-php/src \
+          && phpize \
+          && ./build.sh \
+          && make install \
+      ) \
+    fi \
     && rm /tmp/aerospike-client-php.tar.gz \
     && docker-php-ext-enable aerospike \
 ;fi
@@ -359,24 +379,33 @@ RUN if [ ${INSTALL_LDAP} = true ]; then \
 ARG INSTALL_MSSQL=false
 
 RUN set -eux; if [ ${INSTALL_MSSQL} = true ]; then \
-    ###########################################################################
-    # Ref from https://github.com/Microsoft/msphpsql/wiki/Dockerfile-for-adding-pdo_sqlsrv-and-sqlsrv-to-official-php-image
-    ###########################################################################
-    # Add Microsoft repo for Microsoft ODBC Driver 13 for Linux
-    apt-get update -yqq && \
-    apt-get install -y apt-transport-https gnupg \
-    && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-    && curl https://packages.microsoft.com/config/debian/8/prod.list > /etc/apt/sources.list.d/mssql-release.list \
-    && apt-get update -yqq \
-    # Install Dependencies
-    && ACCEPT_EULA=Y apt-get install -y unixodbc unixodbc-dev libgss3 odbcinst msodbcsql locales \
-    && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
-    && locale-gen \
-    # Install pdo_sqlsrv and sqlsrv from PECL. Replace pdo_sqlsrv-4.1.8preview with preferred version.
-    && pecl install pdo_sqlsrv-4.1.8preview sqlsrv-4.1.8preview \
-    && docker-php-ext-enable pdo_sqlsrv sqlsrv \
-    && php -m | grep -q 'pdo_sqlsrv' \
-    && php -m | grep -q 'sqlsrv' \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      apt-get -yqq update && \
+      apt-get -y install freetds-dev libsybdb5 \
+      && ln -s /usr/lib/x86_64-linux-gnu/libsybdb.so /usr/lib/libsybdb.so \
+      && docker-php-ext-install mssql pdo_dblib \
+      && php -m | grep -q 'mssql' \
+      && php -m | grep -q 'pdo_dblib' \
+    ;else \
+      ###########################################################################
+      # Ref from https://github.com/Microsoft/msphpsql/wiki/Dockerfile-for-adding-pdo_sqlsrv-and-sqlsrv-to-official-php-image
+      ###########################################################################
+      # Add Microsoft repo for Microsoft ODBC Driver 13 for Linux
+      apt-get update -yqq && \
+      apt-get install -y apt-transport-https gnupg \
+      && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+      && curl https://packages.microsoft.com/config/debian/8/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+      && apt-get update -yqq \
+      # Install Dependencies
+      && ACCEPT_EULA=Y apt-get install -y unixodbc unixodbc-dev libgss3 odbcinst msodbcsql locales \
+      && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
+      && locale-gen \
+      # Install pdo_sqlsrv and sqlsrv from PECL. Replace pdo_sqlsrv-4.1.8preview with preferred version.
+      && pecl install pdo_sqlsrv-4.1.8preview sqlsrv-4.1.8preview \
+      && docker-php-ext-enable pdo_sqlsrv sqlsrv \
+      && php -m | grep -q 'pdo_sqlsrv' \
+      && php -m | grep -q 'sqlsrv' \
+    ;fi \
 ;fi
 
 ###########################################################################
