@@ -102,6 +102,18 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 ###########################################################################
+# Phpdbg:
+###########################################################################
+
+ARG INSTALL_PHPDBG=false
+ARG PHP_VERSION=${PHP_VERSION}
+
+RUN if [ ${INSTALL_PHPDBG} = true ]; then \
+    # Load the xdebug extension only with phpunit commands
+    apt-get install -y --force-yes php${PHP_VERSION}-phpdbg \
+;fi
+
+###########################################################################
 # Blackfire:
 ###########################################################################
 
