@@ -7,6 +7,8 @@ weight: 3
 
 
 
+
+
 <a name="List-current-running-Containers"></a>
 ## List current running Containers
 ```bash
@@ -134,6 +136,7 @@ More info on Containers rebuilding [here](#Build-Re-build-Containers).
 
 
 
+
 <br>
 <a name="Build-Re-build-Containers"></a>
 ## Build/Re-build Containers
@@ -150,6 +153,7 @@ docker-compose build {container-name}
 ```
 
 You might use the `--no-cache` option if you want full rebuilding (`docker-compose build --no-cache {container-name}`).
+
 
 
 
@@ -182,8 +186,6 @@ docker-compose logs -f {container-name}
 ```
 
 More [options](https://docs.docker.com/compose/reference/logs/)
-
-
 
 
 
@@ -243,6 +245,8 @@ docker-compose build php-fpm
 
 
 
+
+
 <br>
 <a name="Change-the-PHP-CLI-Version"></a>
 ## Change the PHP-CLI Version
@@ -267,6 +271,8 @@ PHP_VERSION=7.2
 ```bash
 docker-compose build workspace
 ```
+
+
 
 
 
@@ -384,6 +390,7 @@ It should be like this:
 
 
 
+
 <br>
 <a name="Production"></a>
 
@@ -422,34 +429,14 @@ To learn more about how Docker publishes ports, please read [this excellent post
 
 
 
-<br>
-<a name="Use-Jenkins"></a>
-## Use Jenkins
-
-1) Boot the container `docker-compose up -d jenkins`. To enter the container type `docker-compose exec jenkins bash`.
-
-2) Go to `http://localhost:8090/` (if you didn't chanhed your default port mapping) 
-
-3) Authenticate from the web app.
-
-- Default username is `admin`.
-- Default password is `docker-compose exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword`. 
-
-(To enter container as root type `docker-compose exec --user root jenkins bash`).
-
-4) Install some plugins.
-
-5) Create your first Admin user, or continue as Admin.
-
-Note: to add user go to `http://localhost:8090/securityRealm/addUser` and to restart it from the web app visit `http://localhost:8090/restart`.
-
-You may wanna change the default security configuration, so go to `http://localhost:8090/configureSecurity/` under Authorization and choosing "Anyone can do anything" or "Project-based Matrix Authorization Strategy" or anything else.
-
-
-
 
 <br>
 <a name="Laravel"></a>
+
+
+
+
+
 
 <a name="Install-Laravel"></a>
 ## Install Laravel from a Docker Container
@@ -565,6 +552,52 @@ b) add a new service container by simply copy-paste this section below PHP-FPM c
 ```bash
 docker-compose up -d php-worker
 ```
+
+
+
+
+
+
+<br>
+<a name="Use-NetData"></a>
+## Use NetData
+
+1 - Run the NetData Container (`netdata`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d netdata
+```
+
+2 - Open your browser and visit the localhost on port **19999**:  `http://localhost:19999`
+
+
+
+
+
+
+<br>
+<a name="Use-Jenkins"></a>
+## Use Jenkins
+
+1) Boot the container `docker-compose up -d jenkins`. To enter the container type `docker-compose exec jenkins bash`.
+
+2) Go to `http://localhost:8090/` (if you didn't chanhed your default port mapping) 
+
+3) Authenticate from the web app.
+
+- Default username is `admin`.
+- Default password is `docker-compose exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword`. 
+
+(To enter container as root type `docker-compose exec --user root jenkins bash`).
+
+4) Install some plugins.
+
+5) Create your first Admin user, or continue as Admin.
+
+Note: to add user go to `http://localhost:8090/securityRealm/addUser` and to restart it from the web app visit `http://localhost:8090/restart`.
+
+You may wanna change the default security configuration, so go to `http://localhost:8090/configureSecurity/` under Authorization and choosing "Anyone can do anything" or "Project-based Matrix Authorization Strategy" or anything else.
+
 
 
 
@@ -756,6 +789,8 @@ docker-compose up -d adminer
 
 
 
+
+
 <br>
 <a name="Use-Portainer"></a>
 ## Use Portainer
@@ -767,6 +802,7 @@ docker-compose up -d portainer
 ```
 
 2 - Open your browser and visit the localhost on port **9010**:  `http://localhost:9010`
+
 
 
 
@@ -924,6 +960,10 @@ docker-compose up -d rethinkdb
 - set the `DB_DATABASE` to `database`.
 
 
+
+
+
+
 <br>
 <a name="Use-Minio"></a>
 ## Use Minio
@@ -956,6 +996,9 @@ docker-compose up -d minio
 
 
 
+
+
+
 <br>
 <a name="Use-AWS"></a>
 ## Use AWS
@@ -975,6 +1018,9 @@ docker-compose up -d aws
 
 
 
+
+
+
 <br>
 <a name="Use-Grafana"></a>
 ## Use Grafana
@@ -990,6 +1036,9 @@ docker-compose up -d grafana
 3 - Open your browser and visit the localhost on port **3000** at the following URL: `http://localhost:3000`
 
 4 - Login using the credentials User = `admin` Passwort = `admin`. Change the password in the webinterface if you want to.
+
+
+
 
 
 
@@ -1014,6 +1063,11 @@ To install CodeIgniter 3 on Laradock all you have to do is the following simple 
 3 - Re-build your PHP-FPM Container `docker-compose build php-fpm`.
 
 
+
+
+
+
+<br>
 <a name="Install-Symfony"></a>
 ## Install Symfony
 
@@ -1026,6 +1080,11 @@ To install CodeIgniter 3 on Laradock all you have to do is the following simple 
 4 - Run `docker-compose restart` if the container was already running, before the step above.
 
 5 - Visit `symfony.test`
+
+
+
+
+
 
 <br>
 <a name="Misc"></a>
@@ -1110,6 +1169,11 @@ ssh -o PasswordAuthentication=no    \
 
 To login as root, replace laradock@locahost with root@localhost.
 
+
+
+
+
+
 <br>
 <a name="Change-the-MySQL-Version"></a>
 ## Change the (MySQL) Version
@@ -1164,6 +1228,7 @@ The default username and password for the root MySQL user are `root` and `root `
 
 
 
+
 <br>
 <a name="Create-Multiple-Databases"></a>
 ## Create Multiple Databases (MySQL)
@@ -1174,6 +1239,8 @@ Create `createdb.sql` from `mysql/docker-entrypoint-initdb.d/createdb.sql.exampl
 CREATE DATABASE IF NOT EXISTS `your_db_1` COLLATE 'utf8_general_ci' ;
 GRANT ALL ON `your_db_1`.* TO 'mysql_user'@'%' ;
 ```
+
+
 
 
 
@@ -1358,6 +1425,7 @@ It should be like this:
 
 
 
+
 <br>
 <a name="Common-Aliases"></a>
 <br>
@@ -1365,6 +1433,7 @@ It should be like this:
 When you start your docker container, Laradock will copy the `aliases.sh` file located in the `laradock/workspace` directory and add sourcing to the container `~/.bashrc` file.
 
 You are free to modify the `aliases.sh` as you see fit, adding your own aliases (or function macros) to suit your requirements.
+
 
 
 
@@ -1441,14 +1510,12 @@ It should be like this:
 
 
 
-
 <br>
 <a name="phpstorm-debugging"></a>
 ## PHPStorm Debugging Guide
 Remote debug Laravel web and phpunit tests.
 
 [**Debugging Guide Here**](https://github.com/laradock/laradock/blob/master/_guides/phpstorm.md)
-
 
 
 
@@ -1469,7 +1536,6 @@ Remote debug Laravel web and phpunit tests.
 
 
 
-
 <br>
 <a name="upgrading-laradock"></a>
 ## Upgrading Laradock
@@ -1484,9 +1550,6 @@ Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requ
 **Note:** If you face any problem with the last step above: rebuild all your containers
 `docker-compose build --no-cache`
 "Warning Containers Data might be lost!"
-
-
-
 
 
 
@@ -1518,6 +1581,9 @@ Quick Setup giude, (we recommend you check their docs)
 4) after the above command is done it will display some env variables, copy them to the bash profile or zsh or.. (this will instruct docker to use the server running inside the VM)
 
 5) `docker-compose up ...`
+
+
+
 
 
 
@@ -1610,8 +1676,6 @@ Visit the [docker-sync documentation](https://github.com/EugenMayer/docker-sync/
 
 
 
-
-
 <br>
 
 ### B.2: using the d4m-nfs tool
@@ -1658,22 +1722,11 @@ docker-compose up ...
 
 
 
-
-
-
-
-
-
-
-
-
-
 <br>
 <a name="Common-Problems"></a>
 ## Common Problems
 
 *Here's a list of the common problems you might face, and the possible solutions.*
-
 
 
 
@@ -1693,6 +1746,7 @@ sudo chmod -R 777 storage bootstrap/cache
 
 
 
+
 <br>
 ## I see "Welcome to nginx" instead of the Laravel App!
 
@@ -1702,10 +1756,12 @@ Use `http://127.0.0.1` instead of `http://localhost` in your browser.
 
 
 
+
 <br>
 ## I see an error message containing `address already in use` or `port is already allocated`
 
 Make sure the ports for the services that you are trying to run (22, 80, 443, 3306, etc.) are not being used already by other programs on the host, such as a built in `apache`/`httpd` service or other development tools you have installed.
+
 
 
 
@@ -1723,11 +1779,13 @@ Make sure the ports for the services that you are trying to run (22, 80, 443, 33
 
 
 
+
 <br>
 ## The time in my services does not match the current time
 
 1. Make sure you've [changed the timezone](#Change-the-timezone).
 2. Stop and rebuild the containers (`docker-compose up -d --build <services>`)
+
 
 
 
