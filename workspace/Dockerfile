@@ -330,7 +330,11 @@ RUN if [ ${INSTALL_SWOOLE} = true ]; then \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
       pecl -q install swoole-2.0.11; \
     else \
-      pecl -q install swoole; \
+      if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+        pecl install swoole-2.2.0; \
+      else \
+        pecl install swoole; \
+      fi \
     fi && \
     echo "extension=swoole.so" >> /etc/php/${PHP_VERSION}/mods-available/swoole.ini && \
     ln -s /etc/php/${PHP_VERSION}/mods-available/swoole.ini /etc/php/${PHP_VERSION}/cli/conf.d/20-swoole.ini \
