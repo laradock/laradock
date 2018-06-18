@@ -139,7 +139,11 @@ RUN if [ ${INSTALL_SWOOLE} = true ]; then \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
       pecl install swoole-2.0.11; \
     else \
-      pecl install swoole; \
+      if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+        pecl install swoole-2.2.0; \
+      else \
+        pecl install swoole; \
+      fi \
     fi && \
     docker-php-ext-enable swoole \
 ;fi
