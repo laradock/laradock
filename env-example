@@ -29,6 +29,9 @@ COMPOSE_FILE=docker-compose.yml
 # Change the separator from : to ; on Windows
 COMPOSE_PATH_SEPARATOR=:
 
+# Define the prefix of container names. This is useful if you have multiple projects that use laradock to have seperate containers per project.
+COMPOSE_PROJECT_NAME=laradock
+
 ### PHP Version ###########################################
 
 # Select a PHP version of the Workspace and PHP-FPM containers (Does not apply to HHVM). Accepted values: 7.2 - 7.1 - 7.0 - 5.6
