@@ -1228,20 +1228,10 @@ server_name laravel.test;
 
 Enabling Global Composer Install during the build for the container allows you to get your composer requirements installed and available in the container after the build is done.
 
-1 - Open the `docker-compose.yml` file
+1 - Open the `.env` file
 
-2 - Search for the `COMPOSER_GLOBAL_INSTALL` argument under the Workspace Container and set it to `true`
+2 - Search for the `WORKSPACE_COMPOSER_GLOBAL_INSTALL` argument under the Workspace Container and set it to `true`
 
-It should be like this:
-
-```yml
-    workspace:
-        build:
-            context: ./workspace
-            args:
-                - COMPOSER_GLOBAL_INSTALL=true
-    ...
-```
 3 - Now add your dependencies to `workspace/composer.json`
 
 4 - Re-build the Workspace Container `docker-compose build workspace`
