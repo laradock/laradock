@@ -1376,32 +1376,16 @@ You are free to modify the `aliases.sh` as you see fit, adding your own aliases 
 
 1 - First install `aerospike` in the Workspace and the PHP-FPM Containers:
 <br>
-a) open the `docker-compose.yml` file
+a) open the `.env` file
 <br>
-b) search for the `INSTALL_AEROSPIKE` argument under the Workspace Container
+b) search for the `WORKSPACE_INSTALL_AEROSPIKE` argument under the Workspace Container
 <br>
 c) set it to `true`
 <br>
-d) search for the `INSTALL_AEROSPIKE` argument under the PHP-FPM Container
+d) search for the `PHP_FPM_INSTALL_AEROSPIKE` argument under the PHP-FPM Container
 <br>
 e) set it to `true`
-
-It should be like this:
-
-```yml
-    workspace:
-        build:
-            context: ./workspace
-            args:
-                - INSTALL_AEROSPIKE=true
-    ...
-    php-fpm:
-        build:
-            context: ./php-fpm
-            args:
-                - INSTALL_AEROSPIKE=true
-    ...
-```
+<br>
 
 2 - Re-build the containers `docker-compose build workspace php-fpm`
 
