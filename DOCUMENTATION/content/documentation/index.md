@@ -201,7 +201,7 @@ More [options](https://docs.docker.com/compose/reference/logs/)
 <a name="Install-PHP-Extensions"></a>
 ## Install PHP Extensions
 
-Before installing PHP extensions, you have to decide whether you need for the `FPM` or `CLI` because each lives on a different container, if you need it for both you have to edit both containers.
+Before installing PHP extensions, you have to decide first whether you need `FPM` or `CLI`, because each of them has it's own different container, if you need it for both, you have to edit both containers.
 
 The PHP-FPM extensions should be installed in `php-fpm/Dockerfile-XX`. *(replace XX with your default PHP version number)*.
 <br>
@@ -428,7 +428,7 @@ To learn more about how Docker publishes ports, please read [this excellent post
 
 1) Boot the container `docker-compose up -d jenkins`. To enter the container type `docker-compose exec jenkins bash`.
 
-2) Go to `http://localhost:8090/` (if you didn't chanhed your default port mapping) 
+2) Go to `http://localhost:8090/` (if you didn't change your default port mapping) 
 
 3) Authenticate from the web app.
 
@@ -971,7 +971,7 @@ docker-compose up -d aws
 
 3 - Access the aws container with `docker-compose exec aws bash`
 
-4 - To start using eb cli inside the container, initiaze your project first by doing 'eb init'. Read the [aws eb cli](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-configuration.html) docs for more details.
+4 - To start using eb cli inside the container, initialize your project first by doing 'eb init'. Read the [aws eb cli](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-configuration.html) docs for more details.
 
 
 
@@ -989,7 +989,7 @@ docker-compose up -d grafana
 
 3 - Open your browser and visit the localhost on port **3000** at the following URL: `http://localhost:3000`
 
-4 - Login using the credentials User = `admin` Passwort = `admin`. Change the password in the webinterface if you want to.
+4 - Login using the credentials User = `admin`, Password = `admin`. Change the password in the web interface if you want to.
 
 
 
@@ -1525,7 +1525,7 @@ Quick Setup giude, (we recommend you check their docs)
 <a name="Docker-Sync"></a>
 ### Workaround B: using d4m-nfs
 
-You can use the d4m-nfs solution in 2 ways, one is using the Laradock built it integration, and the other is using the tool separatly. Below is show case of both methods:
+You can use the d4m-nfs solution in 2 ways, the first is by using the built-in Laradock integration, and the second is using the tool separately. Below is show case of both methods:
 
 
 ### B.1: using the built in d4m-nfs integration
@@ -1630,7 +1630,7 @@ Click on the Docker Icon > Preferences > (remove everything form the list except
 git clone https://github.com/IFSight/d4m-nfs ~/d4m-nfs
 ```
 
-4) Create (or edit) the file `~/d4m-nfs/etc/d4m-nfs-mounts.txt`, and write the follwing configuration in it:
+4) Create (or edit) the file `~/d4m-nfs/etc/d4m-nfs-mounts.txt`, and write the following configuration in it:
 
 ```txt
 /Users:/Users
