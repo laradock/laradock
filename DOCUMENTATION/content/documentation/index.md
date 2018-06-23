@@ -1280,20 +1280,9 @@ c - Re-build the Workspace Container `docker-compose build workspace`
 
 To install NVM and NodeJS in the Workspace container
 
-1 - Open the `docker-compose.yml` file
+1 - Open the `.env` file
 
-2 - Search for the `INSTALL_NODE` argument under the Workspace Container and set it to `true`
-
-It should be like this:
-
-```yml
-    workspace:
-        build:
-            context: ./workspace
-            args:
-                - INSTALL_NODE=true
-    ...
-```
+2 - Search for the `WORKSPACE_INSTALL_NODE` argument under the Workspace Container and set it to `true`
 
 3 - Re-build the container `docker-compose build workspace`
 
