@@ -604,32 +604,15 @@ composer require predis/predis:^1.0
 
 1 - First install `mongo` in the Workspace and the PHP-FPM Containers:
 <br>
-a) open the `docker-compose.yml` file
+a) open the `.env` file
 <br>
-b) search for the `INSTALL_MONGO` argument under the Workspace Container
+b) search for the `WORKSPACE_INSTALL_MONGO` argument under the Workspace Container
 <br>
 c) set it to `true`
 <br>
-d) search for the `INSTALL_MONGO` argument under the PHP-FPM Container
+d) search for the `PHP_FPM_INSTALL_MONGO` argument under the PHP-FPM Container
 <br>
 e) set it to `true`
-
-It should be like this:
-
-```yml
-    workspace:
-        build:
-            context: ./workspace
-            args:
-                - INSTALL_MONGO=true
-    ...
-    php-fpm:
-        build:
-            context: ./php-fpm
-            args:
-                - INSTALL_MONGO=true
-    ...
-```
 
 2 - Re-build the containers `docker-compose build workspace php-fpm`
 
