@@ -331,23 +331,12 @@ Note: If `.php-fpm/xdebug` doesn't execute and gives `Permission Denied` error t
 <a name="Install-Deployer"></a>
 ## Install Deployer (Deployment tool for PHP)
 
-1 - Open the `docker-compose.yml` file
+1 - Open the `.env` file
 <br>
-2 - Search for the `INSTALL_DEPLOYER` argument under the Workspace Container
+2 - Search for the `WORKSPACE_INSTALL_DEPLOYER` argument under the Workspace Container
 <br>
 3 - Set it to `true`
 <br>
-
-It should be like this:
-
-```yml
-    workspace:
-        build:
-            context: ./workspace
-            args:
-                - INSTALL_DEPLOYER=true
-    ...
-```
 
 4 - Re-build the containers `docker-compose build workspace`
 
