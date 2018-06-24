@@ -1310,20 +1310,9 @@ It should be like this:
 
 Linuxbrew is a package manager for Linux. It is the Linux version of MacOS Homebrew and can be found [here](http://linuxbrew.sh). To install Linuxbrew in the Workspace container:
 
-1 - Open the `docker-compose.yml` file
+1 - Open the `.env` file
 
-2 - Search for the `INSTALL_LINUXBREW` argument under the Workspace Container and set it to `true`
-
-It should be like this:
-
-```yml
-    workspace:
-        build:
-            context: ./workspace
-            args:
-                - INSTALL_LINUXBREW=true
-    ...
-```
+2 - Search for the `WORKSPACE_INSTALL_LINUXBREW` argument under the Workspace Container and set it to `true`
 
 3 - Re-build the container `docker-compose build workspace`
 
