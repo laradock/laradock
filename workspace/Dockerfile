@@ -18,6 +18,9 @@ FROM laradock/workspace:2.2-${PHP_VERSION}
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
+# Set Environment Variables
+ENV DEBIAN_FRONTEND noninteractive
+
 # Start as root
 USER root
 
@@ -230,7 +233,7 @@ ARG PHP_VERSION=${PHP_VERSION}
 
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     # Load the xdebug extension only with phpunit commands
-    apt-get install -y --force-yes php${PHP_VERSION}-xdebug && \
+    apt-get install -y php${PHP_VERSION}-xdebug && \
     sed -i 's/^;//g' /etc/php/${PHP_VERSION}/cli/conf.d/20-xdebug.ini && \
     echo "alias phpunit='php -dzend_extension=xdebug.so /var/www/vendor/bin/phpunit'" >> ~/.bashrc \
 ;fi
@@ -645,7 +648,7 @@ USER root
 ARG INSTALL_IMAGE_OPTIMIZERS=false
 
 RUN if [ ${INSTALL_IMAGE_OPTIMIZERS} = true ]; then \
-    apt-get install -y --force-yes jpegoptim optipng pngquant gifsicle && \
+    apt-get install -y jpegoptim optipng pngquant gifsicle && \
     if [ ${INSTALL_NODE} = true ]; then \
         . ~/.bashrc && npm install -g svgo \
     ;fi\
@@ -694,7 +697,7 @@ USER root
 ARG INSTALL_IMAGEMAGICK=false
 
 RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
-    apt-get install -y --force-yes imagemagick php-imagick \
+    apt-get install -y imagemagick php-imagick \
 ;fi
 
 ###########################################################################
