@@ -1264,21 +1264,9 @@ It should be like this:
 
 Yarn is a new package manager for JavaScript. It is so faster than npm, which you can find [here](http://yarnpkg.com/en/compare).To install NodeJS and [Yarn](https://yarnpkg.com/) in the Workspace container:
 
-1 - Open the `docker-compose.yml` file
+1 - Open the `.env` file
 
-2 - Search for the `INSTALL_NODE` and `INSTALL_YARN` argument under the Workspace Container and set it to `true`
-
-It should be like this:
-
-```yml
-    workspace:
-        build:
-            context: ./workspace
-            args:
-                - INSTALL_NODE=true
-                - INSTALL_YARN=true
-    ...
-```
+2 - Search for the `WORKSPACE_INSTALL_NODE` and `WORKSPACE_INSTALL_YARN` argument under the Workspace Container and set it to `true`
 
 3 - Re-build the container `docker-compose build workspace`
 
