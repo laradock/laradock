@@ -211,6 +211,7 @@ POSTGRES_DB=default
 POSTGRES_USER=default
 POSTGRES_PASSWORD=secret
 POSTGRES_PORT=5432
+POSTGRES_ENTRYPOINT_INITDB=./postgres/docker-entrypoint-initdb.d
 
 ### RABBITMQ ##############################################
 
