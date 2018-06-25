@@ -30,7 +30,7 @@ c.Spawner.pre_spawn_hook = create_dir_hook
 c.JupyterHub.spawner_class = 'dockerspawner.DockerSpawner'
 
 # Spawn containers from this image
-c.DockerSpawner.container_image = os.environ['JUPYTERHUB_LOCAL_NOTEBOOK_IMAGE']
+c.DockerSpawner.image = os.environ['JUPYTERHUB_LOCAL_NOTEBOOK_IMAGE']
 
 # JupyterHub requires a single-user instance of the Notebook server, so we
 # default to using the `start-singleuser.sh` script included in the
@@ -46,24 +46,24 @@ c.DockerSpawner.use_internal_ip = True
 c.DockerSpawner.network_name = network_name
 
 # Pass the network name as argument to spawned containers
-c.DockerSpawner.extra_host_config = { 'network_mode': network_name }
+c.DockerSpawner.extra_host_config = { 'network_mode': network_name, 'runtime': 'nvidia' }
 # c.DockerSpawner.extra_host_config = { 'network_mode': network_name, "devices":["/dev/nvidiactl","/dev/nvidia-uvm","/dev/nvidia0"] }
 # Explicitly set notebook directory because we'll be mounting a host volume to
 # it.  Most jupyter/docker-stacks *-notebook images run the Notebook server as
 # user `jovyan`, and set the notebook directory to `/home/jovyan/work`.
 # We follow the same convention.
 # notebook_dir = os.environ.get('JUPYTERHUB_DOCKER_NOTEBOOK_DIR') or '/home/jovyan/work'
-notebook_dir = '/home/laradock/work'
+notebook_dir = '/notebooks'
 c.DockerSpawner.notebook_dir = notebook_dir
 
 # Mount the real user's Docker volume on the host to the notebook user's
 # notebook directory in the container
 user_data = os.environ.get('JUPYTERHUB_USER_DATA','/jupyterhub')
 c.DockerSpawner.volumes = {
-    user_data+'/{username}': '/home/laradock'
+    user_data+'/{username}': notebook_dir
 }
 
-c.DockerSpawner.extra_create_kwargs.update({ 'user': 'laradock'})
+c.DockerSpawner.extra_create_kwargs.update({ 'user': 'root'})
 
 # volume_driver is no longer a keyword argument to create_container()
 # c.DockerSpawner.extra_create_kwargs.update({ 'volume_driver': 'local' })
@@ -75,10 +75,10 @@ c.DockerSpawner.debug = True
 
 # User containers will access hub by container name on the Docker network
 c.JupyterHub.hub_ip = 'jupyterhub'
-c.JupyterHub.hub_port = 8080
+c.JupyterHub.hub_port = 8000
 
 # TLS config
-# c.JupyterHub.port = 443
+c.JupyterHub.port = 80
 # c.JupyterHub.ssl_key = os.environ['SSL_KEY']
 # c.JupyterHub.ssl_cert = os.environ['SSL_CERT']
 
