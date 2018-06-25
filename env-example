@@ -356,3 +356,6 @@ LARAVEL_ECHO_SERVER_PORT=6001
 SOLR_VERSION=5.5
 SOLR_PORT=8983
 SOLR_DATAIMPORTHANDLER_MYSQL=false
+
+### IPYTHON ##################################################
+LARADOCK_IPYTHON_CONTROLLER_IP=ipython-controller

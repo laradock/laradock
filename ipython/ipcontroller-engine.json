@@ -5,7 +5,7 @@
   "pack": "json",
   "ssh": "",
   "interface": "tcp://*",
-  "location": "ipython-controller",
+  "location": "laradock-ipython",
   "iopub": 33327,
   "hb_ping": 33328,
   "hb_pong": 33329,

@@ -6,7 +6,7 @@
   "ssh": "",
   "task_scheme": "leastload",
   "interface": "tcp://*",
-  "location": "ipython-controller",
+  "location": "laradock-ipython",
   "notification": 33338,
   "iopub": 33337,
   "control": 33336,
