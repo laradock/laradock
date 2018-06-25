@@ -292,7 +292,12 @@ ARG PHP_VERSION=${PHP_VERSION}
 
 RUN if [ ${INSTALL_MONGO} = true ]; then \
     # Install the mongodb extension
-    pecl -q install mongodb && \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      pecl install mongo && \
+      echo "extension=mongo.so" >> /etc/php/${PHP_VERSION}/mods-available/mongo.ini && \
+      ln -s /etc/php/${PHP_VERSION}/mods-available/mongo.ini /etc/php/${PHP_VERSION}/cli/conf.d/30-mongo.ini \
+    ;fi && \
+    pecl install mongodb && \
     echo "extension=mongodb.so" >> /etc/php/${PHP_VERSION}/mods-available/mongodb.ini && \
     ln -s /etc/php/${PHP_VERSION}/mods-available/mongodb.ini /etc/php/${PHP_VERSION}/cli/conf.d/30-mongodb.ini \
 ;fi
