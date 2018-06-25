@@ -4,6 +4,8 @@ LABEL maintainer="ahkui <ahkui@outlook.com>"
 
 USER root
 
+RUN apk update && apk add build-base
+
 RUN pip --no-cache-dir install ipyparallel
 
 RUN ipython profile create --parallel --profile=default
