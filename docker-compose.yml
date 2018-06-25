@@ -714,3 +714,22 @@ services:
       ports:
         - 9010:9000
       
+### IPython #########################################
+    ipython-controller:
+      build:
+        context: ./ipython
+        dockerfile: Dockerfile.controller
+      networks:
+        - backend
+      ports:
+        - "33327-33338:33327-33338"
+      environment:
+        - LARADOCK_IPYTHON_CONTROLLER_IP=${LARADOCK_IPYTHON_CONTROLLER_IP}
+    ipython-engine:
+      build:
+        context: ./ipython
+        dockerfile: Dockerfile.engine
+      networks:
+        - backend
+      environment:
+        - LARADOCK_IPYTHON_CONTROLLER_IP=${LARADOCK_IPYTHON_CONTROLLER_IP}
