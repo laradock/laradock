@@ -1759,11 +1759,12 @@ WORKSPACE_COMPOSER_REPO_PACKAGIST=https://packagist.phpcomposer.com
 ```
 
 <br>
+
 ## I get `Module build failed: Error: write EPIPE` while compiling react application
 
 When you run `npm build` or `yarn dev` building a react application using webpack with elixir you may receive a `Error: write EPIPE` while processing .jpg images.
 
-This is caused of an outdated library for processing jpg images in ubuntu 16.04.
+This is caused of an outdated library for processing **.jpg files** in ubuntu 16.04.
 
 To fix the problem you can follow those steps
 
