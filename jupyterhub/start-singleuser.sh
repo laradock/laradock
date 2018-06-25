@@ -13,9 +13,9 @@ fi
 # from DockerSpawner < 0.8.
 # These won't be passed from DockerSpawner 0.9,
 # so avoid specifying --arg=empty-string
-if [ ! -z "$NOTEBOOK_DIR" ]; then
-  NOTEBOOK_ARGS="--notebook-dir='$NOTEBOOK_DIR' $NOTEBOOK_ARGS"
-fi
+# if [ ! -z "$NOTEBOOK_DIR" ]; then
+  # NOTEBOOK_ARGS="--notebook-dir='$NOTEBOOK_DIR' $NOTEBOOK_ARGS"
+# fi
 if [ ! -z "$JPY_PORT" ]; then
   NOTEBOOK_ARGS="--port=$JPY_PORT $NOTEBOOK_ARGS"
 fi
@@ -34,5 +34,7 @@ fi
 if [ ! -z "$JPY_HUB_API_URL" ]; then
   NOTEBOOK_ARGS="--hub-api-url=$JPY_HUB_API_URL $NOTEBOOK_ARGS"
 fi
+
+NOTEBOOK_ARGS=" --allow-root --notebook-dir='/notebooks' $NOTEBOOK_ARGS"
 
 . /usr/local/bin/start.sh jupyterhub-singleuser $NOTEBOOK_ARGS $@

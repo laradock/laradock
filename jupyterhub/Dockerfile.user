@@ -1,145 +1,61 @@
-FROM jupyter/tensorflow-notebook
+FROM tensorflow/tensorflow:latest-gpu
 
 MAINTAINER ahkui <ahkui@outlook.com>
 
-USER root
-ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update && apt-get -yq dist-upgrade \
- && apt-get install -yq --no-install-recommends \
-    bzip2 \
-    ca-certificates \
-    sudo \
-    locales \
-    fonts-liberation
-
-RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
-    locale-gen
-
-# Install all OS dependencies for fully functional notebook server
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    git \
-    curl \
-    unzip \
-    python3 \
-    python3-pip \
-    python3-setuptools \
-    rsync \
-    software-properties-common \
-    vim \
-    g++ \
-    nano \
-    wget \
-    yasm \
-    python3-dev \
-    python3-tk \
-    python \
-    python-pip \
-    python-setuptools \
-    python-dev \
-    python-tk
+        python \
+        python-dev \
+        && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    wget
+
+RUN curl -O https://bootstrap.pypa.io/get-pip.py && \
+    python3 get-pip.py && \
+    rm get-pip.py
+
+RUN python3 -m pip --no-cache-dir install \
+        Pillow \
+        h5py \
+        ipykernel \
+        jupyter \
+        notebook \
+        jupyterhub \
+        matplotlib \
+        numpy \
+        pandas \
+        scipy \
+        sklearn \
+        && \
+    python3 -m ipykernel.kernelspec
+
+RUN pip --no-cache-dir install \
+    https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.8.0-cp35-cp35m-linux_x86_64.whl
+
+# RUN ln -s -f /usr/bin/python3 /usr/bin/python
+
+
+COPY start.sh /usr/local/bin/
+COPY start-notebook.sh /usr/local/bin/
+COPY start-singleuser.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start-notebook.sh
+RUN chmod +x /usr/local/bin/start-singleuser.sh
 
 RUN wget --quiet https://github.com/krallin/tini/releases/download/v0.10.0/tini && \
     mv tini /usr/local/bin/tini && \
     chmod +x /usr/local/bin/tini
 
-ENV SHELL=/bin/bash \
-    NB_USER=laradock \
-    NB_UID=1000 \
-    NB_GID=100 \
-    LC_ALL=en_US.UTF-8 \
-    LANG=en_US.UTF-8 \
-    LANGUAGE=en_US.UTF-8
-
-ENV HOME=/home/$NB_USER
-
-COPY fix-permissions /usr/local/bin/fix-permissions
-RUN chmod +x /usr/local/bin/fix-permissions
-
-RUN deluser --remove-home jovyan
-RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
-    fix-permissions $HOME
-
-USER $NB_USER
-
-# Setup work directory for backward-compatibility
-RUN mkdir /home/$NB_USER/work && \
-    fix-permissions /home/$NB_USER
-
-USER root
-
-RUN python3 -m pip install --upgrade pip
-
-RUN python3 -m pip --no-cache-dir install --upgrade ipython \
-    Pillow \
-    h5py \
-    ipykernel \
-    jupyter \
-    matplotlib \
-    seaborn \
-    numpy \
-    pandas \
-    scipy \
-    sklearn \
-    opencv-contrib-python \
-    keras \
-    Flask
-    # tensorflow-gpu \
-    # bcolz \
-    # Cython \
-    # path.py \
-    # six \
-    # sphinx \
-    # wheel \
-    # pygments \
-    # statsmodels \
-    # pyzmq \
-
-RUN python3 -m ipykernel.kernelspec
-
-RUN pip2 install --upgrade pip
-
-RUN pip2 --no-cache-dir install --upgrade ipython \
-    ipykernel 
-
-RUN python2 -m ipykernel.kernelspec
-
-# Add local files as late as possible to avoid cache busting
-COPY start.sh /usr/local/bin/
-COPY start-notebook.sh /usr/local/bin/
-COPY start-singleuser.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/start-singleuser.sh
-RUN chmod +x /usr/local/bin/start-notebook.sh
-RUN chmod +x /usr/local/bin/start.sh
-
-
-# Install facets which does not have a pip or conda package at the moment
-RUN cd /tmp && \
-    git clone https://github.com/PAIR-code/facets.git && \
-    cd facets && \
-    jupyter nbextension install facets-dist/ --sys-prefix && \
-    rm -rf facets && \
-    fix-permissions $CONDA_DIR
-
-USER root
-# Import matplotlib the first time to build the font cache.
-ENV XDG_CACHE_HOME /home/$NB_USER/.cache/
-RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \
-    fix-permissions /home/$NB_USER
-
 # cleanup
 RUN apt-get autoremove -y && \
     apt-get autoclean && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
-    fix-permissions $CONDA_DIR
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-EXPOSE 8888 5000 6006
-WORKDIR $HOME
-
-# Configure container startup
 ENTRYPOINT ["tini", "--"]
+
 CMD ["start-notebook.sh"]
 
-# Switch back to jupyter to avoid accidental container runs as root
-USER $NB_USER
+
