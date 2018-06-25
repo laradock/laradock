@@ -743,3 +743,4 @@ services:
       build:
         context: ./jupyterhub
         dockerfile: Dockerfile.user
+      command: ["sh", "-c", "echo \"build only\""]
