@@ -358,4 +358,4 @@ SOLR_PORT=8983
 SOLR_DATAIMPORTHANDLER_MYSQL=false
 
 ### IPYTHON ##################################################
-LARADOCK_IPYTHON_CONTROLLER_IP=ipython-controller
+LARADOCK_IPYTHON_CONTROLLER_IP=127.0.0.1
