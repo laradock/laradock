@@ -184,6 +184,8 @@ RUN if [ ${INSTALL_AMQP} = true ]; then \
 ARG INSTALL_ZIP_ARCHIVE=false
 
 RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
+    apt-get install libzip-dev -y && \
+    docker-php-ext-configure zip --with-libzip && \
     # Install the zip extension
     docker-php-ext-install zip \
 ;fi
