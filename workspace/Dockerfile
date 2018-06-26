@@ -401,7 +401,7 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
         npm install -g bower \
         ;fi \
         && if [ ${INSTALL_NPM_VUE_CLI} = true ]; then \
-        npm install -g vue-cli \
+        npm install -g @vue/cli \
         ;fi \
 ;fi
 
