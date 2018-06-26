@@ -201,7 +201,7 @@ More [options](https://docs.docker.com/compose/reference/logs/)
 <a name="Install-PHP-Extensions"></a>
 ## Install PHP Extensions
 
-Before installing PHP extensions, you have to decide whether you need for the `FPM` or `CLI` because each lives on a different container, if you need it for both you have to edit both containers.
+Before installing PHP extensions, you have to decide first whether you need `FPM` or `CLI`, because each of them has it's own different container, if you need it for both, you have to edit both containers.
 
 The PHP-FPM extensions should be installed in `php-fpm/Dockerfile-XX`. *(replace XX with your default PHP version number)*.
 <br>
@@ -277,44 +277,17 @@ docker-compose build workspace
 
 1 - First install `xDebug` in the Workspace and the PHP-FPM Containers:
 <br>
-a) open the `docker-compose.yml` file
+a) open the `.env` file
 <br>
-b) search for the `INSTALL_XDEBUG` argument under the Workspace Container
+b) search for the `WORKSPACE_INSTALL_XDEBUG` argument under the Workspace Container
 <br>
 c) set it to `true`
 <br>
-d) search for the `INSTALL_XDEBUG` argument under the PHP-FPM Container
+d) search for the `PHP_FPM_INSTALL_XDEBUG` argument under the PHP-FPM Container
 <br>
 e) set it to `true`
 
-It should be like this:
-
-```yml
-    workspace:
-        build:
-            context: ./workspace
-            args:
-                - INSTALL_XDEBUG=true
-    ...
-    php-fpm:
-        build:
-            context: ./php-fpm
-            args:
-                - INSTALL_XDEBUG=true
-    ...
-```
-
-2 - Open `laradock/workspace/xdebug.ini` and `laradock/php-fpm/xdebug.ini` and enable at least the following configurations:
-
-```
-xdebug.remote_autostart=1
-xdebug.remote_enable=1
-xdebug.remote_connect_back=0
-; NOTE: The dockerhost is your vEthernet (DockerNAT) IP
-xdebug.remote_host=dockerhost
-```
-
-3 - Re-build the containers `docker-compose build workspace php-fpm`
+2 - Re-build the containers `docker-compose build workspace php-fpm`
 
 For information on how to configure xDebug with your IDE and work it out, check this [Repository](https://github.com/LarryEitel/laravel-laradock-phpstorm) or follow up on the next section if you use linux and PhpStorm.
 
@@ -358,23 +331,12 @@ Note: If `.php-fpm/xdebug` doesn't execute and gives `Permission Denied` error t
 <a name="Install-Deployer"></a>
 ## Install Deployer (Deployment tool for PHP)
 
-1 - Open the `docker-compose.yml` file
+1 - Open the `.env` file
 <br>
-2 - Search for the `INSTALL_DEPLOYER` argument under the Workspace Container
+2 - Search for the `WORKSPACE_INSTALL_DEPLOYER` argument under the Workspace Container
 <br>
 3 - Set it to `true`
 <br>
-
-It should be like this:
-
-```yml
-    workspace:
-        build:
-            context: ./workspace
-            args:
-                - INSTALL_DEPLOYER=true
-    ...
-```
 
 4 - Re-build the containers `docker-compose build workspace`
 
@@ -428,7 +390,7 @@ To learn more about how Docker publishes ports, please read [this excellent post
 
 1) Boot the container `docker-compose up -d jenkins`. To enter the container type `docker-compose exec jenkins bash`.
 
-2) Go to `http://localhost:8090/` (if you didn't chanhed your default port mapping) 
+2) Go to `http://localhost:8090/` (if you didn't change your default port mapping)
 
 3) Authenticate from the web app.
 
@@ -631,32 +593,15 @@ composer require predis/predis:^1.0
 
 1 - First install `mongo` in the Workspace and the PHP-FPM Containers:
 <br>
-a) open the `docker-compose.yml` file
+a) open the `.env` file
 <br>
-b) search for the `INSTALL_MONGO` argument under the Workspace Container
+b) search for the `WORKSPACE_INSTALL_MONGO` argument under the Workspace Container
 <br>
 c) set it to `true`
 <br>
-d) search for the `INSTALL_MONGO` argument under the PHP-FPM Container
+d) search for the `PHP_FPM_INSTALL_MONGO` argument under the PHP-FPM Container
 <br>
 e) set it to `true`
-
-It should be like this:
-
-```yml
-    workspace:
-        build:
-            context: ./workspace
-            args:
-                - INSTALL_MONGO=true
-    ...
-    php-fpm:
-        build:
-            context: ./php-fpm
-            args:
-                - INSTALL_MONGO=true
-    ...
-```
 
 2 - Re-build the containers `docker-compose build workspace php-fpm`
 
@@ -971,7 +916,7 @@ docker-compose up -d aws
 
 3 - Access the aws container with `docker-compose exec aws bash`
 
-4 - To start using eb cli inside the container, initiaze your project first by doing 'eb init'. Read the [aws eb cli](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-configuration.html) docs for more details.
+4 - To start using eb cli inside the container, initialize your project first by doing 'eb init'. Read the [aws eb cli](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-configuration.html) docs for more details.
 
 
 
@@ -989,7 +934,7 @@ docker-compose up -d grafana
 
 3 - Open your browser and visit the localhost on port **3000** at the following URL: `http://localhost:3000`
 
-4 - Login using the credentials User = `admin` Passwort = `admin`. Change the password in the webinterface if you want to.
+4 - Login using the credentials User = `admin`, Password = `admin`. Change the password in the web interface if you want to.
 
 
 
@@ -1228,20 +1173,10 @@ server_name laravel.test;
 
 Enabling Global Composer Install during the build for the container allows you to get your composer requirements installed and available in the container after the build is done.
 
-1 - Open the `docker-compose.yml` file
+1 - Open the `.env` file
 
-2 - Search for the `COMPOSER_GLOBAL_INSTALL` argument under the Workspace Container and set it to `true`
+2 - Search for the `WORKSPACE_COMPOSER_GLOBAL_INSTALL` argument under the Workspace Container and set it to `true`
 
-It should be like this:
-
-```yml
-    workspace:
-        build:
-            context: ./workspace
-            args:
-                - COMPOSER_GLOBAL_INSTALL=true
-    ...
-```
 3 - Now add your dependencies to `workspace/composer.json`
 
 4 - Re-build the Workspace Container `docker-compose build workspace`
@@ -1280,20 +1215,9 @@ c - Re-build the Workspace Container `docker-compose build workspace`
 
 To install NVM and NodeJS in the Workspace container
 
-1 - Open the `docker-compose.yml` file
+1 - Open the `.env` file
 
-2 - Search for the `INSTALL_NODE` argument under the Workspace Container and set it to `true`
-
-It should be like this:
-
-```yml
-    workspace:
-        build:
-            context: ./workspace
-            args:
-                - INSTALL_NODE=true
-    ...
-```
+2 - Search for the `WORKSPACE_INSTALL_NODE` argument under the Workspace Container and set it to `true`
 
 3 - Re-build the container `docker-compose build workspace`
 
@@ -1308,21 +1232,61 @@ It should be like this:
 
 Yarn is a new package manager for JavaScript. It is so faster than npm, which you can find [here](http://yarnpkg.com/en/compare).To install NodeJS and [Yarn](https://yarnpkg.com/) in the Workspace container:
 
-1 - Open the `docker-compose.yml` file
+1 - Open the `.env` file
 
-2 - Search for the `INSTALL_NODE` and `INSTALL_YARN` argument under the Workspace Container and set it to `true`
+2 - Search for the `WORKSPACE_INSTALL_NODE` and `WORKSPACE_INSTALL_YARN` argument under the Workspace Container and set it to `true`
 
-It should be like this:
+3 - Re-build the container `docker-compose build workspace`
 
-```yml
-    workspace:
-        build:
-            context: ./workspace
-            args:
-                - INSTALL_NODE=true
-                - INSTALL_YARN=true
-    ...
-```
+
+
+
+
+
+<br>
+<a name="Install-NPM-GULP"></a>
+## Install NPM GULP toolkit
+
+To install NPM GULP toolkit in the Workspace container
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_NPM_GULP` argument under the Workspace Container and set it to `true`
+
+3 - Re-build the container `docker-compose build workspace`
+
+
+
+
+
+
+
+<br>
+<a name="Install-NPM-BOWER"></a>
+## Install NPM BOWER package manager
+
+To install NPM BOWER package manager in the Workspace container
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_NPM_BOWER` argument under the Workspace Container and set it to `true`
+
+3 - Re-build the container `docker-compose build workspace`
+
+
+
+
+
+
+<br>
+<a name="Install-NPM-VUE-CLI"></a>
+## Install NPM VUE CLI
+
+To install NPM VUE CLI in the Workspace container
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_NPM_VUE_CLI` argument under the Workspace Container and set it to `true`
 
 3 - Re-build the container `docker-compose build workspace`
 
@@ -1337,20 +1301,9 @@ It should be like this:
 
 Linuxbrew is a package manager for Linux. It is the Linux version of MacOS Homebrew and can be found [here](http://linuxbrew.sh). To install Linuxbrew in the Workspace container:
 
-1 - Open the `docker-compose.yml` file
+1 - Open the `.env` file
 
-2 - Search for the `INSTALL_LINUXBREW` argument under the Workspace Container and set it to `true`
-
-It should be like this:
-
-```yml
-    workspace:
-        build:
-            context: ./workspace
-            args:
-                - INSTALL_LINUXBREW=true
-    ...
-```
+2 - Search for the `WORKSPACE_INSTALL_LINUXBREW` argument under the Workspace Container and set it to `true`
 
 3 - Re-build the container `docker-compose build workspace`
 
@@ -1376,32 +1329,16 @@ You are free to modify the `aliases.sh` as you see fit, adding your own aliases 
 
 1 - First install `aerospike` in the Workspace and the PHP-FPM Containers:
 <br>
-a) open the `docker-compose.yml` file
+a) open the `.env` file
 <br>
-b) search for the `INSTALL_AEROSPIKE` argument under the Workspace Container
+b) search for the `WORKSPACE_INSTALL_AEROSPIKE` argument under the Workspace Container
 <br>
 c) set it to `true`
 <br>
-d) search for the `INSTALL_AEROSPIKE` argument under the PHP-FPM Container
+d) search for the `PHP_FPM_INSTALL_AEROSPIKE` argument under the PHP-FPM Container
 <br>
 e) set it to `true`
-
-It should be like this:
-
-```yml
-    workspace:
-        build:
-            context: ./workspace
-            args:
-                - INSTALL_AEROSPIKE=true
-    ...
-    php-fpm:
-        build:
-            context: ./php-fpm
-            args:
-                - INSTALL_AEROSPIKE=true
-    ...
-```
+<br>
 
 2 - Re-build the containers `docker-compose build workspace php-fpm`
 
@@ -1414,23 +1351,12 @@ It should be like this:
 <a name="Install-Laravel-Envoy"></a>
 ## Install Laravel Envoy (Envoy Task Runner)
 
-1 - Open the `docker-compose.yml` file
+1 - Open the `.env` file
 <br>
-2 - Search for the `INSTALL_LARAVEL_ENVOY` argument under the Workspace Container
+2 - Search for the `WORKSPACE_INSTALL_LARAVEL_ENVOY` argument under the Workspace Container
 <br>
 3 - Set it to `true`
 <br>
-
-It should be like this:
-
-```yml
-    workspace:
-        build:
-            context: ./workspace
-            args:
-                - INSTALL_LARAVEL_ENVOY=true
-    ...
-```
 
 4 - Re-build the containers `docker-compose build workspace`
 
@@ -1525,7 +1451,7 @@ Quick Setup giude, (we recommend you check their docs)
 <a name="Docker-Sync"></a>
 ### Workaround B: using d4m-nfs
 
-You can use the d4m-nfs solution in 2 ways, one is using the Laradock built it integration, and the other is using the tool separatly. Below is show case of both methods:
+You can use the d4m-nfs solution in 2 ways, the first is by using the built-in Laradock integration, and the second is using the tool separately. Below is show case of both methods:
 
 
 ### B.1: using the built in d4m-nfs integration
@@ -1630,7 +1556,7 @@ Click on the Docker Icon > Preferences > (remove everything form the list except
 git clone https://github.com/IFSight/d4m-nfs ~/d4m-nfs
 ```
 
-4) Create (or edit) the file `~/d4m-nfs/etc/d4m-nfs-mounts.txt`, and write the follwing configuration in it:
+4) Create (or edit) the file `~/d4m-nfs/etc/d4m-nfs-mounts.txt`, and write the following configuration in it:
 
 ```txt
 /Users:/Users

@@ -93,7 +93,7 @@ docker run --name myjenkins -p 8080:8080 -p 50000:50000 --env JAVA_OPTS="-Djava.
 ```
 
 # Configuring reverse proxy
-If you want to install Jenkins behind a reverse proxy with prefix, example: mysite.com/jenkins, you need to add environnement variable `JENKINS_OPTS="--prefix=/jenkins"` and then follow the below procedures to configure your reverse proxy, which will depend if you have Apache ou Nginx:
+If you want to install Jenkins behind a reverse proxy with prefix, example: mysite.com/jenkins, you need to add environment variable `JENKINS_OPTS="--prefix=/jenkins"` and then follow the below procedures to configure your reverse proxy, which will depend if you have Apache ou Nginx:
 - [Apache](https://wiki.jenkins-ci.org/display/JENKINS/Running+Jenkins+behind+Apache)
 - [Nginx](https://wiki.jenkins-ci.org/display/JENKINS/Jenkins+behind+an+NGinX+reverse+proxy)
 
@@ -154,7 +154,7 @@ COPY custom.groovy /usr/share/jenkins/ref/init.groovy.d/custom.groovy
 ## Preinstalling plugins
 
 You can rely on the `install-plugins.sh` script to pass a set of plugins to download with their dependencies.
-Use plugin artifact ID, whithout `-plugin` extension, and append the version if needed separated by `:`.
+Use plugin artifact ID, without `-plugin` extension, and append the version if needed separated by `:`.
 Dependencies that are already included in the Jenkins war will only be downloaded if their required version is newer than the one included.
 
 ```

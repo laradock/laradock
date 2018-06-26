@@ -29,6 +29,9 @@ COMPOSE_FILE=docker-compose.yml
 # Change the separator from : to ; on Windows
 COMPOSE_PATH_SEPARATOR=:
 
+# Define the prefix of container names. This is useful if you have multiple projects that use laradock to have seperate containers per project.
+COMPOSE_PROJECT_NAME=laradock
+
 ### PHP Version ###########################################
 
 # Select a PHP version of the Workspace and PHP-FPM containers (Does not apply to HHVM). Accepted values: 7.2 - 7.1 - 7.0 - 5.6
@@ -77,6 +80,9 @@ WORKSPACE_NODE_VERSION=stable
 WORKSPACE_NPM_REGISTRY=
 WORKSPACE_INSTALL_YARN=true
 WORKSPACE_YARN_VERSION=latest
+WORKSPACE_INSTALL_NPM_GULP=true
+WORKSPACE_INSTALL_NPM_BOWER=true
+WORKSPACE_INSTALL_NPM_VUE_CLI=true
 WORKSPACE_INSTALL_PHPREDIS=true
 WORKSPACE_INSTALL_WORKSPACE_SSH=false
 WORKSPACE_INSTALL_SUBVERSION=false
@@ -208,6 +214,7 @@ POSTGRES_DB=default
 POSTGRES_USER=default
 POSTGRES_PASSWORD=secret
 POSTGRES_PORT=5432
+POSTGRES_ENTRYPOINT_INITDB=./postgres/docker-entrypoint-initdb.d
 
 ### RABBITMQ ##############################################
 
