@@ -18,8 +18,12 @@ FROM laradock/php-fpm:2.2-${PHP_VERSION}
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
+# Set Environment Variables
+ENV DEBIAN_FRONTEND noninteractive
+
 # always run apt update when start and after add new source list, then clean up at end.
 RUN apt-get update -yqq && \
+    apt-get install -y apt-utils && \
     pecl channel-update pecl.php.net
 
 #
