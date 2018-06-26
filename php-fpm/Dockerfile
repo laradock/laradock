@@ -193,7 +193,7 @@ RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
 ###########################################################################
 
 ARG INSTALL_PCNTL=false
-RUN if [ ${INSTALL_PCNTL} = true]; then \
+RUN if [ ${INSTALL_PCNTL} = true ]; then \
     # Installs pcntl, helpful for running Horizon
     docker-php-ext-install pcntl \
 ;fi
