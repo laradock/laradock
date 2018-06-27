@@ -6,11 +6,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         python \
         python-dev \
         && \
+    apt-get autoremove -y && \
+    apt-get autoclean && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    wget
+        wget \
+        git \
+        && \
+    apt-get autoremove -y && \
+    apt-get autoclean && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN curl -O https://bootstrap.pypa.io/get-pip.py && \
     python3 get-pip.py && \
@@ -28,6 +36,8 @@ RUN python3 -m pip --no-cache-dir install \
         pandas \
         scipy \
         sklearn \
+        Flask \
+        gunicorn \
         && \
     python3 -m ipykernel.kernelspec
 
@@ -49,10 +59,7 @@ RUN wget --quiet https://github.com/krallin/tini/releases/download/v0.10.0/tini 
     chmod +x /usr/local/bin/tini
 
 # cleanup
-RUN apt-get autoremove -y && \
-    apt-get autoclean && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ENTRYPOINT ["tini", "--"]
 
