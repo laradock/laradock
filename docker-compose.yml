@@ -150,10 +150,13 @@ services:
         - "dockerhost:${DOCKER_HOST_IP}"
       environment:
         - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
+        - DOCKER_HOST=tcp://docker-in-docker:2375
       depends_on:
         - workspace
       networks:
         - backend
+      links:
+        - docker-in-docker
 
 ### PHP Worker ############################################
     php-worker:
@@ -715,6 +718,15 @@ services:
       ports:
         - 9010:9000
       
+### Docker-in-Docker ################################################
+    docker-in-docker:
+      image: docker:dind
+      privileged: true
+      volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+      expose:
+        - 2375
+
 ### NetData ################################################
     netdata:
       image: titpetric/netdata:latest
