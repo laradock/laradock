@@ -1683,3 +1683,30 @@ Example:
 WORKSPACE_NPM_REGISTRY=https://registry.npm.taobao.org
 WORKSPACE_COMPOSER_REPO_PACKAGIST=https://packagist.phpcomposer.com
 ```
+
+<br>
+
+## I get `Module build failed: Error: write EPIPE` while compiling react application
+
+When you run `npm build` or `yarn dev` building a react application using webpack with elixir you may receive a `Error: write EPIPE` while processing .jpg images.
+
+This is caused of an outdated library for processing **.jpg files** in ubuntu 16.04.
+
+To fix the problem you can follow those steps
+
+1 - Open the `.env`.
+
+2 - Search for `WORKSPACE_INSTALL_LIBPNG` or add the key if missing.
+
+3 - Set the value to true:
+
+```dotenv
+WORKSPACE_INSTALL_LIBPNG=true
+```
+
+4 - Finally rebuild the workspace image
+
+```bash
+docker-compose build workspace
+```
+
