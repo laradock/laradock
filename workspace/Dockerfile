@@ -74,6 +74,31 @@ ENV TZ ${TZ}
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 ###########################################################################
+# Install zsh theme 
+###########################################################################
+
+USER root
+
+RUN ["apt-get", "update"]
+RUN apt-get install zsh wget -y
+RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
+RUN chsh -s /bin/zsh laradock && \
+    # chown laradock:laradock /root/.oh-my-zsh -R && \
+    # ln -s /home/laradock/.oh-my-zsh /root/.oh-my-zsh && \
+    cp /root/.zshrc /home/laradock/ && \
+    chown laradock:laradock /home/laradock/.zshrc && \
+    cp -R /root/.oh-my-zsh /home/laradock/ && \
+    chown laradock:laradock /home/laradock/.oh-my-zsh -R
+
+COPY ./.zshrc /home/laradock/.zshrc
+
+RUN chown laradock:laradock /home/laradock/.zshrc && \
+    echo "" >> ~/.zshrc && \
+    echo "# Load Custom Aliases" >> ~/.zshrc && \
+    echo "source ~/aliases.sh" >> ~/.zshrc && \
+    echo "" >> ~/.zshrc
+
+###########################################################################
 # User Aliases
 ###########################################################################
 
