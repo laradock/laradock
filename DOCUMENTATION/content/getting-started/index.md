@@ -143,7 +143,7 @@ If you use Chrome 63 or above for development, don't use `.dev`. [Why?](https://
 If you are using **Docker Toolbox** (VM), do one of the following:
 
 - Upgrade to Docker [Native](https://www.docker.com/products/docker) for Mac/Windows (Recommended). Check out [Upgrading Laradock](/documentation/#upgrading-laradock)
-- Use Laradock v3.\*. Visit the [Laradock-ToolBox](https://github.com/laradock/laradock/tree/Laradock-ToolBox) branch. *(outdated)*
+- Use Laradock v3.\*. Visit the [Laradock-ToolBox](https://github.com/laradock/laradock/tree/LaraDock-ToolBox) branch. *(outdated)*
 
 <br>
 
