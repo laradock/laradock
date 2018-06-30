@@ -738,3 +738,16 @@ services:
         - "${NETDATA_PORT}:19999"
       networks:
         - backend
+
+### PHPRedisAdmin ################################################
+    phpredisadmin:
+      image: erikdubbelboer/phpredisadmin:latest
+      environment:
+        - ADMIN_USER=${REDIS_WEBUI_USERNAME}
+        - ADMIN_PASS=${REDIS_WEBUI_PASSWORD}
+        - REDIS_1_HOST=${REDIS_WEBUI_CONNECT_HOST}
+        - REDIS_1_PORT=${REDIS_WEBUI_CONNECT_PORT}
+      networks:
+        - backend
+      ports:
+        - "${REDIS_WEBUI_PORT}:80"

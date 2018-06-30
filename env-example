@@ -360,3 +360,10 @@ SOLR_DATAIMPORTHANDLER_MYSQL=false
 
 ### NETDATA ###############################################
 NETDATA_PORT=19999
+
+### PHPREDISADMIN #########################################
+REDIS_WEBUI_USERNAME=laradock
+REDIS_WEBUI_PASSWORD=laradock
+REDIS_WEBUI_CONNECT_HOST=redis
+REDIS_WEBUI_CONNECT_PORT=6379
+REDIS_WEBUI_PORT=9987
