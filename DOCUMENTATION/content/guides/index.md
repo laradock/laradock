@@ -358,7 +358,7 @@ Here are a few things I use to clean things up.
 ```
 dclean() {
     processes=`docker ps -q -f status=exited`
-    if [ -n "$processes" ]; thend
+    if [ -n "$processes" ]; then
       docker rm $processes
     fi
 

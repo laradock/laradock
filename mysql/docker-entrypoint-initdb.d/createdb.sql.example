@@ -8,9 +8,9 @@
 #    GRANT ALL ON `myshop_db`.* TO 'appuser'@'%' ;
 #
 #
-# this sql script will auto run when the mysql container starts and the $DATA_SAVE_PATH/mysql not found.
+# this sql script will auto run when the mysql container starts and the $DATA_PATH_HOST/mysql not found.
 #
-# if your $DATA_SAVE_PATH/mysql exists and you do not want to delete it, you can run by manual execution:
+# if your $DATA_PATH_HOST/mysql exists and you do not want to delete it, you can run by manual execution:
 #
 #     docker-compose exec mysql bash
 #     mysql -u root -p < /docker-entrypoint-initdb.d/createdb.sql

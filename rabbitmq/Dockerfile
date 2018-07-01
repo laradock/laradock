@@ -1,6 +1,6 @@
 FROM rabbitmq
 
-MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
+LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
 RUN rabbitmq-plugins enable --offline rabbitmq_management
 

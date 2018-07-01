@@ -8,9 +8,9 @@
 #    GRANT ALL ON `myshop_db`.* TO 'appuser'@'%' ;
 #
 ###
-### this sql script is auto run when percona container start and $DATA_SAVE_PATH/percona not exists.
+### this sql script is auto run when percona container start and $DATA_PATH_HOST/percona not exists.
 ###
-### if your $DATA_SAVE_PATH/percona is exists and you do not want to delete it, you can run by manual execution:
+### if your $DATA_PATH_HOST/percona is exists and you do not want to delete it, you can run by manual execution:
 ###
 ###     docker-compose exec percona bash
 ###     mysql -u root -p < /docker-entrypoint-initdb.d/createdb.sql
