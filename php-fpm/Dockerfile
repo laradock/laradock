@@ -83,6 +83,7 @@ RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
     mkdir -p /usr/share/man/man1 && \
     mkdir -p /usr/share/man/man7 && \
     # Install the pgsql client
+    apt-get update -yqq && \
     apt-get install -y postgresql-client \
 ;fi
 
@@ -191,6 +192,7 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
 ARG INSTALL_AMQP=false
 
 RUN if [ ${INSTALL_AMQP} = true ]; then \
+    apt-get update -yqq && \
     apt-get install librabbitmq-dev -y && \
     # Install the amqp extension
     pecl install amqp && \
@@ -239,7 +241,8 @@ ARG INSTALL_GMP=false
 
 RUN if [ ${INSTALL_GMP} = true ]; then \
     # Install the GMP extension
-	  apt-get install -y libgmp-dev && \
+	apt-get update -yqq && \
+    apt-get install -y libgmp-dev && \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
       ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h \
     ;fi && \
@@ -295,6 +298,7 @@ ARG AEROSPIKE_PHP_REPOSITORY
 
 RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
     # Fix dependencies for PHPUnit within aerospike extension
+    apt-get update -yqq && \
     apt-get -y install sudo wget && \
     # Install the php aerospike extension
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
@@ -379,6 +383,7 @@ ARG INSTALL_GHOSTSCRIPT=false
 RUN if [ ${INSTALL_GHOSTSCRIPT} = true ]; then \
     # Install the ghostscript extension
     # for PDF editing
+    apt-get update -yqq && \
     apt-get install -y \
     poppler-utils \
     ghostscript \
@@ -391,6 +396,7 @@ RUN if [ ${INSTALL_GHOSTSCRIPT} = true ]; then \
 ARG INSTALL_LDAP=false
 
 RUN if [ ${INSTALL_LDAP} = true ]; then \
+    apt-get update -yqq && \
     apt-get install -y libldap2-dev && \
     docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
     docker-php-ext-install ldap \
@@ -404,6 +410,7 @@ ARG INSTALL_MSSQL=false
 
 RUN set -eux; if [ ${INSTALL_MSSQL} = true ]; then \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      apt-get -yqq update && \
       apt-get -y install freetds-dev libsybdb5 \
       && ln -s /usr/lib/x86_64-linux-gnu/libsybdb.so /usr/lib/libsybdb.so \
       && docker-php-ext-install mssql pdo_dblib \
@@ -414,6 +421,7 @@ RUN set -eux; if [ ${INSTALL_MSSQL} = true ]; then \
       # Ref from https://github.com/Microsoft/msphpsql/wiki/Dockerfile-for-adding-pdo_sqlsrv-and-sqlsrv-to-official-php-image
       ###########################################################################
       # Add Microsoft repo for Microsoft ODBC Driver 13 for Linux
+      apt-get update -yqq && \
       apt-get install -y apt-transport-https gnupg \
       && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
       && curl https://packages.microsoft.com/config/debian/8/prod.list > /etc/apt/sources.list.d/mssql-release.list \
@@ -439,6 +447,7 @@ USER root
 ARG INSTALL_IMAGE_OPTIMIZERS=false
 
 RUN if [ ${INSTALL_IMAGE_OPTIMIZERS} = true ]; then \
+    apt-get update -yqq && \
     apt-get install -y jpegoptim optipng pngquant gifsicle \
 ;fi
 
@@ -451,6 +460,7 @@ USER root
 ARG INSTALL_IMAGEMAGICK=false
 
 RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
+    apt-get update -yqq && \
     apt-get install -y libmagickwand-dev imagemagick && \
     pecl install imagick && \
     docker-php-ext-enable imagick \
@@ -463,6 +473,7 @@ RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
 ARG INSTALL_IMAP=false
 
 RUN if [ ${INSTALL_IMAP} = true ]; then \
+    apt-get update -yqq && \
     apt-get install -y libc-client-dev libkrb5-dev && \
     rm -r /var/lib/apt/lists/* && \
     docker-php-ext-configure imap --with-kerberos --with-imap-ssl && \
