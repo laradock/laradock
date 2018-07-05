@@ -297,6 +297,28 @@ e) set it to `true`
 
 For information on how to configure xDebug with your IDE and work it out, check this [Repository](https://github.com/LarryEitel/laravel-laradock-phpstorm) or follow up on the next section if you use linux and PhpStorm.
 
+<br>
+<a name="Install-phpdbg"></a>
+## Install phpdbg
+
+Install `phpdbg` in the Workspace and the PHP-FPM Containers:
+
+<br>
+1 - Open the `.env`.
+
+2 - Search for `WORKSPACE_INSTALL_PHPDBG`.
+
+3 - Set value to `true`
+
+4 - Do the same for `PHP_FPM_INSTALL_PHPDBG`
+
+```dotenv
+WORKSPACE_INSTALL_PHPDBG=true
+```
+```dotenv
+PHP_FPM_INSTALL_PHPDBG=true
+```
+
 
 <a name="Setup remote debugging for PhpStorm on Linux"></a>
 ## Setup remote debugging for PhpStorm on Linux

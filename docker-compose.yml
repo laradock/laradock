@@ -50,6 +50,7 @@ services:
           - PHP_VERSION=${PHP_VERSION}
           - INSTALL_SUBVERSION=${WORKSPACE_INSTALL_SUBVERSION}
           - INSTALL_XDEBUG=${WORKSPACE_INSTALL_XDEBUG}
+          - INSTALL_PHPDBG=${WORKSPACE_INSTALL_PHPDBG}
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
           - INSTALL_SOAP=${WORKSPACE_INSTALL_SOAP}
           - INSTALL_LDAP=${WORKSPACE_INSTALL_LDAP}
@@ -116,6 +117,7 @@ services:
         args:
           - PHP_VERSION=${PHP_VERSION}
           - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
+          - INSTALL_PHPDBG=${PHP_FPM_INSTALL_PHPDBG}
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
           - INSTALL_SOAP=${PHP_FPM_INSTALL_SOAP}
           - INSTALL_IMAP=${PHP_FPM_INSTALL_IMAP}
@@ -726,6 +728,8 @@ services:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
       expose:
         - 2375
+      networks:
+        - backend
 
 ### NetData ################################################
     netdata:

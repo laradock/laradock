@@ -94,7 +94,7 @@ Make sure to replace `project-z` with your project folder name.
 
 <a name="B"></a>
 ### B) Setup for Multiple Projects:
-> (Follow these steps if you want a single Docker environment for all your project)
+> (Follow these steps if you want a single Docker environment for all your projects)
 
 1 - Clone this repository anywhere on your machine (similar to [Steps A.2. from above](#A2)):
 
