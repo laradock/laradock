@@ -470,6 +470,19 @@ RUN if [ ${INSTALL_IMAP} = true ]; then \
 ;fi
 
 ###########################################################################
+# libfaketime:
+###########################################################################
+
+USER root
+
+ARG INSTALL_FAKETIME=false
+
+RUN if [ ${INSTALL_FAKETIME} = true ]; then \
+    apt-get install -y libfaketime \
+;fi
+
+
+###########################################################################
 # Check PHP version:
 ###########################################################################
 
@@ -494,6 +507,12 @@ RUN apt-get clean && \
     rm /var/log/lastlog /var/log/faillog
 
 RUN usermod -u 1000 www-data
+
+# Adding the faketime library to the preload file needs to be done last
+# otherwise it will preload it for all commands that follow in this file
+RUN if [ ${INSTALL_FAKETIME} = true ]; then \
+    echo "/usr/lib/x86_64-linux-gnu/faketime/libfaketime.so.1" > /etc/ld.so.preload \
+;fi
 
 WORKDIR /var/www
 
