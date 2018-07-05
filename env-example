@@ -371,7 +371,7 @@ JUPYTERHUB_OAUTH_CLIENT_ID={GITHUB_CLIENT_ID}
 JUPYTERHUB_OAUTH_CLIENT_SECRET={GITHUB_CLIENT_SECRET}
 JUPYTERHUB_LOCAL_NOTEBOOK_IMAGE=laradock_jupyterhub-user
 JUPYTERHUB_CUSTOM_CONFIG=./jupyterhub/jupyterhub_config.py
-JUPYTERHUB_USER_DATA=~/jupyterhub
+JUPYTERHUB_USER_DATA=/jupyterhub
 JUPYTERHUB_USER_LIST=./jupyterhub/userlist
 
 ### NETDATA ###############################################
