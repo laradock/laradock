@@ -757,3 +757,5 @@ services:
         - "${MONGO_WEBUI_PORT}:3000"
       networks:
         - backend
+      depends_on:
+        - mongo
