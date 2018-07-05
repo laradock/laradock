@@ -470,6 +470,19 @@ RUN if [ ${INSTALL_IMAP} = true ]; then \
 ;fi
 
 ###########################################################################
+# Calendar:
+###########################################################################
+
+USER root
+
+ARG INSTALL_CALENDAR=false
+
+RUN if [ ${INSTALL_CALENDAR} = true ]; then \
+    docker-php-ext-configure calendar && \
+    docker-php-ext-install calendar \
+;fi
+
+###########################################################################
 # Check PHP version:
 ###########################################################################
 
