@@ -73,7 +73,7 @@ To update the sidebar or add a new section to it, you can edit this `DOCUMENTATI
 
 * Add the environment variables to the `env-example` if you have any.
 
-* **MOST IMPORTANTLY** updated the `Documentation`, add as much information.
+* **MOST IMPORTANTLY** update the `Documentation`, add as much information.
 
 * Submit a Pull Request, to the `master` branch.
 
@@ -100,7 +100,7 @@ To update the sidebar or add a new section to it, you can edit this `DOCUMENTATI
 
 * Search for the image in the [Docker Hub](https://hub.docker.com/search/) and find the source..
 
-*Most of the image in Laradock are offical images, these projects live in other repositories and maintainer by other orgnizations.*
+*Most of the image in Laradock are offical images, these projects live in other repositories and maintainer by other organizations.*
 
 **Note:** Laradock has two base images for (`Workspace` and `php-fpm`, mainly made to speed up the build time on your machine.
 

@@ -50,6 +50,7 @@ services:
           - PHP_VERSION=${PHP_VERSION}
           - INSTALL_SUBVERSION=${WORKSPACE_INSTALL_SUBVERSION}
           - INSTALL_XDEBUG=${WORKSPACE_INSTALL_XDEBUG}
+          - INSTALL_PHPDBG=${WORKSPACE_INSTALL_PHPDBG}
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
           - INSTALL_SOAP=${WORKSPACE_INSTALL_SOAP}
           - INSTALL_LDAP=${WORKSPACE_INSTALL_LDAP}
@@ -61,6 +62,9 @@ services:
           - INSTALL_NODE=${WORKSPACE_INSTALL_NODE}
           - NPM_REGISTRY=${WORKSPACE_NPM_REGISTRY}
           - INSTALL_YARN=${WORKSPACE_INSTALL_YARN}
+          - INSTALL_NPM_GULP=${WORKSPACE_INSTALL_NPM_GULP}
+          - INSTALL_NPM_BOWER=${WORKSPACE_INSTALL_NPM_BOWER}
+          - INSTALL_NPM_VUE_CLI=${WORKSPACE_INSTALL_NPM_VUE_CLI}
           - INSTALL_DRUSH=${WORKSPACE_INSTALL_DRUSH}
           - INSTALL_DRUPAL_CONSOLE=${WORKSPACE_INSTALL_DRUPAL_CONSOLE}
           - INSTALL_AEROSPIKE=${WORKSPACE_INSTALL_AEROSPIKE}
@@ -83,6 +87,7 @@ services:
           - INSTALL_DUSK_DEPS=${WORKSPACE_INSTALL_DUSK_DEPS}
           - INSTALL_PG_CLIENT=${WORKSPACE_INSTALL_PG_CLIENT}
           - INSTALL_SWOOLE=${WORKSPACE_INSTALL_SWOOLE}
+          - INSTALL_LIBPNG=${WORKSPACE_INSTALL_LIBPNG}
           - PUID=${WORKSPACE_PUID}
           - PGID=${WORKSPACE_PGID}
           - CHROME_DRIVER_VERSION=${WORKSPACE_CHROME_DRIVER_VERSION}
@@ -112,6 +117,7 @@ services:
         args:
           - PHP_VERSION=${PHP_VERSION}
           - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
+          - INSTALL_PHPDBG=${PHP_FPM_INSTALL_PHPDBG}
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
           - INSTALL_SOAP=${PHP_FPM_INSTALL_SOAP}
           - INSTALL_IMAP=${PHP_FPM_INSTALL_IMAP}
@@ -146,10 +152,13 @@ services:
         - "dockerhost:${DOCKER_HOST_IP}"
       environment:
         - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
+        - DOCKER_HOST=tcp://docker-in-docker:2375
       depends_on:
         - workspace
       networks:
         - backend
+      links:
+        - docker-in-docker
 
 ### PHP Worker ############################################
     php-worker:
@@ -754,3 +763,26 @@ services:
         - ${DATA_PATH_HOST}/gitlab/runner:/etc/gitlab-runner
         - /var/run/docker.sock:/var/run/docker.sock:rw
       restart: always
+      
+### Docker-in-Docker ################################################
+    docker-in-docker:
+      image: docker:dind
+      privileged: true
+      volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+      expose:
+        - 2375
+      networks:
+        - backend
+
+### NetData ################################################
+    netdata:
+      image: titpetric/netdata:latest
+      cap_add:
+      - SYS_PTRACE
+      volumes:
+      - /:/host:ro
+      ports:
+        - "${NETDATA_PORT}:19999"
+      networks:
+        - backend

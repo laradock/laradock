@@ -18,6 +18,9 @@ FROM laradock/workspace:2.2-${PHP_VERSION}
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
+# Set Environment Variables
+ENV DEBIAN_FRONTEND noninteractive
+
 # Start as root
 USER root
 
@@ -149,6 +152,27 @@ COPY ./crontab /etc/cron.d
 RUN chmod -R 644 /etc/cron.d
 
 ###########################################################################
+# Drush:
+###########################################################################
+
+# Deprecated install of Drush 8 and earlier versions.
+# Drush 9 and up require Drush to be listed as a composer dependency of your site.
+
+USER root
+
+ARG INSTALL_DRUSH=false
+ARG DRUSH_VERSION
+ENV DRUSH_VERSION ${DRUSH_VERSION}
+
+RUN if [ ${INSTALL_DRUSH} = true ]; then \
+    apt-get -y install mysql-client && \
+    # Install Drush with the phar file.
+    curl -fsSL -o /usr/local/bin/drush https://github.com/drush-ops/drush/releases/download/${DRUSH_VERSION}/drush.phar | bash && \
+    chmod +x /usr/local/bin/drush && \
+    drush core-status \
+;fi
+
+###########################################################################
 # SOAP:
 ###########################################################################
 
@@ -209,13 +233,31 @@ ARG PHP_VERSION=${PHP_VERSION}
 
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     # Load the xdebug extension only with phpunit commands
-    apt-get install -y --force-yes php${PHP_VERSION}-xdebug && \
+    apt-get install -y php${PHP_VERSION}-xdebug && \
     sed -i 's/^;//g' /etc/php/${PHP_VERSION}/cli/conf.d/20-xdebug.ini && \
     echo "alias phpunit='php -dzend_extension=xdebug.so /var/www/vendor/bin/phpunit'" >> ~/.bashrc \
 ;fi
 
 # ADD for REMOTE debugging
 COPY ./xdebug.ini /etc/php/${PHP_VERSION}/cli/conf.d/xdebug.ini
+
+RUN sed -i "s/xdebug.remote_autostart=0/xdebug.remote_autostart=1/" /etc/php/${PHP_VERSION}/cli/conf.d/xdebug.ini && \
+    sed -i "s/xdebug.remote_enable=0/xdebug.remote_enable=1/" /etc/php/${PHP_VERSION}/cli/conf.d/xdebug.ini && \
+    sed -i "s/xdebug.cli_color=0/xdebug.cli_color=1/" /etc/php/${PHP_VERSION}/cli/conf.d/xdebug.ini
+
+###########################################################################
+# Phpdbg:
+###########################################################################
+
+USER root
+
+ARG INSTALL_PHPDBG=false
+ARG PHP_VERSION=${PHP_VERSION}
+
+RUN if [ ${INSTALL_PHPDBG} = true ]; then \
+    # Load the xdebug extension only with phpunit commands
+    apt-get install -y --force-yes php${PHP_VERSION}-phpdbg \
+;fi
 
 ###########################################################################
 # Blackfire:
@@ -264,7 +306,12 @@ ARG PHP_VERSION=${PHP_VERSION}
 
 RUN if [ ${INSTALL_MONGO} = true ]; then \
     # Install the mongodb extension
-    pecl -q install mongodb && \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      pecl install mongo && \
+      echo "extension=mongo.so" >> /etc/php/${PHP_VERSION}/mods-available/mongo.ini && \
+      ln -s /etc/php/${PHP_VERSION}/mods-available/mongo.ini /etc/php/${PHP_VERSION}/cli/conf.d/30-mongo.ini \
+    ;fi && \
+    pecl install mongodb && \
     echo "extension=mongodb.so" >> /etc/php/${PHP_VERSION}/mods-available/mongodb.ini && \
     ln -s /etc/php/${PHP_VERSION}/mods-available/mongodb.ini /etc/php/${PHP_VERSION}/cli/conf.d/30-mongodb.ini \
 ;fi
@@ -309,31 +356,25 @@ RUN if [ ${INSTALL_SWOOLE} = true ]; then \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
       pecl -q install swoole-2.0.11; \
     else \
-      pecl -q install swoole; \
+      if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+        pecl install swoole-2.2.0; \
+      else \
+        pecl install swoole; \
+      fi \
     fi && \
     echo "extension=swoole.so" >> /etc/php/${PHP_VERSION}/mods-available/swoole.ini && \
     ln -s /etc/php/${PHP_VERSION}/mods-available/swoole.ini /etc/php/${PHP_VERSION}/cli/conf.d/20-swoole.ini \
 ;fi
 
 ###########################################################################
-# Drush:
+# Libpng16 EXTENSION
 ###########################################################################
 
-# Deprecated install of Drush 8 and earlier versions.
-# Drush 9 and up require Drush to be listed as a composer dependency of your site.
+ARG INSTALL_LIBPNG=false
 
-USER root
-
-ARG INSTALL_DRUSH=false
-ARG DRUSH_VERSION
-ENV DRUSH_VERSION ${DRUSH_VERSION}
-
-RUN if [ ${INSTALL_DRUSH} = true ]; then \
-    apt-get -y install mysql-client && \
-    # Install Drush with the phar file.
-    curl -fsSL -o /usr/local/bin/drush https://github.com/drush-ops/drush/releases/download/${DRUSH_VERSION}/drush.phar | bash && \
-    chmod +x /usr/local/bin/drush && \
-    drush core-status \
+RUN if [ ${INSTALL_LIBPNG} = true ]; then \
+    apt update && \
+    apt install libpng16-16 \
 ;fi
 
 ###########################################################################
@@ -358,24 +399,35 @@ USER laradock
 ###########################################################################
 
 # Check if NVM needs to be installed
-ARG NODE_VERSION=stable
+ARG NODE_VERSION=node
 ENV NODE_VERSION ${NODE_VERSION}
 ARG INSTALL_NODE=false
+ARG INSTALL_NPM_GULP=false
+ARG INSTALL_NPM_BOWER=false
+ARG INSTALL_NPM_VUE_CLI=false
 ARG NPM_REGISTRY
 ENV NPM_REGISTRY ${NPM_REGISTRY}
 ENV NVM_DIR /home/laradock/.nvm
 
 RUN if [ ${INSTALL_NODE} = true ]; then \
     # Install nvm (A Node Version Manager)
-    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash && \
-        . $NVM_DIR/nvm.sh && \
-        nvm install ${NODE_VERSION} && \
-        nvm use ${NODE_VERSION} && \
-        nvm alias ${NODE_VERSION} && \
-        if [ ${NPM_REGISTRY} ]; then \
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash \
+        && . $NVM_DIR/nvm.sh \
+        && nvm install ${NODE_VERSION} \
+        && nvm use ${NODE_VERSION} \
+        && nvm alias ${NODE_VERSION} \
+        && if [ ${NPM_REGISTRY} ]; then \
         npm config set registry ${NPM_REGISTRY} \
-        ;fi && \
-        npm install -g gulp bower vue-cli \
+        ;fi \
+        && if [ ${INSTALL_NPM_GULP} = true ]; then \
+        npm install -g gulp \
+        ;fi \
+        && if [ ${INSTALL_NPM_BOWER} = true ]; then \
+        npm install -g bower \
+        ;fi \
+        && if [ ${INSTALL_NPM_VUE_CLI} = true ]; then \
+        npm install -g @vue/cli \
+        ;fi \
 ;fi
 
 # Wouldn't execute when added to the RUN statement in the above block
@@ -577,34 +629,40 @@ ARG INSTALL_MSSQL=false
 ARG PHP_VERSION=${PHP_VERSION}
 
 RUN set -eux; if [ ${INSTALL_MSSQL} = true ]; then \
-    ###########################################################################
-    #  The following steps were taken from
-    #  https://github.com/Microsoft/msphpsql/wiki/Install-and-configuration
-    ###########################################################################
-    curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
-    curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
-    apt-get update -yqq && \
-    ACCEPT_EULA=Y apt-get install -yqq msodbcsql=13.0.1.0-1 mssql-tools=14.0.2.0-1 && \
-    apt-get install -yqq unixodbc-dev-utf16 && \
-    ln -sfn /opt/mssql-tools/bin/sqlcmd-13.0.1.0 /usr/bin/sqlcmd && \
-    ln -sfn /opt/mssql-tools/bin/bcp-13.0.1.0 /usr/bin/bcp && \
-    ACCEPT_EULA=Y apt-get install -yqq \
-        unixodbc \
-        unixodbc-dev \
-        libgss3 \
-        odbcinst \
-        msodbcsql \
-        locales && \
-    echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
-    locale-gen && \
-    pecl install sqlsrv-4.3.0 pdo_sqlsrv-4.3.0 && \
-    apt-get install -y locales && \
-    echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
-    locale-gen && \
-    echo "extension=sqlsrv.so"     > /etc/php/${PHP_VERSION}/cli/conf.d/20-sqlsrv.ini && \
-    echo "extension=pdo_sqlsrv.so" > /etc/php/${PHP_VERSION}/cli/conf.d/20-pdo_sqlsrv.ini \
-    && php -m | grep -q 'sqlsrv' \
-    && php -m | grep -q 'pdo_sqlsrv' \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      apt-get -y install php5.6-sybase freetds-bin freetds-common libsybdb5 \
+      && php -m | grep -q 'mssql' \
+      && php -m | grep -q 'pdo_dblib' \
+    ;else \
+      ###########################################################################
+      #  The following steps were taken from
+      #  https://github.com/Microsoft/msphpsql/wiki/Install-and-configuration
+      ###########################################################################
+      curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
+      curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
+      apt-get update -yqq && \
+      ACCEPT_EULA=Y apt-get install -yqq msodbcsql=13.0.1.0-1 mssql-tools=14.0.2.0-1 && \
+      apt-get install -yqq unixodbc-dev-utf16 && \
+      ln -sfn /opt/mssql-tools/bin/sqlcmd-13.0.1.0 /usr/bin/sqlcmd && \
+      ln -sfn /opt/mssql-tools/bin/bcp-13.0.1.0 /usr/bin/bcp && \
+      ACCEPT_EULA=Y apt-get install -yqq \
+          unixodbc \
+          unixodbc-dev \
+          libgss3 \
+          odbcinst \
+          msodbcsql \
+          locales && \
+      echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
+      locale-gen && \
+      pecl install sqlsrv-4.3.0 pdo_sqlsrv-4.3.0 && \
+      apt-get install -y locales && \
+      echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
+      locale-gen && \
+      echo "extension=sqlsrv.so"     > /etc/php/${PHP_VERSION}/cli/conf.d/20-sqlsrv.ini && \
+      echo "extension=pdo_sqlsrv.so" > /etc/php/${PHP_VERSION}/cli/conf.d/20-pdo_sqlsrv.ini \
+      && php -m | grep -q 'sqlsrv' \
+      && php -m | grep -q 'pdo_sqlsrv' \
+    ;fi \
 ;fi
 
 ###########################################################################
@@ -631,9 +689,9 @@ USER root
 ARG INSTALL_IMAGE_OPTIMIZERS=false
 
 RUN if [ ${INSTALL_IMAGE_OPTIMIZERS} = true ]; then \
-    apt-get install -y --force-yes jpegoptim optipng pngquant gifsicle && \
+    apt-get install -y jpegoptim optipng pngquant gifsicle && \
     if [ ${INSTALL_NODE} = true ]; then \
-        . ~/.bashrc && npm install -g svgo \
+        exec bash && . ~/.bashrc && npm install -g svgo \
     ;fi\
 ;fi
 
@@ -680,7 +738,7 @@ USER root
 ARG INSTALL_IMAGEMAGICK=false
 
 RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
-    apt-get install -y --force-yes imagemagick php-imagick \
+    apt-get install -y imagemagick php-imagick \
 ;fi
 
 ###########################################################################
@@ -710,6 +768,15 @@ RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
     # Install the pgsql client
     apt-get -y install postgresql-client \
 ;fi
+
+###########################################################################
+# nasm
+###########################################################################
+
+USER root
+
+RUN apt-get update -yqq \
+    && apt-get -yqq install nasm 
 
 ###########################################################################
 # Dusk Dependencies:
