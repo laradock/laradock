@@ -9,13 +9,13 @@ RUN apk update && apk add build-base
 RUN pip --no-cache-dir install ipyparallel
 
 RUN pip --no-cache-dir install \
-        matplotlib \
         numpy \
         pandas \
         scipy \
         sklearn \
         pymongo \
-        redis
+        redis \
+        requests
 
 RUN ipython profile create --parallel --profile=default
 
