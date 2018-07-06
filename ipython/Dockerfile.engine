@@ -15,8 +15,7 @@ RUN pip --no-cache-dir install \
         scipy \
         sklearn \
         pymongo \
-        redis \
-        requests
+        redis
 
 RUN ipython profile create --parallel --profile=default
 
