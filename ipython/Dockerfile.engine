@@ -8,10 +8,9 @@ RUN apk update && apk add build-base
 
 RUN pip --no-cache-dir install ipyparallel
 
-RUN pip --no-cache-dir install \
+RUN python -m pip --no-cache-dir install \
         numpy \
         pandas \
-        scipy \
         sklearn \
         pymongo \
         redis \
