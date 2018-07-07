@@ -6,7 +6,7 @@ USER root
 
 RUN apk add --no-cache build-base
 
-RUN python -m pip --upgrade --no-cache-dir install \
+RUN python -m pip --quiet --no-cache-dir install \
         ipyparallel
 
 RUN ipython profile create --parallel --profile=default
