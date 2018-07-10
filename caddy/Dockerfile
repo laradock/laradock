@@ -17,7 +17,7 @@ RUN cd / \
     && ./configure \
     && make -j \
     && cp /fswatch/fswatch/src/fswatch /usr/bin \
-    && echo "#!/bin/sh\nfswatch -d /etc/caddy | xargs -0 -n 1 -I {} pkill -USR1 caddy" >> /start.sh \
+    && echo -e "#!/bin/sh\nfswatch -d /etc/caddy | xargs -0 -n 1 -I {} pkill caddy" >> /start.sh \
     && chmod +x /start.sh
 
 EXPOSE 80 443 2015
