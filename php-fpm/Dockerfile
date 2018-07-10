@@ -21,6 +21,14 @@ LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 # Set Environment Variables
 ENV DEBIAN_FRONTEND noninteractive
 
+ARG CHANGE_SOURCE=false
+RUN if [ ${CHANGE_SOURCE} = true ]; then \
+    # Change ubuntu source from ubuntu/debian to aliyun source
+    RUN sed -i "s/archive.ubuntu./mirrors.aliyun./g" /etc/apt/sources.list && \
+    sed -i "s/deb.debian.org/mirrors.aliyun.com/g" /etc/apt/sources.list && \
+    sed -i "s/security.debian.org/mirrors.aliyun.com\/debian-security/g" /etc/apt/sources.list
+;fi
+
 # always run apt update when start and after add new source list, then clean up at end.
 RUN apt-get update -yqq && \
     apt-get install -y apt-utils && \
