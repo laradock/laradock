@@ -11,9 +11,9 @@ RUN caddyplug install ${plugins}
 
 RUN apk add --no-cache file git autoconf automake libtool gettext gettext-dev make g++ texinfo curl
 
-RUN git clone https://github.com/emcrisostomo/fswatch.git
+RUN cd / && git clone https://github.com/emcrisostomo/fswatch.git
 
-RUN cd fswatch && ./autogen.sh && ./configure && make -j && ldconfig && cp fswatch/src/fswatch /usr/bin
+RUN cd /fswatch && ./autogen.sh && ./configure && make -j && ldconfig && cp /fswatch/fswatch/src/fswatch /usr/bin
 
 EXPOSE 80 443 2015
 
