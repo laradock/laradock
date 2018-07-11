@@ -774,3 +774,23 @@ services:
         - backend
       depends_on:
         - mongo
+  
+### Metabase #################################################
+    metabase:
+      image: metabase/metabase:latest
+      environment:
+        - MB_DB_FILE=${METABASE_DB_FILE}
+        - MB_DB_TYPE=${METABASE_DB_TYPE}
+        - MB_DB_DBNAME=${METABASE_DB_DBNAME}
+        - MB_DB_PORT=${METABASE_DB_PORT}
+        - MB_DB_USER=${METABASE_DB_USER}
+        - MB_DB_PASS=${METABASE_DB_PASS}
+        - MB_DB_HOST=${METABASE_DB_HOST}
+        - JAVA_TIMEZONE=${METABASE_JAVA_TIMEZONE}
+      ports:
+        - ${METABASE_PORT}:3000
+      volumes:
+        - ${DATA_PATH_HOST}/metabase-data:/metabase-data
+      networks:
+        - backend
+
