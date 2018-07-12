@@ -8,16 +8,8 @@ ARG plugins="cors filemanager git"
 
 RUN caddyplug install ${plugins}
 
-RUN apk add --no-cache file git autoconf automake libtool gettext gettext-dev make g++ texinfo curl
-
-RUN cd / \
-    && git clone https://github.com/emcrisostomo/fswatch.git \
-    && cd /fswatch \
-    && ./autogen.sh \
-    && ./configure \
-    && make -j \
-    && cp /fswatch/fswatch/src/fswatch /usr/bin \
-    && echo -e "#!/bin/sh\nfswatch -d /etc/caddy | xargs -0 -n 1 -I {} pkill caddy" >> /start.sh \
+RUN apk add --no-cache inotify-tools \
+    && echo -e "#!/bin/sh\nwhile inotifywait -e modify /etc/caddy; do\n\tpkill caddy\ndone " >> /start.sh \
     && chmod +x /start.sh
 
 EXPOSE 80 443 2015
