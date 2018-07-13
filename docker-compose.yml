@@ -522,7 +522,6 @@ services:
         - frontend
         - backend
 
-
 ### ElasticSearch ########################################
     elasticsearch:
       build: ./elasticsearch
@@ -544,7 +543,6 @@ services:
       networks:
         - frontend
         - backend
-
 
 ### Kibana ##############################################
     kibana:
@@ -820,6 +818,7 @@ services:
     mongo-webui:
       build:
         context: ./mongo-webui
+      restart: always
       environment:
         - ROOT_URL=${MONGO_WEBUI_ROOT_URL}
         - MONGO_URL=${MONGO_WEBUI_MONGO_URL}
