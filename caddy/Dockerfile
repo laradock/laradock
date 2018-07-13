@@ -2,7 +2,7 @@ FROM zuohuadong/caddy:alpine
 
 LABEL maintainer="Huadong Zuo <admin@zuohuadong.cn>"
 
-ARG plugins="cors filemanager git"
+ARG plugins="cors"
 
 ## ARG plugins="cors cgi cloudflare azure linode"
 
@@ -14,6 +14,6 @@ RUN apk add --no-cache inotify-tools \
 
 EXPOSE 80 443 2015
 
-WORKDIR /var/www
+WORKDIR /var/www/public
 
 CMD ["sh","-c","/start.sh & /usr/bin/caddy -conf /etc/caddy/Caddyfile -agree"]
