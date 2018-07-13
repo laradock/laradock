@@ -722,6 +722,41 @@ services:
       ports:
         - 9010:9000
       
+### JupyterHub #########################################
+    jupyterhub:
+      build:
+        context: ./jupyterhub
+      depends_on:
+        - postgres
+        - jupyterhub-user
+      restart: always
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock:rw
+        - ${DATA_PATH_HOST}/jupyterhub/:/data
+        - ${JUPYTERHUB_CUSTOM_CONFIG}:/jupyterhub_config.py
+        - ${JUPYTERHUB_USER_DATA}:/user-data
+        - ${JUPYTERHUB_USER_LIST}:/userlist
+      networks:
+        - backend
+      ports:
+        - "${JUPYTERHUB_PORT}:80"
+      environment:
+        - TERM=xterm
+        - JUPYTERHUB_USER_DATA=${JUPYTERHUB_USER_DATA}
+        - JUPYTERHUB_POSTGRES_DB=${JUPYTERHUB_POSTGRES_DB}
+        - JUPYTERHUB_POSTGRES_USER=${JUPYTERHUB_POSTGRES_USER}
+        - JUPYTERHUB_POSTGRES_HOST=${JUPYTERHUB_POSTGRES_HOST}
+        - JUPYTERHUB_POSTGRES_PASSWORD=${JUPYTERHUB_POSTGRES_PASSWORD}
+        - JUPYTERHUB_OAUTH_CALLBACK_URL=${JUPYTERHUB_OAUTH_CALLBACK_URL}
+        - JUPYTERHUB_OAUTH_CLIENT_ID=${JUPYTERHUB_OAUTH_CLIENT_ID}
+        - JUPYTERHUB_OAUTH_CLIENT_SECRET=${JUPYTERHUB_OAUTH_CLIENT_SECRET}
+        - JUPYTERHUB_LOCAL_NOTEBOOK_IMAGE=${JUPYTERHUB_LOCAL_NOTEBOOK_IMAGE}
+    jupyterhub-user:
+      build:
+        context: ./jupyterhub
+        dockerfile: Dockerfile.user
+      command: ["sh", "-c", "echo \"build only\""]
+
 ### IPython #########################################
     ipython-controller:
       build:
