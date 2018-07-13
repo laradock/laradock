@@ -360,7 +360,6 @@ SOLR_VERSION=5.5
 SOLR_PORT=8983
 SOLR_DATAIMPORTHANDLER_MYSQL=false
 
-<<<<<<< HEAD
 ### IPYTHON ##################################################
 LARADOCK_IPYTHON_CONTROLLER_IP=127.0.0.1
 
