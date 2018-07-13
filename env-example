@@ -374,5 +374,21 @@ JUPYTERHUB_CUSTOM_CONFIG=./jupyterhub/jupyterhub_config.py
 JUPYTERHUB_USER_DATA=/jupyterhub
 JUPYTERHUB_USER_LIST=./jupyterhub/userlist
 
+### IPYTHON ##################################################
+LARADOCK_IPYTHON_CONTROLLER_IP=127.0.0.1
+
 ### NETDATA ###############################################
 NETDATA_PORT=19999
+
+### PHPREDISADMIN #########################################
+REDIS_WEBUI_USERNAME=laradock
+REDIS_WEBUI_PASSWORD=laradock
+REDIS_WEBUI_CONNECT_HOST=redis
+REDIS_WEBUI_CONNECT_PORT=6379
+REDIS_WEBUI_PORT=9987
+
+### MONGOWEBUI ###############################################
+MONGO_WEBUI_PORT=3000
+MONGO_WEBUI_ROOT_URL=http://localhost
+MONGO_WEBUI_MONGO_URL=mongodb://mongo:27017/
+MONGO_WEBUI_INSTALL_MONGO=false
