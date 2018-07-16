@@ -31,3 +31,11 @@
 #     CREATE DATABASE db3;
 #     GRANT ALL PRIVILEGES ON DATABASE db3 TO db3;
 # EOSQL
+# 
+### default database and user for jupyterhub ##############################################
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+    CREATE USER laradock_jupyterhub WITH PASSWORD 'laradock_jupyterhub';
+    CREATE DATABASE laradock_jupyterhub;
+    GRANT ALL PRIVILEGES ON DATABASE laradock_jupyterhub TO laradock_jupyterhub;
+    ALTER ROLE laradock_jupyterhub CREATEROLE SUPERUSER;
+EOSQL
