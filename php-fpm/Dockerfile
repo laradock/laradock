@@ -470,6 +470,19 @@ RUN if [ ${INSTALL_IMAP} = true ]; then \
 ;fi
 
 ###########################################################################
+# Calendar:
+###########################################################################
+
+USER root
+
+ARG INSTALL_CALENDAR=false
+
+RUN if [ ${INSTALL_CALENDAR} = true ]; then \
+    docker-php-ext-configure calendar && \
+    docker-php-ext-install calendar \
+;fi
+
+###########################################################################
 # libfaketime:
 ###########################################################################
 
@@ -480,7 +493,6 @@ ARG INSTALL_FAKETIME=false
 RUN if [ ${INSTALL_FAKETIME} = true ]; then \
     apt-get install -y libfaketime \
 ;fi
-
 
 ###########################################################################
 # Check PHP version:

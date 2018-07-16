@@ -1456,6 +1456,21 @@ e) set it to `true`
 
 
 
+<a name="Install php calendar extension"></a>
+## Install php calendar extension
+
+1 - Open the `.env` file
+<br>
+2 - Search for the `PHP_FPM_INSTALL_CALENDAR` argument under the PHP-FPM container
+<br>
+3 - Set it to `true`
+<br>
+4 - Re-build the containers `docker-compose build php-fpm`
+<br>
+
+
+
+
 <br>
 <a name="Install-Faketime"></a>
 ## Install libfaketime in the php-fpm container
@@ -1474,8 +1489,8 @@ will set the clock back 1 day. See (https://github.com/wolfcw/libfaketime) for m
 4 - Search for the `PHP_FPM_FAKETIME` argument under the PHP-FPM container
 <br>
 5 - Set it to the desired string
-
-
+<br>
+6 - Re-build the containers `docker-compose build php-fpm`<br>
 
 
 
