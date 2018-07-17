@@ -522,6 +522,7 @@ b) add a new service container by simply copy-paste this section below PHP-FPM c
         context: ./php-worker
         args:
           - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL} #Optionally install PGSQL PHP drivers
+          - INSTALL_BCMATH=${PHP_WORKER_INSTALL_BCMATH} #Optionally install BCMath php package
       volumes_from:
         - applications
       depends_on:
