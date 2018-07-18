@@ -201,7 +201,7 @@ RUN if [ ${INSTALL_AMQP} = true ]; then \
 # ZipArchive:
 ###########################################################################
 
-ARG INSTALL_ZIP_ARCHIVE=false
+ARG INSTALL_ZIP_ARCHIVE=true
 
 RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
     apt-get install libzip-dev -y && \
