@@ -685,7 +685,7 @@ services:
       networks:
         - frontend
         - backend
-        
+
 ### Solr ################################################
     solr:
       build:
