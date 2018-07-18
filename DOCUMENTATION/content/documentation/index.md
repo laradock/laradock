@@ -740,6 +740,25 @@ docker-compose up -d mariadb phpmyadmin
 
 
 <br>
+<a name="Use-Gitlab"></a>
+## Use Gitlab
+
+1 - Run the Gitlab Container (`gitlab`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d gitlab
+```
+
+2 - Open your browser and visit the localhost on port **8989**:  `http://localhost:8989`
+<br>
+*Note: You may change GITLAB_DOMAIN_NAME to your own domain name like `http://gitlab.example.com` default is `http://localhost`*
+
+
+
+
+
+
+<br>
 <a name="Use-Adminer"></a>
 ## Use Adminer
 
@@ -1453,6 +1472,19 @@ e) set it to `true`
 
 [**Laravel Envoy Documentation Here**](https://laravel.com/docs/5.3/envoy)
 
+
+
+
+<a name="Install php calendar extension"></a>
+## Install php calendar extension
+
+1 - Open the `.env` file
+<br>
+2 - Search for the `PHP_FPM_INSTALL_CALENDAR` argument under the PHP-FPM container
+<br>
+3 - Set it to `true`
+<br>
+4 - Re-build the containers `docker-compose build php-fpm`
 
 
 
