@@ -720,6 +720,50 @@ services:
         - "dockerhost:${DOCKER_HOST_IP}"
       ports:
         - 9010:9000
+      networks:
+        - backend
+
+### Gitlab ################################################
+    gitlab:
+      build:
+        context: ./gitlab
+      environment:
+        GITLAB_OMNIBUS_CONFIG: |
+          external_url '${GITLAB_DOMAIN_NAME}' 
+          redis['enable'] = false 
+          nginx['listen_https'] = false 
+          nginx['listen_port'] = 80 
+          postgresql['enable'] = false 
+          gitlab_rails['trusted_proxies'] = ['caddy','nginx','apache2'] 
+          gitlab_rails['redis_host'] = 'redis' 
+          gitlab_rails['redis_database'] = 8
+          gitlab_rails['db_host'] = 'postgres' 
+          gitlab_rails['db_username'] = 'laradock_gitlab'
+          gitlab_rails['db_password'] = 'laradock_gitlab'
+          gitlab_rails['db_database'] = 'laradock_gitlab'
+          gitlab_rails['initial_root_password'] = '${GITLAB_ROOT_PASSWORD}'
+          gitlab_rails['gitlab_shell_ssh_port'] = ${GITLAB_HOST_SSH_PORT}
+      volumes:
+        - ${DATA_PATH_HOST}/gitlab/config:/etc/gitlab
+        - ${DATA_PATH_HOST}/gitlab/data:/var/opt/gitlab
+        - ${GITLAB_HOST_LOG_PATH}:/var/log/gitlab
+      ports:
+        - "${GITLAB_HOST_HTTP_PORT}:80"
+        - "${GITLAB_HOST_HTTPS_PORT}:443"
+        - "${GITLAB_HOST_SSH_PORT}:22"
+      networks:
+        - backend
+      depends_on:
+        - redis
+        - postgres
+    gitlab-runner:
+      image: gitlab/gitlab-runner:latest
+      environment:
+        - CI_SERVER_URL=${GITLAB_DOMAIN_NAME}
+      volumes:
+        - ${DATA_PATH_HOST}/gitlab/runner:/etc/gitlab-runner
+        - /var/run/docker.sock:/var/run/docker.sock:rw
+      restart: always
       
 ### JupyterHub #########################################
     jupyterhub:

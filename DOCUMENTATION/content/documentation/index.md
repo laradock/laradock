@@ -740,6 +740,25 @@ docker-compose up -d mariadb phpmyadmin
 
 
 <br>
+<a name="Use-Gitlab"></a>
+## Use Gitlab
+
+1 - Run the Gitlab Container (`gitlab`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d gitlab
+```
+
+2 - Open your browser and visit the localhost on port **8989**:  `http://localhost:8989`
+<br>
+*Note: You may change GITLAB_DOMAIN_NAME to your own domain name like `http://gitlab.example.com` default is `http://localhost`*
+
+
+
+
+
+
+<br>
 <a name="Use-Adminer"></a>
 ## Use Adminer
 
