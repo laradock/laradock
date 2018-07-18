@@ -148,6 +148,7 @@ PHP_FPM_INSTALL_LDAP=false
 PHP_FPM_INSTALL_SWOOLE=false
 PHP_FPM_INSTALL_PG_CLIENT=false
 PHP_FPM_INSTALL_PCNTL=false
+PHP_FPM_INSTALL_CALENDAR=false
 
 ### PHP_WORKER ############################################
 
@@ -368,5 +369,35 @@ GITLAB_DOMAIN_NAME=http://localhost
 GITLAB_ROOT_PASSWORD=laradock
 GITLAB_HOST_LOG_PATH=./logs/gitlab
 
+### JUPYTERHUB ###############################################
+JUPYTERHUB_POSTGRES_HOST=postgres
+JUPYTERHUB_POSTGRES_USER=laradock_jupyterhub
+JUPYTERHUB_POSTGRES_PASSWORD=laradock_jupyterhub
+JUPYTERHUB_POSTGRES_DB=laradock_jupyterhub
+JUPYTERHUB_PORT=9991
+JUPYTERHUB_OAUTH_CALLBACK_URL=http://laradock:9991/hub/oauth_callback
+JUPYTERHUB_OAUTH_CLIENT_ID={GITHUB_CLIENT_ID}
+JUPYTERHUB_OAUTH_CLIENT_SECRET={GITHUB_CLIENT_SECRET}
+JUPYTERHUB_LOCAL_NOTEBOOK_IMAGE=laradock_jupyterhub-user
+JUPYTERHUB_CUSTOM_CONFIG=./jupyterhub/jupyterhub_config.py
+JUPYTERHUB_USER_DATA=/jupyterhub
+JUPYTERHUB_USER_LIST=./jupyterhub/userlist
+
+### IPYTHON ##################################################
+LARADOCK_IPYTHON_CONTROLLER_IP=127.0.0.1
+
 ### NETDATA ###############################################
 NETDATA_PORT=19999
+
+### PHPREDISADMIN #########################################
+REDIS_WEBUI_USERNAME=laradock
+REDIS_WEBUI_PASSWORD=laradock
+REDIS_WEBUI_CONNECT_HOST=redis
+REDIS_WEBUI_CONNECT_PORT=6379
+REDIS_WEBUI_PORT=9987
+
+### MONGOWEBUI ###############################################
+MONGO_WEBUI_PORT=3000
+MONGO_WEBUI_ROOT_URL=http://localhost
+MONGO_WEBUI_MONGO_URL=mongodb://mongo:27017/
+MONGO_WEBUI_INSTALL_MONGO=false

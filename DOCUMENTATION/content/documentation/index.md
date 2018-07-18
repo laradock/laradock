@@ -1475,6 +1475,19 @@ e) set it to `true`
 
 
 
+<a name="Install php calendar extension"></a>
+## Install php calendar extension
+
+1 - Open the `.env` file
+<br>
+2 - Search for the `PHP_FPM_INSTALL_CALENDAR` argument under the PHP-FPM container
+<br>
+3 - Set it to `true`
+<br>
+4 - Re-build the containers `docker-compose build php-fpm`
+
+
+
 
 
 <br>
