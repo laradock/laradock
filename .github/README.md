@@ -74,7 +74,7 @@ Your logo will show up on the [GitHub repository](https://github.com/laradock/la
 > Help keeping the project development going, by [contributing](http://laradock.io/contributing) or donating a little. 
 > Thanks in advance.
 
-Donate directly via [Paypal](https://www.paypal.me/mzalt)
+Donate directly via [PayPal](https://www.paypal.me/mzalt)
 
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/mzalt) 
 
