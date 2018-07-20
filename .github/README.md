@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://raw.githubusercontent.com/sav-valerio/laradock/master/.github/images/logo.jpg" alt="Laradock Logo"/>
+    <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/images/logo.jpg" alt="Laradock Logo"/>
 </p>
 
 <p align="center">A Docker PHP development environment that facilitates running PHP Apps on Docker</p>
@@ -24,7 +24,7 @@
 
 <p align="center">
 	<a href="http://laradock.io">
-	   <img src="https://raw.githubusercontent.com/sav-valerio/laradock/master/.github/images/docs.png" width=300px" alt="Laradock Docs"/>
+	   <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/images/docs.png" width=300px" alt="Laradock Docs"/>
 	</a>
 </p>
 
