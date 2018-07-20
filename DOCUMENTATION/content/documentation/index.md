@@ -323,7 +323,7 @@ PHP_FPM_INSTALL_PHPDBG=true
 <a name="Setup remote debugging for PhpStorm on Linux"></a>
 ## Setup remote debugging for PhpStorm on Linux
 
- - Make sure you have followed the steps above in the [Install Xdebug section](http://laradock.io/documentation/#install-xdebug).
+ - Make sure you have followed the steps above in the [Install Xdebug section](#install-xdebug).
 
  - Make sure Xdebug accepts connections and listens on port 9000. (Should be default configuration).
 
@@ -407,7 +407,7 @@ To learn more about how Docker publishes ports, please read [this excellent post
 <a name="Digital-Ocean"></a>
 ## Setup Laravel and Docker on Digital Ocean
 
-### [Full Guide Here](https://github.com/laradock/laradock/blob/master/_guides/digital_ocean.md)
+### [Full Guide Here](/guides/#Digital-Ocean)
 
 
 
@@ -1496,7 +1496,7 @@ e) set it to `true`
 ## PHPStorm Debugging Guide
 Remote debug Laravel web and phpunit tests.
 
-[**Debugging Guide Here**](https://github.com/laradock/laradock/blob/master/_guides/phpstorm.md)
+[**Debugging Guide Here**](/guides/#PHPStorm-Debugging)
 
 
 
