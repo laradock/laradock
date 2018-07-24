@@ -1,7 +1,7 @@
 .idea
 /logs
 /data
-.env
+# .env
 /.project
 .docker-sync
 /jenkins/jenkins_home
