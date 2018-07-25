@@ -2,6 +2,6 @@
 
 docker-compose up -d nginx mongo
 
-docker-compose exec workspace bash -c "php artisan migrate";
-docker-compose exec workspace bash -c "php artisan passport:install --force";
-docker exec -it laradock_nginx_1 bash -c "cd /var/www/axio-frontend && ./bin/build.sh";
+
+docker-compose exec workspace bash -c "php artisan migrate && php artisan passport:install --force";
+docker-compose exec --user=laradock workspace bash --login -c "cd /var/www/axio-frontend && ./bin/build.sh";

@@ -99,6 +99,7 @@ services:
           - BLACKFIRE_CLIENT_TOKEN=${BLACKFIRE_CLIENT_TOKEN}
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+        - ../AXIO:/var/www/axio-frontend:cached
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       ports:
@@ -877,15 +878,3 @@ services:
         - backend
       depends_on:
         - mongo
-
-### Frontend ################################################
-    web:
-        build: frontend
-        ports:
-            - 80:80
-        volumes:
-            - ../AXIO:/var/www/axio-frontend:cached
-        networks:
-            backend:
-                aliases:
-                    - axio.dev
