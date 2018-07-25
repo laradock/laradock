@@ -188,7 +188,6 @@ services:
           - PHP_UPSTREAM_CONTAINER=${NGINX_PHP_UPSTREAM_CONTAINER}
           - PHP_UPSTREAM_PORT=${NGINX_PHP_UPSTREAM_PORT}
       volumes:
-        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
         - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
         - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
         - ../AXIO:/var/www/axio-frontend:cached
