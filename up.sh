@@ -1,6 +1,6 @@
 #!/bin/bash -ex
 
-docker-compose up -d mongo nginx
+docker-compose up -d nginx mongo
 
 docker-compose exec workspace bash -c "php artisan migrate";
 docker-compose exec workspace bash -c "php artisan passport:install --force";
