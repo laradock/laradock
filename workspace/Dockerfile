@@ -631,23 +631,12 @@ RUN set -eux; if [ ${INSTALL_MSSQL} = true ]; then \
       curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
       curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
       apt-get update -yqq && \
-      ACCEPT_EULA=Y apt-get install -yqq msodbcsql=13.0.1.0-1 mssql-tools=14.0.2.0-1 && \
-      apt-get install -yqq unixodbc-dev-utf16 && \
-      ln -sfn /opt/mssql-tools/bin/sqlcmd-13.0.1.0 /usr/bin/sqlcmd && \
-      ln -sfn /opt/mssql-tools/bin/bcp-13.0.1.0 /usr/bin/bcp && \
-      ACCEPT_EULA=Y apt-get install -yqq \
-          unixodbc \
-          unixodbc-dev \
-          libgss3 \
-          odbcinst \
-          msodbcsql \
-          locales && \
+      ACCEPT_EULA=Y apt-get install -y msodbcsql17 mssql-tools unixodbc unixodbc-dev libgss3 odbcinst locales && \
+      ln -sfn /opt/mssql-tools/bin/sqlcmd /usr/bin/sqlcmd && \
+      ln -sfn /opt/mssql-tools/bin/bcp /usr/bin/bcp && \
       echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
       locale-gen && \
-      pecl install sqlsrv-4.3.0 pdo_sqlsrv-4.3.0 && \
-      apt-get install -y locales && \
-      echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
-      locale-gen && \
+      pecl install sqlsrv pdo_sqlsrv && \
       echo "extension=sqlsrv.so"     > /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-sqlsrv.ini && \
       echo "extension=pdo_sqlsrv.so" > /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-pdo_sqlsrv.ini \
       && php -m | grep -q 'sqlsrv' \
