@@ -47,7 +47,7 @@ services:
       build:
         context: ./workspace
         args:
-          - PHP_VERSION=${PHP_VERSION}
+          - LARADOCK_PHP_VERSION=${PHP_VERSION}
           - INSTALL_SUBVERSION=${WORKSPACE_INSTALL_SUBVERSION}
           - INSTALL_XDEBUG=${WORKSPACE_INSTALL_XDEBUG}
           - INSTALL_PHPDBG=${WORKSPACE_INSTALL_PHPDBG}
