@@ -115,7 +115,7 @@ services:
       build:
         context: ./php-fpm
         args:
-          - PHP_VERSION=${PHP_VERSION}
+          - LARADOCK_PHP_VERSION=${PHP_VERSION}
           - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
           - INSTALL_PHPDBG=${PHP_FPM_INSTALL_PHPDBG}
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
