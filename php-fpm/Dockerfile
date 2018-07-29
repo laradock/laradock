@@ -423,7 +423,7 @@ RUN set -eux; if [ ${INSTALL_MSSQL} = true ]; then \
       && ACCEPT_EULA=Y apt-get install -y unixodbc unixodbc-dev libgss3 odbcinst msodbcsql17 locales \
       && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
       # link local aliases
-      && ln -s /etc/locale.alias /usr/share/locale/locale.alias \
+      && ln -sfn /etc/locale.alias /usr/share/locale/locale.alias \
       && locale-gen \
       # Install pdo_sqlsrv and sqlsrv from PECL. Replace pdo_sqlsrv-4.1.8preview with preferred version.
       && pecl install pdo_sqlsrv sqlsrv \
