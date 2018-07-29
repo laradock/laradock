@@ -493,12 +493,22 @@ RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
     curl -L -o /tmp/aerospike-client-php.tar.gz ${AEROSPIKE_PHP_REPOSITORY} \
     && mkdir -p aerospike-client-php \
     && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
-    && ( \
-        cd aerospike-client-php/src \
-        && phpize \
-        && ./build.sh \
-        && make install \
-    ) \
+    && \
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+        ( \
+            cd aerospike-client-php/src/aerospike \
+            && phpize \
+            && ./build.sh \
+            && make install \
+        ) \
+      else \
+        ( \
+            cd aerospike-client-php/src \
+            && phpize \
+            && ./build.sh \
+            && make install \
+        ) \
+      fi \
     && rm /tmp/aerospike-client-php.tar.gz \
     && echo 'extension=aerospike.so' >> /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/aerospike.ini \
     && echo 'aerospike.udf.lua_system_path=/usr/local/aerospike/lua' >> /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/aerospike.ini \
