@@ -12,11 +12,13 @@
 # Note: Base Image name format {image-tag}-{php-version}
 #
 
-ARG PHP_VERSION=${PHP_VERSION}
+ARG LARADOCK_PHP_VERSION
 
-FROM laradock/php-fpm:2.2-${PHP_VERSION}
+FROM laradock/php-fpm:2.2-${LARADOCK_PHP_VERSION}
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
+
+ARG LARADOCK_PHP_VERSION
 
 # Set Environment Variables
 ENV DEBIAN_FRONTEND noninteractive
@@ -114,11 +116,10 @@ RUN sed -i "s/xdebug.remote_autostart=0/xdebug.remote_autostart=1/" /usr/local/e
 ###########################################################################
 
 ARG INSTALL_PHPDBG=false
-ARG PHP_VERSION=${PHP_VERSION}
 
 RUN if [ ${INSTALL_PHPDBG} = true ]; then \
     # Load the xdebug extension only with phpunit commands
-    apt-get install -y --force-yes php${PHP_VERSION}-phpdbg \
+    apt-get install -y --force-yes php${LARADOCK_PHP_VERSION}-phpdbg \
 ;fi
 
 ###########################################################################
@@ -488,9 +489,7 @@ RUN if [ ${INSTALL_CALENDAR} = true ]; then \
 # Check PHP version:
 ###########################################################################
 
-ARG PHP_VERSION=${PHP_VERSION}
-
-RUN php -v | head -n 1 | grep -q "PHP ${PHP_VERSION}."
+RUN php -v | head -n 1 | grep -q "PHP ${LARADOCK_PHP_VERSION}."
 
 #
 #--------------------------------------------------------------------------
