@@ -555,6 +555,19 @@ docker-compose up -d netdata
 
 2 - Open your browser and visit the localhost on port **19999**:  `http://localhost:19999`
 
+<br>
+<a name="Use-Metabase"></a>
+## Use Metabase
+
+1 - Run the Metabase Container (`metbase`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d metabase
+```
+
+2 - Open your browser and visit the localhost on port **3030**:  `http://localhost:3030`
+
+3 - You can use environment to configure Metabase container. See docs in: [Running Metabase on Docker](https://www.metabase.com/docs/v0.12.0/operations-guide/running-metabase-on-docker.html)
 
 
 
