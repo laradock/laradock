@@ -478,6 +478,9 @@ RUN if [ ${INSTALL_YARN} = true ]; then \
     echo 'export PATH="$YARN_DIR/bin:$PATH"' >> ~/.bashrc \
 ;fi
 
+# Add PATH for YARN
+ENV PATH $PATH:/home/laradock/.yarn/bin
+
 ###########################################################################
 # PHP Aerospike:
 ###########################################################################
