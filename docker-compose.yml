@@ -47,7 +47,7 @@ services:
       build:
         context: ./workspace
         args:
-          - PHP_VERSION=${PHP_VERSION}
+          - LARADOCK_PHP_VERSION=${PHP_VERSION}
           - INSTALL_SUBVERSION=${WORKSPACE_INSTALL_SUBVERSION}
           - INSTALL_XDEBUG=${WORKSPACE_INSTALL_XDEBUG}
           - INSTALL_PHPDBG=${WORKSPACE_INSTALL_PHPDBG}
@@ -116,7 +116,7 @@ services:
       build:
         context: ./php-fpm
         args:
-          - PHP_VERSION=${PHP_VERSION}
+          - LARADOCK_PHP_VERSION=${PHP_VERSION}
           - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
           - INSTALL_PHPDBG=${PHP_FPM_INSTALL_PHPDBG}
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
@@ -169,6 +169,7 @@ services:
         args:
           - PHP_VERSION=${PHP_VERSION}
           - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL}
+          - INSTALL_BCMATH=${PHP_WORKER_INSTALL_BCMATH}
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
         - ./php-worker/supervisord.d:/etc/supervisord.d
@@ -876,3 +877,16 @@ services:
         - backend
       depends_on:
         - mongo
+  
+### Metabase #################################################
+    metabase:
+      image: metabase/metabase:latest
+      environment:
+        - MB_DB_FILE=/metabase-data/${METABASE_DB_FILE}
+      ports:
+        - ${METABASE_PORT}:3000
+      volumes:
+        - ${DATA_PATH_HOST}/metabase-data:/metabase-data
+      networks:
+        - backend
+

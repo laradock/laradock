@@ -323,7 +323,7 @@ PHP_FPM_INSTALL_PHPDBG=true
 <a name="Setup remote debugging for PhpStorm on Linux"></a>
 ## Setup remote debugging for PhpStorm on Linux
 
- - Make sure you have followed the steps above in the [Install Xdebug section](http://laradock.io/documentation/#install-xdebug).
+ - Make sure you have followed the steps above in the [Install Xdebug section](#install-xdebug).
 
  - Make sure Xdebug accepts connections and listens on port 9000. (Should be default configuration).
 
@@ -407,7 +407,7 @@ To learn more about how Docker publishes ports, please read [this excellent post
 <a name="Digital-Ocean"></a>
 ## Setup Laravel and Docker on Digital Ocean
 
-### [Full Guide Here](https://github.com/laradock/laradock/blob/master/_guides/digital_ocean.md)
+### [Full Guide Here](/guides/#Digital-Ocean)
 
 
 
@@ -522,6 +522,7 @@ b) add a new service container by simply copy-paste this section below PHP-FPM c
         context: ./php-worker
         args:
           - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL} #Optionally install PGSQL PHP drivers
+          - INSTALL_BCMATH=${PHP_WORKER_INSTALL_BCMATH} #Optionally install BCMath php package
       volumes_from:
         - applications
       depends_on:
@@ -554,6 +555,19 @@ docker-compose up -d netdata
 
 2 - Open your browser and visit the localhost on port **19999**:  `http://localhost:19999`
 
+<br>
+<a name="Use-Metabase"></a>
+## Use Metabase
+
+1 - Run the Metabase Container (`metbase`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d metabase
+```
+
+2 - Open your browser and visit the localhost on port **3030**:  `http://localhost:3030`
+
+3 - You can use environment to configure Metabase container. See docs in: [Running Metabase on Docker](https://www.metabase.com/docs/v0.12.0/operations-guide/running-metabase-on-docker.html)
 
 
 
@@ -1495,7 +1509,7 @@ e) set it to `true`
 ## PHPStorm Debugging Guide
 Remote debug Laravel web and phpunit tests.
 
-[**Debugging Guide Here**](https://github.com/laradock/laradock/blob/master/_guides/phpstorm.md)
+[**Debugging Guide Here**](/guides/#PHPStorm-Debugging)
 
 
 
