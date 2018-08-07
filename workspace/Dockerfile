@@ -175,6 +175,21 @@ RUN if [ ${INSTALL_DRUSH} = true ]; then \
 ;fi
 
 ###########################################################################
+# WP CLI:
+###########################################################################
+
+# The command line interface for WordPress
+
+USER root
+
+ARG INSTALL_WP_CLI=false
+
+RUN if [ ${INSTALL_WP_CLI} = true ]; then \
+    curl -fsSL -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar | bash && \
+    chmod +x /usr/local/bin/wp \
+;fi
+
+###########################################################################
 # SOAP:
 ###########################################################################
 
