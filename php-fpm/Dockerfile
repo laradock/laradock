@@ -486,6 +486,34 @@ RUN if [ ${INSTALL_CALENDAR} = true ]; then \
 ;fi
 
 ###########################################################################
+# V8
+###########################################################################
+
+USER root
+
+ARG INSTALL_V8=false
+
+WORKDIR /
+COPY ./v8.tar.gz /
+
+RUN if [ ${INSTALL_V8} = true ]; then \
+    apt-get install -y git patchelf && \
+    tar xzf v8.tar.gz && \
+    for A in /opt/v8/lib/*.so; do \
+        patchelf --set-rpath '$ORIGIN' $A; \
+    done && \
+    cd /tmp && \
+    git clone https://github.com/phpv8/v8js.git && \
+    cd v8js && \
+    git checkout php7 && \
+    phpize && \
+    ./configure --with-v8js=/opt/v8 LDFLAGS="-lstdc++" && \
+    make && \
+    make install && \
+    docker-php-ext-enable v8js \
+;fi
+
+###########################################################################
 # Check PHP version:
 ###########################################################################
 
@@ -505,7 +533,8 @@ USER root
 # Clean up
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
-    rm /var/log/lastlog /var/log/faillog
+    rm /var/log/lastlog /var/log/faillog && \
+    rm -f ./v8.tar.gz
 
 RUN usermod -u 1000 www-data
 
