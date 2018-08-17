@@ -889,7 +889,7 @@ services:
       networks:
         - backend
 
-### Weaver (Athena PDF) ################################################
+### Weaver (Athena PDF) #################################################
     weaver:
       image: arachnysdocker/athenapdf-service
       ports:
