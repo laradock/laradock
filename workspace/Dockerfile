@@ -178,6 +178,20 @@ RUN if [ ${INSTALL_DRUSH} = true ]; then \
 
 USER root
 
+ARG INSTALL_GMP=false
+ARG PHP_VERSION=${PHP_VERSION}
+
+RUN if [ ${INSTALL_GMP} = true ]; then \
+  # Install the PHP SOAP extension
+  apt-get -y install php${PHP_VERSION}-gmp \
+;fi
+
+###########################################################################
+# SOAP:
+###########################################################################
+
+USER root
+
 ARG INSTALL_SOAP=false
 ARG PHP_VERSION=${PHP_VERSION}
 
