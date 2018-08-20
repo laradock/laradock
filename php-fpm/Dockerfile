@@ -22,6 +22,9 @@ LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 RUN apt-get update -yqq && \
     pecl channel-update pecl.php.net
 
+RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \ 
+    echo 'Asia/Shanghai' >/etc/timezone
+
 #
 #--------------------------------------------------------------------------
 # Mandatory Software's Installation
@@ -167,6 +170,18 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
     pecl install mongodb && \
     docker-php-ext-enable mongodb \
 ;fi
+
+###########################################################################
+# YAF:
+###########################################################################
+
+ARG INSTALL_YAF=true
+
+RUN if [ ${INSTALL_YAF} = true ]; then \
+    # Install the yaf extensiong
+    pecl install yaf && \
+    docker-php-ext-enable yaf \
+;fi 
 
 ###########################################################################
 # AMQP:
