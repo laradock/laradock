@@ -353,6 +353,28 @@ Note: If `.php-fpm/xdebug` doesn't execute and gives `Permission Denied` error t
 
 
 
+<br>
+<a name="Install-ionCube-Loader"></a>
+## Install ionCube Loader
+
+1 - First install `ionCube Loader` in the Workspace and the PHP-FPM Containers:
+<br>
+a) open the `.env` file
+<br>
+b) search for the `WORKSPACE_INSTALL_IONCUBE` argument under the Workspace Container
+<br>
+c) set it to `true`
+<br>
+d) search for the `PHP_FPM_INSTALL_IONCUBE` argument under the PHP-FPM Container
+<br>
+e) set it to `true`
+
+2 - Re-build the containers `docker-compose build workspace php-fpm`
+
+Always download the latest version of [Loaders for ionCube ](http://www.ioncube.com/loaders.php).
+
+
+
 
 
 <br>
