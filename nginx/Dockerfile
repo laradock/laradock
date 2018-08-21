@@ -1,8 +1,8 @@
 FROM nginx:alpine
 
-MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
+LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
-ADD nginx.conf /etc/nginx/
+COPY nginx.conf /etc/nginx/
 
 # If you're in China, or you need to change sources, will be set CHANGE_SOURCE to true in .env.
 

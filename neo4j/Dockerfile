@@ -1,6 +1,6 @@
 FROM tpires/neo4j
 
-MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
+LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
 VOLUME /var/lib/neo4j/data
 

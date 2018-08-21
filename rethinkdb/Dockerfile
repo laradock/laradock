@@ -1,6 +1,6 @@
 FROM rethinkdb:latest
 
-MAINTAINER Cristian Mello <cristianc.mello@gmail.com>
+LABEL maintainer="Cristian Mello <cristianc.mello@gmail.com>"
 
 VOLUME /data/rethinkdb_data
 

@@ -1,6 +1,6 @@
 FROM debian:latest
 
-MAINTAINER ZeroC0D3 Team<zeroc0d3.team@gmail.com>
+LABEL maintainer="ZeroC0D3 Team<zeroc0d3.team@gmail.com>"
 
 # Set Environment Variables
 ENV DEBIAN_FRONTEND noninteractive
@@ -19,8 +19,8 @@ ENV VARNISH_PORT    6081
 ENV BACKEND_HOST    localhost
 ENV BACKEND_PORT    80
 
-ADD default.vcl /etc/varnish/default.vcl
-ADD start.sh /etc/varnish/start.sh
+COPY default.vcl /etc/varnish/default.vcl
+COPY start.sh /etc/varnish/start.sh
 
 RUN chmod +x /etc/varnish/start.sh
 

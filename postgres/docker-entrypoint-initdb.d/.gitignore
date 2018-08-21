@@ -1,0 +1,3 @@
+*.sh
+!init_gitlab_db.sh
+!init_jupyterhub_db.sh
