@@ -891,3 +891,59 @@ services:
       networks:
         - backend
 
+### IDE-THEIA ################################################
+    ide-theia:
+      build:
+        context: ./ide-theia
+      volumes:
+        - ${APP_CODE_PATH_HOST}:/home/project
+      ports:
+        - "${IDE_THEIA_PORT}:3000"
+      networks:
+        - backend
+
+### IDE-WEBIDE ################################################
+    ide-webide:
+      build:
+        context: ./ide-webide
+      volumes:
+        - ${DATA_PATH_HOST}/ide/webide/ide.db:/root/.coding-ide/ide.db
+      ports:
+        - "${IDE_WEBIDE_PORT}:8080"
+      networks:
+        - backend
+
+### IDE-CODIAD ################################################
+    ide-codiad:
+      build:
+        context: ./ide-codiad
+      environment:
+        - APP_CODE_PATH_CONTAINER=${APP_CODE_PATH_CONTAINER}
+        - TZ=${WORKSPACE_TIMEZONE}
+        - PGID=1000
+        - PUID=1000
+      volumes:
+        - /etc/localtime:/etc/localtime:ro
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+        - ${DATA_PATH_HOST}/ide/codiad:/config
+      ports:
+        - "${IDE_CODIAD_PORT}:80"
+      networks:
+        - backend
+
+### IDE-ICECODER ################################################
+    ide-icecoder:
+      build:
+        context: ./ide-icecoder
+      environment:
+        - DOCUMENT_ROOT=${APP_CODE_PATH_CONTAINER}
+        - TZ=${WORKSPACE_TIMEZONE}
+        - PGID=1000
+        - PUID=1000
+      volumes:
+        - /etc/localtime:/etc/localtime:ro
+        - ${APP_CODE_PATH_HOST}:/home/laradock/ICEcoder/dev
+      ports:
+        - "${IDE_ICECODER_PORT}:8080"
+      networks:
+        - backend
