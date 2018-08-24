@@ -418,3 +418,10 @@ IDE_THEIA_PORT=987
 IDE_WEBIDE_PORT=984
 IDE_CODIAD_PORT=985
 IDE_ICECODER_PORT=986
+
+### DOCKERREGISTRY ###############################################
+DOCKER_REGISTRY_PORT=5000
+
+### DOCKERWEBUI ###############################################
+DOCKER_WEBUI_REGISTRY_HOST=docker-registry
+DOCKER_WEBUI_REGISTRY_PORT=5000
