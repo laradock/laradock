@@ -969,6 +969,7 @@ services:
         - TZ=${WORKSPACE_TIMEZONE}
         - ENV_DOCKER_REGISTRY_HOST=${DOCKER_WEBUI_REGISTRY_HOST}
         - ENV_DOCKER_REGISTRY_PORT=${DOCKER_WEBUI_REGISTRY_PORT}
+        - ENV_DOCKER_REGISTRY_USE_SSL=${DOCKER_REGISTRY_USE_SSL}
       volumes:
         - /etc/localtime:/etc/localtime:ro
       ports:
