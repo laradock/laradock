@@ -1523,7 +1523,25 @@ will set the clock back 1 day. See (https://github.com/wolfcw/libfaketime) for m
 <br>
 5 - Set it to the desired string
 <br>
-6 - Re-build the containers `docker-compose build php-fpm`<br>
+6 - Re-build the containers `docker-compose build php-fpm`
+<br>
+
+
+
+
+<br>
+<a name="Install-V8Js"></a>
+## Install the V8Js extension in the php-fpm container
+
+1 - Open the `.env` file
+<br>
+2 - Search for the `PHP_FPM_INSTALL_V8` argument under the PHP-FPM container
+<br>
+3 - Set it to `true`
+<br>
+4 - Rebuild the containers `docker-compose build php-fpm`
+<br>
+
 
 
 
