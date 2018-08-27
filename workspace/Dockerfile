@@ -193,6 +193,20 @@ RUN if [ ${INSTALL_SSH2} = true ]; then \
 
 USER root
 
+ARG INSTALL_GMP=false
+ARG PHP_VERSION=${PHP_VERSION}
+
+RUN if [ ${INSTALL_GMP} = true ]; then \
+  # Install the PHP SOAP extension
+  apt-get -y install php${PHP_VERSION}-gmp \
+;fi
+
+###########################################################################
+# SOAP:
+###########################################################################
+
+USER root
+
 ARG INSTALL_SOAP=false
 
 RUN if [ ${INSTALL_SOAP} = true ]; then \
