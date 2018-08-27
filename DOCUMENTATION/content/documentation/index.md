@@ -1532,6 +1532,7 @@ will set the clock back 1 day. See (https://github.com/wolfcw/libfaketime) for m
 <br>
 <a name="Install-V8Js"></a>
 ## Install the V8Js extension in the php-fpm container
+The V8Js php pecl extension is available for PHP versions: 7.2, 7.1 and 7.0
 
 1 - Open the `.env` file
 <br>
