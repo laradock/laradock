@@ -51,6 +51,23 @@ RUN apt-get update -yqq && \
 #
 
 ###########################################################################
+# SSH2:
+###########################################################################
+
+ARG INSTALL_SSH2=false
+
+RUN if [ ${INSTALL_SSH2} = true ]; then \
+    # Install the ssh2 extension
+    apt-get -y install libssh2-1-dev && \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+        pecl install -a ssh2-0.13; \
+    else \
+        pecl install -a ssh2-1.1.2; \
+    fi && \
+    docker-php-ext-enable ssh2 \
+;fi
+
+###########################################################################
 # SOAP:
 ###########################################################################
 
