@@ -190,7 +190,7 @@ RUN if [ ${INSTALL_SWOOLE} = true ]; then \
 # MongoDB:
 ###########################################################################
 
-ARG INSTALL_MONGO=false
+ARG INSTALL_MONGO=true
 
 RUN if [ ${INSTALL_MONGO} = true ]; then \
     # Install the mongodb extension
