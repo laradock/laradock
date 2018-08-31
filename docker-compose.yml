@@ -969,7 +969,9 @@ services:
         - mailu-admin
         - mailu-webmail
         - mailu-fetchmail
-      command: ["sh", "-c", "python manage.py advertise && python manage.py db upgrade && python manage.py admin ${MAILU_INIT_ADMIN_USERNAME} ${MAILU_DOMAIN} ${MAILU_INIT_ADMIN_PASSWORD} || true"]
+      command: ["sh", "-c", "echo ${MAILU_INIT_ADMIN_USERNAME}@${MAILU_DOMAIN} ${MAILU_INIT_ADMIN_PASSWORD} ;python manage.py advertise ; python manage.py db upgrade ; python manage.py admin ${MAILU_INIT_ADMIN_USERNAME} ${MAILU_DOMAIN} ${MAILU_INIT_ADMIN_PASSWORD} || true"]
+      networks:
+        - backend
     mailu-front:
       image: mailu/nginx:${MAILU_VERSION}
       environment:
