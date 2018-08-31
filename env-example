@@ -420,3 +420,62 @@ IDE_THEIA_PORT=987
 IDE_WEBIDE_PORT=984
 IDE_CODIAD_PORT=985
 IDE_ICECODER_PORT=986
+
+### MAILU ###############################################
+MAILU_VERSION=1.5
+# Main mail domain
+MAILU_HTTP_PORT=6080
+MAILU_HTTPS_PORT=60443
+MAILU_DOMAIN=example.com
+MAILU_INIT_ADMIN_USERNAME=laradock
+MAILU_INIT_ADMIN_PASSWORD=laradock
+# Hostnames for this server, separated with comas
+MAILU_HOSTNAMES=mail.example.com,alternative.example.com,yetanother.example.com
+# Postmaster local part (will append the main mail domain)
+MAILU_POSTMASTER=admin
+# Set to a randomly generated 16 bytes string
+MAILU_SECRET_KEY=ChangeMeChangeMe
+# Choose how secure connections will behave (value: letsencrypt, cert, notls, mail)
+MAILU_TLS_FLAVOR=cert
+# Authentication rate limit (per source IP address)
+MAILU_AUTH_RATELIMIT=10/minute;1000/hour
+# Opt-out of statistics, replace with "True" to opt out
+MAILU_DISABLE_STATISTICS=False
+# Message size limit in bytes
+# Default: accept messages up to 50MB
+MAILU_MESSAGE_SIZE_LIMIT=50000000
+# Will relay all outgoing mails if configured
+MAILU_RELAYHOST=
+# Networks granted relay permissions, make sure that you include your Docker
+# internal network (default to 172.17.0.0/16)
+MAILU_RELAYNETS=172.16.0.0/12
+# Fetchmail delay
+MAILU_FETCHMAIL_DELAY=600
+# Recipient delimiter, character used to delimiter localpart from custom address part
+# e.g. localpart+custom@domain;tld
+MAILU_RECIPIENT_DELIMITER=+
+# DMARC rua and ruf email
+MAILU_DMARC_RUA=admin
+MAILU_DMARC_RUF=admin
+# Weclome email, enable and set a topic and body if you wish to send welcome
+# emails to all users.
+MAILU_WELCOME=True
+MAILU_WELCOME_SUBJECT=Welcome to your new email account
+MAILU_WELCOME_BODY=Welcome to your new email account, if you can read this, then it is configured properly!
+# Path to the admin interface if enabled
+MAILU_WEB_ADMIN=/admin
+# Path to the webmail if enabled
+MAILU_WEB_WEBMAIL=/webmail
+# Website name
+MAILU_SITENAME=Example Mail
+# Linked Website URL
+MAILU_WEBSITE=http://mail.example.com
+# Default password scheme used for newly created accounts and changed passwords
+# (value: SHA512-CRYPT, SHA256-CRYPT, MD5-CRYPT, CRYPT)
+MAILU_PASSWORD_SCHEME=SHA512-CRYPT
+# Expose the admin interface (value: true, false)
+MAILU_ADMIN=true
+# Choose which webmail to run if any (values: roundcube, rainloop, none)
+MAILU_WEBMAIL=rainloop
+# Dav server implementation (value: radicale, none)
+MAILU_WEBDAV=radicale

@@ -950,3 +950,162 @@ services:
         - "${IDE_ICECODER_PORT}:8080"
       networks:
         - backend
+
+
+### MAILU ################################################
+    mailu:
+      image: mailu/admin:${MAILU_VERSION}
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/data:/data"
+        - "${DATA_PATH_HOST}/mailu/dkim:/dkim"
+        - /var/run/docker.sock:/var/run/docker.sock:ro
+      depends_on:
+        - mailu-front
+        - mailu-imap
+        - mailu-smtp
+        - mailu-antispam
+        - mailu-antivirus
+        - mailu-webdav
+        - mailu-admin
+        - mailu-webmail
+        - mailu-fetchmail
+      command: ["sh", "-c", "python manage.py advertise && python manage.py db upgrade && python manage.py admin ${MAILU_INIT_ADMIN_USERNAME} ${MAILU_DOMAIN} ${MAILU_INIT_ADMIN_PASSWORD} || true"]
+    mailu-front:
+      image: mailu/nginx:${MAILU_VERSION}
+      environment:
+        - ADMIN=${MAILU_ADMIN}
+        - WEB_ADMIN=${MAILU_WEB_ADMIN}
+        - WEB_WEBMAIL=${MAILU_WEB_WEBMAIL}
+        - WEBDAV=${MAILU_WEBDAV}
+        - HOSTNAMES=${MAILU_HOSTNAMES}
+        - TLS_FLAVOR=${MAILU_TLS_FLAVOR}
+        - MESSAGE_SIZE_LIMIT=${MAILU_MESSAGE_SIZE_LIMIT}
+      ports:
+        - "${MAILU_HTTP_PORT}:80"
+        - "${MAILU_HTTPS_PORT}:443"
+        - "110:110"
+        - "143:143"
+        - "993:993"
+        - "995:995"
+        - "25:25"
+        - "465:465"
+        - "587:587"
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/certs:/certs"
+      networks:
+        backend:
+          aliases:
+            - front
+    mailu-imap:
+      image: mailu/dovecot:${MAILU_VERSION}
+      environment:
+        - DOMAIN=${MAILU_DOMAIN}
+        - HOSTNAMES=${MAILU_HOSTNAMES}
+        - POSTMASTER=${MAILU_POSTMASTER}
+        - WEBMAIL=${MAILU_WEBMAIL}
+        - RECIPIENT_DELIMITER=${MAILU_RECIPIENT_DELIMITER}
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/data:/data"
+        - "${DATA_PATH_HOST}/mailu/mail:/mail"
+        - "${DATA_PATH_HOST}/mailu/overrides:/overrides"
+      depends_on:
+        - mailu-front
+      networks:
+        backend:
+          aliases:
+            - imap
+    mailu-smtp:
+      image: mailu/postfix:${MAILU_VERSION}
+      environment:
+        - DOMAIN=${MAILU_DOMAIN}
+        - HOSTNAMES=${MAILU_HOSTNAMES}
+        - RELAYHOST=${MAILU_RELAYHOST}
+        - RELAYNETS=${MAILU_RELAYNETS}
+        - RECIPIENT_DELIMITER=${MAILU_RECIPIENT_DELIMITER}
+        - MESSAGE_SIZE_LIMIT=${MAILU_MESSAGE_SIZE_LIMIT}
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/data:/data"
+        - "${DATA_PATH_HOST}/mailu/overrides:/overrides"
+      depends_on:
+        - mailu-front
+      networks:
+        backend:
+          aliases:
+            - smtp
+    mailu-antispam:
+      image: mailu/rspamd:${MAILU_VERSION}
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/filter:/var/lib/rspamd"
+        - "${DATA_PATH_HOST}/mailu/dkim:/dkim"
+        - "${DATA_PATH_HOST}/mailu/overrides/rspamd:/etc/rspamd/override.d"
+      depends_on:
+        - mailu-front
+      networks:
+        backend:
+          aliases:
+            - antispam
+    mailu-antivirus:
+      image: mailu/clamav:${MAILU_VERSION}
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/filter:/data"
+      networks:
+        backend:
+          aliases:
+            - antivirus
+    mailu-webdav:
+      image: mailu/${MAILU_WEBDAV}:${MAILU_VERSION}
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/dav:/data"
+      networks:
+        backend:
+          aliases:
+            - webdav
+    mailu-admin:
+      image: mailu/admin:${MAILU_VERSION}
+      environment:
+        - DOMAIN=${MAILU_DOMAIN}
+        - HOSTNAMES=${MAILU_HOSTNAMES}
+        - POSTMASTER=${MAILU_POSTMASTER}
+        - SECRET_KEY=${MAILU_SECRET_KEY}
+        - AUTH_RATELIMIT=${MAILU_AUTH_RATELIMIT}
+        - TLS_FLAVOR=${MAILU_TLS_FLAVOR}
+        - DISABLE_STATISTICS=${MAILU_DISABLE_STATISTICS}
+        - DMARC_RUA=${MAILU_DMARC_RUA}
+        - DMARC_RUF=${MAILU_DMARC_RUF}
+        - WELCOME=${MAILU_WELCOME}
+        - WELCOME_SUBJECT=${MAILU_WELCOME_SUBJECT}
+        - WELCOME_BODY=${MAILU_WELCOME_BODY}
+        - WEB_ADMIN=${MAILU_WEB_ADMIN}
+        - WEB_WEBMAIL=${MAILU_WEB_WEBMAIL}
+        - WEBSITE=${MAILU_WEBSITE}
+        - WEBMAIL=${MAILU_WEBMAIL}
+        - SITENAME=${MAILU_SITENAME}
+        - PASSWORD_SCHEME=${MAILU_PASSWORD_SCHEME}
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/data:/data"
+        - "${DATA_PATH_HOST}/mailu/dkim:/dkim"
+        - /var/run/docker.sock:/var/run/docker.sock:ro
+      depends_on:
+        - redis
+      networks:
+        backend:
+          aliases:
+            - admin
+    mailu-webmail:
+      image: "mailu/${MAILU_WEBMAIL}:${MAILU_VERSION}"
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/webmail:/data"
+      networks:
+        backend:
+          aliases:
+            - webmail
+    mailu-fetchmail:
+      image: mailu/fetchmail:${MAILU_VERSION}
+      environment:
+        - FETCHMAIL_DELAY=${MAILU_FETCHMAIL_DELAY}
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/data:/data"
+      networks:
+        backend:
+          aliases:
+            - fetchmail
