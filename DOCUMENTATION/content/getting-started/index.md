@@ -84,7 +84,7 @@ cp env-example .env
 At the top, change the `APPLICATION` variable to your project path.
 
 ```
-APPLICATION=../project-z/
+APP_CODE_PATH_HOST=../project-z/
 ```
 
 Make sure to replace `project-z` with your project folder name.
