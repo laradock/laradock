@@ -13,3 +13,16 @@
 ### Modifications
 
 - Setup for MacOS with PHPStorm w/ xDebug instructions
+
+### Getting started
+
+- Clone this repository
+- Create your own .env file copying from the env-example file
+
+```cp env-example .env```
+
+- Modify the .env file using your owns settings. You can setup the folder where your web files are with the variable:
+```APP_CODE_PATH_HOST```
+- Start your container using the command:
+
+```bin/start.sh```
