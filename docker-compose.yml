@@ -9,35 +9,15 @@ networks:
 volumes:
   mysql:
     driver: ${VOLUMES_DRIVER}
-  percona:
-    driver: ${VOLUMES_DRIVER}
-  mssql:
-    driver: ${VOLUMES_DRIVER}
   postgres:
     driver: ${VOLUMES_DRIVER}
   memcached:
     driver: ${VOLUMES_DRIVER}
   redis:
     driver: ${VOLUMES_DRIVER}
-  neo4j:
-    driver: ${VOLUMES_DRIVER}
-  mariadb:
-    driver: ${VOLUMES_DRIVER}
   mongo:
     driver: ${VOLUMES_DRIVER}
-  minio:
-    driver: ${VOLUMES_DRIVER}
-  rethinkdb:
-    driver: ${VOLUMES_DRIVER}
-  phpmyadmin:
-    driver: ${VOLUMES_DRIVER}
   adminer:
-    driver: ${VOLUMES_DRIVER}
-  aerospike:
-    driver: ${VOLUMES_DRIVER}
-  caddy:
-    driver: ${VOLUMES_DRIVER}
-  elasticsearch:
     driver: ${VOLUMES_DRIVER}
 
 services:
@@ -51,7 +31,6 @@ services:
           - INSTALL_SUBVERSION=${WORKSPACE_INSTALL_SUBVERSION}
           - INSTALL_XDEBUG=${WORKSPACE_INSTALL_XDEBUG}
           - INSTALL_PHPDBG=${WORKSPACE_INSTALL_PHPDBG}
-          - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
           - INSTALL_SSH2=${WORKSPACE_INSTALL_SSH2}
           - INSTALL_GMP=${WORKSPACE_INSTALL_GMP}
           - INSTALL_SOAP=${WORKSPACE_INSTALL_SOAP}
@@ -70,7 +49,6 @@ services:
           - INSTALL_DRUSH=${WORKSPACE_INSTALL_DRUSH}
           - INSTALL_DRUPAL_CONSOLE=${WORKSPACE_INSTALL_DRUPAL_CONSOLE}
           - INSTALL_AEROSPIKE=${WORKSPACE_INSTALL_AEROSPIKE}
-          - AEROSPIKE_PHP_REPOSITORY=${AEROSPIKE_PHP_REPOSITORY}
           - INSTALL_V8JS=${WORKSPACE_INSTALL_V8JS}
           - COMPOSER_GLOBAL_INSTALL=${WORKSPACE_COMPOSER_GLOBAL_INSTALL}
           - COMPOSER_REPO_PACKAGIST=${WORKSPACE_COMPOSER_REPO_PACKAGIST}
@@ -97,8 +75,6 @@ services:
           - YARN_VERSION=${WORKSPACE_YARN_VERSION}
           - DRUSH_VERSION=${WORKSPACE_DRUSH_VERSION}
           - TZ=${WORKSPACE_TIMEZONE}
-          - BLACKFIRE_CLIENT_ID=${BLACKFIRE_CLIENT_ID}
-          - BLACKFIRE_CLIENT_TOKEN=${BLACKFIRE_CLIENT_TOKEN}
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
       extra_hosts:
@@ -120,7 +96,6 @@ services:
           - LARADOCK_PHP_VERSION=${PHP_VERSION}
           - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
           - INSTALL_PHPDBG=${PHP_FPM_INSTALL_PHPDBG}
-          - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
           - INSTALL_SSH2=${PHP_FPM_INSTALL_SSH2}
           - INSTALL_SOAP=${PHP_FPM_INSTALL_SOAP}
           - INSTALL_IMAP=${PHP_FPM_INSTALL_IMAP}
@@ -135,7 +110,6 @@ services:
           - INSTALL_OPCACHE=${PHP_FPM_INSTALL_OPCACHE}
           - INSTALL_EXIF=${PHP_FPM_INSTALL_EXIF}
           - INSTALL_AEROSPIKE=${PHP_FPM_INSTALL_AEROSPIKE}
-          - AEROSPIKE_PHP_REPOSITORY=${AEROSPIKE_PHP_REPOSITORY}
           - INSTALL_MYSQLI=${PHP_FPM_INSTALL_MYSQLI}
           - INSTALL_PGSQL=${PHP_FPM_INSTALL_PGSQL}
           - INSTALL_PG_CLIENT=${PHP_FPM_INSTALL_PG_CLIENT}
@@ -166,24 +140,6 @@ services:
       links:
         - docker-in-docker
 
-### PHP Worker ############################################
-    php-worker:
-      build:
-        context: ./php-worker
-        args:
-          - PHP_VERSION=${PHP_VERSION}
-          - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL}
-          - INSTALL_BCMATH=${PHP_WORKER_INSTALL_BCMATH}
-      volumes:
-        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
-        - ./php-worker/supervisord.d:/etc/supervisord.d
-      depends_on:
-        - workspace
-      extra_hosts:
-        - "dockerhost:${DOCKER_HOST_IP}"
-      networks:
-        - backend
-
 ### NGINX Server #########################################
     nginx:
       build:
@@ -202,17 +158,6 @@ services:
         - php-fpm
       networks:
         - frontend
-        - backend
-
-### Blackfire ########################################
-    blackfire:
-      image: blackfire/blackfire
-      environment:
-        - BLACKFIRE_SERVER_ID=${BLACKFIRE_SERVER_ID}
-        - BLACKFIRE_SERVER_TOKEN=${BLACKFIRE_SERVER_TOKEN}
-      depends_on:
-        - php-fpm
-      networks:
         - backend
 
 ### Apache Server ########################################
@@ -237,34 +182,6 @@ services:
         - frontend
         - backend
 
-### HHVM #################################################
-    hhvm:
-      build: ./hhvm
-      volumes:
-        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
-      expose:
-        - "9000"
-      depends_on:
-        - workspace
-      networks:
-        - frontend
-        - backend
-
-### Minio ################################################
-    minio:
-      build: ./minio
-      volumes:
-        - ${DATA_PATH_HOST}/minio/data:/export
-        - ${DATA_PATH_HOST}/minio/config:/root/.minio
-      ports:
-        - "${MINIO_PORT}:9000"
-      environment:
-        - MINIO_ACCESS_KEY=access
-        - MINIO_SECRET_KEY=secretkey
-      networks:
-        - frontend
-        - backend
-
 ### MySQL ################################################
     mysql:
       build:
@@ -285,54 +202,6 @@ services:
       networks:
         - backend
 
-### Percona ################################################
-    percona:
-      build:
-        context: ./percona
-      environment:
-        - MYSQL_DATABASE=${PERCONA_DATABASE}
-        - MYSQL_USER=${PERCONA_USER}
-        - MYSQL_PASSWORD=${PERCONA_PASSWORD}
-        - MYSQL_ROOT_PASSWORD=${PERCONA_ROOT_PASSWORD}
-      volumes:
-        - ${DATA_PATH_HOST}/percona:/var/lib/mysql
-        - ${PERCONA_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
-      ports:
-        - "${PERCONA_PORT}:3306"
-      networks:
-        - backend
-
-### MSSQL ################################################
-    mssql:
-      build:
-        context: ./mssql
-      environment:
-        - MSSQL_DATABASE=${MSSQL_DATABASE}
-        - SA_PASSWORD=${MSSQL_PASSWORD}
-        - ACCEPT_EULA=Y
-      volumes:
-        - ${DATA_PATH_HOST}/mssql:/var/opt/mssql
-      ports:
-        - "${MSSQL_PORT}:1433"
-      networks:
-        - backend
-
-### MariaDB ##############################################
-    mariadb:
-      build: ./mariadb
-      volumes:
-        - ${DATA_PATH_HOST}/mariadb:/var/lib/mysql
-        - ${MARIADB_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
-      ports:
-        - "${MARIADB_PORT}:3306"
-      environment:
-        - MYSQL_DATABASE=${MARIADB_DATABASE}
-        - MYSQL_USER=${MARIADB_USER}
-        - MYSQL_PASSWORD=${MARIADB_PASSWORD}
-        - MYSQL_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
-      networks:
-        - backend
-
 ### PostgreSQL ###########################################
     postgres:
       build: ./postgres
@@ -348,33 +217,6 @@ services:
       networks:
         - backend
 
-### PostgreSQL PostGis ###################################
-    postgres-postgis:
-      build: ./postgres-postgis
-      volumes:
-        - ${DATA_PATH_HOST}/postgres:/var/lib/postgresql/data
-      ports:
-        - "${POSTGRES_PORT}:5432"
-      environment:
-        - POSTGRES_DB=${POSTGRES_DB}
-        - POSTGRES_USER=${POSTGRES_USER}
-        - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      networks:
-        - backend
-
-### Neo4j ################################################
-    neo4j:
-      build: ./neo4j
-      ports:
-        - "7474:7474"
-        - "1337:1337"
-      environment:
-        - NEO4J_AUTH=default:secret
-      volumes:
-        - ${DATA_PATH_HOST}/neo4j:/var/lib/neo4j/data
-      networks:
-        - backend
-
 ### MongoDB ##############################################
     mongo:
       build: ./mongo
@@ -382,16 +224,6 @@ services:
         - "${MONGODB_PORT}:27017"
       volumes:
         - ${DATA_PATH_HOST}/mongo:/data/db
-      networks:
-        - backend
-
-### RethinkDB ##############################################
-    rethinkdb:
-      build: ./rethinkdb
-      ports:
-        - "${RETHINKDB_PORT}:8080"
-      volumes:
-        - ${DATA_PATH_HOST}/rethinkdb:/data/rethinkdb_data
       networks:
         - backend
 
@@ -405,20 +237,6 @@ services:
       networks:
         - backend
 
-### Aerospike ##########################################
-    aerospike:
-      build: ./aerospike
-      volumes:
-        - workspace
-        - ${DATA_PATH_HOST}/aerospike:/opt/aerospike/data
-      ports:
-        - "${AEROSPIKE_SERVICE_PORT}:3000"
-        - "${AEROSPIKE_FABRIC_PORT}:3001"
-        - "${AEROSPIKE_HEARTBEAT_PORT}:3002"
-        - "${AEROSPIKE_INFO_PORT}:3003"
-      networks:
-        - backend
-
 ### Memcached ############################################
     memcached:
       build: ./memcached
@@ -426,17 +244,6 @@ services:
         - ${DATA_PATH_HOST}/memcached:/var/lib/memcached
       ports:
         - "${MEMCACHED_HOST_PORT}:11211"
-      depends_on:
-        - php-fpm
-      networks:
-        - backend
-
-### Beanstalkd ###########################################
-    beanstalkd:
-      build: ./beanstalkd
-      ports:
-        - "${BEANSTALKD_HOST_PORT}:11300"
-      privileged: true
       depends_on:
         - php-fpm
       networks:
@@ -457,152 +264,6 @@ services:
         - php-fpm
       networks:
         - backend
-
-### Beanstalkd Console ###################################
-    beanstalkd-console:
-      build: ./beanstalkd-console
-      ports:
-        - "${BEANSTALKD_CONSOLE_HOST_PORT}:2080"
-      depends_on:
-        - beanstalkd
-      networks:
-        - backend
-
-### Caddy Server #########################################
-    caddy:
-      build: ./caddy
-      volumes:
-        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
-        - ${CADDY_CONFIG_PATH}:/etc/caddy
-        - ${CADDY_HOST_LOG_PATH}:/var/log/caddy
-        - ${DATA_PATH_HOST}:/root/.caddy
-      ports:
-        - "${CADDY_HOST_HTTP_PORT}:80"
-        - "${CADDY_HOST_HTTPS_PORT}:443"
-      depends_on:
-        - php-fpm
-      networks:
-        - frontend
-        - backend
-
-### phpMyAdmin ###########################################
-    phpmyadmin:
-      build: ./phpmyadmin
-      environment:
-        - PMA_ARBITRARY=1
-        - MYSQL_USER=${PMA_USER}
-        - MYSQL_PASSWORD=${PMA_PASSWORD}
-        - MYSQL_ROOT_PASSWORD=${PMA_ROOT_PASSWORD}
-      ports:
-        - "${PMA_PORT}:80"
-      depends_on:
-        - "${PMA_DB_ENGINE}"
-      networks:
-        - frontend
-        - backend
-
-### Adminer ###########################################
-    adminer:
-      build:
-        context: ./adminer
-        args:
-          - INSTALL_MSSQL=${ADM_INSTALL_MSSQL}
-      ports:
-        - "${ADM_PORT}:8080"
-      depends_on:
-        - php-fpm
-      networks:
-        - frontend
-        - backend
-
-### pgAdmin ##############################################
-    pgadmin:
-      build: ./pgadmin
-      ports:
-        - "5050:5050"
-      volumes:
-        - ${DATA_PATH_HOST}/pgadmin-backup:/var/lib/pgadmin/storage/pgadmin4
-      depends_on:
-        - postgres
-      networks:
-        - frontend
-        - backend
-
-### ElasticSearch ########################################
-    elasticsearch:
-      build: ./elasticsearch
-      volumes:
-        - elasticsearch:/usr/share/elasticsearch/data
-      environment:
-        - cluster.name=laradock-cluster
-        - bootstrap.memory_lock=true
-        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      ulimits:
-        memlock:
-          soft: -1
-          hard: -1
-      ports:
-        - "${ELASTICSEARCH_HOST_HTTP_PORT}:9200"
-        - "${ELASTICSEARCH_HOST_TRANSPORT_PORT}:9300"
-      depends_on:
-        - php-fpm
-      networks:
-        - frontend
-        - backend
-
-### Kibana ##############################################
-    kibana:
-      build: ./kibana
-      ports:
-        - "${KIBANA_HTTP_PORT}:5601"
-      depends_on:
-        - elasticsearch
-      networks:
-        - frontend
-        - backend
-
-### Certbot #########################################
-    certbot:
-      build:
-        context: ./certbot
-      volumes:
-        - ./data/certbot/certs/:/var/certs
-        - ./certbot/letsencrypt/:${APP_CODE_PATH_CONTAINER}/letsencrypt
-      environment:
-        - CN="fake.domain.com"
-        - EMAIL="fake.email@gmail.com"
-      networks:
-        - frontend
-
-### Mailhog ################################################
-    mailhog:
-      build: ./mailhog
-      ports:
-        - "1025:1025"
-        - "8025:8025"
-      networks:
-        - frontend
-        - backend
-
-### MailDev ##############################################
-    maildev:
-      build: ./maildev
-      ports:
-        - "${MAILDEV_HTTP_PORT}:80"
-        - "${MAILDEV_SMTP_PORT}:25"
-      networks:
-        - frontend
-        - backend
-
-### Selenium ###############################################
-    selenium:
-      build: ./selenium
-      ports:
-        - "${SELENIUM_PORT}:4444"
-      volumes:
-        - /dev/shm:/dev/shm
-      networks:
-        - frontend
 
 ### Varnish ##########################################
     proxy:
@@ -639,44 +300,6 @@ services:
       networks:
         - frontend
 
-### HAProxy ####################################
-    haproxy:
-      build: ./haproxy
-      ports:
-        - "${HAPROXY_HOST_HTTP_PORT}:8085"
-      volumes:
-        - /var/run/docker.sock:/var/run/docker.sock
-      links:
-        - proxy
-        - proxy2
-
-### Jenkins ###################################################
-    jenkins:
-      build: ./jenkins
-      environment:
-        JAVA_OPTS: "-Djava.awt.headless=true"
-      ports:
-        - "${JENKINS_HOST_SLAVE_AGENT_PORT}:50000"
-        - "${JENKINS_HOST_HTTP_PORT}:8080"
-      privileged: true
-      volumes:
-        - ${JENKINS_HOME}:/var/jenkins_home
-        - /var/run/docker.sock:/var/run/docker.sock
-      networks:
-        - frontend
-        - backend
-
-### Grafana ################################################
-    grafana:
-      build:
-        context: ./grafana
-      volumes:
-        - ${DATA_PATH_HOST}/grafana:/var/lib/grafana
-      ports:
-        - "${GRAFANA_PORT}:3000"
-      networks:
-        - backend
-
 ### Laravel Echo Server #######################################
     laravel-echo-server:
       build:
@@ -691,44 +314,6 @@ services:
         - frontend
         - backend
         
-### Solr ################################################
-    solr:
-      build:
-        context: ./solr
-        args:
-          - SOLR_VERSION=${SOLR_VERSION}
-          - SOLR_DATAIMPORTHANDLER_MYSQL=${SOLR_DATAIMPORTHANDLER_MYSQL}
-      volumes:
-        - ${DATA_PATH_HOST}/solr:/opt/solr/server/solr/mycores
-      ports:
-        - "${SOLR_PORT}:8983"
-      networks:
-        - backend
-
-### AWS EB-CLI ################################################
-    aws:
-      build:
-        context: ./aws
-      volumes:
-        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
-      depends_on:
-        - workspace
-      tty: true
-
-### Portainer ################################################
-    portainer:
-      build:
-        context: ./portainer
-      volumes:
-        - ${DATA_PATH_HOST}/portainer_data:/data
-        - /var/run/docker.sock:/var/run/docker.sock
-      extra_hosts:
-        - "dockerhost:${DOCKER_HOST_IP}"
-      ports:
-        - 9010:9000
-      networks:
-        - backend
-
 ### Gitlab ################################################
     gitlab:
       build:
@@ -771,61 +356,6 @@ services:
         - /var/run/docker.sock:/var/run/docker.sock:rw
       restart: always
       
-### JupyterHub #########################################
-    jupyterhub:
-      build:
-        context: ./jupyterhub
-      depends_on:
-        - postgres
-        - jupyterhub-user
-      restart: always
-      volumes:
-        - /var/run/docker.sock:/var/run/docker.sock:rw
-        - ${DATA_PATH_HOST}/jupyterhub/:/data
-        - ${JUPYTERHUB_CUSTOM_CONFIG}:/jupyterhub_config.py
-        - ${JUPYTERHUB_USER_DATA}:/user-data
-        - ${JUPYTERHUB_USER_LIST}:/userlist
-      networks:
-        - backend
-      ports:
-        - "${JUPYTERHUB_PORT}:80"
-      environment:
-        - TERM=xterm
-        - JUPYTERHUB_USER_DATA=${JUPYTERHUB_USER_DATA}
-        - JUPYTERHUB_POSTGRES_DB=${JUPYTERHUB_POSTGRES_DB}
-        - JUPYTERHUB_POSTGRES_USER=${JUPYTERHUB_POSTGRES_USER}
-        - JUPYTERHUB_POSTGRES_HOST=${JUPYTERHUB_POSTGRES_HOST}
-        - JUPYTERHUB_POSTGRES_PASSWORD=${JUPYTERHUB_POSTGRES_PASSWORD}
-        - JUPYTERHUB_OAUTH_CALLBACK_URL=${JUPYTERHUB_OAUTH_CALLBACK_URL}
-        - JUPYTERHUB_OAUTH_CLIENT_ID=${JUPYTERHUB_OAUTH_CLIENT_ID}
-        - JUPYTERHUB_OAUTH_CLIENT_SECRET=${JUPYTERHUB_OAUTH_CLIENT_SECRET}
-        - JUPYTERHUB_LOCAL_NOTEBOOK_IMAGE=${JUPYTERHUB_LOCAL_NOTEBOOK_IMAGE}
-    jupyterhub-user:
-      build:
-        context: ./jupyterhub
-        dockerfile: Dockerfile.user
-      command: ["sh", "-c", "echo \"build only\""]
-
-### IPython #########################################
-    ipython-controller:
-      build:
-        context: ./ipython
-        dockerfile: Dockerfile.controller
-      networks:
-        - backend
-      extra_hosts:
-        - "laradock-ipython:${LARADOCK_IPYTHON_CONTROLLER_IP}"
-      ports:
-        - "33327-33338:33327-33338"
-    ipython-engine:
-      build:
-        context: ./ipython
-        dockerfile: Dockerfile.engine
-      networks:
-        - backend
-      extra_hosts:
-        - "laradock-ipython:${LARADOCK_IPYTHON_CONTROLLER_IP}"
-
 ### Docker-in-Docker ################################################
     docker-in-docker:
       image: docker:dind
@@ -834,18 +364,6 @@ services:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
       expose:
         - 2375
-      networks:
-        - backend
-
-### NetData ################################################
-    netdata:
-      image: titpetric/netdata:latest
-      cap_add:
-      - SYS_PTRACE
-      volumes:
-      - /:/host:ro
-      ports:
-        - "${NETDATA_PORT}:19999"
       networks:
         - backend
 
@@ -863,90 +381,3 @@ services:
         - "${REDIS_WEBUI_PORT}:80"
       depends_on:
         - redis
-
-### MongoWebUI ################################################
-    mongo-webui:
-      build:
-        context: ./mongo-webui
-      restart: always
-      environment:
-        - ROOT_URL=${MONGO_WEBUI_ROOT_URL}
-        - MONGO_URL=${MONGO_WEBUI_MONGO_URL}
-        - INSTALL_MONGO=${MONGO_WEBUI_INSTALL_MONGO}
-      volumes:
-        - ${DATA_PATH_HOST}/mongo-webui:/data/db
-      ports:
-        - "${MONGO_WEBUI_PORT}:3000"
-      networks:
-        - backend
-      depends_on:
-        - mongo
-  
-### Metabase #################################################
-    metabase:
-      image: metabase/metabase:latest
-      environment:
-        - MB_DB_FILE=/metabase-data/${METABASE_DB_FILE}
-      ports:
-        - ${METABASE_PORT}:3000
-      volumes:
-        - ${DATA_PATH_HOST}/metabase-data:/metabase-data
-      networks:
-        - backend
-
-### IDE-THEIA ################################################
-    ide-theia:
-      build:
-        context: ./ide-theia
-      volumes:
-        - ${APP_CODE_PATH_HOST}:/home/project
-      ports:
-        - "${IDE_THEIA_PORT}:3000"
-      networks:
-        - backend
-
-### IDE-WEBIDE ################################################
-    ide-webide:
-      build:
-        context: ./ide-webide
-      volumes:
-        - ${DATA_PATH_HOST}/ide/webide/ide.db:/root/.coding-ide/ide.db
-      ports:
-        - "${IDE_WEBIDE_PORT}:8080"
-      networks:
-        - backend
-
-### IDE-CODIAD ################################################
-    ide-codiad:
-      build:
-        context: ./ide-codiad
-      environment:
-        - APP_CODE_PATH_CONTAINER=${APP_CODE_PATH_CONTAINER}
-        - TZ=${WORKSPACE_TIMEZONE}
-        - PGID=1000
-        - PUID=1000
-      volumes:
-        - /etc/localtime:/etc/localtime:ro
-        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
-        - ${DATA_PATH_HOST}/ide/codiad:/config
-      ports:
-        - "${IDE_CODIAD_PORT}:80"
-      networks:
-        - backend
-
-### IDE-ICECODER ################################################
-    ide-icecoder:
-      build:
-        context: ./ide-icecoder
-      environment:
-        - DOCUMENT_ROOT=${APP_CODE_PATH_CONTAINER}
-        - TZ=${WORKSPACE_TIMEZONE}
-        - PGID=1000
-        - PUID=1000
-      volumes:
-        - /etc/localtime:/etc/localtime:ro
-        - ${APP_CODE_PATH_HOST}:/home/laradock/ICEcoder/dev
-      ports:
-        - "${IDE_ICECODER_PORT}:8080"
-      networks:
-        - backend
