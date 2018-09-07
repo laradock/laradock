@@ -86,7 +86,7 @@ WORKSPACE_INSTALL_NPM_VUE_CLI=true
 WORKSPACE_INSTALL_PHPREDIS=true
 WORKSPACE_INSTALL_WORKSPACE_SSH=false
 WORKSPACE_INSTALL_SUBVERSION=false
-WORKSPACE_INSTALL_XDEBUG=false
+WORKSPACE_INSTALL_XDEBUG=true
 WORKSPACE_INSTALL_PHPDBG=false
 WORKSPACE_INSTALL_SSH2=false
 WORKSPACE_INSTALL_LDAP=false
@@ -134,7 +134,7 @@ PHP_FPM_INSTALL_OPCACHE=true
 PHP_FPM_INSTALL_IMAGE_OPTIMIZERS=true
 PHP_FPM_INSTALL_PHPREDIS=true
 PHP_FPM_INSTALL_MEMCACHED=false
-PHP_FPM_INSTALL_XDEBUG=false
+PHP_FPM_INSTALL_XDEBUG=true
 PHP_FPM_INSTALL_PHPDBG=false
 PHP_FPM_INSTALL_IMAP=false
 PHP_FPM_INSTALL_MONGO=false
@@ -154,11 +154,6 @@ PHP_FPM_INSTALL_PCNTL=false
 PHP_FPM_INSTALL_CALENDAR=false
 PHP_FPM_INSTALL_FAKETIME=false
 PHP_FPM_FAKETIME=-0
-
-### PHP_WORKER ############################################
-
-PHP_WORKER_INSTALL_PGSQL=false
-PHP_WORKER_INSTALL_BCMATH=false
 
 ### NGINX #################################################
 
@@ -194,30 +189,6 @@ MYSQL_ENTRYPOINT_INITDB=./mysql/docker-entrypoint-initdb.d
 
 REDIS_PORT=6379
 
-### Percona ###############################################
-
-PERCONA_DATABASE=homestead
-PERCONA_USER=homestead
-PERCONA_PASSWORD=secret
-PERCONA_PORT=3306
-PERCONA_ROOT_PASSWORD=root
-PERCONA_ENTRYPOINT_INITDB=./percona/docker-entrypoint-initdb.d
-
-### MSSQL #################################################
-
-MSSQL_DATABASE=homestead
-MSSQL_PASSWORD=yourStrong(!)Password
-MSSQL_PORT=1433
-
-### MARIADB ###############################################
-
-MARIADB_DATABASE=default
-MARIADB_USER=default
-MARIADB_PASSWORD=secret
-MARIADB_PORT=3306
-MARIADB_ROOT_PASSWORD=root
-MARIADB_ENTRYPOINT_INITDB=./mariadb/docker-entrypoint-initdb.d
-
 ### POSTGRES ##############################################
 
 POSTGRES_DB=default
@@ -234,59 +205,13 @@ RABBITMQ_MANAGEMENT_HTTPS_HOST_PORT=15671
 RABBITMQ_DEFAULT_USER=guest
 RABBITMQ_DEFAULT_PASS=guest
 
-### ELASTICSEARCH #########################################
-
-ELASTICSEARCH_HOST_HTTP_PORT=9200
-ELASTICSEARCH_HOST_TRANSPORT_PORT=9300
-
-### KIBANA ################################################
-
-KIBANA_HTTP_PORT=5601
-
 ### MEMCACHED #############################################
 
 MEMCACHED_HOST_PORT=11211
 
-### BEANSTALKD CONSOLE ####################################
-
-BEANSTALKD_CONSOLE_BUILD_PATH=./beanstalkd-console
-BEANSTALKD_CONSOLE_CONTAINER_NAME=beanstalkd-console
-BEANSTALKD_CONSOLE_HOST_PORT=2080
-
-### BEANSTALKD ############################################
-
-BEANSTALKD_HOST_PORT=11300
-
 ### SELENIUM ##############################################
 
 SELENIUM_PORT=4444
-
-### MINIO #################################################
-
-MINIO_PORT=9000
-
-### ADMINER ###############################################
-
-ADM_PORT=8080
-ADM_INSTALL_MSSQL=false
-
-### PHP MY ADMIN ##########################################
-
-# Accepted values: mariadb - mysql
-
-PMA_DB_ENGINE=mysql
-
-# Credentials/Port:
-
-PMA_USER=default
-PMA_PASSWORD=secret
-PMA_ROOT_PASSWORD=secret
-PMA_PORT=8080
-
-### MAILDEV ###############################################
-
-MAILDEV_HTTP_PORT=1080
-MAILDEV_SMTP_PORT=25
 
 ### VARNISH ###############################################
 
@@ -307,67 +232,13 @@ VARNISH_PROXY2_CACHE_SIZE=128m
 VARNISH_PROXY2_BACKEND_HOST=workspace
 VARNISH_PROXY2_SERVER=SERVER2
 
-### HAPROXY ###############################################
-
-HAPROXY_HOST_HTTP_PORT=8085
-
-### JENKINS ###############################################
-
-JENKINS_HOST_HTTP_PORT=8090
-JENKINS_HOST_SLAVE_AGENT_PORT=50000
-JENKINS_HOME=./jenkins/jenkins_home
-
-### GRAFANA ###############################################
-
-GRAFANA_PORT=3000
-
-### BLACKFIRE #############################################
-
-# Create an account on blackfire.io. Don't enable blackfire and xDebug at the same time. # visit https://blackfire.io/docs/24-days/06-installation#install-probe-debian for more info.
-INSTALL_BLACKFIRE=false
-BLACKFIRE_CLIENT_ID=<client_id>
-BLACKFIRE_CLIENT_TOKEN=<client_token>
-BLACKFIRE_SERVER_ID=<server_id>
-BLACKFIRE_SERVER_TOKEN=<server_token>
-
-### AEROSPIKE #############################################
-
-AEROSPIKE_SERVICE_PORT=3000
-AEROSPIKE_FABRIC_PORT=3001
-AEROSPIKE_HEARTBEAT_PORT=3002
-AEROSPIKE_INFO_PORT=3003
-
-## Temp solution, this should be in the dockerfile
-# for all versions "https://github.com/aerospike/aerospike-client-php/archive/master.tar.gz"
-# for php 7.2 (using this branch until the support for 7.2 on master) "https://github.com/aerospike/aerospike-client-php/archive/7.2.0-release-candidate.tar.gz"
-AEROSPIKE_PHP_REPOSITORY=https://github.com/aerospike/aerospike-client-php/archive/7.2.0-release-candidate.tar.gz
-# for php 5.6
-# AEROSPIKE_PHP_REPOSITORY=https://github.com/aerospike/aerospike-client-php5/archive/3.4.15.tar.gz
-
-### RETHINKDB #############################################
-
-RETHINKDB_PORT=8090
-
 ### MONGODB ###############################################
 
 MONGODB_PORT=27017
 
-### CADDY #################################################
-
-CADDY_HOST_HTTP_PORT=80
-CADDY_HOST_HTTPS_PORT=443
-CADDY_HOST_LOG_PATH=./logs/caddy
-CADDY_CONFIG_PATH=./caddy/caddy
-
 ### LARAVEL ECHO SERVER ###################################
 
 LARAVEL_ECHO_SERVER_PORT=6001
-
-### SOLR ##################################################
-
-SOLR_VERSION=5.5
-SOLR_PORT=8983
-SOLR_DATAIMPORTHANDLER_MYSQL=false
 
 ### GITLAB ###############################################
 GITLAB_HOST_HTTP_PORT=8989
@@ -377,46 +248,9 @@ GITLAB_DOMAIN_NAME=http://localhost
 GITLAB_ROOT_PASSWORD=laradock
 GITLAB_HOST_LOG_PATH=./logs/gitlab
 
-### JUPYTERHUB ###############################################
-JUPYTERHUB_POSTGRES_HOST=postgres
-JUPYTERHUB_POSTGRES_USER=laradock_jupyterhub
-JUPYTERHUB_POSTGRES_PASSWORD=laradock_jupyterhub
-JUPYTERHUB_POSTGRES_DB=laradock_jupyterhub
-JUPYTERHUB_PORT=9991
-JUPYTERHUB_OAUTH_CALLBACK_URL=http://laradock:9991/hub/oauth_callback
-JUPYTERHUB_OAUTH_CLIENT_ID={GITHUB_CLIENT_ID}
-JUPYTERHUB_OAUTH_CLIENT_SECRET={GITHUB_CLIENT_SECRET}
-JUPYTERHUB_LOCAL_NOTEBOOK_IMAGE=laradock_jupyterhub-user
-JUPYTERHUB_CUSTOM_CONFIG=./jupyterhub/jupyterhub_config.py
-JUPYTERHUB_USER_DATA=/jupyterhub
-JUPYTERHUB_USER_LIST=./jupyterhub/userlist
-
-### IPYTHON ##################################################
-LARADOCK_IPYTHON_CONTROLLER_IP=127.0.0.1
-
-### NETDATA ###############################################
-NETDATA_PORT=19999
-
 ### PHPREDISADMIN #########################################
 REDIS_WEBUI_USERNAME=laradock
 REDIS_WEBUI_PASSWORD=laradock
 REDIS_WEBUI_CONNECT_HOST=redis
 REDIS_WEBUI_CONNECT_PORT=6379
 REDIS_WEBUI_PORT=9987
-
-### MONGOWEBUI ###############################################
-MONGO_WEBUI_PORT=3000
-MONGO_WEBUI_ROOT_URL=http://localhost
-MONGO_WEBUI_MONGO_URL=mongodb://mongo:27017/
-MONGO_WEBUI_INSTALL_MONGO=false
-
-### METABASE ###############################################
-METABASE_PORT=3030
-METABASE_DB_FILE=metabase.db
-METABASE_JAVA_TIMEZONE=US/Pacific
-
-### IDE ###############################################
-IDE_THEIA_PORT=987
-IDE_WEBIDE_PORT=984
-IDE_CODIAD_PORT=985
-IDE_ICECODER_PORT=986
