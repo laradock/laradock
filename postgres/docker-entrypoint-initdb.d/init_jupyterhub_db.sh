@@ -33,8 +33,8 @@
 # EOSQL
 # 
 ### default database and user for jupyterhub ##############################################
-if [ $JUPYTERHUB_POSTGRES_INIT == true ]; then 
-    psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-'EOSQL'
+if [ $JUPYTERHUB_POSTGRES_INIT == 'true' ]; then 
+    psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
         CREATE USER $JUPYTERHUB_POSTGRES_USER WITH PASSWORD '$JUPYTERHUB_POSTGRES_PASSWORD';
         CREATE DATABASE $JUPYTERHUB_POSTGRES_DB;
         GRANT ALL PRIVILEGES ON DATABASE $JUPYTERHUB_POSTGRES_DB TO $JUPYTERHUB_POSTGRES_USER;
