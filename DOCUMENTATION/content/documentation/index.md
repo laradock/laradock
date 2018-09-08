@@ -414,6 +414,7 @@ To learn more about how Docker publishes ports, please read [this excellent post
 
 
 
+
 <br>
 <a name="Laravel"></a>
 
@@ -537,6 +538,190 @@ b) add a new service container by simply copy-paste this section below PHP-FPM c
 ```bash
 docker-compose up -d php-worker
 ```
+
+
+
+
+
+
+
+
+<br>
+<a name="Use-Web-IDE-THEIA"></a>
+## Use Web IDE THEIA
+1 - Run the IDE THEIA Container (`ide-theia`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d ide-theia
+```
+
+2 - Open your browser and visit the localhost on port **987**:  `http://localhost:987`
+<br>
+_Note: You can customize the port `IDE_THEIA_PORT` in `.env`. The default value is **987**._
+
+
+
+
+
+
+
+
+<br>
+<a name="Use-Web-IDE-WEBIDE"></a>
+## Use Web IDE WEBIDE
+1 - Run the IDE WEBIDE Container (`ide-webide`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d ide-webide
+```
+
+2 - Open your browser and visit the localhost on port **984**:  `http://localhost:984`
+<br>
+_Note: You can customize the port `IDE_WEBIDE_PORT` in `.env`. The default value is **984**._
+
+
+
+
+
+
+
+
+
+<br>
+<a name="Use-Web-IDE-CODIAD"></a>
+## Use Web IDE CODIAD
+1 - Run the IDE CODIAD Container (`ide-codiad`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d ide-codiad
+```
+
+2 - Open your browser and visit the localhost on port **985**:  `http://localhost:985`
+<br>
+_Note: You can customize the port `IDE_CODIAD_PORT` in `.env`. The default value is **985**._
+
+
+
+
+
+
+
+
+
+<br>
+<a name="Use-Web-IDE-ICECODER"></a>
+## Use Web IDE ICECODER
+1 - Run the IDE ICECODER Container (`ide-icecoder`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d ide-icecoder
+```
+
+2 - Open your browser and visit the localhost on port **986**:  `http://localhost:986`
+<br>
+_Note: You can customize the port `IDE_ICECODER_PORT` in `.env`. The default value is **986**._
+ 
+
+
+
+
+
+<br>
+<a name="Use-Redis-WebUI"></a>
+## Use Redis Web UI
+
+1 - Run the RedisWebUI Container (`redis-webui`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d redis-webui
+```
+
+2 - Open your browser and visit the localhost on port **9987**:  `http://localhost:9987`
+<br>
+_Note: You can customize the port `REDIS_WEBUI_PORT` in `.env`. The default value is **9987**._
+ 
+
+
+
+
+
+<br>
+<a name="Use-Mongo-WebUI"></a>
+## Use Mongo Web UI
+
+1 - Run the MongoWebUI Container (`mongo-webui`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d mongo-webui
+```
+
+2 - Open your browser and visit the localhost on port **3000**:  `http://localhost:3000`
+<br>
+_Note: You can customize the port `MONGO_WEBUI_PORT` in `.env`. The default value is **3000**._
+ 
+
+
+
+
+
+
+<br>
+<a name="Use-IPythonController"></a>
+## Use IPythonController
+
+1 - You may change `LARADOCK_IPYTHON_CONTROLLER_IP` to your public ip in .env file
+
+2 - Run the IPythonController Container (`ipython-controller`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d ipython-controller
+```
+
+<br>
+<a name="Use-IPythonEngine"></a>
+## Use IPythonEngine
+
+1 - You may change `LARADOCK_IPYTHON_CONTROLLER_IP` to your ipython controller ip in .env file
+
+2 - Run the IPythonController Container (`ipython-engine`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d ipython-engine
+```
+ 
+
+
+
+
+
+
+
+
+<br>
+<a name="Use-Jupyterhub"></a>
+## Use Jupyterhub
+
+1 - First register a github OAuth aplication [here](https://github.com/settings/applications/new) then get your client id and client secret.
+_Note: callback url is `http://yourpublicip:9991/hub/oauth_callback`._
+
+1 - You need to modify the following value in `.env` file
+
+```
+JUPYTERHUB_OAUTH_CLIENT_ID={GITHUB_CLIENT_ID}
+JUPYTERHUB_OAUTH_CLIENT_SECRET={GITHUB_CLIENT_SECRET}
+JUPYTERHUB_OAUTH_CALLBACK_URL=http://yourpublicip:9991/hub/oauth_callback
+```
+
+2 - Run the Jupyterhub Container (`jupyterhub`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d jupyterhub
+```
+
+3 - Open your browser and visit the localhost on port **9991**:  `http://example.com:9991`
+<br>
+_Note: You can customize the port `JUPYTERHUB_PORT` in `.env`. The default value is **9991**._
+ 
 
 
 
@@ -700,7 +885,7 @@ docker-compose up -d mongo
         ]
     ],
 
-	// ...
+  // ...
 
 ],
 ```
@@ -757,15 +942,44 @@ docker-compose up -d mariadb phpmyadmin
 <a name="Use-Gitlab"></a>
 ## Use Gitlab
 
-1 - Run the Gitlab Container (`gitlab`) with the `docker-compose up` command. Example:
+1 - You may change GITLAB_DOMAIN_NAME to your public ip or domain name like `http://gitlab.example.com` in .env file
+
+```
+GITLAB_DOMAIN_NAME=http://gitlab.example.com
+```
+
+2 - Run the Gitlab Container (`gitlab`) with the `docker-compose up` command. Example:
 
 ```bash
 docker-compose up -d gitlab
 ```
 
-2 - Open your browser and visit the localhost on port **8989**:  `http://localhost:8989`
+3 - Open your browser and visit the localhost on port **8989**:  `http://gitlab.example.com:8989`
 <br>
-*Note: You may change GITLAB_DOMAIN_NAME to your own domain name like `http://gitlab.example.com` default is `http://localhost`*
+_Note: You can customize the http port `GITLAB_HOST_HTTP_PORT`, https port `GITLAB_HOST_HTTP_PORT`, ssh port `GITLAB_HOST_HTTP_PORT` in `.env`. The default value is **8989**(HTTP) **9898**(HTTPS) **2289**(SSH)._
+ 
+
+
+
+
+<br>
+<a name="Use-Gitlab-Runner"></a>
+## Use Gitlab-Runner
+
+1 - Open your gitlab and generate a register token
+
+2 - You may change `GITLAB_CI_SERVER_URL` and `GITLAB_RUNNER_REGISTRATION_TOKEN` in `.env`
+
+```
+GITLAB_CI_SERVER_URL=http://localhost:8989
+GITLAB_RUNNER_REGISTRATION_TOKEN=<my-registration-token>
+```
+
+2 - Run the Gitlab Container (`gitlab-runner`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d gitlab-runner
+```
 
 
 
@@ -939,15 +1153,15 @@ docker-compose up -d rethinkdb
 ```php
 'connections' => [
 
-	'rethinkdb' => [
-		'name'      => 'rethinkdb',
-		'driver'    => 'rethinkdb',
-		'host'      => env('DB_HOST', 'rethinkdb'),
-		'port'      => env('DB_PORT', 28015),
-		'database'  => env('DB_DATABASE', 'test'),
-	]
+  'rethinkdb' => [
+    'name'      => 'rethinkdb',
+    'driver'    => 'rethinkdb',
+    'host'      => env('DB_HOST', 'rethinkdb'),
+    'port'      => env('DB_PORT', 28015),
+    'database'  => env('DB_DATABASE', 'test'),
+  ]
 
-	// ...
+  // ...
 
 ],
 ```
@@ -1021,6 +1235,9 @@ docker-compose up -d aws
 
 
 
+
+
+
 <br>
 <a name="Use-Grafana"></a>
 ## Use Grafana
@@ -1036,6 +1253,9 @@ docker-compose up -d grafana
 3 - Open your browser and visit the localhost on port **3000** at the following URL: `http://localhost:3000`
 
 4 - Login using the credentials User = `admin`, Password = `admin`. Change the password in the web interface if you want to.
+
+
+
 
 
 
@@ -1151,8 +1371,8 @@ To change the default forwarded port for ssh:
 
 ```yml
     workspace:
-		ports:
-			- "2222:22" # Edit this line
+    ports:
+      - "2222:22" # Edit this line
     ...
 ```
 
@@ -1526,14 +1746,12 @@ will set the clock back 1 day. See (https://github.com/wolfcw/libfaketime) for m
 6 - Re-build the containers `docker-compose build php-fpm`<br>
 
 
-
 <br>
 <a name="phpstorm-debugging"></a>
 ## PHPStorm Debugging Guide
 Remote debug Laravel web and phpunit tests.
 
 [**Debugging Guide Here**](/guides/#PHPStorm-Debugging)
-
 
 
 
@@ -1821,7 +2039,7 @@ This error sometimes happens because your Laravel application isn't running on t
 
 ## I get stuck when building nginx on `fetch http://mirrors.aliyun.com/alpine/v3.5/main/x86_64/APKINDEX.tar.gz`
 
-As stated on [#749](https://github.com/laradock/laradock/issues/749#issuecomment-293296687), removing the line `RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories` from `nginx/Dockerfile` solves the problem.		
+As stated on [#749](https://github.com/laradock/laradock/issues/749#issuecomment-293296687), removing the line `RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories` from `nginx/Dockerfile` solves the problem.    
 
 ## Custom composer repo packagist url and npm registry url
 

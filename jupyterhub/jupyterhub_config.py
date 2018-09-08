@@ -45,8 +45,12 @@ network_name = os.environ.get('JUPYTERHUB_NETWORK_NAME','laradock_backend')
 c.DockerSpawner.use_internal_ip = True
 c.DockerSpawner.network_name = network_name
 
+enable_nvidia = os.environ.get('JUPYTERHUB_ENABLE_NVIDIA','false')
 # Pass the network name as argument to spawned containers
-c.DockerSpawner.extra_host_config = { 'network_mode': network_name, 'runtime': 'nvidia' }
+c.DockerSpawner.extra_host_config = { 'network_mode': network_name }
+if 'true' == enable_nvidia:
+    c.DockerSpawner.extra_host_config = { 'network_mode': network_name, 'runtime': 'nvidia' }
+    pass
 # c.DockerSpawner.extra_host_config = { 'network_mode': network_name, "devices":["/dev/nvidiactl","/dev/nvidia-uvm","/dev/nvidia0"] }
 # Explicitly set notebook directory because we'll be mounting a host volume to
 # it.  Most jupyter/docker-stacks *-notebook images run the Notebook server as

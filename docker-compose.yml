@@ -345,6 +345,14 @@ services:
         - POSTGRES_DB=${POSTGRES_DB}
         - POSTGRES_USER=${POSTGRES_USER}
         - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+        - GITLAB_POSTGRES_INIT=${GITLAB_POSTGRES_INIT}
+        - GITLAB_POSTGRES_USER=${GITLAB_POSTGRES_USER}
+        - GITLAB_POSTGRES_PASSWORD=${GITLAB_POSTGRES_PASSWORD}
+        - GITLAB_POSTGRES_DB=${GITLAB_POSTGRES_DB}
+        - JUPYTERHUB_POSTGRES_INIT=${JUPYTERHUB_POSTGRES_INIT}
+        - JUPYTERHUB_POSTGRES_USER=${JUPYTERHUB_POSTGRES_USER}
+        - JUPYTERHUB_POSTGRES_PASSWORD=${JUPYTERHUB_POSTGRES_PASSWORD}
+        - JUPYTERHUB_POSTGRES_DB=${JUPYTERHUB_POSTGRES_DB}
       networks:
         - backend
 
@@ -743,10 +751,10 @@ services:
           gitlab_rails['trusted_proxies'] = ['caddy','nginx','apache2'] 
           gitlab_rails['redis_host'] = 'redis' 
           gitlab_rails['redis_database'] = 8
-          gitlab_rails['db_host'] = 'postgres' 
-          gitlab_rails['db_username'] = 'laradock_gitlab'
-          gitlab_rails['db_password'] = 'laradock_gitlab'
-          gitlab_rails['db_database'] = 'laradock_gitlab'
+          gitlab_rails['db_host'] = '${GITLAB_POSTGRES_HOST}' 
+          gitlab_rails['db_username'] = '${GITLAB_POSTGRES_USER}'
+          gitlab_rails['db_password'] = '${GITLAB_POSTGRES_PASSWORD}'
+          gitlab_rails['db_database'] = '${GITLAB_POSTGRES_DB}'
           gitlab_rails['initial_root_password'] = '${GITLAB_ROOT_PASSWORD}'
           gitlab_rails['gitlab_shell_ssh_port'] = ${GITLAB_HOST_SSH_PORT}
       volumes:
@@ -765,7 +773,10 @@ services:
     gitlab-runner:
       image: gitlab/gitlab-runner:latest
       environment:
-        - CI_SERVER_URL=${GITLAB_DOMAIN_NAME}
+        - CI_SERVER_URL=${GITLAB_CI_SERVER_URL}
+        - REGISTRATION_TOKEN=${GITLAB_RUNNER_REGISTRATION_TOKEN}
+        - RUNNER_NAME=${serverName}-runner
+        - REGISTER_NON_INTERACTIVE=${GITLAB_REGISTER_NON_INTERACTIVE}
       volumes:
         - ${DATA_PATH_HOST}/gitlab/runner:/etc/gitlab-runner
         - /var/run/docker.sock:/var/run/docker.sock:rw
@@ -799,7 +810,8 @@ services:
         - JUPYTERHUB_OAUTH_CALLBACK_URL=${JUPYTERHUB_OAUTH_CALLBACK_URL}
         - JUPYTERHUB_OAUTH_CLIENT_ID=${JUPYTERHUB_OAUTH_CLIENT_ID}
         - JUPYTERHUB_OAUTH_CLIENT_SECRET=${JUPYTERHUB_OAUTH_CLIENT_SECRET}
-        - JUPYTERHUB_LOCAL_NOTEBOOK_IMAGE=${JUPYTERHUB_LOCAL_NOTEBOOK_IMAGE}
+        - JUPYTERHUB_LOCAL_NOTEBOOK_IMAGE=${serverName}_jupyterhub-user
+        - JUPYTERHUB_ENABLE_NVIDIA=${JUPYTERHUB_ENABLE_NVIDIA}
     jupyterhub-user:
       build:
         context: ./jupyterhub
@@ -849,8 +861,8 @@ services:
       networks:
         - backend
 
-### PHPRedisAdmin ################################################
-    phpredisadmin:
+### REDISWEBUI ################################################
+    redis-webui:
       image: erikdubbelboer/phpredisadmin:latest
       environment:
         - ADMIN_USER=${REDIS_WEBUI_USERNAME}

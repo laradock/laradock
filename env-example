@@ -370,14 +370,25 @@ SOLR_PORT=8983
 SOLR_DATAIMPORTHANDLER_MYSQL=false
 
 ### GITLAB ###############################################
+GITLAB_POSTGRES_INIT=true
 GITLAB_HOST_HTTP_PORT=8989
 GITLAB_HOST_HTTPS_PORT=9898
 GITLAB_HOST_SSH_PORT=2289
 GITLAB_DOMAIN_NAME=http://localhost
 GITLAB_ROOT_PASSWORD=laradock
 GITLAB_HOST_LOG_PATH=./logs/gitlab
+GITLAB_POSTGRES_HOST=postgres
+GITLAB_POSTGRES_USER=laradock_gitlab
+GITLAB_POSTGRES_PASSWORD=laradock_gitlab
+GITLAB_POSTGRES_DB=laradock_gitlab
+
+### GITLAB-RUNNER ###############################################
+GITLAB_CI_SERVER_URL=http://localhost:8989
+GITLAB_RUNNER_REGISTRATION_TOKEN=<my-registration-token>
+GITLAB_REGISTER_NON_INTERACTIVE=true
 
 ### JUPYTERHUB ###############################################
+JUPYTERHUB_POSTGRES_INIT=true
 JUPYTERHUB_POSTGRES_HOST=postgres
 JUPYTERHUB_POSTGRES_USER=laradock_jupyterhub
 JUPYTERHUB_POSTGRES_PASSWORD=laradock_jupyterhub
@@ -386,10 +397,10 @@ JUPYTERHUB_PORT=9991
 JUPYTERHUB_OAUTH_CALLBACK_URL=http://laradock:9991/hub/oauth_callback
 JUPYTERHUB_OAUTH_CLIENT_ID={GITHUB_CLIENT_ID}
 JUPYTERHUB_OAUTH_CLIENT_SECRET={GITHUB_CLIENT_SECRET}
-JUPYTERHUB_LOCAL_NOTEBOOK_IMAGE=laradock_jupyterhub-user
 JUPYTERHUB_CUSTOM_CONFIG=./jupyterhub/jupyterhub_config.py
 JUPYTERHUB_USER_DATA=/jupyterhub
 JUPYTERHUB_USER_LIST=./jupyterhub/userlist
+JUPYTERHUB_ENABLE_NVIDIA=false
 
 ### IPYTHON ##################################################
 LARADOCK_IPYTHON_CONTROLLER_IP=127.0.0.1
@@ -397,7 +408,7 @@ LARADOCK_IPYTHON_CONTROLLER_IP=127.0.0.1
 ### NETDATA ###############################################
 NETDATA_PORT=19999
 
-### PHPREDISADMIN #########################################
+### REDISWEBUI #########################################
 REDIS_WEBUI_USERNAME=laradock
 REDIS_WEBUI_PASSWORD=laradock
 REDIS_WEBUI_CONNECT_HOST=redis
