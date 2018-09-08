@@ -1,6 +1,6 @@
 FROM golang:alpine
 
-MAINTAINER ahkui <ahkui@outlook.com>
+LABEL maintainer="Huadong Zuo <admin@zuohuadong.cn>"
 
 RUN apk add --no-cache \
     openssh \
