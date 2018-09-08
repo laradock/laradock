@@ -414,7 +414,6 @@ To learn more about how Docker publishes ports, please read [this excellent post
 
 
 
-
 <br>
 <a name="Laravel"></a>
 
@@ -885,7 +884,7 @@ docker-compose up -d mongo
         ]
     ],
 
-  // ...
+    // ...
 
 ],
 ```
