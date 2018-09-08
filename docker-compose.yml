@@ -958,6 +958,7 @@ services:
       volumes:
         - "${DATA_PATH_HOST}/mailu/data:/data"
         - "${DATA_PATH_HOST}/mailu/dkim:/dkim"
+        - "${DATA_PATH_HOST}/mailu/webmail:/webmail"
         - /var/run/docker.sock:/var/run/docker.sock:ro
       depends_on:
         - mailu-front
@@ -969,7 +970,7 @@ services:
         - mailu-admin
         - mailu-webmail
         - mailu-fetchmail
-      command: ["sh", "-c", "echo ${MAILU_INIT_ADMIN_USERNAME}@${MAILU_DOMAIN} ${MAILU_INIT_ADMIN_PASSWORD} ;python manage.py advertise ; python manage.py db upgrade ; python manage.py admin ${MAILU_INIT_ADMIN_USERNAME} ${MAILU_DOMAIN} ${MAILU_INIT_ADMIN_PASSWORD} || true"]
+      command: ["sh", "-c", "echo ${MAILU_INIT_ADMIN_USERNAME}@${MAILU_DOMAIN} ${MAILU_INIT_ADMIN_PASSWORD} ;python manage.py advertise ; python manage.py db upgrade ; python manage.py admin ${MAILU_INIT_ADMIN_USERNAME} ${MAILU_DOMAIN} ${MAILU_INIT_ADMIN_PASSWORD} || true;sed -i -- \"s/= Off/= On/g\" /webmail/_data_/_default_/configs/config.ini || true;"]
       networks:
         - backend
     mailu-front:
@@ -1083,6 +1084,8 @@ services:
         - WEBMAIL=${MAILU_WEBMAIL}
         - SITENAME=${MAILU_SITENAME}
         - PASSWORD_SCHEME=${MAILU_PASSWORD_SCHEME}
+        - RECAPTCHA_PUBLIC_KEY=${MAILU_RECAPTCHA_PUBLIC_KEY}
+        - RECAPTCHA_PRIVATE_KEY=${MAILU_RECAPTCHA_PRIVATE_KEY}
       volumes:
         - "${DATA_PATH_HOST}/mailu/data:/data"
         - "${DATA_PATH_HOST}/mailu/dkim:/dkim"
