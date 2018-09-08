@@ -780,7 +780,6 @@ services:
       volumes:
         - ${DATA_PATH_HOST}/gitlab/runner:/etc/gitlab-runner
         - /var/run/docker.sock:/var/run/docker.sock:rw
-      restart: always
       
 ### JupyterHub #########################################
     jupyterhub:
@@ -789,7 +788,6 @@ services:
       depends_on:
         - postgres
         - jupyterhub-user
-      restart: always
       volumes:
         - /var/run/docker.sock:/var/run/docker.sock:rw
         - ${DATA_PATH_HOST}/jupyterhub/:/data
@@ -863,7 +861,8 @@ services:
 
 ### REDISWEBUI ################################################
     redis-webui:
-      image: erikdubbelboer/phpredisadmin:latest
+      build:
+        context: ./redis-webui
       environment:
         - ADMIN_USER=${REDIS_WEBUI_USERNAME}
         - ADMIN_PASS=${REDIS_WEBUI_PASSWORD}
@@ -880,7 +879,6 @@ services:
     mongo-webui:
       build:
         context: ./mongo-webui
-      restart: always
       environment:
         - ROOT_URL=${MONGO_WEBUI_ROOT_URL}
         - MONGO_URL=${MONGO_WEBUI_MONGO_URL}
