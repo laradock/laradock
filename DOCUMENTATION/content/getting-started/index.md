@@ -81,7 +81,7 @@ We'll need to do step 1 of the [Usage](#Usage) section now to make this happen.
 cp env-example .env
 ```
 
-At the top, change the `APPLICATION` variable to your project path.
+At the top, change the `APP_CODE_PATH_HOST` variable to your project path.
 
 ```
 APP_CODE_PATH_HOST=../project-z/
