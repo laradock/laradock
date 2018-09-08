@@ -1152,15 +1152,15 @@ docker-compose up -d rethinkdb
 ```php
 'connections' => [
 
-  'rethinkdb' => [
-    'name'      => 'rethinkdb',
-    'driver'    => 'rethinkdb',
-    'host'      => env('DB_HOST', 'rethinkdb'),
-    'port'      => env('DB_PORT', 28015),
-    'database'  => env('DB_DATABASE', 'test'),
-  ]
+    'rethinkdb' => [
+        'name'      => 'rethinkdb',
+        'driver'    => 'rethinkdb',
+        'host'      => env('DB_HOST', 'rethinkdb'),
+        'port'      => env('DB_PORT', 28015),
+        'database'  => env('DB_DATABASE', 'test'),
+    ]
 
-  // ...
+    // ...
 
 ],
 ```
@@ -1234,9 +1234,6 @@ docker-compose up -d aws
 
 
 
-
-
-
 <br>
 <a name="Use-Grafana"></a>
 ## Use Grafana
@@ -1252,9 +1249,6 @@ docker-compose up -d grafana
 3 - Open your browser and visit the localhost on port **3000** at the following URL: `http://localhost:3000`
 
 4 - Login using the credentials User = `admin`, Password = `admin`. Change the password in the web interface if you want to.
-
-
-
 
 
 
