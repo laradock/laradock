@@ -85,7 +85,7 @@ You can turn On/Off as many instances of as any container without worrying about
 - **Database Engines:**
 MySQL - MariaDB - Percona - MongoDB - Neo4j - RethinkDB - MSSQL - PostgreSQL - Postgres-PostGIS.
 - **Database Management:**
-PhpMyAdmin - Adminer - PgAdmin
+PhpMyAdmin - Adminer - PgAdmin - Redis Web UI - Mongo Web UI
 - **Cache Engines:**
 Redis - Memcached - Aerospike
 - **PHP Servers:**
@@ -96,8 +96,10 @@ PHP FPM - HHVM
 Beanstalkd - RabbitMQ - PHP Worker
 - **Queueing Management:**
 Beanstalkd Console - RabbitMQ Console
+- **Web IDE:**
+Theia - Webide - Codiad - IceCoder - Jupyterhub
 - **Random Tools:**
-HAProxy - Certbot - Blackfire - Selenium - Jenkins - ElasticSearch - Kibana - Grafana - Gitlab - Mailhog - MailDev - Minio - Varnish - Swoole - NetData - Portainer - Laravel Echo...
+HAProxy - Certbot - Blackfire - Selenium - Jenkins - ElasticSearch - Kibana - Grafana - Gitlab - Mailhog - MailDev - Minio - Varnish - Swoole - NetData - Portainer - Laravel Echo - IPython...
 
 Laradock introduces the **Workspace** Image, as a development environment.
 It contains a rich set of helpful tools, all pre-configured to work and integrate with almost any combination of Containers and tools you may choose.
