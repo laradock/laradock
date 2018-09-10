@@ -32,5 +32,27 @@
 
 Once you have the environment installed with previous instructions, you must setup your IDE to allow the debugging correctly.
 
-First of all, establish the PHP source path
-<img src="https://raw.githubusercontent.com/onestic/laradock/master/.github/img/xdebug-php-cli.png"> 
+First of all, establish the PHP source path.
+Open Preferences, then Languages & Frameworks > PHP. Click on the '+' icon and type a name. Then, pick the path for your php binary on your local machine.
+You must see an image similar to this:
+<br>
+<img src="https://raw.githubusercontent.com/onestic/laradock/master/.github/img/xdebug-php-cli.png">
+<br> 
+Once you see that PHPStorm show your PHP version successfully, you must add the docker web server.
+Go now to Languages & Frameworks > PHP > Servers, click on '+' icon, and fill the fields as you can see on the next image. Also, check the 'Use path mappings' checkbox and enter the path '/var/www' on the right side of your local web folder.
+<br>
+<img src="https://raw.githubusercontent.com/onestic/laradock/master/.github/img/xdebug-php-server.png">
+<br>
+Now we can do the final steps and set the xDebug settings for PHPStorm to listen the right ip & port.
+At Language & Frameworks > PHP > Debug, uncheck the two checkboxes down from 'Debug port', and enter '9001' on 'Debug port', as you can see on the next image:
+<br>
+<img src="https://raw.githubusercontent.com/onestic/laradock/master/.github/img/xdebug-php-connection.png">
+<br>
+Then, go inside Language & Frameworks > PHP > Debug > DBGp Proxy and fill the fields with the same settings as you can see on the following image:
+<br>
+<img src="https://raw.githubusercontent.com/onestic/laradock/master/.github/img/xdebug-php-proxy.png">
+<br>
+Finally, you can test your settings by enabling the xDebug. Just click on 'Debug...' item under the 'Run' menu from the Toolbar.
+<br>
+<img src="https://raw.githubusercontent.com/onestic/laradock/master/.github/img/xdebug-php-menu.png">
+<br>
