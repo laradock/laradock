@@ -33,4 +33,4 @@
 Once you have the environment installed with previous instructions, you must setup your IDE to allow the debugging correctly.
 
 First of all, establish the PHP source path
-<img src="https://github.com/onestic/laradock/tree/master/.github/img/xdebug-php-cli.png"> 
+<img src="https://github.com/onestic/laradock/master/.github/img/xdebug-php-cli.png"> 
