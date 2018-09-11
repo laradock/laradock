@@ -25,8 +25,26 @@
 ```APP_CODE_PATH_HOST```
 - Start your container using the command:
 
-```bin/start.sh```
+```console/commands/start.sh```
 
+### Command Setup
+
+For install it globally in your computer use this method:
+
+- Create the following symbolic link (In root project)
+
+``` sudo ln -s $(pwd)/bin/ondocker /usr/local/bin/```
+
+### Usage
+The command must be executed in root project
+
+- List commands available
+
+``` ondocker --help ```
+
+- Execute desired command
+
+``` ondocker <command> ```
 
 ### PHPStorm xDebug Setup
 
