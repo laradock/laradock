@@ -393,8 +393,8 @@ RUN if [ ${INSTALL_SWOOLE} = true ]; then \
 ARG INSTALL_LIBPNG=false
 
 RUN if [ ${INSTALL_LIBPNG} = true ]; then \
-    apt update && \
-    apt install libpng16-16 \
+    apt-get update && \
+    apt-get install libpng16-16 \
 ;fi
 
 ###########################################################################
