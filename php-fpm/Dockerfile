@@ -51,6 +51,23 @@ RUN apt-get update -yqq && \
 #
 
 ###########################################################################
+# SSH2:
+###########################################################################
+
+ARG INSTALL_SSH2=false
+
+RUN if [ ${INSTALL_SSH2} = true ]; then \
+    # Install the ssh2 extension
+    apt-get -y install libssh2-1-dev && \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+        pecl install -a ssh2-0.13; \
+    else \
+        pecl install -a ssh2-1.1.2; \
+    fi && \
+    docker-php-ext-enable ssh2 \
+;fi
+
+###########################################################################
 # SOAP:
 ###########################################################################
 
@@ -326,6 +343,21 @@ RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
 ;fi
 
 ###########################################################################
+# IonCube Loader:
+###########################################################################
+
+ARG INSTALL_IONCUBE=false
+
+RUN if [ ${INSTALL_IONCUBE} = true ]; then \
+    # Install the php ioncube loader
+    curl -L -o /tmp/ioncube_loaders_lin_x86-64.tar.gz https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
+    && tar zxpf /tmp/ioncube_loaders_lin_x86-64.tar.gz -C /tmp \
+    && mv /tmp/ioncube/ioncube_loader_lin_${LARADOCK_PHP_VERSION}.so $(php -r "echo ini_get('extension_dir');")/ioncube_loader.so \
+    && printf "zend_extension=ioncube_loader.so\n" > $PHP_INI_DIR/conf.d/0ioncube.ini \
+    && rm -rf /tmp/ioncube* \
+;fi
+
+###########################################################################
 # Opcache:
 ###########################################################################
 
@@ -486,6 +518,18 @@ RUN if [ ${INSTALL_CALENDAR} = true ]; then \
 ;fi
 
 ###########################################################################
+# libfaketime:
+###########################################################################
+
+USER root
+
+ARG INSTALL_FAKETIME=false
+
+RUN if [ ${INSTALL_FAKETIME} = true ]; then \
+    apt-get install -y libfaketime \
+;fi
+
+###########################################################################
 # Check PHP version:
 ###########################################################################
 
@@ -508,6 +552,12 @@ RUN apt-get clean && \
     rm /var/log/lastlog /var/log/faillog
 
 RUN usermod -u 1000 www-data
+
+# Adding the faketime library to the preload file needs to be done last
+# otherwise it will preload it for all commands that follow in this file
+RUN if [ ${INSTALL_FAKETIME} = true ]; then \
+    echo "/usr/lib/x86_64-linux-gnu/faketime/libfaketime.so.1" > /etc/ld.so.preload \
+;fi
 
 WORKDIR /var/www
 

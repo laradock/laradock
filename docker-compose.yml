@@ -52,6 +52,8 @@ services:
           - INSTALL_XDEBUG=${WORKSPACE_INSTALL_XDEBUG}
           - INSTALL_PHPDBG=${WORKSPACE_INSTALL_PHPDBG}
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
+          - INSTALL_SSH2=${WORKSPACE_INSTALL_SSH2}
+          - INSTALL_GMP=${WORKSPACE_INSTALL_GMP}
           - INSTALL_SOAP=${WORKSPACE_INSTALL_SOAP}
           - INSTALL_LDAP=${WORKSPACE_INSTALL_LDAP}
           - INSTALL_IMAP=${WORKSPACE_INSTALL_IMAP}
@@ -89,6 +91,7 @@ services:
           - INSTALL_SWOOLE=${WORKSPACE_INSTALL_SWOOLE}
           - INSTALL_LIBPNG=${WORKSPACE_INSTALL_LIBPNG}
           - INSTALL_GRAPHVIZ=${WORKSPACE_INSTALL_GRAPHVIZ}
+          - INSTALL_IONCUBE=${WORKSPACE_INSTALL_IONCUBE}
           - PUID=${WORKSPACE_PUID}
           - PGID=${WORKSPACE_PGID}
           - CHROME_DRIVER_VERSION=${WORKSPACE_CHROME_DRIVER_VERSION}
@@ -120,6 +123,7 @@ services:
           - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
           - INSTALL_PHPDBG=${PHP_FPM_INSTALL_PHPDBG}
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
+          - INSTALL_SSH2=${PHP_FPM_INSTALL_SSH2}
           - INSTALL_SOAP=${PHP_FPM_INSTALL_SOAP}
           - INSTALL_IMAP=${PHP_FPM_INSTALL_IMAP}
           - INSTALL_MONGO=${PHP_FPM_INSTALL_MONGO}
@@ -145,6 +149,8 @@ services:
           - INSTALL_IMAGE_OPTIMIZERS=${PHP_FPM_INSTALL_IMAGE_OPTIMIZERS}
           - INSTALL_IMAGEMAGICK=${PHP_FPM_INSTALL_IMAGEMAGICK}
           - INSTALL_CALENDAR=${PHP_FPM_INSTALL_CALENDAR}
+          - INSTALL_FAKETIME=${PHP_FPM_INSTALL_FAKETIME}
+          - INSTALL_IONCUBE=${PHP_FPM_INSTALL_IONCUBE}
       volumes:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
@@ -155,6 +161,7 @@ services:
       environment:
         - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
         - DOCKER_HOST=tcp://docker-in-docker:2375
+        - FAKETIME=${PHP_FPM_FAKETIME}
       depends_on:
         - workspace
       networks:
@@ -469,7 +476,7 @@ services:
       build: ./caddy
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
-        - ${CADDY_CUSTOM_CADDYFILE}:/etc/Caddyfile
+        - ${CADDY_CONFIG_PATH}:/etc/caddy
         - ${CADDY_HOST_LOG_PATH}:/var/log/caddy
         - ${DATA_PATH_HOST}:/root/.caddy
       ports:
@@ -890,3 +897,59 @@ services:
       networks:
         - backend
 
+### IDE-THEIA ################################################
+    ide-theia:
+      build:
+        context: ./ide-theia
+      volumes:
+        - ${APP_CODE_PATH_HOST}:/home/project
+      ports:
+        - "${IDE_THEIA_PORT}:3000"
+      networks:
+        - backend
+
+### IDE-WEBIDE ################################################
+    ide-webide:
+      build:
+        context: ./ide-webide
+      volumes:
+        - ${DATA_PATH_HOST}/ide/webide/ide.db:/root/.coding-ide/ide.db
+      ports:
+        - "${IDE_WEBIDE_PORT}:8080"
+      networks:
+        - backend
+
+### IDE-CODIAD ################################################
+    ide-codiad:
+      build:
+        context: ./ide-codiad
+      environment:
+        - APP_CODE_PATH_CONTAINER=${APP_CODE_PATH_CONTAINER}
+        - TZ=${WORKSPACE_TIMEZONE}
+        - PGID=1000
+        - PUID=1000
+      volumes:
+        - /etc/localtime:/etc/localtime:ro
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+        - ${DATA_PATH_HOST}/ide/codiad:/config
+      ports:
+        - "${IDE_CODIAD_PORT}:80"
+      networks:
+        - backend
+
+### IDE-ICECODER ################################################
+    ide-icecoder:
+      build:
+        context: ./ide-icecoder
+      environment:
+        - DOCUMENT_ROOT=${APP_CODE_PATH_CONTAINER}
+        - TZ=${WORKSPACE_TIMEZONE}
+        - PGID=1000
+        - PUID=1000
+      volumes:
+        - /etc/localtime:/etc/localtime:ro
+        - ${APP_CODE_PATH_HOST}:/home/laradock/ICEcoder/dev
+      ports:
+        - "${IDE_ICECODER_PORT}:8080"
+      networks:
+        - backend

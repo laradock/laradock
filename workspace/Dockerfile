@@ -175,6 +175,33 @@ RUN if [ ${INSTALL_DRUSH} = true ]; then \
 ;fi
 
 ###########################################################################
+# SSH2:
+###########################################################################
+
+USER root
+
+ARG INSTALL_SSH2=false
+
+RUN if [ ${INSTALL_SSH2} = true ]; then \
+  # Install the PHP SSH2 extension
+  apt-get -y install libssh2-1-dev php${LARADOCK_PHP_VERSION}-ssh2 \
+;fi
+
+###########################################################################
+# SOAP:
+###########################################################################
+
+USER root
+
+ARG INSTALL_GMP=false
+ARG PHP_VERSION=${PHP_VERSION}
+
+RUN if [ ${INSTALL_GMP} = true ]; then \
+  # Install the PHP SOAP extension
+  apt-get -y install php${PHP_VERSION}-gmp \
+;fi
+
+###########################################################################
 # SOAP:
 ###########################################################################
 
@@ -371,6 +398,7 @@ RUN if [ ${INSTALL_LIBPNG} = true ]; then \
 ;fi
 
 ###########################################################################
+
 # GraphViz extension
 ###########################################################################
 
@@ -379,6 +407,20 @@ ARG INSTALL_GRAPHVIZ=false
 RUN if [ ${INSTALL_GRAPHVIZ} = true ]; then \
     apt-get update && \
     apt-get install -y graphviz \
+;fi
+
+# IonCube Loader
+###########################################################################
+
+ARG INSTALL_IONCUBE=false
+
+RUN if [ ${INSTALL_IONCUBE} = true ]; then \
+    # Install the php ioncube loader
+    curl -L -o /tmp/ioncube_loaders_lin_x86-64.tar.gz https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
+    && tar zxpf /tmp/ioncube_loaders_lin_x86-64.tar.gz -C /tmp \
+    && mv /tmp/ioncube/ioncube_loader_lin_${LARADOCK_PHP_VERSION}.so $(php -r "echo ini_get('extension_dir');")/ioncube_loader.so \
+    && echo "zend_extension=ioncube_loader.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/0ioncube.ini \
+    && rm -rf /tmp/ioncube* \
 ;fi
 
 ###########################################################################
@@ -432,6 +474,7 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
         && if [ ${INSTALL_NPM_VUE_CLI} = true ]; then \
         npm install -g @vue/cli \
         ;fi \
+        && ln -s `npm bin --global` /home/laradock/.node-bin \
 ;fi
 
 # Wouldn't execute when added to the RUN statement in the above block
@@ -452,7 +495,7 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
 ;fi
 
 # Add PATH for node
-ENV PATH $PATH:$NVM_DIR/versions/node/v${NODE_VERSION}/bin
+ENV PATH $PATH:/home/laradock/.node-bin
 
 RUN if [ ${NPM_REGISTRY} ]; then \
     . ~/.bashrc && npm config set registry ${NPM_REGISTRY} \
@@ -487,6 +530,9 @@ RUN if [ ${INSTALL_YARN} = true ]; then \
     echo 'export YARN_DIR="/home/laradock/.yarn"' >> ~/.bashrc && \
     echo 'export PATH="$YARN_DIR/bin:$PATH"' >> ~/.bashrc \
 ;fi
+
+# Add PATH for YARN
+ENV PATH $PATH:/home/laradock/.yarn/bin
 
 ###########################################################################
 # PHP Aerospike:
