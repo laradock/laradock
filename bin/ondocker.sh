@@ -21,9 +21,9 @@ resolve_absolute_dir()
 init_dirs()
 {
     resolve_absolute_dir
-    export COMMANDS_DIR="${ABSOLUTE_PATH}/commands"
-    export TASKS_DIR="${ABSOLUTE_PATH}/tasks"
-    export PROPERTIES_DIR="${ABSOLUTE_PATH}/properties"
+    export COMMANDS_DIR="${ABSOLUTE_PATH}/console/commands"
+    export TASKS_DIR="${ABSOLUTE_PATH}/console/tasks"
+    export PROPERTIES_DIR="${ABSOLUTE_PATH}/console/properties"
 }
 
 usage()
