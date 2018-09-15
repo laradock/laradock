@@ -1,4 +1,4 @@
-baseurl = "http://laradock.io/"
+baseurl = "https://laradock.io/"
 languageCode = "en-us"
 publishDir = "../docs"
 title = "Laradock"
