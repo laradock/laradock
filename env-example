@@ -365,6 +365,122 @@ CADDY_CONFIG_PATH=./caddy/caddy
 
 LARAVEL_ECHO_SERVER_PORT=6001
 
+### DOCKER-SYNC ########################################################################################################
+
+# osx: 'native_osx' (default)
+# windows: 'unison'
+# linux: docker-sync not required
+
+DOCKER_SYNC_STRATEGY=native_osx
+
+### THUMBOR ############################################################################################################
+
+THUMBOR_PORT=8000
+THUMBOR_LOG_FORMAT="%(asctime)s %(name)s:%(levelname)s %(message)s"
+THUMBOR_LOG_DATE_FORMAT="%Y-%m-%d %H:%M:%S"
+MAX_WIDTH=0
+MAX_HEIGHT=0
+MIN_WIDTH=1
+MIN_HEIGHT=1
+ALLOWED_SOURCES=[]
+QUALITY=80
+WEBP_QUALITY=None
+PNG_COMPRESSION_LEVEL=6
+AUTO_WEBP=False
+MAX_AGE=86400
+MAX_AGE_TEMP_IMAGE=0
+RESPECT_ORIENTATION=False
+IGNORE_SMART_ERRORS=False
+PRESERVE_EXIF_INFO=False
+ALLOW_ANIMATED_GIFS=True
+USE_GIFSICLE_ENGINE=False
+USE_BLACKLIST=False
+LOADER=thumbor.loaders.http_loader
+STORAGE=thumbor.storages.file_storage
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+RESULT_STORAGE=thumbor.result_storages.file_storage
+ENGINE=thumbor.engines.pil
+SECURITY_KEY="MY_SECURE_KEY"
+ALLOW_UNSAFE_URL=True
+ALLOW_OLD_URLS=True
+FILE_LOADER_ROOT_PATH=/data/loader
+HTTP_LOADER_CONNECT_TIMEOUT=5
+HTTP_LOADER_REQUEST_TIMEOUT=20
+HTTP_LOADER_FOLLOW_REDIRECTS=True
+HTTP_LOADER_MAX_REDIRECTS=5
+HTTP_LOADER_FORWARD_USER_AGENT=False
+HTTP_LOADER_DEFAULT_USER_AGENT="Thumbor/5.2.1"
+HTTP_LOADER_PROXY_HOST=None
+HTTP_LOADER_PROXY_PORT=None
+HTTP_LOADER_PROXY_USERNAME=None
+HTTP_LOADER_PROXY_PASSWORD=None
+HTTP_LOADER_CA_CERTS=None
+HTTP_LOADER_VALIDATE_CERTS=True
+HTTP_LOADER_CLIENT_KEY=None
+HTTP_LOADER_CLIENT_CERT=None
+HTTP_LOADER_CURL_ASYNC_HTTP_CLIENT=False
+STORAGE_EXPIRATION_SECONDS=2592000
+STORES_CRYPTO_KEY_FOR_EACH_IMAGE=False
+FILE_STORAGE_ROOT_PATH=/data/storage
+UPLOAD_MAX_SIZE=0
+UPLOAD_ENABLED=False
+UPLOAD_PHOTO_STORAGE=thumbor.storages.file_storage
+UPLOAD_DELETE_ALLOWED=False
+UPLOAD_PUT_ALLOWED=False
+UPLOAD_DEFAULT_FILENAME=image
+MONGO_STORAGE_SERVER_HOST=mongo
+MONGO_STORAGE_SERVER_PORT=27017
+MONGO_STORAGE_SERVER_DB=thumbor
+MONGO_STORAGE_SERVER_COLLECTION=images
+REDIS_STORAGE_SERVER_HOST=redis
+REDIS_STORAGE_SERVER_PORT=6379
+REDIS_STORAGE_SERVER_DB=0
+REDIS_STORAGE_SERVER_PASSWORD=None
+REDIS_RESULT_STORAGE_SERVER_HOST=redis
+REDIS_RESULT_STORAGE_SERVER_PORT=6379
+REDIS_RESULT_STORAGE_SERVER_DB=0
+REDIS_RESULT_STORAGE_SERVER_PASSWORD=None
+MEMCACHE_STORAGE_SERVERS=["localhost:11211",]
+MIXED_STORAGE_FILE_STORAGE=thumbor.storages.no_storage
+MIXED_STORAGE_CRYPTO_STORAGE=thumbor.storages.no_storage
+MIXED_STORAGE_DETECTOR_STORAGE=thumbor.storages.no_storage
+META_CALLBACK_NAME=None
+DETECTORS=[]
+FACE_DETECTOR_CASCADE_FILE=haarcascade_frontalface_alt.xml
+OPTIMIZERS=[]
+JPEGTRAN_PATH=/usr/bin/jpegtran
+PROGRESSIVE_JPEG=True
+FILTERS=["thumbor.filters.brightness", "thumbor.filters.contrast", "thumbor.filters.rgb", "thumbor.filters.round_corner", "thumbor.filters.quality", "thumbor.filters.noise", "thumbor.filters.watermark", "thumbor.filters.equalize", "thumbor.filters.fill", "thumbor.filters.sharpen", "thumbor.filters.strip_icc", "thumbor.filters.frame", "thumbor.filters.grayscale", "thumbor.filters.rotate", "thumbor.filters.format", "thumbor.filters.max_bytes", "thumbor.filters.convolution", "thumbor.filters.blur", "thumbor.filters.extract_focal", "thumbor.filters.no_upscale"]
+RESULT_STORAGE_EXPIRATION_SECONDS=0
+RESULT_STORAGE_FILE_STORAGE_ROOT_PATH=/data/result_storage
+RESULT_STORAGE_STORES_UNSAFE=False
+REDIS_QUEUE_SERVER_HOST=redis
+REDIS_QUEUE_SERVER_PORT=6379
+REDIS_QUEUE_SERVER_DB="0"
+REDIS_QUEUE_SERVER_PASSWORD=None
+SQS_QUEUE_KEY_ID=None
+SQS_QUEUE_KEY_SECRET=None
+SQS_QUEUE_REGION=us-east-1
+USE_CUSTOM_ERROR_HANDLING=False
+ERROR_HANDLER_MODULE=thumbor.error_handlers.sentry
+ERROR_FILE_LOGGER=None
+ERROR_FILE_NAME_USE_CONTEXT="False"
+SENTRY_DSN_URL=
+TC_AWS_REGION=eu-west-1
+TC_AWS_ENDPOINT=None
+TC_AWS_STORAGE_BUCKET=
+TC_AWS_STORAGE_ROOT_PATH=
+TC_AWS_LOADER_BUCKET=
+TC_AWS_LOADER_ROOT_PATH=
+TC_AWS_RESULT_STORAGE_BUCKET=
+TC_AWS_RESULT_STORAGE_ROOT_PATH=
+TC_AWS_STORAGE_SSE=False
+TC_AWS_STORAGE_RRS=False
+TC_AWS_ENABLE_HTTP_LOADER=False
+TC_AWS_ALLOWED_BUCKETS=False
+TC_AWS_STORE_METADATA=False
+
 ### SOLR ##################################################
 
 SOLR_VERSION=5.5
