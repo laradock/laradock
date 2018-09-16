@@ -530,6 +530,20 @@ RUN if [ ${INSTALL_FAKETIME} = true ]; then \
 ;fi
 
 ###########################################################################
+# YAML:
+###########################################################################
+
+USER root
+
+ARG INSTALL_YAML=false
+
+RUN if [ ${INSTALL_YAML} = true ]; then \
+    apt-get install libyaml-dev -y ; \
+    pecl install yaml ; \
+    docker-php-ext-enable yaml \
+;fi
+
+###########################################################################
 # Check PHP version:
 ###########################################################################
 
