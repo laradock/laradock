@@ -566,6 +566,28 @@ docker-compose up -d php-worker
 
 
 <br>
+<a name="Use-Mailu"></a>
+## Use Mailu
+
+1 - You need register a domain.
+
+2 - Required RECAPTCHA for signup email [HERE](https://www.google.com/recaptcha/admin)
+
+2 - modify following environment variable in `.env` file
+
+```
+MAILU_RECAPTCHA_PUBLIC_KEY=<YOUR_RECAPTCHA_PUBLIC_KEY>
+MAILU_RECAPTCHA_PRIVATE_KEY=<YOUR_RECAPTCHA_PRIVATE_KEY>
+MAILU_DOMAIN=laradock.io
+MAILU_HOSTNAMES=mail.laradock.io
+```
+
+2 - Open your browser and visit `http://YOUR_DOMAIN`.
+
+
+
+
+<br>
 <a name="Use-NetData"></a>
 ## Use NetData
 
