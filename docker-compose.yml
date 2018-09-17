@@ -5,6 +5,9 @@ networks:
     driver: ${NETWORKS_DRIVER}
   backend:
     driver: ${NETWORKS_DRIVER}
+  dockernet:
+    external: true
+
 
 volumes:
   mysql:
@@ -87,6 +90,7 @@ services:
       networks:
         - frontend
         - backend
+        - dockernet
 
 ### PHP-FPM ##############################################
     php-fpm:
@@ -137,6 +141,7 @@ services:
         - workspace
       networks:
         - backend
+        - dockernet
       links:
         - docker-in-docker
 
@@ -159,6 +164,7 @@ services:
       networks:
         - frontend
         - backend
+        - dockernet
 
 ### Apache Server ########################################
     apache2:
@@ -181,6 +187,7 @@ services:
       networks:
         - frontend
         - backend
+        - dockernet
 
 ### MySQL ################################################
     mysql:
