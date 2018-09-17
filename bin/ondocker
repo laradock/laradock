@@ -4,12 +4,6 @@
 #
 #
 
-# Config vars
-ONDOCKER_ROOT_DIR="/bin/console"
-ONDOCKER_COMMANDS_DIR="commands"
-ONDOCKER_TASKS_DIR="tasks"
-ONDOCKER_PROPERTIES_DIR="properties"
-
 set -e
 
 resolve_absolute_dir()
@@ -26,10 +20,9 @@ resolve_absolute_dir()
 
 init_dirs()
 {
-    resolve_absolute_dir
-    export COMMANDS_DIR="${ABSOLUTE_PATH}${ONDOCKER_ROOT_DIR}/${ONDOCKER_COMMANDS_DIR}"
-    export TASKS_DIR="${ABSOLUTE_PATH}${ONDOCKER_ROOT_DIR}/${ONDOCKER_TASKS_DIR}"
-    export PROPERTIES_DIR="${ABSOLUTE_PATH}${ONDOCKER_ROOT_DIR}/${ONDOCKER_PROPERTIES_DIR}"
+    export COMMANDS_DIR="${ABSOLUTE_BIN_PATH}/${ONDOCKER_COMMANDS_DIR}"
+    export TASKS_DIR="${ABSOLUTE_BIN_PATH}/${ONDOCKER_TASKS_DIR}"
+    export PROPERTIES_DIR="${ABSOLUTE_BIN_PATH}/${ONDOCKER_PROPERTIES_DIR}"
 }
 
 usage()
@@ -45,6 +38,8 @@ usage()
 	done
 }
 
+resolve_absolute_dir
+source ${ABSOLUTE_BIN_PATH}/config.sh
 init_dirs
 source ${TASKS_DIR}/load_properties.sh
 
