@@ -35,6 +35,14 @@ For install it globally in your computer use this method:
 
 ``` sudo ln -s $(pwd)/bin/ondocker /usr/local/bin/```
 
+*Note:* If you have multiple instances of this repo and want to keep each one as separated, you can use the previous command like this:
+
+```sudo ln -s /path/to/first/project/bin/ondocker-example1 /usr/local/bin```
+
+```sudo ln -s /path/to/second/project/bin/ondocker-example2 /usr/local/bin```
+
+You could use `ondocker-example1` and `ondocker-example2` to run commands on each instance separately.
+
 ### Usage
 The command must be executed in root project
 
@@ -78,5 +86,13 @@ Then, go inside Language & Frameworks > PHP > Debug > DBGp Proxy and fill the fi
 <img src="https://raw.githubusercontent.com/onestic/laradock/master/.github/img/xdebug-php-proxy.png">
 <br/>
 <br/>
+At this point, you must set on your local network a way to alias the ip 10.254.254.254 to it. Depends your OS, you should use this command:
+<br/>
+<br/>
+<strong>For MacOS:</strong><br/>
+```sudo ifconfig lo0 alias 10.254.254.254 255.255.255.0```<br/>
+<strong>For Linux:</strong><br>
+```sudo ifconfig lo:0 10.254.254.254 up```
+
 Finally, you can test your settings by enabling the xDebug. Just click on 'Debug...' item under the 'Run' menu from the Toolbar.
 Add a breakpoint on your code, open your browser, and navigate to your localhost url to see the magic.
