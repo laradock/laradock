@@ -712,8 +712,8 @@ services:
     thumbor:
       build: ./thumbor
       volumes:
-        - ${DATA_SAVE_PATH}/thumbor/data:/data
-        - ${DATA_SAVE_PATH}/thumbor/data:/logs
+        - ${DATA_PATH_HOST}/thumbor/data:/data
+        - ${DATA_PATH_HOST}/thumbor/data:/logs
       ports:
         - "${THUMBOR_PORT}:8000"
       environment:
