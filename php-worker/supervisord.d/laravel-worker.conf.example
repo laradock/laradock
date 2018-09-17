@@ -5,3 +5,4 @@ autostart=true
 autorestart=true
 numprocs=8
 redirect_stderr=true
+user=1000
