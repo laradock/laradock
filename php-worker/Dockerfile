@@ -40,6 +40,8 @@ RUN if [ ${INSTALL_PGSQL} = true ]; then \
 
 RUN rm /var/cache/apk/* \
     && mkdir -p /var/www
+    
+RUN addgroup -g 1000 laradock && adduser -D -G laradock -u 1000 laradock
 
 #
 #--------------------------------------------------------------------------
