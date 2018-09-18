@@ -539,6 +539,17 @@ IDE_WEBIDE_PORT=984
 IDE_CODIAD_PORT=985
 IDE_ICECODER_PORT=986
 
+### DOCKERREGISTRY ###############################################
+DOCKER_REGISTRY_PORT=5000
+
+### DOCKERWEBUI ###############################################
+DOCKER_WEBUI_REGISTRY_HOST=docker-registry
+DOCKER_WEBUI_REGISTRY_PORT=5000
+# if have use https proxy please set to 1
+DOCKER_REGISTRY_USE_SSL=0
+DOCKER_REGISTRY_BROWSE_ONLY=false
+DOCKER_WEBUI_PORT=8754
+
 ### MAILU ###############################################
 MAILU_VERSION=latest
 MAILU_RECAPTCHA_PUBLIC_KEY=<YOUR_RECAPTCHA_PUBLIC_KEY>
