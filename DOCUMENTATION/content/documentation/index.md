@@ -353,6 +353,28 @@ Note: If `.php-fpm/xdebug` doesn't execute and gives `Permission Denied` error t
 
 
 
+<br>
+<a name="Install-ionCube-Loader"></a>
+## Install ionCube Loader
+
+1 - First install `ionCube Loader` in the Workspace and the PHP-FPM Containers:
+<br>
+a) open the `.env` file
+<br>
+b) search for the `WORKSPACE_INSTALL_IONCUBE` argument under the Workspace Container
+<br>
+c) set it to `true`
+<br>
+d) search for the `PHP_FPM_INSTALL_IONCUBE` argument under the PHP-FPM Container
+<br>
+e) set it to `true`
+
+2 - Re-build the containers `docker-compose build workspace php-fpm`
+
+Always download the latest version of [Loaders for ionCube ](http://www.ioncube.com/loaders.php).
+
+
+
 
 
 <br>
@@ -543,186 +565,24 @@ docker-compose up -d php-worker
 
 
 
-
-
 <br>
-<a name="Use-Web-IDE-THEIA"></a>
-## Use Web IDE THEIA
-1 - Run the IDE THEIA Container (`ide-theia`) with the `docker-compose up` command. Example:
+<a name="Use-Mailu"></a>
+## Use Mailu
 
-```bash
-docker-compose up -d ide-theia
-```
+1 - You need register a domain.
 
-2 - Open your browser and visit the localhost on port **987**:  `http://localhost:987`
-<br>
-_Note: You can customize the port `IDE_THEIA_PORT` in `.env`. The default value is **987**._
+2 - Required RECAPTCHA for signup email [HERE](https://www.google.com/recaptcha/admin)
 
-
-
-
-
-
-
-
-<br>
-<a name="Use-Web-IDE-WEBIDE"></a>
-## Use Web IDE WEBIDE
-1 - Run the IDE WEBIDE Container (`ide-webide`) with the `docker-compose up` command. Example:
-
-```bash
-docker-compose up -d ide-webide
-```
-
-2 - Open your browser and visit the localhost on port **984**:  `http://localhost:984`
-<br>
-_Note: You can customize the port `IDE_WEBIDE_PORT` in `.env`. The default value is **984**._
-
-
-
-
-
-
-
-
-
-<br>
-<a name="Use-Web-IDE-CODIAD"></a>
-## Use Web IDE CODIAD
-1 - Run the IDE CODIAD Container (`ide-codiad`) with the `docker-compose up` command. Example:
-
-```bash
-docker-compose up -d ide-codiad
-```
-
-2 - Open your browser and visit the localhost on port **985**:  `http://localhost:985`
-<br>
-_Note: You can customize the port `IDE_CODIAD_PORT` in `.env`. The default value is **985**._
-
-
-
-
-
-
-
-
-
-<br>
-<a name="Use-Web-IDE-ICECODER"></a>
-## Use Web IDE ICECODER
-1 - Run the IDE ICECODER Container (`ide-icecoder`) with the `docker-compose up` command. Example:
-
-```bash
-docker-compose up -d ide-icecoder
-```
-
-2 - Open your browser and visit the localhost on port **986**:  `http://localhost:986`
-<br>
-_Note: You can customize the port `IDE_ICECODER_PORT` in `.env`. The default value is **986**._
- 
-
-
-
-
-
-<br>
-<a name="Use-Redis-WebUI"></a>
-## Use Redis Web UI
-
-1 - Run the RedisWebUI Container (`redis-webui`) with the `docker-compose up` command. Example:
-
-```bash
-docker-compose up -d redis-webui
-```
-
-2 - Open your browser and visit the localhost on port **9987**:  `http://localhost:9987`
-<br>
-_Note: You can customize the port `REDIS_WEBUI_PORT` in `.env`. The default value is **9987**._
- 
-
-
-
-
-
-<br>
-<a name="Use-Mongo-WebUI"></a>
-## Use Mongo Web UI
-
-1 - Run the MongoWebUI Container (`mongo-webui`) with the `docker-compose up` command. Example:
-
-```bash
-docker-compose up -d mongo-webui
-```
-
-2 - Open your browser and visit the localhost on port **3000**:  `http://localhost:3000`
-<br>
-_Note: You can customize the port `MONGO_WEBUI_PORT` in `.env`. The default value is **3000**._
- 
-
-
-
-
-
-
-<br>
-<a name="Use-IPythonController"></a>
-## Use IPythonController
-
-1 - You may change `LARADOCK_IPYTHON_CONTROLLER_IP` to your public ip in .env file
-
-2 - Run the IPythonController Container (`ipython-controller`) with the `docker-compose up` command. Example:
-
-```bash
-docker-compose up -d ipython-controller
-```
-
-<br>
-<a name="Use-IPythonEngine"></a>
-## Use IPythonEngine
-
-1 - You may change `LARADOCK_IPYTHON_CONTROLLER_IP` to your ipython controller ip in .env file
-
-2 - Run the IPythonController Container (`ipython-engine`) with the `docker-compose up` command. Example:
-
-```bash
-docker-compose up -d ipython-engine
-```
- 
-
-
-
-
-
-
-
-
-<br>
-<a name="Use-Jupyterhub"></a>
-## Use Jupyterhub
-
-1 - First register a github OAuth aplication [here](https://github.com/settings/applications/new) then get your client id and client secret.
-_Note: callback url is `http://yourpublicip:9991/hub/oauth_callback`._
-
-1 - You need to modify the following value in `.env` file
+2 - modify following environment variable in `.env` file
 
 ```
-JUPYTERHUB_OAUTH_CLIENT_ID={GITHUB_CLIENT_ID}
-JUPYTERHUB_OAUTH_CLIENT_SECRET={GITHUB_CLIENT_SECRET}
-JUPYTERHUB_OAUTH_CALLBACK_URL=http://yourpublicip:9991/hub/oauth_callback
+MAILU_RECAPTCHA_PUBLIC_KEY=<YOUR_RECAPTCHA_PUBLIC_KEY>
+MAILU_RECAPTCHA_PRIVATE_KEY=<YOUR_RECAPTCHA_PRIVATE_KEY>
+MAILU_DOMAIN=laradock.io
+MAILU_HOSTNAMES=mail.laradock.io
 ```
 
-2 - Run the Jupyterhub Container (`jupyterhub`) with the `docker-compose up` command. Example:
-
-```bash
-docker-compose up -d jupyterhub
-```
-
-3 - Open your browser and visit the localhost on port **9991**:  `http://example.com:9991`
-<br>
-_Note: You can customize the port `JUPYTERHUB_PORT` in `.env`. The default value is **9991**._
- 
-
-
+2 - Open your browser and visit `http://YOUR_DOMAIN`.
 
 
 
@@ -884,7 +744,7 @@ docker-compose up -d mongo
         ]
     ],
 
-      // ...
+	// ...
 
 ],
 ```
@@ -941,44 +801,15 @@ docker-compose up -d mariadb phpmyadmin
 <a name="Use-Gitlab"></a>
 ## Use Gitlab
 
-1 - You may change GITLAB_DOMAIN_NAME to your public ip or domain name like `http://gitlab.example.com` in .env file
-
-```
-GITLAB_DOMAIN_NAME=http://gitlab.example.com
-```
-
-2 - Run the Gitlab Container (`gitlab`) with the `docker-compose up` command. Example:
+1 - Run the Gitlab Container (`gitlab`) with the `docker-compose up` command. Example:
 
 ```bash
 docker-compose up -d gitlab
 ```
 
-3 - Open your browser and visit the localhost on port **8989**:  `http://gitlab.example.com:8989`
+2 - Open your browser and visit the localhost on port **8989**:  `http://localhost:8989`
 <br>
-_Note: You can customize the http port `GITLAB_HOST_HTTP_PORT`, https port `GITLAB_HOST_HTTP_PORT`, ssh port `GITLAB_HOST_HTTP_PORT` in `.env`. The default value is **8989**(HTTP) **9898**(HTTPS) **2289**(SSH)._
- 
-
-
-
-
-<br>
-<a name="Use-Gitlab-Runner"></a>
-## Use Gitlab-Runner
-
-1 - Open your gitlab and generate a register token
-
-2 - You may change `GITLAB_CI_SERVER_URL` and `GITLAB_RUNNER_REGISTRATION_TOKEN` in `.env`
-
-```
-GITLAB_CI_SERVER_URL=http://localhost:8989
-GITLAB_RUNNER_REGISTRATION_TOKEN=<my-registration-token>
-```
-
-2 - Run the Gitlab Container (`gitlab-runner`) with the `docker-compose up` command. Example:
-
-```bash
-docker-compose up -d gitlab-runner
-```
+*Note: You may change GITLAB_DOMAIN_NAME to your own domain name like `http://gitlab.example.com` default is `http://localhost`*
 
 
 
@@ -1152,15 +983,15 @@ docker-compose up -d rethinkdb
 ```php
 'connections' => [
 
-    'rethinkdb' => [
-        'name'      => 'rethinkdb',
-        'driver'    => 'rethinkdb',
-        'host'      => env('DB_HOST', 'rethinkdb'),
-        'port'      => env('DB_PORT', 28015),
-        'database'  => env('DB_DATABASE', 'test'),
-    ]
+	'rethinkdb' => [
+		'name'      => 'rethinkdb',
+		'driver'    => 'rethinkdb',
+		'host'      => env('DB_HOST', 'rethinkdb'),
+		'port'      => env('DB_PORT', 28015),
+		'database'  => env('DB_DATABASE', 'test'),
+	]
 
-    // ...
+	// ...
 
 ],
 ```
@@ -1210,6 +1041,27 @@ docker-compose up -d minio
 
 
 
+
+
+<br>
+<a name="Use-Thumbor"></a>
+## Use Thumbor
+
+Thumbor is a smart imaging service. It enables on-demand crop, resizing and flipping of images. ([Thumbor](https://github.com/thumbor/thumbor))
+
+1 - Configure Thumbor:
+  - Checkout all the options under the thumbor settings
+
+
+2 - Run the Thumbor Container (`minio`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d thumbor
+```
+
+3 - Navigate to an example image on `http://localhost:8000/unsafe/300x300/i.imgur.com/bvjzPct.jpg`
+
+For more documentation on Thumbor visit the [Thumbor documenation](http://thumbor.readthedocs.io/en/latest/index.html) page
 
 
 <br>
@@ -1364,8 +1216,8 @@ To change the default forwarded port for ssh:
 
 ```yml
     workspace:
-    ports:
-      - "2222:22" # Edit this line
+		ports:
+			- "2222:22" # Edit this line
     ...
 ```
 
@@ -1739,12 +1591,14 @@ will set the clock back 1 day. See (https://github.com/wolfcw/libfaketime) for m
 6 - Re-build the containers `docker-compose build php-fpm`<br>
 
 
+
 <br>
 <a name="phpstorm-debugging"></a>
 ## PHPStorm Debugging Guide
 Remote debug Laravel web and phpunit tests.
 
 [**Debugging Guide Here**](/guides/#PHPStorm-Debugging)
+
 
 
 
@@ -2032,7 +1886,7 @@ This error sometimes happens because your Laravel application isn't running on t
 
 ## I get stuck when building nginx on `fetch http://mirrors.aliyun.com/alpine/v3.5/main/x86_64/APKINDEX.tar.gz`
 
-As stated on [#749](https://github.com/laradock/laradock/issues/749#issuecomment-293296687), removing the line `RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories` from `nginx/Dockerfile` solves the problem.    
+As stated on [#749](https://github.com/laradock/laradock/issues/749#issuecomment-419652646), Already fixed，just set `CHANGE_SOURCE` to false.		
 
 ## Custom composer repo packagist url and npm registry url
 
