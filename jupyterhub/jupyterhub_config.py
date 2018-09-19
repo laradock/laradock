@@ -6,6 +6,9 @@ import os
 
 c = get_config()
 
+# create system users that don't exist yet
+c.LocalAuthenticator.create_system_users = True
+
 def create_dir_hook(spawner):
     username = spawner.user.name # get the username
     volume_path = os.path.join('/user-data', username)
