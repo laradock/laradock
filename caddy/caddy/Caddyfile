@@ -44,3 +44,8 @@ laradock2.demo:80 {
     #proxy domain.com
 	#cors
 }
+
+laradock3.demo:80 {
+    import authlist.conf
+    root /var/www/public
+}

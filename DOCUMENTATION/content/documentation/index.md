@@ -323,7 +323,7 @@ PHP_FPM_INSTALL_PHPDBG=true
 <a name="Setup remote debugging for PhpStorm on Linux"></a>
 ## Setup remote debugging for PhpStorm on Linux
 
- - Make sure you have followed the steps above in the [Install Xdebug section](http://laradock.io/documentation/#install-xdebug).
+ - Make sure you have followed the steps above in the [Install Xdebug section](#install-xdebug).
 
  - Make sure Xdebug accepts connections and listens on port 9000. (Should be default configuration).
 
@@ -350,6 +350,28 @@ To control the behavior of xDebug (in the `php-fpm` Container), you can run the 
 
 Note: If `.php-fpm/xdebug` doesn't execute and gives `Permission Denied` error the problem can be that file `xdebug` doesn't have execution access. This can be fixed by running `chmod` command  with desired access permissions.
 
+
+
+
+<br>
+<a name="Install-ionCube-Loader"></a>
+## Install ionCube Loader
+
+1 - First install `ionCube Loader` in the Workspace and the PHP-FPM Containers:
+<br>
+a) open the `.env` file
+<br>
+b) search for the `WORKSPACE_INSTALL_IONCUBE` argument under the Workspace Container
+<br>
+c) set it to `true`
+<br>
+d) search for the `PHP_FPM_INSTALL_IONCUBE` argument under the PHP-FPM Container
+<br>
+e) set it to `true`
+
+2 - Re-build the containers `docker-compose build workspace php-fpm`
+
+Always download the latest version of [Loaders for ionCube ](http://www.ioncube.com/loaders.php).
 
 
 
@@ -407,7 +429,7 @@ To learn more about how Docker publishes ports, please read [this excellent post
 <a name="Digital-Ocean"></a>
 ## Setup Laravel and Docker on Digital Ocean
 
-### [Full Guide Here](https://github.com/laradock/laradock/blob/master/_guides/digital_ocean.md)
+### [Full Guide Here](/guides/#Digital-Ocean)
 
 
 
@@ -522,6 +544,7 @@ b) add a new service container by simply copy-paste this section below PHP-FPM c
         context: ./php-worker
         args:
           - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL} #Optionally install PGSQL PHP drivers
+          - INSTALL_BCMATH=${PHP_WORKER_INSTALL_BCMATH} #Optionally install BCMath php package
       volumes_from:
         - applications
       depends_on:
@@ -543,6 +566,28 @@ docker-compose up -d php-worker
 
 
 <br>
+<a name="Use-Mailu"></a>
+## Use Mailu
+
+1 - You need register a domain.
+
+2 - Required RECAPTCHA for signup email [HERE](https://www.google.com/recaptcha/admin)
+
+2 - modify following environment variable in `.env` file
+
+```
+MAILU_RECAPTCHA_PUBLIC_KEY=<YOUR_RECAPTCHA_PUBLIC_KEY>
+MAILU_RECAPTCHA_PRIVATE_KEY=<YOUR_RECAPTCHA_PRIVATE_KEY>
+MAILU_DOMAIN=laradock.io
+MAILU_HOSTNAMES=mail.laradock.io
+```
+
+2 - Open your browser and visit `http://YOUR_DOMAIN`.
+
+
+
+
+<br>
 <a name="Use-NetData"></a>
 ## Use NetData
 
@@ -554,6 +599,19 @@ docker-compose up -d netdata
 
 2 - Open your browser and visit the localhost on port **19999**:  `http://localhost:19999`
 
+<br>
+<a name="Use-Metabase"></a>
+## Use Metabase
+
+1 - Run the Metabase Container (`metbase`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d metabase
+```
+
+2 - Open your browser and visit the localhost on port **3030**:  `http://localhost:3030`
+
+3 - You can use environment to configure Metabase container. See docs in: [Running Metabase on Docker](https://www.metabase.com/docs/v0.12.0/operations-guide/running-metabase-on-docker.html)
 
 
 
@@ -733,6 +791,25 @@ docker-compose up -d mariadb phpmyadmin
 *Note: To use with MariaDB, open `.env` and set `PMA_DB_ENGINE=mysql` to `PMA_DB_ENGINE=mariadb`.*
 
 2 - Open your browser and visit the localhost on port **8080**:  `http://localhost:8080`
+
+
+
+
+
+
+<br>
+<a name="Use-Gitlab"></a>
+## Use Gitlab
+
+1 - Run the Gitlab Container (`gitlab`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d gitlab
+```
+
+2 - Open your browser and visit the localhost on port **8989**:  `http://localhost:8989`
+<br>
+*Note: You may change GITLAB_DOMAIN_NAME to your own domain name like `http://gitlab.example.com` default is `http://localhost`*
 
 
 
@@ -964,6 +1041,27 @@ docker-compose up -d minio
 
 
 
+
+
+<br>
+<a name="Use-Thumbor"></a>
+## Use Thumbor
+
+Thumbor is a smart imaging service. It enables on-demand crop, resizing and flipping of images. ([Thumbor](https://github.com/thumbor/thumbor))
+
+1 - Configure Thumbor:
+  - Checkout all the options under the thumbor settings
+
+
+2 - Run the Thumbor Container (`minio`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d thumbor
+```
+
+3 - Navigate to an example image on `http://localhost:8000/unsafe/300x300/i.imgur.com/bvjzPct.jpg`
+
+For more documentation on Thumbor visit the [Thumbor documenation](http://thumbor.readthedocs.io/en/latest/index.html) page
 
 
 <br>
@@ -1456,6 +1554,42 @@ e) set it to `true`
 
 
 
+<a name="Install php calendar extension"></a>
+## Install php calendar extension
+
+1 - Open the `.env` file
+<br>
+2 - Search for the `PHP_FPM_INSTALL_CALENDAR` argument under the PHP-FPM container
+<br>
+3 - Set it to `true`
+<br>
+4 - Re-build the containers `docker-compose build php-fpm`
+<br>
+
+
+
+
+<br>
+<a name="Install-Faketime"></a>
+## Install libfaketime in the php-fpm container
+Libfaketime allows you to control the date and time that is returned from the operating system.
+It can be used by specifying a special string in the `PHP_FPM_FAKETIME` variable in the `.env` file.
+For example:
+`PHP_FPM_FAKETIME=-1d`
+will set the clock back 1 day. See (https://github.com/wolfcw/libfaketime) for more information.
+
+1 - Open the `.env` file
+<br>
+2 - Search for the `PHP_FPM_INSTALL_FAKETIME` argument under the PHP-FPM container
+<br>
+3 - Set it to `true`
+<br>
+4 - Search for the `PHP_FPM_FAKETIME` argument under the PHP-FPM container
+<br>
+5 - Set it to the desired string
+<br>
+6 - Re-build the containers `docker-compose build php-fpm`<br>
+
 
 
 <br>
@@ -1463,7 +1597,7 @@ e) set it to `true`
 ## PHPStorm Debugging Guide
 Remote debug Laravel web and phpunit tests.
 
-[**Debugging Guide Here**](https://github.com/laradock/laradock/blob/master/_guides/phpstorm.md)
+[**Debugging Guide Here**](/guides/#PHPStorm-Debugging)
 
 
 
@@ -1752,7 +1886,7 @@ This error sometimes happens because your Laravel application isn't running on t
 
 ## I get stuck when building nginx on `fetch http://mirrors.aliyun.com/alpine/v3.5/main/x86_64/APKINDEX.tar.gz`
 
-As stated on [#749](https://github.com/laradock/laradock/issues/749#issuecomment-293296687), removing the line `RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories` from `nginx/Dockerfile` solves the problem.		
+As stated on [#749](https://github.com/laradock/laradock/issues/749#issuecomment-419652646), Already fixed，just set `CHANGE_SOURCE` to false.		
 
 ## Custom composer repo packagist url and npm registry url
 
