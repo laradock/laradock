@@ -537,7 +537,7 @@ RUN if [ ${INSTALL_CALENDAR} = true ]; then \
 ARG INSTALL_PHALCON=false
 
 RUN if [ $INSTALL_PHALCON = true ]; then \
-    apt-get update && apt-get install unzip libpcre3-dev gcc make re2c \
+    apt-get update && apt-get install -y unzip libpcre3-dev gcc make re2c \
     && curl -L -o /tmp/cphalcon.zip https://github.com/phalcon/cphalcon/archive/v${LARADOCK_PHALCON_VERSION}.zip \
     && unzip -d /tmp/ /tmp/cphalcon.zip \
     && cd /tmp/cphalcon-${LARADOCK_PHALCON_VERSION}/build \
