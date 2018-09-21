@@ -13,6 +13,7 @@
 #
 
 ARG LARADOCK_PHP_VERSION
+ARG LARADCOK_PHALCON_VERSION
 
 FROM laradock/workspace:2.2-${LARADOCK_PHP_VERSION}
 
@@ -842,6 +843,21 @@ RUN if [ ${INSTALL_DUSK_DEPS} = true ]; then \
   && unzip chromedriver_linux64.zip \
   && mv chromedriver /usr/local/bin/ \
   && rm chromedriver_linux64.zip \
+;fi
+
+###########################################################################
+# Phalcon:
+###########################################################################
+
+ARG INSTALL_PHALCON=false
+
+RUN if [ $INSTALL_PHALCON = true ]; then \
+    apt-get update && apt-get install unzip \
+    && curl -L -o /tmp/cphalcon.zip https://github.com/phalcon/cphalcon/archive/v${LARADOCK_PHALCON_VERSION}.zip \
+    && unzip -d /tmp/ /tmp/cphalcon.zip \
+    && cd /tmp/cphalcon-${LARADOCK_PHALCON_VERSION}/build \
+    && ./install \
+    && rm -rf /tmp/cphalcon* \
 ;fi
 
 ###########################################################################
