@@ -8,7 +8,7 @@ services:
 before_script:
   - docker info
   - docker-compose version
-  - cp env-example .env
+  - cp .env.example .env
   - sed -i -- "s/=false/=true/g" .env
   - cat .env
   - env | sort
