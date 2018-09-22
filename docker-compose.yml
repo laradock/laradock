@@ -870,6 +870,7 @@ services:
           redis['enable'] = false 
           nginx['listen_https'] = false 
           nginx['listen_port'] = 80 
+          nginx['custom_gitlab_server_config'] = "set_real_ip_from 172.0.0.0/8;\nreal_ip_header X-Real-IP;\nreal_ip_recursive on;"
           postgresql['enable'] = false 
           gitlab_rails['trusted_proxies'] = ['caddy','nginx','apache2'] 
           gitlab_rails['redis_host'] = 'redis' 
