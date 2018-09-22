@@ -68,6 +68,18 @@ RUN if [ ${INSTALL_SSH2} = true ]; then \
 ;fi
 
 ###########################################################################
+# libfaketime:
+###########################################################################
+
+USER root
+
+ARG INSTALL_FAKETIME=false
+
+RUN if [ ${INSTALL_FAKETIME} = true ]; then \
+    apt-get install -y libfaketime \
+;fi
+
+###########################################################################
 # SOAP:
 ###########################################################################
 
@@ -518,15 +530,22 @@ RUN if [ ${INSTALL_CALENDAR} = true ]; then \
 ;fi
 
 ###########################################################################
-# libfaketime:
+# Phalcon:
 ###########################################################################
 
-USER root
+ARG INSTALL_PHALCON=false
+ARG LARADOCK_PHALCON_VERSION
+ENV LARADOCK_PHALCON_VERSION ${LARADOCK_PHALCON_VERSION}
 
-ARG INSTALL_FAKETIME=false
-
-RUN if [ ${INSTALL_FAKETIME} = true ]; then \
-    apt-get install -y libfaketime \
+RUN if [ $INSTALL_PHALCON = true ]; then \
+    apt-get update && apt-get install -y unzip libpcre3-dev gcc make re2c \
+    && curl -L -o /tmp/cphalcon.zip https://github.com/phalcon/cphalcon/archive/v${LARADOCK_PHALCON_VERSION}.zip \
+    && unzip -d /tmp/ /tmp/cphalcon.zip \
+    && cd /tmp/cphalcon-${LARADOCK_PHALCON_VERSION}/build \
+    && ./install \
+    && echo "extension=phalcon.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/phalcon.ini \
+    && ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/phalcon.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/30-phalcon.ini \
+    && rm -rf /tmp/cphalcon* \
 ;fi
 
 ###########################################################################
