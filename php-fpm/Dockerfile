@@ -529,12 +529,9 @@ RUN if [ ${INSTALL_CALENDAR} = true ]; then \
 ARG INSTALL_PHALCON=false
 ARG LARADOCK_PHALCON_VERSION
 ENV LARADOCK_PHALCON_VERSION ${LARADOCK_PHALCON_VERSION}
-<<<<<<< HEAD
 
 # Copy phalcon configration
 COPY ./phalcon.ini /usr/local/etc/php/conf.d/phalcon.ini.disable
-=======
->>>>>>> finally fixed
 
 RUN if [ $INSTALL_PHALCON = true ]; then \
     apt-get update && apt-get install -y unzip libpcre3-dev gcc make re2c \
@@ -542,8 +539,6 @@ RUN if [ $INSTALL_PHALCON = true ]; then \
     && unzip -d /tmp/ /tmp/cphalcon.zip \
     && cd /tmp/cphalcon-${LARADOCK_PHALCON_VERSION}/build \
     && ./install \
-    && echo "extension=phalcon.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/phalcon.ini \
-    && ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/phalcon.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/30-phalcon.ini \
     && rm -rf /tmp/cphalcon* \
 ;fi
 
