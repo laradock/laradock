@@ -41,6 +41,20 @@ RUN if [ ${INSTALL_PGSQL} = true ]; then \
 RUN rm /var/cache/apk/* \
     && mkdir -p /var/www
 
+# Install Phalcon ext
+ARG INSTALL_PHALCON=false
+ARG PHALCON_VERSION
+ENV PHALCON_VERSION ${PHALCON_VERSION}
+
+RUN if [ $INSTALL_PHALCON = true ]; then \
+    apk --update add unzip libpcre3-dev gcc make re2c \
+    && curl -L -o /tmp/cphalcon.zip https://github.com/phalcon/cphalcon/archive/v${PHALCON_VERSION}.zip \
+    && unzip -d /tmp/ /tmp/cphalcon.zip \
+    && cd /tmp/cphalcon-${PHALCON_VERSION}/build \
+    && ./install \
+    && rm -rf /tmp/cphalcon* \
+;fi
+
 #
 #--------------------------------------------------------------------------
 # Optional Supervisord Configuration

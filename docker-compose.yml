@@ -178,8 +178,10 @@ services:
         context: ./php-worker
         args:
           - PHP_VERSION=${PHP_VERSION}
+          - PHALCON_VERSION=${PHALCON_VERSION}
           - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL}
           - INSTALL_BCMATH=${PHP_WORKER_INSTALL_BCMATH}
+          - INSTALL_PHALCON=${WORKSPACE_INSTALL_PHALCON}
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
         - ./php-worker/supervisord.d:/etc/supervisord.d
