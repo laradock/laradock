@@ -168,6 +168,7 @@ PHP_FPM_FAKETIME=-0
 
 PHP_WORKER_INSTALL_PGSQL=false
 PHP_WORKER_INSTALL_BCMATH=false
+PHP_WORKER_INSTALL_PHALCON=false
 
 ### NGINX #################################################
 
