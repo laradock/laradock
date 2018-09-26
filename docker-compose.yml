@@ -480,7 +480,7 @@ services:
       build: ./caddy
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
-        - ${CADDY_CONFIG_PATH}:/etc/caddy
+        - ${CADDY_CONFIG_PATH}:/etc
         - ${CADDY_HOST_LOG_PATH}:/var/log/caddy
         - ${DATA_PATH_HOST}:/root/.caddy
       ports:
