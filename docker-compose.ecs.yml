@@ -1,0 +1,28 @@
+version: '3'
+
+volumes:
+  appf:
+
+services:
+  app:
+      build:
+         context: ../
+         args:
+           - LARADOCK_PHP_VERSION=${PHP_VERSION}
+         dockerfile: ./build/app/Dockerfile
+      image: gpdemo/app:latest
+      volumes:
+        - appf:${APP_CODE_PATH_CONTAINER}
+  php-fpm:
+      image: gpdemo/php-fpm:latest
+      depends_on:
+        - app
+      volumes:
+        - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
+        - appf:${APP_CODE_PATH_CONTAINER}
+  nginx:
+      build:
+        dockerfile: Dockerfileecs
+      image: gpdemo/nginx:latest
+      volumes:
+        - appf:${APP_CODE_PATH_CONTAINER}
