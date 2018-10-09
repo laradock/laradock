@@ -12,8 +12,6 @@
 # Note: Base Image name format {image-tag}-{php-version}
 #
 
-ARG LARADOCK_PHP_VERSION
-
 FROM laradock/workspace:2.2-${LARADOCK_PHP_VERSION}
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
@@ -816,7 +814,7 @@ RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
 USER root
 
 RUN apt-get update -yqq \
-    && apt-get -yqq install nasm 
+    && apt-get -yqq install nasm
 
 ###########################################################################
 # Dusk Dependencies:
