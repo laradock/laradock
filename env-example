@@ -67,11 +67,6 @@ COMPOSE_CONVERT_WINDOWS_PATHS=1
 # If you need to change the sources (i.e. to China), set CHANGE_SOURCE to true
 CHANGE_SOURCE=false
 
-### Docker Sync ###########################################
-
-# If you are using Docker Sync. For `osx` use 'native_osx', for `windows` use 'unison', for `linux` docker-sync is not required
-DOCKER_SYNC_STRATEGY=native_osx
-
 ###########################################################
 ################ Containers Customization #################
 ###########################################################
