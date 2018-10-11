@@ -595,7 +595,7 @@ MAILU_RECIPIENT_DELIMITER=+
 # DMARC rua and ruf email
 MAILU_DMARC_RUA=admin
 MAILU_DMARC_RUF=admin
-# Weclome email, enable and set a topic and body if you wish to send welcome
+# Welcome email, enable and set a topic and body if you wish to send welcome
 # emails to all users.
 MAILU_WELCOME=True
 MAILU_WELCOME_SUBJECT=Welcome to your new email account
