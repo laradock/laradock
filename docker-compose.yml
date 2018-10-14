@@ -557,6 +557,25 @@ services:
         - frontend
         - backend
 
+### Logstash ##############################################
+    logstash:
+      build: ./logstash
+      volumes:
+        - './logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml'
+        - './logstash/config/pipelines.yml:/usr/share/logstash/config/pipelines.yml'
+        - './logstash/pipeline:/usr/share/logstash/pipeline'
+      ports:
+        - '5001:5001'
+      environment:
+        LS_JAVA_OPTS: '-Xmx1g -Xms1g'
+      env_file:
+        - .env
+      networks:
+        - frontend
+        - backend
+      depends_on:
+        - elasticsearch
+
 ### Kibana ##############################################
     kibana:
       build: ./kibana
@@ -697,7 +716,7 @@ services:
       networks:
         - frontend
         - backend
-        
+
 ### Solr ################################################
     solr:
       build:
@@ -858,15 +877,15 @@ services:
         context: ./gitlab
       environment:
         GITLAB_OMNIBUS_CONFIG: |
-          external_url '${GITLAB_DOMAIN_NAME}' 
-          redis['enable'] = false 
-          nginx['listen_https'] = false 
-          nginx['listen_port'] = 80 
-          postgresql['enable'] = false 
-          gitlab_rails['trusted_proxies'] = ['caddy','nginx','apache2'] 
-          gitlab_rails['redis_host'] = 'redis' 
+          external_url '${GITLAB_DOMAIN_NAME}'
+          redis['enable'] = false
+          nginx['listen_https'] = false
+          nginx['listen_port'] = 80
+          postgresql['enable'] = false
+          gitlab_rails['trusted_proxies'] = ['caddy','nginx','apache2']
+          gitlab_rails['redis_host'] = 'redis'
           gitlab_rails['redis_database'] = 8
-          gitlab_rails['db_host'] = 'postgres' 
+          gitlab_rails['db_host'] = 'postgres'
           gitlab_rails['db_username'] = 'laradock_gitlab'
           gitlab_rails['db_password'] = 'laradock_gitlab'
           gitlab_rails['db_database'] = 'laradock_gitlab'
@@ -893,7 +912,7 @@ services:
         - ${DATA_PATH_HOST}/gitlab/runner:/etc/gitlab-runner
         - /var/run/docker.sock:/var/run/docker.sock:rw
       restart: always
-      
+
 ### JupyterHub #########################################
     jupyterhub:
       build:
@@ -1004,7 +1023,7 @@ services:
         - backend
       depends_on:
         - mongo
-  
+
 ### Metabase #################################################
     metabase:
       image: metabase/metabase:latest
