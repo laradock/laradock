@@ -37,6 +37,11 @@ COMPOSE_PROJECT_NAME=laradock
 # Select a PHP version of the Workspace and PHP-FPM containers (Does not apply to HHVM). Accepted values: 7.2 - 7.1 - 7.0 - 5.6
 PHP_VERSION=7.2
 
+### Phalcon Version ###########################################
+
+# Select a Phalcon version of the Workspace and PHP-FPM containers (Does not apply to HHVM). Accepted values: 3.4.0+
+PHALCON_VERSION=3.4.1
+
 ### PHP Interpreter #######################################
 
 # Select the PHP Interpreter. Accepted values: hhvm - php-fpm
@@ -81,14 +86,16 @@ WORKSPACE_NPM_REGISTRY=
 WORKSPACE_INSTALL_YARN=true
 WORKSPACE_YARN_VERSION=latest
 WORKSPACE_INSTALL_NPM_GULP=true
-WORKSPACE_INSTALL_NPM_BOWER=true
+WORKSPACE_INSTALL_NPM_BOWER=false
 WORKSPACE_INSTALL_NPM_VUE_CLI=true
 WORKSPACE_INSTALL_PHPREDIS=true
 WORKSPACE_INSTALL_WORKSPACE_SSH=false
 WORKSPACE_INSTALL_SUBVERSION=false
 WORKSPACE_INSTALL_XDEBUG=false
 WORKSPACE_INSTALL_PHPDBG=false
+WORKSPACE_INSTALL_SSH2=false
 WORKSPACE_INSTALL_LDAP=false
+WORKSPACE_INSTALL_GMP=false
 WORKSPACE_INSTALL_SOAP=false
 WORKSPACE_INSTALL_IMAP=false
 WORKSPACE_INSTALL_MONGO=false
@@ -112,8 +119,10 @@ WORKSPACE_INSTALL_IMAGEMAGICK=false
 WORKSPACE_INSTALL_TERRAFORM=false
 WORKSPACE_INSTALL_DUSK_DEPS=false
 WORKSPACE_INSTALL_PG_CLIENT=false
+WORKSPACE_INSTALL_PHALCON=false
 WORKSPACE_INSTALL_SWOOLE=false
 WORKSPACE_INSTALL_LIBPNG=false
+WORKSPACE_INSTALL_IONCUBE=false
 WORKSPACE_PUID=1000
 WORKSPACE_PGID=1000
 WORKSPACE_CHROME_DRIVER_VERSION=2.32
@@ -138,6 +147,7 @@ PHP_FPM_INSTALL_IMAP=false
 PHP_FPM_INSTALL_MONGO=false
 PHP_FPM_INSTALL_AMQP=false
 PHP_FPM_INSTALL_MSSQL=false
+PHP_FPM_INSTALL_SSH2=false
 PHP_FPM_INSTALL_SOAP=false
 PHP_FPM_INSTALL_GMP=false
 PHP_FPM_INSTALL_EXIF=false
@@ -145,13 +155,19 @@ PHP_FPM_INSTALL_AEROSPIKE=false
 PHP_FPM_INSTALL_PGSQL=false
 PHP_FPM_INSTALL_GHOSTSCRIPT=false
 PHP_FPM_INSTALL_LDAP=false
+PHP_FPM_INSTALL_PHALCON=false
 PHP_FPM_INSTALL_SWOOLE=false
 PHP_FPM_INSTALL_PG_CLIENT=false
 PHP_FPM_INSTALL_PCNTL=false
+PHP_FPM_INSTALL_CALENDAR=false
+PHP_FPM_INSTALL_FAKETIME=false
+PHP_FPM_INSTALL_IONCUBE=false
+PHP_FPM_FAKETIME=-0
 
 ### PHP_WORKER ############################################
 
 PHP_WORKER_INSTALL_PGSQL=false
+PHP_WORKER_INSTALL_BCMATH=false
 
 ### NGINX #################################################
 
@@ -334,6 +350,8 @@ AEROSPIKE_INFO_PORT=3003
 # for all versions "https://github.com/aerospike/aerospike-client-php/archive/master.tar.gz"
 # for php 7.2 (using this branch until the support for 7.2 on master) "https://github.com/aerospike/aerospike-client-php/archive/7.2.0-release-candidate.tar.gz"
 AEROSPIKE_PHP_REPOSITORY=https://github.com/aerospike/aerospike-client-php/archive/7.2.0-release-candidate.tar.gz
+# for php 5.6
+# AEROSPIKE_PHP_REPOSITORY=https://github.com/aerospike/aerospike-client-php5/archive/3.4.15.tar.gz
 
 ### RETHINKDB #############################################
 
@@ -348,17 +366,158 @@ MONGODB_PORT=27017
 CADDY_HOST_HTTP_PORT=80
 CADDY_HOST_HTTPS_PORT=443
 CADDY_HOST_LOG_PATH=./logs/caddy
-CADDY_CUSTOM_CADDYFILE=./caddy/Caddyfile
+CADDY_CONFIG_PATH=./caddy/caddy
 
 ### LARAVEL ECHO SERVER ###################################
 
 LARAVEL_ECHO_SERVER_PORT=6001
+
+### DOCKER-SYNC ########################################################################################################
+
+# osx: 'native_osx' (default)
+# windows: 'unison'
+# linux: docker-sync not required
+
+DOCKER_SYNC_STRATEGY=native_osx
+
+### THUMBOR ############################################################################################################
+
+THUMBOR_PORT=8000
+THUMBOR_LOG_FORMAT="%(asctime)s %(name)s:%(levelname)s %(message)s"
+THUMBOR_LOG_DATE_FORMAT="%Y-%m-%d %H:%M:%S"
+MAX_WIDTH=0
+MAX_HEIGHT=0
+MIN_WIDTH=1
+MIN_HEIGHT=1
+ALLOWED_SOURCES=[]
+QUALITY=80
+WEBP_QUALITY=None
+PNG_COMPRESSION_LEVEL=6
+AUTO_WEBP=False
+MAX_AGE=86400
+MAX_AGE_TEMP_IMAGE=0
+RESPECT_ORIENTATION=False
+IGNORE_SMART_ERRORS=False
+PRESERVE_EXIF_INFO=False
+ALLOW_ANIMATED_GIFS=True
+USE_GIFSICLE_ENGINE=False
+USE_BLACKLIST=False
+LOADER=thumbor.loaders.http_loader
+STORAGE=thumbor.storages.file_storage
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+RESULT_STORAGE=thumbor.result_storages.file_storage
+ENGINE=thumbor.engines.pil
+SECURITY_KEY="MY_SECURE_KEY"
+ALLOW_UNSAFE_URL=True
+ALLOW_OLD_URLS=True
+FILE_LOADER_ROOT_PATH=/data/loader
+HTTP_LOADER_CONNECT_TIMEOUT=5
+HTTP_LOADER_REQUEST_TIMEOUT=20
+HTTP_LOADER_FOLLOW_REDIRECTS=True
+HTTP_LOADER_MAX_REDIRECTS=5
+HTTP_LOADER_FORWARD_USER_AGENT=False
+HTTP_LOADER_DEFAULT_USER_AGENT="Thumbor/5.2.1"
+HTTP_LOADER_PROXY_HOST=None
+HTTP_LOADER_PROXY_PORT=None
+HTTP_LOADER_PROXY_USERNAME=None
+HTTP_LOADER_PROXY_PASSWORD=None
+HTTP_LOADER_CA_CERTS=None
+HTTP_LOADER_VALIDATE_CERTS=True
+HTTP_LOADER_CLIENT_KEY=None
+HTTP_LOADER_CLIENT_CERT=None
+HTTP_LOADER_CURL_ASYNC_HTTP_CLIENT=False
+STORAGE_EXPIRATION_SECONDS=2592000
+STORES_CRYPTO_KEY_FOR_EACH_IMAGE=False
+FILE_STORAGE_ROOT_PATH=/data/storage
+UPLOAD_MAX_SIZE=0
+UPLOAD_ENABLED=False
+UPLOAD_PHOTO_STORAGE=thumbor.storages.file_storage
+UPLOAD_DELETE_ALLOWED=False
+UPLOAD_PUT_ALLOWED=False
+UPLOAD_DEFAULT_FILENAME=image
+MONGO_STORAGE_SERVER_HOST=mongo
+MONGO_STORAGE_SERVER_PORT=27017
+MONGO_STORAGE_SERVER_DB=thumbor
+MONGO_STORAGE_SERVER_COLLECTION=images
+REDIS_STORAGE_SERVER_HOST=redis
+REDIS_STORAGE_SERVER_PORT=6379
+REDIS_STORAGE_SERVER_DB=0
+REDIS_STORAGE_SERVER_PASSWORD=None
+REDIS_RESULT_STORAGE_SERVER_HOST=redis
+REDIS_RESULT_STORAGE_SERVER_PORT=6379
+REDIS_RESULT_STORAGE_SERVER_DB=0
+REDIS_RESULT_STORAGE_SERVER_PASSWORD=None
+MEMCACHE_STORAGE_SERVERS=["localhost:11211",]
+MIXED_STORAGE_FILE_STORAGE=thumbor.storages.no_storage
+MIXED_STORAGE_CRYPTO_STORAGE=thumbor.storages.no_storage
+MIXED_STORAGE_DETECTOR_STORAGE=thumbor.storages.no_storage
+META_CALLBACK_NAME=None
+DETECTORS=[]
+FACE_DETECTOR_CASCADE_FILE=haarcascade_frontalface_alt.xml
+OPTIMIZERS=[]
+JPEGTRAN_PATH=/usr/bin/jpegtran
+PROGRESSIVE_JPEG=True
+FILTERS=["thumbor.filters.brightness", "thumbor.filters.contrast", "thumbor.filters.rgb", "thumbor.filters.round_corner", "thumbor.filters.quality", "thumbor.filters.noise", "thumbor.filters.watermark", "thumbor.filters.equalize", "thumbor.filters.fill", "thumbor.filters.sharpen", "thumbor.filters.strip_icc", "thumbor.filters.frame", "thumbor.filters.grayscale", "thumbor.filters.rotate", "thumbor.filters.format", "thumbor.filters.max_bytes", "thumbor.filters.convolution", "thumbor.filters.blur", "thumbor.filters.extract_focal", "thumbor.filters.no_upscale"]
+RESULT_STORAGE_EXPIRATION_SECONDS=0
+RESULT_STORAGE_FILE_STORAGE_ROOT_PATH=/data/result_storage
+RESULT_STORAGE_STORES_UNSAFE=False
+REDIS_QUEUE_SERVER_HOST=redis
+REDIS_QUEUE_SERVER_PORT=6379
+REDIS_QUEUE_SERVER_DB="0"
+REDIS_QUEUE_SERVER_PASSWORD=None
+SQS_QUEUE_KEY_ID=None
+SQS_QUEUE_KEY_SECRET=None
+SQS_QUEUE_REGION=us-east-1
+USE_CUSTOM_ERROR_HANDLING=False
+ERROR_HANDLER_MODULE=thumbor.error_handlers.sentry
+ERROR_FILE_LOGGER=None
+ERROR_FILE_NAME_USE_CONTEXT="False"
+SENTRY_DSN_URL=
+TC_AWS_REGION=eu-west-1
+TC_AWS_ENDPOINT=None
+TC_AWS_STORAGE_BUCKET=
+TC_AWS_STORAGE_ROOT_PATH=
+TC_AWS_LOADER_BUCKET=
+TC_AWS_LOADER_ROOT_PATH=
+TC_AWS_RESULT_STORAGE_BUCKET=
+TC_AWS_RESULT_STORAGE_ROOT_PATH=
+TC_AWS_STORAGE_SSE=False
+TC_AWS_STORAGE_RRS=False
+TC_AWS_ENABLE_HTTP_LOADER=False
+TC_AWS_ALLOWED_BUCKETS=False
+TC_AWS_STORE_METADATA=False
 
 ### SOLR ##################################################
 
 SOLR_VERSION=5.5
 SOLR_PORT=8983
 SOLR_DATAIMPORTHANDLER_MYSQL=false
+
+### GITLAB ###############################################
+GITLAB_HOST_HTTP_PORT=8989
+GITLAB_HOST_HTTPS_PORT=9898
+GITLAB_HOST_SSH_PORT=2289
+GITLAB_DOMAIN_NAME=http://localhost
+GITLAB_ROOT_PASSWORD=laradock
+GITLAB_HOST_LOG_PATH=./logs/gitlab
+
+### JUPYTERHUB ###############################################
+JUPYTERHUB_POSTGRES_HOST=postgres
+JUPYTERHUB_POSTGRES_USER=laradock_jupyterhub
+JUPYTERHUB_POSTGRES_PASSWORD=laradock_jupyterhub
+JUPYTERHUB_POSTGRES_DB=laradock_jupyterhub
+JUPYTERHUB_PORT=9991
+JUPYTERHUB_OAUTH_CALLBACK_URL=http://laradock:9991/hub/oauth_callback
+JUPYTERHUB_OAUTH_CLIENT_ID={GITHUB_CLIENT_ID}
+JUPYTERHUB_OAUTH_CLIENT_SECRET={GITHUB_CLIENT_SECRET}
+JUPYTERHUB_LOCAL_NOTEBOOK_IMAGE=laradock_jupyterhub-user
+JUPYTERHUB_CUSTOM_CONFIG=./jupyterhub/jupyterhub_config.py
+JUPYTERHUB_USER_DATA=/jupyterhub
+JUPYTERHUB_USER_LIST=./jupyterhub/userlist
+
+### IPYTHON ##################################################
+LARADOCK_IPYTHON_CONTROLLER_IP=127.0.0.1
 
 ### NETDATA ###############################################
 NETDATA_PORT=19999
@@ -375,3 +534,86 @@ MONGO_WEBUI_PORT=3000
 MONGO_WEBUI_ROOT_URL=http://localhost
 MONGO_WEBUI_MONGO_URL=mongodb://mongo:27017/
 MONGO_WEBUI_INSTALL_MONGO=false
+
+### METABASE ###############################################
+METABASE_PORT=3030
+METABASE_DB_FILE=metabase.db
+METABASE_JAVA_TIMEZONE=US/Pacific
+
+### IDE ###############################################
+IDE_THEIA_PORT=987
+IDE_WEBIDE_PORT=984
+IDE_CODIAD_PORT=985
+IDE_ICECODER_PORT=986
+
+### DOCKERREGISTRY ###############################################
+DOCKER_REGISTRY_PORT=5000
+
+### DOCKERWEBUI ###############################################
+DOCKER_WEBUI_REGISTRY_HOST=docker-registry
+DOCKER_WEBUI_REGISTRY_PORT=5000
+# if have use https proxy please set to 1
+DOCKER_REGISTRY_USE_SSL=0
+DOCKER_REGISTRY_BROWSE_ONLY=false
+DOCKER_WEBUI_PORT=8754
+
+### MAILU ###############################################
+MAILU_VERSION=latest
+MAILU_RECAPTCHA_PUBLIC_KEY=<YOUR_RECAPTCHA_PUBLIC_KEY>
+MAILU_RECAPTCHA_PRIVATE_KEY=<YOUR_RECAPTCHA_PRIVATE_KEY>
+# Main mail domain
+MAILU_HTTP_PORT=6080
+MAILU_HTTPS_PORT=60443
+MAILU_DOMAIN=example.com
+MAILU_INIT_ADMIN_USERNAME=laradock
+MAILU_INIT_ADMIN_PASSWORD=laradock
+# Hostnames for this server, separated with comas
+MAILU_HOSTNAMES=mail.example.com,alternative.example.com,yetanother.example.com
+# Postmaster local part (will append the main mail domain)
+MAILU_POSTMASTER=admin
+# Set to a randomly generated 16 bytes string
+MAILU_SECRET_KEY=ChangeMeChangeMe
+# Choose how secure connections will behave (value: letsencrypt, cert, notls, mail)
+MAILU_TLS_FLAVOR=cert
+# Authentication rate limit (per source IP address)
+MAILU_AUTH_RATELIMIT=10/minute;1000/hour
+# Opt-out of statistics, replace with "True" to opt out
+MAILU_DISABLE_STATISTICS=False
+# Message size limit in bytes
+# Default: accept messages up to 50MB
+MAILU_MESSAGE_SIZE_LIMIT=50000000
+# Will relay all outgoing mails if configured
+MAILU_RELAYHOST=
+# Networks granted relay permissions, make sure that you include your Docker
+# internal network (default to 172.17.0.0/16)
+MAILU_RELAYNETS=172.16.0.0/12
+# Fetchmail delay
+MAILU_FETCHMAIL_DELAY=600
+# Recipient delimiter, character used to delimiter localpart from custom address part
+# e.g. localpart+custom@domain;tld
+MAILU_RECIPIENT_DELIMITER=+
+# DMARC rua and ruf email
+MAILU_DMARC_RUA=admin
+MAILU_DMARC_RUF=admin
+# Weclome email, enable and set a topic and body if you wish to send welcome
+# emails to all users.
+MAILU_WELCOME=True
+MAILU_WELCOME_SUBJECT=Welcome to your new email account
+MAILU_WELCOME_BODY=Welcome to your new email account, if you can read this, then it is configured properly!
+# Path to the admin interface if enabled
+MAILU_WEB_ADMIN=/admin
+# Path to the webmail if enabled
+MAILU_WEB_WEBMAIL=/webmail
+# Website name
+MAILU_SITENAME=Example Mail
+# Linked Website URL
+MAILU_WEBSITE=http://mail.example.com
+# Default password scheme used for newly created accounts and changed passwords
+# (value: SHA512-CRYPT, SHA256-CRYPT, MD5-CRYPT, CRYPT)
+MAILU_PASSWORD_SCHEME=SHA512-CRYPT
+# Expose the admin interface (value: true, false)
+MAILU_ADMIN=true
+# Choose which webmail to run if any (values: roundcube, rainloop, none)
+MAILU_WEBMAIL=rainloop
+# Dav server implementation (value: radicale, none)
+MAILU_WEBDAV=radicale

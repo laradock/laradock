@@ -12,11 +12,13 @@
 # Note: Base Image name format {image-tag}-{php-version}
 #
 
-ARG PHP_VERSION=${PHP_VERSION}
+ARG LARADOCK_PHP_VERSION
 
-FROM laradock/php-fpm:2.2-${PHP_VERSION}
+FROM laradock/php-fpm:2.2-${LARADOCK_PHP_VERSION}
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
+
+ARG LARADOCK_PHP_VERSION
 
 # Set Environment Variables
 ENV DEBIAN_FRONTEND noninteractive
@@ -47,6 +49,35 @@ RUN apt-get update -yqq && \
 # Example:
 #   - INSTALL_ZIP_ARCHIVE=true
 #
+
+###########################################################################
+# SSH2:
+###########################################################################
+
+ARG INSTALL_SSH2=false
+
+RUN if [ ${INSTALL_SSH2} = true ]; then \
+    # Install the ssh2 extension
+    apt-get -y install libssh2-1-dev && \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+        pecl install -a ssh2-0.13; \
+    else \
+        pecl install -a ssh2-1.1.2; \
+    fi && \
+    docker-php-ext-enable ssh2 \
+;fi
+
+###########################################################################
+# libfaketime:
+###########################################################################
+
+USER root
+
+ARG INSTALL_FAKETIME=false
+
+RUN if [ ${INSTALL_FAKETIME} = true ]; then \
+    apt-get install -y libfaketime \
+;fi
 
 ###########################################################################
 # SOAP:
@@ -114,11 +145,10 @@ RUN sed -i "s/xdebug.remote_autostart=0/xdebug.remote_autostart=1/" /usr/local/e
 ###########################################################################
 
 ARG INSTALL_PHPDBG=false
-ARG PHP_VERSION=${PHP_VERSION}
 
 RUN if [ ${INSTALL_PHPDBG} = true ]; then \
     # Load the xdebug extension only with phpunit commands
-    apt-get install -y --force-yes php${PHP_VERSION}-phpdbg \
+    apt-get install -y --force-yes php${LARADOCK_PHP_VERSION}-phpdbg \
 ;fi
 
 ###########################################################################
@@ -325,6 +355,21 @@ RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
 ;fi
 
 ###########################################################################
+# IonCube Loader:
+###########################################################################
+
+ARG INSTALL_IONCUBE=false
+
+RUN if [ ${INSTALL_IONCUBE} = true ]; then \
+    # Install the php ioncube loader
+    curl -L -o /tmp/ioncube_loaders_lin_x86-64.tar.gz https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
+    && tar zxpf /tmp/ioncube_loaders_lin_x86-64.tar.gz -C /tmp \
+    && mv /tmp/ioncube/ioncube_loader_lin_${LARADOCK_PHP_VERSION}.so $(php -r "echo ini_get('extension_dir');")/ioncube_loader.so \
+    && printf "zend_extension=ioncube_loader.so\n" > $PHP_INI_DIR/conf.d/0ioncube.ini \
+    && rm -rf /tmp/ioncube* \
+;fi
+
+###########################################################################
 # Opcache:
 ###########################################################################
 
@@ -416,14 +461,16 @@ RUN set -eux; if [ ${INSTALL_MSSQL} = true ]; then \
       # Add Microsoft repo for Microsoft ODBC Driver 13 for Linux
       apt-get install -y apt-transport-https gnupg \
       && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-      && curl https://packages.microsoft.com/config/debian/8/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+      && curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list \
       && apt-get update -yqq \
       # Install Dependencies
-      && ACCEPT_EULA=Y apt-get install -y unixodbc unixodbc-dev libgss3 odbcinst msodbcsql locales \
+      && ACCEPT_EULA=Y apt-get install -y unixodbc unixodbc-dev libgss3 odbcinst msodbcsql17 locales \
       && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
+      # link local aliases
+      && ln -sfn /etc/locale.alias /usr/share/locale/locale.alias \
       && locale-gen \
       # Install pdo_sqlsrv and sqlsrv from PECL. Replace pdo_sqlsrv-4.1.8preview with preferred version.
-      && pecl install pdo_sqlsrv-4.1.8preview sqlsrv-4.1.8preview \
+      && pecl install pdo_sqlsrv sqlsrv \
       && docker-php-ext-enable pdo_sqlsrv sqlsrv \
       && php -m | grep -q 'pdo_sqlsrv' \
       && php -m | grep -q 'sqlsrv' \
@@ -470,12 +517,42 @@ RUN if [ ${INSTALL_IMAP} = true ]; then \
 ;fi
 
 ###########################################################################
+# Calendar:
+###########################################################################
+
+USER root
+
+ARG INSTALL_CALENDAR=false
+
+RUN if [ ${INSTALL_CALENDAR} = true ]; then \
+    docker-php-ext-configure calendar && \
+    docker-php-ext-install calendar \
+;fi
+
+###########################################################################
+# Phalcon:
+###########################################################################
+
+ARG INSTALL_PHALCON=false
+ARG LARADOCK_PHALCON_VERSION
+ENV LARADOCK_PHALCON_VERSION ${LARADOCK_PHALCON_VERSION}
+
+RUN if [ $INSTALL_PHALCON = true ]; then \
+    apt-get update && apt-get install -y unzip libpcre3-dev gcc make re2c \
+    && curl -L -o /tmp/cphalcon.zip https://github.com/phalcon/cphalcon/archive/v${LARADOCK_PHALCON_VERSION}.zip \
+    && unzip -d /tmp/ /tmp/cphalcon.zip \
+    && cd /tmp/cphalcon-${LARADOCK_PHALCON_VERSION}/build \
+    && ./install \
+    && echo "extension=phalcon.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/phalcon.ini \
+    && ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/phalcon.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/30-phalcon.ini \
+    && rm -rf /tmp/cphalcon* \
+;fi
+
+###########################################################################
 # Check PHP version:
 ###########################################################################
 
-ARG PHP_VERSION=${PHP_VERSION}
-
-RUN php -v | head -n 1 | grep -q "PHP ${PHP_VERSION}."
+RUN php -v | head -n 1 | grep -q "PHP ${LARADOCK_PHP_VERSION}."
 
 #
 #--------------------------------------------------------------------------
@@ -494,6 +571,12 @@ RUN apt-get clean && \
     rm /var/log/lastlog /var/log/faillog
 
 RUN usermod -u 1000 www-data
+
+# Adding the faketime library to the preload file needs to be done last
+# otherwise it will preload it for all commands that follow in this file
+RUN if [ ${INSTALL_FAKETIME} = true ]; then \
+    echo "/usr/lib/x86_64-linux-gnu/faketime/libfaketime.so.1" > /etc/ld.so.preload \
+;fi
 
 WORKDIR /var/www
 
