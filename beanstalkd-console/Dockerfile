@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y curl
 
 RUN curl -sL https://github.com/ptrofimov/beanstalk_console/archive/master.tar.gz | tar xvz -C /tmp
 RUN mv /tmp/beanstalk_console-master /source
+COPY ./config.php /source
 
 RUN apt-get remove --purge -y curl && \
     apt-get autoclean && \
