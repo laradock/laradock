@@ -562,7 +562,6 @@ services:
       build: ./logstash
       volumes:
         - './logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml'
-        - './logstash/config/pipelines.yml:/usr/share/logstash/config/pipelines.yml'
         - './logstash/pipeline:/usr/share/logstash/pipeline'
       ports:
         - '5001:5001'

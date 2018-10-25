@@ -2,4 +2,4 @@ http.host: "0.0.0.0"
 
 xpack.monitoring.enabled: false
 config.reload.automatic: true
-config.reload.interval: 100
+path.config: "/usr/share/logstash/pipeline"
