@@ -189,6 +189,24 @@ services:
         - "dockerhost:${DOCKER_HOST_IP}"
       networks:
         - backend
+### Laravel Horizon ############################################
+    laravel-horizon:
+      build:
+        context: ./laravel-horizon
+        args:
+          - PHP_VERSION=${PHP_VERSION}
+          - INSTALL_PGSQL=${PHP_FPM_INSTALL_PGSQL}
+          - INSTALL_BCMATH=${PHP_FPM_INSTALL_BCMATH}
+          - INSTALL_MEMCACHED=${PHP_FPM_INSTALL_MEMCACHED}
+      volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+        - ./laravel-horizon/supervisord.d:/etc/supervisord.d
+      depends_on:
+        - workspace
+      extra_hosts:
+        - "dockerhost:${DOCKER_HOST_IP}"
+      networks:
+        - backend
 
 ### NGINX Server #########################################
     nginx:
