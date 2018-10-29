@@ -116,6 +116,8 @@ RUN composer require \
   drupal/views_slideshow \
   kgaut/potx
 
+RUN apt-get update -y && \
+    apt-get install wget
 # Patch: Allow Tours to be taken by users that cannot access the Toolbar
 # https://www.drupal.org/project/drupal/issues/2069073
 #RUN wget https://www.drupal.org/files/issues/2069073-38.patch && \
