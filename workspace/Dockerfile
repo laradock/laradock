@@ -188,17 +188,17 @@ RUN cd modules/contrib/ds && \
 
 
 # Install Drupal site
-RUN mkdir -p /var/www/localhost/htdocs/sites/default/files && \
-  chmod a+rw /var/www/localhost/htdocs/sites/default -R && \
-  cp /var/www/localhost/htdocs/sites/default/default.settings.php /var/www/localhost/htdocs/sites/default/settings.php && \
-  cp /var/www/localhost/htdocs/sites/default/default.services.yml /var/www/localhost/htdocs/sites/default/services.yml && \
-  chmod a+rw /var/www/localhost/htdocs/sites/default/settings.php && \
-  chmod a+rw /var/www/localhost/htdocs/sites/default/services.yml && \
-  chown -R apache:apache /var/www/localhost/htdocs/
+RUN mkdir -p /var/www/drupal/sites/default/files && \
+  chmod a+rw /var/www/drupal/sites/default -R && \
+  cp /var/www/drupal/sites/default/default.settings.php /var/www/drupal/sites/default/settings.php && \
+  cp /var/www/drupal/sites/default/default.services.yml /var/www/drupal/sites/default/services.yml && \
+  chmod a+rw /var/www/drupal/sites/default/settings.php && \
+  chmod a+rw /var/www/drupal/sites/default/services.yml && \
+  chown -R apache:apache /var/www/drupal/
 
 RUN mkdir -p /var/www/private && \
   chown -R apache:apache /var/www/private && \
-  echo "\$settings['file_private_path'] = '/var/www/private';" >> /var/www/localhost/htdocs/sites/default/settings.php
+  echo "\$settings['file_private_path'] = '/var/www/private';" >> /var/www/drupal/sites/default/settings.php
 
 
 
