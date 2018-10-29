@@ -64,7 +64,7 @@ USER root
 # Install Drupal
 ######################################################
 RUN git clone -b 8.7.x https://github.com/drupal/drupal.git /var/www/drupal
-RUN git clone -b master https://github.com/for0231/isp.git /var/www/drupal
+RUN git clone -b master https://github.com/for0231/isp.git /var/www/drupal/modules/isp
 WORKDIR /var/www/drupal
 ENV COMPOSER_PROCESS_TIMEOUT 1200
 RUN composer install
