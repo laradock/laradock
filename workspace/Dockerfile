@@ -194,10 +194,10 @@ RUN mkdir -p /var/www/drupal/sites/default/files && \
   cp /var/www/drupal/sites/default/default.services.yml /var/www/drupal/sites/default/services.yml && \
   chmod a+rw /var/www/drupal/sites/default/settings.php && \
   chmod a+rw /var/www/drupal/sites/default/services.yml && \
-  chown -R apache:apache /var/www/drupal/
+  chown -R root:root /var/www/drupal/
 
 RUN mkdir -p /var/www/private && \
-  chown -R apache:apache /var/www/private && \
+  chown -R root:root /var/www/private && \
   echo "\$settings['file_private_path'] = '/var/www/private';" >> /var/www/drupal/sites/default/settings.php
 
 
