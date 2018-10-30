@@ -747,7 +747,7 @@ RUN php -v | head -n 1 | grep -q "PHP ${PHP_VERSION}."
 USER root
 
 RUN apt-get update -y && \
-    apt-get install wget mariadb-client
+    apt-get install -y wget mariadb-client
 
 # Clean up
 RUN apt-get clean && \
