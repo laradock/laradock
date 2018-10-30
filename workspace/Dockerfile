@@ -750,11 +750,14 @@ RUN git clone -b 8.7.x https://github.com/drupal/drupal.git /var/www/drupal
 ###########################################################################
 # Add Project ISP
 ###########################################################################
-RUN git clone -b master https://github.com/for0231/isp.git /var/www/drupal/modules/isp
+#RUN git clone https://github.com/for0231/isp.git /var/www/drupal/modules/isp
+RUN git clone https://gitee.com/idcp/isp.git /var/www/drupal/modules/isp
 
 WORKDIR /var/www/drupal
 ENV COMPOSER_PROCESS_TIMEOUT 1200
-RUN composer install
+## Use composer china mirror.
+RUN composer config -g repo.packagist composer https://packagist.laravel-china.org && \
+  composer install
 
 # Install Drupal modules
 RUN composer require \
