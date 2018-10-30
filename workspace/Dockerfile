@@ -64,6 +64,9 @@ USER root
 # Install Drupal
 ######################################################
 RUN git clone -b 8.7.x https://github.com/drupal/drupal.git /var/www/drupal
+###########################################################################
+# Add Project ISP
+###########################################################################
 RUN git clone -b master https://github.com/for0231/isp.git /var/www/drupal/modules/isp
 WORKDIR /var/www/drupal
 ENV COMPOSER_PROCESS_TIMEOUT 1200
@@ -199,6 +202,7 @@ RUN mkdir -p /var/www/drupal/sites/default/files && \
 RUN mkdir -p /var/www/private && \
   chown -R root:root /var/www/private && \
   echo "\$settings['file_private_path'] = '/var/www/private';" >> /var/www/drupal/sites/default/settings.php
+
 
 
 
