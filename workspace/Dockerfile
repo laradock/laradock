@@ -57,8 +57,22 @@ RUN groupadd -g ${PGID} laradock && \
 #   - INSTALL_NODE=false
 #   - ...
 #
+######################################################
+# Install Drupal
+######################################################
+RUN git clone -b 8.7.x https://github.com/drupal/drupal.git /var/www/drupal
 
+###########################################################################
+# Add Project ISP
+###########################################################################
+#RUN git clone https://github.com/for0231/isp.git /var/www/drupal/modules/isp
+RUN git clone https://gitee.com/idcp/isp.git /var/www/drupal/modules/isp
 
+WORKDIR /var/www/drupal
+ENV COMPOSER_PROCESS_TIMEOUT 1200
+## Use composer china mirror.
+RUN composer config -g repo.packagist composer https://packagist.laravel-china.org && \
+  composer install
 
 
 ###########################################################################
@@ -733,7 +747,7 @@ RUN php -v | head -n 1 | grep -q "PHP ${PHP_VERSION}."
 USER root
 
 RUN apt-get update -y && \
-    apt-get install wget
+    apt-get install wget mariadb-client
 
 # Clean up
 RUN apt-get clean && \
@@ -741,23 +755,9 @@ RUN apt-get clean && \
     rm /var/log/lastlog /var/log/faillog
 
 USER root
-
-######################################################
-# Install Drupal
-######################################################
-RUN git clone -b 8.7.x https://github.com/drupal/drupal.git /var/www/drupal
-
 ###########################################################################
-# Add Project ISP
+# Add Project Contribute Modules
 ###########################################################################
-#RUN git clone https://github.com/for0231/isp.git /var/www/drupal/modules/isp
-RUN git clone https://gitee.com/idcp/isp.git /var/www/drupal/modules/isp
-
-WORKDIR /var/www/drupal
-ENV COMPOSER_PROCESS_TIMEOUT 1200
-## Use composer china mirror.
-RUN composer config -g repo.packagist composer https://packagist.laravel-china.org && \
-  composer install
 
 # Install Drupal modules
 RUN composer require \
