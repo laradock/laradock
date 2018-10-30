@@ -4,7 +4,7 @@
 #                   Build for drupal               #
 ####################################################
 
-docker-compose build workspace nginx mariadb phpmyadmin
+docker-compose build workspace nginx mariadb
 
 docker rm -f laradock_workspace_1
 docker run -d --name laradock_workspace_1 laradock_workspace
