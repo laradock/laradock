@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://s19.postimg.org/jblfytw9f/laradock-logo.jpg" alt="Laradock Logo"/>
+    <img src="/.github/home-page-images/laradock-logo.jpg?raw=true" alt="Laradock Logo"/>
 </p>
 
 <p align="center">A Docker PHP development environment that facilitates running PHP Apps on Docker</p>

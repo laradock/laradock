@@ -50,7 +50,7 @@ alias cla="clear && ls -l"
 alias cll="clear && ls -la"
 alias cls="clear && ls"
 alias code="cd /var/www"
-alias ea="vi ~/aliases"
+alias ea="vi ~/aliases.sh"
 
 # Always enable colored `grep` output
 # Note: `GREP_OPTIONS="--color=auto"` is deprecated, hence the alias usage.
