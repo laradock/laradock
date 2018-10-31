@@ -865,6 +865,12 @@ docker-compose up -d postgres pgadmin
 2 - Open your browser and visit the localhost on port **5050**:  `http://localhost:5050`
 
 
+3 - At login page use default credentials:
+
+Username : pgadmin4@pgadmin.org
+
+Password : admin
+
 
 
 
