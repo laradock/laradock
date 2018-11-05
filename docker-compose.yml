@@ -535,6 +535,10 @@ services:
         - frontend
         - backend
 
+### Net-Tools #######################################
+    net-tools:
+        build: ./net-tools
+
 ### ElasticSearch ########################################
     elasticsearch:
       build: ./elasticsearch
