@@ -1,0 +1,76 @@
+# Docs: https://caddyserver.com/docs/caddyfile
+drupal.server.host:443 {
+    root /var/www/drupal
+    fastcgi / php-fpm:9000 php {
+        index index.php
+    }
+
+    # To handle .html extensions with laravel change ext to
+    # ext / .html
+
+    rewrite {
+        #to {path} {path}/ /index.php?{query}
+        if {path} starts_with .
+        if {path} not_starts_with .well-known
+        to error/index.html
+    }
+
+    # This rewrite is to prevent access to raw files with certain extensions.
+    rewrite {
+        if {path} match .(bak|config|sql|fla|psd|ini|log|sh|inc|swp|dist|engine|inc|info|install|make|module|profile|test|po|sh|sql|theme|tpl|tpl.php|xtmpl|sw|bak|orig|save)$
+        to error/index.html
+    }
+    status 404 error/index.html
+
+    # Main rewrite to route non-existent files to index.php file.
+    rewrite {
+        if {file} not favicon.ico
+        to {path} {path}/ /index.php?{path}&{query}
+    }
+
+    # Security-HTTP-Header to reduce exposure to drive-by downloads
+    # and the risks of clever-named user uploaded content that could be
+    # treated as a different content-type (e.g. as executable).
+    header / {
+        X-Content-Type-Options nosniff
+    }
+
+    gzip
+    browse
+    log /var/log/caddy/access.log
+    errors /var/log/caddy/error.log
+    # Uncomment to enable TLS (HTTPS)
+    # Change the first list to listen on port 443 when enabling TLS
+    tls self_signed
+    tls 80285394@qq.com
+
+    # To use Lets encrpt tls with a DNS provider uncomment these
+    # lines and change the provider as required
+    #tls {
+    #  dns cloudflare
+    #}
+}
+
+laradock1.demo:80 {
+    root /var/www/public
+    # Create a Webhook in git.
+    #git {
+	#repo https://github.com/xxx/xxx
+    #    path /home/xxx
+    #    #interval 60
+    #    hook  webhook laradock
+    #    hook_type   generic
+    #}
+
+}
+
+laradock2.demo:80 {
+    # Create a Proxy and cors.
+    #proxy domain.com
+	#cors
+}
+
+laradock3.demo:80 {
+    import authlist.conf
+    root /var/www/public
+}
