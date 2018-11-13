@@ -706,6 +706,7 @@ services:
         args:
           - SOLR_VERSION=${SOLR_VERSION}
           - SOLR_DATAIMPORTHANDLER_MYSQL=${SOLR_DATAIMPORTHANDLER_MYSQL}
+          - SOLR_DATAIMPORTHANDLER_MSSQL=${SOLR_DATAIMPORTHANDLER_MSSQL}
       volumes:
         - ${DATA_PATH_HOST}/solr:/opt/solr/server/solr/mycores
       ports:
