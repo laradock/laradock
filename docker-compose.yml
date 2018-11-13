@@ -1,20 +1,60 @@
-version: '2'
+version: '3'
+
+networks:
+  frontend:
+    driver: ${NETWORKS_DRIVER}
+  backend:
+    driver: ${NETWORKS_DRIVER}
+
+volumes:
+  mysql:
+    driver: ${VOLUMES_DRIVER}
+  percona:
+    driver: ${VOLUMES_DRIVER}
+  mssql:
+    driver: ${VOLUMES_DRIVER}
+  postgres:
+    driver: ${VOLUMES_DRIVER}
+  memcached:
+    driver: ${VOLUMES_DRIVER}
+  redis:
+    driver: ${VOLUMES_DRIVER}
+  neo4j:
+    driver: ${VOLUMES_DRIVER}
+  mariadb:
+    driver: ${VOLUMES_DRIVER}
+  mongo:
+    driver: ${VOLUMES_DRIVER}
+  minio:
+    driver: ${VOLUMES_DRIVER}
+  rethinkdb:
+    driver: ${VOLUMES_DRIVER}
+  phpmyadmin:
+    driver: ${VOLUMES_DRIVER}
+  adminer:
+    driver: ${VOLUMES_DRIVER}
+  aerospike:
+    driver: ${VOLUMES_DRIVER}
+  caddy:
+    driver: ${VOLUMES_DRIVER}
+  elasticsearch:
+    driver: ${VOLUMES_DRIVER}
 
 services:
 
-### Applications Code Container #############################
-
-    applications:
-      image: tianon/true
-
-### Workspace Utilities Container ###########################
-
+### Workspace Utilities ##################################
     workspace:
       build:
         context: ./workspace
         args:
+          - LARADOCK_PHP_VERSION=${PHP_VERSION}
+          - LARADOCK_PHALCON_VERSION=${PHALCON_VERSION}
+          - INSTALL_SUBVERSION=${WORKSPACE_INSTALL_SUBVERSION}
           - INSTALL_XDEBUG=${WORKSPACE_INSTALL_XDEBUG}
+          - INSTALL_PHPDBG=${WORKSPACE_INSTALL_PHPDBG}
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
+          - INSTALL_SSH2=${WORKSPACE_INSTALL_SSH2}
+          - INSTALL_GMP=${WORKSPACE_INSTALL_GMP}
           - INSTALL_SOAP=${WORKSPACE_INSTALL_SOAP}
           - INSTALL_LDAP=${WORKSPACE_INSTALL_LDAP}
           - INSTALL_IMAP=${WORKSPACE_INSTALL_IMAP}
@@ -23,16 +63,23 @@ services:
           - INSTALL_PHPREDIS=${WORKSPACE_INSTALL_PHPREDIS}
           - INSTALL_MSSQL=${WORKSPACE_INSTALL_MSSQL}
           - INSTALL_NODE=${WORKSPACE_INSTALL_NODE}
+          - NPM_REGISTRY=${WORKSPACE_NPM_REGISTRY}
           - INSTALL_YARN=${WORKSPACE_INSTALL_YARN}
+          - INSTALL_NPM_GULP=${WORKSPACE_INSTALL_NPM_GULP}
+          - INSTALL_NPM_BOWER=${WORKSPACE_INSTALL_NPM_BOWER}
+          - INSTALL_NPM_VUE_CLI=${WORKSPACE_INSTALL_NPM_VUE_CLI}
           - INSTALL_DRUSH=${WORKSPACE_INSTALL_DRUSH}
           - INSTALL_DRUPAL_CONSOLE=${WORKSPACE_INSTALL_DRUPAL_CONSOLE}
           - INSTALL_AEROSPIKE=${WORKSPACE_INSTALL_AEROSPIKE}
+          - AEROSPIKE_PHP_REPOSITORY=${AEROSPIKE_PHP_REPOSITORY}
           - INSTALL_V8JS=${WORKSPACE_INSTALL_V8JS}
           - COMPOSER_GLOBAL_INSTALL=${WORKSPACE_COMPOSER_GLOBAL_INSTALL}
+          - COMPOSER_REPO_PACKAGIST=${WORKSPACE_COMPOSER_REPO_PACKAGIST}
           - INSTALL_WORKSPACE_SSH=${WORKSPACE_INSTALL_WORKSPACE_SSH}
           - INSTALL_LARAVEL_ENVOY=${WORKSPACE_INSTALL_LARAVEL_ENVOY}
           - INSTALL_LARAVEL_INSTALLER=${WORKSPACE_INSTALL_LARAVEL_INSTALLER}
           - INSTALL_DEPLOYER=${WORKSPACE_INSTALL_DEPLOYER}
+          - INSTALL_PRESTISSIMO=${WORKSPACE_INSTALL_PRESTISSIMO}
           - INSTALL_LINUXBREW=${WORKSPACE_INSTALL_LINUXBREW}
           - INSTALL_MC=${WORKSPACE_INSTALL_MC}
           - INSTALL_SYMFONY=${WORKSPACE_INSTALL_SYMFONY}
@@ -42,36 +89,45 @@ services:
           - INSTALL_TERRAFORM=${WORKSPACE_INSTALL_TERRAFORM}
           - INSTALL_DUSK_DEPS=${WORKSPACE_INSTALL_DUSK_DEPS}
           - INSTALL_PG_CLIENT=${WORKSPACE_INSTALL_PG_CLIENT}
+          - INSTALL_PHALCON=${WORKSPACE_INSTALL_PHALCON}
           - INSTALL_SWOOLE=${WORKSPACE_INSTALL_SWOOLE}
+          - INSTALL_LIBPNG=${WORKSPACE_INSTALL_LIBPNG}
+          - INSTALL_IONCUBE=${WORKSPACE_INSTALL_IONCUBE}
           - PUID=${WORKSPACE_PUID}
           - PGID=${WORKSPACE_PGID}
           - CHROME_DRIVER_VERSION=${WORKSPACE_CHROME_DRIVER_VERSION}
           - NODE_VERSION=${WORKSPACE_NODE_VERSION}
           - YARN_VERSION=${WORKSPACE_YARN_VERSION}
+          - DRUSH_VERSION=${WORKSPACE_DRUSH_VERSION}
           - TZ=${WORKSPACE_TIMEZONE}
           - BLACKFIRE_CLIENT_ID=${BLACKFIRE_CLIENT_ID}
           - BLACKFIRE_CLIENT_TOKEN=${BLACKFIRE_CLIENT_TOKEN}
-        dockerfile: "Dockerfile-${PHP_VERSION}"
-      volumes_from:
-        - applications
+      volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       ports:
         - "${WORKSPACE_SSH_PORT}:22"
       tty: true
+      environment:
+        - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
       networks:
         - frontend
         - backend
 
-### PHP-FPM Container #######################################
-
+### PHP-FPM ##############################################
     php-fpm:
       build:
         context: ./php-fpm
         args:
+          - LARADOCK_PHP_VERSION=${PHP_VERSION}
+          - LARADOCK_PHALCON_VERSION=${PHALCON_VERSION}
           - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
+          - INSTALL_PHPDBG=${PHP_FPM_INSTALL_PHPDBG}
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
+          - INSTALL_SSH2=${PHP_FPM_INSTALL_SSH2}
           - INSTALL_SOAP=${PHP_FPM_INSTALL_SOAP}
+          - INSTALL_IMAP=${PHP_FPM_INSTALL_IMAP}
           - INSTALL_MONGO=${PHP_FPM_INSTALL_MONGO}
           - INSTALL_AMQP=${PHP_FPM_INSTALL_AMQP}
           - INSTALL_MSSQL=${PHP_FPM_INSTALL_MSSQL}
@@ -83,6 +139,7 @@ services:
           - INSTALL_OPCACHE=${PHP_FPM_INSTALL_OPCACHE}
           - INSTALL_EXIF=${PHP_FPM_INSTALL_EXIF}
           - INSTALL_AEROSPIKE=${PHP_FPM_INSTALL_AEROSPIKE}
+          - AEROSPIKE_PHP_REPOSITORY=${AEROSPIKE_PHP_REPOSITORY}
           - INSTALL_MYSQLI=${PHP_FPM_INSTALL_MYSQLI}
           - INSTALL_PGSQL=${PHP_FPM_INSTALL_PGSQL}
           - INSTALL_PG_CLIENT=${PHP_FPM_INSTALL_PG_CLIENT}
@@ -90,35 +147,42 @@ services:
           - INSTALL_INTL=${PHP_FPM_INSTALL_INTL}
           - INSTALL_GHOSTSCRIPT=${PHP_FPM_INSTALL_GHOSTSCRIPT}
           - INSTALL_LDAP=${PHP_FPM_INSTALL_LDAP}
+          - INSTALL_PHALCON=${PHP_FPM_INSTALL_PHALCON}
           - INSTALL_SWOOLE=${PHP_FPM_INSTALL_SWOOLE}
           - INSTALL_IMAGE_OPTIMIZERS=${PHP_FPM_INSTALL_IMAGE_OPTIMIZERS}
           - INSTALL_IMAGEMAGICK=${PHP_FPM_INSTALL_IMAGEMAGICK}
-        dockerfile: "Dockerfile-${PHP_VERSION}"
-      volumes_from:
-        - applications
+          - INSTALL_CALENDAR=${PHP_FPM_INSTALL_CALENDAR}
+          - INSTALL_FAKETIME=${PHP_FPM_INSTALL_FAKETIME}
+          - INSTALL_IONCUBE=${PHP_FPM_INSTALL_IONCUBE}
       volumes:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
       expose:
         - "9000"
-      depends_on:
-        - workspace
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       environment:
         - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
+        - DOCKER_HOST=tcp://docker-in-docker:2375
+        - FAKETIME=${PHP_FPM_FAKETIME}
+      depends_on:
+        - workspace
       networks:
         - backend
+      links:
+        - docker-in-docker
 
-### PHP Worker Container #####################################
-
+### PHP Worker ############################################
     php-worker:
       build:
         context: ./php-worker
-        dockerfile: "Dockerfile-${PHP_VERSION}"
         args:
+          - PHP_VERSION=${PHP_VERSION}
           - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL}
-      volumes_from:
-        - applications
+          - INSTALL_BCMATH=${PHP_WORKER_INSTALL_BCMATH}
+      volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+        - ./php-worker/supervisord.d:/etc/supervisord.d
       depends_on:
         - workspace
       extra_hosts:
@@ -126,17 +190,16 @@ services:
       networks:
         - backend
 
-### NGINX Server Container ##################################
-
+### NGINX Server #########################################
     nginx:
       build:
         context: ./nginx
         args:
           - PHP_UPSTREAM_CONTAINER=${NGINX_PHP_UPSTREAM_CONTAINER}
           - PHP_UPSTREAM_PORT=${NGINX_PHP_UPSTREAM_PORT}
-      volumes_from:
-        - applications
+          - CHANGE_SOURCE=${CHANGE_SOURCE}
       volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
         - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
         - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
       ports:
@@ -148,8 +211,7 @@ services:
         - frontend
         - backend
 
-### Blackfire Container #################################
-
+### Blackfire ########################################
     blackfire:
       image: blackfire/blackfire
       environment:
@@ -160,8 +222,7 @@ services:
       networks:
         - backend
 
-### Apache Server Container #################################
-
+### Apache Server ########################################
     apache2:
       build:
         context: ./apache2
@@ -169,9 +230,9 @@ services:
           - PHP_UPSTREAM_CONTAINER=${APACHE_PHP_UPSTREAM_CONTAINER}
           - PHP_UPSTREAM_PORT=${APACHE_PHP_UPSTREAM_PORT}
           - PHP_UPSTREAM_TIMEOUT=${APACHE_PHP_UPSTREAM_TIMEOUT}
-      volumes_from:
-        - applications
+          - DOCUMENT_ROOT=${APACHE_DOCUMENT_ROOT}
       volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
         - ${APACHE_HOST_LOG_PATH}:/var/log/apache2
         - ${APACHE_SITES_PATH}:/etc/apache2/sites-available
       ports:
@@ -183,12 +244,11 @@ services:
         - frontend
         - backend
 
-### HHVM Container ##########################################
-
+### HHVM #################################################
     hhvm:
       build: ./hhvm
-      volumes_from:
-        - applications
+      volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
       expose:
         - "9000"
       depends_on:
@@ -197,13 +257,12 @@ services:
         - frontend
         - backend
 
-### Minio Container #########################################
-
+### Minio ################################################
     minio:
       build: ./minio
       volumes:
-        - ${DATA_SAVE_PATH}/minio/data:/export
-        - ${DATA_SAVE_PATH}/minio/config:/root/.minio
+        - ${DATA_PATH_HOST}/minio/data:/export
+        - ${DATA_PATH_HOST}/minio/config:/root/.minio
       ports:
         - "${MINIO_PORT}:9000"
       environment:
@@ -213,8 +272,7 @@ services:
         - frontend
         - backend
 
-### MySQL Container #########################################
-
+### MySQL ################################################
     mysql:
       build:
         context: ./mysql
@@ -227,15 +285,14 @@ services:
         - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
         - TZ=${WORKSPACE_TIMEZONE}
       volumes:
-        - ${DATA_SAVE_PATH}/mysql:/var/lib/mysql
+        - ${DATA_PATH_HOST}/mysql:/var/lib/mysql
         - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
       ports:
         - "${MYSQL_PORT}:3306"
       networks:
         - backend
 
-### Percona Container #########################################
-
+### Percona ################################################
     percona:
       build:
         context: ./percona
@@ -245,15 +302,14 @@ services:
         - MYSQL_PASSWORD=${PERCONA_PASSWORD}
         - MYSQL_ROOT_PASSWORD=${PERCONA_ROOT_PASSWORD}
       volumes:
-        - ${DATA_SAVE_PATH}/percona:/var/lib/mysql
+        - ${DATA_PATH_HOST}/percona:/var/lib/mysql
         - ${PERCONA_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
       ports:
         - "${PERCONA_PORT}:3306"
       networks:
         - backend
 
-### MSSQL Container #########################################
-
+### MSSQL ################################################
     mssql:
       build:
         context: ./mssql
@@ -262,18 +318,17 @@ services:
         - SA_PASSWORD=${MSSQL_PASSWORD}
         - ACCEPT_EULA=Y
       volumes:
-        - ${DATA_SAVE_PATH}/mssql:/var/opt/mssql
+        - ${DATA_PATH_HOST}/mssql:/var/opt/mssql
       ports:
         - "${MSSQL_PORT}:1433"
       networks:
         - backend
 
-### MariaDB Container #######################################
-
+### MariaDB ##############################################
     mariadb:
       build: ./mariadb
       volumes:
-        - ${DATA_SAVE_PATH}/mariadb:/var/lib/mysql
+        - ${DATA_PATH_HOST}/mariadb:/var/lib/mysql
         - ${MARIADB_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
       ports:
         - "${MARIADB_PORT}:3306"
@@ -285,12 +340,12 @@ services:
       networks:
         - backend
 
-### PostgreSQL Container ####################################
-
+### PostgreSQL ###########################################
     postgres:
       build: ./postgres
       volumes:
-        - ${DATA_SAVE_PATH}/postgres:/var/lib/postgresql
+        - ${DATA_PATH_HOST}/postgres:/var/lib/postgresql/data
+        - ${POSTGRES_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
       ports:
         - "${POSTGRES_PORT}:5432"
       environment:
@@ -300,12 +355,11 @@ services:
       networks:
         - backend
 
-### PostgreSQL PostGis Container ############################
-
+### PostgreSQL PostGis ###################################
     postgres-postgis:
       build: ./postgres-postgis
       volumes:
-        - ${DATA_SAVE_PATH}/postgres:/var/lib/postgresql/data
+        - ${DATA_PATH_HOST}/postgres:/var/lib/postgresql/data
       ports:
         - "${POSTGRES_PORT}:5432"
       environment:
@@ -315,8 +369,7 @@ services:
       networks:
         - backend
 
-### Neo4j Container #########################################
-
+### Neo4j ################################################
     neo4j:
       build: ./neo4j
       ports:
@@ -325,51 +378,46 @@ services:
       environment:
         - NEO4J_AUTH=default:secret
       volumes:
-        - ${DATA_SAVE_PATH}/neo4j:/var/lib/neo4j/data
+        - ${DATA_PATH_HOST}/neo4j:/var/lib/neo4j/data
       networks:
         - backend
 
-### MongoDB Container #######################################
-
+### MongoDB ##############################################
     mongo:
       build: ./mongo
       ports:
         - "${MONGODB_PORT}:27017"
       volumes:
-        - ${DATA_SAVE_PATH}/mongo:/data/db
+        - ${DATA_PATH_HOST}/mongo:/data/db
       networks:
         - backend
 
-### RethinkDB Container #######################################
-
+### RethinkDB ##############################################
     rethinkdb:
       build: ./rethinkdb
       ports:
         - "${RETHINKDB_PORT}:8080"
       volumes:
-        - ${DATA_SAVE_PATH}/rethinkdb:/data/rethinkdb_data
+        - ${DATA_PATH_HOST}/rethinkdb:/data/rethinkdb_data
       networks:
         - backend
 
-### Redis Container #########################################
-
+### Redis ################################################
     redis:
       build: ./redis
       volumes:
-        - ${DATA_SAVE_PATH}/redis:/data
+        - ${DATA_PATH_HOST}/redis:/data
       ports:
         - "${REDIS_PORT}:6379"
       networks:
         - backend
 
-### Aerospike c Container ###################################
-
+### Aerospike ##########################################
     aerospike:
       build: ./aerospike
-      volumes_from:
-        - workspace
       volumes:
-        - ${DATA_SAVE_PATH}/aerospike:/opt/aerospike/data
+        - workspace
+        - ${DATA_PATH_HOST}/aerospike:/opt/aerospike/data
       ports:
         - "${AEROSPIKE_SERVICE_PORT}:3000"
         - "${AEROSPIKE_FABRIC_PORT}:3001"
@@ -378,12 +426,11 @@ services:
       networks:
         - backend
 
-### Memcached Container #####################################
-
+### Memcached ############################################
     memcached:
       build: ./memcached
       volumes:
-        - ${DATA_SAVE_PATH}/memcached:/var/lib/memcached
+        - ${DATA_PATH_HOST}/memcached:/var/lib/memcached
       ports:
         - "${MEMCACHED_HOST_PORT}:11211"
       depends_on:
@@ -391,8 +438,7 @@ services:
       networks:
         - backend
 
-### Beanstalkd Container ####################################
-
+### Beanstalkd ###########################################
     beanstalkd:
       build: ./beanstalkd
       ports:
@@ -403,8 +449,7 @@ services:
       networks:
         - backend
 
-### RabbitMQ Container ######################################
-
+### RabbitMQ #############################################
     rabbitmq:
       build: ./rabbitmq
       ports:
@@ -420,27 +465,24 @@ services:
       networks:
         - backend
 
-### Beanstalkd Console Container ############################
-
+### Beanstalkd Console ###################################
     beanstalkd-console:
       build: ./beanstalkd-console
       ports:
-        - "2080:2080"
+        - "${BEANSTALKD_CONSOLE_HOST_PORT}:2080"
       depends_on:
         - beanstalkd
       networks:
         - backend
 
-### Caddy Server Container ##################################
-
+### Caddy Server #########################################
     caddy:
       build: ./caddy
-      volumes_from:
-        - applications
       volumes:
-        - ${CADDY_CUSTOM_CADDYFILE}:/etc/Caddyfile
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+        - ${CADDY_CONFIG_PATH}:/etc/caddy
         - ${CADDY_HOST_LOG_PATH}:/var/log/caddy
-        - ${DATA_SAVE_PATH}:/root/.caddy
+        - ${DATA_PATH_HOST}:/root/.caddy
       ports:
         - "${CADDY_HOST_HTTP_PORT}:80"
         - "${CADDY_HOST_HTTPS_PORT}:443"
@@ -450,8 +492,7 @@ services:
         - frontend
         - backend
 
-### phpMyAdmin Container ####################################
-
+### phpMyAdmin ###########################################
     phpmyadmin:
       build: ./phpmyadmin
       environment:
@@ -467,8 +508,7 @@ services:
         - frontend
         - backend
 
-### Adminer Container ####################################
-
+### Adminer ###########################################
     adminer:
       build:
         context: ./adminer
@@ -482,28 +522,24 @@ services:
         - frontend
         - backend
 
-### pgAdmin Container #######################################
-
+### pgAdmin ##############################################
     pgadmin:
       build: ./pgadmin
       ports:
         - "5050:5050"
       volumes:
-        - ${DATA_SAVE_PATH}/pgadmin-backup:/var/lib/pgadmin/storage/pgadmin4
+        - ${DATA_PATH_HOST}/pgadmin-backup:/var/lib/pgadmin/storage/pgadmin4
       depends_on:
         - postgres
       networks:
         - frontend
         - backend
 
-
-### ElasticSearch Container #################################
-
+### ElasticSearch ########################################
     elasticsearch:
       build: ./elasticsearch
       volumes:
-        - elasticsearch-data:/usr/share/elasticsearch/data
-        - elasticsearch-plugins:/usr/share/elasticsearch/plugins
+        - elasticsearch:/usr/share/elasticsearch/data
       environment:
         - cluster.name=laradock-cluster
         - bootstrap.memory_lock=true
@@ -512,7 +548,6 @@ services:
         memlock:
           soft: -1
           hard: -1
-      mem_limit: 1024m
       ports:
         - "${ELASTICSEARCH_HOST_HTTP_PORT}:9200"
         - "${ELASTICSEARCH_HOST_TRANSPORT_PORT}:9300"
@@ -522,9 +557,7 @@ services:
         - frontend
         - backend
 
-
-### Kibana Container #######################################
-
+### Kibana ##############################################
     kibana:
       build: ./kibana
       ports:
@@ -535,22 +568,20 @@ services:
         - frontend
         - backend
 
-### Certbot Container ##################################
-
+### Certbot #########################################
     certbot:
       build:
         context: ./certbot
       volumes:
         - ./data/certbot/certs/:/var/certs
-        - ./certbot/letsencrypt/:/var/www/letsencrypt
+        - ./certbot/letsencrypt/:${APP_CODE_PATH_CONTAINER}/letsencrypt
       environment:
         - CN="fake.domain.com"
         - EMAIL="fake.email@gmail.com"
       networks:
         - frontend
 
-### Mailhog Container #########################################
-
+### Mailhog ################################################
     mailhog:
       build: ./mailhog
       ports:
@@ -560,8 +591,7 @@ services:
         - frontend
         - backend
 
-### MailDev Container #######################################
-
+### MailDev ##############################################
     maildev:
       build: ./maildev
       ports:
@@ -571,8 +601,7 @@ services:
         - frontend
         - backend
 
-### Selenium Container ########################################
-
+### Selenium ###############################################
     selenium:
       build: ./selenium
       ports:
@@ -582,8 +611,7 @@ services:
       networks:
         - frontend
 
-### Varnish Proxy 1 ##########################################
-
+### Varnish ##########################################
     proxy:
       build: ./varnish
       expose:
@@ -600,8 +628,6 @@ services:
         - workspace
       networks:
         - frontend
-
-### Varnish Proxy 2 ##########################################
 
     proxy2:
       build: ./varnish
@@ -620,8 +646,7 @@ services:
       networks:
         - frontend
 
-### HAProxy Load Balancer ####################################
-
+### HAProxy ####################################
     haproxy:
       build: ./haproxy
       ports:
@@ -633,7 +658,6 @@ services:
         - proxy2
 
 ### Jenkins ###################################################
-
     jenkins:
       build: ./jenkins
       environment:
@@ -649,13 +673,12 @@ services:
         - frontend
         - backend
 
-### Grafana Container #########################################
-
+### Grafana ################################################
     grafana:
       build:
         context: ./grafana
       volumes:
-        - ${DATA_SAVE_PATH}/grafana:/var/lib/grafana
+        - ${DATA_PATH_HOST}/grafana:/var/lib/grafana
       ports:
         - "${GRAFANA_PORT}:3000"
       networks:
@@ -674,59 +697,572 @@ services:
       networks:
         - frontend
         - backend
+        
+### Solr ################################################
+    solr:
+      build:
+        context: ./solr
+        args:
+          - SOLR_VERSION=${SOLR_VERSION}
+          - SOLR_DATAIMPORTHANDLER_MYSQL=${SOLR_DATAIMPORTHANDLER_MYSQL}
+      volumes:
+        - ${DATA_PATH_HOST}/solr:/opt/solr/server/solr/mycores
+      ports:
+        - "${SOLR_PORT}:8983"
+      networks:
+        - backend
 
-### AWS EB-CLI ####
+### Thumbor #########################################
+    thumbor:
+      build: ./thumbor
+      volumes:
+        - ${DATA_PATH_HOST}/thumbor/data:/data
+        - ${DATA_PATH_HOST}/thumbor/data:/logs
+      ports:
+        - "${THUMBOR_PORT}:8000"
+      environment:
+        - THUMBOR_LOG_FORMAT=${THUMBOR_LOG_FORMAT}
+        - THUMBOR_LOG_DATE_FORMAT=${THUMBOR_LOG_DATE_FORMAT}
+        - MAX_WIDTH=${MAX_WIDTH}
+        - MAX_HEIGHT=${MAX_HEIGHT}
+        - MIN_WIDTH=${MIN_WIDTH}
+        - MIN_HEIGHT=${MIN_HEIGHT}
+        - ALLOWED_SOURCES=${ALLOWED_SOURCES}
+        - QUALITY=${QUALITY}
+        - WEBP_QUALITY=${WEBP_QUALITY}
+        - PNG_COMPRESSION_LEVEL=${PNG_COMPRESSION_LEVEL}
+        - AUTO_WEBP=${AUTO_WEBP}
+        - MAX_AGE=${MAX_AGE}
+        - MAX_AGE_TEMP_IMAGE=${MAX_AGE_TEMP_IMAGE}
+        - RESPECT_ORIENTATION=${RESPECT_ORIENTATION}
+        - IGNORE_SMART_ERRORS=${IGNORE_SMART_ERRORS}
+        - PRESERVE_EXIF_INFO=${PRESERVE_EXIF_INFO}
+        - ALLOW_ANIMATED_GIFS=${ALLOW_ANIMATED_GIFS}
+        - USE_GIFSICLE_ENGINE=${USE_GIFSICLE_ENGINE}
+        - USE_BLACKLIST=${USE_BLACKLIST}
+        - LOADER=${LOADER}
+        - STORAGE=${STORAGE}
+        - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+        - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+        - RESULT_STORAGE=${RESULT_STORAGE}
+        - ENGINE=${ENGINE}
+        - SECURITY_KEY=${SECURITY_KEY}
+        - ALLOW_UNSAFE_URL=${ALLOW_UNSAFE_URL}
+        - ALLOW_OLD_URLS=${ALLOW_OLD_URLS}
+        - FILE_LOADER_ROOT_PATH=${FILE_LOADER_ROOT_PATH}
+        - HTTP_LOADER_CONNECT_TIMEOUT=${HTTP_LOADER_CONNECT_TIMEOUT}
+        - HTTP_LOADER_REQUEST_TIMEOUT=${HTTP_LOADER_REQUEST_TIMEOUT}
+        - HTTP_LOADER_FOLLOW_REDIRECTS=${HTTP_LOADER_FOLLOW_REDIRECTS}
+        - HTTP_LOADER_MAX_REDIRECTS=${HTTP_LOADER_MAX_REDIRECTS}
+        - HTTP_LOADER_FORWARD_USER_AGENT=${HTTP_LOADER_FORWARD_USER_AGENT}
+        - HTTP_LOADER_DEFAULT_USER_AGENT=${HTTP_LOADER_DEFAULT_USER_AGENT}
+        - HTTP_LOADER_PROXY_HOST=${HTTP_LOADER_PROXY_HOST}
+        - HTTP_LOADER_PROXY_PORT=${HTTP_LOADER_PROXY_PORT}
+        - HTTP_LOADER_PROXY_USERNAME=${HTTP_LOADER_PROXY_USERNAME}
+        - HTTP_LOADER_PROXY_PASSWORD=${HTTP_LOADER_PROXY_PASSWORD}
+        - HTTP_LOADER_CA_CERTS=${HTTP_LOADER_CA_CERTS}
+        - HTTP_LOADER_VALIDATE_CERTS=${HTTP_LOADER_VALIDATE_CERTS}
+        - HTTP_LOADER_CLIENT_KEY=${HTTP_LOADER_CLIENT_KEY}
+        - HTTP_LOADER_CLIENT_CERT=${HTTP_LOADER_CLIENT_CERT}
+        - HTTP_LOADER_CURL_ASYNC_HTTP_CLIENT=${HTTP_LOADER_CURL_ASYNC_HTTP_CLIENT}
+        - STORAGE_EXPIRATION_SECONDS=${STORAGE_EXPIRATION_SECONDS}
+        - STORES_CRYPTO_KEY_FOR_EACH_IMAGE=${STORES_CRYPTO_KEY_FOR_EACH_IMAGE}
+        - FILE_STORAGE_ROOT_PATH=${FILE_STORAGE_ROOT_PATH}
+        - UPLOAD_MAX_SIZE=${UPLOAD_MAX_SIZE}
+        - UPLOAD_ENABLED=${UPLOAD_ENABLED}
+        - UPLOAD_PHOTO_STORAGE=${UPLOAD_PHOTO_STORAGE}
+        - UPLOAD_DELETE_ALLOWED=${UPLOAD_DELETE_ALLOWED}
+        - UPLOAD_PUT_ALLOWED=${UPLOAD_PUT_ALLOWED}
+        - UPLOAD_DEFAULT_FILENAME=${UPLOAD_DEFAULT_FILENAME}
+        - MONGO_STORAGE_SERVER_HOST=${MONGO_STORAGE_SERVER_HOST}
+        - MONGO_STORAGE_SERVER_PORT=${MONGO_STORAGE_SERVER_PORT}
+        - MONGO_STORAGE_SERVER_DB=${MONGO_STORAGE_SERVER_DB}
+        - MONGO_STORAGE_SERVER_COLLECTION=${MONGO_STORAGE_SERVER_COLLECTION}
+        - REDIS_STORAGE_SERVER_HOST=${REDIS_STORAGE_SERVER_HOST}
+        - REDIS_STORAGE_SERVER_PORT=${REDIS_STORAGE_SERVER_PORT}
+        - REDIS_STORAGE_SERVER_DB=${REDIS_STORAGE_SERVER_DB}
+        - REDIS_STORAGE_SERVER_PASSWORD=${REDIS_STORAGE_SERVER_PASSWORD}
+        - REDIS_RESULT_STORAGE_SERVER_HOST=${REDIS_RESULT_STORAGE_SERVER_HOST}
+        - REDIS_RESULT_STORAGE_SERVER_PORT=${REDIS_RESULT_STORAGE_SERVER_PORT}
+        - REDIS_RESULT_STORAGE_SERVER_DB=${REDIS_RESULT_STORAGE_SERVER_DB}
+        - REDIS_RESULT_STORAGE_SERVER_PASSWORD=${REDIS_RESULT_STORAGE_SERVER_PASSWORD}
+        - MEMCACHE_STORAGE_SERVERS=${MEMCACHE_STORAGE_SERVERS}
+        - MIXED_STORAGE_FILE_STORAGE=${MIXED_STORAGE_FILE_STORAGE}
+        - MIXED_STORAGE_CRYPTO_STORAGE=${MIXED_STORAGE_CRYPTO_STORAGE}
+        - MIXED_STORAGE_DETECTOR_STORAGE=${MIXED_STORAGE_DETECTOR_STORAGE}
+        - META_CALLBACK_NAME=${META_CALLBACK_NAME}
+        - DETECTORS=${DETECTORS}
+        - FACE_DETECTOR_CASCADE_FILE=${FACE_DETECTOR_CASCADE_FILE}
+        - OPTIMIZERS=${OPTIMIZERS}
+        - JPEGTRAN_PATH=${JPEGTRAN_PATH}
+        - PROGRESSIVE_JPEG=${PROGRESSIVE_JPEG}
+        - RESULT_STORAGE_EXPIRATION_SECONDS=${RESULT_STORAGE_EXPIRATION_SECONDS}
+        - RESULT_STORAGE_FILE_STORAGE_ROOT_PATH=${RESULT_STORAGE_FILE_STORAGE_ROOT_PATH}
+        - RESULT_STORAGE_STORES_UNSAFE=${RESULT_STORAGE_STORES_UNSAFE}
+        - REDIS_QUEUE_SERVER_HOST=${REDIS_QUEUE_SERVER_HOST}
+        - REDIS_QUEUE_SERVER_PORT=${REDIS_QUEUE_SERVER_PORT}
+        - REDIS_QUEUE_SERVER_DB=${REDIS_QUEUE_SERVER_DB}
+        - REDIS_QUEUE_SERVER_PASSWORD=${REDIS_QUEUE_SERVER_PASSWORD}
+        - SQS_QUEUE_KEY_ID=${SQS_QUEUE_KEY_ID}
+        - SQS_QUEUE_KEY_SECRET=${SQS_QUEUE_KEY_SECRET}
+        - SQS_QUEUE_REGION=${SQS_QUEUE_REGION}
+        - USE_CUSTOM_ERROR_HANDLING=${USE_CUSTOM_ERROR_HANDLING}
+        - ERROR_HANDLER_MODULE=${ERROR_HANDLER_MODULE}
+        - ERROR_FILE_LOGGER=${ERROR_FILE_LOGGER}
+        - ERROR_FILE_NAME_USE_CONTEXT=${ERROR_FILE_NAME_USE_CONTEXT}
+        - SENTRY_DSN_URL=${SENTRY_DSN_URL}
+        - TC_AWS_REGION=${TC_AWS_REGION}
+        - TC_AWS_ENDPOINT=${TC_AWS_ENDPOINT}
+        - TC_AWS_STORAGE_BUCKET=${TC_AWS_STORAGE_BUCKET}
+        - TC_AWS_STORAGE_ROOT_PATH=${TC_AWS_STORAGE_ROOT_PATH}
+        - TC_AWS_LOADER_BUCKET=${TC_AWS_LOADER_BUCKET}
+        - TC_AWS_LOADER_ROOT_PATH=${TC_AWS_LOADER_ROOT_PATH}
+        - TC_AWS_RESULT_STORAGE_BUCKET=${TC_AWS_RESULT_STORAGE_BUCKET}
+        - TC_AWS_RESULT_STORAGE_ROOT_PATH=${TC_AWS_RESULT_STORAGE_ROOT_PATH}
+        - TC_AWS_STORAGE_SSE=${TC_AWS_STORAGE_SSE}
+        - TC_AWS_STORAGE_RRS=${TC_AWS_STORAGE_RRS}
+        - TC_AWS_ENABLE_HTTP_LOADER=${TC_AWS_ENABLE_HTTP_LOADER}
+        - TC_AWS_ALLOWED_BUCKETS=${TC_AWS_ALLOWED_BUCKETS}
+        - TC_AWS_STORE_METADATA=${TC_AWS_STORE_METADATA}
+      networks:
+        - frontend
+        - backend
+
+### AWS EB-CLI ################################################
     aws:
       build:
         context: ./aws
-      volumes_from:
-        - applications
+      volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
       depends_on:
         - workspace
       tty: true
 
-### Networks Setup ############################################
+### Portainer ################################################
+    portainer:
+      build:
+        context: ./portainer
+      volumes:
+        - ${DATA_PATH_HOST}/portainer_data:/data
+        - /var/run/docker.sock:/var/run/docker.sock
+      extra_hosts:
+        - "dockerhost:${DOCKER_HOST_IP}"
+      ports:
+        - 9010:9000
+      networks:
+        - backend
 
-networks:
-  frontend:
-    driver: "bridge"
-  backend:
-    driver: "bridge"
+### Gitlab ################################################
+    gitlab:
+      build:
+        context: ./gitlab
+      environment:
+        GITLAB_OMNIBUS_CONFIG: |
+          external_url '${GITLAB_DOMAIN_NAME}' 
+          redis['enable'] = false 
+          nginx['listen_https'] = false 
+          nginx['listen_port'] = 80 
+          postgresql['enable'] = false 
+          gitlab_rails['trusted_proxies'] = ['caddy','nginx','apache2'] 
+          gitlab_rails['redis_host'] = 'redis' 
+          gitlab_rails['redis_database'] = 8
+          gitlab_rails['db_host'] = 'postgres' 
+          gitlab_rails['db_username'] = 'laradock_gitlab'
+          gitlab_rails['db_password'] = 'laradock_gitlab'
+          gitlab_rails['db_database'] = 'laradock_gitlab'
+          gitlab_rails['initial_root_password'] = '${GITLAB_ROOT_PASSWORD}'
+          gitlab_rails['gitlab_shell_ssh_port'] = ${GITLAB_HOST_SSH_PORT}
+      volumes:
+        - ${DATA_PATH_HOST}/gitlab/config:/etc/gitlab
+        - ${DATA_PATH_HOST}/gitlab/data:/var/opt/gitlab
+        - ${GITLAB_HOST_LOG_PATH}:/var/log/gitlab
+      ports:
+        - "${GITLAB_HOST_HTTP_PORT}:80"
+        - "${GITLAB_HOST_HTTPS_PORT}:443"
+        - "${GITLAB_HOST_SSH_PORT}:22"
+      networks:
+        - backend
+      depends_on:
+        - redis
+        - postgres
+    gitlab-runner:
+      image: gitlab/gitlab-runner:latest
+      environment:
+        - CI_SERVER_URL=${GITLAB_DOMAIN_NAME}
+      volumes:
+        - ${DATA_PATH_HOST}/gitlab/runner:/etc/gitlab-runner
+        - /var/run/docker.sock:/var/run/docker.sock:rw
+      restart: always
+      
+### JupyterHub #########################################
+    jupyterhub:
+      build:
+        context: ./jupyterhub
+      depends_on:
+        - postgres
+        - jupyterhub-user
+      restart: always
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock:rw
+        - ${DATA_PATH_HOST}/jupyterhub/:/data
+        - ${JUPYTERHUB_CUSTOM_CONFIG}:/jupyterhub_config.py
+        - ${JUPYTERHUB_USER_DATA}:/user-data
+        - ${JUPYTERHUB_USER_LIST}:/userlist
+      networks:
+        - backend
+      ports:
+        - "${JUPYTERHUB_PORT}:80"
+      environment:
+        - TERM=xterm
+        - JUPYTERHUB_USER_DATA=${JUPYTERHUB_USER_DATA}
+        - JUPYTERHUB_POSTGRES_DB=${JUPYTERHUB_POSTGRES_DB}
+        - JUPYTERHUB_POSTGRES_USER=${JUPYTERHUB_POSTGRES_USER}
+        - JUPYTERHUB_POSTGRES_HOST=${JUPYTERHUB_POSTGRES_HOST}
+        - JUPYTERHUB_POSTGRES_PASSWORD=${JUPYTERHUB_POSTGRES_PASSWORD}
+        - JUPYTERHUB_OAUTH_CALLBACK_URL=${JUPYTERHUB_OAUTH_CALLBACK_URL}
+        - JUPYTERHUB_OAUTH_CLIENT_ID=${JUPYTERHUB_OAUTH_CLIENT_ID}
+        - JUPYTERHUB_OAUTH_CLIENT_SECRET=${JUPYTERHUB_OAUTH_CLIENT_SECRET}
+        - JUPYTERHUB_LOCAL_NOTEBOOK_IMAGE=${JUPYTERHUB_LOCAL_NOTEBOOK_IMAGE}
+    jupyterhub-user:
+      build:
+        context: ./jupyterhub
+        dockerfile: Dockerfile.user
+      command: ["sh", "-c", "echo \"build only\""]
 
-### Volumes Setup #############################################
+### IPython #########################################
+    ipython-controller:
+      build:
+        context: ./ipython
+        dockerfile: Dockerfile.controller
+      networks:
+        - backend
+      extra_hosts:
+        - "laradock-ipython:${LARADOCK_IPYTHON_CONTROLLER_IP}"
+      ports:
+        - "33327-33338:33327-33338"
+    ipython-engine:
+      build:
+        context: ./ipython
+        dockerfile: Dockerfile.engine
+      networks:
+        - backend
+      extra_hosts:
+        - "laradock-ipython:${LARADOCK_IPYTHON_CONTROLLER_IP}"
 
-volumes:
-  mysql:
-    driver: "local"
-  percona:
-    driver: "local"
-  mssql:
-    driver: "local"
-  postgres:
-    driver: "local"
-  memcached:
-    driver: "local"
-  redis:
-    driver: "local"
-  neo4j:
-    driver: "local"
-  mariadb:
-    driver: "local"
-  mongo:
-    driver: "local"
-  minio:
-    driver: "local"
-  rethinkdb:
-    driver: "local"
-  phpmyadmin:
-    driver: "local"
-  adminer:
-    driver: "local"
-  aerospike:
-    driver: "local"
-  caddy:
-    driver: "local"
-  elasticsearch-data:
-    driver: "local"
-  elasticsearch-plugins:
-    driver: "local"
+### Docker-in-Docker ################################################
+    docker-in-docker:
+      image: docker:dind
+      privileged: true
+      volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+      expose:
+        - 2375
+      networks:
+        - backend
+
+### NetData ################################################
+    netdata:
+      image: titpetric/netdata:latest
+      cap_add:
+      - SYS_PTRACE
+      volumes:
+      - /:/host:ro
+      ports:
+        - "${NETDATA_PORT}:19999"
+      networks:
+        - backend
+
+### PHPRedisAdmin ################################################
+    phpredisadmin:
+      image: erikdubbelboer/phpredisadmin:latest
+      environment:
+        - ADMIN_USER=${REDIS_WEBUI_USERNAME}
+        - ADMIN_PASS=${REDIS_WEBUI_PASSWORD}
+        - REDIS_1_HOST=${REDIS_WEBUI_CONNECT_HOST}
+        - REDIS_1_PORT=${REDIS_WEBUI_CONNECT_PORT}
+      networks:
+        - backend
+      ports:
+        - "${REDIS_WEBUI_PORT}:80"
+      depends_on:
+        - redis
+
+### MongoWebUI ################################################
+    mongo-webui:
+      build:
+        context: ./mongo-webui
+      restart: always
+      environment:
+        - ROOT_URL=${MONGO_WEBUI_ROOT_URL}
+        - MONGO_URL=${MONGO_WEBUI_MONGO_URL}
+        - INSTALL_MONGO=${MONGO_WEBUI_INSTALL_MONGO}
+      volumes:
+        - ${DATA_PATH_HOST}/mongo-webui:/data/db
+      ports:
+        - "${MONGO_WEBUI_PORT}:3000"
+      networks:
+        - backend
+      depends_on:
+        - mongo
+  
+### Metabase #################################################
+    metabase:
+      image: metabase/metabase:latest
+      environment:
+        - MB_DB_FILE=/metabase-data/${METABASE_DB_FILE}
+      ports:
+        - ${METABASE_PORT}:3000
+      volumes:
+        - ${DATA_PATH_HOST}/metabase-data:/metabase-data
+      networks:
+        - backend
+
+### IDE-THEIA ################################################
+    ide-theia:
+      build:
+        context: ./ide-theia
+      volumes:
+        - ${APP_CODE_PATH_HOST}:/home/project
+      ports:
+        - "${IDE_THEIA_PORT}:3000"
+      networks:
+        - backend
+
+### IDE-WEBIDE ################################################
+    ide-webide:
+      build:
+        context: ./ide-webide
+      volumes:
+        - ${DATA_PATH_HOST}/ide/webide/ide.db:/root/.coding-ide/ide.db
+      ports:
+        - "${IDE_WEBIDE_PORT}:8080"
+      networks:
+        - backend
+
+### IDE-CODIAD ################################################
+    ide-codiad:
+      build:
+        context: ./ide-codiad
+      environment:
+        - APP_CODE_PATH_CONTAINER=${APP_CODE_PATH_CONTAINER}
+        - TZ=${WORKSPACE_TIMEZONE}
+        - PGID=1000
+        - PUID=1000
+      volumes:
+        - /etc/localtime:/etc/localtime:ro
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+        - ${DATA_PATH_HOST}/ide/codiad:/config
+      ports:
+        - "${IDE_CODIAD_PORT}:80"
+      networks:
+        - backend
+
+### IDE-ICECODER ################################################
+    ide-icecoder:
+      build:
+        context: ./ide-icecoder
+      environment:
+        - DOCUMENT_ROOT=${APP_CODE_PATH_CONTAINER}
+        - TZ=${WORKSPACE_TIMEZONE}
+        - PGID=1000
+        - PUID=1000
+      volumes:
+        - /etc/localtime:/etc/localtime:ro
+        - ${APP_CODE_PATH_HOST}:/home/laradock/ICEcoder/dev
+      ports:
+        - "${IDE_ICECODER_PORT}:8080"
+      networks:
+        - backend
+
+### DOCKER-REGISTRY ################################################
+    docker-registry:
+      build:
+        context: ./docker-registry
+      volumes:
+        - /etc/localtime:/etc/localtime:ro
+        - ${DATA_PATH_HOST}/docker-registry:/var/lib/registry
+      ports:
+        - "${DOCKER_REGISTRY_PORT}:5000"
+      networks:
+        - backend
+
+### DOCKER-WEB-UI ################################################
+    docker-web-ui:
+      build:
+        context: ./docker-web-ui
+      environment:
+        - TZ=${WORKSPACE_TIMEZONE}
+        - ENV_DOCKER_REGISTRY_HOST=${DOCKER_WEBUI_REGISTRY_HOST}
+        - ENV_DOCKER_REGISTRY_PORT=${DOCKER_WEBUI_REGISTRY_PORT}
+        - ENV_DOCKER_REGISTRY_USE_SSL=${DOCKER_REGISTRY_USE_SSL}
+        - ENV_MODE_BROWSE_ONLY=${DOCKER_REGISTRY_BROWSE_ONLY}
+      volumes:
+        - /etc/localtime:/etc/localtime:ro
+      ports:
+        - "${DOCKER_WEBUI_PORT}:80"
+      networks:
+        - frontend
+        - backend
+
+### MAILU ################################################
+    mailu:
+      image: mailu/admin:${MAILU_VERSION}
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/data:/data"
+        - "${DATA_PATH_HOST}/mailu/dkim:/dkim"
+        - "${DATA_PATH_HOST}/mailu/webmail:/webmail"
+        - /var/run/docker.sock:/var/run/docker.sock:ro
+      depends_on:
+        - mailu-front
+        - mailu-imap
+        - mailu-smtp
+        - mailu-antispam
+        - mailu-antivirus
+        - mailu-webdav
+        - mailu-admin
+        - mailu-webmail
+        - mailu-fetchmail
+      command: ["sh", "-c", "echo ${MAILU_INIT_ADMIN_USERNAME}@${MAILU_DOMAIN} ${MAILU_INIT_ADMIN_PASSWORD} ;python manage.py advertise ; python manage.py db upgrade ; python manage.py admin ${MAILU_INIT_ADMIN_USERNAME} ${MAILU_DOMAIN} ${MAILU_INIT_ADMIN_PASSWORD} || true;sed -i -- \"s/= Off/= On/g\" /webmail/_data_/_default_/configs/config.ini || true;if grep -Fq \"registration_link_url\" /webmail/_data_/_default_/configs/config.ini;then echo Already set!;else echo \"\" >> /webmail/_data_/_default_/configs/config.ini; echo \"[login]\" >> /webmail/_data_/_default_/configs/config.ini;echo \"registration_link_url = '${MAILU_WEBSITE}${MAILU_WEB_ADMIN}/ui/user/signup'\" >> /webmail/_data_/_default_/configs/config.ini;fi"]
+      networks:
+        - backend
+    mailu-front:
+      image: mailu/nginx:${MAILU_VERSION}
+      environment:
+        - ADMIN=${MAILU_ADMIN}
+        - WEB_ADMIN=${MAILU_WEB_ADMIN}
+        - WEB_WEBMAIL=${MAILU_WEB_WEBMAIL}
+        - WEBDAV=${MAILU_WEBDAV}
+        - HOSTNAMES=${MAILU_HOSTNAMES}
+        - TLS_FLAVOR=${MAILU_TLS_FLAVOR}
+        - MESSAGE_SIZE_LIMIT=${MAILU_MESSAGE_SIZE_LIMIT}
+      ports:
+        - "${MAILU_HTTP_PORT}:80"
+        - "${MAILU_HTTPS_PORT}:443"
+        - "110:110"
+        - "143:143"
+        - "993:993"
+        - "995:995"
+        - "25:25"
+        - "465:465"
+        - "587:587"
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/certs:/certs"
+      networks:
+        backend:
+          aliases:
+            - front
+    mailu-imap:
+      image: mailu/dovecot:${MAILU_VERSION}
+      environment:
+        - DOMAIN=${MAILU_DOMAIN}
+        - HOSTNAMES=${MAILU_HOSTNAMES}
+        - POSTMASTER=${MAILU_POSTMASTER}
+        - WEBMAIL=${MAILU_WEBMAIL}
+        - RECIPIENT_DELIMITER=${MAILU_RECIPIENT_DELIMITER}
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/data:/data"
+        - "${DATA_PATH_HOST}/mailu/mail:/mail"
+        - "${DATA_PATH_HOST}/mailu/overrides:/overrides"
+      depends_on:
+        - mailu-front
+      networks:
+        backend:
+          aliases:
+            - imap
+    mailu-smtp:
+      image: mailu/postfix:${MAILU_VERSION}
+      environment:
+        - DOMAIN=${MAILU_DOMAIN}
+        - HOSTNAMES=${MAILU_HOSTNAMES}
+        - RELAYHOST=${MAILU_RELAYHOST}
+        - RELAYNETS=${MAILU_RELAYNETS}
+        - RECIPIENT_DELIMITER=${MAILU_RECIPIENT_DELIMITER}
+        - MESSAGE_SIZE_LIMIT=${MAILU_MESSAGE_SIZE_LIMIT}
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/data:/data"
+        - "${DATA_PATH_HOST}/mailu/overrides:/overrides"
+      depends_on:
+        - mailu-front
+      networks:
+        backend:
+          aliases:
+            - smtp
+    mailu-antispam:
+      image: mailu/rspamd:${MAILU_VERSION}
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/filter:/var/lib/rspamd"
+        - "${DATA_PATH_HOST}/mailu/dkim:/dkim"
+        - "${DATA_PATH_HOST}/mailu/overrides/rspamd:/etc/rspamd/override.d"
+      depends_on:
+        - mailu-front
+      networks:
+        backend:
+          aliases:
+            - antispam
+    mailu-antivirus:
+      image: mailu/clamav:${MAILU_VERSION}
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/filter:/data"
+      networks:
+        backend:
+          aliases:
+            - antivirus
+    mailu-webdav:
+      image: mailu/${MAILU_WEBDAV}:${MAILU_VERSION}
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/dav:/data"
+      networks:
+        backend:
+          aliases:
+            - webdav
+    mailu-admin:
+      image: mailu/admin:${MAILU_VERSION}
+      environment:
+        - DOMAIN=${MAILU_DOMAIN}
+        - HOSTNAMES=${MAILU_HOSTNAMES}
+        - POSTMASTER=${MAILU_POSTMASTER}
+        - SECRET_KEY=${MAILU_SECRET_KEY}
+        - AUTH_RATELIMIT=${MAILU_AUTH_RATELIMIT}
+        - TLS_FLAVOR=${MAILU_TLS_FLAVOR}
+        - DISABLE_STATISTICS=${MAILU_DISABLE_STATISTICS}
+        - DMARC_RUA=${MAILU_DMARC_RUA}
+        - DMARC_RUF=${MAILU_DMARC_RUF}
+        - WELCOME=${MAILU_WELCOME}
+        - WELCOME_SUBJECT=${MAILU_WELCOME_SUBJECT}
+        - WELCOME_BODY=${MAILU_WELCOME_BODY}
+        - WEB_ADMIN=${MAILU_WEB_ADMIN}
+        - WEB_WEBMAIL=${MAILU_WEB_WEBMAIL}
+        - WEBSITE=${MAILU_WEBSITE}
+        - WEBMAIL=${MAILU_WEBMAIL}
+        - SITENAME=${MAILU_SITENAME}
+        - PASSWORD_SCHEME=${MAILU_PASSWORD_SCHEME}
+        - RECAPTCHA_PUBLIC_KEY=${MAILU_RECAPTCHA_PUBLIC_KEY}
+        - RECAPTCHA_PRIVATE_KEY=${MAILU_RECAPTCHA_PRIVATE_KEY}
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/data:/data"
+        - "${DATA_PATH_HOST}/mailu/dkim:/dkim"
+        - /var/run/docker.sock:/var/run/docker.sock:ro
+      depends_on:
+        - redis
+      networks:
+        backend:
+          aliases:
+            - admin
+    mailu-webmail:
+      image: "mailu/${MAILU_WEBMAIL}:${MAILU_VERSION}"
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/webmail:/data"
+      networks:
+        backend:
+          aliases:
+            - webmail
+    mailu-fetchmail:
+      image: mailu/fetchmail:${MAILU_VERSION}
+      environment:
+        - FETCHMAIL_DELAY=${MAILU_FETCHMAIL_DELAY}
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/data:/data"
+      networks:
+        backend:
+          aliases:
+            - fetchmail

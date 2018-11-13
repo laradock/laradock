@@ -8,9 +8,9 @@
 #    GRANT ALL ON `myshop_db`.* TO 'appuser'@'%' ;
 #
 ###
-### this sql script is auto run when mariadb container start and $DATA_SAVE_PATH/mariadb not exists.
+### this sql script is auto run when mariadb container start and $DATA_PATH_HOST/mariadb not exists.
 ###
-### if your $DATA_SAVE_PATH/mariadb is exists and you do not want to delete it, you can run by manual execution:
+### if your $DATA_PATH_HOST/mariadb is exists and you do not want to delete it, you can run by manual execution:
 ###
 ###     docker-compose exec mariadb bash
 ###     mysql -u root -p < /docker-entrypoint-initdb.d/createdb.sql

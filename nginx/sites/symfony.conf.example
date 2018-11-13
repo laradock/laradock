@@ -11,15 +11,23 @@ server {
       try_files $uri @rewriteapp;
     }
 
+    # For Symfony 3
     location @rewriteapp {
         rewrite ^(.*)$ /app.php/$1 last;
     }
+    
+    # For Symfony 4 config
+    # location @rewriteapp {
+    #     rewrite ^(.*)$ /index.php/$1 last;
+    # }
 
-    location ~ ^/(app|app_dev|config)\.php(/|$) {
+    location ~ ^/(app|app_dev|config|index)\.php(/|$) {
         fastcgi_pass php-upstream;
         fastcgi_split_path_info ^(.+\.php)(/.*)$;
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        #fixes timeouts
+        fastcgi_read_timeout 600;
         fastcgi_param HTTPS off;
     }
 

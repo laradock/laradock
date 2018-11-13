@@ -35,7 +35,7 @@ cp env-example .env
 3 - Run your containers:
 
 ```shell
-docker-compose up -d nginx mysql redis beanstalkd
+docker-compose up -d nginx mysql phpmyadmin redis workspace 
 ```
 
 4 - Open your project's `.env` file and set the following:
@@ -58,7 +58,7 @@ That's it! enjoy :)
 <a name="features"></a>
 ## Features
 
-- Easy switch between PHP versions: 7.1, 7.0, 5.6...
+- Easy switch between PHP versions: 7.2, 7.1, 5.6...
 - Choose your favorite database engine: MySQL, Postgres, MariaDB...
 - Run your own combination of software: Memcached, HHVM, Beanstalkd...
 - Every software runs on a separate container: PHP-FPM, NGINX, PHP-CLI...
@@ -97,7 +97,7 @@ Beanstalkd - RabbitMQ - PHP Worker
 - **Queueing Management:**
 Beanstalkd Console - RabbitMQ Console
 - **Random Tools:**
-HAProxy - Certbot - Blackfire - Selenium - Jenkins - ElasticSearch - Kibana - Grafana - Mailhog - MailDev - Minio - Varnish - Swoole - Laravel Echo...
+Mailu - HAProxy - Certbot - Blackfire - Selenium - Jenkins - ElasticSearch - Kibana - Grafana - Gitlab - Mailhog - MailDev - Minio - Varnish - Swoole - NetData - Portainer - Laravel Echo - Phalcon...
 
 Laradock introduces the **Workspace** Image, as a development environment.
 It contains a rich set of helpful tools, all pre-configured to work and integrate with almost any combination of Containers and tools you may choose.
