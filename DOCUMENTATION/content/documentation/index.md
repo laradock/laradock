@@ -545,6 +545,7 @@ b) add a new service container by simply copy-paste this section below PHP-FPM c
         args:
           - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL} #Optionally install PGSQL PHP drivers
           - INSTALL_BCMATH=${PHP_WORKER_INSTALL_BCMATH} #Optionally install BCMath php package
+          - INSTALL_SOAP=${PHP_WORKER_INSTALL_SOAP} #Optionally install Soap php package
       volumes_from:
         - applications
       depends_on:
@@ -864,6 +865,12 @@ docker-compose up -d postgres pgadmin
 
 2 - Open your browser and visit the localhost on port **5050**:  `http://localhost:5050`
 
+
+3 - At login page use default credentials:
+
+Username : pgadmin4@pgadmin.org
+
+Password : admin
 
 
 
