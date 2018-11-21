@@ -65,73 +65,7 @@ RUN apt-get update -yqq && \
 #   - INSTALL_NODE=false
 #   - ...
 #
-######################################################
-# Install Drupal
-######################################################
-RUN git clone -b 8.7.x https://github.com/drupal/drupal.git /var/www/drupal
 
-###########################################################################
-# Add Project ISP
-###########################################################################
-#RUN git clone https://github.com/for0231/isp.git /var/www/drupal/modules/isp
-RUN git clone https://gitee.com/idcp/isp.git /var/www/drupal/modules/isp
-
-WORKDIR /var/www/drupal
-ENV COMPOSER_PROCESS_TIMEOUT 1200
-## Use composer china mirror.
-RUN composer config -g repo.packagist composer https://packagist.laravel-china.org && \
-  composer install
-
-###########################################################################
-# Add Project Contribute Modules
-###########################################################################
-
-# Install Drupal modules
-RUN composer require \
-  drupal/address \
-  drupal/ajax_links_api \
-  drupal/block_class \
-  drupal/bootstrap \
-  drupal/bootstrap_barrio \
-  drupal/bootstrap_layouts \
-  drupal/bootstrap_library \
-  drupal/commerce \
-  drupal/commerce_recurring \
-  drupal/commerce_alipay \
-  drupal/commerce_autosku \
-  drupal/commerce_paypal \
-  drupal/conditional_fields \
-  drupal/console \
-  drupal/config_rewrite \
-  drupal/custom_formatters \
-  drush/drush \
-  drupal/drush_language \
-  drupal/ds \
-  drupal/default_content \
-  drupal/devel \
-  drupal/entity_print \
-  drupal/eva \
-  drupal/facets \
-  drupal/features \
-  drupal/field_formatter_class \
-  drupal/field_group \
-  drupal/field_widget_class \
-  drupal/inline_entity_form \
-  drupal/libraries \
-  drupal/login_destination \
-  drupal/migrate_source_csv \
-  drupal/migrate_tools \
-  drupal/page_manager \
-  drupal/panelizer \
-  drupal/panels \
-  drupal/quicktabs \
-  drupal/reference_table_formatter \
-  drupal/rules \
-  drupal/search_api_solr \
-  drupal/superfish \
-  drupal/token \
-  drupal/views_slideshow \
-  kgaut/potx
 
 ###########################################################################
 # Set Timezone
@@ -885,7 +819,7 @@ RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
 USER root
 
 RUN apt-get update -yqq \
-    && apt-get -yqq install nasm 
+    && apt-get -yqq install nasm
 
 ###########################################################################
 # Dusk Dependencies:
@@ -949,6 +883,73 @@ USER root
 RUN apt-get update -y && \
     apt-get install -y wget mariadb-client
 
+ENV COMPOSER_PROCESS_TIMEOUT 1200
+######################################################
+# Install Drupal
+######################################################
+RUN git clone -b 8.7.x https://github.com/drupal/drupal.git /var/www/drupal
+
+###########################################################################
+# Add Project ISP
+###########################################################################
+RUN git clone https://github.com/for0231/isp.git /var/www/drupal/modules/isp
+#RUN git clone https://gitee.com/idcp/isp.git /var/www/drupal/modules/isp
+
+WORKDIR /var/www/drupal
+## Use composer china mirror.
+RUN composer config -g repo.packagist composer https://packagist.laravel-china.org && \
+  composer install
+
+###########################################################################
+# Add Project Contribute Modules
+###########################################################################
+
+# Install Drupal modules
+RUN composer require \
+  drupal/address \
+  drupal/ajax_links_api \
+  drupal/block_class \
+  drupal/bootstrap \
+  drupal/bootstrap_barrio \
+  drupal/bootstrap_layouts \
+  drupal/bootstrap_library \
+  drupal/commerce \
+  drupal/commerce_recurring \
+  drupal/commerce_alipay \
+  drupal/commerce_autosku \
+  drupal/commerce_paypal \
+  drupal/conditional_fields \
+  drupal/console \
+  drupal/config_rewrite \
+  drupal/custom_formatters \
+  drush/drush \
+  drupal/drush_language \
+  drupal/ds \
+  drupal/default_content \
+  drupal/devel \
+  drupal/entity_print \
+  drupal/eva \
+  drupal/facets \
+  drupal/features \
+  drupal/field_formatter_class \
+  drupal/field_group \
+  drupal/field_widget_class \
+  drupal/inline_entity_form \
+  drupal/libraries \
+  drupal/login_destination \
+  drupal/migrate_source_csv \
+  drupal/migrate_tools \
+  drupal/page_manager \
+  drupal/panelizer \
+  drupal/panels \
+  drupal/quicktabs \
+  drupal/reference_table_formatter \
+  drupal/rules \
+  drupal/search_api_solr \
+  drupal/superfish \
+  drupal/token \
+  drupal/views_slideshow \
+  kgaut/potx
 # Clean up
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
@@ -975,9 +976,9 @@ RUN wget https://www.drupal.org/files/issues/2855068-8_0.patch && \
 
 # Patch: Allow updating modules with new service dependencies
 # https://www.drupal.org/project/drupal/issues/2863986
-RUN wget https://www.drupal.org/files/issues/2863986-2-49.patch && \
-  git apply 2863986-2-49.patch && \
-  rm 2863986-2-49.patch
+#RUN wget https://www.drupal.org/files/issues/2863986-2-49.patch && \
+#  git apply 2863986-2-49.patch && \
+#  rm 2863986-2-49.patch
 
 # Patch: Allow blocks to be added to entity displays in Field UI
 # https://www.drupal.org/project/drupal/issues/2878685
