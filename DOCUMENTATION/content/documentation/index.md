@@ -1239,7 +1239,7 @@ ssh -o PasswordAuthentication=no    \
     laradock@localhost
 ```
 
-To login as root, replace laradock@locahost with root@localhost.
+To login as root, replace laradock@localhost with root@localhost.
 
 
 
