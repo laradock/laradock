@@ -1607,7 +1607,7 @@ YAML PHP extension allows you to easily parse and create YAML structured data. I
 
 1 - Open the `.env` file
 <br>
-2 - Search for the `INSTALL_YAML` argument under the PHP-FPM container
+2 - Search for the `PHP_FPM_INSTALL_YAML` argument under the PHP-FPM container
 <br>
 3 - Set it to `true`
 <br>
