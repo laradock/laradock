@@ -937,6 +937,7 @@ RUN composer require \
   drupal/inline_entity_form \
   drupal/libraries \
   drupal/login_destination \
+  drupal/memcache_storage \
   drupal/migrate_source_csv \
   drupal/migrate_tools \
   drupal/page_manager \
