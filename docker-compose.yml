@@ -156,7 +156,7 @@ services:
           - INSTALL_CALENDAR=${PHP_FPM_INSTALL_CALENDAR}
           - INSTALL_FAKETIME=${PHP_FPM_INSTALL_FAKETIME}
           - INSTALL_IONCUBE=${PHP_FPM_INSTALL_IONCUBE}
-          - INSTALL_YAML=${INSTALL_YAML}
+          - INSTALL_YAML=${PHP_FPM_INSTALL_YAML}
       volumes:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
