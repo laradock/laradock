@@ -125,7 +125,7 @@ WORKSPACE_INSTALL_LIBPNG=false
 WORKSPACE_INSTALL_IONCUBE=false
 WORKSPACE_PUID=1000
 WORKSPACE_PGID=1000
-WORKSPACE_CHROME_DRIVER_VERSION=2.32
+WORKSPACE_CHROME_DRIVER_VERSION=2.42
 WORKSPACE_TIMEZONE=UTC
 WORKSPACE_SSH_PORT=2222
 
@@ -134,7 +134,6 @@ WORKSPACE_SSH_PORT=2222
 PHP_FPM_INSTALL_ZIP_ARCHIVE=true
 PHP_FPM_INSTALL_BCMATH=true
 PHP_FPM_INSTALL_MYSQLI=true
-PHP_FPM_INSTALL_TOKENIZER=true
 PHP_FPM_INSTALL_INTL=true
 PHP_FPM_INSTALL_IMAGEMAGICK=true
 PHP_FPM_INSTALL_OPCACHE=true
@@ -163,11 +162,13 @@ PHP_FPM_INSTALL_CALENDAR=false
 PHP_FPM_INSTALL_FAKETIME=false
 PHP_FPM_INSTALL_IONCUBE=false
 PHP_FPM_FAKETIME=-0
+PHP_FPM_INSTALL_YAML=false
 
 ### PHP_WORKER ############################################
 
 PHP_WORKER_INSTALL_PGSQL=false
 PHP_WORKER_INSTALL_BCMATH=false
+PHP_WORKER_INSTALL_SOAP=false
 
 ### NGINX #################################################
 
@@ -177,6 +178,7 @@ NGINX_HOST_LOG_PATH=./logs/nginx/
 NGINX_SITES_PATH=./nginx/sites/
 NGINX_PHP_UPSTREAM_CONTAINER=php-fpm
 NGINX_PHP_UPSTREAM_PORT=9000
+NGINX_SSL_PATH=./nginx/ssl/
 
 ### APACHE ################################################
 
@@ -372,14 +374,6 @@ CADDY_CONFIG_PATH=./caddy/caddy
 
 LARAVEL_ECHO_SERVER_PORT=6001
 
-### DOCKER-SYNC ########################################################################################################
-
-# osx: 'native_osx' (default)
-# windows: 'unison'
-# linux: docker-sync not required
-
-DOCKER_SYNC_STRATEGY=native_osx
-
 ### THUMBOR ############################################################################################################
 
 THUMBOR_PORT=8000
@@ -493,6 +487,7 @@ TC_AWS_STORE_METADATA=False
 SOLR_VERSION=5.5
 SOLR_PORT=8983
 SOLR_DATAIMPORTHANDLER_MYSQL=false
+SOLR_DATAIMPORTHANDLER_MSSQL=false
 
 ### GITLAB ###############################################
 GITLAB_HOST_HTTP_PORT=8989
@@ -595,7 +590,7 @@ MAILU_RECIPIENT_DELIMITER=+
 # DMARC rua and ruf email
 MAILU_DMARC_RUA=admin
 MAILU_DMARC_RUF=admin
-# Weclome email, enable and set a topic and body if you wish to send welcome
+# Welcome email, enable and set a topic and body if you wish to send welcome
 # emails to all users.
 MAILU_WELCOME=True
 MAILU_WELCOME_SUBJECT=Welcome to your new email account

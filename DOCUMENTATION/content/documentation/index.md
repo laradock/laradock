@@ -545,6 +545,7 @@ b) add a new service container by simply copy-paste this section below PHP-FPM c
         args:
           - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL} #Optionally install PGSQL PHP drivers
           - INSTALL_BCMATH=${PHP_WORKER_INSTALL_BCMATH} #Optionally install BCMath php package
+          - INSTALL_SOAP=${PHP_WORKER_INSTALL_SOAP} #Optionally install Soap php package
       volumes_from:
         - applications
       depends_on:
@@ -864,6 +865,12 @@ docker-compose up -d postgres pgadmin
 
 2 - Open your browser and visit the localhost on port **5050**:  `http://localhost:5050`
 
+
+3 - At login page use default credentials:
+
+Username : pgadmin4@pgadmin.org
+
+Password : admin
 
 
 
@@ -1232,7 +1239,7 @@ ssh -o PasswordAuthentication=no    \
     laradock@localhost
 ```
 
-To login as root, replace laradock@locahost with root@localhost.
+To login as root, replace laradock@localhost with root@localhost.
 
 
 
@@ -1590,6 +1597,21 @@ will set the clock back 1 day. See (https://github.com/wolfcw/libfaketime) for m
 <br>
 6 - Re-build the containers `docker-compose build php-fpm`<br>
 
+
+
+
+<br>
+<a name="Install-YAML"></a>
+## Install YAML PHP extension in the php-fpm container
+YAML PHP extension allows you to easily parse and create YAML structured data. I like YAML because it's well readable for humans. See http://php.net/manual/en/ref.yaml.php and http://yaml.org/ for more info.
+
+1 - Open the `.env` file
+<br>
+2 - Search for the `PHP_FPM_INSTALL_YAML` argument under the PHP-FPM container
+<br>
+3 - Set it to `true`
+<br>
+4 - Re-build the container `docker-compose build php-fpm`<br>
 
 
 <br>
