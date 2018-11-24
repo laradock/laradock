@@ -1239,7 +1239,7 @@ ssh -o PasswordAuthentication=no    \
     laradock@localhost
 ```
 
-To login as root, replace laradock@locahost with root@localhost.
+To login as root, replace laradock@localhost with root@localhost.
 
 
 
@@ -1597,6 +1597,21 @@ will set the clock back 1 day. See (https://github.com/wolfcw/libfaketime) for m
 <br>
 6 - Re-build the containers `docker-compose build php-fpm`<br>
 
+
+
+
+<br>
+<a name="Install-YAML"></a>
+## Install YAML PHP extension in the php-fpm container
+YAML PHP extension allows you to easily parse and create YAML structured data. I like YAML because it's well readable for humans. See http://php.net/manual/en/ref.yaml.php and http://yaml.org/ for more info.
+
+1 - Open the `.env` file
+<br>
+2 - Search for the `PHP_FPM_INSTALL_YAML` argument under the PHP-FPM container
+<br>
+3 - Set it to `true`
+<br>
+4 - Re-build the container `docker-compose build php-fpm`<br>
 
 
 <br>
