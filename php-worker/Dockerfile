@@ -44,6 +44,15 @@ RUN if [ ${INSTALL_PGSQL} = true ]; then \
         && docker-php-ext-install pdo_pgsql \
 ;fi
 
+# Install ZipArchive:
+ARG INSTALL_ZIP_ARCHIVE=false
+RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
+    apk --update add libzip-dev && \
+    docker-php-ext-configure zip --with-libzip && \
+    # Install the zip extension
+    docker-php-ext-install zip \
+;fi
+
 RUN rm /var/cache/apk/* \
     && mkdir -p /var/www
 

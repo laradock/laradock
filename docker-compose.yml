@@ -184,6 +184,7 @@ services:
           - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL}
           - INSTALL_BCMATH=${PHP_WORKER_INSTALL_BCMATH}
           - INSTALL_SOAP=${PHP_WORKER_INSTALL_SOAP}
+          - INSTALL_ZIP_ARCHIVE=${PHP_WORKER_INSTALL_ZIP_ARCHIVE}
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
         - ./php-worker/supervisord.d:/etc/supervisord.d
