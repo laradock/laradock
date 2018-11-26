@@ -16,11 +16,25 @@ RUN apk --update add wget \
   libmemcached-dev \
   libmcrypt-dev \
   libxml2-dev \
+  pcre-dev \
   zlib-dev \
   autoconf \
   cyrus-sasl-dev \
   libgsasl-dev \
   supervisor
+
+# Install Phalcon ext
+ARG INSTALL_PHALCON=false
+ARG PHALCON_VERSION
+ENV PHALCON_VERSION ${PHALCON_VERSION}
+RUN if [ $INSTALL_PHALCON = true ]; then \
+    apk --update add unzip gcc make re2c bash\
+    && curl -L -o /tmp/cphalcon.zip https://github.com/phalcon/cphalcon/archive/v${PHALCON_VERSION}.zip \
+    && unzip -d /tmp/ /tmp/cphalcon.zip \
+    && cd /tmp/cphalcon-${PHALCON_VERSION}/build \
+    && ./install \
+    && rm -rf /tmp/cphalcon* \
+;fi
 
 RUN docker-php-ext-install mysqli mbstring pdo pdo_mysql tokenizer xml pcntl
 RUN pecl channel-update pecl.php.net && pecl install memcached mcrypt-1.0.1 && docker-php-ext-enable memcached

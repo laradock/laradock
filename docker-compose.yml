@@ -184,6 +184,8 @@ services:
           - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL}
           - INSTALL_BCMATH=${PHP_WORKER_INSTALL_BCMATH}
           - INSTALL_SOAP=${PHP_WORKER_INSTALL_SOAP}
+          - PHALCON_VERSION=${PHALCON_VERSION}
+          - INSTALL_PHALCON=${PHP_WORKER_INSTALL_PHALCON}
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
         - ./php-worker/supervisord.d:/etc/supervisord.d
