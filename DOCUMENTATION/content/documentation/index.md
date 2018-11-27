@@ -508,7 +508,7 @@ docker-compose ps
 docker-compose exec workspace bash
 ```
 
-Add `--user=laradock` (example `docker-compose exec --user=laradock workspace bash`) to have files created as your host's user.
+Note: Should add `--user=laradock` (example `docker-compose exec --user=laradock workspace bash`) to have files created as your host's user to prevent issue owner of log file will be changed to root then laravel website cannot write on log file if using rotated log and new log file not existed
 
 
 4 - Run anything you want :)
