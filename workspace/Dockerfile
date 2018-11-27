@@ -937,7 +937,7 @@ RUN composer require \
   drupal/inline_entity_form \
   drupal/libraries \
   drupal/login_destination \
-  drupal/memcache_storage \
+  drupal/memcache \
   drupal/migrate_source_csv \
   drupal/migrate_tools \
   drupal/page_manager \
@@ -1020,11 +1020,12 @@ RUN wget https://www.drupal.org/files/issues/2018-06-04/2872162-field-widget-hoo
 
 #### Module Patch
 # Patch: PHP Fatal error: Declaration of Drupal\ds\Plugin\views\Entity\Render\TranslationLanguageRenderer::getLangcode(Drupal\views\ResultRow $row) must be compatible with XXXXX
-RUN cd modules/contrib/ds && \
-  wget https://www.drupal.org/files/issues/2018-10-20/3008022-1.patch && \
-  git apply -v 3008022-1.patch && \
-  rm 3008022-1.patch
+#RUN cd modules/contrib/ds && \
+#  wget https://www.drupal.org/files/issues/2018-10-20/3008022-1.patch && \
+#  git apply -v 3008022-1.patch && \
+#  rm 3008022-1.patch
 
+COPY settings.local.php /var/www/drupal/sites/default/settings.local.php
 
 # Install Drupal site
 RUN mkdir -p /var/www/drupal/sites/default/files && \
@@ -1040,5 +1041,5 @@ RUN mkdir -p /var/www/private && \
   echo "\$settings['file_private_path'] = '/var/www/private';" >> /var/www/drupal/sites/default/settings.php
 
 # Set default work directory
-WORKDIR /var/www
+WORKDIR /var/www/drupal
 
