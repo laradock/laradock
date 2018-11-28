@@ -939,6 +939,7 @@ RUN composer require \
   drupal/login_destination \
   drupal/memcache \
   drupal/migrate_source_csv \
+  drupal/migrate_source_xls \
   drupal/migrate_tools \
   drupal/page_manager \
   drupal/panelizer \
