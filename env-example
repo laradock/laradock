@@ -207,6 +207,10 @@ MYSQL_ENTRYPOINT_INITDB=./mysql/docker-entrypoint-initdb.d
 
 REDIS_PORT=6379
 
+### ZooKeeper #############################################
+
+ZOOKEEPER_PORT=2181
+
 ### Percona ###############################################
 
 PERCONA_DATABASE=homestead
