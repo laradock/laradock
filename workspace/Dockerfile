@@ -944,6 +944,7 @@ RUN composer require \
   drupal/page_manager \
   drupal/panelizer \
   drupal/panels \
+  drupal/pinyin \
   drupal/quicktabs \
   drupal/reference_table_formatter \
   drupal/rules \
@@ -1019,6 +1020,17 @@ RUN wget https://www.drupal.org/files/issues/2018-06-04/2872162-field-widget-hoo
   git apply 2872162-field-widget-hook-10.patch && \
   rm 2872162-field-widget-hook-10.patch
 
+# Patch: EntityGenerate does not process the values correctly, label.0 issue.
+RUN cd modules/contrib/migrate_plus && \
+    wget https://www.drupal.org/files/issues/2018-10-09/migrate_plus-provide_multiple_values-2975266-14.patch && \
+    git apply migrate_plus-provide_multiple_values-2975266-14.patch && \
+    rm migrate_plus-provide_multiple_values-2975266-14.patch
+
+# Patch: Incompatible declaration of Drupal\migrate\Plugin\migrate\source\SqlBase::count()
+RUN cd modules/contrib/migrate_source_xls && \
+    wget https://www.drupal.org/files/issues/2018-10-09/3005241.patch && \
+    git apply -v 3005241.patch && \
+    rm 3005241.patch
 #### Module Patch
 # Patch: PHP Fatal error: Declaration of Drupal\ds\Plugin\views\Entity\Render\TranslationLanguageRenderer::getLangcode(Drupal\views\ResultRow $row) must be compatible with XXXXX
 #RUN cd modules/contrib/ds && \
