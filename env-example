@@ -50,7 +50,8 @@ PHP_INTERPRETER=php-fpm
 ### Docker Host IP ########################################
 
 # Enter your Docker Host IP (will be appended to /etc/hosts). Default is `10.0.75.1`
-DOCKER_HOST_IP=10.0.75.1
+#DOCKER_HOST_IP=10.0.75.1
+DOCKER_HOST_IP=172.16.3.2
 
 ### Remote Interpreter ####################################
 
