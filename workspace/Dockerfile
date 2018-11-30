@@ -924,7 +924,6 @@ RUN composer require \
   drupal/custom_formatters \
   drush/drush \
   drupal/drush_language \
-  drupal/ds \
   drupal/default_content \
   drupal/devel \
   drupal/entity_print \
