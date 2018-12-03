@@ -961,6 +961,7 @@ RUN composer require \
   drupal/field_group \
   drupal/field_widget_class \
   drupal/inline_entity_form \
+  drupal/languageicons \
   drupal/libraries \
   drupal/login_destination \
   drupal/memcache \
