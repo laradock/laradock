@@ -940,6 +940,7 @@ RUN composer require \
   drupal/bootstrap_barrio \
   drupal/bootstrap_layouts \
   drupal/bootstrap_library \
+	drupal/coffee \
   drupal/commerce \
   drupal/commerce_recurring \
   drupal/commerce_alipay \
