@@ -965,6 +965,9 @@ RUN composer require \
   drupal/languageicons \
   drupal/libraries \
   drupal/login_destination \
+	drupal/message \
+	drupal/message_notify \
+	drupal/message_subscribe \
   drupal/memcache \
   drupal/migrate_source_csv \
   drupal/migrate_source_xls \
