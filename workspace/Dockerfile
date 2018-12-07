@@ -183,7 +183,7 @@ USER root
 ARG INSTALL_ZIP=false
 
 RUN if [ ${INSTALL_ZIP} = true ]; then \
-  # Install the PHP SSH2 extension
+  # Install the PHP ZIP extension
   apt-get -y install zip unzip \
 ;fi
 
