@@ -392,15 +392,6 @@ RUN if [ ${INSTALL_MYSQLI} = true ]; then \
     docker-php-ext-install mysqli \
 ;fi
 
-###########################################################################
-# Tokenizer Modifications:
-###########################################################################
-
-ARG INSTALL_TOKENIZER=false
-
-RUN if [ ${INSTALL_TOKENIZER} = true ]; then \
-    docker-php-ext-install tokenizer \
-;fi
 
 ###########################################################################
 # Human Language and Character Encoding Support:
@@ -557,6 +548,19 @@ ARG INSTALL_APCU=false
 RUN if [ ${INSTALL_APCU} = true ]; then \
     pecl install apcu && \
     docker-php-ext-enable apcu \
+
+###########################################################################
+# YAML:
+###########################################################################
+
+USER root
+
+ARG INSTALL_YAML=false
+
+RUN if [ ${INSTALL_YAML} = true ]; then \
+    apt-get install libyaml-dev -y ; \
+    pecl install yaml ; \
+    docker-php-ext-enable yaml \
 ;fi
 
 ###########################################################################

@@ -68,7 +68,7 @@ alias fresh="php artisan migrate:fresh"
 alias migrate="php artisan migrate"
 alias refresh="php artisan migrate:refresh"
 alias rollback="php artisan migrate:rollback"
-alias seed="php artisan:seed"
+alias seed="php artisan db:seed"
 alias serve="php artisan serve --quiet &"
 
 alias phpunit="./vendor/bin/phpunit"
