@@ -12,7 +12,7 @@ if [ -d ../drupal.old ]; then
   sudo rm -rf ../drupal.old
 fi
 if [ -d ../drupal ]; then
-  mv ../drupal ../drupal.old
+  sudo mv ../drupal ../drupal.old
 fi
 sudo docker cp laradock_workspace_1:/var/www/drupal ../drupal
 docker stop laradock_workspace_1
