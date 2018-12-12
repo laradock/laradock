@@ -39,6 +39,8 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   elasticsearch:
     driver: ${VOLUMES_DRIVER}
+  mosquitto:
+    driver: ${VOLUMES_DRIVER}
 
 services:
 
@@ -1292,3 +1294,15 @@ services:
         backend:
           aliases:
             - fetchmail
+
+### MOSQUITTO Broker #########################################
+    mosquitto:
+      build:
+        context: ./mosquitto
+      volumes:
+        - ${DATA_PATH_HOST}/mosquitto/data:/mosquitto/data
+      ports:
+        - "${MOSQUITTO_PORT}:9001"
+      networks:
+        - frontend
+        - backend
