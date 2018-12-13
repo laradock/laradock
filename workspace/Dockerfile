@@ -1008,6 +1008,13 @@ RUN wget https://www.drupal.org/files/issues/2855068-8_0.patch && \
   git apply 2855068-8_0.patch && \
   rm 2855068-8_0.patch
 
+# Patch: Allow row header for views-view-table.html.twig
+# Add support for tables with two headers in views table display
+# Reference by: https://www.drupal.org/project/drupal/issues/2770835
+RUN wget https://www.drupal.org/files/issues/2018-04-10/2770835-63.patch && \
+  git apply 2770835-63.patch && \
+  rm 2770835-63.patch
+
 # Patch: Allow updating modules with new service dependencies
 # https://www.drupal.org/project/drupal/issues/2863986
 #RUN wget https://www.drupal.org/files/issues/2863986-2-49.patch && \
@@ -1034,9 +1041,12 @@ RUN wget https://www.drupal.org/files/issues/2940015-block-contextual-link-2.pat
 #  rm php_condition_check_empty-2678430-13.patch
 
 RUN cd modules/contrib/login_destination && \
-  wget https://www.drupal.org/files/issues/2018-04-19/login_destination-set-options-on-null-error-2947616-21.patch && \
-  git apply login_destination-set-options-on-null-error-2947616-21.patch && \
-  rm login_destination-set-options-on-null-error-2947616-21.patch
+    git init && \
+    git add  . && \
+    git commit -m 'fix' && \
+    wget https://www.drupal.org/files/issues/2018-04-19/login_destination-set-options-on-null-error-2947616-21.patch && \
+    git apply login_destination-set-options-on-null-error-2947616-21.patch && \
+    rm login_destination-set-options-on-null-error-2947616-21.patch
 # Install charts
 #RUN composer require drupal/charts && \
 #  /usr/bin/cd modules/contrib/charts/modules/charts_c3 && \
@@ -1053,12 +1063,18 @@ RUN wget https://www.drupal.org/files/issues/2018-06-04/2872162-field-widget-hoo
 
 # Patch: EntityGenerate does not process the values correctly, label.0 issue.
 RUN cd modules/contrib/migrate_plus && \
+    git init && \
+    git add  . && \
+    git commit -m 'fix' && \
     wget https://www.drupal.org/files/issues/2018-10-09/migrate_plus-provide_multiple_values-2975266-14.patch && \
     git apply migrate_plus-provide_multiple_values-2975266-14.patch && \
     rm migrate_plus-provide_multiple_values-2975266-14.patch
 
 # Patch: Incompatible declaration of Drupal\migrate\Plugin\migrate\source\SqlBase::count()
 RUN cd modules/contrib/migrate_source_xls && \
+    git init && \
+    git add  . && \
+    git commit -m 'fix' && \
     wget https://www.drupal.org/files/issues/2018-10-09/3005241.patch && \
     git apply -v 3005241.patch && \
     rm 3005241.patch
