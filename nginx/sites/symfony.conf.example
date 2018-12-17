@@ -1,7 +1,11 @@
 server {
 
     listen 80;
+    listen 443 ssl;
     listen [::]:80;
+
+    ssl_certificate     /etc/nginx/ssl/laratest.local.crt;
+    ssl_certificate_key /etc/nginx/ssl/laratest.local.key;
 
     server_name symfony.test;
     root /var/www/projects/symfony/web;
@@ -29,6 +33,16 @@ server {
         #fixes timeouts
         fastcgi_read_timeout 600;
         fastcgi_param HTTPS off;
+    }
+
+    location /.well-known/acme-challenge/ {
+        root /var/www/letsencrypt/;
+        log_not_found off;
+    }
+
+
+    location ~ /\.ht {
+        deny all;
     }
 
     error_log /var/log/nginx/symfony_error.log;

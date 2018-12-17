@@ -25,4 +25,8 @@
 #CREATE DATABASE IF NOT EXISTS `dev_db_3` COLLATE 'utf8_general_ci' ;
 #GRANT ALL ON `dev_db_3`.* TO 'default'@'%' ;
 
+CREATE DATABASE IF NOT EXISTS `twojKalendarz` ;
+GRANT ALL ON `twojKalendarz`.* TO 'tk_mNnzPVTf4A24'@'%' ;
+ALTER USER 'tk_mNnzPVTf4A24'@'%' IDENTIFIED BY '5CmvjAc869Zt';
+
 FLUSH PRIVILEGES ;

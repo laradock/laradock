@@ -1,17 +1,16 @@
 server {
 
-    listen 80 default_server;
-    listen [::]:80 default_server ipv6only=on;
+    listen 80;
+    listen 443 ssl;
+    listen [::]:80;
 
-    # For https
-    # listen 443 ssl default_server;
-    # listen [::]:443 ssl default_server ipv6only=on;
-    # ssl_certificate /etc/nginx/ssl/default.crt;
-    # ssl_certificate_key /etc/nginx/ssl/default.key;
+    ssl_certificate     /etc/nginx/ssl/twojkalendarz.local.crt;
+    ssl_certificate_key /etc/nginx/ssl/twojkalendarz.local.key;
 
-    server_name localhost;
+    server_name app.twojkalendarz.pl;
     root /var/www/public;
     index index.php index.html index.htm;
+
 
     location / {
          try_files $uri $uri/ /index.php$is_args$args;
