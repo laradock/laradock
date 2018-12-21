@@ -1,0 +1,25 @@
+[program:twojkalendarz-default]
+process_name=%(program_name)s_%(process_num)02d
+command=php /var/www/artisan queue:work --queue=default --sleep=3 --tries=3 --daemon
+autostart=true
+autorestart=true
+numprocs=2
+redirect_stderr=true
+
+[program:twojkalendarz-email]
+process_name=%(program_name)s_%(process_num)02d
+command=php /var/www/artisan queue:work --queue=email --sleep=3 --tries=3 --daemon
+autostart=true
+autorestart=true
+numprocs=4
+redirect_stderr=true
+
+
+[program:twojkalendarz-sms]
+process_name=%(program_name)s_%(process_num)02d
+command=php /var/www/artisan queue:work --queue=sms --sleep=3 --tries=1 --daemon
+autostart=true
+autorestart=true
+numprocs=4
+redirect_stderr=true
+
