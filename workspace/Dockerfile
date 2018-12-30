@@ -914,9 +914,9 @@ ENV COMPOSER_PROCESS_TIMEOUT 1200
 ######################################################
 # Install Drupal
 ######################################################
-RUN git clone -b 8.7.x https://github.com/drupal/drupal.git /var/www/drupal
-
+RUN git clone -b 8.7.x https://git.drupal.org/project/drupal.git /var/www/drupal
 ###########################################################################
+
 # Add Project ISP
 ###########################################################################
 RUN git clone https://github.com/for0231/isp.git /var/www/drupal/modules/isp
@@ -940,6 +940,7 @@ RUN composer require \
   drupal/bootstrap_barrio \
   drupal/bootstrap_layouts \
   drupal/bootstrap_library \
+  drupal/charts \
 	drupal/coffee \
   drupal/commerce \
   drupal/commerce_recurring \
@@ -960,7 +961,7 @@ RUN composer require \
   drupal/features \
   drupal/field_formatter_class \
   drupal/field_group \
-  drupal/field_widget_class \
+#  drupal/field_widget_class \
   drupal/inline_entity_form \
   drupal/languageicons \
   drupal/libraries \
@@ -1002,17 +1003,23 @@ RUN apt-get clean && \
 #  git apply 2174633-143-entity-reference.patch && \
 #  rm 2174633-143-entity-reference.patch
 
+# Patch: TypeError: Argument 1 passed to _editor_get_file_uuids_by_field()
+# https://www.drupal.org/project/drupal/issues/2974156
+RUN wget https://www.drupal.org/files/issues/2018-11-08/2974156-editor-typeerror-9.patch && \
+  git apply -v 2974156-editor-typeerror-9.patch && \
+  rm 2974156-editor-typeerror-9.patch
+
 # Patch: Can't create comments when comment is a base field
 # https://www.drupal.org/project/drupal/issues/2855068
 RUN wget https://www.drupal.org/files/issues/2855068-8_0.patch && \
-  git apply 2855068-8_0.patch && \
+  git apply -v 2855068-8_0.patch && \
   rm 2855068-8_0.patch
 
 # Patch: Allow row header for views-view-table.html.twig
 # Add support for tables with two headers in views table display
 # Reference by: https://www.drupal.org/project/drupal/issues/2770835
 RUN wget https://www.drupal.org/files/issues/2018-04-10/2770835-63.patch && \
-  git apply 2770835-63.patch && \
+  git apply -v 2770835-63.patch && \
   rm 2770835-63.patch
 
 # Patch: Allow updating modules with new service dependencies
@@ -1029,9 +1036,9 @@ RUN wget https://www.drupal.org/files/issues/2018-04-10/2770835-63.patch && \
 
 # Patch: Enable block contextual link
 # https://www.drupal.org/project/drupal/issues/2940015
-RUN wget https://www.drupal.org/files/issues/2940015-block-contextual-link-2.patch && \
-  git apply 2940015-block-contextual-link-2.patch && \
-  rm 2940015-block-contextual-link-2.patch
+#RUN wget https://www.drupal.org/files/issues/2940015-block-contextual-link-2.patch && \
+#  git apply 2940015-block-contextual-link-2.patch && \
+#  rm 2940015-block-contextual-link-2.patch
 
 # If PHP filter is empty, module should return TRUE and not execute code
 # https://www.drupal.org/project/php/issues/2678430
@@ -1040,13 +1047,13 @@ RUN wget https://www.drupal.org/files/issues/2940015-block-contextual-link-2.pat
 #  patch -p1 < php_condition_check_empty-2678430-13.patch && \
 #  rm php_condition_check_empty-2678430-13.patch
 
-RUN cd modules/contrib/login_destination && \
-    git init && \
-    git add  . && \
-    git commit -m 'fix' && \
-    wget https://www.drupal.org/files/issues/2018-04-19/login_destination-set-options-on-null-error-2947616-21.patch && \
-    git apply login_destination-set-options-on-null-error-2947616-21.patch && \
-    rm login_destination-set-options-on-null-error-2947616-21.patch
+#RUN cd modules/contrib/login_destination && \
+#    git init && \
+#    git add  . && \
+#    git commit -m 'fix' && \
+#    wget https://www.drupal.org/files/issues/2018-04-19/login_destination-set-options-on-null-error-2947616-21.patch && \
+#    git apply login_destination-set-options-on-null-error-2947616-21.patch && \
+#    rm login_destination-set-options-on-null-error-2947616-21.patch
 # Install charts
 #RUN composer require drupal/charts && \
 #  /usr/bin/cd modules/contrib/charts/modules/charts_c3 && \
@@ -1055,29 +1062,29 @@ RUN cd modules/contrib/login_destination && \
 # Install field_widget_class
 # field_widget_class may be add business_core module
 # use the command to remove drupal/business_core module
-RUN composer remove drupal/field_widget_class
+#RUN composer remove drupal/field_widget_class
 # Patch: No hook alter to override Field Widget wrappers created by WidgetBase::form
-RUN wget https://www.drupal.org/files/issues/2018-06-04/2872162-field-widget-hook-10.patch && \
-  git apply 2872162-field-widget-hook-10.patch && \
-  rm 2872162-field-widget-hook-10.patch
+#RUN wget https://www.drupal.org/files/issues/2018-06-04/2872162-field-widget-hook-10.patch && \
+#  git apply 2872162-field-widget-hook-10.patch && \
+#  rm 2872162-field-widget-hook-10.patch
 
 # Patch: EntityGenerate does not process the values correctly, label.0 issue.
-RUN cd modules/contrib/migrate_plus && \
-    git init && \
-    git add  . && \
-    git commit -m 'fix' && \
-    wget https://www.drupal.org/files/issues/2018-10-09/migrate_plus-provide_multiple_values-2975266-14.patch && \
-    git apply migrate_plus-provide_multiple_values-2975266-14.patch && \
-    rm migrate_plus-provide_multiple_values-2975266-14.patch
+#RUN cd modules/contrib/migrate_plus && \
+#    git init && \
+#    git add  . && \
+#    git commit -m 'fix' && \
+#    wget https://www.drupal.org/files/issues/2018-10-09/migrate_plus-provide_multiple_values-2975266-14.patch && \
+#    git apply migrate_plus-provide_multiple_values-2975266-14.patch && \
+#    rm migrate_plus-provide_multiple_values-2975266-14.patch
 
 # Patch: Incompatible declaration of Drupal\migrate\Plugin\migrate\source\SqlBase::count()
-RUN cd modules/contrib/migrate_source_xls && \
-    git init && \
-    git add  . && \
-    git commit -m 'fix' && \
-    wget https://www.drupal.org/files/issues/2018-10-09/3005241.patch && \
-    git apply -v 3005241.patch && \
-    rm 3005241.patch
+#RUN cd modules/contrib/migrate_source_xls && \
+#    git init && \
+#    git add  . && \
+#    git commit -m 'fix' && \
+#    wget https://www.drupal.org/files/issues/2018-10-09/3005241.patch && \
+#    git apply -v 3005241.patch && \
+#    rm 3005241.patch
 #### Module Patch
 # Patch: PHP Fatal error: Declaration of Drupal\ds\Plugin\views\Entity\Render\TranslationLanguageRenderer::getLangcode(Drupal\views\ResultRow $row) must be compatible with XXXXX
 #RUN cd modules/contrib/ds && \
