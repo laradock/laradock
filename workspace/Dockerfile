@@ -674,6 +674,8 @@ RUN if [ ${INSTALL_LINUXBREW} = true ]; then \
       gettext libtool flex bison \
       libbz2-dev libcurl4-openssl-dev \
       libexpat-dev libncurses-dev && \
+    git config --global user.email "git@local.host" && \
+    git config --global user.name "git" && \
     # Install the Linuxbrew
     git clone --depth=1 https://github.com/Homebrew/linuxbrew.git ~/.linuxbrew && \
     echo "" >> ~/.bashrc && \
@@ -1025,13 +1027,13 @@ RUN wget https://www.drupal.org/files/issues/2018-04-10/2770835-63.patch && \
 # Patch: Allow updating modules with new service dependencies
 # https://www.drupal.org/project/drupal/issues/2863986
 #RUN wget https://www.drupal.org/files/issues/2863986-2-49.patch && \
-#  git apply 2863986-2-49.patch && \
+#  git apply -v 2863986-2-49.patch && \
 #  rm 2863986-2-49.patch
 
 # Patch: Allow blocks to be added to entity displays in Field UI
 # https://www.drupal.org/project/drupal/issues/2878685
 #RUN wget https://www.drupal.org/files/issues/2878685-block-field_ui-36.patch && \
-#  git apply 2878685-block-field_ui-36.patch && \
+#  git apply -v 2878685-block-field_ui-36.patch && \
 #  rm 2878685-block-field_ui-36.patch
 
 # Patch: Enable block contextual link
@@ -1047,13 +1049,13 @@ RUN wget https://www.drupal.org/files/issues/2018-04-10/2770835-63.patch && \
 #  patch -p1 < php_condition_check_empty-2678430-13.patch && \
 #  rm php_condition_check_empty-2678430-13.patch
 
-#RUN cd modules/contrib/login_destination && \
+RUN cd modules/contrib/login_destination && \
 #    git init && \
 #    git add  . && \
 #    git commit -m 'fix' && \
-#    wget https://www.drupal.org/files/issues/2018-04-19/login_destination-set-options-on-null-error-2947616-21.patch && \
-#    git apply login_destination-set-options-on-null-error-2947616-21.patch && \
-#    rm login_destination-set-options-on-null-error-2947616-21.patch
+    wget https://www.drupal.org/files/issues/2018-04-19/login_destination-set-options-on-null-error-2947616-21.patch && \
+    git apply -v login_destination-set-options-on-null-error-2947616-21.patch && \
+    rm login_destination-set-options-on-null-error-2947616-21.patch
 # Install charts
 #RUN composer require drupal/charts && \
 #  /usr/bin/cd modules/contrib/charts/modules/charts_c3 && \
@@ -1069,22 +1071,29 @@ RUN wget https://www.drupal.org/files/issues/2018-04-10/2770835-63.patch && \
 #  rm 2872162-field-widget-hook-10.patch
 
 # Patch: EntityGenerate does not process the values correctly, label.0 issue.
-#RUN cd modules/contrib/migrate_plus && \
+RUN cd modules/contrib/migrate_plus && \
 #    git init && \
 #    git add  . && \
 #    git commit -m 'fix' && \
-#    wget https://www.drupal.org/files/issues/2018-10-09/migrate_plus-provide_multiple_values-2975266-14.patch && \
-#    git apply migrate_plus-provide_multiple_values-2975266-14.patch && \
-#    rm migrate_plus-provide_multiple_values-2975266-14.patch
+    wget https://www.drupal.org/files/issues/2018-10-09/migrate_plus-provide_multiple_values-2975266-14.patch && \
+    git apply -v migrate_plus-provide_multiple_values-2975266-14.patch && \
+    rm migrate_plus-provide_multiple_values-2975266-14.patch && \
+    wget https://www.drupal.org/files/issues/2018-12-31/2975275-configEntity-3.patch && \
+    git apply -v 2975275-configEntity-3.patch && \
+    rm 2975275-configEntity-3.patch
 
 # Patch: Incompatible declaration of Drupal\migrate\Plugin\migrate\source\SqlBase::count()
-#RUN cd modules/contrib/migrate_source_xls && \
-#    git init && \
-#    git add  . && \
-#    git commit -m 'fix' && \
-#    wget https://www.drupal.org/files/issues/2018-10-09/3005241.patch && \
-#    git apply -v 3005241.patch && \
-#    rm 3005241.patch
+RUN cd modules/contrib/migrate_source_xls && \
+    wget https://www.drupal.org/files/issues/2018-10-09/3005241.patch && \
+    git apply -v 3005241.patch && \
+    rm 3005241.patch
+
+# Patch: The configuration property label.0 doesn't exist
+RUN cd modules/contrib/migrate_source_xls && \
+    wget https://www.drupal.org/files/issues/2018-08-22/2933306-config_entity-4.patch && \
+    git apply -v 2933306-config_entity-4.patch && \
+    rm 2933306-config_entity-4.patch
+
 #### Module Patch
 # Patch: PHP Fatal error: Declaration of Drupal\ds\Plugin\views\Entity\Render\TranslationLanguageRenderer::getLangcode(Drupal\views\ResultRow $row) must be compatible with XXXXX
 #RUN cd modules/contrib/ds && \
@@ -1105,7 +1114,10 @@ RUN mkdir -p /var/www/drupal/sites/default/files && \
 
 RUN mkdir -p /var/www/private && \
   chown -R root:root /var/www/private && \
-  echo "\$settings['file_private_path'] = '/var/www/private';" >> /var/www/drupal/sites/default/settings.php
+  echo "\$settings['file_private_path'] = '/Users/nie/tmp';" >> /var/www/drupal/sites/default/settings.php
+
+RUN cd /var/www/drupal/modules/isp/themes/smart && \
+  yarn install
 
 # Set default work directory
 WORKDIR /var/www/drupal
