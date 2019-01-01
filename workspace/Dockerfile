@@ -967,6 +967,7 @@ RUN composer require \
   drupal/inline_entity_form \
   drupal/languageicons \
   drupal/libraries \
+  drupal/ludwig \
   drupal/login_destination \
 	drupal/message \
 	drupal/message_notify \
