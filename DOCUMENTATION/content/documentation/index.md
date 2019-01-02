@@ -532,30 +532,37 @@ phpunit
 <a name="Run-Laravel-Queue-Worker"></a>
 ## Run Laravel Queue Worker
 
-1 - First add `php-worker` container. It will be similar as like PHP-FPM Container.
-<br>
-a) open the `docker-compose.yml` file
-<br>
-b) add a new service container by simply copy-paste this section below PHP-FPM container
+1 - Create supervisor configuration file (for ex., named `laravel-worker.conf`) for Laravel Queue Worker in `php-worker/supervisord.d/` by simply copy from `laravel-worker.conf.example`
 
-```yaml
-    php-worker:
-      build:
-        context: ./php-worker
-        args:
-          - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL} #Optionally install PGSQL PHP drivers
-          - INSTALL_BCMATH=${PHP_WORKER_INSTALL_BCMATH} #Optionally install BCMath php package
-          - INSTALL_SOAP=${PHP_WORKER_INSTALL_SOAP} #Optionally install Soap php package
-      volumes_from:
-        - applications
-      depends_on:
-        - workspace
-      extra_hosts:
-        - "dockerhost:${DOCKER_HOST_IP}"
-      networks:
-        - backend
-```
 2 - Start everything up
+
+```bash
+docker-compose up -d php-worker
+```
+
+
+
+
+
+
+<br>
+<a name="Run-Laravel-Scheduler"></a>
+## Run Laravel Scheduler
+
+Laradock provides 2 ways to run Laravel Scheduler
+1 - Using cron in workspace container. Most of the time, when you start Laradock, it'll automatically start workspace container with cron inside, along with setting to run `schedule:run` command every minute.
+
+2 - Using Supervisord in php-worker to run `schedule:run`. This way is suggested when you don't want to start workspace in production environment.
+<br>
+a) Comment out cron setting in workspace container, file `workspace/crontab/laradock`
+
+```bash
+# * * * * * laradock /usr/bin/php /var/www/artisan schedule:run >> /dev/null 2>&1
+```
+<br>
+b) Create supervisor configuration file (for ex., named `laravel-scheduler.conf`) for Laravel Scheduler in `php-worker/supervisord.d/` by simply copy from `laravel-scheduler.conf.example`
+<br>
+c) Start php-worker container
 
 ```bash
 docker-compose up -d php-worker
@@ -1198,7 +1205,7 @@ We also recommend [setting the timezone in Laravel](http://www.camroncade.com/ma
 You can add your cron jobs to `workspace/crontab/root` after the `php artisan` line.
 
 ```
-* * * * * php /var/www/artisan schedule:run >> /dev/null 2>&1
+* * * * * laradock /usr/bin/php /var/www/artisan schedule:run >> /dev/null 2>&1
 
 # Custom cron
 * * * * * root echo "Every Minute" > /var/log/cron.log 2>&1
