@@ -1115,6 +1115,82 @@ docker-compose up -d grafana
 
 
 <br>
+<a name="Use-Traefik"></a>
+## Use Traefik
+
+To use Traefik you need to do some changes in `traefik/trafik.toml` and `docker-compose.yml`.
+
+1 - Open `traefik.toml` and change the `e-mail` property in `acme` section.
+
+2 - Change your domain in `acme.domains`. For example: `main = "example.org"`
+
+2.1 - If you have subdomains, you must add them to `sans` property in `acme.domains` section.
+
+```bash
+[[acme.domais]]
+  main = "example.org"
+  sans = ["monitor.example.org", "pma.example.org"]
+```
+
+3 - If you need to add basic authentication (https://docs.traefik.io/configuration/entrypoints/#basic-authentication), you just need to add the following text after `[entryPoints.https.tls]`:
+
+```bash
+[entryPoints.https.auth.basic]
+  users = ["user:password"]
+```
+
+4 - You need to change the `docker-compose.yml` file to match the Traefik needs. If you want to use Traefik, you must not expose the ports of each container to the internet, but specify some labels.
+
+4.1 For example, let's try with NGINX. You must have:
+
+```bash
+nginx:
+  build:
+    context: ./nginx
+    args:
+      - PHP_UPSTREAM_CONTAINER=${NGINX_PHP_UPSTREAM_CONTAINER}
+      - PHP_UPSTREAM_PORT=${NGINX_PHP_UPSTREAM_PORT}
+      - CHANGE_SOURCE=${CHANGE_SOURCE}
+  volumes:
+    - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+    - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
+    - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
+  depends_on:
+    - php-fpm
+  networks:
+    - frontend
+    - backend
+  labels:
+    - traefik.backend=nginx
+    - traefik.frontend.rule=Host:example.org
+    - traefik.port=80
+```
+
+instead of
+
+```bash
+nginx:
+  build:
+    context: ./nginx
+    args:
+      - PHP_UPSTREAM_CONTAINER=${NGINX_PHP_UPSTREAM_CONTAINER}
+      - PHP_UPSTREAM_PORT=${NGINX_PHP_UPSTREAM_PORT}
+      - CHANGE_SOURCE=${CHANGE_SOURCE}
+  volumes:
+    - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+    - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
+    - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
+    - ${NGINX_SSL_PATH}:/etc/nginx/ssl
+  ports:
+    - "${NGINX_HOST_HTTP_PORT}:80"
+    - "${NGINX_HOST_HTTPS_PORT}:443"
+  depends_on:
+    - php-fpm
+  networks:
+    - frontend
+    - backend
+```
+
 <a name="Use-Mosquitto"></a>
 ## Use Mosquitto (MQTT Broker)
 
@@ -1131,7 +1207,6 @@ docker-compose up -d mosquitto
 4 - Subscribe: `mqtt sub -t 'test' -h localhost -p 9001 -C 'ws' -v`
 
 5 - Publish: `mqtt pub -t 'test' -h localhost -p 9001 -C 'ws' -m 'Hello!'`
-
 
 
 
