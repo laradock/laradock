@@ -4,4 +4,11 @@ command=php /var/www/artisan queue:work --sleep=3 --tries=3 --daemon
 autostart=true
 autorestart=true
 numprocs=8
+user=root
 redirect_stderr=true
+stdout_events_enabled=true
+stdout_logfile=/dev/stdout
+stdout_logfile_maxbytes=0
+stderr_events_enabled=true
+stderr_logfile=/dev/stderr
+stderr_logfile_maxbytes=0
