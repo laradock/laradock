@@ -53,6 +53,15 @@ RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
     docker-php-ext-install zip \
 ;fi
 
+# Install Redis drivers
+ARG INSTALL_PHPREDIS=false
+RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
+    # Install Php Redis Extension
+    printf "\n" | pecl install -o -f redis \
+    &&  rm -rf /tmp/pear \
+    &&  docker-php-ext-enable redis \
+;fi
+
 RUN rm /var/cache/apk/* \
     && mkdir -p /var/www
 
