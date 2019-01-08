@@ -194,11 +194,11 @@ RUN if [ ${INSTALL_SSH2} = true ]; then \
 USER root
 
 ARG INSTALL_GMP=false
-ARG PHP_VERSION=${PHP_VERSION}
+ARG PHP_VERSION=${LARADOCK_PHP_VERSION}
 
 RUN if [ ${INSTALL_GMP} = true ]; then \
   # Install the PHP GMP extension
-  apt-get -y install php${PHP_VERSION}-gmp \
+  apt-get -y install php${LARADOCK_PHP_VERSION}-gmp \
 ;fi
 
 ###########################################################################

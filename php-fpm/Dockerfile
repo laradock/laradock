@@ -224,7 +224,9 @@ RUN if [ ${INSTALL_AMQP} = true ]; then \
     apt-get install librabbitmq-dev -y && \
     # Install the amqp extension
     pecl install amqp && \
-    docker-php-ext-enable amqp \
+    docker-php-ext-enable amqp && \
+    # Install the sockets extension
+    docker-php-ext-install sockets \
 ;fi
 
 ###########################################################################
@@ -538,6 +540,16 @@ RUN if [ $INSTALL_PHALCON = true ]; then \
     && ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/phalcon.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/30-phalcon.ini \
     && rm -rf /tmp/cphalcon* \
 ;fi
+
+###########################################################################
+# APCU:
+###########################################################################
+
+ARG INSTALL_APCU=false
+
+RUN if [ ${INSTALL_APCU} = true ]; then \
+    pecl install apcu && \
+    docker-php-ext-enable apcu \
 
 ###########################################################################
 # YAML:
