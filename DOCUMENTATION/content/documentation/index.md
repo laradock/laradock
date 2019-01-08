@@ -1122,6 +1122,30 @@ docker-compose up -d grafana
 
 
 <br>
+<a name="Use-Mosquitto"></a>
+## Use Mosquitto (MQTT Broker)
+
+1 - Configure Mosquitto: Change Port using `MOSQUITTO_PORT` if you wish to. Default is port 9001.
+
+2 - Run the Mosquitto Container (`mosquitto`) with the `docker-compose up`command:
+
+```bash
+docker-compose up -d mosquitto
+```
+
+3 - Open your command line and use a MQTT Client (Eg. https://github.com/mqttjs/MQTT.js) to subscribe a topic and publish a message.
+
+4 - Subscribe: `mqtt sub -t 'test' -h localhost -p 9001 -C 'ws' -v`
+
+5 - Publish: `mqtt pub -t 'test' -h localhost -p 9001 -C 'ws' -m 'Hello!'`
+
+
+
+
+
+
+
+<br>
 <a name="CodeIgniter"></a>
 
 
