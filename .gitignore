@@ -5,3 +5,6 @@
 /.project
 .docker-sync
 /jenkins/jenkins_home
+/nginx/ssl/*.crt
+/nginx/ssl/*.key
+/nginx/ssl/*.csr
