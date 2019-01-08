@@ -550,6 +550,7 @@ ARG INSTALL_APCU=false
 RUN if [ ${INSTALL_APCU} = true ]; then \
     pecl install apcu && \
     docker-php-ext-enable apcu \
+;fi
 
 ###########################################################################
 # YAML:
