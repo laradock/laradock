@@ -224,7 +224,9 @@ RUN if [ ${INSTALL_AMQP} = true ]; then \
     apt-get install librabbitmq-dev -y && \
     # Install the amqp extension
     pecl install amqp && \
-    docker-php-ext-enable amqp \
+    docker-php-ext-enable amqp && \
+    # Install the sockets extension
+    docker-php-ext-install sockets \
 ;fi
 
 ###########################################################################
