@@ -6,5 +6,3 @@ VOLUME /data
 VOLUME /datalog
 
 EXPOSE 2181
-
-CMD ["zookeeper"]
