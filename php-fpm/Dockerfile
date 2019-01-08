@@ -491,7 +491,7 @@ USER root
 ARG INSTALL_IMAGEMAGICK=false
 
 RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
-    apt-get install -y libmagickwand-dev imagemagick && \
+    apt-get update && apt-get install -y libmagickwand-dev imagemagick && \
     pecl install imagick && \
     docker-php-ext-enable imagick \
 ;fi
@@ -550,6 +550,7 @@ ARG INSTALL_APCU=false
 RUN if [ ${INSTALL_APCU} = true ]; then \
     pecl install apcu && \
     docker-php-ext-enable apcu \
+;fi
 
 ###########################################################################
 # YAML:
