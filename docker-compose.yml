@@ -189,6 +189,8 @@ services:
           - INSTALL_BCMATH=${PHP_WORKER_INSTALL_BCMATH}
           - INSTALL_SOAP=${PHP_WORKER_INSTALL_SOAP}
           - INSTALL_ZIP_ARCHIVE=${PHP_WORKER_INSTALL_ZIP_ARCHIVE}
+          - PUID=${PHP_WORKER_PUID}
+          - PGID=${PHP_WORKER_PGID}
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
         - ./php-worker/supervisord.d:/etc/supervisord.d
