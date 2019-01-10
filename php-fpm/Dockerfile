@@ -224,7 +224,9 @@ RUN if [ ${INSTALL_AMQP} = true ]; then \
     apt-get install librabbitmq-dev -y && \
     # Install the amqp extension
     pecl install amqp && \
-    docker-php-ext-enable amqp \
+    docker-php-ext-enable amqp && \
+    # Install the sockets extension
+    docker-php-ext-install sockets \
 ;fi
 
 ###########################################################################
@@ -392,15 +394,6 @@ RUN if [ ${INSTALL_MYSQLI} = true ]; then \
     docker-php-ext-install mysqli \
 ;fi
 
-###########################################################################
-# Tokenizer Modifications:
-###########################################################################
-
-ARG INSTALL_TOKENIZER=false
-
-RUN if [ ${INSTALL_TOKENIZER} = true ]; then \
-    docker-php-ext-install tokenizer \
-;fi
 
 ###########################################################################
 # Human Language and Character Encoding Support:
@@ -548,6 +541,31 @@ RUN if [ $INSTALL_PHALCON = true ]; then \
 
 # Copy phalcon configration
 COPY ./phalcon.ini /usr/local/etc/php/conf.d/phalcon.ini
+
+###########################################################################
+# APCU:
+###########################################################################
+
+ARG INSTALL_APCU=false
+
+RUN if [ ${INSTALL_APCU} = true ]; then \
+    pecl install apcu && \
+    docker-php-ext-enable apcu \
+;fi
+
+###########################################################################
+# YAML:
+###########################################################################
+
+USER root
+
+ARG INSTALL_YAML=false
+
+RUN if [ ${INSTALL_YAML} = true ]; then \
+    apt-get install libyaml-dev -y ; \
+    pecl install yaml ; \
+    docker-php-ext-enable yaml \
+;fi
 
 ###########################################################################
 # Check PHP version:

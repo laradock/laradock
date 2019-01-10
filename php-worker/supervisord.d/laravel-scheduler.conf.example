@@ -1,0 +1,8 @@
+[program:laravel-scheduler]
+process_name=%(program_name)s_%(process_num)02d
+command=/bin/sh -c "while [ true ]; do (php /var/www/artisan schedule:run --verbose --no-interaction &); sleep 60; done"
+autostart=true
+autorestart=true
+numprocs=1
+user=laradock
+redirect_stderr=true
