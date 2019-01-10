@@ -1322,3 +1322,18 @@ services:
       networks:
         - frontend
         - backend
+
+### Sphinx Search engine ####################################
+    sphinxsearch:
+      build: ./sphinxsearch
+      ports:
+      - "${SPHINX_SEARCH_PORT}:36307"
+      - "${SPHINX_SEARCH_PORT_MYSQL}:36308"
+      volumes:
+      - ${SPHINX_SEARCH_LOG_PATH}:/opt/sphinx/log
+      - ${DATA_PATH_HOST}/sphinx/index:/opt/sphinx/index
+      - ${SPHINX_SEARCH_CONFIG}:/opt/sphinx/conf/sphinx.conf
+      tty: true
+      networks:
+      - frontend
+      - backend

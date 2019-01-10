@@ -626,3 +626,10 @@ MAILU_WEBDAV=radicale
 ### MOSQUITTO #################################################
 
 MOSQUITTO_PORT=9001
+
+### SPHINX SEARCH #########################################
+
+SPHINX_SEARCH_CONFIG=./sphinxsearch/sphinx.conf
+SPHINX_SEARCH_LOG_PATH=./sphinxsearch/log
+SPHINX_SEARCH_PORT=36307
+SPHINX_SEARCH_PORT_MYSQL=36308
