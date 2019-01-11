@@ -409,6 +409,7 @@ RUN if [ ${INSTALL_IONCUBE} = true ]; then \
     && tar zxpf /tmp/ioncube_loaders_lin_x86-64.tar.gz -C /tmp \
     && mv /tmp/ioncube/ioncube_loader_lin_${LARADOCK_PHP_VERSION}.so $(php -r "echo ini_get('extension_dir');")/ioncube_loader.so \
     && echo "zend_extension=ioncube_loader.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/0ioncube.ini \
+    && cp /etc/php/${LARADOCK_PHP_VERSION}/mods-available/0ioncube.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d \
     && rm -rf /tmp/ioncube* \
 ;fi
 
