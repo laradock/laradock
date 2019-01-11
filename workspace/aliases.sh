@@ -68,7 +68,7 @@ alias fresh="php artisan migrate:fresh"
 alias migrate="php artisan migrate"
 alias refresh="php artisan migrate:refresh"
 alias rollback="php artisan migrate:rollback"
-alias seed="php artisan:seed"
+alias seed="php artisan db:seed"
 alias serve="php artisan serve --quiet &"
 
 alias phpunit="./vendor/bin/phpunit"
@@ -107,6 +107,12 @@ alias gd="git --no-pager diff"
 alias git-revert="git reset --hard && git clean -df"
 alias gs="git status"
 alias whoops="git reset --hard && git clean -df"
+alias glog="git log --oneline --decorate --graph"
+alias gsh="git show"
+alias grb="git rebase -i"
+alias gbr="git branch"
+alias gc="git commit"
+alias gck="git checkout"
 
 # Create a new directory and enter it
 function mkd() {
