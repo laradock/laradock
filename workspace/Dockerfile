@@ -194,11 +194,11 @@ RUN if [ ${INSTALL_SSH2} = true ]; then \
 USER root
 
 ARG INSTALL_GMP=false
-ARG PHP_VERSION=${PHP_VERSION}
+ARG PHP_VERSION=${LARADOCK_PHP_VERSION}
 
 RUN if [ ${INSTALL_GMP} = true ]; then \
   # Install the PHP GMP extension
-  apt-get -y install php${PHP_VERSION}-gmp \
+  apt-get -y install php${LARADOCK_PHP_VERSION}-gmp \
 ;fi
 
 ###########################################################################
@@ -878,6 +878,19 @@ RUN if [ $INSTALL_PHALCON = true ]; then \
 ;fi
 
 ###########################################################################
+# MySQL Client:
+###########################################################################
+
+USER root
+
+ARG INSTALL_MYSQL_CLIENT=false
+
+RUN if [ ${INSTALL_MYSQL_CLIENT} = true ]; then \
+    apt-get update -yqq && \
+    apt-get -y install mysql-client \
+;fi
+
+###########################################################################
 # Check PHP version:
 ###########################################################################
 
@@ -889,12 +902,12 @@ RUN php -v | head -n 1 | grep -q "PHP ${LARADOCK_PHP_VERSION}."
 #--------------------------------------------------------------------------
 #
 
+USER root
+
 # Clean up
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     rm /var/log/lastlog /var/log/faillog
-
-USER laradock
 
 # Set default work directory
 WORKDIR /var/www

@@ -39,6 +39,8 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   elasticsearch:
     driver: ${VOLUMES_DRIVER}
+  mosquitto:
+    driver: ${VOLUMES_DRIVER}
 
 services:
 
@@ -93,6 +95,7 @@ services:
           - INSTALL_SWOOLE=${WORKSPACE_INSTALL_SWOOLE}
           - INSTALL_LIBPNG=${WORKSPACE_INSTALL_LIBPNG}
           - INSTALL_IONCUBE=${WORKSPACE_INSTALL_IONCUBE}
+          - INSTALL_MYSQL_CLIENT=${WORKSPACE_INSTALL_MYSQL_CLIENT}
           - PUID=${WORKSPACE_PUID}
           - PGID=${WORKSPACE_PGID}
           - CHROME_DRIVER_VERSION=${WORKSPACE_CHROME_DRIVER_VERSION}
@@ -156,6 +159,7 @@ services:
           - INSTALL_CALENDAR=${PHP_FPM_INSTALL_CALENDAR}
           - INSTALL_FAKETIME=${PHP_FPM_INSTALL_FAKETIME}
           - INSTALL_IONCUBE=${PHP_FPM_INSTALL_IONCUBE}
+          - INSTALL_APCU=${PHP_FPM_INSTALL_APCU}
           - INSTALL_YAML=${PHP_FPM_INSTALL_YAML}
       volumes:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
@@ -181,9 +185,14 @@ services:
         context: ./php-worker
         args:
           - PHP_VERSION=${PHP_VERSION}
+          - PHALCON_VERSION=${PHALCON_VERSION}
           - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL}
           - INSTALL_BCMATH=${PHP_WORKER_INSTALL_BCMATH}
+          - INSTALL_PHALCON=${PHP_WORKER_INSTALL_PHALCON}
           - INSTALL_SOAP=${PHP_WORKER_INSTALL_SOAP}
+          - INSTALL_ZIP_ARCHIVE=${PHP_WORKER_INSTALL_ZIP_ARCHIVE}
+          - PUID=${PHP_WORKER_PUID}
+          - PGID=${PHP_WORKER_PGID}
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
         - ./php-worker/supervisord.d:/etc/supervisord.d
@@ -432,6 +441,17 @@ services:
         - ${DATA_PATH_HOST}/redis:/data
       ports:
         - "${REDIS_PORT}:6379"
+      networks:
+        - backend
+
+### ZooKeeper #########################################
+    zookeeper:
+      build: ./zookeeper
+      volumes:
+        - ${DATA_PATH_HOST}/zookeeper/data:/data
+        - ${DATA_PATH_HOST}/zookeeper/datalog:/datalog
+      ports:
+        - "${ZOOKEEPER_PORT}:2181"
       networks:
         - backend
 
@@ -1290,3 +1310,15 @@ services:
         backend:
           aliases:
             - fetchmail
+
+### MOSQUITTO Broker #########################################
+    mosquitto:
+      build:
+        context: ./mosquitto
+      volumes:
+        - ${DATA_PATH_HOST}/mosquitto/data:/mosquitto/data
+      ports:
+        - "${MOSQUITTO_PORT}:9001"
+      networks:
+        - frontend
+        - backend
