@@ -1,0 +1,1 @@
+docker-compose up -d php-fpm nginx mysql memcached elasticsearch kibana
