@@ -964,6 +964,7 @@ RUN composer require \
   drupal/field_formatter_class \
   drupal/field_group \
 #  drupal/field_widget_class \
+  drupal/image_delta_formatter \
   drupal/inline_entity_form \
   drupal/languageicons \
   drupal/libraries \
@@ -983,6 +984,7 @@ RUN composer require \
   drupal/quicktabs \
   drupal/reference_table_formatter \
   drupal/rules \
+  drupal/search_api \
   drupal/search_api_solr \
   drupal/superfish \
   drupal/token \
@@ -1094,6 +1096,12 @@ RUN cd modules/contrib/migrate_source_xls && \
     wget https://www.drupal.org/files/issues/2018-08-22/2933306-config_entity-4.patch && \
     git apply -v 2933306-config_entity-4.patch && \
     rm 2933306-config_entity-4.patch
+
+# Patch: Allow offsite payment gateways to create and use payment methods
+#RUN cd modules/contrib/commerce && \
+#		wget https://www.drupal.org/files/issues/2018-10-30/2838380-15.patch && \
+#		git apply -v 2838380-15.patch && \
+#		rm 2838380-15.patch
 
 #### Module Patch
 # Patch: PHP Fatal error: Declaration of Drupal\ds\Plugin\views\Entity\Render\TranslationLanguageRenderer::getLangcode(Drupal\views\ResultRow $row) must be compatible with XXXXX
