@@ -943,7 +943,7 @@ RUN composer require \
   drupal/bootstrap_layouts \
   drupal/bootstrap_library \
   drupal/charts \
-	drupal/coffee \
+  drupal/coffee \
   drupal/commerce \
   drupal/commerce_recurring \
   drupal/commerce_alipay \
@@ -970,9 +970,9 @@ RUN composer require \
   drupal/libraries \
   drupal/ludwig \
   drupal/login_destination \
-	drupal/message \
-	drupal/message_notify \
-	drupal/message_subscribe \
+  drupal/message \
+  drupal/message_notify \
+  drupal/message_subscribe \
   drupal/memcache \
   drupal/migrate_source_csv \
   drupal/migrate_source_xls \
