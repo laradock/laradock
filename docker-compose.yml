@@ -1322,3 +1322,14 @@ services:
       networks:
         - frontend
         - backend
+
+### COUCHDB ###################################################
+    couchdb:
+      build:
+        context: ./couchdb
+      volumes:
+        - ${DATA_PATH_HOST}/couchdb/data:/opt/couchdb/data
+      ports:
+        - "${COUCHDB_PORT}:5984"
+      networks:
+        - backend
