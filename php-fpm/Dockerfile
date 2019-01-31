@@ -569,6 +569,22 @@ RUN if [ ${INSTALL_YAML} = true ]; then \
 ;fi
 
 ###########################################################################
+# Install additional locales:
+###########################################################################
+
+ARG INSTALL_ADDITIONAL_LOCALES=false
+ARG ADDITIONAL_LOCALES
+
+RUN if [ ${INSTALL_ADDITIONAL_LOCALES} = true ]; then \
+    apt-get install -y locales \
+    && echo '' >> /usr/share/locale/locale.alias \
+    && temp="${ADDITIONAL_LOCALES%\"}" \
+    && temp="${temp#\"}" \
+    && for i in ${temp}; do sed -i "/$i/s/^#//g" /etc/locale.gen; done \
+    && locale-gen \
+;fi
+
+###########################################################################
 # Check PHP version:
 ###########################################################################
 
