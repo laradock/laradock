@@ -539,6 +539,7 @@ RUN if [ $INSTALL_PHALCON = true ]; then \
     && unzip -d /tmp/ /tmp/cphalcon.zip \
     && cd /tmp/cphalcon-${LARADOCK_PHALCON_VERSION}/build \
     && ./install \
+    && mv /usr/local/etc/php/conf.d/phalcon.ini.disable /usr/local/etc/php/conf.d/phalcon.ini \
     && rm -rf /tmp/cphalcon* \
 ;fi
 
