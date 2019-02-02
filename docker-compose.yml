@@ -444,6 +444,14 @@ services:
       networks:
         - backend
 
+### Redis Cluster ##########################################
+    redis-cluster:
+      build: ./redis-cluster
+      ports:
+        - "${REDIS_CLUSTER_PORT_RANGE}:7000-7005"
+      networks:
+        - backend
+
 ### ZooKeeper #########################################
     zookeeper:
       build: ./zookeeper
