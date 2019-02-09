@@ -81,10 +81,10 @@ We'll need to do step 1 of the [Usage](#Usage) section now to make this happen.
 cp env-example .env
 ```
 
-At the top, change the `APPLICATION` variable to your project path.
+At the top, change the `APP_CODE_PATH_HOST` variable to your project path.
 
 ```
-APPLICATION=../project-z/
+APP_CODE_PATH_HOST=../project-z/
 ```
 
 Make sure to replace `project-z` with your project folder name.
@@ -161,7 +161,7 @@ We recommend using a Docker version which is newer than 1.13.
 cp env-example .env
 ```
 
-You can edit the `.env` file to choose which software you want to be installed in your environment. You can always refer to the `docker-compose.yml` file to see how those variables have been used.
+You can edit the `.env` file to choose which software's you want to be installed in your environment. You can always refer to the `docker-compose.yml` file to see how those variables are being used.
 
 Depending on the host's operating system you may need to change the value given to `COMPOSE_FILE`. When you are running Laradock on Mac OS the correct file separator to use is `:`. When running Laradock from a Windows environment multiple files must be separated with `;`.
 

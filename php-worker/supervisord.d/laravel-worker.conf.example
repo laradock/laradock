@@ -4,4 +4,5 @@ command=php /var/www/artisan queue:work --sleep=3 --tries=3 --daemon
 autostart=true
 autorestart=true
 numprocs=8
+user=laradock
 redirect_stderr=true

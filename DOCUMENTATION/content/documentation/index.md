@@ -353,6 +353,28 @@ Note: If `.php-fpm/xdebug` doesn't execute and gives `Permission Denied` error t
 
 
 
+<br>
+<a name="Install-ionCube-Loader"></a>
+## Install ionCube Loader
+
+1 - First install `ionCube Loader` in the Workspace and the PHP-FPM Containers:
+<br>
+a) open the `.env` file
+<br>
+b) search for the `WORKSPACE_INSTALL_IONCUBE` argument under the Workspace Container
+<br>
+c) set it to `true`
+<br>
+d) search for the `PHP_FPM_INSTALL_IONCUBE` argument under the PHP-FPM Container
+<br>
+e) set it to `true`
+
+2 - Re-build the containers `docker-compose build workspace php-fpm`
+
+Always download the latest version of [Loaders for ionCube ](http://www.ioncube.com/loaders.php).
+
+
+
 
 
 <br>
@@ -486,7 +508,7 @@ docker-compose ps
 docker-compose exec workspace bash
 ```
 
-Add `--user=laradock` (example `docker-compose exec --user=laradock workspace bash`) to have files created as your host's user.
+Note: Should add `--user=laradock` (example `docker-compose exec --user=laradock workspace bash`) to have files created as your host's user to prevent issue owner of log file will be changed to root then laravel website cannot write on log file if using rotated log and new log file not existed
 
 
 4 - Run anything you want :)
@@ -510,28 +532,8 @@ phpunit
 <a name="Run-Laravel-Queue-Worker"></a>
 ## Run Laravel Queue Worker
 
-1 - First add `php-worker` container. It will be similar as like PHP-FPM Container.
-<br>
-a) open the `docker-compose.yml` file
-<br>
-b) add a new service container by simply copy-paste this section below PHP-FPM container
+1 - Create supervisor configuration file (for ex., named `laravel-worker.conf`) for Laravel Queue Worker in `php-worker/supervisord.d/` by simply copy from `laravel-worker.conf.example`
 
-```yaml
-    php-worker:
-      build:
-        context: ./php-worker
-        args:
-          - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL} #Optionally install PGSQL PHP drivers
-          - INSTALL_BCMATH=${PHP_WORKER_INSTALL_BCMATH} #Optionally install BCMath php package
-      volumes_from:
-        - applications
-      depends_on:
-        - workspace
-      extra_hosts:
-        - "dockerhost:${DOCKER_HOST_IP}"
-      networks:
-        - backend
-```
 2 - Start everything up
 
 ```bash
@@ -539,6 +541,56 @@ docker-compose up -d php-worker
 ```
 
 
+
+
+
+
+<br>
+<a name="Run-Laravel-Scheduler"></a>
+## Run Laravel Scheduler
+
+Laradock provides 2 ways to run Laravel Scheduler
+1 - Using cron in workspace container. Most of the time, when you start Laradock, it'll automatically start workspace container with cron inside, along with setting to run `schedule:run` command every minute.
+
+2 - Using Supervisord in php-worker to run `schedule:run`. This way is suggested when you don't want to start workspace in production environment.
+<br>
+a) Comment out cron setting in workspace container, file `workspace/crontab/laradock`
+
+```bash
+# * * * * * laradock /usr/bin/php /var/www/artisan schedule:run >> /dev/null 2>&1
+```
+<br>
+b) Create supervisor configuration file (for ex., named `laravel-scheduler.conf`) for Laravel Scheduler in `php-worker/supervisord.d/` by simply copy from `laravel-scheduler.conf.example`
+<br>
+c) Start php-worker container
+
+```bash
+docker-compose up -d php-worker
+```
+
+
+
+
+
+
+<br>
+<a name="Use-Mailu"></a>
+## Use Mailu
+
+1 - You need register a domain.
+
+2 - Required RECAPTCHA for signup email [HERE](https://www.google.com/recaptcha/admin)
+
+2 - modify following environment variable in `.env` file
+
+```
+MAILU_RECAPTCHA_PUBLIC_KEY=<YOUR_RECAPTCHA_PUBLIC_KEY>
+MAILU_RECAPTCHA_PRIVATE_KEY=<YOUR_RECAPTCHA_PRIVATE_KEY>
+MAILU_DOMAIN=laradock.io
+MAILU_HOSTNAMES=mail.laradock.io
+```
+
+2 - Open your browser and visit `http://YOUR_DOMAIN`.
 
 
 
@@ -821,6 +873,12 @@ docker-compose up -d postgres pgadmin
 2 - Open your browser and visit the localhost on port **5050**:  `http://localhost:5050`
 
 
+3 - At login page use default credentials:
+
+Username : pgadmin4@pgadmin.org
+
+Password : admin
+
 
 
 
@@ -960,8 +1018,9 @@ docker-compose up -d rethinkdb
 - set the `DB_DATABASE` to `database`.
 
 
+#### Additional Notes
 
-
+- You may do backing up of your data using the next reference: [backing up your data](https://www.rethinkdb.com/docs/backup/).
 
 
 <br>
@@ -997,6 +1056,27 @@ docker-compose up -d minio
 
 
 
+
+
+<br>
+<a name="Use-Thumbor"></a>
+## Use Thumbor
+
+Thumbor is a smart imaging service. It enables on-demand crop, resizing and flipping of images. ([Thumbor](https://github.com/thumbor/thumbor))
+
+1 - Configure Thumbor:
+  - Checkout all the options under the thumbor settings
+
+
+2 - Run the Thumbor Container (`minio`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d thumbor
+```
+
+3 - Navigate to an example image on `http://localhost:8000/unsafe/300x300/i.imgur.com/bvjzPct.jpg`
+
+For more documentation on Thumbor visit the [Thumbor documenation](http://thumbor.readthedocs.io/en/latest/index.html) page
 
 
 <br>
@@ -1036,6 +1116,110 @@ docker-compose up -d grafana
 3 - Open your browser and visit the localhost on port **3000** at the following URL: `http://localhost:3000`
 
 4 - Login using the credentials User = `admin`, Password = `admin`. Change the password in the web interface if you want to.
+
+
+
+
+
+
+<br>
+<a name="Use-Traefik"></a>
+## Use Traefik
+
+To use Traefik you need to do some changes in `traefik/trafik.toml` and `docker-compose.yml`.
+
+1 - Open `traefik.toml` and change the `e-mail` property in `acme` section.
+
+2 - Change your domain in `acme.domains`. For example: `main = "example.org"`
+
+2.1 - If you have subdomains, you must add them to `sans` property in `acme.domains` section.
+
+```bash
+[[acme.domais]]
+  main = "example.org"
+  sans = ["monitor.example.org", "pma.example.org"]
+```
+
+3 - If you need to add basic authentication (https://docs.traefik.io/configuration/entrypoints/#basic-authentication), you just need to add the following text after `[entryPoints.https.tls]`:
+
+```bash
+[entryPoints.https.auth.basic]
+  users = ["user:password"]
+```
+
+4 - You need to change the `docker-compose.yml` file to match the Traefik needs. If you want to use Traefik, you must not expose the ports of each container to the internet, but specify some labels.
+
+4.1 For example, let's try with NGINX. You must have:
+
+```bash
+nginx:
+  build:
+    context: ./nginx
+    args:
+      - PHP_UPSTREAM_CONTAINER=${NGINX_PHP_UPSTREAM_CONTAINER}
+      - PHP_UPSTREAM_PORT=${NGINX_PHP_UPSTREAM_PORT}
+      - CHANGE_SOURCE=${CHANGE_SOURCE}
+  volumes:
+    - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+    - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
+    - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
+  depends_on:
+    - php-fpm
+  networks:
+    - frontend
+    - backend
+  labels:
+    - traefik.backend=nginx
+    - traefik.frontend.rule=Host:example.org
+    - traefik.port=80
+```
+
+instead of
+
+```bash
+nginx:
+  build:
+    context: ./nginx
+    args:
+      - PHP_UPSTREAM_CONTAINER=${NGINX_PHP_UPSTREAM_CONTAINER}
+      - PHP_UPSTREAM_PORT=${NGINX_PHP_UPSTREAM_PORT}
+      - CHANGE_SOURCE=${CHANGE_SOURCE}
+  volumes:
+    - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+    - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
+    - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
+    - ${NGINX_SSL_PATH}:/etc/nginx/ssl
+  ports:
+    - "${NGINX_HOST_HTTP_PORT}:80"
+    - "${NGINX_HOST_HTTPS_PORT}:443"
+  depends_on:
+    - php-fpm
+  networks:
+    - frontend
+    - backend
+```
+
+
+
+
+
+<br>
+<a name="Use-Mosquitto"></a>
+## Use Mosquitto (MQTT Broker)
+
+1 - Configure Mosquitto: Change Port using `MOSQUITTO_PORT` if you wish to. Default is port 9001.
+
+2 - Run the Mosquitto Container (`mosquitto`) with the `docker-compose up`command:
+
+```bash
+docker-compose up -d mosquitto
+```
+
+3 - Open your command line and use a MQTT Client (Eg. https://github.com/mqttjs/MQTT.js) to subscribe a topic and publish a message.
+
+4 - Subscribe: `mqtt sub -t 'test' -h localhost -p 9001 -C 'ws' -v`
+
+5 - Publish: `mqtt pub -t 'test' -h localhost -p 9001 -C 'ws' -m 'Hello!'`
 
 
 
@@ -1126,7 +1310,7 @@ We also recommend [setting the timezone in Laravel](http://www.camroncade.com/ma
 You can add your cron jobs to `workspace/crontab/root` after the `php artisan` line.
 
 ```
-* * * * * php /var/www/artisan schedule:run >> /dev/null 2>&1
+* * * * * laradock /usr/bin/php /var/www/artisan schedule:run >> /dev/null 2>&1
 
 # Custom cron
 * * * * * root echo "Every Minute" > /var/log/cron.log 2>&1
@@ -1167,7 +1351,7 @@ ssh -o PasswordAuthentication=no    \
     laradock@localhost
 ```
 
-To login as root, replace laradock@locahost with root@localhost.
+To login as root, replace laradock@localhost with root@localhost.
 
 
 
@@ -1499,9 +1683,47 @@ e) set it to `true`
 3 - Set it to `true`
 <br>
 4 - Re-build the containers `docker-compose build php-fpm`
+<br>
 
 
 
+
+<br>
+<a name="Install-Faketime"></a>
+## Install libfaketime in the php-fpm container
+Libfaketime allows you to control the date and time that is returned from the operating system.
+It can be used by specifying a special string in the `PHP_FPM_FAKETIME` variable in the `.env` file.
+For example:
+`PHP_FPM_FAKETIME=-1d`
+will set the clock back 1 day. See (https://github.com/wolfcw/libfaketime) for more information.
+
+1 - Open the `.env` file
+<br>
+2 - Search for the `PHP_FPM_INSTALL_FAKETIME` argument under the PHP-FPM container
+<br>
+3 - Set it to `true`
+<br>
+4 - Search for the `PHP_FPM_FAKETIME` argument under the PHP-FPM container
+<br>
+5 - Set it to the desired string
+<br>
+6 - Re-build the containers `docker-compose build php-fpm`<br>
+
+
+
+
+<br>
+<a name="Install-YAML"></a>
+## Install YAML PHP extension in the php-fpm container
+YAML PHP extension allows you to easily parse and create YAML structured data. I like YAML because it's well readable for humans. See http://php.net/manual/en/ref.yaml.php and http://yaml.org/ for more info.
+
+1 - Open the `.env` file
+<br>
+2 - Search for the `PHP_FPM_INSTALL_YAML` argument under the PHP-FPM container
+<br>
+3 - Set it to `true`
+<br>
+4 - Re-build the container `docker-compose build php-fpm`<br>
 
 
 <br>
@@ -1798,7 +2020,7 @@ This error sometimes happens because your Laravel application isn't running on t
 
 ## I get stuck when building nginx on `fetch http://mirrors.aliyun.com/alpine/v3.5/main/x86_64/APKINDEX.tar.gz`
 
-As stated on [#749](https://github.com/laradock/laradock/issues/749#issuecomment-293296687), removing the line `RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories` from `nginx/Dockerfile` solves the problem.		
+As stated on [#749](https://github.com/laradock/laradock/issues/749#issuecomment-419652646), Already fixed，just set `CHANGE_SOURCE` to false.		
 
 ## Custom composer repo packagist url and npm registry url
 
