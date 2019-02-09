@@ -1331,6 +1331,24 @@ services:
           aliases:
             - fetchmail
 
+### TRAEFIK #########################################
+    traefik:
+      build:
+        context: ./traefik
+      command: --docker
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+      ports:
+        - "${TRAEFIK_HOST_HTTP_PORT}:80"
+        - "${TRAEFIK_HOST_HTTPS_PORT}:443"
+      networks:
+        - frontend
+        - backend
+      labels:
+        - traefik.backend=traefik
+        - traefik.frontend.rule=Host:monitor.localhost
+        - traefik.port=8080
+
 ### MOSQUITTO Broker #########################################
     mosquitto:
       build:
