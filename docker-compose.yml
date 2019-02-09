@@ -386,6 +386,14 @@ services:
         - POSTGRES_DB=${POSTGRES_DB}
         - POSTGRES_USER=${POSTGRES_USER}
         - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+        - GITLAB_POSTGRES_INIT=${GITLAB_POSTGRES_INIT}
+        - GITLAB_POSTGRES_USER=${GITLAB_POSTGRES_USER}
+        - GITLAB_POSTGRES_PASSWORD=${GITLAB_POSTGRES_PASSWORD}
+        - GITLAB_POSTGRES_DB=${GITLAB_POSTGRES_DB}
+        - JUPYTERHUB_POSTGRES_INIT=${JUPYTERHUB_POSTGRES_INIT}
+        - JUPYTERHUB_POSTGRES_USER=${JUPYTERHUB_POSTGRES_USER}
+        - JUPYTERHUB_POSTGRES_PASSWORD=${JUPYTERHUB_POSTGRES_PASSWORD}
+        - JUPYTERHUB_POSTGRES_DB=${JUPYTERHUB_POSTGRES_DB}
       networks:
         - backend
 
@@ -925,18 +933,19 @@ services:
         context: ./gitlab
       environment:
         GITLAB_OMNIBUS_CONFIG: |
-          external_url '${GITLAB_DOMAIN_NAME}'
-          redis['enable'] = false
-          nginx['listen_https'] = false
-          nginx['listen_port'] = 80
-          postgresql['enable'] = false
-          gitlab_rails['trusted_proxies'] = ['caddy','nginx','apache2']
-          gitlab_rails['redis_host'] = 'redis'
+          external_url '${GITLAB_DOMAIN_NAME}' 
+          redis['enable'] = false 
+          nginx['listen_https'] = false 
+          nginx['listen_port'] = 80 
+          nginx['custom_gitlab_server_config'] = "set_real_ip_from 172.0.0.0/8;\nreal_ip_header X-Real-IP;\nreal_ip_recursive on;"
+          postgresql['enable'] = false 
+          gitlab_rails['trusted_proxies'] = ['caddy','nginx','apache2'] 
+          gitlab_rails['redis_host'] = 'redis' 
           gitlab_rails['redis_database'] = 8
-          gitlab_rails['db_host'] = 'postgres'
-          gitlab_rails['db_username'] = 'laradock_gitlab'
-          gitlab_rails['db_password'] = 'laradock_gitlab'
-          gitlab_rails['db_database'] = 'laradock_gitlab'
+          gitlab_rails['db_host'] = '${GITLAB_POSTGRES_HOST}' 
+          gitlab_rails['db_username'] = '${GITLAB_POSTGRES_USER}'
+          gitlab_rails['db_password'] = '${GITLAB_POSTGRES_PASSWORD}'
+          gitlab_rails['db_database'] = '${GITLAB_POSTGRES_DB}'
           gitlab_rails['initial_root_password'] = '${GITLAB_ROOT_PASSWORD}'
           gitlab_rails['gitlab_shell_ssh_port'] = ${GITLAB_HOST_SSH_PORT}
       volumes:
@@ -955,12 +964,15 @@ services:
     gitlab-runner:
       image: gitlab/gitlab-runner:latest
       environment:
-        - CI_SERVER_URL=${GITLAB_DOMAIN_NAME}
+        - CI_SERVER_URL=${GITLAB_CI_SERVER_URL}
+        - REGISTRATION_TOKEN=${GITLAB_RUNNER_REGISTRATION_TOKEN}
+        - RUNNER_NAME=${COMPOSE_PROJECT_NAME}-runner
+        - REGISTER_NON_INTERACTIVE=${GITLAB_REGISTER_NON_INTERACTIVE}
+        - RUNNER_EXECUTOR=shell
       volumes:
         - ${DATA_PATH_HOST}/gitlab/runner:/etc/gitlab-runner
         - /var/run/docker.sock:/var/run/docker.sock:rw
-      restart: always
-
+      
 ### JupyterHub #########################################
     jupyterhub:
       build:
@@ -968,7 +980,6 @@ services:
       depends_on:
         - postgres
         - jupyterhub-user
-      restart: always
       volumes:
         - /var/run/docker.sock:/var/run/docker.sock:rw
         - ${DATA_PATH_HOST}/jupyterhub/:/data
@@ -989,7 +1000,8 @@ services:
         - JUPYTERHUB_OAUTH_CALLBACK_URL=${JUPYTERHUB_OAUTH_CALLBACK_URL}
         - JUPYTERHUB_OAUTH_CLIENT_ID=${JUPYTERHUB_OAUTH_CLIENT_ID}
         - JUPYTERHUB_OAUTH_CLIENT_SECRET=${JUPYTERHUB_OAUTH_CLIENT_SECRET}
-        - JUPYTERHUB_LOCAL_NOTEBOOK_IMAGE=${JUPYTERHUB_LOCAL_NOTEBOOK_IMAGE}
+        - JUPYTERHUB_LOCAL_NOTEBOOK_IMAGE=${COMPOSE_PROJECT_NAME}_jupyterhub-user
+        - JUPYTERHUB_ENABLE_NVIDIA=${JUPYTERHUB_ENABLE_NVIDIA}
     jupyterhub-user:
       build:
         context: ./jupyterhub
@@ -1039,9 +1051,10 @@ services:
       networks:
         - backend
 
-### PHPRedisAdmin ################################################
-    phpredisadmin:
-      image: erikdubbelboer/phpredisadmin:latest
+### REDISWEBUI ################################################
+    redis-webui:
+      build:
+        context: ./redis-webui
       environment:
         - ADMIN_USER=${REDIS_WEBUI_USERNAME}
         - ADMIN_PASS=${REDIS_WEBUI_PASSWORD}
@@ -1058,7 +1071,6 @@ services:
     mongo-webui:
       build:
         context: ./mongo-webui
-      restart: always
       environment:
         - ROOT_URL=${MONGO_WEBUI_ROOT_URL}
         - MONGO_URL=${MONGO_WEBUI_MONGO_URL}
