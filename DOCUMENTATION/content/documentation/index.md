@@ -1018,8 +1018,9 @@ docker-compose up -d rethinkdb
 - set the `DB_DATABASE` to `database`.
 
 
+#### Additional Notes
 
-
+- You may do backing up of your data using the next reference: [backing up your data](https://www.rethinkdb.com/docs/backup/).
 
 
 <br>
