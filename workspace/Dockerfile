@@ -12,11 +12,16 @@
 # Note: Base Image name format {image-tag}-{php-version}
 #
 
-ARG PHP_VERSION=${PHP_VERSION}
+ARG LARADOCK_PHP_VERSION
 
-FROM laradock/workspace:2.2-${PHP_VERSION}
+FROM laradock/workspace:2.2-${LARADOCK_PHP_VERSION}
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
+
+ARG LARADOCK_PHP_VERSION
+
+# Set Environment Variables
+ENV DEBIAN_FRONTEND noninteractive
 
 # Start as root
 USER root
@@ -36,7 +41,7 @@ RUN apt-get update -yqq && \
     pecl channel-update pecl.php.net && \
     groupadd -g ${PGID} laradock && \
     useradd -u ${PUID} -g laradock -m laradock -G docker_env && \
-    usermod -p "*" laradock
+    usermod -p "*" laradock -s /bin/bash
 
 #
 #--------------------------------------------------------------------------
@@ -149,17 +154,79 @@ COPY ./crontab /etc/cron.d
 RUN chmod -R 644 /etc/cron.d
 
 ###########################################################################
+# Drush:
+###########################################################################
+
+# Deprecated install of Drush 8 and earlier versions.
+# Drush 9 and up require Drush to be listed as a composer dependency of your site.
+
+USER root
+
+ARG INSTALL_DRUSH=false
+ARG DRUSH_VERSION
+ENV DRUSH_VERSION ${DRUSH_VERSION}
+
+RUN if [ ${INSTALL_DRUSH} = true ]; then \
+    apt-get -y install mysql-client && \
+    # Install Drush with the phar file.
+    curl -fsSL -o /usr/local/bin/drush https://github.com/drush-ops/drush/releases/download/${DRUSH_VERSION}/drush.phar | bash && \
+    chmod +x /usr/local/bin/drush && \
+    drush core-status \
+;fi
+
+###########################################################################
+# WP CLI:
+###########################################################################
+
+# The command line interface for WordPress
+
+USER root
+
+ARG INSTALL_WP_CLI=false
+
+RUN if [ ${INSTALL_WP_CLI} = true ]; then \
+    curl -fsSL -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar | bash && \
+    chmod +x /usr/local/bin/wp \
+;fi
+
+###########################################################################
+# SSH2:
+###########################################################################
+
+USER root
+
+ARG INSTALL_SSH2=false
+
+RUN if [ ${INSTALL_SSH2} = true ]; then \
+  # Install the PHP SSH2 extension
+  apt-get -y install libssh2-1-dev php${LARADOCK_PHP_VERSION}-ssh2 \
+;fi
+
+###########################################################################
+# GMP:
+###########################################################################
+
+USER root
+
+ARG INSTALL_GMP=false
+ARG PHP_VERSION=${LARADOCK_PHP_VERSION}
+
+RUN if [ ${INSTALL_GMP} = true ]; then \
+  # Install the PHP GMP extension
+  apt-get -y install php${LARADOCK_PHP_VERSION}-gmp \
+;fi
+
+###########################################################################
 # SOAP:
 ###########################################################################
 
 USER root
 
 ARG INSTALL_SOAP=false
-ARG PHP_VERSION=${PHP_VERSION}
 
 RUN if [ ${INSTALL_SOAP} = true ]; then \
   # Install the PHP SOAP extension
-  apt-get -y install libxml2-dev php${PHP_VERSION}-soap \
+  apt-get -y install libxml2-dev php${LARADOCK_PHP_VERSION}-soap \
 ;fi
 
 ###########################################################################
@@ -167,11 +234,10 @@ RUN if [ ${INSTALL_SOAP} = true ]; then \
 ###########################################################################
 
 ARG INSTALL_LDAP=false
-ARG PHP_VERSION=${PHP_VERSION}
 
 RUN if [ ${INSTALL_LDAP} = true ]; then \
     apt-get install -y libldap2-dev && \
-    apt-get install -y php${PHP_VERSION}-ldap \
+    apt-get install -y php${LARADOCK_PHP_VERSION}-ldap \
 ;fi
 
 ###########################################################################
@@ -179,10 +245,9 @@ RUN if [ ${INSTALL_LDAP} = true ]; then \
 ###########################################################################
 
 ARG INSTALL_IMAP=false
-ARG PHP_VERSION=${PHP_VERSION}
 
 RUN if [ ${INSTALL_IMAP} = true ]; then \
-    apt-get install -y php${PHP_VERSION}-imap \
+    apt-get install -y php${LARADOCK_PHP_VERSION}-imap \
 ;fi
 
 ###########################################################################
@@ -205,17 +270,33 @@ RUN if [ ${INSTALL_SUBVERSION} = true ]; then \
 USER root
 
 ARG INSTALL_XDEBUG=false
-ARG PHP_VERSION=${PHP_VERSION}
 
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
     # Load the xdebug extension only with phpunit commands
-    apt-get install -y --force-yes php${PHP_VERSION}-xdebug && \
-    sed -i 's/^;//g' /etc/php/${PHP_VERSION}/cli/conf.d/20-xdebug.ini && \
+    apt-get install -y php${LARADOCK_PHP_VERSION}-xdebug && \
+    sed -i 's/^;//g' /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-xdebug.ini && \
     echo "alias phpunit='php -dzend_extension=xdebug.so /var/www/vendor/bin/phpunit'" >> ~/.bashrc \
 ;fi
 
 # ADD for REMOTE debugging
-COPY ./xdebug.ini /etc/php/${PHP_VERSION}/cli/conf.d/xdebug.ini
+COPY ./xdebug.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/xdebug.ini
+
+RUN sed -i "s/xdebug.remote_autostart=0/xdebug.remote_autostart=1/" /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/xdebug.ini && \
+    sed -i "s/xdebug.remote_enable=0/xdebug.remote_enable=1/" /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/xdebug.ini && \
+    sed -i "s/xdebug.cli_color=0/xdebug.cli_color=1/" /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/xdebug.ini
+
+###########################################################################
+# Phpdbg:
+###########################################################################
+
+USER root
+
+ARG INSTALL_PHPDBG=false
+
+RUN if [ ${INSTALL_PHPDBG} = true ]; then \
+    # Load the xdebug extension only with phpunit commands
+    apt-get install -y --force-yes php${LARADOCK_PHP_VERSION}-phpdbg \
+;fi
 
 ###########################################################################
 # Blackfire:
@@ -260,13 +341,17 @@ RUN if [ ${INSTALL_WORKSPACE_SSH} = true ]; then \
 ###########################################################################
 
 ARG INSTALL_MONGO=false
-ARG PHP_VERSION=${PHP_VERSION}
 
 RUN if [ ${INSTALL_MONGO} = true ]; then \
     # Install the mongodb extension
-    pecl -q install mongodb && \
-    echo "extension=mongodb.so" >> /etc/php/${PHP_VERSION}/mods-available/mongodb.ini && \
-    ln -s /etc/php/${PHP_VERSION}/mods-available/mongodb.ini /etc/php/${PHP_VERSION}/cli/conf.d/30-mongodb.ini \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      pecl install mongo && \
+      echo "extension=mongo.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/mongo.ini && \
+      ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/mongo.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/30-mongo.ini \
+    ;fi && \
+    pecl install mongodb && \
+    echo "extension=mongodb.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/mongodb.ini && \
+    ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/mongodb.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/30-mongodb.ini \
 ;fi
 
 ###########################################################################
@@ -274,13 +359,12 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
 ###########################################################################
 
 ARG INSTALL_AMQP=false
-ARG PHP_VERSION=${PHP_VERSION}
 
 RUN if [ ${INSTALL_AMQP} = true ]; then \
     apt-get install librabbitmq-dev -y && \
     pecl -q install amqp && \
-    echo "extension=amqp.so" >> /etc/php/${PHP_VERSION}/mods-available/amqp.ini && \
-    ln -s /etc/php/${PHP_VERSION}/mods-available/amqp.ini /etc/php/${PHP_VERSION}/cli/conf.d/30-amqp.ini \
+    echo "extension=amqp.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/amqp.ini && \
+    ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/amqp.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/30-amqp.ini \
 ;fi
 
 ###########################################################################
@@ -288,12 +372,11 @@ RUN if [ ${INSTALL_AMQP} = true ]; then \
 ###########################################################################
 
 ARG INSTALL_PHPREDIS=false
-ARG PHP_VERSION=${PHP_VERSION}
 
 RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
     # Install Php Redis extension
     printf "\n" | pecl -q install -o -f redis && \
-    echo "extension=redis.so" >> /etc/php/${PHP_VERSION}/mods-available/redis.ini && \
+    echo "extension=redis.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/redis.ini && \
     phpenmod redis \
 ;fi
 
@@ -302,38 +385,46 @@ RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
 ###########################################################################
 
 ARG INSTALL_SWOOLE=false
-ARG PHP_VERSION=${PHP_VERSION}
 
 RUN if [ ${INSTALL_SWOOLE} = true ]; then \
     # Install Php Swoole Extension
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
       pecl -q install swoole-2.0.11; \
     else \
-      pecl -q install swoole; \
+      if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+        pecl install swoole-2.2.0; \
+      else \
+        pecl install swoole; \
+      fi \
     fi && \
-    echo "extension=swoole.so" >> /etc/php/${PHP_VERSION}/mods-available/swoole.ini && \
-    ln -s /etc/php/${PHP_VERSION}/mods-available/swoole.ini /etc/php/${PHP_VERSION}/cli/conf.d/20-swoole.ini \
+    echo "extension=swoole.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/swoole.ini && \
+    ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/swoole.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-swoole.ini \
 ;fi
 
 ###########################################################################
-# Drush:
+# Libpng16 EXTENSION
 ###########################################################################
 
-# Deprecated install of Drush 8 and earlier versions.
-# Drush 9 and up require Drush to be listed as a composer dependency of your site.
+ARG INSTALL_LIBPNG=false
 
-USER root
+RUN if [ ${INSTALL_LIBPNG} = true ]; then \
+    apt-get update && \
+    apt-get install libpng16-16 \
+;fi
 
-ARG INSTALL_DRUSH=false
-ARG DRUSH_VERSION
-ENV DRUSH_VERSION ${DRUSH_VERSION}
+###########################################################################
+# IonCube Loader
+###########################################################################
 
-RUN if [ ${INSTALL_DRUSH} = true ]; then \
-    apt-get -y install mysql-client && \
-    # Install Drush with the phar file.
-    curl -fsSL -o /usr/local/bin/drush https://github.com/drush-ops/drush/releases/download/${DRUSH_VERSION}/drush.phar | bash && \
-    chmod +x /usr/local/bin/drush && \
-    drush core-status \
+ARG INSTALL_IONCUBE=false
+
+RUN if [ ${INSTALL_IONCUBE} = true ]; then \
+    # Install the php ioncube loader
+    curl -L -o /tmp/ioncube_loaders_lin_x86-64.tar.gz https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
+    && tar zxpf /tmp/ioncube_loaders_lin_x86-64.tar.gz -C /tmp \
+    && mv /tmp/ioncube/ioncube_loader_lin_${LARADOCK_PHP_VERSION}.so $(php -r "echo ini_get('extension_dir');")/ioncube_loader.so \
+    && echo "zend_extension=ioncube_loader.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/0ioncube.ini \
+    && rm -rf /tmp/ioncube* \
 ;fi
 
 ###########################################################################
@@ -358,24 +449,37 @@ USER laradock
 ###########################################################################
 
 # Check if NVM needs to be installed
-ARG NODE_VERSION=stable
+ARG NODE_VERSION=node
 ENV NODE_VERSION ${NODE_VERSION}
 ARG INSTALL_NODE=false
+ARG INSTALL_NPM_GULP=false
+ARG INSTALL_NPM_BOWER=false
+ARG INSTALL_NPM_VUE_CLI=false
 ARG NPM_REGISTRY
 ENV NPM_REGISTRY ${NPM_REGISTRY}
 ENV NVM_DIR /home/laradock/.nvm
 
 RUN if [ ${INSTALL_NODE} = true ]; then \
     # Install nvm (A Node Version Manager)
-    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash && \
-        . $NVM_DIR/nvm.sh && \
-        nvm install ${NODE_VERSION} && \
-        nvm use ${NODE_VERSION} && \
-        nvm alias ${NODE_VERSION} && \
-        if [ ${NPM_REGISTRY} ]; then \
+    mkdir -p $NVM_DIR && \
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash \
+        && . $NVM_DIR/nvm.sh \
+        && nvm install ${NODE_VERSION} \
+        && nvm use ${NODE_VERSION} \
+        && nvm alias ${NODE_VERSION} \
+        && if [ ${NPM_REGISTRY} ]; then \
         npm config set registry ${NPM_REGISTRY} \
-        ;fi && \
-        npm install -g gulp bower vue-cli \
+        ;fi \
+        && if [ ${INSTALL_NPM_GULP} = true ]; then \
+        npm install -g gulp \
+        ;fi \
+        && if [ ${INSTALL_NPM_BOWER} = true ]; then \
+        npm install -g bower \
+        ;fi \
+        && if [ ${INSTALL_NPM_VUE_CLI} = true ]; then \
+        npm install -g @vue/cli \
+        ;fi \
+        && ln -s `npm bin --global` /home/laradock/.node-bin \
 ;fi
 
 # Wouldn't execute when added to the RUN statement in the above block
@@ -396,7 +500,21 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
 ;fi
 
 # Add PATH for node
-ENV PATH $PATH:$NVM_DIR/versions/node/v${NODE_VERSION}/bin
+ENV PATH $PATH:/home/laradock/.node-bin
+
+# Make it so the node modules can be executed with 'docker-compose exec'
+# We'll create symbolic links into '/usr/local/bin'.
+RUN if [ ${INSTALL_NODE} = true ]; then \
+    find $NVM_DIR -type f -name node -exec ln -s {} /usr/local/bin/node \; && \
+    NODE_MODS_DIR="$NVM_DIR/versions/node/$(node -v)/lib/node_modules" && \
+    ln -s $NODE_MODS_DIR/bower/bin/bower /usr/local/bin/bower && \
+    ln -s $NODE_MODS_DIR/gulp/bin/gulp.js /usr/local/bin/gulp && \
+    ln -s $NODE_MODS_DIR/npm/bin/npm-cli.js /usr/local/bin/npm && \
+    ln -s $NODE_MODS_DIR/npm/bin/npx-cli.js /usr/local/bin/npx && \
+    ln -s $NODE_MODS_DIR/vue-cli/bin/vue /usr/local/bin/vue && \
+    ln -s $NODE_MODS_DIR/vue-cli/bin/vue-init /usr/local/bin/vue-init && \
+    ln -s $NODE_MODS_DIR/vue-cli/bin/vue-list /usr/local/bin/vue-list \
+;fi
 
 RUN if [ ${NPM_REGISTRY} ]; then \
     . ~/.bashrc && npm config set registry ${NPM_REGISTRY} \
@@ -432,6 +550,9 @@ RUN if [ ${INSTALL_YARN} = true ]; then \
     echo 'export PATH="$YARN_DIR/bin:$PATH"' >> ~/.bashrc \
 ;fi
 
+# Add PATH for YARN
+ENV PATH $PATH:/home/laradock/.yarn/bin
+
 ###########################################################################
 # PHP Aerospike:
 ###########################################################################
@@ -439,7 +560,6 @@ RUN if [ ${INSTALL_YARN} = true ]; then \
 USER root
 
 ARG INSTALL_AEROSPIKE=false
-ARG PHP_VERSION=${PHP_VERSION}
 ARG AEROSPIKE_PHP_REPOSITORY
 
 RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
@@ -449,16 +569,26 @@ RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
     curl -L -o /tmp/aerospike-client-php.tar.gz ${AEROSPIKE_PHP_REPOSITORY} \
     && mkdir -p aerospike-client-php \
     && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
-    && ( \
-        cd aerospike-client-php/src \
-        && phpize \
-        && ./build.sh \
-        && make install \
-    ) \
+    && \
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+        ( \
+            cd aerospike-client-php/src/aerospike \
+            && phpize \
+            && ./build.sh \
+            && make install \
+        ) \
+      else \
+        ( \
+            cd aerospike-client-php/src \
+            && phpize \
+            && ./build.sh \
+            && make install \
+        ) \
+      fi \
     && rm /tmp/aerospike-client-php.tar.gz \
-    && echo 'extension=aerospike.so' >> /etc/php/${PHP_VERSION}/cli/conf.d/aerospike.ini \
-    && echo 'aerospike.udf.lua_system_path=/usr/local/aerospike/lua' >> /etc/php/${PHP_VERSION}/cli/conf.d/aerospike.ini \
-    && echo 'aerospike.udf.lua_user_path=/usr/local/aerospike/usr-lua' >> /etc/php/${PHP_VERSION}/cli/conf.d/aerospike.ini \
+    && echo 'extension=aerospike.so' >> /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/aerospike.ini \
+    && echo 'aerospike.udf.lua_system_path=/usr/local/aerospike/lua' >> /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/aerospike.ini \
+    && echo 'aerospike.udf.lua_user_path=/usr/local/aerospike/usr-lua' >> /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/aerospike.ini \
 ;fi
 
 ###########################################################################
@@ -468,15 +598,14 @@ RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
 USER root
 
 ARG INSTALL_V8JS=false
-ARG PHP_VERSION=${PHP_VERSION}
 
 RUN if [ ${INSTALL_V8JS} = true ]; then \
     # Install the php V8JS extension
     add-apt-repository -y ppa:pinepain/libv8-archived \
     && apt-get update -yqq \
-    && apt-get install -y php${PHP_VERSION}-xml php${PHP_VERSION}-dev php-pear libv8-5.4 \
+    && apt-get install -y php${LARADOCK_PHP_VERSION}-xml php${LARADOCK_PHP_VERSION}-dev php-pear libv8-5.4 \
     && pecl install v8js \
-    && echo "extension=v8js.so" >> /etc/php/${PHP_VERSION}/cli/php.ini \
+    && echo "extension=v8js.so" >> /etc/php/${LARADOCK_PHP_VERSION}/cli/php.ini \
 ;fi
 
 ###########################################################################
@@ -496,7 +625,7 @@ RUN if [ ${INSTALL_LARAVEL_ENVOY} = true ]; then \
 # Laravel Installer:
 ###########################################################################
 
-USER root
+USER laradock
 
 ARG COMPOSER_REPO_PACKAGIST
 ENV COMPOSER_REPO_PACKAGIST ${COMPOSER_REPO_PACKAGIST}
@@ -574,37 +703,31 @@ RUN if [ ${INSTALL_LINUXBREW} = true ]; then \
 ###########################################################################
 
 ARG INSTALL_MSSQL=false
-ARG PHP_VERSION=${PHP_VERSION}
 
 RUN set -eux; if [ ${INSTALL_MSSQL} = true ]; then \
-    ###########################################################################
-    #  The following steps were taken from
-    #  https://github.com/Microsoft/msphpsql/wiki/Install-and-configuration
-    ###########################################################################
-    curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
-    curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
-    apt-get update -yqq && \
-    ACCEPT_EULA=Y apt-get install -yqq msodbcsql=13.0.1.0-1 mssql-tools=14.0.2.0-1 && \
-    apt-get install -yqq unixodbc-dev-utf16 && \
-    ln -sfn /opt/mssql-tools/bin/sqlcmd-13.0.1.0 /usr/bin/sqlcmd && \
-    ln -sfn /opt/mssql-tools/bin/bcp-13.0.1.0 /usr/bin/bcp && \
-    ACCEPT_EULA=Y apt-get install -yqq \
-        unixodbc \
-        unixodbc-dev \
-        libgss3 \
-        odbcinst \
-        msodbcsql \
-        locales && \
-    echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
-    locale-gen && \
-    pecl install sqlsrv-4.3.0 pdo_sqlsrv-4.3.0 && \
-    apt-get install -y locales && \
-    echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
-    locale-gen && \
-    echo "extension=sqlsrv.so"     > /etc/php/${PHP_VERSION}/cli/conf.d/20-sqlsrv.ini && \
-    echo "extension=pdo_sqlsrv.so" > /etc/php/${PHP_VERSION}/cli/conf.d/20-pdo_sqlsrv.ini \
-    && php -m | grep -q 'sqlsrv' \
-    && php -m | grep -q 'pdo_sqlsrv' \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      apt-get -y install php5.6-sybase freetds-bin freetds-common libsybdb5 \
+      && php -m | grep -q 'mssql' \
+      && php -m | grep -q 'pdo_dblib' \
+    ;else \
+      ###########################################################################
+      #  The following steps were taken from
+      #  https://github.com/Microsoft/msphpsql/wiki/Install-and-configuration
+      ###########################################################################
+      curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
+      curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
+      apt-get update -yqq && \
+      ACCEPT_EULA=Y apt-get install -y msodbcsql17 mssql-tools unixodbc unixodbc-dev libgss3 odbcinst locales && \
+      ln -sfn /opt/mssql-tools/bin/sqlcmd /usr/bin/sqlcmd && \
+      ln -sfn /opt/mssql-tools/bin/bcp /usr/bin/bcp && \
+      echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
+      locale-gen && \
+      pecl install sqlsrv pdo_sqlsrv && \
+      echo "extension=sqlsrv.so"     > /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-sqlsrv.ini && \
+      echo "extension=pdo_sqlsrv.so" > /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-pdo_sqlsrv.ini \
+      && php -m | grep -q 'sqlsrv' \
+      && php -m | grep -q 'pdo_sqlsrv' \
+    ;fi \
 ;fi
 
 ###########################################################################
@@ -631,9 +754,9 @@ USER root
 ARG INSTALL_IMAGE_OPTIMIZERS=false
 
 RUN if [ ${INSTALL_IMAGE_OPTIMIZERS} = true ]; then \
-    apt-get install -y --force-yes jpegoptim optipng pngquant gifsicle && \
+    apt-get install -y jpegoptim optipng pngquant gifsicle && \
     if [ ${INSTALL_NODE} = true ]; then \
-        . ~/.bashrc && npm install -g svgo \
+        exec bash && . ~/.bashrc && npm install -g svgo \
     ;fi\
 ;fi
 
@@ -680,7 +803,7 @@ USER root
 ARG INSTALL_IMAGEMAGICK=false
 
 RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
-    apt-get install -y --force-yes imagemagick php-imagick \
+    apt-get install -y imagemagick php-imagick \
 ;fi
 
 ###########################################################################
@@ -708,8 +831,21 @@ ARG INSTALL_PG_CLIENT=false
 
 RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
     # Install the pgsql client
-    apt-get -y install postgresql-client \
+    apt-get install wget \
+    && add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main" \
+    && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
+    && apt-get update \
+    && apt-get -y install postgresql-client-10 \
 ;fi
+
+###########################################################################
+# nasm
+###########################################################################
+
+USER root
+
+RUN apt-get update -yqq \
+    && apt-get -yqq install nasm 
 
 ###########################################################################
 # Dusk Dependencies:
@@ -738,12 +874,42 @@ RUN if [ ${INSTALL_DUSK_DEPS} = true ]; then \
 ;fi
 
 ###########################################################################
+# Phalcon:
+###########################################################################
+
+ARG INSTALL_PHALCON=false
+ARG LARADOCK_PHALCON_VERSION
+ENV LARADOCK_PHALCON_VERSION ${LARADOCK_PHALCON_VERSION}
+
+RUN if [ $INSTALL_PHALCON = true ]; then \
+    apt-get update && apt-get install -y unzip libpcre3-dev gcc make re2c \
+    && curl -L -o /tmp/cphalcon.zip https://github.com/phalcon/cphalcon/archive/v${LARADOCK_PHALCON_VERSION}.zip \
+    && unzip -d /tmp/ /tmp/cphalcon.zip \
+    && cd /tmp/cphalcon-${LARADOCK_PHALCON_VERSION}/build \
+    && ./install \
+    && echo "extension=phalcon.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/phalcon.ini \
+    && ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/phalcon.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/30-phalcon.ini \
+    && rm -rf /tmp/cphalcon* \
+;fi
+
+###########################################################################
+# MySQL Client:
+###########################################################################
+
+USER root
+
+ARG INSTALL_MYSQL_CLIENT=false
+
+RUN if [ ${INSTALL_MYSQL_CLIENT} = true ]; then \
+    apt-get update -yqq && \
+    apt-get -y install mysql-client \
+;fi
+
+###########################################################################
 # Check PHP version:
 ###########################################################################
 
-ARG PHP_VERSION=${PHP_VERSION}
-
-RUN php -v | head -n 1 | grep -q "PHP ${PHP_VERSION}."
+RUN php -v | head -n 1 | grep -q "PHP ${LARADOCK_PHP_VERSION}."
 
 #
 #--------------------------------------------------------------------------
