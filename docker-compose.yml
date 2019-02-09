@@ -39,6 +39,8 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   elasticsearch:
     driver: ${VOLUMES_DRIVER}
+  mosquitto:
+    driver: ${VOLUMES_DRIVER}
 
 services:
 
@@ -93,6 +95,7 @@ services:
           - INSTALL_SWOOLE=${WORKSPACE_INSTALL_SWOOLE}
           - INSTALL_LIBPNG=${WORKSPACE_INSTALL_LIBPNG}
           - INSTALL_IONCUBE=${WORKSPACE_INSTALL_IONCUBE}
+          - INSTALL_MYSQL_CLIENT=${WORKSPACE_INSTALL_MYSQL_CLIENT}
           - PUID=${WORKSPACE_PUID}
           - PGID=${WORKSPACE_PGID}
           - CHROME_DRIVER_VERSION=${WORKSPACE_CHROME_DRIVER_VERSION}
@@ -111,9 +114,12 @@ services:
       tty: true
       environment:
         - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
+        - DOCKER_HOST=tcp://docker-in-docker:2375
       networks:
         - frontend
         - backend
+      links:
+        - docker-in-docker
 
 ### PHP-FPM ##############################################
     php-fpm:
@@ -143,7 +149,6 @@ services:
           - INSTALL_MYSQLI=${PHP_FPM_INSTALL_MYSQLI}
           - INSTALL_PGSQL=${PHP_FPM_INSTALL_PGSQL}
           - INSTALL_PG_CLIENT=${PHP_FPM_INSTALL_PG_CLIENT}
-          - INSTALL_TOKENIZER=${PHP_FPM_INSTALL_TOKENIZER}
           - INSTALL_INTL=${PHP_FPM_INSTALL_INTL}
           - INSTALL_GHOSTSCRIPT=${PHP_FPM_INSTALL_GHOSTSCRIPT}
           - INSTALL_LDAP=${PHP_FPM_INSTALL_LDAP}
@@ -154,6 +159,8 @@ services:
           - INSTALL_CALENDAR=${PHP_FPM_INSTALL_CALENDAR}
           - INSTALL_FAKETIME=${PHP_FPM_INSTALL_FAKETIME}
           - INSTALL_IONCUBE=${PHP_FPM_INSTALL_IONCUBE}
+          - INSTALL_APCU=${PHP_FPM_INSTALL_APCU}
+          - INSTALL_YAML=${PHP_FPM_INSTALL_YAML}
       volumes:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
@@ -178,11 +185,37 @@ services:
         context: ./php-worker
         args:
           - PHP_VERSION=${PHP_VERSION}
+          - PHALCON_VERSION=${PHALCON_VERSION}
           - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL}
           - INSTALL_BCMATH=${PHP_WORKER_INSTALL_BCMATH}
+          - INSTALL_PHALCON=${PHP_WORKER_INSTALL_PHALCON}
+          - INSTALL_SOAP=${PHP_WORKER_INSTALL_SOAP}
+          - INSTALL_ZIP_ARCHIVE=${PHP_WORKER_INSTALL_ZIP_ARCHIVE}
+          - INSTALL_MYSQL_CLIENT=${PHP_WORKER_INSTALL_MYSQL_CLIENT}
+          - INSTALL_AMQP=${PHP_WORKER_INSTALL_AMQP}
+          - PUID=${PHP_WORKER_PUID}
+          - PGID=${PHP_WORKER_PGID}
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
         - ./php-worker/supervisord.d:/etc/supervisord.d
+      depends_on:
+        - workspace
+      extra_hosts:
+        - "dockerhost:${DOCKER_HOST_IP}"
+      networks:
+        - backend
+### Laravel Horizon ############################################
+    laravel-horizon:
+      build:
+        context: ./laravel-horizon
+        args:
+          - PHP_VERSION=${PHP_VERSION}
+          - INSTALL_PGSQL=${PHP_FPM_INSTALL_PGSQL}
+          - INSTALL_BCMATH=${PHP_FPM_INSTALL_BCMATH}
+          - INSTALL_MEMCACHED=${PHP_FPM_INSTALL_MEMCACHED}
+      volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+        - ./laravel-horizon/supervisord.d:/etc/supervisord.d
       depends_on:
         - workspace
       extra_hosts:
@@ -202,6 +235,7 @@ services:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
         - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
         - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
+        - ${NGINX_SSL_PATH}:/etc/nginx/ssl
       ports:
         - "${NGINX_HOST_HTTP_PORT}:80"
         - "${NGINX_HOST_HTTPS_PORT}:443"
@@ -420,6 +454,17 @@ services:
       networks:
         - backend
 
+### ZooKeeper #########################################
+    zookeeper:
+      build: ./zookeeper
+      volumes:
+        - ${DATA_PATH_HOST}/zookeeper/data:/data
+        - ${DATA_PATH_HOST}/zookeeper/datalog:/datalog
+      ports:
+        - "${ZOOKEEPER_PORT}:2181"
+      networks:
+        - backend
+
 ### Aerospike ##########################################
     aerospike:
       build: ./aerospike
@@ -468,6 +513,9 @@ services:
       environment:
         - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
         - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+      hostname: laradock-rabbitmq
+      volumes:
+        - ${DATA_PATH_HOST}/rabbitmq:/var/lib/rabbitmq
       depends_on:
         - php-fpm
       networks:
@@ -565,6 +613,24 @@ services:
         - frontend
         - backend
 
+### Logstash ##############################################
+    logstash:
+      build: ./logstash
+      volumes:
+        - './logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml'
+        - './logstash/pipeline:/usr/share/logstash/pipeline'
+      ports:
+        - '5001:5001'
+      environment:
+        LS_JAVA_OPTS: '-Xmx1g -Xms1g'
+      env_file:
+        - .env
+      networks:
+        - frontend
+        - backend
+      depends_on:
+        - elasticsearch
+
 ### Kibana ##############################################
     kibana:
       build: ./kibana
@@ -582,7 +648,7 @@ services:
         context: ./certbot
       volumes:
         - ./data/certbot/certs/:/var/certs
-        - ./certbot/letsencrypt/:${APP_CODE_PATH_CONTAINER}/letsencrypt
+        - ./certbot/letsencrypt/:/var/www/letsencrypt
       environment:
         - CN="fake.domain.com"
         - EMAIL="fake.email@gmail.com"
@@ -705,7 +771,7 @@ services:
       networks:
         - frontend
         - backend
-        
+
 ### Solr ################################################
     solr:
       build:
@@ -713,6 +779,7 @@ services:
         args:
           - SOLR_VERSION=${SOLR_VERSION}
           - SOLR_DATAIMPORTHANDLER_MYSQL=${SOLR_DATAIMPORTHANDLER_MYSQL}
+          - SOLR_DATAIMPORTHANDLER_MSSQL=${SOLR_DATAIMPORTHANDLER_MSSQL}
       volumes:
         - ${DATA_PATH_HOST}/solr:/opt/solr/server/solr/mycores
       ports:
@@ -1016,7 +1083,7 @@ services:
         - backend
       depends_on:
         - mongo
-  
+
 ### Metabase #################################################
     metabase:
       image: metabase/metabase:latest
@@ -1278,3 +1345,33 @@ services:
         backend:
           aliases:
             - fetchmail
+
+### TRAEFIK #########################################
+    traefik:
+      build:
+        context: ./traefik
+      command: --docker
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+      ports:
+        - "${TRAEFIK_HOST_HTTP_PORT}:80"
+        - "${TRAEFIK_HOST_HTTPS_PORT}:443"
+      networks:
+        - frontend
+        - backend
+      labels:
+        - traefik.backend=traefik
+        - traefik.frontend.rule=Host:monitor.localhost
+        - traefik.port=8080
+
+### MOSQUITTO Broker #########################################
+    mosquitto:
+      build:
+        context: ./mosquitto
+      volumes:
+        - ${DATA_PATH_HOST}/mosquitto/data:/mosquitto/data
+      ports:
+        - "${MOSQUITTO_PORT}:9001"
+      networks:
+        - frontend
+        - backend
