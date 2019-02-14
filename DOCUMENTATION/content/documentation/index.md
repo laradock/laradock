@@ -1300,6 +1300,19 @@ We also recommend [setting the timezone in Laravel](http://www.camroncade.com/ma
 
 
 
+<br>
+<a name="Add locales to PHP-FPM"></a>
+## Add locales to PHP-FPM
+
+To add locales to the container:
+
+1 - Open the `.env` file and set `PHP_FPM_INSTALL_ADDITIONAL_LOCALES` to `true`.
+
+2 - Add locale codes to `PHP_FPM_ADDITIONAL_LOCALES`.
+
+3 - Re-build your PHP-FPM Container `docker-compose build php-fpm`.
+
+4 - Check enabled locales with `docker-compose exec php-fpm locale -a`
 
 
 
