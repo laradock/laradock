@@ -53,6 +53,13 @@ RUN apt-get update -yqq && \
 # to add more Software's or remove existing one, you need to edit the
 # base image (https://github.com/Laradock/workspace).
 #
+# next lines are here becase there is no auto build on dockerhub see https://github.com/laradock/laradock/pull/1903#issuecomment-463142846
+USER root
+
+RUN apt-get install libzip-dev zip unzip -y && \
+    docker-php-ext-configure zip --with-libzip && \
+    # Install the zip extension
+    docker-php-ext-install zip \
 
 #
 #--------------------------------------------------------------------------
@@ -172,19 +179,6 @@ RUN if [ ${INSTALL_DRUSH} = true ]; then \
     curl -fsSL -o /usr/local/bin/drush https://github.com/drush-ops/drush/releases/download/${DRUSH_VERSION}/drush.phar | bash && \
     chmod +x /usr/local/bin/drush && \
     drush core-status \
-;fi
-
-###########################################################################
-# Zip:
-###########################################################################
-
-USER root
-
-ARG INSTALL_ZIP=false
-
-RUN if [ ${INSTALL_ZIP} = true ]; then \
-  # Install the PHP ZIP extension
-  apt-get -y install zip unzip \
 ;fi
 
 ###########################################################################
