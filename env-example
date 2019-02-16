@@ -137,7 +137,6 @@ WORKSPACE_SSH_PORT=2222
 
 ### PHP_FPM ###############################################
 
-PHP_FPM_INSTALL_ZIP_ARCHIVE=true
 PHP_FPM_INSTALL_BCMATH=true
 PHP_FPM_INSTALL_MYSQLI=true
 PHP_FPM_INSTALL_INTL=true
