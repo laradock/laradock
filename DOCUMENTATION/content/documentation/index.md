@@ -709,6 +709,44 @@ composer require predis/predis:^1.0
 
 
 <br>
+<a name="Use-Redis-Cluster"></a>
+## Use Redis Cluster
+
+1 - First make sure you run the Redis-Cluster Container (`redis-cluster`) with the `docker-compose up` command.
+
+```bash
+docker-compose up -d redis-cluster
+```
+
+2 - Open your Laravel's `config/database.php` and set the redis cluster configuration. Below is example configuration with phpredis.
+
+Read the [Laravel official documentation](https://laravel.com/docs/5.7/redis#configuration) for more details.
+
+```php
+'redis' => [
+    'client' => 'phpredis',
+    'options' => [
+        'cluster' => 'redis',
+    ],
+    'clusters' => [
+        'default' => [
+            [
+                'host' => 'redis-cluster',
+                'password' => null,
+                'port' => 7000,
+                'database' => 0,
+            ],
+        ],
+    ],
+],
+```
+
+
+
+
+
+
+<br>
 <a name="Use-Mongo"></a>
 ## Use Mongo
 

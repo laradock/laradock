@@ -220,6 +220,10 @@ MYSQL_ENTRYPOINT_INITDB=./mysql/docker-entrypoint-initdb.d
 
 REDIS_PORT=6379
 
+### REDIS CLUSTER #########################################
+
+REDIS_CLUSTER_PORT_RANGE=7000-7005
+
 ### ZooKeeper #############################################
 
 ZOOKEEPER_PORT=2181
