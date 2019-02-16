@@ -44,8 +44,7 @@ USER root
 RUN apt-get install libzip-dev zip unzip -y && \
     docker-php-ext-configure zip --with-libzip && \
     # Install the zip extension
-    docker-php-ext-install zip \
-
+    docker-php-ext-install zip
 
 #
 #--------------------------------------------------------------------------

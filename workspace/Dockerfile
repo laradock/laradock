@@ -56,10 +56,9 @@ RUN apt-get update -yqq && \
 # next lines are here becase there is no auto build on dockerhub see https://github.com/laradock/laradock/pull/1903#issuecomment-463142846
 USER root
 
-RUN apt-get install libzip-dev zip unzip -y && \
-    docker-php-ext-configure zip --with-libzip && \
+RUN apt-get install -y libzip-dev zip unzip \
     # Install the zip extension
-    docker-php-ext-install zip \
+    php${LARADOCK_PHP_VERSION}-zip
 
 #
 #--------------------------------------------------------------------------
