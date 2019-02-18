@@ -409,6 +409,15 @@ RUN if [ ${INSTALL_MYSQLI} = true ]; then \
     docker-php-ext-install mysqli \
 ;fi
 
+###########################################################################
+# Tokenizer Modifications:
+###########################################################################
+
+ARG INSTALL_TOKENIZER=false
+
+RUN if [ ${INSTALL_TOKENIZER} = true ]; then \
+    docker-php-ext-install tokenizer \
+;fi
 
 ###########################################################################
 # Human Language and Character Encoding Support:
