@@ -660,3 +660,10 @@ MOSQUITTO_PORT=9001
 ### COUCHDB ###################################################
 
 COUCHDB_PORT=5984
+
+### Manticore Search ##########################################
+
+MANTICORE_CONFIG_PATH=./manticore/config
+MANTICORE_API_PORT=9312
+MANTICORE_SPHINXQL_PORT=9306
+MANTICORE_HTTP_PORT=9308
