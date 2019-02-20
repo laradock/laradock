@@ -163,6 +163,7 @@ services:
           - INSTALL_APCU=${PHP_FPM_INSTALL_APCU}
           - INSTALL_YAML=${PHP_FPM_INSTALL_YAML}
           - INSTALL_ADDITIONAL_LOCALES=${PHP_FPM_INSTALL_ADDITIONAL_LOCALES}
+          - INSTALL_MYSQL_CLIENT=${PHP_FPM_INSTALL_MYSQL_CLIENT}
           - ADDITIONAL_LOCALES=${PHP_FPM_ADDITIONAL_LOCALES}
       volumes:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
@@ -944,16 +945,16 @@ services:
         context: ./gitlab
       environment:
         GITLAB_OMNIBUS_CONFIG: |
-          external_url '${GITLAB_DOMAIN_NAME}' 
-          redis['enable'] = false 
-          nginx['listen_https'] = false 
-          nginx['listen_port'] = 80 
+          external_url '${GITLAB_DOMAIN_NAME}'
+          redis['enable'] = false
+          nginx['listen_https'] = false
+          nginx['listen_port'] = 80
           nginx['custom_gitlab_server_config'] = "set_real_ip_from 172.0.0.0/8;\nreal_ip_header X-Real-IP;\nreal_ip_recursive on;"
-          postgresql['enable'] = false 
-          gitlab_rails['trusted_proxies'] = ['caddy','nginx','apache2'] 
-          gitlab_rails['redis_host'] = 'redis' 
+          postgresql['enable'] = false
+          gitlab_rails['trusted_proxies'] = ['caddy','nginx','apache2']
+          gitlab_rails['redis_host'] = 'redis'
           gitlab_rails['redis_database'] = 8
-          gitlab_rails['db_host'] = '${GITLAB_POSTGRES_HOST}' 
+          gitlab_rails['db_host'] = '${GITLAB_POSTGRES_HOST}'
           gitlab_rails['db_username'] = '${GITLAB_POSTGRES_USER}'
           gitlab_rails['db_password'] = '${GITLAB_POSTGRES_PASSWORD}'
           gitlab_rails['db_database'] = '${GITLAB_POSTGRES_DB}'
@@ -983,7 +984,7 @@ services:
       volumes:
         - ${DATA_PATH_HOST}/gitlab/runner:/etc/gitlab-runner
         - /var/run/docker.sock:/var/run/docker.sock:rw
-      
+
 ### JupyterHub #########################################
     jupyterhub:
       build:
