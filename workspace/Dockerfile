@@ -406,7 +406,7 @@ ARG INSTALL_SWOOLE=false
 RUN if [ ${INSTALL_SWOOLE} = true ]; then \
     # Install Php Swoole Extension
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-      pecl -q install swoole-2.0.11; \
+      pecl -q install swoole-2.0.10; \
     else \
       if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
         pecl install swoole-2.2.0; \
@@ -416,6 +416,7 @@ RUN if [ ${INSTALL_SWOOLE} = true ]; then \
     fi && \
     echo "extension=swoole.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/swoole.ini && \
     ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/swoole.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-swoole.ini \
+    && php -m | grep -q 'swoole' \
 ;fi
 
 ###########################################################################
