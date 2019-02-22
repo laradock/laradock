@@ -477,7 +477,11 @@ RUN set -eux; if [ ${INSTALL_MSSQL} = true ]; then \
       && ln -sfn /etc/locale.alias /usr/share/locale/locale.alias \
       && locale-gen \
       # Install pdo_sqlsrv and sqlsrv from PECL. Replace pdo_sqlsrv-4.1.8preview with preferred version.
-      && pecl install pdo_sqlsrv sqlsrv \
+      && if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+        pecl install pdo_sqlsrv-5.3.0 sqlsrv-5.3.0 \
+      ;else \
+        pecl install pdo_sqlsrv sqlsrv \
+      ;fi \
       && docker-php-ext-enable pdo_sqlsrv sqlsrv \
       && php -m | grep -q 'pdo_sqlsrv' \
       && php -m | grep -q 'sqlsrv' \
