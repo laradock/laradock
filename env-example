@@ -372,11 +372,6 @@ AEROSPIKE_FABRIC_PORT=3001
 AEROSPIKE_HEARTBEAT_PORT=3002
 AEROSPIKE_INFO_PORT=3003
 
-# for all versions
-AEROSPIKE_PHP_REPOSITORY=https://github.com/aerospike/aerospike-client-php/archive/master.tar.gz
-# for php 5.6
-# AEROSPIKE_PHP_REPOSITORY=https://github.com/aerospike/aerospike-client-php5/archive/3.4.15.tar.gz
-
 ### RETHINKDB #############################################
 
 RETHINKDB_PORT=8090

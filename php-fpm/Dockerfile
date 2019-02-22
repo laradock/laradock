@@ -24,7 +24,7 @@ ARG LARADOCK_PHP_VERSION
 ENV DEBIAN_FRONTEND noninteractive
 
 # always run apt update when start and after add new source list, then clean up at end.
-RUN apt-get update -yqq && \
+RUN set -xe && apt-get update -yqq && \
     apt-get install -y apt-utils && \
     pecl channel-update pecl.php.net
 
@@ -338,30 +338,29 @@ RUN if [ ${INSTALL_EXIF} = true ]; then \
 USER root
 
 ARG INSTALL_AEROSPIKE=false
-ARG AEROSPIKE_PHP_REPOSITORY
 
-RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
+RUN set -xe && if [ ${INSTALL_AEROSPIKE} = true ]; then \
     # Fix dependencies for PHPUnit within aerospike extension
     apt-get -y install sudo wget && \
     # Install the php aerospike extension
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
       curl -L -o /tmp/aerospike-client-php.tar.gz https://github.com/aerospike/aerospike-client-php5/archive/master.tar.gz; \
     else \
-      curl -L -o /tmp/aerospike-client-php.tar.gz ${AEROSPIKE_PHP_REPOSITORY}; \
+      curl -L -o /tmp/aerospike-client-php.tar.gz https://github.com/aerospike/aerospike-client-php/archive/master.tar.gz; \
     fi \
-    && mkdir -p aerospike-client-php \
-    && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
+    && mkdir -p /tmp/aerospike-client-php \
+    && tar -C /tmp/aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
     && \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
       ( \
-          cd aerospike-client-php/src/aerospike \
+          cd /tmp/aerospike-client-php/src/aerospike \
           && phpize \
           && ./build.sh \
           && make install \
       ) \
     else \
       ( \
-          cd aerospike-client-php/src \
+          cd /tmp/aerospike-client-php/src \
           && phpize \
           && ./build.sh \
           && make install \
