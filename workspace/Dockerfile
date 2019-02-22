@@ -416,6 +416,7 @@ RUN if [ ${INSTALL_SWOOLE} = true ]; then \
     fi && \
     echo "extension=swoole.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/swoole.ini && \
     ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/swoole.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-swoole.ini \
+    && php -m | grep -q 'swoole' \
 ;fi
 
 ###########################################################################
