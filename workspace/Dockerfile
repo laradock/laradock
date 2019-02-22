@@ -746,7 +746,11 @@ RUN set -eux; if [ ${INSTALL_MSSQL} = true ]; then \
       ln -sfn /opt/mssql-tools/bin/bcp /usr/bin/bcp && \
       echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
       locale-gen && \
-      pecl install sqlsrv pdo_sqlsrv && \
+      if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+        pecl install sqlsrv-5.3.0 pdo_sqlsrv-5.3.0 \
+      ;else \
+        pecl install sqlsrv pdo_sqlsrv \
+      ;fi && \
       echo "extension=sqlsrv.so"     > /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-sqlsrv.ini && \
       echo "extension=pdo_sqlsrv.so" > /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-pdo_sqlsrv.ini \
       && php -m | grep -q 'sqlsrv' \
