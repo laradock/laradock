@@ -37,28 +37,31 @@ ARG PGID=1000
 ENV PGID ${PGID}
 
 # always run apt update when start and after add new source list, then clean up at end.
-RUN set -xe && apt-get update -yqq && \
+RUN set -xe; \
+    apt-get update -yqq && \
     pecl channel-update pecl.php.net && \
     groupadd -g ${PGID} laradock && \
     useradd -u ${PUID} -g laradock -m laradock -G docker_env && \
-    usermod -p "*" laradock -s /bin/bash
-
-#
-#--------------------------------------------------------------------------
-# Mandatory Software's Installation
-#--------------------------------------------------------------------------
-#
-# Mandatory Software's such as ("php-cli", "git", "vim", ....) are
-# installed on the base image 'laradock/workspace' image. If you want
-# to add more Software's or remove existing one, you need to edit the
-# base image (https://github.com/Laradock/workspace).
-#
-# next lines are here becase there is no auto build on dockerhub see https://github.com/laradock/laradock/pull/1903#issuecomment-463142846
-USER root
-
-RUN apt-get install -y libzip-dev zip unzip \
-    # Install the zip extension
-    php${LARADOCK_PHP_VERSION}-zip
+    usermod -p "*" laradock -s /bin/bash && \
+    apt-get install -yqq \
+      apt-utils \
+      #
+      #--------------------------------------------------------------------------
+      # Mandatory Software's Installation
+      #--------------------------------------------------------------------------
+      #
+      # Mandatory Software's such as ("php-cli", "git", "vim", ....) are
+      # installed on the base image 'laradock/workspace' image. If you want
+      # to add more Software's or remove existing one, you need to edit the
+      # base image (https://github.com/Laradock/workspace).
+      #
+      # next lines are here becase there is no auto build on dockerhub see https://github.com/laradock/laradock/pull/1903#issuecomment-463142846
+      libzip-dev zip unzip \
+      # Install the zip extension
+      php${LARADOCK_PHP_VERSION}-zip \
+      # nasm
+      nasm && \
+      php -m | grep -q 'zip'
 
 #
 #--------------------------------------------------------------------------
@@ -96,14 +99,14 @@ RUN sed -i 's/\r//' /root/aliases.sh && \
     echo "" >> ~/.bashrc && \
     echo "# Load Custom Aliases" >> ~/.bashrc && \
     echo "source ~/aliases.sh" >> ~/.bashrc && \
-	echo "" >> ~/.bashrc
+	  echo "" >> ~/.bashrc
 
 USER laradock
 
 RUN echo "" >> ~/.bashrc && \
     echo "# Load Custom Aliases" >> ~/.bashrc && \
     echo "source ~/aliases.sh" >> ~/.bashrc && \
-	echo "" >> ~/.bashrc
+	  echo "" >> ~/.bashrc
 
 ###########################################################################
 # Composer:
@@ -583,7 +586,8 @@ USER root
 
 ARG INSTALL_AEROSPIKE=false
 
-RUN set -xe && if [ ${INSTALL_AEROSPIKE} = true ]; then \
+RUN set -xe; \
+  if [ ${INSTALL_AEROSPIKE} = true ]; then \
     # Fix dependencies for PHPUnit within aerospike extension
     apt-get -y install sudo wget && \
     # Install the php aerospike extension
@@ -614,7 +618,7 @@ RUN set -xe && if [ ${INSTALL_AEROSPIKE} = true ]; then \
     && echo 'extension=aerospike.so' >> /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/aerospike.ini \
     && echo 'aerospike.udf.lua_system_path=/usr/local/aerospike/lua' >> /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/aerospike.ini \
     && echo 'aerospike.udf.lua_user_path=/usr/local/aerospike/usr-lua' >> /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/aerospike.ini \
-;fi
+  ;fi
 
 ###########################################################################
 # PHP V8JS:
@@ -624,7 +628,8 @@ USER root
 
 ARG INSTALL_V8JS=false
 
-RUN set -xe && if [ ${INSTALL_V8JS} = true ]; then \
+RUN set -xe; \
+  if [ ${INSTALL_V8JS} = true ]; then \
     add-apt-repository -y ppa:pinepain/libv8-archived \
     && apt-get update -yqq \
     && apt-get install -y libv8-5.4 && \
@@ -635,7 +640,7 @@ RUN set -xe && if [ ${INSTALL_V8JS} = true ]; then \
     fi \
     && echo "extension=v8js.so" >> /etc/php/${LARADOCK_PHP_VERSION}/cli/php.ini \
     && php -m | grep -q 'v8js' \
-;fi
+  ;fi
 
 ###########################################################################
 # Laravel Envoy:
@@ -733,7 +738,8 @@ RUN if [ ${INSTALL_LINUXBREW} = true ]; then \
 
 ARG INSTALL_MSSQL=false
 
-RUN set -eux; if [ ${INSTALL_MSSQL} = true ]; then \
+RUN set -eux; \
+  if [ ${INSTALL_MSSQL} = true ]; then \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
       apt-get -y install php5.6-sybase freetds-bin freetds-common libsybdb5 \
       && php -m | grep -q 'mssql' \
@@ -761,7 +767,7 @@ RUN set -eux; if [ ${INSTALL_MSSQL} = true ]; then \
       && php -m | grep -q 'sqlsrv' \
       && php -m | grep -q 'pdo_sqlsrv' \
     ;fi \
-;fi
+  ;fi
 
 ###########################################################################
 # Minio:
@@ -872,15 +878,6 @@ RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
 ;fi
 
 ###########################################################################
-# nasm
-###########################################################################
-
-USER root
-
-RUN apt-get update -yqq \
-    && apt-get -yqq install nasm 
-
-###########################################################################
 # Dusk Dependencies:
 ###########################################################################
 
@@ -942,7 +939,7 @@ RUN if [ ${INSTALL_MYSQL_CLIENT} = true ]; then \
 # Check PHP version:
 ###########################################################################
 
-RUN php -v | head -n 1 | grep -q "PHP ${LARADOCK_PHP_VERSION}."
+RUN set -xe; php -v | head -n 1 | grep -q "PHP ${LARADOCK_PHP_VERSION}."
 
 #
 #--------------------------------------------------------------------------
