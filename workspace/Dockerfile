@@ -624,13 +624,17 @@ USER root
 
 ARG INSTALL_V8JS=false
 
-RUN if [ ${INSTALL_V8JS} = true ]; then \
-    # Install the php V8JS extension
+RUN set -xe && if [ ${INSTALL_V8JS} = true ]; then \
     add-apt-repository -y ppa:pinepain/libv8-archived \
     && apt-get update -yqq \
-    && apt-get install -y php${LARADOCK_PHP_VERSION}-xml php${LARADOCK_PHP_VERSION}-dev php-pear libv8-5.4 \
-    && pecl install v8js \
+    && apt-get install -y libv8-5.4 && \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      pecl install v8js-0.6.4; \
+    else \
+      pecl install v8js; \
+    fi \
     && echo "extension=v8js.so" >> /etc/php/${LARADOCK_PHP_VERSION}/cli/php.ini \
+    && php -m | grep -q 'v8js' \
 ;fi
 
 ###########################################################################
