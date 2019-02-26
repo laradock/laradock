@@ -709,6 +709,44 @@ composer require predis/predis:^1.0
 
 
 <br>
+<a name="Use-Redis-Cluster"></a>
+## Use Redis Cluster
+
+1 - First make sure you run the Redis-Cluster Container (`redis-cluster`) with the `docker-compose up` command.
+
+```bash
+docker-compose up -d redis-cluster
+```
+
+2 - Open your Laravel's `config/database.php` and set the redis cluster configuration. Below is example configuration with phpredis.
+
+Read the [Laravel official documentation](https://laravel.com/docs/5.7/redis#configuration) for more details.
+
+```php
+'redis' => [
+    'client' => 'phpredis',
+    'options' => [
+        'cluster' => 'redis',
+    ],
+    'clusters' => [
+        'default' => [
+            [
+                'host' => 'redis-cluster',
+                'password' => null,
+                'port' => 7000,
+                'database' => 0,
+            ],
+        ],
+    ],
+],
+```
+
+
+
+
+
+
+<br>
 <a name="Use-Mongo"></a>
 ## Use Mongo
 
@@ -1018,8 +1056,9 @@ docker-compose up -d rethinkdb
 - set the `DB_DATABASE` to `database`.
 
 
+#### Additional Notes
 
-
+- You may do backing up of your data using the next reference: [backing up your data](https://www.rethinkdb.com/docs/backup/).
 
 
 <br>
@@ -1122,6 +1161,87 @@ docker-compose up -d grafana
 
 
 <br>
+<a name="Use-Traefik"></a>
+## Use Traefik
+
+To use Traefik you need to do some changes in `traefik/trafik.toml` and `docker-compose.yml`.
+
+1 - Open `traefik.toml` and change the `e-mail` property in `acme` section.
+
+2 - Change your domain in `acme.domains`. For example: `main = "example.org"`
+
+2.1 - If you have subdomains, you must add them to `sans` property in `acme.domains` section.
+
+```bash
+[[acme.domais]]
+  main = "example.org"
+  sans = ["monitor.example.org", "pma.example.org"]
+```
+
+3 - If you need to add basic authentication (https://docs.traefik.io/configuration/entrypoints/#basic-authentication), you just need to add the following text after `[entryPoints.https.tls]`:
+
+```bash
+[entryPoints.https.auth.basic]
+  users = ["user:password"]
+```
+
+4 - You need to change the `docker-compose.yml` file to match the Traefik needs. If you want to use Traefik, you must not expose the ports of each container to the internet, but specify some labels.
+
+4.1 For example, let's try with NGINX. You must have:
+
+```bash
+nginx:
+  build:
+    context: ./nginx
+    args:
+      - PHP_UPSTREAM_CONTAINER=${NGINX_PHP_UPSTREAM_CONTAINER}
+      - PHP_UPSTREAM_PORT=${NGINX_PHP_UPSTREAM_PORT}
+      - CHANGE_SOURCE=${CHANGE_SOURCE}
+  volumes:
+    - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+    - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
+    - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
+  depends_on:
+    - php-fpm
+  networks:
+    - frontend
+    - backend
+  labels:
+    - traefik.backend=nginx
+    - traefik.frontend.rule=Host:example.org
+    - traefik.port=80
+```
+
+instead of
+
+```bash
+nginx:
+  build:
+    context: ./nginx
+    args:
+      - PHP_UPSTREAM_CONTAINER=${NGINX_PHP_UPSTREAM_CONTAINER}
+      - PHP_UPSTREAM_PORT=${NGINX_PHP_UPSTREAM_PORT}
+      - CHANGE_SOURCE=${CHANGE_SOURCE}
+  volumes:
+    - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+    - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
+    - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
+    - ${NGINX_SSL_PATH}:/etc/nginx/ssl
+  ports:
+    - "${NGINX_HOST_HTTP_PORT}:80"
+    - "${NGINX_HOST_HTTPS_PORT}:443"
+  depends_on:
+    - php-fpm
+  networks:
+    - frontend
+    - backend
+```
+
+
+
+
+
+<br>
 <a name="Use-Mosquitto"></a>
 ## Use Mosquitto (MQTT Broker)
 
@@ -1138,7 +1258,6 @@ docker-compose up -d mosquitto
 4 - Subscribe: `mqtt sub -t 'test' -h localhost -p 9001 -C 'ws' -v`
 
 5 - Publish: `mqtt pub -t 'test' -h localhost -p 9001 -C 'ws' -m 'Hello!'`
-
 
 
 
@@ -1219,6 +1338,19 @@ We also recommend [setting the timezone in Laravel](http://www.camroncade.com/ma
 
 
 
+<br>
+<a name="Add locales to PHP-FPM"></a>
+## Add locales to PHP-FPM
+
+To add locales to the container:
+
+1 - Open the `.env` file and set `PHP_FPM_INSTALL_ADDITIONAL_LOCALES` to `true`.
+
+2 - Add locale codes to `PHP_FPM_ADDITIONAL_LOCALES`.
+
+3 - Re-build your PHP-FPM Container `docker-compose build php-fpm`.
+
+4 - Check enabled locales with `docker-compose exec php-fpm locale -a`
 
 
 
@@ -1519,6 +1651,22 @@ To install NPM VUE CLI in the Workspace container
 
 
 
+<br>
+<a name="Install-NPM-ANGULAR-CLI"></a>
+## Install NPM ANGULAR CLI
+
+To install NPM ANGULAR CLI in the Workspace container
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_NPM_ANGULAR_CLI` argument under the Workspace Container and set it to `true`
+
+3 - Re-build the container `docker-compose build workspace`
+
+
+
+
+
 
 <br>
 <a name="Install-Linuxbrew"></a>
@@ -1751,7 +1899,7 @@ Laradock comes with `sync.sh`, an optional bash script, that automates installin
 DOCKER_SYNC_STRATEGY=native_osx
 ```
 
-3) set `APP_CODE_PATH_CONTAINER=/var/www` to `APP_CODE_PATH_CONTAINER=/var/www:nocopy` in the .env file
+3) set `APP_CODE_CONTAINER_FLAG` to `APP_CODE_CONTAINER_FLAG=:nocopy` in the .env file
 
 4) Install the docker-sync gem on the host-machine:
 ```bash
