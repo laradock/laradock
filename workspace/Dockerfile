@@ -117,6 +117,9 @@ USER root
 # Add the composer.json
 COPY ./composer.json /home/laradock/.composer/composer.json
 
+# Add the auth.json for magento 2 credentials
+COPY ./composer.json /home/laradock/.composer/auth.json
+
 # Make sure that ~/.composer belongs to laradock
 RUN chown -R laradock:laradock /home/laradock/.composer
 
