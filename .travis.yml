@@ -30,6 +30,7 @@ env:
     - PHP_VERSION=NA BUILD_SERVICE="adminer phpmyadmin pgadmin"
     - PHP_VERSION=NA BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq elasticsearch certbot mailhog maildev selenium jenkins proxy proxy2 haproxy"
     - PHP_VERSION=NA BUILD_SERVICE="kibana grafana laravel-echo-server"
+    - PHP_VERSION=NA BUILD_SERVICE="ipython-controller"
     # - PHP_VERSION=NA BUILD_SERVICE="aws"
 
 # Installing a newer Docker version
