@@ -15,6 +15,11 @@ if [ -n "${PHP_VERSION}" ]; then
     sed -i -- "s/PHP_VERSION=.*/PHP_VERSION=${PHP_VERSION}/g" .env
     sed -i -- 's/=false/=true/g' .env
     sed -i -- 's/PHPDBG=true/PHPDBG=false/g' .env
+    if [ "${PHP_VERSION}" == "5.6" ]; then
+        # Aerospike C Client SDK 4.0.7, Debian 9.6 is not supported
+        # https://github.com/aerospike/aerospike-client-php5/issues/145
+        sed -i -- 's/PHP_FPM_INSTALL_AEROSPIKE=true/PHP_FPM_INSTALL_AEROSPIKE=false/g' .env
+    fi
     cat .env
     docker-compose build ${BUILD_SERVICE}
     docker images
