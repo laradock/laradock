@@ -381,6 +381,19 @@ RUN if [ ${INSTALL_LIBPNG} = true ]; then \
 ;fi
 
 ###########################################################################
+# YAF:
+###########################################################################
+
+ARG INSTALL_YAF=true
+ARG PHP_VERSION=${PHP_VERSION}
+
+RUN if [ ${INSTALL_YAF} = true ]; then \
+    # Install the yaf extensiong
+    pecl install yaf && \
+    echo "extension=yaf.so" >> /etc/php/${PHP_VERSION}/mods-available/yaf.ini \
+;fi
+
+###########################################################################
 # Drupal Console:
 ###########################################################################
 
