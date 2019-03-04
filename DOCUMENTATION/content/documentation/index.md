@@ -508,7 +508,7 @@ docker-compose ps
 docker-compose exec workspace bash
 ```
 
-Add `--user=laradock` (example `docker-compose exec --user=laradock workspace bash`) to have files created as your host's user.
+Note: Should add `--user=laradock` (example `docker-compose exec --user=laradock workspace bash`) to have files created as your host's user to prevent issue owner of log file will be changed to root then laravel website cannot write on log file if using rotated log and new log file not existed
 
 
 4 - Run anything you want :)
@@ -532,29 +532,37 @@ phpunit
 <a name="Run-Laravel-Queue-Worker"></a>
 ## Run Laravel Queue Worker
 
-1 - First add `php-worker` container. It will be similar as like PHP-FPM Container.
-<br>
-a) open the `docker-compose.yml` file
-<br>
-b) add a new service container by simply copy-paste this section below PHP-FPM container
+1 - Create supervisor configuration file (for ex., named `laravel-worker.conf`) for Laravel Queue Worker in `php-worker/supervisord.d/` by simply copy from `laravel-worker.conf.example`
 
-```yaml
-    php-worker:
-      build:
-        context: ./php-worker
-        args:
-          - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL} #Optionally install PGSQL PHP drivers
-          - INSTALL_BCMATH=${PHP_WORKER_INSTALL_BCMATH} #Optionally install BCMath php package
-      volumes_from:
-        - applications
-      depends_on:
-        - workspace
-      extra_hosts:
-        - "dockerhost:${DOCKER_HOST_IP}"
-      networks:
-        - backend
-```
 2 - Start everything up
+
+```bash
+docker-compose up -d php-worker
+```
+
+
+
+
+
+
+<br>
+<a name="Run-Laravel-Scheduler"></a>
+## Run Laravel Scheduler
+
+Laradock provides 2 ways to run Laravel Scheduler
+1 - Using cron in workspace container. Most of the time, when you start Laradock, it'll automatically start workspace container with cron inside, along with setting to run `schedule:run` command every minute.
+
+2 - Using Supervisord in php-worker to run `schedule:run`. This way is suggested when you don't want to start workspace in production environment.
+<br>
+a) Comment out cron setting in workspace container, file `workspace/crontab/laradock`
+
+```bash
+# * * * * * laradock /usr/bin/php /var/www/artisan schedule:run >> /dev/null 2>&1
+```
+<br>
+b) Create supervisor configuration file (for ex., named `laravel-scheduler.conf`) for Laravel Scheduler in `php-worker/supervisord.d/` by simply copy from `laravel-scheduler.conf.example`
+<br>
+c) Start php-worker container
 
 ```bash
 docker-compose up -d php-worker
@@ -693,6 +701,44 @@ composer require predis/predis:^1.0
 
 ```php
 \Cache::store('redis')->put('Laradock', 'Awesome', 10);
+```
+
+
+
+
+
+
+<br>
+<a name="Use-Redis-Cluster"></a>
+## Use Redis Cluster
+
+1 - First make sure you run the Redis-Cluster Container (`redis-cluster`) with the `docker-compose up` command.
+
+```bash
+docker-compose up -d redis-cluster
+```
+
+2 - Open your Laravel's `config/database.php` and set the redis cluster configuration. Below is example configuration with phpredis.
+
+Read the [Laravel official documentation](https://laravel.com/docs/5.7/redis#configuration) for more details.
+
+```php
+'redis' => [
+    'client' => 'phpredis',
+    'options' => [
+        'cluster' => 'redis',
+    ],
+    'clusters' => [
+        'default' => [
+            [
+                'host' => 'redis-cluster',
+                'password' => null,
+                'port' => 7000,
+                'database' => 0,
+            ],
+        ],
+    ],
+],
 ```
 
 
@@ -865,6 +911,12 @@ docker-compose up -d postgres pgadmin
 2 - Open your browser and visit the localhost on port **5050**:  `http://localhost:5050`
 
 
+3 - At login page use default credentials:
+
+Username : pgadmin4@pgadmin.org
+
+Password : admin
+
 
 
 
@@ -1004,8 +1056,9 @@ docker-compose up -d rethinkdb
 - set the `DB_DATABASE` to `database`.
 
 
+#### Additional Notes
 
-
+- You may do backing up of your data using the next reference: [backing up your data](https://www.rethinkdb.com/docs/backup/).
 
 
 <br>
@@ -1108,6 +1161,110 @@ docker-compose up -d grafana
 
 
 <br>
+<a name="Use-Traefik"></a>
+## Use Traefik
+
+To use Traefik you need to do some changes in `traefik/trafik.toml` and `docker-compose.yml`.
+
+1 - Open `traefik.toml` and change the `e-mail` property in `acme` section.
+
+2 - Change your domain in `acme.domains`. For example: `main = "example.org"`
+
+2.1 - If you have subdomains, you must add them to `sans` property in `acme.domains` section.
+
+```bash
+[[acme.domais]]
+  main = "example.org"
+  sans = ["monitor.example.org", "pma.example.org"]
+```
+
+3 - If you need to add basic authentication (https://docs.traefik.io/configuration/entrypoints/#basic-authentication), you just need to add the following text after `[entryPoints.https.tls]`:
+
+```bash
+[entryPoints.https.auth.basic]
+  users = ["user:password"]
+```
+
+4 - You need to change the `docker-compose.yml` file to match the Traefik needs. If you want to use Traefik, you must not expose the ports of each container to the internet, but specify some labels.
+
+4.1 For example, let's try with NGINX. You must have:
+
+```bash
+nginx:
+  build:
+    context: ./nginx
+    args:
+      - PHP_UPSTREAM_CONTAINER=${NGINX_PHP_UPSTREAM_CONTAINER}
+      - PHP_UPSTREAM_PORT=${NGINX_PHP_UPSTREAM_PORT}
+      - CHANGE_SOURCE=${CHANGE_SOURCE}
+  volumes:
+    - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+    - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
+    - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
+  depends_on:
+    - php-fpm
+  networks:
+    - frontend
+    - backend
+  labels:
+    - traefik.backend=nginx
+    - traefik.frontend.rule=Host:example.org
+    - traefik.port=80
+```
+
+instead of
+
+```bash
+nginx:
+  build:
+    context: ./nginx
+    args:
+      - PHP_UPSTREAM_CONTAINER=${NGINX_PHP_UPSTREAM_CONTAINER}
+      - PHP_UPSTREAM_PORT=${NGINX_PHP_UPSTREAM_PORT}
+      - CHANGE_SOURCE=${CHANGE_SOURCE}
+  volumes:
+    - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+    - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
+    - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
+    - ${NGINX_SSL_PATH}:/etc/nginx/ssl
+  ports:
+    - "${NGINX_HOST_HTTP_PORT}:80"
+    - "${NGINX_HOST_HTTPS_PORT}:443"
+  depends_on:
+    - php-fpm
+  networks:
+    - frontend
+    - backend
+```
+
+
+
+
+
+<br>
+<a name="Use-Mosquitto"></a>
+## Use Mosquitto (MQTT Broker)
+
+1 - Configure Mosquitto: Change Port using `MOSQUITTO_PORT` if you wish to. Default is port 9001.
+
+2 - Run the Mosquitto Container (`mosquitto`) with the `docker-compose up`command:
+
+```bash
+docker-compose up -d mosquitto
+```
+
+3 - Open your command line and use a MQTT Client (Eg. https://github.com/mqttjs/MQTT.js) to subscribe a topic and publish a message.
+
+4 - Subscribe: `mqtt sub -t 'test' -h localhost -p 9001 -C 'ws' -v`
+
+5 - Publish: `mqtt pub -t 'test' -h localhost -p 9001 -C 'ws' -m 'Hello!'`
+
+
+
+
+
+
+<br>
 <a name="CodeIgniter"></a>
 
 
@@ -1181,6 +1338,19 @@ We also recommend [setting the timezone in Laravel](http://www.camroncade.com/ma
 
 
 
+<br>
+<a name="Add locales to PHP-FPM"></a>
+## Add locales to PHP-FPM
+
+To add locales to the container:
+
+1 - Open the `.env` file and set `PHP_FPM_INSTALL_ADDITIONAL_LOCALES` to `true`.
+
+2 - Add locale codes to `PHP_FPM_ADDITIONAL_LOCALES`.
+
+3 - Re-build your PHP-FPM Container `docker-compose build php-fpm`.
+
+4 - Check enabled locales with `docker-compose exec php-fpm locale -a`
 
 
 
@@ -1191,7 +1361,7 @@ We also recommend [setting the timezone in Laravel](http://www.camroncade.com/ma
 You can add your cron jobs to `workspace/crontab/root` after the `php artisan` line.
 
 ```
-* * * * * php /var/www/artisan schedule:run >> /dev/null 2>&1
+* * * * * laradock /usr/bin/php /var/www/artisan schedule:run >> /dev/null 2>&1
 
 # Custom cron
 * * * * * root echo "Every Minute" > /var/log/cron.log 2>&1
@@ -1232,7 +1402,7 @@ ssh -o PasswordAuthentication=no    \
     laradock@localhost
 ```
 
-To login as root, replace laradock@locahost with root@localhost.
+To login as root, replace laradock@localhost with root@localhost.
 
 
 
@@ -1374,6 +1544,23 @@ Enabling Global Composer Install during the build for the container allows you t
 
 
 <br>
+<a name="Magento-2-authentication-credentials"></a>
+## Magento 2 authentication credential (composer install)
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_COMPOSER_AUTH` argument under the Workspace Container and set it to `true`
+
+3 - Now add your credentials to `workspace/auth.json`
+
+4 - Re-build the Workspace Container `docker-compose build workspace`
+
+
+
+
+
+
+<br>
 <a name="Install-Prestissimo"></a>
 ## Install Prestissimo
 
@@ -1474,6 +1661,22 @@ To install NPM VUE CLI in the Workspace container
 1 - Open the `.env` file
 
 2 - Search for the `WORKSPACE_INSTALL_NPM_VUE_CLI` argument under the Workspace Container and set it to `true`
+
+3 - Re-build the container `docker-compose build workspace`
+
+
+
+
+
+<br>
+<a name="Install-NPM-ANGULAR-CLI"></a>
+## Install NPM ANGULAR CLI
+
+To install NPM ANGULAR CLI in the Workspace container
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_NPM_ANGULAR_CLI` argument under the Workspace Container and set it to `true`
 
 3 - Re-build the container `docker-compose build workspace`
 
@@ -1592,6 +1795,21 @@ will set the clock back 1 day. See (https://github.com/wolfcw/libfaketime) for m
 
 
 
+
+<br>
+<a name="Install-YAML"></a>
+## Install YAML PHP extension in the php-fpm container
+YAML PHP extension allows you to easily parse and create YAML structured data. I like YAML because it's well readable for humans. See http://php.net/manual/en/ref.yaml.php and http://yaml.org/ for more info.
+
+1 - Open the `.env` file
+<br>
+2 - Search for the `PHP_FPM_INSTALL_YAML` argument under the PHP-FPM container
+<br>
+3 - Set it to `true`
+<br>
+4 - Re-build the container `docker-compose build php-fpm`<br>
+
+
 <br>
 <a name="phpstorm-debugging"></a>
 ## PHPStorm Debugging Guide
@@ -1698,7 +1916,7 @@ Laradock comes with `sync.sh`, an optional bash script, that automates installin
 DOCKER_SYNC_STRATEGY=native_osx
 ```
 
-3) set `APP_CODE_PATH_CONTAINER=/var/www` to `APP_CODE_PATH_CONTAINER=/var/www:nocopy` in the .env file
+3) set `APP_CODE_CONTAINER_FLAG` to `APP_CODE_CONTAINER_FLAG=:nocopy` in the .env file
 
 4) Install the docker-sync gem on the host-machine:
 ```bash

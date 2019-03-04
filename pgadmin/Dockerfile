@@ -1,4 +1,4 @@
-FROM fenglc/pgadmin4
+FROM fenglc/pgadmin4:alpine
 
 LABEL maintainer="Huadong Zuo <admin@zuohuadong.cn>"
 

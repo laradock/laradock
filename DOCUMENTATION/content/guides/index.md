@@ -50,12 +50,6 @@ $root@server:~/laravel/ git submodule add https://github.com/Laradock/laradock.g
 $root@server:~/laravel/ cd laradock
 ```
 
-## Install docker-compose command
-
-```
-$root@server:~/laravel/laradock# curl -L https://github.com/docker/compose/releases/download/1.8.0/run.sh > /usr/local/bin/docker-compose
-$root@server:~/chmod +x /usr/local/bin/docker-compose
-```
 ##  Enter the laradock folder and rename env-example to .env.
 ```
 $root@server:~/laravel/laradock# cp env-example .env
@@ -418,7 +412,7 @@ laradock_workspace_1        /sbin/my_init                 Up       0.0.0.0:2222-
 <a name="enablePhpXdebug"></a>
 ## Enable xDebug on php-fpm
 
-In a host terminal sitting in the laradock folder, run: `.php-fpm/xdebug status`
+In a host terminal sitting in the laradock folder, run: `./php-fpm/xdebug status`
 You should see something like the following:
 
 ```
@@ -430,7 +424,7 @@ Zend Engine v3.0.0, Copyright (c) 1998-2016 Zend Technologies
     with Xdebug v2.4.1, Copyright (c) 2002-2016, by Derick Rethans
 ```
 
-Other commands include `.php-fpm/xdebug start | stop`.
+Other commands include `./php-fpm/xdebug start | stop`.
 
 If you have enabled `xdebug=true` in `docker-compose.yml/php-fpm`, `xdebug` will already be running when
 `php-fpm` is started and listening for debug info on port 9000.
@@ -516,9 +510,9 @@ If you have enabled `xdebug=true` in `docker-compose.yml/php-fpm`, `xdebug` will
 <a name="UsagePHPStormDebugSite"></a>
 ### Debug WebSite
 - In case xDebug is disabled, from the `laradock` folder run:
-`.php-fpm/xdebug start`.
+`./php-fpm/xdebug start`.
     - To switch xdebug off, run:
-`.php-fpm/xdebug stop`
+`./php-fpm/xdebug stop`
 
 - Start Remote Debugging
     - ![DebugRemoteOn](/images/photos/PHPStorm/DebugRemoteOn.png)
