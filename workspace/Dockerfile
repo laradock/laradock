@@ -384,11 +384,11 @@ RUN if [ ${INSTALL_LIBPNG} = true ]; then \
 # YAF:
 ###########################################################################
 
-ARG INSTALL_YAF=true
+ARG INSTALL_YAF=false
 ARG PHP_VERSION=${PHP_VERSION}
 
 RUN if [ ${INSTALL_YAF} = true ]; then \
-    # Install the yaf extensiong
+    # Install the yaf extension
     pecl install yaf && \
     echo "extension=yaf.so" >> /etc/php/${PHP_VERSION}/mods-available/yaf.ini \
 ;fi
