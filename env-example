@@ -37,7 +37,7 @@ COMPOSE_PROJECT_NAME=laradock
 
 ### PHP Version ###########################################
 
-# Select a PHP version of the Workspace and PHP-FPM containers (Does not apply to HHVM). Accepted values: 7.2 - 7.1 - 7.0 - 5.6
+# Select a PHP version of the Workspace and PHP-FPM containers (Does not apply to HHVM). Accepted values: 7.3 - 7.2 - 7.1 - 7.0 - 5.6
 PHP_VERSION=7.2
 
 ### Phalcon Version ###########################################
@@ -82,6 +82,7 @@ DOCKER_SYNC_STRATEGY=native_osx
 ### WORKSPACE #############################################
 
 WORKSPACE_COMPOSER_GLOBAL_INSTALL=true
+WORKSPACE_COMPOSER_AUTH=false
 WORKSPACE_COMPOSER_REPO_PACKAGIST=
 WORKSPACE_INSTALL_NODE=true
 WORKSPACE_NODE_VERSION=node
@@ -172,6 +173,7 @@ PHP_FPM_FAKETIME=-0
 PHP_FPM_INSTALL_APCU=false
 PHP_FPM_INSTALL_YAML=false
 PHP_FPM_INSTALL_ADDITIONAL_LOCALES=false
+PHP_FPM_INSTALL_MYSQL_CLIENT=false
 PHP_FPM_ADDITIONAL_LOCALES="es_ES.UTF-8 fr_FR.UTF-8"
 
 ### PHP_WORKER ############################################
@@ -183,6 +185,7 @@ PHP_WORKER_INSTALL_SOAP=false
 PHP_WORKER_INSTALL_ZIP_ARCHIVE=false
 PHP_WORKER_INSTALL_MYSQL_CLIENT=false
 PHP_WORKER_INSTALL_AMQP=false
+PHP_WORKER_INSTALL_GHOSTSCRIPT=false
 PHP_WORKER_PUID=1000
 PHP_WORKER_PGID=1000
 
@@ -371,11 +374,6 @@ AEROSPIKE_SERVICE_PORT=3000
 AEROSPIKE_FABRIC_PORT=3001
 AEROSPIKE_HEARTBEAT_PORT=3002
 AEROSPIKE_INFO_PORT=3003
-
-# for all versions
-AEROSPIKE_PHP_REPOSITORY=https://github.com/aerospike/aerospike-client-php/archive/master.tar.gz
-# for php 5.6
-# AEROSPIKE_PHP_REPOSITORY=https://github.com/aerospike/aerospike-client-php5/archive/3.4.15.tar.gz
 
 ### RETHINKDB #############################################
 

@@ -14,7 +14,8 @@
 
 ARG LARADOCK_PHP_VERSION
 
-FROM laradock/php-fpm:2.2-${LARADOCK_PHP_VERSION}
+# FROM laradock/php-fpm:2.2-${LARADOCK_PHP_VERSION}
+FROM letsdockerize/laradock-php-fpm:2.4-${LARADOCK_PHP_VERSION}
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
@@ -24,27 +25,27 @@ ARG LARADOCK_PHP_VERSION
 ENV DEBIAN_FRONTEND noninteractive
 
 # always run apt update when start and after add new source list, then clean up at end.
-RUN apt-get update -yqq && \
-    apt-get install -y apt-utils && \
-    pecl channel-update pecl.php.net
-
-#
-#--------------------------------------------------------------------------
-# Mandatory Software's Installation
-#--------------------------------------------------------------------------
-#
-# Mandatory Software's such as ("mcrypt", "pdo_mysql", "libssl-dev", ....)
-# are installed on the base image 'laradock/php-fpm' image. If you want
-# to add more Software's or remove existing one, you need to edit the
-# base image (https://github.com/Laradock/php-fpm).
-#
-# next lines are here becase there is no auto build on dockerhub see https://github.com/laradock/laradock/pull/1903#issuecomment-463142846
-USER root
-
-RUN apt-get install libzip-dev zip unzip -y && \
-    docker-php-ext-configure zip --with-libzip && \
-    # Install the zip extension
-    docker-php-ext-install zip
+RUN set -xe; \
+    apt-get update -yqq && \
+    pecl channel-update pecl.php.net && \
+    apt-get install -yqq \
+      apt-utils \
+      #
+      #--------------------------------------------------------------------------
+      # Mandatory Software's Installation
+      #--------------------------------------------------------------------------
+      #
+      # Mandatory Software's such as ("mcrypt", "pdo_mysql", "libssl-dev", ....)
+      # are installed on the base image 'laradock/php-fpm' image. If you want
+      # to add more Software's or remove existing one, you need to edit the
+      # base image (https://github.com/Laradock/php-fpm).
+      #
+      # next lines are here becase there is no auto build on dockerhub see https://github.com/laradock/laradock/pull/1903#issuecomment-463142846
+      libzip-dev zip unzip && \
+      docker-php-ext-configure zip --with-libzip && \
+      # Install the zip extension
+      docker-php-ext-install zip && \
+      php -m | grep -q 'zip'
 
 #
 #--------------------------------------------------------------------------
@@ -206,7 +207,7 @@ ARG INSTALL_SWOOLE=false
 RUN if [ ${INSTALL_SWOOLE} = true ]; then \
     # Install Php Swoole Extension
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-      pecl install swoole-2.0.11; \
+      pecl install swoole-2.0.10; \
     else \
       if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
         pecl install swoole-2.2.0; \
@@ -215,6 +216,7 @@ RUN if [ ${INSTALL_SWOOLE} = true ]; then \
       fi \
     fi && \
     docker-php-ext-enable swoole \
+    && php -m | grep -q 'swoole' \
 ;fi
 
 ###########################################################################
@@ -338,30 +340,30 @@ RUN if [ ${INSTALL_EXIF} = true ]; then \
 USER root
 
 ARG INSTALL_AEROSPIKE=false
-ARG AEROSPIKE_PHP_REPOSITORY
 
-RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
+RUN set -xe; \
+    if [ ${INSTALL_AEROSPIKE} = true ]; then \
     # Fix dependencies for PHPUnit within aerospike extension
     apt-get -y install sudo wget && \
     # Install the php aerospike extension
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
       curl -L -o /tmp/aerospike-client-php.tar.gz https://github.com/aerospike/aerospike-client-php5/archive/master.tar.gz; \
     else \
-      curl -L -o /tmp/aerospike-client-php.tar.gz ${AEROSPIKE_PHP_REPOSITORY}; \
+      curl -L -o /tmp/aerospike-client-php.tar.gz https://github.com/aerospike/aerospike-client-php/archive/master.tar.gz; \
     fi \
-    && mkdir -p aerospike-client-php \
-    && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
+    && mkdir -p /tmp/aerospike-client-php \
+    && tar -C /tmp/aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
     && \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
       ( \
-          cd aerospike-client-php/src/aerospike \
+          cd /tmp/aerospike-client-php/src/aerospike \
           && phpize \
           && ./build.sh \
           && make install \
       ) \
     else \
       ( \
-          cd aerospike-client-php/src \
+          cd /tmp/aerospike-client-php/src \
           && phpize \
           && ./build.sh \
           && make install \
@@ -455,7 +457,8 @@ RUN if [ ${INSTALL_LDAP} = true ]; then \
 
 ARG INSTALL_MSSQL=false
 
-RUN set -eux; if [ ${INSTALL_MSSQL} = true ]; then \
+RUN set -eux; \
+  if [ ${INSTALL_MSSQL} = true ]; then \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
       apt-get -y install freetds-dev libsybdb5 \
       && ln -s /usr/lib/x86_64-linux-gnu/libsybdb.so /usr/lib/libsybdb.so \
@@ -478,12 +481,16 @@ RUN set -eux; if [ ${INSTALL_MSSQL} = true ]; then \
       && ln -sfn /etc/locale.alias /usr/share/locale/locale.alias \
       && locale-gen \
       # Install pdo_sqlsrv and sqlsrv from PECL. Replace pdo_sqlsrv-4.1.8preview with preferred version.
-      && pecl install pdo_sqlsrv sqlsrv \
+      && if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+        pecl install pdo_sqlsrv-5.3.0 sqlsrv-5.3.0 \
+      ;else \
+        pecl install pdo_sqlsrv sqlsrv \
+      ;fi \
       && docker-php-ext-enable pdo_sqlsrv sqlsrv \
       && php -m | grep -q 'pdo_sqlsrv' \
       && php -m | grep -q 'sqlsrv' \
     ;fi \
-;fi
+  ;fi
 
 ###########################################################################
 # Image optimizers:
@@ -608,10 +615,23 @@ RUN if [ ${INSTALL_ADDITIONAL_LOCALES} = true ]; then \
 ;fi
 
 ###########################################################################
+# MySQL Client:
+###########################################################################
+
+USER root
+
+ARG INSTALL_MYSQL_CLIENT=false
+
+RUN if [ ${INSTALL_MYSQL_CLIENT} = true ]; then \
+    apt-get update -yqq && \
+    apt-get -y install mysql-client \
+;fi
+
+###########################################################################
 # Check PHP version:
 ###########################################################################
 
-RUN php -v | head -n 1 | grep -q "PHP ${LARADOCK_PHP_VERSION}."
+RUN set -xe; php -v | head -n 1 | grep -q "PHP ${LARADOCK_PHP_VERSION}."
 
 #
 #--------------------------------------------------------------------------

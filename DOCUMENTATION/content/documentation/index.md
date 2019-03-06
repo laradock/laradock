@@ -1544,6 +1544,23 @@ Enabling Global Composer Install during the build for the container allows you t
 
 
 <br>
+<a name="Magento-2-authentication-credentials"></a>
+## Magento 2 authentication credential (composer install)
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_COMPOSER_AUTH` argument under the Workspace Container and set it to `true`
+
+3 - Now add your credentials to `workspace/auth.json`
+
+4 - Re-build the Workspace Container `docker-compose build workspace`
+
+
+
+
+
+
+<br>
 <a name="Install-Prestissimo"></a>
 ## Install Prestissimo
 

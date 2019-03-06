@@ -93,6 +93,10 @@ RUN if [ $INSTALL_PHALCON = true ]; then \
     && rm -rf /tmp/cphalcon* \
 ;fi
 
+RUN if [ $INSTALL_GHOSTSCRIPT = true ]; then \
+    apk --update add ghostscript \
+;fi
+
 RUN rm /var/cache/apk/* \
     && mkdir -p /var/www
 
