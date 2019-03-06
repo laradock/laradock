@@ -1400,3 +1400,18 @@ services:
         - "${COUCHDB_PORT}:5984"
       networks:
         - backend
+
+### Manticore Search ###########################################
+    manticore:
+      build:
+        context: ./manticore
+      volumes:
+        - ${MANTICORE_CONFIG_PATH}:/etc/sphinxsearch
+        - ${DATA_PATH_HOST}/manticore/data:/var/lib/manticore/data
+        - ${DATA_PATH_HOST}/manticore/log:/var/lib/manticore/log
+      ports:
+        - "${MANTICORE_API_PORT}:9312"
+        - "${MANTICORE_SPHINXQL_PORT}:9306"
+        - "${MANTICORE_HTTP_PORT}:9308"        
+      networks:
+        - backend
