@@ -108,3 +108,7 @@ COPY install-plugins.sh /usr/local/bin/install-plugins.sh
 #RUN chmod 644 /var/jenkins_home/.ssh/id_rsa.pub
 ## ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 ## ssh-keyscan -H bitbucket.org >> ~/.ssh/known_hosts
+
+# Fix docker permission denied error
+USER root
+RUN usermod -aG docker jenkins

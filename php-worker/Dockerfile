@@ -16,6 +16,7 @@ RUN apk --update add wget \
   libmemcached-dev \
   libmcrypt-dev \
   libxml2-dev \
+  pcre-dev \
   zlib-dev \
   autoconf \
   cyrus-sasl-dev \
@@ -24,6 +25,15 @@ RUN apk --update add wget \
 
 RUN docker-php-ext-install mysqli mbstring pdo pdo_mysql tokenizer xml pcntl
 RUN pecl channel-update pecl.php.net && pecl install memcached mcrypt-1.0.1 && docker-php-ext-enable memcached
+
+# Add a non-root user:
+ARG PUID=1000
+ENV PUID ${PUID}
+ARG PGID=1000
+ENV PGID ${PGID}
+
+RUN addgroup -g ${PGID} laradock && \
+    adduser -D -G laradock -u ${PUID} laradock
 
 #Install SOAP package:
 ARG INSTALL_SOAP=false
@@ -51,6 +61,40 @@ RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
     docker-php-ext-configure zip --with-libzip && \
     # Install the zip extension
     docker-php-ext-install zip \
+;fi
+
+# Install MySQL Client:
+ARG INSTALL_MYSQL_CLIENT=false
+RUN if [ ${INSTALL_MYSQL_CLIENT} = true ]; then \
+    apk --update add mysql-client \
+;fi
+
+# Install AMQP:
+ARG INSTALL_AMQP=false
+
+RUN if [ ${INSTALL_AMQP} = true ]; then \
+    apk --update add rabbitmq-c rabbitmq-c-dev && \
+    pecl install amqp && \
+    docker-php-ext-enable amqp && \
+    docker-php-ext-install sockets \
+;fi
+
+# Install Phalcon ext
+ARG INSTALL_PHALCON=false
+ARG PHALCON_VERSION
+ENV PHALCON_VERSION ${PHALCON_VERSION}
+
+RUN if [ $INSTALL_PHALCON = true ]; then \
+    apk --update add unzip gcc make re2c bash\
+    && curl -L -o /tmp/cphalcon.zip https://github.com/phalcon/cphalcon/archive/v${PHALCON_VERSION}.zip \
+    && unzip -d /tmp/ /tmp/cphalcon.zip \
+    && cd /tmp/cphalcon-${PHALCON_VERSION}/build \
+    && ./install \
+    && rm -rf /tmp/cphalcon* \
+;fi
+
+RUN if [ $INSTALL_GHOSTSCRIPT = true ]; then \
+    apk --update add ghostscript \
 ;fi
 
 RUN rm /var/cache/apk/* \
