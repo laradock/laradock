@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "license": "MIT",
   "dependencies": {
-    "laravel-echo-server": "^1.2.8"
+    "laravel-echo-server": "^1.5.0"
   },
   "scripts": {
     "start": "laravel-echo-server start"
