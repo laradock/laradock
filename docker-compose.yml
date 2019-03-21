@@ -5,6 +5,12 @@ networks:
     driver: ${NETWORKS_DRIVER}
   backend:
     driver: ${NETWORKS_DRIVER}
+  cmts_net:
+    external:
+      name: dps-sim_cmts_net
+  cm_net:
+    external:
+      name: dps-sim_cm_net
 
 volumes:
   mysql:
@@ -1278,3 +1284,26 @@ services:
       backend:
         aliases:
           - fetchmail
+  collector:
+    build:
+      context: collector/
+      dockerfile: ./Dockerfile
+      args:
+        - DPS_COMPANY=${DPS_COMPANY}
+        - DPS_APT_KEY=${DPS_APT_KEY}
+        - DPS_DB_PASSWORD=${DPS_DB_PASSWORD}
+    # image: debian:jessie
+    privileged: true
+    restart: unless-stopped
+    networks:
+      backend:
+      cm_net:
+        ipv4_address: 10.6.0.4
+      cmts_net:
+        ipv4_address: 10.5.0.4
+    volumes:
+      #      - ./../../dps/webui/:/usr/share/dps/
+      #      - ./collector/conf:/etc/dps
+      - ./collector/data/log:/var/log/dps
+      - ./collector/data/rrd/:/var/lib/dps/rrd
+    tty: true

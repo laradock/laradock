@@ -1,0 +1,5 @@
+3 */3 * * *     root    if [ -x /usr/bin/dps_cmts ]; then /usr/bin/dps_cmts >/dev/null 2>&1; fi
+
+3,8,13,18,23,28,33,38,43,48,53,58 * * * *      root     if [ -x /usr/bin/dps_mon ] && [ -r /etc/dps/dps.ini ]; then /usr/bin/dps_mon -r -b >/dev/null 2>&1; fi
+*/30 * * * *                                   root     if [ -x /usr/bin/dps_mon ] && [ -r /etc/dps/dps.ini ]; then /usr/bin/dps_mon -f >/dev/null 2>&1; fi
+15 0 * * *                                     root     if [ -x /usr/bin/dps_traffic ] && [ -r /etc/dps/dps.ini ]; then /usr/bin/dps_traffic >/dev/null 2>&1; fi
