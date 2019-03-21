@@ -595,11 +595,14 @@ services:
 
 ### pgAdmin ##############################################
     pgadmin:
-      build: ./pgadmin
+      image: dpage/pgadmin4:latest
+      environment:
+        - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+        - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
       ports:
-        - "5050:5050"
+        - "${PGADMIN_PORT}:80"
       volumes:
-        - ${DATA_PATH_HOST}/pgadmin-backup:/var/lib/pgadmin/storage/pgadmin4
+        - ${DATA_PATH_HOST}/pgadmin:/var/lib/pgadmin
       depends_on:
         - postgres
       networks:
