@@ -668,6 +668,7 @@ MANTICORE_SPHINXQL_PORT=9306
 MANTICORE_HTTP_PORT=9308
 
 ### pgadmin ##################################################
+# use this address http://ip6-localhost:5050
 PGADMIN_PORT=5050
 PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
 PGADMIN_DEFAULT_PASSWORD=admin
