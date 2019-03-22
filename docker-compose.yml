@@ -123,8 +123,12 @@ services:
       - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
       - GIT_DISCOVERY_ACROSS_FILESYSTEM=1
     networks:
-      - frontend
-      - backend
+      frontend:
+      backend:
+      cm_net:
+        ipv4_address: 10.6.0.254
+      cmts_net:
+        ipv4_address: 10.5.0.254
 
   ### PHP-FPM ##############################################
   php-fpm:
