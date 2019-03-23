@@ -183,7 +183,11 @@ services:
     depends_on:
       - workspace
     networks:
-      - backend
+      backend:
+      cm_net:
+        ipv4_address: 10.6.0.253
+      cmts_net:
+        ipv4_address: 10.5.0.253
     links:
       - docker-in-docker
 

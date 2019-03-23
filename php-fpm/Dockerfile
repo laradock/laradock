@@ -531,6 +531,21 @@ RUN if [ ${INSTALL_CALENDAR} = true ]; then \
 ;fi
 
 ###########################################################################
+# SNMP:
+###########################################################################
+
+USER root
+
+ARG INSTALL_SNMP=true
+
+RUN if [ ${INSTALL_SNMP} = true ]; then \
+    apt-get update -yqq && \
+    apt-get install -y snmp libsnmp-base libsnmp-dev&& \
+    docker-php-ext-install snmp && \
+    docker-php-ext-enable snmp \
+;fi
+
+###########################################################################
 # Check PHP version:
 ###########################################################################
 
