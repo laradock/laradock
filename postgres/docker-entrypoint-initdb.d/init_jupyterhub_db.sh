@@ -33,9 +33,12 @@
 # EOSQL
 # 
 ### default database and user for jupyterhub ##############################################
-psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
-    CREATE USER laradock_jupyterhub WITH PASSWORD 'laradock_jupyterhub';
-    CREATE DATABASE laradock_jupyterhub;
-    GRANT ALL PRIVILEGES ON DATABASE laradock_jupyterhub TO laradock_jupyterhub;
-    ALTER ROLE laradock_jupyterhub CREATEROLE SUPERUSER;
-EOSQL
+if [ $JUPYTERHUB_POSTGRES_INIT == 'true' ]; then 
+	psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+		CREATE USER $JUPYTERHUB_POSTGRES_USER WITH PASSWORD '$JUPYTERHUB_POSTGRES_PASSWORD';
+		CREATE DATABASE $JUPYTERHUB_POSTGRES_DB;
+		GRANT ALL PRIVILEGES ON DATABASE $JUPYTERHUB_POSTGRES_DB TO $JUPYTERHUB_POSTGRES_USER;
+		ALTER ROLE $JUPYTERHUB_POSTGRES_USER CREATEROLE SUPERUSER;
+	EOSQL
+	echo
+fi
