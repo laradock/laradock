@@ -14,7 +14,8 @@
 
 ARG LARADOCK_PHP_VERSION
 
-FROM laradock/php-fpm:2.2-${LARADOCK_PHP_VERSION}
+#FROM laradock/php-fpm:2.2-${LARADOCK_PHP_VERSION}
+FROM letsdockerize/laradock-php-fpm:2.4-${LARADOCK_PHP_VERSION}
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
@@ -543,6 +544,22 @@ RUN if [ ${INSTALL_SNMP} = true ]; then \
     apt-get install -y snmp libsnmp-base libsnmp-dev&& \
     docker-php-ext-install snmp && \
     docker-php-ext-enable snmp \
+;fi
+
+
+###########################################################################
+# RRD:
+###########################################################################
+
+USER root
+
+ARG INSTALL_RRD=true
+
+RUN if [ ${INSTALL_RRD} = true ]; then \
+    apt-get update -yqq && \
+    apt-get install -y librrd-dev&& \
+    pecl install rrd && \
+    docker-php-ext-enable rrd \
 ;fi
 
 ###########################################################################
