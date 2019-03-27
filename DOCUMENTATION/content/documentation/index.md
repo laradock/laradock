@@ -631,12 +631,12 @@ docker-compose up -d metabase
 
 1) Boot the container `docker-compose up -d jenkins`. To enter the container type `docker-compose exec jenkins bash`.
 
-2) Go to `http://localhost:8090/` (if you didn't chanhed your default port mapping) 
+2) Go to `http://localhost:8090/` (if you didn't chanhed your default port mapping)
 
 3) Authenticate from the web app.
 
 - Default username is `admin`.
-- Default password is `docker-compose exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword`. 
+- Default password is `docker-compose exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword`.
 
 (To enter container as root type `docker-compose exec --user root jenkins bash`).
 
@@ -1283,6 +1283,21 @@ To install CodeIgniter 3 on Laradock all you have to do is the following simple 
 2 - Change `CODEIGNITER=false` to `CODEIGNITER=true`.
 
 3 - Re-build your PHP-FPM Container `docker-compose build php-fpm`.
+
+
+
+
+
+
+<br>
+<a name="Install-Powerline"></a>
+## Install Powerline
+
+1 - Open the `.env` file and set `WORKSPACE_INSTALL_POWERLINE` and `WORKSPACE_INSTALL_PYTHON` to `true`.
+
+2 - Run `docker-compose build workspace`, after the step above.
+
+Powerline is required python
 
 
 
@@ -2104,7 +2119,7 @@ This error sometimes happens because your Laravel application isn't running on t
 
 ## I get stuck when building nginx on `fetch http://mirrors.aliyun.com/alpine/v3.5/main/x86_64/APKINDEX.tar.gz`
 
-As stated on [#749](https://github.com/laradock/laradock/issues/749#issuecomment-419652646), Already fixed，just set `CHANGE_SOURCE` to false.		
+As stated on [#749](https://github.com/laradock/laradock/issues/749#issuecomment-419652646), Already fixed，just set `CHANGE_SOURCE` to false.
 
 ## Custom composer repo packagist url and npm registry url
 
