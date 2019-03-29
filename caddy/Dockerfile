@@ -5,8 +5,11 @@ LABEL maintainer="Huadong Zuo <admin@zuohuadong.cn>"
 RUN apk add --no-cache \
     openssh \
     git \
-    build-base && \
-    go get github.com/abiosoft/caddyplug/caddyplug \
+    build-base \
+    && mkdir -p $GOPATH/src/golang.org/x/ \
+    && cd $GOPATH/src/golang.org/x/ \
+    && git clone https://github.com/golang/sys.git sys \
+    && go get github.com/abiosoft/caddyplug/caddyplug \
     && caddyplug install-caddy \
     apk del build-base
 

@@ -7,8 +7,11 @@
 # Point to the path of your applications code on your host
 APP_CODE_PATH_HOST=../
 
-# Point to where the `APP_CODE_PATH_HOST` should be in the container. You may add flags to the path `:cached`, `:delegated`. When using Docker Sync add `:nocopy`
-APP_CODE_PATH_CONTAINER=/var/www:cached
+# Point to where the `APP_CODE_PATH_HOST` should be in the container
+APP_CODE_PATH_CONTAINER=/var/www
+
+# You may add flags to the path `:cached`, `:delegated`. When using Docker Sync add `:nocopy`
+APP_CODE_CONTAINER_FLAG=:cached
 
 # Choose storage path on your machine. For all storage systems
 DATA_PATH_HOST=~/.laradock/data
@@ -34,7 +37,7 @@ COMPOSE_PROJECT_NAME=laradock
 
 ### PHP Version ###########################################
 
-# Select a PHP version of the Workspace and PHP-FPM containers (Does not apply to HHVM). Accepted values: 7.2 - 7.1 - 7.0 - 5.6
+# Select a PHP version of the Workspace and PHP-FPM containers (Does not apply to HHVM). Accepted values: 7.3 - 7.2 - 7.1 - 7.0 - 5.6
 PHP_VERSION=7.2
 
 ### Phalcon Version ###########################################
@@ -79,6 +82,7 @@ DOCKER_SYNC_STRATEGY=native_osx
 ### WORKSPACE #############################################
 
 WORKSPACE_COMPOSER_GLOBAL_INSTALL=true
+WORKSPACE_COMPOSER_AUTH=false
 WORKSPACE_COMPOSER_REPO_PACKAGIST=
 WORKSPACE_INSTALL_NODE=true
 WORKSPACE_NODE_VERSION=node
@@ -88,6 +92,7 @@ WORKSPACE_YARN_VERSION=latest
 WORKSPACE_INSTALL_NPM_GULP=true
 WORKSPACE_INSTALL_NPM_BOWER=false
 WORKSPACE_INSTALL_NPM_VUE_CLI=true
+WORKSPACE_INSTALL_NPM_ANGULAR_CLI=false
 WORKSPACE_INSTALL_PHPREDIS=true
 WORKSPACE_INSTALL_WORKSPACE_SSH=false
 WORKSPACE_INSTALL_SUBVERSION=false
@@ -97,6 +102,7 @@ WORKSPACE_INSTALL_SSH2=false
 WORKSPACE_INSTALL_LDAP=false
 WORKSPACE_INSTALL_GMP=false
 WORKSPACE_INSTALL_SOAP=false
+WORKSPACE_INSTALL_XSL=false
 WORKSPACE_INSTALL_IMAP=false
 WORKSPACE_INSTALL_MONGO=false
 WORKSPACE_INSTALL_AMQP=false
@@ -104,6 +110,7 @@ WORKSPACE_INSTALL_MSSQL=false
 WORKSPACE_INSTALL_DRUSH=false
 WORKSPACE_DRUSH_VERSION=8.1.17
 WORKSPACE_INSTALL_DRUPAL_CONSOLE=false
+WORKSPACE_INSTALL_WP_CLI=false
 WORKSPACE_INSTALL_AEROSPIKE=false
 WORKSPACE_INSTALL_V8JS=false
 WORKSPACE_INSTALL_LARAVEL_ENVOY=false
@@ -114,6 +121,7 @@ WORKSPACE_INSTALL_LINUXBREW=false
 WORKSPACE_INSTALL_MC=false
 WORKSPACE_INSTALL_SYMFONY=false
 WORKSPACE_INSTALL_PYTHON=false
+WORKSPACE_INSTALL_POWERLINE=false
 WORKSPACE_INSTALL_IMAGE_OPTIMIZERS=false
 WORKSPACE_INSTALL_IMAGEMAGICK=false
 WORKSPACE_INSTALL_TERRAFORM=false
@@ -124,6 +132,8 @@ WORKSPACE_INSTALL_SWOOLE=false
 WORKSPACE_INSTALL_LIBPNG=false
 WORKSPACE_INSTALL_IONCUBE=false
 WORKSPACE_INSTALL_MYSQL_CLIENT=false
+WORKSPACE_INSTALL_INOTIFY=false
+WORKSPACE_INSTALL_FSWATCH=false
 WORKSPACE_PUID=1000
 WORKSPACE_PGID=1000
 WORKSPACE_CHROME_DRIVER_VERSION=2.42
@@ -132,7 +142,6 @@ WORKSPACE_SSH_PORT=2222
 
 ### PHP_FPM ###############################################
 
-PHP_FPM_INSTALL_ZIP_ARCHIVE=true
 PHP_FPM_INSTALL_BCMATH=true
 PHP_FPM_INSTALL_MYSQLI=true
 PHP_FPM_INSTALL_INTL=true
@@ -149,6 +158,7 @@ PHP_FPM_INSTALL_AMQP=false
 PHP_FPM_INSTALL_MSSQL=false
 PHP_FPM_INSTALL_SSH2=false
 PHP_FPM_INSTALL_SOAP=false
+PHP_FPM_INSTALL_XSL=false
 PHP_FPM_INSTALL_GMP=false
 PHP_FPM_INSTALL_EXIF=false
 PHP_FPM_INSTALL_AEROSPIKE=false
@@ -165,6 +175,9 @@ PHP_FPM_INSTALL_IONCUBE=false
 PHP_FPM_FAKETIME=-0
 PHP_FPM_INSTALL_APCU=false
 PHP_FPM_INSTALL_YAML=false
+PHP_FPM_INSTALL_ADDITIONAL_LOCALES=false
+PHP_FPM_INSTALL_MYSQL_CLIENT=false
+PHP_FPM_ADDITIONAL_LOCALES="es_ES.UTF-8 fr_FR.UTF-8"
 
 ### PHP_WORKER ############################################
 
@@ -173,6 +186,10 @@ PHP_WORKER_INSTALL_BCMATH=false
 PHP_WORKER_INSTALL_PHALCON=false
 PHP_WORKER_INSTALL_SOAP=false
 PHP_WORKER_INSTALL_ZIP_ARCHIVE=false
+PHP_WORKER_INSTALL_MYSQL_CLIENT=false
+PHP_WORKER_INSTALL_AMQP=false
+PHP_WORKER_INSTALL_GHOSTSCRIPT=false
+PHP_WORKER_INSTALL_SWOOLE=true
 PHP_WORKER_PUID=1000
 PHP_WORKER_PGID=1000
 
@@ -210,6 +227,10 @@ MYSQL_ENTRYPOINT_INITDB=./mysql/docker-entrypoint-initdb.d
 ### REDIS #################################################
 
 REDIS_PORT=6379
+
+### REDIS CLUSTER #########################################
+
+REDIS_CLUSTER_PORT_RANGE=7000-7005
 
 ### ZooKeeper #############################################
 
@@ -358,11 +379,6 @@ AEROSPIKE_FABRIC_PORT=3001
 AEROSPIKE_HEARTBEAT_PORT=3002
 AEROSPIKE_INFO_PORT=3003
 
-# for all versions
-AEROSPIKE_PHP_REPOSITORY=https://github.com/aerospike/aerospike-client-php/archive/master.tar.gz
-# for php 5.6
-# AEROSPIKE_PHP_REPOSITORY=https://github.com/aerospike/aerospike-client-php5/archive/3.4.15.tar.gz
-
 ### RETHINKDB #############################################
 
 RETHINKDB_PORT=8090
@@ -498,14 +514,25 @@ SOLR_DATAIMPORTHANDLER_MYSQL=false
 SOLR_DATAIMPORTHANDLER_MSSQL=false
 
 ### GITLAB ###############################################
+GITLAB_POSTGRES_INIT=true
 GITLAB_HOST_HTTP_PORT=8989
 GITLAB_HOST_HTTPS_PORT=9898
 GITLAB_HOST_SSH_PORT=2289
 GITLAB_DOMAIN_NAME=http://localhost
 GITLAB_ROOT_PASSWORD=laradock
 GITLAB_HOST_LOG_PATH=./logs/gitlab
+GITLAB_POSTGRES_HOST=postgres
+GITLAB_POSTGRES_USER=laradock_gitlab
+GITLAB_POSTGRES_PASSWORD=laradock_gitlab
+GITLAB_POSTGRES_DB=laradock_gitlab
+
+### GITLAB-RUNNER ###############################################
+GITLAB_CI_SERVER_URL=http://localhost:8989
+GITLAB_RUNNER_REGISTRATION_TOKEN=<my-registration-token>
+GITLAB_REGISTER_NON_INTERACTIVE=true
 
 ### JUPYTERHUB ###############################################
+JUPYTERHUB_POSTGRES_INIT=true
 JUPYTERHUB_POSTGRES_HOST=postgres
 JUPYTERHUB_POSTGRES_USER=laradock_jupyterhub
 JUPYTERHUB_POSTGRES_PASSWORD=laradock_jupyterhub
@@ -514,10 +541,10 @@ JUPYTERHUB_PORT=9991
 JUPYTERHUB_OAUTH_CALLBACK_URL=http://laradock:9991/hub/oauth_callback
 JUPYTERHUB_OAUTH_CLIENT_ID={GITHUB_CLIENT_ID}
 JUPYTERHUB_OAUTH_CLIENT_SECRET={GITHUB_CLIENT_SECRET}
-JUPYTERHUB_LOCAL_NOTEBOOK_IMAGE=laradock_jupyterhub-user
 JUPYTERHUB_CUSTOM_CONFIG=./jupyterhub/jupyterhub_config.py
 JUPYTERHUB_USER_DATA=/jupyterhub
 JUPYTERHUB_USER_LIST=./jupyterhub/userlist
+JUPYTERHUB_ENABLE_NVIDIA=false
 
 ### IPYTHON ##################################################
 LARADOCK_IPYTHON_CONTROLLER_IP=127.0.0.1
@@ -525,7 +552,7 @@ LARADOCK_IPYTHON_CONTROLLER_IP=127.0.0.1
 ### NETDATA ###############################################
 NETDATA_PORT=19999
 
-### PHPREDISADMIN #########################################
+### REDISWEBUI #########################################
 REDIS_WEBUI_USERNAME=laradock
 REDIS_WEBUI_PASSWORD=laradock
 REDIS_WEBUI_CONNECT_HOST=redis
@@ -621,6 +648,30 @@ MAILU_WEBMAIL=rainloop
 # Dav server implementation (value: radicale, none)
 MAILU_WEBDAV=radicale
 
+
+### TRAEFIK #################################################
+
+TRAEFIK_HOST_HTTP_PORT=80
+TRAEFIK_HOST_HTTPS_PORT=443
+
+
 ### MOSQUITTO #################################################
 
 MOSQUITTO_PORT=9001
+
+### COUCHDB ###################################################
+
+COUCHDB_PORT=5984
+
+### Manticore Search ##########################################
+
+MANTICORE_CONFIG_PATH=./manticore/config
+MANTICORE_API_PORT=9312
+MANTICORE_SPHINXQL_PORT=9306
+MANTICORE_HTTP_PORT=9308
+
+### pgadmin ##################################################
+# use this address http://ip6-localhost:5050
+PGADMIN_PORT=5050
+PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
+PGADMIN_DEFAULT_PASSWORD=admin

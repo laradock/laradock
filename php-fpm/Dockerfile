@@ -14,7 +14,8 @@
 
 ARG LARADOCK_PHP_VERSION
 
-FROM laradock/php-fpm:2.2-${LARADOCK_PHP_VERSION}
+# FROM laradock/php-fpm:2.2-${LARADOCK_PHP_VERSION}
+FROM letsdockerize/laradock-php-fpm:2.4-${LARADOCK_PHP_VERSION}
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
@@ -24,20 +25,27 @@ ARG LARADOCK_PHP_VERSION
 ENV DEBIAN_FRONTEND noninteractive
 
 # always run apt update when start and after add new source list, then clean up at end.
-RUN apt-get update -yqq && \
-    apt-get install -y apt-utils && \
-    pecl channel-update pecl.php.net
-
-#
-#--------------------------------------------------------------------------
-# Mandatory Software's Installation
-#--------------------------------------------------------------------------
-#
-# Mandatory Software's such as ("mcrypt", "pdo_mysql", "libssl-dev", ....)
-# are installed on the base image 'laradock/php-fpm' image. If you want
-# to add more Software's or remove existing one, you need to edit the
-# base image (https://github.com/Laradock/php-fpm).
-#
+RUN set -xe; \
+    apt-get update -yqq && \
+    pecl channel-update pecl.php.net && \
+    apt-get install -yqq \
+      apt-utils \
+      #
+      #--------------------------------------------------------------------------
+      # Mandatory Software's Installation
+      #--------------------------------------------------------------------------
+      #
+      # Mandatory Software's such as ("mcrypt", "pdo_mysql", "libssl-dev", ....)
+      # are installed on the base image 'laradock/php-fpm' image. If you want
+      # to add more Software's or remove existing one, you need to edit the
+      # base image (https://github.com/Laradock/php-fpm).
+      #
+      # next lines are here becase there is no auto build on dockerhub see https://github.com/laradock/laradock/pull/1903#issuecomment-463142846
+      libzip-dev zip unzip && \
+      docker-php-ext-configure zip --with-libzip && \
+      # Install the zip extension
+      docker-php-ext-install zip && \
+      php -m | grep -q 'zip'
 
 #
 #--------------------------------------------------------------------------
@@ -47,7 +55,7 @@ RUN apt-get update -yqq && \
 # Optional Software's will only be installed if you set them to `true`
 # in the `docker-compose.yml` before the build.
 # Example:
-#   - INSTALL_ZIP_ARCHIVE=true
+#   - INSTALL_SOAP=true
 #
 
 ###########################################################################
@@ -90,6 +98,18 @@ RUN if [ ${INSTALL_SOAP} = true ]; then \
     rm /etc/apt/preferences.d/no-debian-php && \
     apt-get -y install libxml2-dev php-soap && \
     docker-php-ext-install soap \
+;fi
+
+###########################################################################
+# XSL:
+###########################################################################
+
+ARG INSTALL_XSL=false
+
+RUN if [ ${INSTALL_XSL} = true ]; then \
+    # Install the xsl extension
+    apt-get -y install libxslt-dev && \
+    docker-php-ext-install xsl \
 ;fi
 
 ###########################################################################
@@ -187,7 +207,7 @@ ARG INSTALL_SWOOLE=false
 RUN if [ ${INSTALL_SWOOLE} = true ]; then \
     # Install Php Swoole Extension
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-      pecl install swoole-2.0.11; \
+      pecl install swoole-2.0.10; \
     else \
       if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
         pecl install swoole-2.2.0; \
@@ -196,6 +216,7 @@ RUN if [ ${INSTALL_SWOOLE} = true ]; then \
       fi \
     fi && \
     docker-php-ext-enable swoole \
+    && php -m | grep -q 'swoole' \
 ;fi
 
 ###########################################################################
@@ -221,25 +242,21 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
 ARG INSTALL_AMQP=false
 
 RUN if [ ${INSTALL_AMQP} = true ]; then \
-    apt-get install librabbitmq-dev -y && \
+    # download and install manually, to make sure it's compatible with ampq installed by pecl later
+    # install cmake first
+    apt-get update && apt-get -y install cmake && \
+    curl -L -o /tmp/rabbitmq-c.tar.gz https://github.com/alanxz/rabbitmq-c/archive/master.tar.gz && \
+    mkdir -p rabbitmq-c && \
+    tar -C rabbitmq-c -zxvf /tmp/rabbitmq-c.tar.gz --strip 1 && \
+    cd rabbitmq-c/ && \
+    mkdir _build && cd _build/ && \
+    cmake .. && \
+    cmake --build . --target install && \
     # Install the amqp extension
     pecl install amqp && \
     docker-php-ext-enable amqp && \
     # Install the sockets extension
     docker-php-ext-install sockets \
-;fi
-
-###########################################################################
-# ZipArchive:
-###########################################################################
-
-ARG INSTALL_ZIP_ARCHIVE=false
-
-RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
-    apt-get install libzip-dev -y && \
-    docker-php-ext-configure zip --with-libzip && \
-    # Install the zip extension
-    docker-php-ext-install zip \
 ;fi
 
 ###########################################################################
@@ -323,30 +340,30 @@ RUN if [ ${INSTALL_EXIF} = true ]; then \
 USER root
 
 ARG INSTALL_AEROSPIKE=false
-ARG AEROSPIKE_PHP_REPOSITORY
 
-RUN if [ ${INSTALL_AEROSPIKE} = true ]; then \
+RUN set -xe; \
+    if [ ${INSTALL_AEROSPIKE} = true ]; then \
     # Fix dependencies for PHPUnit within aerospike extension
     apt-get -y install sudo wget && \
     # Install the php aerospike extension
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
       curl -L -o /tmp/aerospike-client-php.tar.gz https://github.com/aerospike/aerospike-client-php5/archive/master.tar.gz; \
     else \
-      curl -L -o /tmp/aerospike-client-php.tar.gz ${AEROSPIKE_PHP_REPOSITORY}; \
+      curl -L -o /tmp/aerospike-client-php.tar.gz https://github.com/aerospike/aerospike-client-php/archive/master.tar.gz; \
     fi \
-    && mkdir -p aerospike-client-php \
-    && tar -C aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
+    && mkdir -p /tmp/aerospike-client-php \
+    && tar -C /tmp/aerospike-client-php -zxvf /tmp/aerospike-client-php.tar.gz --strip 1 \
     && \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
       ( \
-          cd aerospike-client-php/src/aerospike \
+          cd /tmp/aerospike-client-php/src/aerospike \
           && phpize \
           && ./build.sh \
           && make install \
       ) \
     else \
       ( \
-          cd aerospike-client-php/src \
+          cd /tmp/aerospike-client-php/src \
           && phpize \
           && ./build.sh \
           && make install \
@@ -440,7 +457,8 @@ RUN if [ ${INSTALL_LDAP} = true ]; then \
 
 ARG INSTALL_MSSQL=false
 
-RUN set -eux; if [ ${INSTALL_MSSQL} = true ]; then \
+RUN set -eux; \
+  if [ ${INSTALL_MSSQL} = true ]; then \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
       apt-get -y install freetds-dev libsybdb5 \
       && ln -s /usr/lib/x86_64-linux-gnu/libsybdb.so /usr/lib/libsybdb.so \
@@ -463,12 +481,16 @@ RUN set -eux; if [ ${INSTALL_MSSQL} = true ]; then \
       && ln -sfn /etc/locale.alias /usr/share/locale/locale.alias \
       && locale-gen \
       # Install pdo_sqlsrv and sqlsrv from PECL. Replace pdo_sqlsrv-4.1.8preview with preferred version.
-      && pecl install pdo_sqlsrv sqlsrv \
+      && if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+        pecl install pdo_sqlsrv-5.3.0 sqlsrv-5.3.0 \
+      ;else \
+        pecl install pdo_sqlsrv sqlsrv \
+      ;fi \
       && docker-php-ext-enable pdo_sqlsrv sqlsrv \
       && php -m | grep -q 'pdo_sqlsrv' \
       && php -m | grep -q 'sqlsrv' \
     ;fi \
-;fi
+  ;fi
 
 ###########################################################################
 # Image optimizers:
@@ -550,7 +572,11 @@ RUN if [ $INSTALL_PHALCON = true ]; then \
 ARG INSTALL_APCU=false
 
 RUN if [ ${INSTALL_APCU} = true ]; then \
-    pecl install apcu && \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+        pecl install -a apcu-4.0.11; \
+    else \
+        pecl install apcu; \
+    fi && \
     docker-php-ext-enable apcu \
 ;fi
 
@@ -564,15 +590,48 @@ ARG INSTALL_YAML=false
 
 RUN if [ ${INSTALL_YAML} = true ]; then \
     apt-get install libyaml-dev -y ; \
-    pecl install yaml ; \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+        pecl install -a yaml-1.3.2; \
+    else \
+        pecl install yaml; \
+    fi && \
     docker-php-ext-enable yaml \
+;fi
+
+###########################################################################
+# Install additional locales:
+###########################################################################
+
+ARG INSTALL_ADDITIONAL_LOCALES=false
+ARG ADDITIONAL_LOCALES
+
+RUN if [ ${INSTALL_ADDITIONAL_LOCALES} = true ]; then \
+    apt-get install -y locales \
+    && echo '' >> /usr/share/locale/locale.alias \
+    && temp="${ADDITIONAL_LOCALES%\"}" \
+    && temp="${temp#\"}" \
+    && for i in ${temp}; do sed -i "/$i/s/^#//g" /etc/locale.gen; done \
+    && locale-gen \
+;fi
+
+###########################################################################
+# MySQL Client:
+###########################################################################
+
+USER root
+
+ARG INSTALL_MYSQL_CLIENT=false
+
+RUN if [ ${INSTALL_MYSQL_CLIENT} = true ]; then \
+    apt-get update -yqq && \
+    apt-get -y install mysql-client \
 ;fi
 
 ###########################################################################
 # Check PHP version:
 ###########################################################################
 
-RUN php -v | head -n 1 | grep -q "PHP ${LARADOCK_PHP_VERSION}."
+RUN set -xe; php -v | head -n 1 | grep -q "PHP ${LARADOCK_PHP_VERSION}."
 
 #
 #--------------------------------------------------------------------------

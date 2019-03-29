@@ -16,7 +16,7 @@
 <h4 align="center" style="color:#7d58c2">Use Docker First And Learn About It Later</h4>
 
 <p align="center">
-    <a href="https://zalt.me"><img src="http://forthebadge.com/images/badges/built-by-developers.svg" alt="forthebadge" width="240" ></a>
+    <a href="http://zalt.me"><img src="http://forthebadge.com/images/badges/built-by-developers.svg" alt="forthebadge" width="240" ></a>
 </p>
 
 
