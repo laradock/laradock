@@ -1716,6 +1716,22 @@ Linuxbrew is a package manager for Linux. It is the Linux version of MacOS Homeb
 
 
 
+<br>
+<a name="Install-FFMPEG"></a>
+## Install FFMPEG
+
+To install FFMPEG in the Workspace container
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_FFMPEG` argument under the Workspace Container and set it to `true`
+
+3 - Re-build the container `docker-compose build workspace`
+
+
+
+
+
 
 <br>
 <a name="Common-Aliases"></a>
