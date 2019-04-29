@@ -1011,7 +1011,7 @@ USER root
 ARG INSTALL_GNU_PARALLEL=false
 
 RUN if [ ${INSTALL_GNU_PARALLEL} = true ]; then \
-  apt-get -y install parallel && sleep 10 \
+  apt-get -y install parallel \
 ;fi
 
 
