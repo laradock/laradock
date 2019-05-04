@@ -81,10 +81,10 @@ We'll need to do step 1 of the [Usage](#Usage) section now to make this happen.
 cp env-example .env
 ```
 
-At the top, change the `APPLICATION` variable to your project path.
+At the top, change the `APP_CODE_PATH_HOST` variable to your project path.
 
 ```
-APPLICATION=../project-z/
+APP_CODE_PATH_HOST=../project-z/
 ```
 
 Make sure to replace `project-z` with your project folder name.
@@ -94,7 +94,7 @@ Make sure to replace `project-z` with your project folder name.
 
 <a name="B"></a>
 ### B) Setup for Multiple Projects:
-> (Follow these steps if you want a single Docker environment for all your project)
+> (Follow these steps if you want a single Docker environment for all your projects)
 
 1 - Clone this repository anywhere on your machine (similar to [Steps A.2. from above](#A2)):
 
@@ -143,7 +143,7 @@ If you use Chrome 63 or above for development, don't use `.dev`. [Why?](https://
 If you are using **Docker Toolbox** (VM), do one of the following:
 
 - Upgrade to Docker [Native](https://www.docker.com/products/docker) for Mac/Windows (Recommended). Check out [Upgrading Laradock](/documentation/#upgrading-laradock)
-- Use Laradock v3.\*. Visit the [Laradock-ToolBox](https://github.com/laradock/laradock/tree/Laradock-ToolBox) branch. *(outdated)*
+- Use Laradock v3.\*. Visit the [Laradock-ToolBox](https://github.com/laradock/laradock/tree/LaraDock-ToolBox) branch. *(outdated)*
 
 <br>
 
@@ -161,7 +161,7 @@ We recommend using a Docker version which is newer than 1.13.
 cp env-example .env
 ```
 
-You can edit the `.env` file to choose which software you want to be installed in your environment. You can always refer to the `docker-compose.yml` file to see how those variables have been used.
+You can edit the `.env` file to choose which software's you want to be installed in your environment. You can always refer to the `docker-compose.yml` file to see how those variables are being used.
 
 Depending on the host's operating system you may need to change the value given to `COMPOSE_FILE`. When you are running Laradock on Mac OS the correct file separator to use is `:`. When running Laradock from a Windows environment multiple files must be separated with `;`.
 

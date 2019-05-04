@@ -50,12 +50,6 @@ $root@server:~/laravel/ git submodule add https://github.com/Laradock/laradock.g
 $root@server:~/laravel/ cd laradock
 ```
 
-## Install docker-compose command
-
-```
-$root@server:~/laravel/laradock# curl -L https://github.com/docker/compose/releases/download/1.8.0/run.sh > /usr/local/bin/docker-compose
-$root@server:~/chmod +x /usr/local/bin/docker-compose
-```
 ##  Enter the laradock folder and rename env-example to .env.
 ```
 $root@server:~/laravel/laradock# cp env-example .env
@@ -73,6 +67,14 @@ Note that more containers are available, find them in the [docs](http://laradock
 
 ```
 docker-compose exec workspace bash
+```
+
+## Execute commands
+
+If you want to only execute some command and don't want to enter bash, you can execute `docker-compose run workspace <command>`.
+
+```
+docker-compose run workspace php artisan migrate
 ```
 
 ## Install and configure Laravel
@@ -197,7 +199,7 @@ This is needed Prior to Creating Let's Encypt
 ## Run Your Caddy Container without the -d flag and Generate SSL with Let's Encrypt
 
 ```
-$root@server:~/laravel/laradock/caddy# docker-compose up  caddy
+$root@server:~/laravel/laradock# docker-compose up  caddy
 ```
 
 You'll be prompt here to enter your email... you may enter it or not
@@ -218,8 +220,8 @@ After it finishes, press `Ctrl` + `C` to exit.
 ## Stop All Containers and ReRun Caddy and Other Containers on Background
 
 ```
-$root@server:~/laravel/laradock/caddy# docker-compose down
-$root@server:~/laravel/laradock/caddy# docker-compose up -d mysql caddy
+$root@server:~/laravel/laradock# docker-compose down
+$root@server:~/laravel/laradock# docker-compose up -d mysql caddy
 ```
 
 View your Site in the Browser Securely Using HTTPS (https://yourdomain.com)
@@ -418,7 +420,7 @@ laradock_workspace_1        /sbin/my_init                 Up       0.0.0.0:2222-
 <a name="enablePhpXdebug"></a>
 ## Enable xDebug on php-fpm
 
-In a host terminal sitting in the laradock folder, run: `.php-fpm/xdebug status`
+In a host terminal sitting in the laradock folder, run: `./php-fpm/xdebug status`
 You should see something like the following:
 
 ```
@@ -430,7 +432,7 @@ Zend Engine v3.0.0, Copyright (c) 1998-2016 Zend Technologies
     with Xdebug v2.4.1, Copyright (c) 2002-2016, by Derick Rethans
 ```
 
-Other commands include `.php-fpm/xdebug start | stop`.
+Other commands include `./php-fpm/xdebug start | stop`.
 
 If you have enabled `xdebug=true` in `docker-compose.yml/php-fpm`, `xdebug` will already be running when
 `php-fpm` is started and listening for debug info on port 9000.
@@ -516,9 +518,9 @@ If you have enabled `xdebug=true` in `docker-compose.yml/php-fpm`, `xdebug` will
 <a name="UsagePHPStormDebugSite"></a>
 ### Debug WebSite
 - In case xDebug is disabled, from the `laradock` folder run:
-`.php-fpm/xdebug start`.
+`./php-fpm/xdebug start`.
     - To switch xdebug off, run:
-`.php-fpm/xdebug stop`
+`./php-fpm/xdebug stop`
 
 - Start Remote Debugging
     - ![DebugRemoteOn](/images/photos/PHPStorm/DebugRemoteOn.png)
