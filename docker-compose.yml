@@ -1437,10 +1437,10 @@ services:
       depends_on:
         - postgres
       volumes:
-        - ${DATA_PATH_HOST}/sonarqube_conf:/opt/sonarqube/conf"
-        - ${DATA_PATH_HOST}/sonarqube_data:/opt/sonarqube/data"
-        - ${DATA_PATH_HOST}/sonarqube_log:/opt/sonarqube/logs"
-        - ${DATA_PATH_HOST}/sonarqube_extensions:/opt/sonarqube/extensions"
+        - ${DATA_PATH_HOST}/sonarqube/conf:/opt/sonarqube/conf"
+        - ${DATA_PATH_HOST}/sonarqube/data:/opt/sonarqube/data"
+        - ${DATA_PATH_HOST}/sonarqube/log:/opt/sonarqube/logs"
+        - ${DATA_PATH_HOST}/sonarqube/extensions:/opt/sonarqube/extensions"
       networks:
         - backend
         - frontend
