@@ -4,6 +4,7 @@
         rotate 32
         compress
         delaycompress
+        nodateext
         notifempty
         create 640 root root
         sharedscripts
