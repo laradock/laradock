@@ -21,6 +21,8 @@ LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
 ARG LARADOCK_PHP_VERSION
 
+EXPOSE 4201
+
 # Set Environment Variables
 ENV DEBIAN_FRONTEND noninteractive
 

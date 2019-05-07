@@ -628,6 +628,18 @@ RUN if [ ${INSTALL_MYSQL_CLIENT} = true ]; then \
 ;fi
 
 ###########################################################################
+# WKHTMLTOPDF:
+###########################################################################
+
+USER root
+
+ARG INSTALL_WKHTMLTOPDF=false
+
+RUN if [ ${INSTALL_WKHTMLTOPDF} = true ]; then \
+    apt-get install -y xvfb libfontconfig wkhtmltopdf \
+;fi
+
+###########################################################################
 # Check PHP version:
 ###########################################################################
 

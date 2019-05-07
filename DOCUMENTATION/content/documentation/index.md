@@ -1823,6 +1823,22 @@ will set the clock back 1 day. See (https://github.com/wolfcw/libfaketime) for m
 5 - Set it to the desired string
 <br>
 6 - Re-build the containers `docker-compose build php-fpm`<br>
+<br>
+
+
+
+
+<br>
+<a name="Install WKHTMLTOPDF"></a>
+## Install wkhtmltopdf in the php-fpm container
+
+To install wkhtmltopdf in the php-fpm container
+
+1 - Open the `.env` file
+
+2 - Search for the `PHP_FPM_INSTALL_NPM_ANGULAR_CLI` argument under the PHP-FPM Container and set it to `true`
+
+3 - Re-build the container `docker-compose build php-fpm`
 
 
 
@@ -1901,7 +1917,7 @@ So since sharing code into Docker containers with osxfs have very poor performan
 
 [Dinghy](https://github.com/codekitchen/dinghy) creates its own VM using docker-machine, it will not modify your existing docker-machine VMs.
 
-Quick Setup giude, (we recommend you check their docs)
+Quick Setup guide, (we recommend you check their docs)
 
 1) `brew tap codekitchen/dinghy`
 
