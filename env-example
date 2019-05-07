@@ -677,9 +677,11 @@ PGADMIN_PORT=5050
 PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
 PGADMIN_DEFAULT_PASSWORD=admin
 
-### sonarqube ##################################################
-SONAR_HOSTNAME=sonar.example.com
-SONAR_HTTP_PORT=9000
-SONAR_POSTGRES_DB=sonar
-SONAR_POSTGRES_USER=sonar
-SONAR_POSTGRES_PASSWORD=sonar
+### SONARQUBE ################################################
+SONARQUBE_HOSTNAME=sonar.example.com
+SONARQUBE_PORT=9000
+SONARQUBE_POSTGRES_INIT=true
+SONARQUBE_POSTGRES_HOST=postgres
+SONARQUBE_POSTGRES_DB=sonar
+SONARQUBE_POSTGRES_USER=sonar
+SONARQUBE_POSTGRES_PASSWORD=sonarPass
