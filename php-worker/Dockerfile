@@ -72,7 +72,7 @@ RUN if [ ${INSTALL_MYSQL_CLIENT} = true ]; then \
 # Install FFMPEG:
 ARG INSTALL_FFMPEG=false
 RUN if [ ${INSTALL_FFMPEG} = true ]; then \
-    apk --update add mysql-client \
+    apk --update add ffmpeg \
 ;fi
 
 # Install AMQP:
