@@ -128,13 +128,17 @@ RUN if [ ${INSTALL_PGSQL} = true ]; then \
 ###########################################################################
 
 ARG INSTALL_PG_CLIENT=false
+ARG INSTALL_POSTGIS=false
 
 RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
     # Create folders if not exists (https://github.com/tianon/docker-brew-debian/issues/65)
     mkdir -p /usr/share/man/man1 && \
     mkdir -p /usr/share/man/man7 && \
     # Install the pgsql client
-    apt-get install -y postgresql-client \
+    apt-get install -y postgresql-client && \
+    if [ ${INSTALL_POSTGIS} = true ]; then \
+      apt-get install -y postgis; \
+    fi \
 ;fi
 
 ###########################################################################
