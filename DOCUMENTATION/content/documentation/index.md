@@ -1728,6 +1728,10 @@ To install FFMPEG in the Workspace container
 
 3 - Re-build the container `docker-compose build workspace`
 
+4 - If you use the `php-worker` container too, please follow the same steps above especially if you have conversions that have been queued.
+
+**PS** Don't forget to install the binary in the `php-fpm` container too by applying the same steps above to its container, otherwise the you'll get an error when running the `php-ffmpeg` binary.
+
 
 
 
