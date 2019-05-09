@@ -503,6 +503,10 @@ services:
         - "${AEROSPIKE_FABRIC_PORT}:3001"
         - "${AEROSPIKE_HEARTBEAT_PORT}:3002"
         - "${AEROSPIKE_INFO_PORT}:3003"
+      environment:
+        - STORAGE_GB=${AEROSPIKE_STORAGE_GB}
+        - MEM_GB=${AEROSPIKE_MEM_GB}
+        - NAMESPACE=${AEROSPIKE_NAMESPACE}
       networks:
         - backend
 
