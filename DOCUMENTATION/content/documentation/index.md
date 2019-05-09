@@ -1738,6 +1738,27 @@ To install FFMPEG in the Workspace container
 
 
 <br>
+<a name="Install-GNU-Parallel"></a>
+## Install GNU Parallel
+
+GNU Parallel is a command line tool to run multiple processes in parallel.
+
+(see https://www.gnu.org/software/parallel/parallel_tutorial.html)
+
+To install GNU Parallel in the Workspace container
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_GNU_PARALLEL` argument under the Workspace Container and set it to `true`
+
+3 - Re-build the container `docker-compose build workspace`
+
+
+
+
+
+
+<br>
 <a name="Common-Aliases"></a>
 <br>
 ## Common Terminal Aliases
