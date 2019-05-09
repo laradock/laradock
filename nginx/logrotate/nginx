@@ -6,7 +6,7 @@
         delaycompress
         nodateext
         notifempty
-        create 640 root root
+        create 644 www-data root
         sharedscripts
         postrotate
                 [ -f /var/run/nginx.pid ] && kill -USR1 `cat /var/run/nginx.pid`
