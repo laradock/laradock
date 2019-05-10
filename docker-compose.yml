@@ -41,6 +41,8 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   mosquitto:
     driver: ${VOLUMES_DRIVER}
+  sonarqube:
+    driver: ${VOLUMES_DRIVER}
 
 services:
 
@@ -110,6 +112,7 @@ services:
           - BLACKFIRE_CLIENT_TOKEN=${BLACKFIRE_CLIENT_TOKEN}
           - INSTALL_POWERLINE=${WORKSPACE_INSTALL_POWERLINE}
           - INSTALL_FFMPEG=${WORKSPACE_INSTALL_FFMPEG}
+          - INSTALL_GNU_PARALLEL=${WORKSPACE_INSTALL_GNU_PARALLEL}
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
       extra_hosts:
@@ -153,6 +156,7 @@ services:
           - INSTALL_MYSQLI=${PHP_FPM_INSTALL_MYSQLI}
           - INSTALL_PGSQL=${PHP_FPM_INSTALL_PGSQL}
           - INSTALL_PG_CLIENT=${PHP_FPM_INSTALL_PG_CLIENT}
+          - INSTALL_POSTGIS=${PHP_FPM_INSTALL_POSTGIS}
           - INSTALL_INTL=${PHP_FPM_INSTALL_INTL}
           - INSTALL_GHOSTSCRIPT=${PHP_FPM_INSTALL_GHOSTSCRIPT}
           - INSTALL_LDAP=${PHP_FPM_INSTALL_LDAP}
@@ -165,9 +169,11 @@ services:
           - INSTALL_IONCUBE=${PHP_FPM_INSTALL_IONCUBE}
           - INSTALL_APCU=${PHP_FPM_INSTALL_APCU}
           - INSTALL_YAML=${PHP_FPM_INSTALL_YAML}
+          - INSTALL_RDKAFKA=${PHP_FPM_INSTALL_RDKAFKA}
           - INSTALL_ADDITIONAL_LOCALES=${PHP_FPM_INSTALL_ADDITIONAL_LOCALES}
           - INSTALL_MYSQL_CLIENT=${PHP_FPM_INSTALL_MYSQL_CLIENT}
           - ADDITIONAL_LOCALES=${PHP_FPM_ADDITIONAL_LOCALES}
+          - INSTALL_FFMPEG=${PHP_FPM_FFMPEG}
       volumes:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
@@ -202,6 +208,7 @@ services:
           - INSTALL_AMQP=${PHP_WORKER_INSTALL_AMQP}
           - INSTALL_GHOSTSCRIPT=${PHP_WORKER_INSTALL_GHOSTSCRIPT}
           - INSTALL_SWOOLE=${PHP_WORKER_INSTALL_SWOOLE}
+          - INSTALL_FFMPEG=${PHP_WORKER_INSTALL_FFMPEG}
           - PUID=${PHP_WORKER_PUID}
           - PGID=${PHP_WORKER_PGID}
       volumes:
@@ -403,6 +410,10 @@ services:
         - JUPYTERHUB_POSTGRES_USER=${JUPYTERHUB_POSTGRES_USER}
         - JUPYTERHUB_POSTGRES_PASSWORD=${JUPYTERHUB_POSTGRES_PASSWORD}
         - JUPYTERHUB_POSTGRES_DB=${JUPYTERHUB_POSTGRES_DB}
+        - SONARQUBE_POSTGRES_INIT=${SONARQUBE_POSTGRES_INIT}
+        - SONARQUBE_POSTGRES_DB=${SONARQUBE_POSTGRES_DB}
+        - SONARQUBE_POSTGRES_USER=${SONARQUBE_POSTGRES_USER}
+        - SONARQUBE_POSTGRES_PASSWORD=${SONARQUBE_POSTGRES_PASSWORD}
       networks:
         - backend
 
@@ -493,6 +504,10 @@ services:
         - "${AEROSPIKE_FABRIC_PORT}:3001"
         - "${AEROSPIKE_HEARTBEAT_PORT}:3002"
         - "${AEROSPIKE_INFO_PORT}:3003"
+      environment:
+        - STORAGE_GB=${AEROSPIKE_STORAGE_GB}
+        - MEM_GB=${AEROSPIKE_MEM_GB}
+        - NAMESPACE=${AEROSPIKE_NAMESPACE}
       networks:
         - backend
 
@@ -1421,3 +1436,26 @@ services:
         - "${MANTICORE_HTTP_PORT}:9308"        
       networks:
         - backend
+
+### SONARQUBE ################################################
+    sonarqube:
+      build:
+        context: ./sonarqube
+      hostname: "${SONARQUBE_HOSTNAME}"
+      volumes:
+        - ${DATA_PATH_HOST}/sonarqube/conf:/opt/sonarqube/conf
+        - ${DATA_PATH_HOST}/sonarqube/data:/opt/sonarqube/data
+        - ${DATA_PATH_HOST}/sonarqube/logs:/opt/sonarqube/logs
+        - ${DATA_PATH_HOST}/sonarqube/extensions:/opt/sonarqube/extensions
+        - ${DATA_PATH_HOST}/sonarqube/plugins:/opt/sonarqube/lib/bundled-plugins
+      ports:
+        - ${SONARQUBE_PORT}:9000
+      depends_on:
+        - postgres
+      environment:
+        - sonar.jdbc.username=${SONARQUBE_POSTGRES_USER}
+        - sonar.jdbc.password=${SONARQUBE_POSTGRES_PASSWORD}
+        - sonar.jdbc.url=jdbc:postgresql://${SONARQUBE_POSTGRES_HOST}:5432/${SONARQUBE_POSTGRES_DB}
+      networks:
+        - backend
+        - frontend

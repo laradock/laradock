@@ -1728,6 +1728,31 @@ To install FFMPEG in the Workspace container
 
 3 - Re-build the container `docker-compose build workspace`
 
+4 - If you use the `php-worker` container too, please follow the same steps above especially if you have conversions that have been queued.
+
+**PS** Don't forget to install the binary in the `php-fpm` container too by applying the same steps above to its container, otherwise the you'll get an error when running the `php-ffmpeg` binary.
+
+
+
+
+
+
+<br>
+<a name="Install-GNU-Parallel"></a>
+## Install GNU Parallel
+
+GNU Parallel is a command line tool to run multiple processes in parallel.
+
+(see https://www.gnu.org/software/parallel/parallel_tutorial.html)
+
+To install GNU Parallel in the Workspace container
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_GNU_PARALLEL` argument under the Workspace Container and set it to `true`
+
+3 - Re-build the container `docker-compose build workspace`
+
 
 
 
