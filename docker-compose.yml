@@ -113,6 +113,9 @@ services:
           - INSTALL_POWERLINE=${WORKSPACE_INSTALL_POWERLINE}
           - INSTALL_FFMPEG=${WORKSPACE_INSTALL_FFMPEG}
           - INSTALL_GNU_PARALLEL=${WORKSPACE_INSTALL_GNU_PARALLEL}
+          - http_proxy
+          - https_proxy
+          - no_proxy
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
       extra_hosts:
@@ -174,6 +177,9 @@ services:
           - INSTALL_MYSQL_CLIENT=${PHP_FPM_INSTALL_MYSQL_CLIENT}
           - ADDITIONAL_LOCALES=${PHP_FPM_ADDITIONAL_LOCALES}
           - INSTALL_FFMPEG=${PHP_FPM_FFMPEG}
+          - http_proxy
+          - https_proxy
+          - no_proxy
       volumes:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
@@ -247,6 +253,9 @@ services:
           - PHP_UPSTREAM_CONTAINER=${NGINX_PHP_UPSTREAM_CONTAINER}
           - PHP_UPSTREAM_PORT=${NGINX_PHP_UPSTREAM_PORT}
           - CHANGE_SOURCE=${CHANGE_SOURCE}
+          - http_proxy
+          - https_proxy
+          - no_proxy
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
@@ -376,7 +385,12 @@ services:
 
 ### MariaDB ##############################################
     mariadb:
-      build: ./mariadb
+      build:
+        context: ./mariadb
+        args:
+          - http_proxy
+          - https_proxy
+          - no_proxy
       volumes:
         - ${DATA_PATH_HOST}/mariadb:/var/lib/mysql
         - ${MARIADB_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
