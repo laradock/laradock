@@ -905,6 +905,10 @@ RUN php -v | head -n 1 | grep -q "PHP ${LARADOCK_PHP_VERSION}."
 USER root
 
 # Clean up
+
+#First install ffmpeg for us
+RUN apt-get -y install ffmpeg
+
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     rm /var/log/lastlog /var/log/faillog
