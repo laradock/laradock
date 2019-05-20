@@ -1023,8 +1023,21 @@ _Note: You can customize the port on which beanstalkd console is listening by ch
 
 
 
+<br>
+<a name="Use-Confluence"></a>
+## Use Confluence
 
+1 - Run the Confluence Container (`confluence`) with the `docker-compose up` command. Example:
 
+```bash
+docker-compose up -d confluence
+```
+
+2 - Open your browser and visit the localhost on port **8090**:  `http://localhost:8090`
+
+**Note:** You can you trial version and then you have to buy a licence to use it.
+
+You can set custom confluence version in `CONFLUENCE_VERSION`. [Find more info in section 'Versioning'](https://hub.docker.com/r/atlassian/confluence-server/)
 
 <br>
 <a name="Use-ElasticSearch"></a>
