@@ -69,6 +69,14 @@ Note that more containers are available, find them in the [docs](http://laradock
 docker-compose exec workspace bash
 ```
 
+## Execute commands
+
+If you want to only execute some command and don't want to enter bash, you can execute `docker-compose run workspace <command>`.
+
+```
+docker-compose run workspace php artisan migrate
+```
+
 ## Install and configure Laravel
 
 Let's install Laravel's dependencies, add the `.env` file, generate the key and give proper permissions to the cache folder.

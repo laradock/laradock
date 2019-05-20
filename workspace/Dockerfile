@@ -345,7 +345,7 @@ ARG BLACKFIRE_CLIENT_TOKEN
 ENV BLACKFIRE_CLIENT_TOKEN ${BLACKFIRE_CLIENT_TOKEN}
 
 RUN if [ ${INSTALL_XDEBUG} = false -a ${INSTALL_BLACKFIRE} = true ]; then \
-    curl -L https://packagecloud.io/gpg.key | apt-key add - && \
+    curl -L https://packages.blackfire.io/gpg.key | apt-key add - && \
     echo "deb http://packages.blackfire.io/debian any main" | tee /etc/apt/sources.list.d/blackfire.list && \
     apt-get update -yqq && \
     apt-get install blackfire-agent \
@@ -989,6 +989,31 @@ RUN if [ ${INSTALL_MYSQL_CLIENT} = true ]; then \
     apt-get update -yqq && \
     apt-get -y install mysql-client \
 ;fi
+
+###########################################################################
+# FFMpeg:
+###########################################################################
+
+USER root
+
+ARG INSTALL_FFMPEG=false
+
+RUN if [ ${INSTALL_FFMPEG} = true ]; then \
+  apt-get -y install ffmpeg \
+;fi
+
+###########################################################################
+# GNU Parallel:
+###########################################################################
+
+USER root
+
+ARG INSTALL_GNU_PARALLEL=false
+
+RUN if [ ${INSTALL_GNU_PARALLEL} = true ]; then \
+  apt-get -y install parallel \
+;fi
+
 
 ###########################################################################
 # Check PHP version:
