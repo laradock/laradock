@@ -41,6 +41,8 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   mosquitto:
     driver: ${VOLUMES_DRIVER}
+  confluence:
+    driver: ${VOLUMES_DRIVER}
   sonarqube:
     driver: ${VOLUMES_DRIVER}
 
@@ -414,6 +416,10 @@ services:
         - SONARQUBE_POSTGRES_DB=${SONARQUBE_POSTGRES_DB}
         - SONARQUBE_POSTGRES_USER=${SONARQUBE_POSTGRES_USER}
         - SONARQUBE_POSTGRES_PASSWORD=${SONARQUBE_POSTGRES_PASSWORD}
+        - POSTGRES_CONFLUENCE_INIT=${CONFLUENCE_POSTGRES_INIT}
+        - POSTGRES_CONFLUENCE_DB=${CONFLUENCE_POSTGRES_DB}
+        - POSTGRES_CONFLUENCE_USER=${CONFLUENCE_POSTGRES_USER}
+        - POSTGRES_CONFLUENCE_PASSWORD=${CONFLUENCE_POSTGRES_PASSWORD}
       networks:
         - backend
 
@@ -1459,3 +1465,17 @@ services:
       networks:
         - backend
         - frontend
+### CONFLUENCE ################################################
+    confluence:
+      container_name: Confluence
+      image: atlassian/confluence-server:${CONFLUENCE_VERSION}
+      restart: always
+      ports:
+        - "${CONFLUENCE_HOST_HTTP_PORT}:8090"
+      networks:
+        - frontend
+        - backend
+      depends_on:
+        - postgres
+      volumes:
+        - ${DATA_PATH_HOST}/Confluence:/var/atlassian/application-data
