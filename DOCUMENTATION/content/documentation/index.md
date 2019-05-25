@@ -863,6 +863,67 @@ docker-compose up -d gitlab
 
 
 <br>
+<a name="Use-Gitlab-Runner"></a>
+## Use Gitlab Runner
+
+1 - Retrieve the registration token in your gitlab project (Settings > CI / CD > Runners > Set up a specific Runner manually)
+
+2 - Open the `.env` file and set the following changes:
+```
+# so that gitlab container will pass the correct domain to gitlab-runner container
+GITLAB_DOMAIN_NAME=http://gitlab
+
+GITLAB_RUNNER_REGISTRATION_TOKEN=<value-in-step-1>
+
+# so that gitlab-runner container will send POST request for registration to correct domain
+GITLAB_CI_SERVER_URL=http://gitlab
+```
+
+3 - Open the `docker-compose.yml` file and add the following changes:
+```yml
+    gitlab-runner:
+      environment: # these values will be used during `gitlab-runner register`
+        - RUNNER_EXECUTOR=docker # change from shell (default)
+        - DOCKER_IMAGE=alpine
+        - DOCKER_NETWORK_MODE=laradock_backend
+      networks:
+        - backend # connect to network where gitlab service is connected
+```
+
+4 - Run the Gitlab-Runner Container (`gitlab-runner`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d gitlab-runner
+```
+
+5 - Register the gitlab-runner to the gitlab container
+
+```bash
+docker-compose exec gitlab-runner bash
+gitlab-runner register
+```
+
+6 - Create a `.gitlab-ci.yml` file for your pipeline
+
+```yml
+before_script:
+  - echo Hello!
+
+job1:
+  scripts:
+    - echo job1
+```
+
+7 - Push changes to gitlab
+
+8 - Verify that pipeline is run successful
+
+
+
+
+
+
+<br>
 <a name="Use-Adminer"></a>
 ## Use Adminer
 
