@@ -138,7 +138,7 @@ RUN if [ ${INSTALL_TAINT} = true ]; then \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
       pecl install taint; \
     fi && \
-    docker-php-ext-enable taint; \
+    docker-php-ext-enable taint \
 ;fi
 
 #

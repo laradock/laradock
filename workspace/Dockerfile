@@ -448,7 +448,7 @@ RUN if [ "${INSTALL_TAINT}" = true ]; then \
     fi && \
     echo "extension=taint.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/taint.ini && \
     ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/taint.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-taint.ini && \
-    php -m | grep -q 'taint'; \
+    php -m | grep -q 'taint' \
 ;fi
 
 ###########################################################################
