@@ -443,10 +443,12 @@ ARG INSTALL_TAINT=false
 
 RUN if [ "${INSTALL_TAINT}" = true ]; then \
     # Install Php TAINT Extension
-    pecl install taint && \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
+      pecl install taint; \
+    fi && \
     echo "extension=taint.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/taint.ini && \
-    ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/taint.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-taint.ini \
-    && php -m | grep -q 'taint' \
+    ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/taint.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-taint.ini && \
+    php -m | grep -q 'taint'; \
 ;fi
 
 ###########################################################################
