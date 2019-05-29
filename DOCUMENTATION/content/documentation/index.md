@@ -394,6 +394,37 @@ Always download the latest version of [Loaders for ionCube ](http://www.ioncube.
 
 
 
+<br>
+<a name="Install-SonarQube"></a>
+
+## Install SonarQube (automatic code review tool)
+SonarQube® is an automatic code review tool to detect bugs, vulnerabilities and code smells in your code. It can integrate with your existing workflow to enable continuous code inspection across your project branches and pull requests.  
+<br>
+1 - Open the `.env` file  
+<br>
+2 - Search for the `SONARQUBE_HOSTNAME=sonar.example.com` argument  
+<br>
+3 - Set it to your-domain `sonar.example.com`  
+<br>
+4 - `docker-compose up -d sonarqube`  
+<br>
+5 - Open your browser: http://localhost:9000/
+
+Troubleshooting:  
+
+if you encounter a database error:
+```
+docker-compose exec --user=root postgres 
+source docker-entrypoint-initdb.d/init_sonarqube_db.sh
+```
+
+If you encounter logs error:
+```
+docker-compose run --user=root --rm sonarqube chown sonarqube:sonarqube /opt/sonarqube/logs 
+```
+[**SonarQube Documentation Here**](https://docs.sonarqube.org/latest/)
+
+
 
 
 
