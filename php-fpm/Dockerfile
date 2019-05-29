@@ -224,6 +224,21 @@ RUN if [ ${INSTALL_SWOOLE} = true ]; then \
 ;fi
 
 ###########################################################################
+# Taint EXTENSION
+###########################################################################
+
+ARG INSTALL_TAINT=false
+
+RUN if [ ${INSTALL_TAINT} = true ]; then \
+    # Install Php TAINT Extension
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
+      pecl install taint && \
+      docker-php-ext-enable taint && \
+      php -m | grep -q 'taint'; \
+    fi \
+;fi
+
+###########################################################################
 # MongoDB:
 ###########################################################################
 
