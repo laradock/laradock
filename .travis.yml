@@ -11,11 +11,13 @@ env:
     - PHP_VERSION=7.0 BUILD_SERVICE=workspace
     - PHP_VERSION=7.1 BUILD_SERVICE=workspace
     - PHP_VERSION=7.2 BUILD_SERVICE=workspace
+    - PHP_VERSION=7.3 BUILD_SERVICE=workspace
 
     - PHP_VERSION=5.6 BUILD_SERVICE=php-fpm
     - PHP_VERSION=7.0 BUILD_SERVICE=php-fpm
     - PHP_VERSION=7.1 BUILD_SERVICE=php-fpm
     - PHP_VERSION=7.2 BUILD_SERVICE=php-fpm
+    - PHP_VERSION=7.3 BUILD_SERVICE=php-fpm
 
     - PHP_VERSION=hhvm BUILD_SERVICE=hhvm
 
@@ -23,6 +25,7 @@ env:
     - PHP_VERSION=7.0 BUILD_SERVICE=php-worker
     - PHP_VERSION=7.1 BUILD_SERVICE=php-worker
     - PHP_VERSION=7.2 BUILD_SERVICE=php-worker
+    - PHP_VERSION=7.3 BUILD_SERVICE=php-worker
 
     - PHP_VERSION=NA BUILD_SERVICE=solr
     - PHP_VERSION=NA BUILD_SERVICE="mssql rethinkdb aerospike"
@@ -30,6 +33,7 @@ env:
     - PHP_VERSION=NA BUILD_SERVICE="adminer phpmyadmin pgadmin"
     - PHP_VERSION=NA BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq elasticsearch certbot mailhog maildev selenium jenkins proxy proxy2 haproxy"
     - PHP_VERSION=NA BUILD_SERVICE="kibana grafana laravel-echo-server"
+    - PHP_VERSION=NA BUILD_SERVICE="ipython-controller manticore"
     # - PHP_VERSION=NA BUILD_SERVICE="aws"
 
 # Installing a newer Docker version
