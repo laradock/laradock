@@ -440,7 +440,9 @@ docker-compose run --user=root --rm sonarqube chown sonarqube:sonarqube /opt/son
 <a name="Laradock-for-Production"></a>
 ## Prepare Laradock for Production
 
-It's recommended for production to create a custom `docker-compose.yml` file. For that reason, Laradock is shipped with `production-docker-compose.yml` which should contain only the containers you are planning to run on production (usage example: `docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...`).
+It's recommended for production to create a custom `docker-compose.yml` file, for example `production-docker-compose.yml`
+
+In your new production `docker-compose.yml` file you should contain only the containers you are planning to run in production (usage example: `docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...`).
 
 Note: The Database (MySQL/MariaDB/...) ports should not be forwarded on production, because Docker will automatically publish the port on the host, which is quite insecure, unless specifically told not to. So make sure to remove these lines:
 
