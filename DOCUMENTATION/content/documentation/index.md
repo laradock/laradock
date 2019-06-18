@@ -398,29 +398,29 @@ Always download the latest version of [Loaders for ionCube ](http://www.ioncube.
 <a name="Install-SonarQube"></a>
 
 ## Install SonarQube (automatic code review tool)
-SonarQube® is an automatic code review tool to detect bugs, vulnerabilities and code smells in your code. It can integrate with your existing workflow to enable continuous code inspection across your project branches and pull requests.  
+SonarQube® is an automatic code review tool to detect bugs, vulnerabilities and code smells in your code. It can integrate with your existing workflow to enable continuous code inspection across your project branches and pull requests.
 <br>
-1 - Open the `.env` file  
+1 - Open the `.env` file
 <br>
-2 - Search for the `SONARQUBE_HOSTNAME=sonar.example.com` argument  
+2 - Search for the `SONARQUBE_HOSTNAME=sonar.example.com` argument
 <br>
-3 - Set it to your-domain `sonar.example.com`  
+3 - Set it to your-domain `sonar.example.com`
 <br>
-4 - `docker-compose up -d sonarqube`  
+4 - `docker-compose up -d sonarqube`
 <br>
 5 - Open your browser: http://localhost:9000/
 
-Troubleshooting:  
+Troubleshooting:
 
 if you encounter a database error:
 ```
-docker-compose exec --user=root postgres 
+docker-compose exec --user=root postgres
 source docker-entrypoint-initdb.d/init_sonarqube_db.sh
 ```
 
 If you encounter logs error:
 ```
-docker-compose run --user=root --rm sonarqube chown sonarqube:sonarqube /opt/sonarqube/logs 
+docker-compose run --user=root --rm sonarqube chown sonarqube:sonarqube /opt/sonarqube/logs
 ```
 [**SonarQube Documentation Here**](https://docs.sonarqube.org/latest/)
 
@@ -1248,6 +1248,36 @@ docker-compose up -d grafana
 3 - Open your browser and visit the localhost on port **3000** at the following URL: `http://localhost:3000`
 
 4 - Login using the credentials User = `admin`, Password = `admin`. Change the password in the web interface if you want to.
+
+
+
+
+
+
+<br>
+<a name="Use-Graylog"></a>
+## Use Graylog
+
+1 - Boot the container `docker-compose up -d graylog`
+
+2 - Open your Laravel's `.env` file and set the `GRAYLOG_PASSWORD` to some passsword, and `GRAYLOG_SHA256_PASSWORD` to the sha256 representation of your password (`GRAYLOG_SHA256_PASSWORD` is what matters, `GRAYLOG_PASSWORD` is just a reminder of your password).
+
+> Your password must be at least 16 characters long
+> You can generate sha256 of some password with the following command `echo -n somesupersecretpassword | sha256sum`
+
+```env
+GRAYLOG_PASSWORD=somesupersecretpassword
+GRAYLOG_SHA256_PASSWORD=b1cb6e31e172577918c9e7806c572b5ed8477d3f57aa737bee4b5b1db3696f09
+```
+
+3 - Go to `http://localhost:9000/` (if your port is not changed)
+
+4 - Authenticate from the app.
+
+> Username: admin
+> Password: somesupersecretpassword (if you haven't changed the password)
+
+5 - Go to the system->inputs and launch new input
 
 
 

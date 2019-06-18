@@ -379,6 +379,18 @@ JENKINS_HOME=./jenkins/jenkins_home
 
 GRAFANA_PORT=3000
 
+### GRAYLOG ###############################################
+
+# password must be 16 characters long
+GRAYLOG_PASSWORD=somesupersecretpassword
+# sha256 representation of the password
+GRAYLOG_SHA256_PASSWORD=b1cb6e31e172577918c9e7806c572b5ed8477d3f57aa737bee4b5b1db3696f09
+GRAYLOG_PORT=9000
+GRAYLOG_SYSLOG_TCP_PORT=514
+GRAYLOG_SYSLOG_UDP_PORT=514
+GRAYLOG_GELF_TCP_PORT=12201
+GRAYLOG_GELF_UDP_PORT=12201
+
 ### BLACKFIRE #############################################
 
 # Create an account on blackfire.io. Don't enable blackfire and xDebug at the same time. # visit https://blackfire.io/docs/24-days/06-installation#install-probe-debian for more info.
@@ -696,12 +708,12 @@ PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
 PGADMIN_DEFAULT_PASSWORD=admin
 
 ### SONARQUBE ################################################
-## docker-compose up -d sonarqube 
+## docker-compose up -d sonarqube
 ## (If you encounter a database error)
-## docker-compose exec --user=root postgres 
+## docker-compose exec --user=root postgres
 ## source docker-entrypoint-initdb.d/init_sonarqube_db.sh
 ## (If you encounter logs error)
-## docker-compose run --user=root --rm sonarqube chown sonarqube:sonarqube /opt/sonarqube/logs 
+## docker-compose run --user=root --rm sonarqube chown sonarqube:sonarqube /opt/sonarqube/logs
 
 SONARQUBE_HOSTNAME=sonar.example.com
 SONARQUBE_PORT=9000
