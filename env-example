@@ -375,6 +375,14 @@ JENKINS_HOST_HTTP_PORT=8090
 JENKINS_HOST_SLAVE_AGENT_PORT=50000
 JENKINS_HOME=./jenkins/jenkins_home
 
+### CONFLUENCE ###############################################
+CONFLUENCE_POSTGRES_INIT=true
+CONFLUENCE_VERSION=6.13-ubuntu-18.04-adoptopenjdk8
+CONFLUENCE_POSTGRES_DB=laradock_confluence
+CONFLUENCE_POSTGRES_USER=laradock_confluence
+CONFLUENCE_POSTGRES_PASSWORD=laradock_confluence
+CONFLUENCE_HOST_HTTP_PORT=8090
+
 ### GRAFANA ###############################################
 
 GRAFANA_PORT=3000
