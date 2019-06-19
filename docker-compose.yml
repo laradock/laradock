@@ -821,6 +821,36 @@ services:
       networks:
         - backend
 
+### Graylog #######################################
+    graylog:
+        build: ./graylog
+        environment:
+          - GRAYLOG_PASSWORD_SECRET=${GRAYLOG_PASSWORD}
+          - GRAYLOG_ROOT_PASSWORD_SHA2=${GRAYLOG_SHA256_PASSWORD}
+          - GRAYLOG_HTTP_EXTERNAL_URI=http://127.0.0.1:${GRAYLOG_PORT}/
+        links:
+          - mongo
+          - elasticsearch
+        depends_on:
+          - mongo
+          - elasticsearch
+        ports:
+          # Graylog web interface and REST API
+          - ${GRAYLOG_PORT}:9000
+          # Syslog TCP
+          - ${GRAYLOG_SYSLOG_TCP_PORT}:514
+          # Syslog UDP
+          - ${GRAYLOG_SYSLOG_UDP_PORT}:514/udp
+          # GELF TCP
+          - ${GRAYLOG_GELF_TCP_PORT}:12201
+          # GELF UDP
+          - ${GRAYLOG_GELF_UDP_PORT}:12201/udp
+        user: root
+        volumes:
+          - ./graylog/config:/usr/share/graylog/data/config
+        networks:
+          - backend
+
 ### Laravel Echo Server #######################################
     laravel-echo-server:
       build:
@@ -1461,7 +1491,7 @@ services:
       ports:
         - "${MANTICORE_API_PORT}:9312"
         - "${MANTICORE_SPHINXQL_PORT}:9306"
-        - "${MANTICORE_HTTP_PORT}:9308"        
+        - "${MANTICORE_HTTP_PORT}:9308"
       networks:
         - backend
 
