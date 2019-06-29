@@ -13,6 +13,10 @@ ENV WEB_DOCUMENT_ROOT=${DOCUMENT_ROOT}
 
 ENV WEB_PHP_TIMEOUT=${PHP_UPSTREAM_TIMEOUT}
 
+ENV LOG_STDOUT=/var/log/apache2/access.log
+
+ENV LOG_STDERR=/var/log/apache2/error.log
+
 EXPOSE 80 443
 
 WORKDIR /var/www/
