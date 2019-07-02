@@ -726,6 +726,19 @@ RUN if [ ${INSTALL_FFMPEG} = true ]; then \
 ;fi
 
 ###########################################################################
+# Mailparse extension:
+###########################################################################
+
+ARG INSTALL_MAILPARSE=false
+
+RUN if [ ${INSTALL_MAILPARSE} = true ]; then \
+    # Install mailparse extension
+    printf "\n" | pecl install -o -f mailparse \
+    &&  rm -rf /tmp/pear \
+    &&  docker-php-ext-enable mailparse \
+;fi
+
+###########################################################################
 # Check PHP version:
 ###########################################################################
 
