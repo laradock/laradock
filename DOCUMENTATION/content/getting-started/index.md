@@ -8,6 +8,7 @@ weight: 2
 
 - [Git](https://git-scm.com/downloads)
 - [Docker](https://www.docker.com/products/docker/) `>= 17.12`
+- [gcloud](https://cloud.google.com/sdk/install) 
 
 
 
@@ -24,6 +25,17 @@ Choose the setup the best suits your needs.
  	- [A.2) Don't have a PHP project yet](#A2)
 - [B) Setup for Multiple Projects](#B)
 
+### Setup gcloud for docker registry
+
+```
+gcloud auth configure-docker
+```
+
+and login to gcloud for use the registry and auth the permission.
+
+```
+gcloud auth login
+```
 
 <a name="A"></a>
 ### A) Setup for Single Project
