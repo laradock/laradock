@@ -24,7 +24,7 @@
 
 <p align="center">
 	<a href="http://laradock.io">
-	   <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/laradock-logo.jpg" width=300px" alt="Laradock Docs"/>
+	   <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/documentation-button.jpg" width=300px" alt="Laradock Docs"/>
 	</a>
 </p>
 
