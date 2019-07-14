@@ -269,6 +269,7 @@ MSSQL_PORT=1433
 
 ### MARIADB ###############################################
 
+MARIADB_VERSION=latest
 MARIADB_DATABASE=default
 MARIADB_USER=default
 MARIADB_PASSWORD=secret
