@@ -407,6 +407,7 @@ services:
       ports:
         - "${MARIADB_PORT}:3306"
       environment:
+        - TZ=${WORKSPACE_TIMEZONE}
         - MYSQL_DATABASE=${MARIADB_DATABASE}
         - MYSQL_USER=${MARIADB_USER}
         - MYSQL_PASSWORD=${MARIADB_PASSWORD}
