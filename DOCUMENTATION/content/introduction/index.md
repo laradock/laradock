@@ -92,97 +92,126 @@ That's it! enjoy :)
 
 
 <a name="Supported-Containers"></a>
-## Supported Software (Images)
+## Supported Software (Docker Images)
 
 > Laradock, adheres to the 'separation of concerns' principle, thus it runs each software on its own Docker Container.
-> You can turn On/Off as many instances of as any container without worrying about the configurations.
+> You can turn On/Off as many instances as you want without worrying about the configurations.
 
 > To run a chosen container from the list below, run `docker-compose up -d {container-name}`. 
 > The container name `{container-name}` is the same as its folder name. Example to run the "PHP FPM" container use the name "php-fpm".
 
 - **Web Servers:**
- * NGINX 
- * Apache2 
- * Caddy 
- * HAProxy
+    - NGINX 
+    - Apache2 
+    - Caddy 
+
+- **Load Balancers:**
+    - HAProxy
+    - Traefik
 
 - **PHP Compilers:**
- * PHP FPM 
- * HHVM
+    - PHP FPM 
+    - HHVM
 
 - **Database Management Systems:**
- * MySQL
- * MariaDB
- * Percona
- * MongoDB
- * Neo4j
- * RethinkDB 
- * MSSQL 
- * PostgreSQL
- * Postgres-PostGIS
+    - MySQL
+    - PostgreSQL
+        - PostGIS
+    - MariaDB
+    - Percona
+    - MSSQL 
+    - MongoDB
+        - MongoDB Web UI
+    - Neo4j
+    - CouchDB
+    - RethinkDB 
+
 
 - **Database Management Apps:**
- * PhpMyAdmin 
- * Adminer 
- * PgAdmin
+    - PhpMyAdmin 
+    - Adminer 
+    - PgAdmin
 
 - **Cache Engines:**
- * Redis 
- * Memcached 
- * Aerospike 
- * Varnish
+    - Redis 
+        - Redis Web UI
+        - Redis Cluster
+    - Memcached 
+    - Aerospike 
+    - Varnish
 
 - **Message Brokers:**
- * RabbitMQ (+ Admin Console) 
- * Beanstalkd (+ Admin Console) 
- * PHP Worker
+    - RabbitMQ
+        - RabbitMQ Admin Console 
+    - Beanstalkd
+        - Beanstalkd Admin Console 
+    - Eclipse Mosquitto
+    - PHP Worker
+    - Laravel Horizon
 
 - **Mail Servers:**
- * Mailu 
- * Mailhog 
- * MailDev
+    - Mailu 
+    - Mailhog 
+    - MailDev
+
+- **Log Management:**
+    - GrayLog 
 
 - **Testing:**
- * Selenium 
+    - Selenium 
 
 - **Monitoring:**
- * Grafana
- * NetData 
+    - Grafana
+    - NetData 
 
-- **More Tools:**
- * Certbot *(Automatically enable HTTPS on your website)*
- * Swoole *(Production-Grade Async programming Framework for PHP)* 
- * ElasticSearch *(Search engine based on the Lucene library)*
- * Kibana *(Visualize your Elasticsearch data and navigate the Elastic Stack)*
- * Portainer *(Build and manage your Docker environments with ease)*
- * Jenkins (automation server)
- * Gitlab *(A single application for the entire software development lifecycle)*
- * Blackfire *(Empowers all PHP developers and IT/Ops to continuously verify and improve their app's performance)*
- * Laravel Echo *(Bring the power of WebSockets to your Laravel applications)*
- * Phalcon *(A PHP web framework based on the model–view–controller pattern)*
- * Minio *(Cloud storage server released under Apache License v2, compatible with Amazon S3)*
+- **Search Engines:** 
+    - ElasticSearch
+    - Apache Solr
+    - Manticore Search
 
-- **Workspace Image Tools**
+- **IDE's**  
+    - ICE Coder
+    - Theia
+    - Web IDE
 
-> Laradock introduces the **Workspace** Image, as a development environment.
-> It contains a rich set of helpful tools, all pre-configured to work and integrate with almost any combination of tools you choose.
-
- * PHP CLI 
- * Composer 
- * Git
- * Vim  
- * xDebug
- * Linuxbrew 
- * Node 
- * V8JS 
- * Gulp 
- * SQLite 
- * Envoy 
- * Deployer 
- * Yarn 
- * SOAP 
- * Drush 
- * Wordpress CLI
+- **Miscellaneous:**
+    - Workspace: *(Laradock container that includes a rich set of pre-configured useful tools)*
+         - `PHP CLI` 
+         - `Composer` 
+         - `Git`
+         - `Vim` 
+         - `xDebug`
+         - `Linuxbrew` 
+         - `Node`
+         - `V8JS` 
+         - `Gulp` 
+         - `SQLite` 
+         - `Laravel Envoy` 
+         - `Deployer` 
+         - `Yarn` 
+         - `SOAP` 
+         - `Drush` 
+         - `Wordpress CLI`
+    - Apache ZooKeeper *(Centralized service for distributed systems to a hierarchical key-value store)*
+    - Kibana *(Visualize your Elasticsearch data and navigate the Elastic Stack)*
+    - LogStash *(Server-side data processing pipeline that ingests data from a multitude of sources simultaneously)*
+    - Jenkins *(automation server, that provides plugins to support building, deploying and automating any project)*
+    - Certbot *(Automatically enable HTTPS on your website)*
+    - Swoole *(Production-Grade Async programming Framework for PHP)* 
+    - SonarQube *(continuous inspection of code quality to perform automatic reviews with static analysis of code to detect bugs and more)* 
+    - Gitlab *(A single application for the entire software development lifecycle)*
+    - PostGIS *(Database extender for PostgreSQL. It adds support for geographic objects allowing location queries to be run in SQL)*
+    - Blackfire *(Empowers all PHP developers and IT/Ops to continuously verify and improve their app's performance)*
+    - Laravel Echo *(Bring the power of WebSockets to your Laravel applications)*
+    - Phalcon *(A PHP web framework based on the model–view–controller pattern)*
+    - Minio *(Cloud storage server released under Apache License v2, compatible with Amazon S3)*
+    - AWS EB CLI *(CLI that helps you deploy and manage your AWS Elastic Beanstalk applications and environments)*
+    - Thumbor *(Photo thumbnail service)*
+    - IPython *(Provides a rich architecture for interactive computing)*
+    - Jupyter Hub *(Jupyter notebook for multiple users)*
+    - Portainer *(Build and manage your Docker environments with ease)*
+    - Docker Registry *(The Docker Registry implementation for storing and distributing Docker images)*
+    - Docker Web UI *(A browser-based solution for browsing and modifying a private Docker registry)*
 
 You can choose, which tools to install in your workspace container and other containers, from the `.env` file.
 
@@ -191,7 +220,7 @@ You can choose, which tools to install in your workspace container and other con
 
 
 
-If you can't find your Software in the list, build it yourself and submit it. Contributions are welcomed :)
+*If you can't find your Software in the list, build it yourself and submit it. Contributions are welcomed :)*
 
 
 
