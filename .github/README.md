@@ -42,7 +42,7 @@
 
 For basic sponsorships go to [Open Collective](https://opencollective.com/laradock#sponsor), for golden sponsorships contact <a href = "mailto: support@laradock.io">support@laradock.io</a>.
 
-Your logo will show up on the [github repository](https://github.com/laradock/laradock/) index page and the [documentation](http://laradock.io/) main page, with a link to your website. 
+*Your logo will show up on the [github repository](https://github.com/laradock/laradock/) index page and the [documentation](http://laradock.io/) main page, with a link to your website.* 
 
 ## Contributors
 
@@ -71,17 +71,17 @@ Your logo will show up on the [github repository](https://github.com/laradock/la
 > Help keeping the project development going, by [contributing](http://laradock.io/contributing) or donating a little. 
 > Thanks in advance.
 
-Donate directly via [Paypal](https://www.paypal.me/mzalt)
+Donate directly via [Paypal](https://paypal.me/mzmmzz)
 
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/mzalt) 
-
-or become a backer on [Open Collective](https://opencollective.com/laradock#backer)
-
-<a href="https://opencollective.com/laradock#backers" target="_blank"><img src="https://opencollective.com/laradock/backers.svg?width=890"></a>
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/mzmmzz) 
 
 or show your support via [Beerpay](https://beerpay.io/laradock/laradock) 
 
 [![Beerpay](https://beerpay.io/laradock/laradock/badge.svg?style=flat)](https://beerpay.io/laradock/laradock)
+
+or become a backer on [Open Collective](https://opencollective.com/laradock#backer)
+
+<a href="https://opencollective.com/laradock#backers" target="_blank"><img src="https://opencollective.com/laradock/backers.svg?width=890"></a>
 
 
 ## License

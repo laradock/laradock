@@ -1,5 +1,5 @@
 ---
-title: Introduction
+title: 1. Introduction
 type: index
 weight: 1
 ---
@@ -9,7 +9,7 @@ weight: 1
 
 A full PHP development environment for Docker.
 
-Includes a lot of useful Docker Images, all pre-configured to provide a wonderful PHP development environment.
+Supports a variety of useful Docker Images, pre-configured to provide a wonderful PHP development environment.
 
 
 ![](https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/laradock-logo.jpg)
@@ -31,11 +31,11 @@ Includes a lot of useful Docker Images, all pre-configured to provide a wonderfu
 
 For basic sponsorships go to [Open Collective](https://opencollective.com/laradock#sponsor), for golden sponsorships contact <a href = "mailto: support@laradock.io">support@laradock.io</a>.
 <br>
-Your logo will show up on the [github repository](https://github.com/laradock/laradock/) index page and the [documentation](http://laradock.io/) main page, with a link to your website. 
+*Your logo will show up on the [github repository](https://github.com/laradock/laradock/) index page and the [documentation](http://laradock.io/) main page, with a link to your website.* 
 
 ## Quick Overview
 
-Let's see how easy it is to install `NGINX`, `PHP`, `Composer`, `MySQL`, `Redis` and `Beanstalkd`:
+Let's see how easy it is to setup our demo stack `PHP`, `NGINX`, `MySQL`, `Redis` and `Composer`:
 
 1 - Clone Laradock inside your PHP project:
 
@@ -77,8 +77,8 @@ That's it! enjoy :)
 
 - Easy switch between PHP versions: 7.3, 7.2, 7.1, 5.6...
 - Choose your favorite database engine: MySQL, Postgres, MariaDB...
-- Run your own combination of software: Memcached, HHVM, Beanstalkd...
-- Every software runs on a separate container: PHP-FPM, NGINX, PHP-CLI...
+- Run your own stack: Memcached, HHVM, RabbitMQ...
+- Each software runs on its own container: PHP-FPM, NGINX, PHP-CLI...
 - Easy to customize any container, with simple edit to the `Dockerfile`.
 - All Images extends from an official base Image. (Trusted base Images).
 - Pre-configured NGINX to host any code at your root directory.
@@ -88,39 +88,101 @@ That's it! enjoy :)
 - Latest version of the Docker Compose file (`docker-compose`).
 - Everything is visible and editable.
 - Fast Images Builds.
-- More to come every week..
-
 
 
 
 <a name="Supported-Containers"></a>
 ## Supported Software (Images)
 
-In adhering to the separation of concerns principle as promoted by Docker, Laradock runs each software on its own Container.
-You can turn On/Off as many instances of as any container without worrying about the configurations, everything works like a charm.
+> Laradock, adheres to the 'separation of concerns' principle, thus it runs each software on its own Docker Container.
+> You can turn On/Off as many instances of as any container without worrying about the configurations.
 
-- **Database Engines:**
-MySQL - MariaDB - Percona - MongoDB - Neo4j - RethinkDB - MSSQL - PostgreSQL - Postgres-PostGIS.
-- **Database Management:**
-PhpMyAdmin - Adminer - PgAdmin
-- **Cache Engines:**
-Redis - Memcached - Aerospike
-- **PHP Servers:**
-NGINX - Apache2 - Caddy
+> To run a chosen container from the list below, run `docker-compose up -d {container-name}`. 
+> The container name `{container-name}` is the same as its folder name. Example to run the "PHP FPM" container use the name "php-fpm".
+
+- **Web Servers:**
+ * NGINX 
+ * Apache2 
+ * Caddy 
+ * HAProxy
+
 - **PHP Compilers:**
-PHP FPM - HHVM
-- **Message Queueing:**
-Beanstalkd - RabbitMQ - PHP Worker
-- **Queueing Management:**
-Beanstalkd Console - RabbitMQ Console
-- **Random Tools:**
-Mailu - HAProxy - Certbot - Blackfire - Selenium - Jenkins - ElasticSearch - Kibana - Grafana - Gitlab - Mailhog - MailDev - Minio - Varnish - Swoole - NetData - Portainer - Laravel Echo - Phalcon...
+ * PHP FPM 
+ * HHVM
 
-Laradock introduces the **Workspace** Image, as a development environment.
-It contains a rich set of helpful tools, all pre-configured to work and integrate with almost any combination of Containers and tools you may choose.
+- **Database Management Systems:**
+ * MySQL
+ * MariaDB
+ * Percona
+ * MongoDB
+ * Neo4j
+ * RethinkDB 
+ * MSSQL 
+ * PostgreSQL
+ * Postgres-PostGIS
 
-**Workspace Image Tools**
-PHP CLI - Composer - Git - Linuxbrew - Node - V8JS - Gulp - SQLite - xDebug - Envoy - Deployer - Vim - Yarn - SOAP - Drush - WP-CLI...
+- **Database Management Apps:**
+ * PhpMyAdmin 
+ * Adminer 
+ * PgAdmin
+
+- **Cache Engines:**
+ * Redis 
+ * Memcached 
+ * Aerospike 
+ * Varnish
+
+- **Message Brokers:**
+ * RabbitMQ (+ Admin Console) 
+ * Beanstalkd (+ Admin Console) 
+ * PHP Worker
+
+- **Mail Servers:**
+ * Mailu 
+ * Mailhog 
+ * MailDev
+
+- **Testing:**
+ * Selenium 
+
+- **Monitoring:**
+ * Grafana
+ * NetData 
+
+- **More Tools:**
+ * Certbot *(Automatically enable HTTPS on your website)*
+ * Swoole *(Production-Grade Async programming Framework for PHP)* 
+ * ElasticSearch *(Search engine based on the Lucene library)*
+ * Kibana *(Visualize your Elasticsearch data and navigate the Elastic Stack)*
+ * Portainer *(Build and manage your Docker environments with ease)*
+ * Jenkins (automation server)
+ * Gitlab *(A single application for the entire software development lifecycle)*
+ * Blackfire *(Empowers all PHP developers and IT/Ops to continuously verify and improve their app's performance)*
+ * Laravel Echo *(Bring the power of WebSockets to your Laravel applications)*
+ * Phalcon *(A PHP web framework based on the model–view–controller pattern)*
+ * Minio *(Cloud storage server released under Apache License v2, compatible with Amazon S3)*
+
+- **Workspace Image Tools**
+
+> Laradock introduces the **Workspace** Image, as a development environment.
+> It contains a rich set of helpful tools, all pre-configured to work and integrate with almost any combination of tools you choose.
+
+ * PHP CLI 
+ * Composer 
+ * Git
+ * Vim  
+ * xDebug
+ * Linuxbrew 
+ * Node 
+ * V8JS 
+ * Gulp 
+ * SQLite 
+ * Envoy 
+ * Deployer 
+ * Yarn 
+ * SOAP 
+ * Drush 
+ * Wordpress CLI
 
 You can choose, which tools to install in your workspace container and other containers, from the `.env` file.
 
@@ -166,7 +228,6 @@ Most importantly Docker can run on Development and on Production (same environme
 
 What's better than a **Demo Video**:
 
-- Laradock v5.* (should be next!)
 - Laradock [v4.*](https://www.youtube.com/watch?v=TQii1jDa96Y)
 - Laradock [v2.*](https://www.youtube.com/watch?v=-DamFMczwDA)
 - Laradock [v0.3](https://www.youtube.com/watch?v=jGkyO6Is_aI)
@@ -195,14 +256,14 @@ You are welcome to join our chat room on Gitter.
 > Help keeping the project development going, by [contributing](http://laradock.io/contributing) or donating a little. 
 > Thanks in advance.
 
-Donate directly via [Paypal](https://www.paypal.me/mzalt)
+Donate directly via [Paypal](https://paypal.me/mzmmzz)
 
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/mzalt) 
-
-or become a backer on [Open Collective](https://opencollective.com/laradock#backer)
-
-<a href="https://opencollective.com/laradock#backers" target="_blank"><img src="https://opencollective.com/laradock/backers.svg?width=890"></a>
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/mzmmzz) 
 
 or show your support via [Beerpay](https://beerpay.io/laradock/laradock) 
 
 [![Beerpay](https://beerpay.io/laradock/laradock/badge.svg?style=flat)](https://beerpay.io/laradock/laradock)
+
+or become a backer on [Open Collective](https://opencollective.com/laradock#backer)
+
+<a href="https://opencollective.com/laradock#backers" target="_blank"><img src="https://opencollective.com/laradock/backers.svg?width=890"></a>

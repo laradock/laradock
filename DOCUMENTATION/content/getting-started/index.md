@@ -1,10 +1,10 @@
 ---
-title: Getting Started
+title: 2. Getting Started
 type: index
 weight: 2
 ---
 
-## Requirements
+## 2.1 Requirements
 
 - [Git](https://git-scm.com/downloads)
 - [Docker](https://www.docker.com/products/docker/) `>= 17.12`
@@ -12,10 +12,7 @@ weight: 2
 
 
 
-
-
-
-## Installation
+## 2.2 Installation
 
 Choose the setup the best suits your needs.
 
@@ -110,9 +107,11 @@ Your folder structure should look like this:
 + project-2
 ```
 
-2 - Go to `nginx/sites` and create config files to point to different project directory when visiting different domains.
+2 - Go to your web server and create config files to point to different project directory when visiting different domains:
 
-Laradock by default includes `app.conf.example`, `laravel.conf.example` and `symfony.conf.example`  as working samples.
+For **Nginx** go to `nginx/sites`, for **Apache2** `apache2/sites`. 
+
+Laradock by default includes some sample files for you to copy `app.conf.example`, `laravel.conf.example` and `symfony.conf.example`.
 
 3 - change the default names `*.conf`:
 
@@ -125,6 +124,7 @@ You can rename the config files, project folders and domains as you like, just m
 127.0.0.1  project-2.test
 ...
 ```
+
 If you use Chrome 63 or above for development, don't use `.dev`. [Why?](https://laravel-news.com/chrome-63-now-forces-dev-domains-https). Instead use `.localhost`, `.invalid`, `.test`, or `.example`.
 
 > **Now jump to the [Usage](#Usage) section.**
@@ -136,7 +136,7 @@ If you use Chrome 63 or above for development, don't use `.dev`. [Why?](https://
 
 
 <a name="Usage"></a>
-## Usage
+## 2.3 Usage
 
 **Read Before starting:**
 
