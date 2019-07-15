@@ -41,6 +41,10 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   mosquitto:
     driver: ${VOLUMES_DRIVER}
+  confluence:
+    driver: ${VOLUMES_DRIVER}
+  sonarqube:
+    driver: ${VOLUMES_DRIVER}
 
 services:
 
@@ -96,9 +100,12 @@ services:
           - INSTALL_PG_CLIENT=${WORKSPACE_INSTALL_PG_CLIENT}
           - INSTALL_PHALCON=${WORKSPACE_INSTALL_PHALCON}
           - INSTALL_SWOOLE=${WORKSPACE_INSTALL_SWOOLE}
+          - INSTALL_TAINT=${WORKSPACE_INSTALL_TAINT}
           - INSTALL_LIBPNG=${WORKSPACE_INSTALL_LIBPNG}
           - INSTALL_IONCUBE=${WORKSPACE_INSTALL_IONCUBE}
           - INSTALL_MYSQL_CLIENT=${WORKSPACE_INSTALL_MYSQL_CLIENT}
+          - INSTALL_PING=${WORKSPACE_INSTALL_PING}
+          - INSTALL_SSHPASS=${WORKSPACE_INSTALL_SSHPASS}
           - PUID=${WORKSPACE_PUID}
           - PGID=${WORKSPACE_PGID}
           - CHROME_DRIVER_VERSION=${WORKSPACE_CHROME_DRIVER_VERSION}
@@ -110,6 +117,10 @@ services:
           - BLACKFIRE_CLIENT_TOKEN=${BLACKFIRE_CLIENT_TOKEN}
           - INSTALL_POWERLINE=${WORKSPACE_INSTALL_POWERLINE}
           - INSTALL_FFMPEG=${WORKSPACE_INSTALL_FFMPEG}
+          - INSTALL_GNU_PARALLEL=${WORKSPACE_INSTALL_GNU_PARALLEL}
+          - http_proxy
+          - https_proxy
+          - no_proxy
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
       extra_hosts:
@@ -153,11 +164,13 @@ services:
           - INSTALL_MYSQLI=${PHP_FPM_INSTALL_MYSQLI}
           - INSTALL_PGSQL=${PHP_FPM_INSTALL_PGSQL}
           - INSTALL_PG_CLIENT=${PHP_FPM_INSTALL_PG_CLIENT}
+          - INSTALL_POSTGIS=${PHP_FPM_INSTALL_POSTGIS}
           - INSTALL_INTL=${PHP_FPM_INSTALL_INTL}
           - INSTALL_GHOSTSCRIPT=${PHP_FPM_INSTALL_GHOSTSCRIPT}
           - INSTALL_LDAP=${PHP_FPM_INSTALL_LDAP}
           - INSTALL_PHALCON=${PHP_FPM_INSTALL_PHALCON}
           - INSTALL_SWOOLE=${PHP_FPM_INSTALL_SWOOLE}
+          - INSTALL_TAINT=${PHP_FPM_INSTALL_TAINT}
           - INSTALL_IMAGE_OPTIMIZERS=${PHP_FPM_INSTALL_IMAGE_OPTIMIZERS}
           - INSTALL_IMAGEMAGICK=${PHP_FPM_INSTALL_IMAGEMAGICK}
           - INSTALL_CALENDAR=${PHP_FPM_INSTALL_CALENDAR}
@@ -165,9 +178,16 @@ services:
           - INSTALL_IONCUBE=${PHP_FPM_INSTALL_IONCUBE}
           - INSTALL_APCU=${PHP_FPM_INSTALL_APCU}
           - INSTALL_YAML=${PHP_FPM_INSTALL_YAML}
+          - INSTALL_RDKAFKA=${PHP_FPM_INSTALL_RDKAFKA}
           - INSTALL_ADDITIONAL_LOCALES=${PHP_FPM_INSTALL_ADDITIONAL_LOCALES}
           - INSTALL_MYSQL_CLIENT=${PHP_FPM_INSTALL_MYSQL_CLIENT}
+          - INSTALL_PING=${PHP_FPM_INSTALL_PING}
+          - INSTALL_SSHPASS=${PHP_FPM_INSTALL_SSHPASS}
           - ADDITIONAL_LOCALES=${PHP_FPM_ADDITIONAL_LOCALES}
+          - INSTALL_FFMPEG=${PHP_FPM_FFMPEG}
+          - http_proxy
+          - https_proxy
+          - no_proxy
       volumes:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
@@ -202,6 +222,9 @@ services:
           - INSTALL_AMQP=${PHP_WORKER_INSTALL_AMQP}
           - INSTALL_GHOSTSCRIPT=${PHP_WORKER_INSTALL_GHOSTSCRIPT}
           - INSTALL_SWOOLE=${PHP_WORKER_INSTALL_SWOOLE}
+          - INSTALL_TAINT=${PHP_WORKER_INSTALL_TAINT}
+          - INSTALL_FFMPEG=${PHP_WORKER_INSTALL_FFMPEG}
+          - INSTALL_GMP=${PHP_WORKER_INSTALL_GMP}
           - PUID=${PHP_WORKER_PUID}
           - PGID=${PHP_WORKER_PGID}
       volumes:
@@ -240,6 +263,9 @@ services:
           - PHP_UPSTREAM_CONTAINER=${NGINX_PHP_UPSTREAM_CONTAINER}
           - PHP_UPSTREAM_PORT=${NGINX_PHP_UPSTREAM_PORT}
           - CHANGE_SOURCE=${CHANGE_SOURCE}
+          - http_proxy
+          - https_proxy
+          - no_proxy
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
@@ -369,13 +395,20 @@ services:
 
 ### MariaDB ##############################################
     mariadb:
-      build: ./mariadb
+      build:
+        context: ./mariadb
+        args:
+          - http_proxy
+          - https_proxy
+          - no_proxy
+          - MARIADB_VERSION=${MARIADB_VERSION}
       volumes:
         - ${DATA_PATH_HOST}/mariadb:/var/lib/mysql
         - ${MARIADB_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
       ports:
         - "${MARIADB_PORT}:3306"
       environment:
+        - TZ=${WORKSPACE_TIMEZONE}
         - MYSQL_DATABASE=${MARIADB_DATABASE}
         - MYSQL_USER=${MARIADB_USER}
         - MYSQL_PASSWORD=${MARIADB_PASSWORD}
@@ -403,6 +436,14 @@ services:
         - JUPYTERHUB_POSTGRES_USER=${JUPYTERHUB_POSTGRES_USER}
         - JUPYTERHUB_POSTGRES_PASSWORD=${JUPYTERHUB_POSTGRES_PASSWORD}
         - JUPYTERHUB_POSTGRES_DB=${JUPYTERHUB_POSTGRES_DB}
+        - SONARQUBE_POSTGRES_INIT=${SONARQUBE_POSTGRES_INIT}
+        - SONARQUBE_POSTGRES_DB=${SONARQUBE_POSTGRES_DB}
+        - SONARQUBE_POSTGRES_USER=${SONARQUBE_POSTGRES_USER}
+        - SONARQUBE_POSTGRES_PASSWORD=${SONARQUBE_POSTGRES_PASSWORD}
+        - POSTGRES_CONFLUENCE_INIT=${CONFLUENCE_POSTGRES_INIT}
+        - POSTGRES_CONFLUENCE_DB=${CONFLUENCE_POSTGRES_DB}
+        - POSTGRES_CONFLUENCE_USER=${CONFLUENCE_POSTGRES_USER}
+        - POSTGRES_CONFLUENCE_PASSWORD=${CONFLUENCE_POSTGRES_PASSWORD}
       networks:
         - backend
 
@@ -493,6 +534,10 @@ services:
         - "${AEROSPIKE_FABRIC_PORT}:3001"
         - "${AEROSPIKE_HEARTBEAT_PORT}:3002"
         - "${AEROSPIKE_INFO_PORT}:3003"
+      environment:
+        - STORAGE_GB=${AEROSPIKE_STORAGE_GB}
+        - MEM_GB=${AEROSPIKE_MEM_GB}
+        - NAMESPACE=${AEROSPIKE_NAMESPACE}
       networks:
         - backend
 
@@ -597,7 +642,6 @@ services:
 
 ### pgAdmin ##############################################
     pgadmin:
-      container_name: pgadmin
       image: dpage/pgadmin4:latest
       environment:
         - "PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}"
@@ -619,8 +663,10 @@ services:
         - elasticsearch:/usr/share/elasticsearch/data
       environment:
         - cluster.name=laradock-cluster
+        - node.name=laradock-node
         - bootstrap.memory_lock=true
         - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        - cluster.initial_master_nodes=laradock-node
       ulimits:
         memlock:
           soft: -1
@@ -778,6 +824,36 @@ services:
         - "${GRAFANA_PORT}:3000"
       networks:
         - backend
+
+### Graylog #######################################
+    graylog:
+        build: ./graylog
+        environment:
+          - GRAYLOG_PASSWORD_SECRET=${GRAYLOG_PASSWORD}
+          - GRAYLOG_ROOT_PASSWORD_SHA2=${GRAYLOG_SHA256_PASSWORD}
+          - GRAYLOG_HTTP_EXTERNAL_URI=http://127.0.0.1:${GRAYLOG_PORT}/
+        links:
+          - mongo
+          - elasticsearch
+        depends_on:
+          - mongo
+          - elasticsearch
+        ports:
+          # Graylog web interface and REST API
+          - ${GRAYLOG_PORT}:9000
+          # Syslog TCP
+          - ${GRAYLOG_SYSLOG_TCP_PORT}:514
+          # Syslog UDP
+          - ${GRAYLOG_SYSLOG_UDP_PORT}:514/udp
+          # GELF TCP
+          - ${GRAYLOG_GELF_TCP_PORT}:12201
+          # GELF UDP
+          - ${GRAYLOG_GELF_UDP_PORT}:12201/udp
+        user: root
+        volumes:
+          - ./graylog/config:/usr/share/graylog/data/config
+        networks:
+          - backend
 
 ### Laravel Echo Server #######################################
     laravel-echo-server:
@@ -1419,6 +1495,43 @@ services:
       ports:
         - "${MANTICORE_API_PORT}:9312"
         - "${MANTICORE_SPHINXQL_PORT}:9306"
-        - "${MANTICORE_HTTP_PORT}:9308"        
+        - "${MANTICORE_HTTP_PORT}:9308"
       networks:
         - backend
+
+### SONARQUBE ################################################
+    sonarqube:
+      build:
+        context: ./sonarqube
+      hostname: "${SONARQUBE_HOSTNAME}"
+      volumes:
+        - ${DATA_PATH_HOST}/sonarqube/conf:/opt/sonarqube/conf
+        - ${DATA_PATH_HOST}/sonarqube/data:/opt/sonarqube/data
+        - ${DATA_PATH_HOST}/sonarqube/logs:/opt/sonarqube/logs
+        - ${DATA_PATH_HOST}/sonarqube/extensions:/opt/sonarqube/extensions
+        - ${DATA_PATH_HOST}/sonarqube/plugins:/opt/sonarqube/lib/bundled-plugins
+      ports:
+        - ${SONARQUBE_PORT}:9000
+      depends_on:
+        - postgres
+      environment:
+        - sonar.jdbc.username=${SONARQUBE_POSTGRES_USER}
+        - sonar.jdbc.password=${SONARQUBE_POSTGRES_PASSWORD}
+        - sonar.jdbc.url=jdbc:postgresql://${SONARQUBE_POSTGRES_HOST}:5432/${SONARQUBE_POSTGRES_DB}
+      networks:
+        - backend
+        - frontend
+### CONFLUENCE ################################################
+    confluence:
+      container_name: Confluence
+      image: atlassian/confluence-server:${CONFLUENCE_VERSION}
+      restart: always
+      ports:
+        - "${CONFLUENCE_HOST_HTTP_PORT}:8090"
+      networks:
+        - frontend
+        - backend
+      depends_on:
+        - postgres
+      volumes:
+        - ${DATA_PATH_HOST}/Confluence:/var/atlassian/application-data

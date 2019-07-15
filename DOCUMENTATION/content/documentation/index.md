@@ -394,6 +394,37 @@ Always download the latest version of [Loaders for ionCube ](http://www.ioncube.
 
 
 
+<br>
+<a name="Install-SonarQube"></a>
+
+## Install SonarQube (automatic code review tool)
+SonarQube® is an automatic code review tool to detect bugs, vulnerabilities and code smells in your code. It can integrate with your existing workflow to enable continuous code inspection across your project branches and pull requests.
+<br>
+1 - Open the `.env` file
+<br>
+2 - Search for the `SONARQUBE_HOSTNAME=sonar.example.com` argument
+<br>
+3 - Set it to your-domain `sonar.example.com`
+<br>
+4 - `docker-compose up -d sonarqube`
+<br>
+5 - Open your browser: http://localhost:9000/
+
+Troubleshooting:
+
+if you encounter a database error:
+```
+docker-compose exec --user=root postgres
+source docker-entrypoint-initdb.d/init_sonarqube_db.sh
+```
+
+If you encounter logs error:
+```
+docker-compose run --user=root --rm sonarqube chown sonarqube:sonarqube /opt/sonarqube/logs
+```
+[**SonarQube Documentation Here**](https://docs.sonarqube.org/latest/)
+
+
 
 
 
@@ -409,7 +440,9 @@ Always download the latest version of [Loaders for ionCube ](http://www.ioncube.
 <a name="Laradock-for-Production"></a>
 ## Prepare Laradock for Production
 
-It's recommended for production to create a custom `docker-compose.yml` file. For that reason, Laradock is shipped with `production-docker-compose.yml` which should contain only the containers you are planning to run on production (usage example: `docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...`).
+It's recommended for production to create a custom `docker-compose.yml` file, for example `production-docker-compose.yml`
+
+In your new production `docker-compose.yml` file you should contain only the containers you are planning to run in production (usage example: `docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...`).
 
 Note: The Database (MySQL/MariaDB/...) ports should not be forwarded on production, because Docker will automatically publish the port on the host, which is quite insecure, unless specifically told not to. So make sure to remove these lines:
 
@@ -863,6 +896,67 @@ docker-compose up -d gitlab
 
 
 <br>
+<a name="Use-Gitlab-Runner"></a>
+## Use Gitlab Runner
+
+1 - Retrieve the registration token in your gitlab project (Settings > CI / CD > Runners > Set up a specific Runner manually)
+
+2 - Open the `.env` file and set the following changes:
+```
+# so that gitlab container will pass the correct domain to gitlab-runner container
+GITLAB_DOMAIN_NAME=http://gitlab
+
+GITLAB_RUNNER_REGISTRATION_TOKEN=<value-in-step-1>
+
+# so that gitlab-runner container will send POST request for registration to correct domain
+GITLAB_CI_SERVER_URL=http://gitlab
+```
+
+3 - Open the `docker-compose.yml` file and add the following changes:
+```yml
+    gitlab-runner:
+      environment: # these values will be used during `gitlab-runner register`
+        - RUNNER_EXECUTOR=docker # change from shell (default)
+        - DOCKER_IMAGE=alpine
+        - DOCKER_NETWORK_MODE=laradock_backend
+      networks:
+        - backend # connect to network where gitlab service is connected
+```
+
+4 - Run the Gitlab-Runner Container (`gitlab-runner`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d gitlab-runner
+```
+
+5 - Register the gitlab-runner to the gitlab container
+
+```bash
+docker-compose exec gitlab-runner bash
+gitlab-runner register
+```
+
+6 - Create a `.gitlab-ci.yml` file for your pipeline
+
+```yml
+before_script:
+  - echo Hello!
+
+job1:
+  scripts:
+    - echo job1
+```
+
+7 - Push changes to gitlab
+
+8 - Verify that pipeline is run successful
+
+
+
+
+
+
+<br>
 <a name="Use-Adminer"></a>
 ## Use Adminer
 
@@ -962,8 +1056,21 @@ _Note: You can customize the port on which beanstalkd console is listening by ch
 
 
 
+<br>
+<a name="Use-Confluence"></a>
+## Use Confluence
 
+1 - Run the Confluence Container (`confluence`) with the `docker-compose up` command. Example:
 
+```bash
+docker-compose up -d confluence
+```
+
+2 - Open your browser and visit the localhost on port **8090**:  `http://localhost:8090`
+
+**Note:** You can you trial version and then you have to buy a licence to use it.
+
+You can set custom confluence version in `CONFLUENCE_VERSION`. [Find more info in section 'Versioning'](https://hub.docker.com/r/atlassian/confluence-server/)
 
 <br>
 <a name="Use-ElasticSearch"></a>
@@ -1154,6 +1261,36 @@ docker-compose up -d grafana
 3 - Open your browser and visit the localhost on port **3000** at the following URL: `http://localhost:3000`
 
 4 - Login using the credentials User = `admin`, Password = `admin`. Change the password in the web interface if you want to.
+
+
+
+
+
+
+<br>
+<a name="Use-Graylog"></a>
+## Use Graylog
+
+1 - Boot the container `docker-compose up -d graylog`
+
+2 - Open your Laravel's `.env` file and set the `GRAYLOG_PASSWORD` to some passsword, and `GRAYLOG_SHA256_PASSWORD` to the sha256 representation of your password (`GRAYLOG_SHA256_PASSWORD` is what matters, `GRAYLOG_PASSWORD` is just a reminder of your password).
+
+> Your password must be at least 16 characters long
+> You can generate sha256 of some password with the following command `echo -n somesupersecretpassword | sha256sum`
+
+```env
+GRAYLOG_PASSWORD=somesupersecretpassword
+GRAYLOG_SHA256_PASSWORD=b1cb6e31e172577918c9e7806c572b5ed8477d3f57aa737bee4b5b1db3696f09
+```
+
+3 - Go to `http://localhost:9000/` (if your port is not changed)
+
+4 - Authenticate from the app.
+
+> Username: admin
+> Password: somesupersecretpassword (if you haven't changed the password)
+
+5 - Go to the system->inputs and launch new input
 
 
 
@@ -1725,6 +1862,31 @@ To install FFMPEG in the Workspace container
 1 - Open the `.env` file
 
 2 - Search for the `WORKSPACE_INSTALL_FFMPEG` argument under the Workspace Container and set it to `true`
+
+3 - Re-build the container `docker-compose build workspace`
+
+4 - If you use the `php-worker` container too, please follow the same steps above especially if you have conversions that have been queued.
+
+**PS** Don't forget to install the binary in the `php-fpm` container too by applying the same steps above to its container, otherwise the you'll get an error when running the `php-ffmpeg` binary.
+
+
+
+
+
+
+<br>
+<a name="Install-GNU-Parallel"></a>
+## Install GNU Parallel
+
+GNU Parallel is a command line tool to run multiple processes in parallel.
+
+(see https://www.gnu.org/software/parallel/parallel_tutorial.html)
+
+To install GNU Parallel in the Workspace container
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_GNU_PARALLEL` argument under the Workspace Container and set it to `true`
 
 3 - Re-build the container `docker-compose build workspace`
 

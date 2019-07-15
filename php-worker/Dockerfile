@@ -69,6 +69,12 @@ RUN if [ ${INSTALL_MYSQL_CLIENT} = true ]; then \
     apk --update add mysql-client \
 ;fi
 
+# Install FFMPEG:
+ARG INSTALL_FFMPEG=false
+RUN if [ ${INSTALL_FFMPEG} = true ]; then \
+    apk --update add ffmpeg \
+;fi
+
 # Install AMQP:
 ARG INSTALL_AMQP=false
 
@@ -97,6 +103,14 @@ RUN if [ $INSTALL_GHOSTSCRIPT = true ]; then \
     apk --update add ghostscript \
 ;fi
 
+#Install GMP package:
+ARG INSTALL_GMP=false
+RUN if [ ${INSTALL_GMP} = true ]; then \
+   apk add --update --no-cache gmp gmp-dev \
+   && docker-php-ext-install gmp \
+;fi
+
+
 RUN rm /var/cache/apk/* \
     && mkdir -p /var/www
 
@@ -121,6 +135,19 @@ RUN if [ ${INSTALL_SWOOLE} = true ]; then \
     && docker-php-ext-enable swoole \
 ;fi
 
+###########################################################################
+# Taint EXTENSION
+###########################################################################
+
+ARG INSTALL_TAINT=false
+
+RUN if [ ${INSTALL_TAINT} = true ]; then \
+    # Install Php TAINT Extension
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
+      pecl install taint; \
+    fi && \
+    docker-php-ext-enable taint \
+;fi
 
 #
 #--------------------------------------------------------------------------
