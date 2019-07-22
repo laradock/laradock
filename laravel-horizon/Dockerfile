@@ -32,6 +32,12 @@ RUN if [ ${INSTALL_BCMATH} = true ]; then \
   docker-php-ext-install bcmath \
   ;fi
 
+#Install Sockets package:
+ARG INSTALL_AMQP=false
+RUN if [ ${INSTALL_AMQP} = true ]; then \
+  docker-php-ext-install sockets \
+  ;fi
+
 # Install PostgreSQL drivers:
 ARG INSTALL_PGSQL=false
 RUN if [ ${INSTALL_PGSQL} = true ]; then \
