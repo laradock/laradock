@@ -59,6 +59,8 @@ For basic sponsorships go to [Open Collective](https://opencollective.com/larado
 - [Milan Urukalo](https://github.com/urukalo) @urukalo
 - [Vince Chu](https://github.com/vwchu) @vwchu
 - [Huadong Zuo](https://github.com/zuohuadong) @zuohuadong
+- [Lan Phan](https://github.com/lanphan) @lanphan
+- [Ahkui](https://github.com/ahkui) @ahkui
 - Join us.
 
 #### Awesome Contributors:
