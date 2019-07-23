@@ -297,6 +297,24 @@ e) set it to `true`
 
 For information on how to configure xDebug with your IDE and work it out, check this [Repository](https://github.com/LarryEitel/laravel-laradock-phpstorm) or follow up on the next section if you use linux and PhpStorm.
 
+
+
+<br>
+<a name="Control-xDebug"></a>
+## Start/Stop xDebug:
+
+By installing xDebug, you are enabling it to run on startup by default.
+
+To control the behavior of xDebug (in the `php-fpm` Container), you can run the following commands from the Laradock root folder, (at the same prompt where you run docker-compose):
+
+- Stop xDebug from running by default: `.php-fpm/xdebug stop`.
+- Start xDebug by default: `.php-fpm/xdebug start`.
+- See the status: `.php-fpm/xdebug status`.
+
+Note: If `.php-fpm/xdebug` doesn't execute and gives `Permission Denied` error the problem can be that file `xdebug` doesn't have execution access. This can be fixed by running `chmod` command  with desired access permissions.
+
+
+
 <br>
 <a name="Install-phpdbg"></a>
 ## Install phpdbg
@@ -318,22 +336,6 @@ WORKSPACE_INSTALL_PHPDBG=true
 ```dotenv
 PHP_FPM_INSTALL_PHPDBG=true
 ```
-
-
-
-<br>
-<a name="Control-xDebug"></a>
-## Start/Stop xDebug:
-
-By installing xDebug, you are enabling it to run on startup by default.
-
-To control the behavior of xDebug (in the `php-fpm` Container), you can run the following commands from the Laradock root folder, (at the same prompt where you run docker-compose):
-
-- Stop xDebug from running by default: `.php-fpm/xdebug stop`.
-- Start xDebug by default: `.php-fpm/xdebug start`.
-- See the status: `.php-fpm/xdebug status`.
-
-Note: If `.php-fpm/xdebug` doesn't execute and gives `Permission Denied` error the problem can be that file `xdebug` doesn't have execution access. This can be fixed by running `chmod` command  with desired access permissions.
 
 
 
@@ -1567,22 +1569,6 @@ Available versions are: 5.5, 5.6, 5.7, 8.0, or latest.  See https://store.docker
 
 
 <br>
-<a name="MySQL-access-from-host"></a>
-## MySQL access from host
-
-You can forward the MySQL/MariaDB port to your host by making sure these lines are added to the `mysql` or `mariadb` section of the `docker-compose.yml` or in your [environment specific Compose](https://docs.docker.com/compose/extends/) file.
-
-```
-ports:
-    - "3306:3306"
-```
-
-
-
-
-
-
-<br>
 <a name="MySQL-root-access"></a>
 ## MySQL root access
 
@@ -1682,7 +1668,7 @@ Enabling Global Composer Install during the build for the container allows you t
 
 <br>
 <a name="Magento-2-authentication-credentials"></a>
-## Magento 2 authentication credential (composer install)
+## Add authentication credential for Magento 2
 
 1 - Open the `.env` file
 

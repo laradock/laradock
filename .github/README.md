@@ -2,7 +2,7 @@
     <img src="/.github/home-page-images/laradock-logo.jpg?raw=true" alt="Laradock Logo"/>
 </p>
 
-<p align="center">A Docker PHP development environment that facilitates running PHP Apps on Docker</p>
+<p align="center">PHP development environment that runs on Docker</p>
 
 <p align="center">
    <a href="https://travis-ci.org/laradock/laradock"><img src="https://travis-ci.org/laradock/laradock.svg?branch=master" alt="Build status"></a>
@@ -13,7 +13,7 @@
     <a href="http://laradock.io/contributing"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" alt="contributions welcome"></a>
 </p>
 
-<h4 align="center" style="color:#7d58c2">Use Docker First And Learn About It Later</h4>
+<h4 align="center" style="color:#7d58c2">Use Docker First - Then Learn About It Later</h4>
 
 <p align="center">
     <a href="http://zalt.me"><img src="http://forthebadge.com/images/badges/built-by-developers.svg" alt="forthebadge" width="240" ></a>
@@ -44,9 +44,9 @@ For basic sponsorships go to [Open Collective](https://opencollective.com/larado
 
 *Your logo will show up on the [github repository](https://github.com/laradock/laradock/) index page and the [documentation](http://laradock.io/) main page, with a link to your website.* 
 
-## Contributors
+## People
 
-#### Core contributors:
+#### Maintainers:
 - [Mahmoud Zalt](https://github.com/Mahmoudz) @mahmoudz | [Twitter](https://twitter.com/Mahmoud_Zalt) | [Site](http://zalt.me)
 - [Bo-Yi Wu](https://github.com/appleboy) @appleboy | [Twitter](https://twitter.com/appleboy)
 - [Philippe Trépanier](https://github.com/philtrep) @philtrep
@@ -59,9 +59,9 @@ For basic sponsorships go to [Open Collective](https://opencollective.com/larado
 - [Milan Urukalo](https://github.com/urukalo) @urukalo
 - [Vince Chu](https://github.com/vwchu) @vwchu
 - [Huadong Zuo](https://github.com/zuohuadong) @zuohuadong
-- Join us, by submitting 20 useful PR's.
+- Join us.
 
-#### Awesome contributors:
+#### Awesome Contributors:
 
 <a href="https://github.com/laradock/laradock/graphs/contributors"><img src="https://opencollective.com/laradock/contributors.svg?width=890" /></a>
 
