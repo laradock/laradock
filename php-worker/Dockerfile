@@ -85,6 +85,13 @@ RUN if [ ${INSTALL_AMQP} = true ]; then \
     docker-php-ext-install sockets \
 ;fi
 
+# Install Gearman:
+ARG INSTALL_GEARMAN=false
+
+RUN if [ ${INSTALL_GEARMAN} = true ]; then \
+    docker-php-ext-install gearman \
+;fi
+
 # Install Cassandra drivers:
 ARG INSTALL_CASSANDRA=false
 RUN if [ ${INSTALL_CASSANDRA} = true ]; then \
