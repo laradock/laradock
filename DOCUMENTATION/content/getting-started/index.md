@@ -41,7 +41,7 @@ Note: If you are not using Git yet for your project, you can use `git clone` ins
 *To keep track of your Laradock changes, between your projects and also keep Laradock updated [check these docs](/documentation/#keep-track-of-your-laradock-changes)*
 
 
-Your folder structure should look like this:
+2 - Make sure your folder structure should look like this:
 
 ```
 + project-a
@@ -52,7 +52,7 @@ Your folder structure should look like this:
 
 *(It's important to rename the laradock folders to unique name in each project, if you want to run laradock per project).*
 
-> **Now jump to the [Usage](#Usage) section.**
+3 - Go to the [Usage](#Usage) section.
 
 <a name="A2"></a>
 ### A.2) Don't have a PHP project yet:
@@ -86,7 +86,7 @@ APP_CODE_PATH_HOST=../project-z/
 
 Make sure to replace `project-z` with your project folder name.
 
-> **Now jump to the [Usage](#Usage) section.**
+3 - Go to the [Usage](#Usage) section.
 
 
 <a name="B"></a>
@@ -127,7 +127,7 @@ You can rename the config files, project folders and domains as you like, just m
 
 If you use Chrome 63 or above for development, don't use `.dev`. [Why?](https://laravel-news.com/chrome-63-now-forces-dev-domains-https). Instead use `.localhost`, `.invalid`, `.test`, or `.example`.
 
-> **Now jump to the [Usage](#Usage) section.**
+4 - Go to the [Usage](#Usage) section.
 
 
 
@@ -213,7 +213,16 @@ Open your PHP project's `.env` file or whichever configuration file you are read
 DB_HOST=mysql
 ```
 
+You need to use the Laradock's default DB credentials which can be found in the `.env` file (ex: `MYSQL_USER=`). 
+Or you can change them and rebuild the container.  
+
 *If you want to install Laravel as PHP project, see [How to Install Laravel in a Docker Container](#Install-Laravel).*
 
 <br>
-5 - Open your browser and visit your localhost address `http://localhost/`. If you followed the multiple projects setup, you can visit `http://project-1.test/` and `http://project-2.test/`.
+5 - Open your browser and visit your localhost address. 
+
+If you followed the multiple projects setup, you can visit `http://project-1.test/` and `http://project-2.test/`.
+
+[http://localhost:8080](http://localhost:8080)
+
+Make sure you add use the right port number as provided by your running server. Ex: NGINX uses port 8080 by default while Apache2 uses 80.   

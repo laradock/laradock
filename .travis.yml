@@ -29,7 +29,7 @@ env:
 
     - PHP_VERSION=NA BUILD_SERVICE=solr
     - PHP_VERSION=NA BUILD_SERVICE="mssql rethinkdb aerospike"
-    - PHP_VERSION=NA BUILD_SERVICE="blackfire minio percona nginx caddy apache2 mysql mariadb postgres postgres-postgis neo4j mongo redis"
+    - PHP_VERSION=NA BUILD_SERVICE="blackfire minio percona nginx caddy apache2 mysql mariadb postgres postgres-postgis neo4j mongo redis cassandra"
     - PHP_VERSION=NA BUILD_SERVICE="adminer phpmyadmin pgadmin"
     - PHP_VERSION=NA BUILD_SERVICE="memcached beanstalkd beanstalkd-console rabbitmq elasticsearch certbot mailhog maildev selenium jenkins proxy proxy2 haproxy"
     - PHP_VERSION=NA BUILD_SERVICE="kibana grafana laravel-echo-server"

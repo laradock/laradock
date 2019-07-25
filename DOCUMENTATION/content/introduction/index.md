@@ -5,9 +5,9 @@ weight: 1
 ---
 
 
+## Use Docker First - Then Learn About It Later
 
-
-A full PHP development environment for Docker.
+Laradock is a PHP development environment that runs on Docker.
 
 Supports a variety of useful Docker Images, pre-configured to provide a wonderful PHP development environment.
 
@@ -125,6 +125,7 @@ That's it! enjoy :)
     - Neo4j
     - CouchDB
     - RethinkDB 
+    - Cassandra
 
 
 - **Database Management Apps:**
@@ -175,7 +176,7 @@ That's it! enjoy :)
     - Web IDE
 
 - **Miscellaneous:**
-    - Workspace: *(Laradock container that includes a rich set of pre-configured useful tools)*
+    - Workspace *(Laradock container that includes a rich set of pre-configured useful tools)*
          - `PHP CLI` 
          - `Composer` 
          - `Git`
