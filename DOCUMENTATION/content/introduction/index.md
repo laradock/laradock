@@ -125,6 +125,7 @@ That's it! enjoy :)
     - Neo4j
     - CouchDB
     - RethinkDB 
+    - Cassandra
 
 
 - **Database Management Apps:**
