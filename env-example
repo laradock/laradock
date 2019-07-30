@@ -222,6 +222,10 @@ NGINX_PHP_UPSTREAM_CONTAINER=php-fpm
 NGINX_PHP_UPSTREAM_PORT=9000
 NGINX_SSL_PATH=./nginx/ssl/
 
+### LARAVEL_HORIZON ################################################
+
+LARAVEL_HORIZON_INSTALL_SOCKETS=false
+
 ### APACHE ################################################
 
 APACHE_HOST_HTTP_PORT=80

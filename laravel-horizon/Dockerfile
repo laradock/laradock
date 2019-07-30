@@ -33,8 +33,8 @@ RUN if [ ${INSTALL_BCMATH} = true ]; then \
   ;fi
 
 #Install Sockets package:
-ARG INSTALL_AMQP=false
-RUN if [ ${INSTALL_AMQP} = true ]; then \
+ARG INSTALL_SOCKETS=false
+RUN if [ ${INSTALL_SOCKETS} = true ]; then \
   docker-php-ext-install sockets \
   ;fi
 
