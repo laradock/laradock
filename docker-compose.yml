@@ -189,6 +189,7 @@ services:
           - INSTALL_SSHPASS=${PHP_FPM_INSTALL_SSHPASS}
           - ADDITIONAL_LOCALES=${PHP_FPM_ADDITIONAL_LOCALES}
           - INSTALL_FFMPEG=${PHP_FPM_FFMPEG}
+          - INSTALL_XHPROF=${PHP_FPM_INSTALL_XHPROF}
           - http_proxy
           - https_proxy
           - no_proxy
