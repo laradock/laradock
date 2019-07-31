@@ -1,10 +1,10 @@
 ---
-title: Getting Started
+title: 2. Getting Started
 type: index
 weight: 2
 ---
 
-## Requirements
+## 2.1 Requirements
 
 - [Git](https://git-scm.com/downloads)
 - [Docker](https://www.docker.com/products/docker/) `>= 17.12`
@@ -12,10 +12,7 @@ weight: 2
 
 
 
-
-
-
-## Installation
+## 2.2 Installation
 
 Choose the setup the best suits your needs.
 
@@ -44,7 +41,7 @@ Note: If you are not using Git yet for your project, you can use `git clone` ins
 *To keep track of your Laradock changes, between your projects and also keep Laradock updated [check these docs](/documentation/#keep-track-of-your-laradock-changes)*
 
 
-Your folder structure should look like this:
+2 - Make sure your folder structure should look like this:
 
 ```
 + project-a
@@ -55,7 +52,7 @@ Your folder structure should look like this:
 
 *(It's important to rename the laradock folders to unique name in each project, if you want to run laradock per project).*
 
-> **Now jump to the [Usage](#Usage) section.**
+3 - Go to the [Usage](#Usage) section.
 
 <a name="A2"></a>
 ### A.2) Don't have a PHP project yet:
@@ -89,7 +86,7 @@ APP_CODE_PATH_HOST=../project-z/
 
 Make sure to replace `project-z` with your project folder name.
 
-> **Now jump to the [Usage](#Usage) section.**
+3 - Go to the [Usage](#Usage) section.
 
 
 <a name="B"></a>
@@ -110,9 +107,11 @@ Your folder structure should look like this:
 + project-2
 ```
 
-2 - Go to `nginx/sites` and create config files to point to different project directory when visiting different domains.
+2 - Go to your web server and create config files to point to different project directory when visiting different domains:
 
-Laradock by default includes `app.conf.example`, `laravel.conf.example` and `symfony.conf.example`  as working samples.
+For **Nginx** go to `nginx/sites`, for **Apache2** `apache2/sites`. 
+
+Laradock by default includes some sample files for you to copy `app.conf.example`, `laravel.conf.example` and `symfony.conf.example`.
 
 3 - change the default names `*.conf`:
 
@@ -125,9 +124,10 @@ You can rename the config files, project folders and domains as you like, just m
 127.0.0.1  project-2.test
 ...
 ```
+
 If you use Chrome 63 or above for development, don't use `.dev`. [Why?](https://laravel-news.com/chrome-63-now-forces-dev-domains-https). Instead use `.localhost`, `.invalid`, `.test`, or `.example`.
 
-> **Now jump to the [Usage](#Usage) section.**
+4 - Go to the [Usage](#Usage) section.
 
 
 
@@ -136,7 +136,7 @@ If you use Chrome 63 or above for development, don't use `.dev`. [Why?](https://
 
 
 <a name="Usage"></a>
-## Usage
+## 2.3 Usage
 
 **Read Before starting:**
 
@@ -213,7 +213,16 @@ Open your PHP project's `.env` file or whichever configuration file you are read
 DB_HOST=mysql
 ```
 
+You need to use the Laradock's default DB credentials which can be found in the `.env` file (ex: `MYSQL_USER=`). 
+Or you can change them and rebuild the container.  
+
 *If you want to install Laravel as PHP project, see [How to Install Laravel in a Docker Container](#Install-Laravel).*
 
 <br>
-5 - Open your browser and visit your localhost address `http://localhost/`. If you followed the multiple projects setup, you can visit `http://project-1.test/` and `http://project-2.test/`.
+5 - Open your browser and visit your localhost address. 
+
+If you followed the multiple projects setup, you can visit `http://project-1.test/` and `http://project-2.test/`.
+
+[http://localhost:8080](http://localhost:8080)
+
+Make sure you add use the right port number as provided by your running server. Ex: NGINX uses port 8080 by default while Apache2 uses 80.   
