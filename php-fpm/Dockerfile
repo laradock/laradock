@@ -165,6 +165,25 @@ RUN sed -i "s/xdebug.remote_autostart=0/xdebug.remote_autostart=1/" /usr/local/e
     sed -i "s/xdebug.cli_color=0/xdebug.cli_color=1/" /usr/local/etc/php/conf.d/xdebug.ini
 
 ###########################################################################
+# pcov:
+###########################################################################
+
+USER root
+
+ARG INSTALL_PCOV=false
+
+RUN if [ ${INSTALL_PCOV} = true ]; then \
+  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") != "0" ]; then \
+      pecl install pcov && \
+      echo "extension=pcov.so" >> /etc/php/${LARADOCK_PHP_VERSION}/cli/php.ini && \
+      echo "pcov.enabled" >> /etc/php/${LARADOCK_PHP_VERSION}/cli/php.ini \
+    ;fi \
+  ;fi \
+;fi
+
+
+###########################################################################
 # Phpdbg:
 ###########################################################################
 

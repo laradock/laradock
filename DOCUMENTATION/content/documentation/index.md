@@ -300,6 +300,29 @@ For information on how to configure xDebug with your IDE and work it out, check 
 
 
 <br>
+<a name="Install-pcov"></a>
+## Install pcov
+
+1 - First install `pcov` in the Workspace and the PHP-FPM Containers:
+<br>
+a) open the `.env` file
+<br>
+b) search for the `WORKSPACE_INSTALL_PCOV` argument under the Workspace Container
+<br>
+c) set it to `true`
+<br>
+d) search for the `PHP_FPM_INSTALL_PCOV` argument under the PHP-FPM Container
+<br>
+e) set it to `true`
+
+2 - Re-build the containers `docker-compose build workspace php-fpm`
+
+Note that pcov is only supported on PHP 7.1 or newer. For more information on setting up pcov optimally, check the recommended section
+of the [README](https://github.com/krakjoe/pcov)
+
+
+
+<br>
 <a name="Control-xDebug"></a>
 ## Start/Stop xDebug:
 
