@@ -300,6 +300,22 @@ For information on how to configure xDebug with your IDE and work it out, check 
 
 
 <br>
+<a name="Control-xDebug"></a>
+## Start/Stop xDebug:
+
+By installing xDebug, you are enabling it to run on startup by default.
+
+To control the behavior of xDebug (in the `php-fpm` Container), you can run the following commands from the Laradock root folder, (at the same prompt where you run docker-compose):
+
+- Stop xDebug from running by default: `.php-fpm/xdebug stop`.
+- Start xDebug by default: `.php-fpm/xdebug start`.
+- See the status: `.php-fpm/xdebug status`.
+
+Note: If `.php-fpm/xdebug` doesn't execute and gives `Permission Denied` error the problem can be that file `xdebug` doesn't have execution access. This can be fixed by running `chmod` command  with desired access permissions.
+
+
+
+<br>
 <a name="Install-pcov"></a>
 ## Install pcov
 
@@ -319,22 +335,6 @@ e) set it to `true`
 
 Note that pcov is only supported on PHP 7.1 or newer. For more information on setting up pcov optimally, check the recommended section
 of the [README](https://github.com/krakjoe/pcov)
-
-
-
-<br>
-<a name="Control-xDebug"></a>
-## Start/Stop xDebug:
-
-By installing xDebug, you are enabling it to run on startup by default.
-
-To control the behavior of xDebug (in the `php-fpm` Container), you can run the following commands from the Laradock root folder, (at the same prompt where you run docker-compose):
-
-- Stop xDebug from running by default: `.php-fpm/xdebug stop`.
-- Start xDebug by default: `.php-fpm/xdebug start`.
-- See the status: `.php-fpm/xdebug status`.
-
-Note: If `.php-fpm/xdebug` doesn't execute and gives `Permission Denied` error the problem can be that file `xdebug` doesn't have execution access. This can be fixed by running `chmod` command  with desired access permissions.
 
 
 
