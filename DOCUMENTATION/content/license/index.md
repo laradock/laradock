@@ -1,5 +1,5 @@
 ---
-title: License
+title: 8. License
 type: index
 weight: 8
 ---

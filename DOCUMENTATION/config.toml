@@ -48,42 +48,42 @@ googleAnalytics = "UA-37514928-9"
 # ------- MENU START -----------------------------------------
 
 [[menu.main]]
-	name   = "Introduction"
+	name   = "1. Introduction"
 	url    = "introduction/"
 	weight = 1
 
 [[menu.main]]
-	name   = "Getting Started"
+	name   = "2. Getting Started"
 	url    = "getting-started/"
 	weight = 2
 
 [[menu.main]]
-	name   = "Documentation"
+	name   = "3. Documentation"
 	url    = "documentation/"
 	weight = 3
 
 [[menu.main]]
-	name   = "Guides"
+	name   = "4. Guides"
 	url    = "guides/"
 	weight = 4
 
 [[menu.main]]
-	name   = "Help & Questions"
+	name   = "5. Help & Questions"
 	url    = "help/"
 	weight = 5
 
 [[menu.main]]
-	name   = "Related Projects"
+	name   = "6. Related Projects"
 	url    = "related-projects/"
 	weight = 6
 
 [[menu.main]]
-	name   = "Contributing"
+	name   = "7. Contributing"
 	url    = "contributing/"
 	weight = 7
 
 [[menu.main]]
-	name   = "License"
+	name   = "8. License"
 	url    = "license/"
 	weight = 8
 
