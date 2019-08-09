@@ -24,6 +24,15 @@ ARG LARADOCK_PHP_VERSION
 # Set Environment Variables
 ENV DEBIAN_FRONTEND noninteractive
 
+# If you're in China, or you need to change sources, will be set CHANGE_SOURCE to true in .env.
+
+ADD ubuntu.sources.list /etc/apt/ubuntu.sources.list
+ARG CHANGE_SOURCE=false
+RUN if [ ${CHANGE_SOURCE} = true ]; then \
+  mv /etc/apt/sources.list /etc/apt/sources.list.back && \
+  mv /etc/apt/ubuntu.sources.list /etc/apt/sources.list \
+;fi
+
 # Start as root
 USER root
 

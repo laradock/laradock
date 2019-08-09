@@ -55,6 +55,7 @@ services:
       build:
         context: ./workspace
         args:
+          - CHANGE_SOURCE=${CHANGE_SOURCE}
           - LARADOCK_PHP_VERSION=${PHP_VERSION}
           - LARADOCK_PHALCON_VERSION=${PHALCON_VERSION}
           - INSTALL_SUBVERSION=${WORKSPACE_INSTALL_SUBVERSION}
@@ -126,6 +127,7 @@ services:
           - no_proxy
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+        - "./workspace/crontab/laradock:/etc/cron.d/laradock"
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       ports:
@@ -145,6 +147,7 @@ services:
       build:
         context: ./php-fpm
         args:
+          - CHANGE_SOURCE=${CHANGE_SOURCE}
           - LARADOCK_PHP_VERSION=${PHP_VERSION}
           - LARADOCK_PHALCON_VERSION=${PHALCON_VERSION}
           - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
@@ -200,6 +203,7 @@ services:
         - "9000"
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
+      dns: 114.114.114.114
       environment:
         - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
         - DOCKER_HOST=tcp://docker-in-docker:2375
@@ -210,6 +214,7 @@ services:
         - backend
       links:
         - docker-in-docker
+
 
 ### PHP Worker ############################################
     php-worker:

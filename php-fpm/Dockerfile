@@ -24,6 +24,16 @@ ARG LARADOCK_PHP_VERSION
 # Set Environment Variables
 ENV DEBIAN_FRONTEND noninteractive
 
+# If you're in China, or you need to change sources, will be set CHANGE_SOURCE to true in .env.
+
+ADD debian.sources.list /etc/apt/debian.sources.list
+ARG CHANGE_SOURCE=false
+RUN if [ ${CHANGE_SOURCE} = true ]; then \
+  mv /etc/apt/sources.list /etc/apt/sources.list.back && \
+  mv /etc/apt/debian.sources.list /etc/apt/sources.list \
+;fi
+
+
 # always run apt update when start and after add new source list, then clean up at end.
 RUN set -xe; \
     apt-get update -yqq && \
