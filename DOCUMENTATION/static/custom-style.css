@@ -1,0 +1,13 @@
+/* Custom CSS */
+
+.article a {
+    border-bottom: none;
+}
+.project .logo {
+    width: 200px;
+    padding-right: 0;
+}
+.project .banner {
+    height: 70px;
+    padding: 25px;
+}

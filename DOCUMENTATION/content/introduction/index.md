@@ -20,6 +20,16 @@ Supports a variety of useful Docker Images, pre-configured to provide a wonderfu
 <a name="sponsors"></a>
 ## Sponsors
 
+<p align="center">
+<!-- Golden Sponsors -->
+    <a href="https://edubirdie.com/?ref=Laradock" target="_blank">
+       <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/sponsor-1.png?raw=true" width="300px" alt="Writing essays service Edubirdie"/>
+    </a>
+</p>
+
+<br>
+
+<!-- OpenCollective Sponsors -->
 <a href="https://opencollective.com/laradock/sponsor/0/website" target="_blank"><img src="https://opencollective.com/laradock/sponsor/0/avatar.svg"></a>
 <a href="https://opencollective.com/laradock/sponsor/1/website" target="_blank"><img src="https://opencollective.com/laradock/sponsor/1/avatar.svg"></a>
 <a href="https://opencollective.com/laradock/sponsor/2/website" target="_blank"><img src="https://opencollective.com/laradock/sponsor/2/avatar.svg"></a>
@@ -31,7 +41,7 @@ Supports a variety of useful Docker Images, pre-configured to provide a wonderfu
 
 For basic sponsorships go to [Open Collective](https://opencollective.com/laradock#sponsor), for golden sponsorships contact <a href = "mailto: support@laradock.io">support@laradock.io</a>.
 <br>
-*Your logo will show up on the [github repository](https://github.com/laradock/laradock/) index page and the [documentation](http://laradock.io/) main page, with a link to your website.* 
+*Your logo will show up on the [github repository](https://github.com/laradock/laradock/) index page and the [documentation](http://laradock.io/) main page.* 
 
 ## Quick Overview
 
