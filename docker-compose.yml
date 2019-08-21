@@ -241,7 +241,7 @@ services:
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
       expose:
-        - "3000-6000"
+        - "3000:3010"
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       environment:
