@@ -7,7 +7,7 @@ RUN apk --no-cache add tzdata ca-certificates && npm install pm2@latest -g
 
 WORKDIR /var/www/
 
-EXPOSE 3000-6000
+EXPOSE 3000-3010
 
 CMD ["pm2-runtime", "npm","--","start"]
 
