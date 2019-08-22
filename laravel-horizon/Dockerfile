@@ -24,12 +24,18 @@ RUN apk --update add wget \
   procps
 
 RUN docker-php-ext-install mysqli mbstring pdo pdo_mysql tokenizer xml pcntl
-RUN pecl channel-update pecl.php.net && pecl install memcached mcrypt-1.0.1 && docker-php-ext-enable memcached
+RUN pecl channel-update pecl.php.net && pecl install memcached mcrypt-1.0.1 mongodb && docker-php-ext-enable memcached mongodb
 
 #Install BCMath package:
 ARG INSTALL_BCMATH=false
 RUN if [ ${INSTALL_BCMATH} = true ]; then \
   docker-php-ext-install bcmath \
+  ;fi
+
+#Install Sockets package:
+ARG INSTALL_SOCKETS=false
+RUN if [ ${INSTALL_SOCKETS} = true ]; then \
+  docker-php-ext-install sockets \
   ;fi
 
 # Install PostgreSQL drivers:
@@ -38,6 +44,28 @@ RUN if [ ${INSTALL_PGSQL} = true ]; then \
   apk --update add postgresql-dev \
   && docker-php-ext-install pdo_pgsql \
   ;fi
+
+# Install Cassandra drivers:
+ARG INSTALL_CASSANDRA=false
+RUN if [ ${INSTALL_CASSANDRA} = true ]; then \
+  apk --update add cassandra-cpp-driver \
+  ;fi
+
+WORKDIR /usr/src
+RUN if [ ${INSTALL_CASSANDRA} = true ]; then \
+  git clone https://github.com/datastax/php-driver.git \
+  && cd php-driver/ext \
+  && phpize \
+  && mkdir -p /usr/src/php-driver/build \
+  && cd /usr/src/php-driver/build \
+  && ../ext/configure > /dev/null \
+  && make clean >/dev/null \
+  && make >/dev/null 2>&1 \
+  && make install \
+  && docker-php-ext-enable cassandra \
+;fi
+
+
 
 ###########################################################################
 # PHP Memcached:
