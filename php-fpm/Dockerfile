@@ -14,8 +14,7 @@
 
 ARG LARADOCK_PHP_VERSION
 
-# FROM laradock/php-fpm:2.2-${LARADOCK_PHP_VERSION}
-FROM letsdockerize/laradock-php-fpm:2.4.1-${LARADOCK_PHP_VERSION}
+FROM laradock/php-fpm:2.5-${LARADOCK_PHP_VERSION}
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
