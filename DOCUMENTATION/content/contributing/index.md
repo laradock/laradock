@@ -1,5 +1,5 @@
 ---
-title: Contributing
+title: 7. Contributing
 type: index
 weight: 7
 ---

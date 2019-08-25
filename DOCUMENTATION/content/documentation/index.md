@@ -1,5 +1,5 @@
 ---
-title: Documentation
+title: 3. Documentation
 type: index
 weight: 3
 ---
@@ -250,7 +250,6 @@ docker-compose build php-fpm
 <br>
 <a name="Change-the-PHP-CLI-Version"></a>
 ## Change the PHP-CLI Version
-By default **PHP-CLI 7.0** is running.
 
 >Note: it's not very essential to edit the PHP-CLI version. The PHP-CLI is only used for the Artisan Commands & Composer. It doesn't serve your Application code, this is the PHP-FPM job.
 
@@ -297,6 +296,24 @@ e) set it to `true`
 
 For information on how to configure xDebug with your IDE and work it out, check this [Repository](https://github.com/LarryEitel/laravel-laradock-phpstorm) or follow up on the next section if you use linux and PhpStorm.
 
+
+
+<br>
+<a name="Control-xDebug"></a>
+## Start/Stop xDebug:
+
+By installing xDebug, you are enabling it to run on startup by default.
+
+To control the behavior of xDebug (in the `php-fpm` Container), you can run the following commands from the Laradock root folder, (at the same prompt where you run docker-compose):
+
+- Stop xDebug from running by default: `.php-fpm/xdebug stop`.
+- Start xDebug by default: `.php-fpm/xdebug start`.
+- See the status: `.php-fpm/xdebug status`.
+
+Note: If `.php-fpm/xdebug` doesn't execute and gives `Permission Denied` error the problem can be that file `xdebug` doesn't have execution access. This can be fixed by running `chmod` command  with desired access permissions.
+
+
+
 <br>
 <a name="Install-phpdbg"></a>
 ## Install phpdbg
@@ -318,37 +335,6 @@ WORKSPACE_INSTALL_PHPDBG=true
 ```dotenv
 PHP_FPM_INSTALL_PHPDBG=true
 ```
-
-
-<a name="Setup remote debugging for PhpStorm on Linux"></a>
-## Setup remote debugging for PhpStorm on Linux
-
- - Make sure you have followed the steps above in the [Install Xdebug section](#install-xdebug).
-
- - Make sure Xdebug accepts connections and listens on port 9000. (Should be default configuration).
-
-![Debug Configuration](/images/photos/PHPStorm/linux/configuration/debugConfiguration.png "Debug Configuration").
-
- - Create a server with name `laradock` (matches **PHP_IDE_CONFIG** key in environment file) and make sure to map project root path with server correctly.
-
-![Server Configuration](/images/photos/PHPStorm/linux/configuration/serverConfiguration.png "Server Configuration").
-
- - Start listening for debug connections, place a breakpoint and you are good to go !
-
-
-<br>
-<a name="Control-xDebug"></a>
-## Start/Stop xDebug:
-
-By installing xDebug, you are enabling it to run on startup by default.
-
-To control the behavior of xDebug (in the `php-fpm` Container), you can run the following commands from the Laradock root folder, (at the same prompt where you run docker-compose):
-
-- Stop xDebug from running by default: `.php-fpm/xdebug stop`.
-- Start xDebug by default: `.php-fpm/xdebug start`.
-- See the status: `.php-fpm/xdebug status`.
-
-Note: If `.php-fpm/xdebug` doesn't execute and gives `Permission Denied` error the problem can be that file `xdebug` doesn't have execution access. This can be fixed by running `chmod` command  with desired access permissions.
 
 
 
@@ -398,29 +384,29 @@ Always download the latest version of [Loaders for ionCube ](http://www.ioncube.
 <a name="Install-SonarQube"></a>
 
 ## Install SonarQube (automatic code review tool)
-SonarQube® is an automatic code review tool to detect bugs, vulnerabilities and code smells in your code. It can integrate with your existing workflow to enable continuous code inspection across your project branches and pull requests.  
+SonarQube® is an automatic code review tool to detect bugs, vulnerabilities and code smells in your code. It can integrate with your existing workflow to enable continuous code inspection across your project branches and pull requests.
 <br>
-1 - Open the `.env` file  
+1 - Open the `.env` file
 <br>
-2 - Search for the `SONARQUBE_HOSTNAME=sonar.example.com` argument  
+2 - Search for the `SONARQUBE_HOSTNAME=sonar.example.com` argument
 <br>
-3 - Set it to your-domain `sonar.example.com`  
+3 - Set it to your-domain `sonar.example.com`
 <br>
-4 - `docker-compose up -d sonarqube`  
+4 - `docker-compose up -d sonarqube`
 <br>
 5 - Open your browser: http://localhost:9000/
 
-Troubleshooting:  
+Troubleshooting:
 
 if you encounter a database error:
 ```
-docker-compose exec --user=root postgres 
+docker-compose exec --user=root postgres
 source docker-entrypoint-initdb.d/init_sonarqube_db.sh
 ```
 
 If you encounter logs error:
 ```
-docker-compose run --user=root --rm sonarqube chown sonarqube:sonarqube /opt/sonarqube/logs 
+docker-compose run --user=root --rm sonarqube chown sonarqube:sonarqube /opt/sonarqube/logs
 ```
 [**SonarQube Documentation Here**](https://docs.sonarqube.org/latest/)
 
@@ -1268,6 +1254,36 @@ docker-compose up -d grafana
 
 
 <br>
+<a name="Use-Graylog"></a>
+## Use Graylog
+
+1 - Boot the container `docker-compose up -d graylog`
+
+2 - Open your Laravel's `.env` file and set the `GRAYLOG_PASSWORD` to some passsword, and `GRAYLOG_SHA256_PASSWORD` to the sha256 representation of your password (`GRAYLOG_SHA256_PASSWORD` is what matters, `GRAYLOG_PASSWORD` is just a reminder of your password).
+
+> Your password must be at least 16 characters long
+> You can generate sha256 of some password with the following command `echo -n somesupersecretpassword | sha256sum`
+
+```env
+GRAYLOG_PASSWORD=somesupersecretpassword
+GRAYLOG_SHA256_PASSWORD=b1cb6e31e172577918c9e7806c572b5ed8477d3f57aa737bee4b5b1db3696f09
+```
+
+3 - Go to `http://localhost:9000/` (if your port is not changed)
+
+4 - Authenticate from the app.
+
+> Username: admin
+> Password: somesupersecretpassword (if you haven't changed the password)
+
+5 - Go to the system->inputs and launch new input
+
+
+
+
+
+
+<br>
 <a name="Use-Traefik"></a>
 ## Use Traefik
 
@@ -1552,22 +1568,6 @@ Available versions are: 5.5, 5.6, 5.7, 8.0, or latest.  See https://store.docker
 
 
 <br>
-<a name="MySQL-access-from-host"></a>
-## MySQL access from host
-
-You can forward the MySQL/MariaDB port to your host by making sure these lines are added to the `mysql` or `mariadb` section of the `docker-compose.yml` or in your [environment specific Compose](https://docs.docker.com/compose/extends/) file.
-
-```
-ports:
-    - "3306:3306"
-```
-
-
-
-
-
-
-<br>
 <a name="MySQL-root-access"></a>
 ## MySQL root access
 
@@ -1667,7 +1667,7 @@ Enabling Global Composer Install during the build for the container allows you t
 
 <br>
 <a name="Magento-2-authentication-credentials"></a>
-## Magento 2 authentication credential (composer install)
+## Add authentication credential for Magento 2
 
 1 - Open the `.env` file
 
@@ -1999,22 +1999,6 @@ Remote debug Laravel web and phpunit tests.
 
 
 
-<br>
-<a name="upgrading-laradock"></a>
-## Upgrading Laradock
-
-Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requires upgrading Laradock from v3.* to v4.*:
-
-1. Stop the docker VM `docker-machine stop {default}`
-2. Install Docker for [Mac](https://docs.docker.com/docker-for-mac/) or [Windows](https://docs.docker.com/docker-for-windows/).
-3. Upgrade Laradock to `v4.*.*` (`git pull origin master`)
-4. Use Laradock as you used to do: `docker-compose up -d nginx mysql`.
-
-**Note:** If you face any problem with the last step above: rebuild all your containers
-`docker-compose build --no-cache`
-"Warning Containers Data might be lost!"
-
-
 
 
 
@@ -2182,126 +2166,17 @@ docker-compose up ...
 
 
 
-
-
-
 <br>
-<a name="Common-Problems"></a>
-## Common Problems
+<a name="upgrade-laradock"></a>
+## Upgrade Laradock
 
-*Here's a list of the common problems you might face, and the possible solutions.*
+Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requires upgrading Laradock from v3.* to v4.*:
 
+1. Stop the docker VM `docker-machine stop {default}`
+2. Install Docker for [Mac](https://docs.docker.com/docker-for-mac/) or [Windows](https://docs.docker.com/docker-for-windows/).
+3. Upgrade Laradock to `v4.*.*` (`git pull origin master`)
+4. Use Laradock as you used to do: `docker-compose up -d nginx mysql`.
 
-
-
-
-
-<br>
-## I see a blank (white) page instead of the Laravel 'Welcome' page!
-
-Run the following command from the Laravel root directory:
-
-```bash
-sudo chmod -R 777 storage bootstrap/cache
-```
-
-
-
-
-
-
-<br>
-## I see "Welcome to nginx" instead of the Laravel App!
-
-Use `http://127.0.0.1` instead of `http://localhost` in your browser.
-
-
-
-
-
-
-<br>
-## I see an error message containing `address already in use` or `port is already allocated`
-
-Make sure the ports for the services that you are trying to run (22, 80, 443, 3306, etc.) are not being used already by other programs on the host, such as a built in `apache`/`httpd` service or other development tools you have installed.
-
-
-
-
-
-
-<br>
-## I get NGINX error 404 Not Found on Windows.
-
-1. Go to docker Settings on your Windows machine.
-2. Click on the `Shared Drives` tab and check the drive that contains your project files.
-3. Enter your windows username and password.
-4. Go to the `reset` tab and click restart docker.
-
-
-
-
-
-
-<br>
-## The time in my services does not match the current time
-
-1. Make sure you've [changed the timezone](#Change-the-timezone).
-2. Stop and rebuild the containers (`docker-compose up -d --build <services>`)
-
-
-
-
-
-
-<br>
-## I get MySQL connection refused
-
-This error sometimes happens because your Laravel application isn't running on the container localhost IP (Which is 127.0.0.1). Steps to fix it:
-
-* Option A
-  1. Check your running Laravel application IP by dumping `Request::ip()` variable using `dd(Request::ip())` anywhere on your application. The result is the IP of your Laravel container.
-  2. Change the `DB_HOST` variable on env with the IP that you received from previous step.
-* Option B
-   1. Change the `DB_HOST` value to the same name as the MySQL docker container. The Laradock docker-compose file currently has this as `mysql`
-
-## I get stuck when building nginx on `fetch http://mirrors.aliyun.com/alpine/v3.5/main/x86_64/APKINDEX.tar.gz`
-
-As stated on [#749](https://github.com/laradock/laradock/issues/749#issuecomment-419652646), Already fixed，just set `CHANGE_SOURCE` to false.
-
-## Custom composer repo packagist url and npm registry url
-
-In China, the origin source of composer and npm is very slow. You can add `WORKSPACE_NPM_REGISTRY` and `WORKSPACE_COMPOSER_REPO_PACKAGIST` config in `.env` to use your custom source.
-
-Example:
-```bash
-WORKSPACE_NPM_REGISTRY=https://registry.npm.taobao.org
-WORKSPACE_COMPOSER_REPO_PACKAGIST=https://packagist.phpcomposer.com
-```
-
-<br>
-
-## I get `Module build failed: Error: write EPIPE` while compiling react application
-
-When you run `npm build` or `yarn dev` building a react application using webpack with elixir you may receive a `Error: write EPIPE` while processing .jpg images.
-
-This is caused of an outdated library for processing **.jpg files** in ubuntu 16.04.
-
-To fix the problem you can follow those steps
-
-1 - Open the `.env`.
-
-2 - Search for `WORKSPACE_INSTALL_LIBPNG` or add the key if missing.
-
-3 - Set the value to true:
-
-```dotenv
-WORKSPACE_INSTALL_LIBPNG=true
-```
-
-4 - Finally rebuild the workspace image
-
-```bash
-docker-compose build workspace
-```
-
+**Note:** If you face any problem with the last step above: rebuild all your containers
+`docker-compose build --no-cache`
+"Warning Containers Data might be lost!"
