@@ -497,6 +497,8 @@ services:
       build: ./rethinkdb
       ports:
         - "${RETHINKDB_PORT}:8080"
+        - "${RETHINKDB_CLIENT_PORT}:28015"
+        - "${RETHINKDB_CLUSTER_PORT}:29015"
       volumes:
         - ${DATA_PATH_HOST}/rethinkdb:/data/rethinkdb_data
       networks:

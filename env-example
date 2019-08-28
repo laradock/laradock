@@ -429,6 +429,8 @@ AEROSPIKE_NAMESPACE=test
 ### RETHINKDB #############################################
 
 RETHINKDB_PORT=8090
+RETHINKDB_CLUSTER_PORT=29015
+RETHINKDB_CLIENT_PORT=28015
 
 ### MONGODB ###############################################
 
