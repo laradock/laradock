@@ -250,7 +250,6 @@ docker-compose build php-fpm
 <br>
 <a name="Change-the-PHP-CLI-Version"></a>
 ## Change the PHP-CLI Version
-By default **PHP-CLI 7.0** is running.
 
 >Note: it's not very essential to edit the PHP-CLI version. The PHP-CLI is only used for the Artisan Commands & Composer. It doesn't serve your Application code, this is the PHP-FPM job.
 

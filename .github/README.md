@@ -16,7 +16,7 @@
 <h4 align="center" style="color:#7d58c2">Use Docker First - Then Learn About It Later</h4>
 
 <p align="center">
-    <a href="http://zalt.me"><img src="http://forthebadge.com/images/badges/built-by-developers.svg" alt="forthebadge" width="240" ></a>
+    <a href="http://zalt.me"><img src="http://forthebadge.com/images/badges/built-by-developers.svg" alt="forthebadge" width="240"></a>
 </p>
 
 
@@ -24,13 +24,20 @@
 
 <p align="center">
 	<a href="http://laradock.io">
-	   <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/documentation-button.png" width=300px" alt="Laradock Docs"/>
+	   <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/documentation-button.png" width="300px" alt="Laradock Documentation"/>
 	</a>
 </p>
 
-
 ## Sponsors 
 
+<p align="center">
+    <!-- Golden Sponsors -->
+	<a href="https://edubirdie.com/?ref=Laradock" target="_blank">
+	   <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/sponsor-1.png?raw=true" width="300px" alt="Writing essays service Edubirdie"/>
+	</a>
+</p>
+                                                                
+<!-- OpenCollective Sponsors -->
 <a href="https://opencollective.com/laradock/sponsor/0/website" target="_blank"><img src="https://opencollective.com/laradock/sponsor/0/avatar.svg"></a>
 <a href="https://opencollective.com/laradock/sponsor/1/website" target="_blank"><img src="https://opencollective.com/laradock/sponsor/1/avatar.svg"></a>
 <a href="https://opencollective.com/laradock/sponsor/2/website" target="_blank"><img src="https://opencollective.com/laradock/sponsor/2/avatar.svg"></a>
@@ -42,7 +49,7 @@
 
 For basic sponsorships go to [Open Collective](https://opencollective.com/laradock#sponsor), for golden sponsorships contact <a href = "mailto: support@laradock.io">support@laradock.io</a>.
 
-*Your logo will show up on the [github repository](https://github.com/laradock/laradock/) index page and the [documentation](http://laradock.io/) main page, with a link to your website.* 
+*Your logo will show up on the [github repository](https://github.com/laradock/laradock/) index page and the [documentation](http://laradock.io/) main page.* 
 
 ## People
 
