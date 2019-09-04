@@ -12,7 +12,7 @@
         to {path} {path}/ /index.php?{query}
     }
     gzip
-    browse
+    #browse
     log /var/log/caddy/access.log
     errors /var/log/caddy/error.log
     # Uncomment to enable TLS (HTTPS)
