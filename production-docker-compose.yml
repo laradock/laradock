@@ -14,6 +14,7 @@ services:
 
   ### Workspace Utilities ##################################
   workspace:
+    restart: always
     build:
       context: ./workspace
       args:
@@ -89,6 +90,7 @@ services:
 
   ### PHP-FPM ##############################################
   php-fpm:
+    restart: always
     build:
       context: ./php-fpm
       args:
@@ -147,6 +149,7 @@ services:
 
   ### NGINX Server #########################################
   nginx:
+    restart: always
     build:
       context: ./nginx
       args:
@@ -159,7 +162,7 @@ services:
       - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
       - ${NGINX_SSL_PATH}:/etc/nginx/ssl
     ports:
-      - "80"
+      - "${NGINX_HOST_HTTP_PORT}:80"
       - "443"
     depends_on:
       - php-fpm
@@ -179,6 +182,7 @@ services:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - TZ=${WORKSPACE_TIMEZONE}
+    restart: always
     volumes:
       - ${DATA_PATH_HOST}/mysql:/var/lib/mysql
       - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
@@ -190,6 +194,7 @@ services:
   docker-in-docker:
     image: docker:dind
     privileged: true
+    restart: always
     volumes:
       - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
     expose:
