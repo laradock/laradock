@@ -1178,7 +1178,8 @@ services:
 ### Docker-in-Docker ################################################
     docker-in-docker:
       image: docker:dind
-      hostname: docker-in-docker
+      environment:
+        DOCKER_TLS_SAN: DNS:docker-in-docker
       privileged: true
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
