@@ -4,8 +4,9 @@
 
 ---
 
-<p align="center">PHP development environment that runs on Docker</p>
+<p align="center"><b>Full PHP development environment based on Docker.</b></p>
 
+<p align="center">Supporting a variety of common services, all pre-configured to provide a full PHP development environment.</p>
 
 <p align="center">
    <a href="http://laradock.io/contributing"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" alt="contributions welcome"></a>
@@ -173,18 +174,7 @@ Contribute and help us sustain the project.
 
 <a href="https://opencollective.com/laradock"><img src="https://opencollective.com/laradock/backer.svg?width=890"></a>
 
-
-
-
-
-
-
 ## Sponsors
-
-
-
-
-
 
 <a href="https://opencollective.com/socketio/sponsor/23/website" target="_blank"><img src="https://opencollective.com/socketio/sponsor/23/avatar.svg"></a>
 <a href="https://opencollective.com/laradock/sponsor/0/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/0/avatar.svg?requireActive=false"></a>

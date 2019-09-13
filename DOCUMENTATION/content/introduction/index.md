@@ -4,19 +4,34 @@ type: index
 weight: 1
 ---
 
-![](https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/laradock-logo.jpg)
+<b>Laradock is a full PHP development environment based on Docker.</b>
 
-## Use Docker First - Then Learn About It Later
-
-Laradock is a PHP development environment that runs on Docker.
-
-Supports a variety of useful Docker Images, pre-configured to provide a wonderful PHP development environment.
+Supporting a variety of common services, all pre-configured to provide a full PHP development environment.
 
 
+<a name="features"></a>
+## Features
 
+- Easy switch between PHP versions: 7.3, 7.2, 7.1, 5.6...
+- Choose your favorite database engine: MySQL, Postgres, MariaDB...
+- Run your own stack: Memcached, HHVM, RabbitMQ...
+- Each software runs on its own container: PHP-FPM, NGINX, PHP-CLI...
+- Easy to customize any container, with simple edit to the `Dockerfile`.
+- All Images extends from an official base Image. (Trusted base Images).
+- Pre-configured NGINX to host any code at your root directory.
+- Can use Laradock per project, or single Laradock for all projects.
+- Easy to install/remove software's in Containers using environment variables.
+- Clean and well structured Dockerfiles (`Dockerfile`).
+- Latest version of the Docker Compose file (`docker-compose`).
+- Everything is visible and editable.
+- Fast Images Builds.
 
+<br>
 
 ---
+### Use Docker First - Then Learn About It Later</q>
+---
+
 
 <a name="sponsors"></a>
 ## Sponsors
@@ -79,7 +94,8 @@ Your logo will show up on the [github repository](https://github.com/laradock/la
 <br>
 For more info contact <a href = "mailto: support@laradock.io">support@laradock.io</a>.
 
----
+<br>
+
 
 ## Quick Overview
 
@@ -117,25 +133,6 @@ QUEUE_HOST=beanstalkd
 That's it! enjoy :)
 ```
 
-
-
-
-<a name="features"></a>
-## Features
-
-- Easy switch between PHP versions: 7.3, 7.2, 7.1, 5.6...
-- Choose your favorite database engine: MySQL, Postgres, MariaDB...
-- Run your own stack: Memcached, HHVM, RabbitMQ...
-- Each software runs on its own container: PHP-FPM, NGINX, PHP-CLI...
-- Easy to customize any container, with simple edit to the `Dockerfile`.
-- All Images extends from an official base Image. (Trusted base Images).
-- Pre-configured NGINX to host any code at your root directory.
-- Can use Laradock per project, or single Laradock for all projects.
-- Easy to install/remove software's in Containers using environment variables.
-- Clean and well structured Dockerfiles (`Dockerfile`).
-- Latest version of the Docker Compose file (`docker-compose`).
-- Everything is visible and editable.
-- Fast Images Builds.
 
 
 
@@ -273,48 +270,6 @@ You can choose, which tools to install in your workspace container and other con
 
 ---
 
-<a name="what-is-docker"></a>
-## What is Docker?
-
-[Docker](https://www.docker.com) is an open platform for developing, shipping, and running applications.
-Docker enables you to separate your applications from your infrastructure so you can deliver software quickly.
-With Docker, you can manage your infrastructure in the same ways you manage your applications.
-By taking advantage of Docker’s methodologies for shipping, testing, and deploying code quickly, you can significantly reduce the delay between writing code and running it in production.
-
-
-
-
-
-<a name="why-docker-not-vagrant"></a>
-## Why Docker not Vagrant!?
-
-[Vagrant](https://www.vagrantup.com) creates Virtual Machines in minutes while Docker creates Virtual Containers in seconds.
-
-Instead of providing a full Virtual Machines, like you get with Vagrant, Docker provides you **lightweight** Virtual Containers, that share the same kernel and allow to safely execute independent processes.
-
-In addition to the speed, Docker gives tons of features that cannot be achieved with Vagrant.
-
-Most importantly Docker can run on Development and on Production (same environment everywhere). While Vagrant is designed for Development only, (so you have to re-provision your server on Production every time).
-
-
-
-
-
-
-<a name="Demo"></a>
-## Demo Video
-
-What's better than a **Demo Video**:
-
-- Laradock [v4.*](https://www.youtube.com/watch?v=TQii1jDa96Y)
-- Laradock [v2.*](https://www.youtube.com/watch?v=-DamFMczwDA)
-- Laradock [v0.3](https://www.youtube.com/watch?v=jGkyO6Is_aI)
-- Laradock [v0.1](https://www.youtube.com/watch?v=3YQsHe6oF80)
-
-
-
-
-
 
 
 <a name="Chat"></a>
@@ -324,10 +279,11 @@ You are welcome to join our chat room on Gitter.
 
 [![Gitter](https://badges.gitter.im/Laradock/laradock.svg)](https://gitter.im/Laradock/laradock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-## Awesome People
+---
+
 Laradock exists thanks to all the people who contribute.
 
-### Project Maintainers
+## Project Maintainers
 
 <table>
   <tbody>
@@ -445,7 +401,7 @@ Laradock exists thanks to all the people who contribute.
   </tbody>
 </table>
 
-### Code Contributors
+## Code Contributors
 
 <a href="https://github.com/undefined/undefined/graphs/contributors"><img src="https://opencollective.com/laradock/contributors.svg?width=890&button=false" /></a>
 
