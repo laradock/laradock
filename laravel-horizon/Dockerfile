@@ -51,7 +51,7 @@ RUN if [ ${INSTALL_CASSANDRA} = true ]; then \
   apk --update add cassandra-cpp-driver \
   ;fi
   
-# Install PhpRedis
+# Install PhpRedis package:
 ARG INSTALL_PHPREDIS=false
 RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
     # Install Php Redis Extension
