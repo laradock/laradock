@@ -364,6 +364,7 @@ services:
       volumes:
         - ${DATA_PATH_HOST}/mysql:/var/lib/mysql
         - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+        - ${MYSQL_LOG_PATH}:/var/log/mysql
       ports:
         - "${MYSQL_PORT}:3306"
       networks:
@@ -628,6 +629,11 @@ services:
       build: ./beanstalkd-console
       ports:
         - "${BEANSTALKD_CONSOLE_HOST_PORT}:2080"
+      environment:
+      - BEANSTALKD_PORT_11300_TCP_ADDR=beanstalkd
+      - AUTH=${BEANSTALKD_CONSOLE_AUTH}
+      - AUTH_USERNAME=${BEANSTALKD_CONSOLE_AUTH_USERNAME}
+      - AUTH_PASSWORD=${BEANSTALKD_CONSOLE_AUTH_PASSWORD}
       depends_on:
         - beanstalkd
       networks:
