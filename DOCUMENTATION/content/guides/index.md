@@ -345,7 +345,7 @@ You could choose to use either:
 1. Chrome Driver shipped with Laravel Dusk. (Default)
 2. Chrome Driver installed in `workspace` container. (Required tweak on DuskTestCase class)
 
-For Laravel 2.x, you need to update `DuskTestCase#prepare` method if you wish to go with option #2.
+For Laravel Dusk 2.x, you need to update `DuskTestCase#prepare` method if you wish to go with option #2.
 
 ```
 
@@ -365,7 +365,7 @@ abstract class DuskTestCase extends BaseTestCase
     }
 ```
 
-For Laravel 1.x, you need to add `DuskTestCase#buildChromeProcess` method if you wish to go with option #2.
+For Laravel Dusk 1.x, you need to add `DuskTestCase#buildChromeProcess` method if you wish to go with option #2.
 
 ```
 <?php
