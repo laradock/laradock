@@ -13,4 +13,9 @@
 /nginx/ssl/*.key
 /nginx/ssl/*.csr
 
+/apache2/ssl/*.crt
+/apache2/ssl/*.key
+/apache2/ssl/*.csr
+/apache2/ssl/*.org
+
 .DS_Store

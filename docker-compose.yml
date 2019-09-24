@@ -313,6 +313,7 @@ services:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         - ${APACHE_HOST_LOG_PATH}:/var/log/apache2
         - ${APACHE_SITES_PATH}:/etc/apache2/sites-available
+        - ${APACHE_SSL_PATH}:/etc/apache2/ssl
       ports:
         - "${APACHE_HOST_HTTP_PORT}:80"
         - "${APACHE_HOST_HTTPS_PORT}:443"
