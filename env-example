@@ -725,6 +725,15 @@ PGADMIN_PORT=5050
 PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
 PGADMIN_DEFAULT_PASSWORD=admin
 
+### SWAGGER EDITOR  ###########################################
+
+SWAGGER_EDITOR_PORT=5151
+
+### SWAGGER UI  ###############################################
+
+SWAGGER_API_URL=http://generator.swagger.io/api/swagger.json
+SWAGGER_UI_PORT=5555
+
 ### SONARQUBE ################################################
 ## docker-compose up -d sonarqube
 ## (If you encounter a database error)
