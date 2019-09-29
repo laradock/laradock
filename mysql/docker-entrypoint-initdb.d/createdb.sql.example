@@ -16,13 +16,38 @@
 #     mysql -u root -p < /docker-entrypoint-initdb.d/createdb.sql
 #
 
-#CREATE DATABASE IF NOT EXISTS `dev_db_1` COLLATE 'utf8_general_ci' ;
-#GRANT ALL ON `dev_db_1`.* TO 'default'@'%' ;
+CREATE DATABASE IF NOT EXISTS `authentication` COLLATE 'utf8_general_ci' ;
+GRANT ALL ON `authentication`.* TO 'default'@'%' ;
 
-#CREATE DATABASE IF NOT EXISTS `dev_db_2` COLLATE 'utf8_general_ci' ;
-#GRANT ALL ON `dev_db_2`.* TO 'default'@'%' ;
+CREATE DATABASE IF NOT EXISTS `common` COLLATE 'utf8_general_ci' ;
+GRANT ALL ON `common`.* TO 'default'@'%' ;
 
-#CREATE DATABASE IF NOT EXISTS `dev_db_3` COLLATE 'utf8_general_ci' ;
-#GRANT ALL ON `dev_db_3`.* TO 'default'@'%' ;
+
+CREATE DATABASE IF NOT EXISTS `asset` COLLATE 'utf8_general_ci' ;
+GRANT ALL ON `asset`.* TO 'default'@'%' ;
+
+
+CREATE DATABASE IF NOT EXISTS `dms` COLLATE 'utf8_general_ci' ;
+GRANT ALL ON `dms`.* TO 'default'@'%' ;
+
+
+CREATE DATABASE IF NOT EXISTS `website` COLLATE 'utf8_general_ci' ;
+GRANT ALL ON `website`.* TO 'default'@'%' ;
+
+
+CREATE DATABASE IF NOT EXISTS `forms` COLLATE 'utf8_general_ci' ;
+GRANT ALL ON `forms`.* TO 'default'@'%' ;
+
+
+CREATE DATABASE IF NOT EXISTS `payments` COLLATE 'utf8_general_ci' ;
+GRANT ALL ON `payments`.* TO 'default'@'%' ;
+
+
+CREATE DATABASE IF NOT EXISTS `auth` COLLATE 'utf8_general_ci' ;
+GRANT ALL ON `auth`.* TO 'default'@'%' ;
+
+
+
+
 
 FLUSH PRIVILEGES ;

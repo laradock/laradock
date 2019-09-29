@@ -190,6 +190,15 @@ RUN if [ ${INSTALL_XDEBUG} = false -a ${INSTALL_BLACKFIRE} = true ]; then \
 ;fi
 
 ###########################################################################
+# GRPC Extension
+###########################################################################
+
+    # Install Php gRPC Extension
+#RUN    printf "\n" | pecl install -o -f grpc \
+#    && rm -rf /tmp/pear \
+#    && docker-php-ext-enable grpc; \
+
+###########################################################################
 # PHP REDIS EXTENSION
 ###########################################################################
 
@@ -200,6 +209,18 @@ RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
     printf "\n" | pecl install -o -f redis \
     &&  rm -rf /tmp/pear \
     &&  docker-php-ext-enable redis \
+;fi
+
+###########################################################################
+# PHP GRPC EXTENSION
+###########################################################################
+
+ARG INSTALL_PHPGRPC=false
+
+RUN if [ ${INSTALL_PHPGRPC} = true ]; then \
+    printf "\n" | pecl install -o -f grpc \
+     && rm -rf /tmp/pear \
+     && docker-php-ext-enable grpc \
 ;fi
 
 ###########################################################################
@@ -278,9 +299,10 @@ RUN if [ ${INSTALL_XHPROF} = true ]; then \
     ) \
     && rm -r xhprof \
     && rm /tmp/xhprof.tar.gz \
+
+COPY ./xhprof.ini /usr/local/etc/php/conf.d \
 ;fi
 
-COPY ./xhprof.ini /usr/local/etc/php/conf.d
 
 ###########################################################################
 # AMQP:

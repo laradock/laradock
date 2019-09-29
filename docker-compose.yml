@@ -119,6 +119,7 @@ services:
           - http_proxy
           - https_proxy
           - no_proxy
+          - INSTALL_PHPGRPC=${WORKSPACE_INSTALL_PHPGRPC}
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
       extra_hosts:
@@ -186,6 +187,7 @@ services:
           - http_proxy
           - https_proxy
           - no_proxy
+          - INSTALL_PHPGRPC=${PHP_FPM_INSTALL_PHPGRPC}
       volumes:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
@@ -274,6 +276,42 @@ services:
         - "${NGINX_HOST_HTTPS_PORT}:443"
       depends_on:
         - php-fpm
+      networks:
+        frontend:
+          aliases:
+            - common-api.pension.test
+            - apps.pension.test
+            - auth.pension.test
+            - forms.pension.test
+            - investment.pension.test
+            - cloudnet.pension.test
+            - koshaaru-api.pension.test
+        backend:
+          aliases:
+            - common-api.pension.test
+            - auth.pension.test
+            - forms.pension.test
+            - investment.pension.test
+            - cloudnet.pension.test
+            - apps.pension.test
+            - koshaaru-api.pension.test
+
+### ASPNETCORE Server #########################################
+    aspnetcore:
+      build:
+        context: ./aspnetcore
+        args:
+          - ASPNETCORE_APP_PATH=${ASPNETCORE_APP_PATH}
+          - APP_CODE_PATH_HOST=${APP_CODE_PATH_HOST}
+          - DOTNET_WATCH=${DOTNET_WATCH}
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Development
+         - ASPNETCORE_URLS=http://+:5000
+      volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+      ports:
+        - "5000:5000"
+        - "8080:80"
       networks:
         - frontend
         - backend
