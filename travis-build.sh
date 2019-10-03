@@ -34,7 +34,7 @@ if [ -n "${PHP_VERSION}" ]; then
     sed -i -- 's/CHANGE_SOURCE=true/CHANGE_SOURCE=false/g' .env
 
     cat .env
-    docker-compose build ${BUILD_SERVICE}
+    docker-compose build --pull --no-cache ${BUILD_SERVICE}
     docker images
 fi
 
