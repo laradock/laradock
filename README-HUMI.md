@@ -17,8 +17,7 @@
   - database hosts: mysql
   - redis host: redis
   - service api urls: use /etc/hosts aliases (local.api.humi.ca)
-  - vagrant urls: use docker.for.mac.localhost (on mac) docker.for.win.localhost (on win)
-   - on linux you will need to start your containers to find the host network from insinde your container, then use this to access local machine services
+  - vagrant urls: use docker.for.mac.localhost (on mac) docker.for.win.localhost (on win) start your container and find the host ip address from inside the container (linux)
   
 - change the database credentials to root/root
 
