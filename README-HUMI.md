@@ -13,16 +13,16 @@
 
 - cp env-example .env
 
+- Update your local env files with the following host aliases
+  - database hosts (v2, v1, testing): mysql
+  - redis host: redis
+  - service api urls: nginx
+  
 see https://laradock.io/documentation/ for all the environment options (including running workers, cron scheduling, etc)
 
 #### Now run docker
 
 - run `./dock.sh up` or `docker-compose up -d nginx mysql redis workspace `
-
-- Update your local env files with the following keywords
-  - database hosts (v2, v1, testing): mysql
-  - redis host: redis
-  - service api urls: nginx
 
 see ./dock.sh for other relevant commands/learning
 
