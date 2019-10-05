@@ -9,6 +9,8 @@
 - Verify mysql 8.0 support with `default_authentication_plugin=mysql_native_password` in /mysql/my.cnf 
 - Verify the mysql init script in /mysql creates the required databases
 
+Finally, setup your own environment file
+
 - cp env-example .env
 
 - run `./dock.sh up` or `docker-compose up -d nginx mysql redis workspace `
