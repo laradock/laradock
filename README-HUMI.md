@@ -11,3 +11,11 @@
 - Update your local env files with the following keywords
   - database host: mysql
   - redis host: redis
+
+see ./dock.sh for other relevant commands/learning
+
+# ./dock workspace - exec bash into workspace
+# ./dock up - start all containers
+# ./dock down - stop all containers
+# ./dock kill - destroy all containers
+# ./dock build service - build container by name
