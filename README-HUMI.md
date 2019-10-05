@@ -16,7 +16,7 @@
 - Update your local env files with the following host aliases
   - database hosts (v2, v1, testing): mysql
   - redis host: redis
-  - service api urls: nginx
+  - service api urls: use /etc/hosts aliases (local.api.humi.ca) or old vagrant IP
   
 see https://laradock.io/documentation/ for all the environment options (including running workers, cron scheduling, etc)
 
