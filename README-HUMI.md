@@ -15,23 +15,23 @@
 see ./dock.sh for other relevant commands/learning
 
 ```bash
-  ./dock workspace - exec bash into workspace 
+  ./dock.sh workspace - exec bash into workspace 
   
       (docker-compose exec --user=laradock workspace bash)
       
-  ./dock up - start all containers 
+  ./dock.sh up - start all containers 
   
       (docker-compose up -d nginx mysql redis workspace )
       
-  ./dock down - stop all containers 
+  ./dock.sh down - stop all containers 
   
       (docker-compose stop, docker stop $(docker ps -aq), docker rm $(docker ps -aq))
       
-  ./dock kill - destroy all containers 
+  ./dock.sh kill - destroy all containers 
   
       (docker system prune -a)
       
-  ./dock build service - build container by name 
+  ./dock.sh build service - build container by name 
   
       (docker-compose build $2)
       
