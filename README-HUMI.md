@@ -1,6 +1,6 @@
 # Humi Platform Setup
 
-- Clone the repo at the same level as your application repositories
+- Clone the humidock repo at the same level as your application repositories
 
 #### These have been pre-added, but may be configured incorrectly for your setup:
  
@@ -13,11 +13,13 @@
 
 - cp env-example .env
 
-- Update your local env files with the following host aliases
-  - database hosts (v2, v1, testing): mysql
+- Update your local .env/.env.testing files with the following host aliases
+  - database hosts: mysql
   - redis host: redis
-  - service api urls: nginx
+  - service api urls: use /etc/hosts aliases (local.api.humi.ca) or old vagrant IP
   
+- change the database credentials to root/root
+
 see https://laradock.io/documentation/ for all the environment options (including running workers, cron scheduling, etc)
 
 #### Now run docker
