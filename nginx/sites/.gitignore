@@ -1,2 +1,4 @@
 *.conf
 !default.conf
+!application.conf
+!admin.conf
