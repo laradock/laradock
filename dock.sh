@@ -28,6 +28,11 @@ then
     docker-compose build $2
 fi
 
+if [ $1 == "rebuild" ]
+then
+    docker-compose build --no-cache $2
+fi
+
 if [ $1 == "up" ]
 then
     docker-compose up -d nginx mysql redis workspace 
