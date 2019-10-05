@@ -9,8 +9,9 @@
 - Access the docker mysql database using root/root at 127.0.0.1
 - Create the humi, admin, and humi_v1 databases
 - Update your local env files with the following keywords
-  - database host: mysql
+  - database hosts (v2, v1, testing): mysql
   - redis host: redis
+  - service api urls: nginx
 
 see ./dock.sh for other relevant commands/learning
 
