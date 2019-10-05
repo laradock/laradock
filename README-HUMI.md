@@ -13,6 +13,10 @@ Finally, setup your own environment file
 
 - cp env-example .env
 
+see https://laradock.io/documentation/ for all the environment options (including running workers, cron scheduling, etc)
+
+Now run docker
+
 - run `./dock.sh up` or `docker-compose up -d nginx mysql redis workspace `
 
 - Update your local env files with the following keywords
