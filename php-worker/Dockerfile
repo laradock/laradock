@@ -130,10 +130,6 @@ RUN if [ ${INSTALL_GMP} = true ]; then \
    && docker-php-ext-install gmp \
 ;fi
 
-
-RUN rm /var/cache/apk/* \
-    && mkdir -p /var/www
-
 # Install Redis package:
 ARG INSTALL_REDIS=false
 RUN if [ ${INSTALL_REDIS} = true ]; then \
@@ -212,5 +208,9 @@ RUN php -v | head -n 1 | grep -q "PHP ${PHP_VERSION}."
 # Final Touch
 #--------------------------------------------------------------------------
 #
+
+# Clean up
+RUN rm /var/cache/apk/* \
+    && mkdir -p /var/www
 
 WORKDIR /etc/supervisor/conf.d/
