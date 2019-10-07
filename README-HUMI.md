@@ -55,6 +55,14 @@ DB_PASSWORD=root
 REDIS_HOST=redis
 ```
 
+For the Laravel application, you must also set the following on both `.env` and `.env.testing`:
+
+```
+DB_HOST_V1=mysql
+DB_USERNAME_V1=root
+DB_PASSWORD_V1=root
+```
+
 Any `.env` files (not `.env.testing`) that reference other Humi applications need to be modified:
 
   - service api urls: use /etc/hosts aliases (local.api.humi.ca)
