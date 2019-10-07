@@ -78,7 +78,7 @@ LINUX: `PAYROLL_API_URL="http://172.17.0.1:3030/v2"`
  
     If the ip address for Linux does not work, you'll need to find the ip address for your host machine as it is known in the docker network. You can find it on your host machine using `ip addr | grep docker` (https://nickjanetakis.com/blog/docker-tip-65-get-your-docker-hosts-ip-address-from-in-a-container).
 
-### Running the Applications
+## Running the Applications
 
 You can either run all Docker commands directly, or through the `dock` shell script included with the project. The `dock` shell script makes everything much easier, but it's a good idea to see what it's doing by looking at the code.
 
@@ -103,3 +103,8 @@ ssh -o PasswordAuthentication=no    \
 ```
 
 see ./dock for other relevant commands/learning
+
+## Issues 
+
+1. How does composer update/install work now? What's the flow?
+2. On Linux, Tom has to use `sudo` for `dock up` the first time it's run. Shouldn't have to. 
