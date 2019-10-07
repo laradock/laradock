@@ -1,11 +1,37 @@
-# Humi Platform Setup
+# Humidock
 
-- Clone the humidock repo at the same level as your application repositories
+Humidock is the local hosting platform for Humi applications. Humidock is a fork of Laradock, and it uses Docker.
 
-#### These have been pre-added, but may be configured incorrectly for your setup:
+## Prerequisites
 
-- Verify the /nginx/conf files point to the correct folders /var/www/APP_FOLDER/public
-  - Add these server_name's to your /etc/hosts for 127.0.0.1
+Docker is required. [Install](https://docs.docker.com/install/)
+
+## Setting up Humidock
+
+### Directory structure
+
+Clone the Humidock repo at the same level as your application repositories.
+
+    Note: Humidock needs to live in the same directory as the applications it hosts. Ex: If the Laravel application lives in `~/code/humi/application`, then Humidock should live in `~/code/humi/dock`.
+
+### Additional Docker Configuration
+
+#### Resolving applications
+
+Humidock will mount the Humi applications in the container. Humidock uses the the application's directory name.
+
+Verify the /nginx/sites/conf files point to the correct directories using the pattern `root /var/www/APP_FOLDER/public`.
+
+Example: If your Laravel Api is in a directory called `application`, the NGINX config file at `nginx/sites/application.conf` should contain the following line: `root /var/www/application/public;`
+
+Now, set your hosts file on your host machine to redirect to the applications.
+
+`/etc/hosts`
+```
+127.0.0.1 local.api.humi.ca
+127.0.0.1 local-admin.api.humi.ca
+```
+
 - Verify mysql 8.0 support with `default_authentication_plugin=mysql_native_password` in /mysql/my.cnf
 - Verify the mysql init script in /mysql creates the required databases
 
