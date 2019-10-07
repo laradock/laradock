@@ -12,13 +12,13 @@ Docker is required. [Install](https://docs.docker.com/install/)
 
 Clone the Humidock repo at the same level as your application repositories.
 
-    Note: Humidock needs to live in the same directory as the applications it hosts. Ex: If the Laravel application lives in `~/code/humi/application`, then Humidock should live in `~/code/humi/dock`.
+    Note: Humidock needs to live in the same directory as the applications it hosts. If the Laravel application lives in `~/code/humi/application`, then Humidock should live in `~/code/humi/humidock`.
 
 ### Additional Docker Configuration
 
 #### Resolving applications
 
-Humidock will mount the Humi applications in the container. Humidock uses the the application's directory name.
+Humidock will mount the Humi applications in the container. Humidock uses the the **application's directory name**.
 
 Verify the /nginx/sites/conf files point to the correct directories using the pattern `root /var/www/APP_FOLDER/public`.
 
@@ -32,16 +32,9 @@ Now, set your hosts file on your host machine to redirect to the applications.
 127.0.0.1 local-admin.api.humi.ca
 ```
 
-#### Database setup
-
-Verify mysql 8.0 support with `default_authentication_plugin=mysql_native_password` in /mysql/my.cnf
-
-**WHERE?**
-Verify the mysql init script in /mysql creates the required databases
-
 ### Application Configuration
 
-Each application's environment files need to be modified to use Docker.
+Each application's environment files need to be modified to work with Docker.
 
 Make a `.env` file based on the sample. `cp .env.sample .env`.
 
@@ -51,8 +44,7 @@ Both the `.env` and the `.env.testing` files need to be updated to use the Docke
 
 ```
 DB_HOST=mysql
-```
-```
+
 REDIS_HOST=redis
 ```
 
@@ -60,8 +52,6 @@ Any `.env` files (not `.env.testing`) that reference other Humi applications nee
 
   - service api urls: use /etc/hosts aliases (local.api.humi.ca)
   - vagrant urls: use docker.for.mac.localhost (on mac) docker.for.win.localhost (on win) start your container and find the host ip address from inside the container, typically labeled docker0 (linux)
-
-- change the database credentials to root/root
 
 see https://laradock.io/documentation/ for all the environment options (including running workers, cron scheduling, etc)
 see https://nickjanetakis.com/blog/docker-tip-65-get-your-docker-hosts-ip-address-from-in-a-container for instructions on finding your host ip address
