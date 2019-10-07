@@ -16,6 +16,12 @@ Clone the Humidock repo at the same level as your application repositories.
 
 ### Additional Docker Configuration
 
+#### Env file
+
+Create a `.env` file in Humidock by copying the example file. 
+
+`env-example`. `cp env-example .env`
+
 #### Resolving applications
 
 Humidock will mount the Humi applications in the container. Humidock uses the the **application's directory name**.
@@ -59,7 +65,7 @@ see https://nickjanetakis.com/blog/docker-tip-65-get-your-docker-hosts-ip-addres
 
 ### Running the Applications
 
-- Optional, add the dock command to your path export `export PATH=$PATH:/Users/kevinlanglois/www/humi/humidock`
+- Optional, add the dock command to your path export `export PATH=$PATH:$HOME/code/humi/humidock`
 
 - run `dock up` or `./dock up` or `docker-compose up -d nginx mysql redis workspace`
 
