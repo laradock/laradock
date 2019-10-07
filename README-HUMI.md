@@ -1,5 +1,6 @@
 # Humi Platform Setup
 
+- install docker
 - Clone the humidock repo at the same level as your application repositories
 
 #### These have been pre-added, but may be configured incorrectly for your setup:
