@@ -13,6 +13,16 @@ then
     docker-compose exec --user=laradock workspace bash
 fi
 
+if [ $1 == "ssh" ]
+then
+    ssh -o PasswordAuthentication=no    \
+        -o StrictHostKeyChecking=no     \
+        -o UserKnownHostsFile=/dev/null \
+        -p 2222                         \
+        -i workspace/insecure_id_rsa    \
+        laradock@localhost
+fi
+
 if [ $1 == "logs" ]
 then
     docker-compose logs $2
