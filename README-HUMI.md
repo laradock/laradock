@@ -33,11 +33,11 @@ see https://nickjanetakis.com/blog/docker-tip-65-get-your-docker-hosts-ip-addres
 
 #### Accessing workspace
 
-- You can access the workspace using bash
+You can access the workspace using bash
 
 - run `dock workspace` or `./dock workspace` or `docker-compose exec --user=laradock workspace bash`
 
-- If we wish to ssh to the workspace, enable the `INSTALL_WORKSPACE_SSH` flag as per the docs
+If we wish to ssh to the workspace, enable the `INSTALL_WORKSPACE_SSH` flag as per the docs
 (https://laradock.io/documentation/#access-workspace-via-ssh)
 
 ```bash
