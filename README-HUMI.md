@@ -31,6 +31,24 @@ see https://nickjanetakis.com/blog/docker-tip-65-get-your-docker-hosts-ip-addres
 
 - run `dock up` or `./dock up` or `docker-compose up -d nginx mysql redis workspace`
 
+#### Accessing workspace
+
+- You can access the workspace using bash
+
+- run `dock workspace` or `./dock workspace` or `docker-compose exec --user=laradock workspace bash`
+
+- If we wish to ssh to the workspace, enable the `INSTALL_WORKSPACE_SSH` flag as per the docs
+(https://laradock.io/documentation/#access-workspace-via-ssh)
+
+```bash
+ssh -o PasswordAuthentication=no    \
+    -o StrictHostKeyChecking=no     \
+    -o UserKnownHostsFile=/dev/null \
+    -p 2222                         \
+    -i workspace/insecure_id_rsa    \
+    laradock@localhost
+```
+
 see ./dock for other relevant commands/learning
 
 ```bash
