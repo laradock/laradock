@@ -97,5 +97,14 @@ see ./dock for other relevant commands/learning
   ./dock build service - build container by name
 
       (docker-compose build $2)
+      
+   ./dock ssh - ssh into the workspace container
+   
+      ssh -o PasswordAuthentication=no    \
+        -o StrictHostKeyChecking=no     \
+        -o UserKnownHostsFile=/dev/null \
+        -p 2222                         \
+        -i workspace/insecure_id_rsa    \
+        laradock@localhost
 
 ```
