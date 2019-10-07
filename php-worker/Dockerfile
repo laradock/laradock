@@ -24,7 +24,7 @@ RUN apk --update add wget \
   supervisor
 
 RUN docker-php-ext-install mysqli mbstring pdo pdo_mysql tokenizer xml pcntl
-RUN pecl channel-update pecl.php.net && pecl install memcached mcrypt-1.0.1 && docker-php-ext-enable memcached
+RUN pecl channel-update pecl.php.net && pecl install memcached mcrypt-1.0.1 mongodb && docker-php-ext-enable memcached mongodb
 
 # Add a non-root user:
 ARG PUID=1000
@@ -85,6 +85,26 @@ RUN if [ ${INSTALL_AMQP} = true ]; then \
     docker-php-ext-install sockets \
 ;fi
 
+# Install Cassandra drivers:
+ARG INSTALL_CASSANDRA=false
+RUN if [ ${INSTALL_CASSANDRA} = true ]; then \
+  apk --update add cassandra-cpp-driver \
+  ;fi
+
+WORKDIR /usr/src
+RUN if [ ${INSTALL_CASSANDRA} = true ]; then \
+  git clone https://github.com/datastax/php-driver.git \
+  && cd php-driver/ext \
+  && phpize \
+  && mkdir -p /usr/src/php-driver/build \
+  && cd /usr/src/php-driver/build \
+  && ../ext/configure --with-php-config=/usr/bin/php-config7.1 > /dev/null \
+  && make clean >/dev/null \
+  && make >/dev/null 2>&1 \
+  && make install \
+  && docker-php-ext-enable cassandra \
+;fi
+
 # Install Phalcon ext
 ARG INSTALL_PHALCON=false
 ARG PHALCON_VERSION
@@ -110,10 +130,14 @@ RUN if [ ${INSTALL_GMP} = true ]; then \
    && docker-php-ext-install gmp \
 ;fi
 
-
-RUN rm /var/cache/apk/* \
-    && mkdir -p /var/www
-
+# Install Redis package:
+ARG INSTALL_REDIS=false
+RUN if [ ${INSTALL_REDIS} = true ]; then \
+    # Install Redis Extension
+    printf "\n" | pecl install -o -f redis \
+    &&  rm -rf /tmp/pear \
+    &&  docker-php-ext-enable redis \
+;fi
 
 ###########################################################################
 # Swoole EXTENSION
@@ -184,5 +208,9 @@ RUN php -v | head -n 1 | grep -q "PHP ${PHP_VERSION}."
 # Final Touch
 #--------------------------------------------------------------------------
 #
+
+# Clean up
+RUN rm /var/cache/apk/* \
+    && mkdir -p /var/www
 
 WORKDIR /etc/supervisor/conf.d/
