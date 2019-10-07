@@ -44,7 +44,8 @@ Both the `.env` and the `.env.testing` files need to be updated to use the Docke
 
 ```
 DB_HOST=mysql
-
+DB_USERNAME=root
+DB_PASSWORD=root
 REDIS_HOST=redis
 ```
 
