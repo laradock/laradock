@@ -11,3 +11,20 @@
     height: 70px;
     padding: 25px;
 }
+.palette-primary-deep-purple .article h1{
+    color: #7e57c2;
+    font-size: 35px;
+}
+.palette-primary-deep-purple .article h2{
+
+    color: #ce2046;
+    font-size: 25px;
+}
+.palette-primary-deep-purple .article h3{
+    color: #851d54;
+    font-size: 18px;
+}
+.palette-primary-deep-purple .article code{
+    color: #851d54;
+    background: #eeeeeea8;
+}
