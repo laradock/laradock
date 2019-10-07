@@ -364,21 +364,10 @@ ARG INSTALL_MEMCACHED=false
 RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
     # Install the php memcached extension
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-      curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/2.2.0.tar.gz"; \
+      pecl install memcached-2.2.0
     else \
-      curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/master.tar.gz"; \
-    fi \
-    && mkdir -p memcached \
-    && tar -C memcached -zxvf /tmp/memcached.tar.gz --strip 1 \
-    && ( \
-        cd memcached \
-        && phpize \
-        && ./configure \
-        && make -j$(nproc) \
-        && make install \
-    ) \
-    && rm -r memcached \
-    && rm /tmp/memcached.tar.gz \
+      pecl install memcached-3.1.3
+    fi
     && docker-php-ext-enable memcached \
 ;fi
 
