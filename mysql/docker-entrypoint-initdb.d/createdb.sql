@@ -19,13 +19,13 @@
 CREATE DATABASE IF NOT EXISTS `humi` COLLATE 'utf8mb4_general_ci' ;
 GRANT ALL ON `humi`.* TO 'root'@'%' ;
 
-#CREATE DATABASE IF NOT EXISTS `admin` COLLATE 'utf8mb4_general_ci' ;
-#GRANT ALL ON `admin`.* TO 'root'@'%' ;
+CREATE DATABASE IF NOT EXISTS `admin` COLLATE 'utf8mb4_general_ci' ;
+GRANT ALL ON `admin`.* TO 'root'@'%' ;
 
-#CREATE DATABASE IF NOT EXISTS `humi_test` COLLATE 'utf8mb4_general_ci' ;
-#GRANT ALL ON `humi_test`.* TO 'root'@'%' ;
+CREATE DATABASE IF NOT EXISTS `humi_test` COLLATE 'utf8mb4_general_ci' ;
+GRANT ALL ON `humi_test`.* TO 'root'@'%' ;
 
-#CREATE DATABASE IF NOT EXISTS `humi_v1` COLLATE 'utf8mb4_general_ci' ;
-#GRANT ALL ON `humi_v1`.* TO 'root'@'%' ;
+CREATE DATABASE IF NOT EXISTS `humi_v1` COLLATE 'utf8mb4_general_ci' ;
+GRANT ALL ON `humi_v1`.* TO 'root'@'%' ;
 
 FLUSH PRIVILEGES ;
