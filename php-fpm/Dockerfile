@@ -367,7 +367,7 @@ RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
       pecl install memcached-2.2.0; \
     else \
       pecl install memcached-3.1.3; \
-    fi
+    fi \
     && docker-php-ext-enable memcached \
 ;fi
 
