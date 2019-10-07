@@ -134,6 +134,14 @@ RUN if [ ${INSTALL_GMP} = true ]; then \
 RUN rm /var/cache/apk/* \
     && mkdir -p /var/www
 
+# Install Redis package:
+ARG INSTALL_REDIS=false
+RUN if [ ${INSTALL_REDIS} = true ]; then \
+    # Install Redis Extension
+    printf "\n" | pecl install -o -f redis \
+    &&  rm -rf /tmp/pear \
+    &&  docker-php-ext-enable redis \
+;fi
 
 ###########################################################################
 # Swoole EXTENSION
