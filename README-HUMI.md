@@ -17,11 +17,13 @@
 
   - database hosts: mysql
   - redis host: redis
-  - service api urls: use /etc/hosts aliases (local.api.humi.ca) or old vagrant IP
+  - service api urls: use /etc/hosts aliases (local.api.humi.ca)
+  - vagrant urls: use docker.for.mac.localhost (on mac) docker.for.win.localhost (on win) start your container and find the host ip address from inside the container, typically labeled docker0 (linux)
 
 - change the database credentials to root/root
 
 see https://laradock.io/documentation/ for all the environment options (including running workers, cron scheduling, etc)
+see https://nickjanetakis.com/blog/docker-tip-65-get-your-docker-hosts-ip-address-from-in-a-container for instructions on finding your host ip address
 
 #### Now run docker
 
