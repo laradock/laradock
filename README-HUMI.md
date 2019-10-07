@@ -40,11 +40,11 @@ Now, set your hosts file on your host machine to redirect to the applications.
 
 ### Application Configuration
 
-Each application's environment files need to be modified to work with Docker.
+The Laravel API and Humi Hideaway environment files need to be modified to work with Docker.
 
-Make a `.env` file based on the sample. `cp .env.sample .env`.
+In both the Laravel API and Hideaway, make a `.env` file based on the sample. `cp .env.sample .env`.
 
-Make a `.env.testing` file based on the sample. `cp .env.testing.sample .env.testing`.
+In the Laravel API, make a `.env.testing` file based on the sample. `cp .env.testing.sample .env.testing`.
 
 Both the `.env` and the `.env.testing` files need to be updated to use the Docker supplied database and redis. Update both files so that they contain these lines:
 
@@ -65,11 +65,18 @@ DB_PASSWORD_V1=root
 
 Any `.env` files (not `.env.testing`) that reference other Humi applications need to be modified:
 
-  - service api urls: use /etc/hosts aliases (local.api.humi.ca)
-  - vagrant urls: use docker.for.mac.localhost (on mac) docker.for.win.localhost (on win) start your container and find the host ip address from inside the container, typically labeled docker0 (linux)
+TODO:  - service api urls: use /etc/hosts aliases (local.api.humi.ca)
 
-see https://laradock.io/documentation/ for all the environment options (including running workers, cron scheduling, etc)
-see https://nickjanetakis.com/blog/docker-tip-65-get-your-docker-hosts-ip-address-from-in-a-container for instructions on finding your host ip address
+#### Setting Up Payroll
+Humi Payroll is still on Vagrant, so you cannot connect to it as a Docker Service.
+
+MAC: `PAYROLL_API_URL=docker.for.mac.localhost`
+
+WIN: `PAYROLL_API_URL=docker.for.win.localhost`
+
+LINUX: `PAYROLL_API_URL="http://172.17.0.1:3030/v2"` 
+ 
+    If the ip address for Linux does not work, you'll need to find the ip address for your host machine as it is known in the docker network. You can find it on your host machine using `ip addr | grep docker` (https://nickjanetakis.com/blog/docker-tip-65-get-your-docker-hosts-ip-address-from-in-a-container).
 
 ### Running the Applications
 
