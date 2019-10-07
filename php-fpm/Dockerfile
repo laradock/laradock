@@ -320,6 +320,30 @@ RUN if [ ${INSTALL_AMQP} = true ]; then \
 ;fi
 
 ###########################################################################
+# GEARMAN:
+###########################################################################
+
+ARG INSTALL_GEARMAN=false
+
+RUN if [ ${INSTALL_GEARMAN} = true ]; then \
+    apt-get update && \
+    apt-get -y install libgearman-dev && \
+    cd /tmp && \
+    curl -L https://github.com/wcgallego/pecl-gearman/archive/gearman-2.0.5.zip -O && \
+    unzip gearman-2.0.5.zip && \
+    mv pecl-gearman-gearman-2.0.5 pecl-gearman && \
+    cd /tmp/pecl-gearman && \
+    phpize && \
+    ./configure && \
+    make -j$(nproc) && \
+    make install && \
+    cd / && \
+    rm /tmp/gearman-2.0.5.zip && \
+    rm -r /tmp/pecl-gearman && \
+    docker-php-ext-enable gearman \
+;fi
+
+###########################################################################
 # pcntl
 ###########################################################################
 
