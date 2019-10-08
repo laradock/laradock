@@ -40,11 +40,11 @@ Now, set your hosts file on your host machine to redirect to the applications.
 
 ### Application Configuration
 
-Each application's environment files need to be modified to work with Docker.
+The Laravel API and Humi Hideaway environment files need to be modified to work with Docker.
 
-Make a `.env` file based on the sample. `cp .env.sample .env`.
+In both the Laravel API and Hideaway, make a `.env` file based on the sample. `cp .env.sample .env`.
 
-Make a `.env.testing` file based on the sample. `cp .env.testing.sample .env.testing`.
+In the Laravel API, make a `.env.testing` file based on the sample. `cp .env.testing.sample .env.testing`.
 
 Both the `.env` and the `.env.testing` files need to be updated to use the Docker supplied database and redis. Update both files so that they contain these lines:
 
@@ -55,25 +55,40 @@ DB_PASSWORD=root
 REDIS_HOST=redis
 ```
 
+For the Laravel application, you must also set the following on both `.env` and `.env.testing`:
+
+```
+DB_HOST_V1=mysql
+DB_USERNAME_V1=root
+DB_PASSWORD_V1=root
+```
+
 Any `.env` files (not `.env.testing`) that reference other Humi applications need to be modified:
 
-  - service api urls: use /etc/hosts aliases (local.api.humi.ca)
-  - vagrant urls: use docker.for.mac.localhost (on mac) docker.for.win.localhost (on win) start your container and find the host ip address from inside the container, typically labeled docker0 (linux)
+TODO:  - service api urls: use /etc/hosts aliases (local.api.humi.ca)
 
-see https://laradock.io/documentation/ for all the environment options (including running workers, cron scheduling, etc)
-see https://nickjanetakis.com/blog/docker-tip-65-get-your-docker-hosts-ip-address-from-in-a-container for instructions on finding your host ip address
+#### Setting Up Payroll
+Humi Payroll is still on Vagrant, so you cannot connect to it as a Docker Service.
 
-### Running the Applications
+MAC: `PAYROLL_API_URL=docker.for.mac.localhost`
 
-- Optional, add the dock command to your path export `export PATH=$PATH:$HOME/code/humi/humidock`
+WIN: `PAYROLL_API_URL=docker.for.win.localhost`
 
-- run `dock up` or `./dock up` or `docker-compose up -d nginx mysql redis workspace`
+LINUX: `PAYROLL_API_URL="http://172.17.0.1:3030/v2"` 
+ 
+    If the ip address for Linux does not work, you'll need to find the ip address for your host machine as it is known in the docker network. You can find it on your host machine using `ip addr | grep docker` (https://nickjanetakis.com/blog/docker-tip-65-get-your-docker-hosts-ip-address-from-in-a-container).
+
+## Running the Applications
+
+You can either run all Docker commands directly, or through the `dock` shell script included with the project. The `dock` shell script makes everything much easier, but it's a good idea to see what it's doing by looking at the code.
+
+You can create a shell alias to the command. `alias dock=$HOME/code/humi/humidock/dock`
+
+To start Humidock (and all applications it hosts), run `dock up` which calls (`docker-compose up -d nginx mysql redis workspace`)
 
 ### Accessing workspace
 
-You can access the workspace using bash
-
-- run `dock workspace` or `./dock workspace` or `docker-compose exec --user=laradock workspace bash`
+To access the workspace using bash, run `dock workspace` or `docker-compose exec --user=laradock workspace bash`
 
 If we wish to ssh to the workspace, enable the `INSTALL_WORKSPACE_SSH` flag as per the docs
 (https://laradock.io/documentation/#access-workspace-via-ssh)
@@ -89,34 +104,7 @@ ssh -o PasswordAuthentication=no    \
 
 see ./dock for other relevant commands/learning
 
-```bash
-  ./dock workspace - exec bash into workspace
+## Issues 
 
-      (docker-compose exec --user=laradock workspace bash)
-
-  ./dock up - start all containers
-
-      (docker-compose up -d nginx mysql redis workspace )
-
-  ./dock down - stop all containers
-
-      (docker-compose stop, docker stop $(docker ps -aq), docker rm $(docker ps -aq))
-
-  ./dock kill - destroy all containers
-
-      (docker system prune -a)
-
-  ./dock build service - build container by name
-
-      (docker-compose build $2)
-
-   ./dock ssh - ssh into the workspace container
-
-      ssh -o PasswordAuthentication=no    \
-        -o StrictHostKeyChecking=no     \
-        -o UserKnownHostsFile=/dev/null \
-        -p 2222                         \
-        -i workspace/insecure_id_rsa    \
-        laradock@localhost
-
-```
+1. How does composer update/install work now? What's the flow?
+2. On Linux, Tom has to use `sudo` for `dock up` the first time it's run. Shouldn't have to. 

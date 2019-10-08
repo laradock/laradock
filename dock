@@ -57,5 +57,8 @@ fi
 
 if [ $1 == "kill" ]
 then
+    docker-compose stop
+    docker stop $(docker ps -aq)
+    docker rm $(docker ps -aq)
     docker system prune -a
 fi
