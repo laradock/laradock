@@ -708,7 +708,7 @@ ARG INSTALL_MYSQL_CLIENT=false
 
 RUN if [ ${INSTALL_MYSQL_CLIENT} = true ]; then \
     apt-get update -yqq && \
-    apt-get -y install mysql-client \
+    apt-get -y install default-mysql-client \
 ;fi
 
 ###########################################################################
