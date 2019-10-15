@@ -66,7 +66,11 @@ RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
 # Install MySQL Client:
 ARG INSTALL_MYSQL_CLIENT=false
 RUN if [ ${INSTALL_MYSQL_CLIENT} = true ]; then \
-    apk --update add mysql-client \
+    if [ ${PHP_VERSION} = "7.3" ]; then \
+      apk --update add default-mysql-client \
+    ;else \
+      apk --update add mysql-client \
+    ;fi \
 ;fi
 
 # Install FFMPEG:
