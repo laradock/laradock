@@ -52,6 +52,7 @@ services:
 
 ### Workspace Utilities ##################################
     workspace:
+      image: workspace:${PHP_VERSION}
       build:
         context: ./workspace
         args:
@@ -144,6 +145,7 @@ services:
 
 ### PHP-FPM ##############################################
     php-fpm:
+      image: php-fpm:${PHP_VERSION}
       build:
         context: ./php-fpm
         args:
@@ -219,6 +221,7 @@ services:
 
 ### PHP Worker ############################################
     php-worker:
+      image: php-worker:${PHP_VERSION}
       build:
         context: ./php-worker
         args:
@@ -360,6 +363,7 @@ services:
 
 ### MySQL ################################################
     mysql:
+      image: mysql:${MYSQL_VERSION}
       build:
         context: ./mysql
         args:
@@ -412,6 +416,7 @@ services:
 
 ### MariaDB ##############################################
     mariadb:
+      image: mariadb:${MARIADB_VERSION}
       build:
         context: ./mariadb
         args:
