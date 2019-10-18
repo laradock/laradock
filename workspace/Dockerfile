@@ -1121,6 +1121,19 @@ RUN if [ ${INSTALL_GNU_PARALLEL} = true ]; then \
   apt-get -y install parallel \
 ;fi
 
+###########################################################################
+# GraphViz:
+###########################################################################
+
+USER root
+
+ARG INSTALL_GRAPHVIZ=false
+
+RUN if [ ${INSTALL_GRAPHVIZ} = true ]; then \
+  # Install GraphViz
+  apt-get -y install graphviz  \
+;fi
+
 
 ###########################################################################
 # Check PHP version:
