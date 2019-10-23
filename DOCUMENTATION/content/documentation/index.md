@@ -1,5 +1,5 @@
 ---
-title: Documentation
+title: 3. Documentation
 type: index
 weight: 3
 ---
@@ -250,7 +250,6 @@ docker-compose build php-fpm
 <br>
 <a name="Change-the-PHP-CLI-Version"></a>
 ## Change the PHP-CLI Version
-By default **PHP-CLI 7.0** is running.
 
 >Note: it's not very essential to edit the PHP-CLI version. The PHP-CLI is only used for the Artisan Commands & Composer. It doesn't serve your Application code, this is the PHP-FPM job.
 
@@ -297,6 +296,24 @@ e) set it to `true`
 
 For information on how to configure xDebug with your IDE and work it out, check this [Repository](https://github.com/LarryEitel/laravel-laradock-phpstorm) or follow up on the next section if you use linux and PhpStorm.
 
+
+
+<br>
+<a name="Control-xDebug"></a>
+## Start/Stop xDebug:
+
+By installing xDebug, you are enabling it to run on startup by default.
+
+To control the behavior of xDebug (in the `php-fpm` Container), you can run the following commands from the Laradock root folder, (at the same prompt where you run docker-compose):
+
+- Stop xDebug from running by default: `.php-fpm/xdebug stop`.
+- Start xDebug by default: `.php-fpm/xdebug start`.
+- See the status: `.php-fpm/xdebug status`.
+
+Note: If `.php-fpm/xdebug` doesn't execute and gives `Permission Denied` error the problem can be that file `xdebug` doesn't have execution access. This can be fixed by running `chmod` command  with desired access permissions.
+
+
+
 <br>
 <a name="Install-phpdbg"></a>
 ## Install phpdbg
@@ -318,37 +335,6 @@ WORKSPACE_INSTALL_PHPDBG=true
 ```dotenv
 PHP_FPM_INSTALL_PHPDBG=true
 ```
-
-
-<a name="Setup remote debugging for PhpStorm on Linux"></a>
-## Setup remote debugging for PhpStorm on Linux
-
- - Make sure you have followed the steps above in the [Install Xdebug section](#install-xdebug).
-
- - Make sure Xdebug accepts connections and listens on port 9000. (Should be default configuration).
-
-![Debug Configuration](/images/photos/PHPStorm/linux/configuration/debugConfiguration.png "Debug Configuration").
-
- - Create a server with name `laradock` (matches **PHP_IDE_CONFIG** key in environment file) and make sure to map project root path with server correctly.
-
-![Server Configuration](/images/photos/PHPStorm/linux/configuration/serverConfiguration.png "Server Configuration").
-
- - Start listening for debug connections, place a breakpoint and you are good to go !
-
-
-<br>
-<a name="Control-xDebug"></a>
-## Start/Stop xDebug:
-
-By installing xDebug, you are enabling it to run on startup by default.
-
-To control the behavior of xDebug (in the `php-fpm` Container), you can run the following commands from the Laradock root folder, (at the same prompt where you run docker-compose):
-
-- Stop xDebug from running by default: `.php-fpm/xdebug stop`.
-- Start xDebug by default: `.php-fpm/xdebug start`.
-- See the status: `.php-fpm/xdebug status`.
-
-Note: If `.php-fpm/xdebug` doesn't execute and gives `Permission Denied` error the problem can be that file `xdebug` doesn't have execution access. This can be fixed by running `chmod` command  with desired access permissions.
 
 
 
@@ -394,6 +380,37 @@ Always download the latest version of [Loaders for ionCube ](http://www.ioncube.
 
 
 
+<br>
+<a name="Install-SonarQube"></a>
+
+## Install SonarQube (automatic code review tool)
+SonarQube® is an automatic code review tool to detect bugs, vulnerabilities and code smells in your code. It can integrate with your existing workflow to enable continuous code inspection across your project branches and pull requests.
+<br>
+1 - Open the `.env` file
+<br>
+2 - Search for the `SONARQUBE_HOSTNAME=sonar.example.com` argument
+<br>
+3 - Set it to your-domain `sonar.example.com`
+<br>
+4 - `docker-compose up -d sonarqube`
+<br>
+5 - Open your browser: http://localhost:9000/
+
+Troubleshooting:
+
+if you encounter a database error:
+```
+docker-compose exec --user=root postgres
+source docker-entrypoint-initdb.d/init_sonarqube_db.sh
+```
+
+If you encounter logs error:
+```
+docker-compose run --user=root --rm sonarqube chown sonarqube:sonarqube /opt/sonarqube/logs
+```
+[**SonarQube Documentation Here**](https://docs.sonarqube.org/latest/)
+
+
 
 
 
@@ -409,7 +426,9 @@ Always download the latest version of [Loaders for ionCube ](http://www.ioncube.
 <a name="Laradock-for-Production"></a>
 ## Prepare Laradock for Production
 
-It's recommended for production to create a custom `docker-compose.yml` file. For that reason, Laradock is shipped with `production-docker-compose.yml` which should contain only the containers you are planning to run on production (usage example: `docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...`).
+It's recommended for production to create a custom `docker-compose.yml` file, for example `production-docker-compose.yml`
+
+In your new production `docker-compose.yml` file you should contain only the containers you are planning to run in production (usage example: `docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...`).
 
 Note: The Database (MySQL/MariaDB/...) ports should not be forwarded on production, because Docker will automatically publish the port on the host, which is quite insecure, unless specifically told not to. So make sure to remove these lines:
 
@@ -631,12 +650,12 @@ docker-compose up -d metabase
 
 1) Boot the container `docker-compose up -d jenkins`. To enter the container type `docker-compose exec jenkins bash`.
 
-2) Go to `http://localhost:8090/` (if you didn't chanhed your default port mapping) 
+2) Go to `http://localhost:8090/` (if you didn't chanhed your default port mapping)
 
 3) Authenticate from the web app.
 
 - Default username is `admin`.
-- Default password is `docker-compose exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword`. 
+- Default password is `docker-compose exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword`.
 
 (To enter container as root type `docker-compose exec --user root jenkins bash`).
 
@@ -701,6 +720,44 @@ composer require predis/predis:^1.0
 
 ```php
 \Cache::store('redis')->put('Laradock', 'Awesome', 10);
+```
+
+
+
+
+
+
+<br>
+<a name="Use-Redis-Cluster"></a>
+## Use Redis Cluster
+
+1 - First make sure you run the Redis-Cluster Container (`redis-cluster`) with the `docker-compose up` command.
+
+```bash
+docker-compose up -d redis-cluster
+```
+
+2 - Open your Laravel's `config/database.php` and set the redis cluster configuration. Below is example configuration with phpredis.
+
+Read the [Laravel official documentation](https://laravel.com/docs/5.7/redis#configuration) for more details.
+
+```php
+'redis' => [
+    'client' => 'phpredis',
+    'options' => [
+        'cluster' => 'redis',
+    ],
+    'clusters' => [
+        'default' => [
+            [
+                'host' => 'redis-cluster',
+                'password' => null,
+                'port' => 7000,
+                'database' => 0,
+            ],
+        ],
+    ],
+],
 ```
 
 
@@ -825,6 +882,67 @@ docker-compose up -d gitlab
 
 
 <br>
+<a name="Use-Gitlab-Runner"></a>
+## Use Gitlab Runner
+
+1 - Retrieve the registration token in your gitlab project (Settings > CI / CD > Runners > Set up a specific Runner manually)
+
+2 - Open the `.env` file and set the following changes:
+```
+# so that gitlab container will pass the correct domain to gitlab-runner container
+GITLAB_DOMAIN_NAME=http://gitlab
+
+GITLAB_RUNNER_REGISTRATION_TOKEN=<value-in-step-1>
+
+# so that gitlab-runner container will send POST request for registration to correct domain
+GITLAB_CI_SERVER_URL=http://gitlab
+```
+
+3 - Open the `docker-compose.yml` file and add the following changes:
+```yml
+    gitlab-runner:
+      environment: # these values will be used during `gitlab-runner register`
+        - RUNNER_EXECUTOR=docker # change from shell (default)
+        - DOCKER_IMAGE=alpine
+        - DOCKER_NETWORK_MODE=laradock_backend
+      networks:
+        - backend # connect to network where gitlab service is connected
+```
+
+4 - Run the Gitlab-Runner Container (`gitlab-runner`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d gitlab-runner
+```
+
+5 - Register the gitlab-runner to the gitlab container
+
+```bash
+docker-compose exec gitlab-runner bash
+gitlab-runner register
+```
+
+6 - Create a `.gitlab-ci.yml` file for your pipeline
+
+```yml
+before_script:
+  - echo Hello!
+
+job1:
+  scripts:
+    - echo job1
+```
+
+7 - Push changes to gitlab
+
+8 - Verify that pipeline is run successful
+
+
+
+
+
+
+<br>
 <a name="Use-Adminer"></a>
 ## Use Adminer
 
@@ -924,8 +1042,21 @@ _Note: You can customize the port on which beanstalkd console is listening by ch
 
 
 
+<br>
+<a name="Use-Confluence"></a>
+## Use Confluence
 
+1 - Run the Confluence Container (`confluence`) with the `docker-compose up` command. Example:
 
+```bash
+docker-compose up -d confluence
+```
+
+2 - Open your browser and visit the localhost on port **8090**:  `http://localhost:8090`
+
+**Note:** You can you trial version and then you have to buy a licence to use it.
+
+You can set custom confluence version in `CONFLUENCE_VERSION`. [Find more info in section 'Versioning'](https://hub.docker.com/r/atlassian/confluence-server/)
 
 <br>
 <a name="Use-ElasticSearch"></a>
@@ -1018,8 +1149,9 @@ docker-compose up -d rethinkdb
 - set the `DB_DATABASE` to `database`.
 
 
+#### Additional Notes
 
-
+- You may do backing up of your data using the next reference: [backing up your data](https://www.rethinkdb.com/docs/backup/).
 
 
 <br>
@@ -1122,6 +1254,117 @@ docker-compose up -d grafana
 
 
 <br>
+<a name="Use-Graylog"></a>
+## Use Graylog
+
+1 - Boot the container `docker-compose up -d graylog`
+
+2 - Open your Laravel's `.env` file and set the `GRAYLOG_PASSWORD` to some passsword, and `GRAYLOG_SHA256_PASSWORD` to the sha256 representation of your password (`GRAYLOG_SHA256_PASSWORD` is what matters, `GRAYLOG_PASSWORD` is just a reminder of your password).
+
+> Your password must be at least 16 characters long
+> You can generate sha256 of some password with the following command `echo -n somesupersecretpassword | sha256sum`
+
+```env
+GRAYLOG_PASSWORD=somesupersecretpassword
+GRAYLOG_SHA256_PASSWORD=b1cb6e31e172577918c9e7806c572b5ed8477d3f57aa737bee4b5b1db3696f09
+```
+
+3 - Go to `http://localhost:9000/` (if your port is not changed)
+
+4 - Authenticate from the app.
+
+> Username: admin
+> Password: somesupersecretpassword (if you haven't changed the password)
+
+5 - Go to the system->inputs and launch new input
+
+
+
+
+
+
+<br>
+<a name="Use-Traefik"></a>
+## Use Traefik
+
+To use Traefik you need to do some changes in `traefik/trafik.toml` and `docker-compose.yml`.
+
+1 - Open `traefik.toml` and change the `e-mail` property in `acme` section.
+
+2 - Change your domain in `acme.domains`. For example: `main = "example.org"`
+
+2.1 - If you have subdomains, you must add them to `sans` property in `acme.domains` section.
+
+```bash
+[[acme.domais]]
+  main = "example.org"
+  sans = ["monitor.example.org", "pma.example.org"]
+```
+
+3 - If you need to add basic authentication (https://docs.traefik.io/configuration/entrypoints/#basic-authentication), you just need to add the following text after `[entryPoints.https.tls]`:
+
+```bash
+[entryPoints.https.auth.basic]
+  users = ["user:password"]
+```
+
+4 - You need to change the `docker-compose.yml` file to match the Traefik needs. If you want to use Traefik, you must not expose the ports of each container to the internet, but specify some labels.
+
+4.1 For example, let's try with NGINX. You must have:
+
+```bash
+nginx:
+  build:
+    context: ./nginx
+    args:
+      - PHP_UPSTREAM_CONTAINER=${NGINX_PHP_UPSTREAM_CONTAINER}
+      - PHP_UPSTREAM_PORT=${NGINX_PHP_UPSTREAM_PORT}
+      - CHANGE_SOURCE=${CHANGE_SOURCE}
+  volumes:
+    - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+    - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
+    - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
+  depends_on:
+    - php-fpm
+  networks:
+    - frontend
+    - backend
+  labels:
+    - traefik.backend=nginx
+    - traefik.frontend.rule=Host:example.org
+    - traefik.port=80
+```
+
+instead of
+
+```bash
+nginx:
+  build:
+    context: ./nginx
+    args:
+      - PHP_UPSTREAM_CONTAINER=${NGINX_PHP_UPSTREAM_CONTAINER}
+      - PHP_UPSTREAM_PORT=${NGINX_PHP_UPSTREAM_PORT}
+      - CHANGE_SOURCE=${CHANGE_SOURCE}
+  volumes:
+    - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+    - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
+    - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
+    - ${NGINX_SSL_PATH}:/etc/nginx/ssl
+  ports:
+    - "${NGINX_HOST_HTTP_PORT}:80"
+    - "${NGINX_HOST_HTTPS_PORT}:443"
+  depends_on:
+    - php-fpm
+  networks:
+    - frontend
+    - backend
+```
+
+
+
+
+
+<br>
 <a name="Use-Mosquitto"></a>
 ## Use Mosquitto (MQTT Broker)
 
@@ -1138,7 +1381,6 @@ docker-compose up -d mosquitto
 4 - Subscribe: `mqtt sub -t 'test' -h localhost -p 9001 -C 'ws' -v`
 
 5 - Publish: `mqtt pub -t 'test' -h localhost -p 9001 -C 'ws' -m 'Hello!'`
-
 
 
 
@@ -1164,6 +1406,21 @@ To install CodeIgniter 3 on Laradock all you have to do is the following simple 
 2 - Change `CODEIGNITER=false` to `CODEIGNITER=true`.
 
 3 - Re-build your PHP-FPM Container `docker-compose build php-fpm`.
+
+
+
+
+
+
+<br>
+<a name="Install-Powerline"></a>
+## Install Powerline
+
+1 - Open the `.env` file and set `WORKSPACE_INSTALL_POWERLINE` and `WORKSPACE_INSTALL_PYTHON` to `true`.
+
+2 - Run `docker-compose build workspace`, after the step above.
+
+Powerline is required python
 
 
 
@@ -1219,6 +1476,19 @@ We also recommend [setting the timezone in Laravel](http://www.camroncade.com/ma
 
 
 
+<br>
+<a name="Add locales to PHP-FPM"></a>
+## Add locales to PHP-FPM
+
+To add locales to the container:
+
+1 - Open the `.env` file and set `PHP_FPM_INSTALL_ADDITIONAL_LOCALES` to `true`.
+
+2 - Add locale codes to `PHP_FPM_ADDITIONAL_LOCALES`.
+
+3 - Re-build your PHP-FPM Container `docker-compose build php-fpm`.
+
+4 - Check enabled locales with `docker-compose exec php-fpm locale -a`
 
 
 
@@ -1291,22 +1561,6 @@ MYSQL_VERSION=5.7
 ```
 
 Available versions are: 5.5, 5.6, 5.7, 8.0, or latest.  See https://store.docker.com/images/mysql for more information.
-
-
-
-
-
-
-<br>
-<a name="MySQL-access-from-host"></a>
-## MySQL access from host
-
-You can forward the MySQL/MariaDB port to your host by making sure these lines are added to the `mysql` or `mariadb` section of the `docker-compose.yml` or in your [environment specific Compose](https://docs.docker.com/compose/extends/) file.
-
-```
-ports:
-    - "3306:3306"
-```
 
 
 
@@ -1403,6 +1657,23 @@ Enabling Global Composer Install during the build for the container allows you t
 2 - Search for the `WORKSPACE_COMPOSER_GLOBAL_INSTALL` argument under the Workspace Container and set it to `true`
 
 3 - Now add your dependencies to `workspace/composer.json`
+
+4 - Re-build the Workspace Container `docker-compose build workspace`
+
+
+
+
+
+
+<br>
+<a name="Magento-2-authentication-credentials"></a>
+## Add authentication credential for Magento 2
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_COMPOSER_AUTH` argument under the Workspace Container and set it to `true`
+
+3 - Now add your credentials to `workspace/auth.json`
 
 4 - Re-build the Workspace Container `docker-compose build workspace`
 
@@ -1519,6 +1790,22 @@ To install NPM VUE CLI in the Workspace container
 
 
 
+<br>
+<a name="Install-NPM-ANGULAR-CLI"></a>
+## Install NPM ANGULAR CLI
+
+To install NPM ANGULAR CLI in the Workspace container
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_NPM_ANGULAR_CLI` argument under the Workspace Container and set it to `true`
+
+3 - Re-build the container `docker-compose build workspace`
+
+
+
+
+
 
 <br>
 <a name="Install-Linuxbrew"></a>
@@ -1529,6 +1816,47 @@ Linuxbrew is a package manager for Linux. It is the Linux version of MacOS Homeb
 1 - Open the `.env` file
 
 2 - Search for the `WORKSPACE_INSTALL_LINUXBREW` argument under the Workspace Container and set it to `true`
+
+3 - Re-build the container `docker-compose build workspace`
+
+
+
+
+
+<br>
+<a name="Install-FFMPEG"></a>
+## Install FFMPEG
+
+To install FFMPEG in the Workspace container
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_FFMPEG` argument under the Workspace Container and set it to `true`
+
+3 - Re-build the container `docker-compose build workspace`
+
+4 - If you use the `php-worker` container too, please follow the same steps above especially if you have conversions that have been queued.
+
+**PS** Don't forget to install the binary in the `php-fpm` container too by applying the same steps above to its container, otherwise the you'll get an error when running the `php-ffmpeg` binary.
+
+
+
+
+
+
+<br>
+<a name="Install-GNU-Parallel"></a>
+## Install GNU Parallel
+
+GNU Parallel is a command line tool to run multiple processes in parallel.
+
+(see https://www.gnu.org/software/parallel/parallel_tutorial.html)
+
+To install GNU Parallel in the Workspace container
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_GNU_PARALLEL` argument under the Workspace Container and set it to `true`
 
 3 - Re-build the container `docker-compose build workspace`
 
@@ -1671,22 +1999,6 @@ Remote debug Laravel web and phpunit tests.
 
 
 
-<br>
-<a name="upgrading-laradock"></a>
-## Upgrading Laradock
-
-Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requires upgrading Laradock from v3.* to v4.*:
-
-1. Stop the docker VM `docker-machine stop {default}`
-2. Install Docker for [Mac](https://docs.docker.com/docker-for-mac/) or [Windows](https://docs.docker.com/docker-for-windows/).
-3. Upgrade Laradock to `v4.*.*` (`git pull origin master`)
-4. Use Laradock as you used to do: `docker-compose up -d nginx mysql`.
-
-**Note:** If you face any problem with the last step above: rebuild all your containers
-`docker-compose build --no-cache`
-"Warning Containers Data might be lost!"
-
-
 
 
 
@@ -1751,7 +2063,7 @@ Laradock comes with `sync.sh`, an optional bash script, that automates installin
 DOCKER_SYNC_STRATEGY=native_osx
 ```
 
-3) set `APP_CODE_PATH_CONTAINER=/var/www` to `APP_CODE_PATH_CONTAINER=/var/www:nocopy` in the .env file
+3) set `APP_CODE_CONTAINER_FLAG` to `APP_CODE_CONTAINER_FLAG=:nocopy` in the .env file
 
 4) Install the docker-sync gem on the host-machine:
 ```bash
@@ -1854,126 +2166,17 @@ docker-compose up ...
 
 
 
-
-
-
 <br>
-<a name="Common-Problems"></a>
-## Common Problems
+<a name="upgrade-laradock"></a>
+## Upgrade Laradock
 
-*Here's a list of the common problems you might face, and the possible solutions.*
+Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requires upgrading Laradock from v3.* to v4.*:
 
+1. Stop the docker VM `docker-machine stop {default}`
+2. Install Docker for [Mac](https://docs.docker.com/docker-for-mac/) or [Windows](https://docs.docker.com/docker-for-windows/).
+3. Upgrade Laradock to `v4.*.*` (`git pull origin master`)
+4. Use Laradock as you used to do: `docker-compose up -d nginx mysql`.
 
-
-
-
-
-<br>
-## I see a blank (white) page instead of the Laravel 'Welcome' page!
-
-Run the following command from the Laravel root directory:
-
-```bash
-sudo chmod -R 777 storage bootstrap/cache
-```
-
-
-
-
-
-
-<br>
-## I see "Welcome to nginx" instead of the Laravel App!
-
-Use `http://127.0.0.1` instead of `http://localhost` in your browser.
-
-
-
-
-
-
-<br>
-## I see an error message containing `address already in use` or `port is already allocated`
-
-Make sure the ports for the services that you are trying to run (22, 80, 443, 3306, etc.) are not being used already by other programs on the host, such as a built in `apache`/`httpd` service or other development tools you have installed.
-
-
-
-
-
-
-<br>
-## I get NGINX error 404 Not Found on Windows.
-
-1. Go to docker Settings on your Windows machine.
-2. Click on the `Shared Drives` tab and check the drive that contains your project files.
-3. Enter your windows username and password.
-4. Go to the `reset` tab and click restart docker.
-
-
-
-
-
-
-<br>
-## The time in my services does not match the current time
-
-1. Make sure you've [changed the timezone](#Change-the-timezone).
-2. Stop and rebuild the containers (`docker-compose up -d --build <services>`)
-
-
-
-
-
-
-<br>
-## I get MySQL connection refused
-
-This error sometimes happens because your Laravel application isn't running on the container localhost IP (Which is 127.0.0.1). Steps to fix it:
-
-* Option A
-  1. Check your running Laravel application IP by dumping `Request::ip()` variable using `dd(Request::ip())` anywhere on your application. The result is the IP of your Laravel container.
-  2. Change the `DB_HOST` variable on env with the IP that you received from previous step.
-* Option B
-   1. Change the `DB_HOST` value to the same name as the MySQL docker container. The Laradock docker-compose file currently has this as `mysql`
-
-## I get stuck when building nginx on `fetch http://mirrors.aliyun.com/alpine/v3.5/main/x86_64/APKINDEX.tar.gz`
-
-As stated on [#749](https://github.com/laradock/laradock/issues/749#issuecomment-419652646), Already fixed，just set `CHANGE_SOURCE` to false.		
-
-## Custom composer repo packagist url and npm registry url
-
-In China, the origin source of composer and npm is very slow. You can add `WORKSPACE_NPM_REGISTRY` and `WORKSPACE_COMPOSER_REPO_PACKAGIST` config in `.env` to use your custom source.
-
-Example:
-```bash
-WORKSPACE_NPM_REGISTRY=https://registry.npm.taobao.org
-WORKSPACE_COMPOSER_REPO_PACKAGIST=https://packagist.phpcomposer.com
-```
-
-<br>
-
-## I get `Module build failed: Error: write EPIPE` while compiling react application
-
-When you run `npm build` or `yarn dev` building a react application using webpack with elixir you may receive a `Error: write EPIPE` while processing .jpg images.
-
-This is caused of an outdated library for processing **.jpg files** in ubuntu 16.04.
-
-To fix the problem you can follow those steps
-
-1 - Open the `.env`.
-
-2 - Search for `WORKSPACE_INSTALL_LIBPNG` or add the key if missing.
-
-3 - Set the value to true:
-
-```dotenv
-WORKSPACE_INSTALL_LIBPNG=true
-```
-
-4 - Finally rebuild the workspace image
-
-```bash
-docker-compose build workspace
-```
-
+**Note:** If you face any problem with the last step above: rebuild all your containers
+`docker-compose build --no-cache`
+"Warning Containers Data might be lost!"
