@@ -247,8 +247,8 @@ APACHE_DOCUMENT_ROOT=/var/www/
 ### MYSQL #################################################
 
 MYSQL_VERSION=latest
-MYSQL_DATABASE=default
-MYSQL_USER=default
+MYSQL_DATABASE=laravel
+MYSQL_USER=root
 MYSQL_PASSWORD=secret
 MYSQL_PORT=3306
 MYSQL_ROOT_PASSWORD=root
@@ -284,8 +284,8 @@ MSSQL_PORT=1433
 ### MARIADB ###############################################
 
 MARIADB_VERSION=latest
-MARIADB_DATABASE=default
-MARIADB_USER=default
+MARIADB_DATABASE=laravel
+MARIADB_USER=root
 MARIADB_PASSWORD=secret
 MARIADB_PORT=3306
 MARIADB_ROOT_PASSWORD=root
