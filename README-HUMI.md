@@ -56,6 +56,7 @@ Both the `.env` and the `.env.testing` files need to be updated to use the Docke
 DB_HOST=mysql
 DB_USERNAME=root
 DB_PASSWORD=root
+DB_DATABASE=humi
 REDIS_HOST=redis
 ```
 
@@ -65,6 +66,7 @@ For the Laravel application, you must also set the following on both `.env` and 
 DB_HOST_V1=mysql
 DB_USERNAME_V1=root
 DB_PASSWORD_V1=root
+DB_DATABASE_V1=humi_v1
 ```
 
 Any `.env` files (not `.env.testing`) that reference other Humi applications need to be modified:
