@@ -965,7 +965,9 @@ ARG INSTALL_SUPERVISOR=false
 RUN if [ ${INSTALL_SUPERVISOR} = true ]; then \
     if [ ${INSTALL_PYTHON} = true ]; then \
     python -m pip install --upgrade supervisor && \
-    echo_supervisord_conf > /etc/supervisord.conf \
+    echo_supervisord_conf > /etc/supervisord.conf && \
+    sed -i 's/\;\[include\]/\[include\]/g' /etc/supervisord.conf && \
+    sed -i 's/\;files\s.*/files = supervisord.d\/*.conf/g' /etc/supervisord.conf \
   ;fi \
 ;fi
 
