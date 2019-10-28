@@ -222,6 +222,7 @@ services:
       build:
         context: ./php-worker
         args:
+          - CHANGE_SOURCE=${CHANGE_SOURCE}
           - PHP_VERSION=${PHP_VERSION}
           - PHALCON_VERSION=${PHALCON_VERSION}
           - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL}
