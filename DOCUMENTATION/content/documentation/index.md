@@ -1866,6 +1866,27 @@ To install GNU Parallel in the Workspace container
 
 
 <br>
+<a name="Install-Supervisor"></a>
+## Install Supervisor
+
+Supervisor is a client/server system that allows its users to monitor and control a number of processes on UNIX-like operating systems.
+
+(see http://supervisord.org/index.html)
+
+To install Supervisor in the Workspace container
+
+1 - Open the `.env` file
+
+2 - Set `WORKSPACE_INSTALL_SUPERVISOR` and `WORKSPACE_INSTALL_PYTHON` to `true`.
+
+3 - Re-build the container `docker-compose build workspace` Or `docker-composer up --build -d workspace` 
+
+
+
+
+
+
+<br>
 <a name="Common-Aliases"></a>
 <br>
 ## Common Terminal Aliases
