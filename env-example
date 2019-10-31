@@ -364,8 +364,8 @@ MAILDEV_SMTP_PORT=25
 ### VARNISH ###############################################
 
 VARNISH_CONFIG=/etc/varnish/default.vcl
-VARNISH_PORT=8080
-VARNISH_BACKEND_PORT=8888
+VARNISH_PORT=6081
+VARNISH_BACKEND_PORT=81
 VARNISHD_PARAMS=-p default_ttl=3600 -p default_grace=3600
 
 ### Varnish ###############################################

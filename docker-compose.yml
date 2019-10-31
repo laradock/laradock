@@ -291,6 +291,7 @@ services:
       ports:
         - "${NGINX_HOST_HTTP_PORT}:80"
         - "${NGINX_HOST_HTTPS_PORT}:443"
+        - "${VARNISH_BACKEND_PORT}:81"
       depends_on:
         - php-fpm
       networks:
@@ -836,6 +837,7 @@ services:
 
 ### Varnish ##########################################
     proxy:
+      container_name: proxy
       build: ./varnish
       expose:
         - ${VARNISH_PORT}
@@ -847,12 +849,15 @@ services:
         - BACKEND_HOST=${VARNISH_PROXY1_BACKEND_HOST}
         - BACKEND_PORT=${VARNISH_BACKEND_PORT}
         - VARNISH_SERVER=${VARNISH_PROXY1_SERVER}
+      ports:
+        - "${VARNISH_PORT}:${VARNISH_PORT}"
       links:
         - workspace
       networks:
         - frontend
 
     proxy2:
+      container_name: proxy2
       build: ./varnish
       expose:
         - ${VARNISH_PORT}
@@ -864,6 +869,8 @@ services:
         - BACKEND_HOST=${VARNISH_PROXY2_BACKEND_HOST}
         - BACKEND_PORT=${VARNISH_BACKEND_PORT}
         - VARNISH_SERVER=${VARNISH_PROXY2_SERVER}
+      ports:
+        - "${VARNISH_PORT}:${VARNISH_PORT}"
       links:
         - workspace
       networks:
