@@ -74,6 +74,12 @@ RUN if [ ${INSTALL_CASSANDRA} = true ]; then \
   && docker-php-ext-enable cassandra \
 ;fi
 
+# Install MongoDB drivers:
+ARG INSTALL_MONGO=false
+RUN if [ ${INSTALL_MONGO} = true ]; then \
+  pecl install mongodb \
+  && docker-php-ext-enable mongodb \
+  ;fi
 
 
 ###########################################################################
