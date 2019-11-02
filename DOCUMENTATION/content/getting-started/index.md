@@ -223,7 +223,7 @@ Or you can change them and rebuild the container.
 
 Make sure you add use the right port number as provided by your running server.
 
-[http://localhost:80](http://localhost:80)
+[http://localhost](http://localhost)
 
 If you followed the multiple projects setup, you can visit `http://project-1.test/` and `http://project-2.test/`.
 
