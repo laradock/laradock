@@ -103,6 +103,30 @@ RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
   && docker-php-ext-enable memcached \
   ;fi
 
+
+###########################################################################
+# ImageMagick:
+###########################################################################
+
+ARG INSTALL_IMAGEMAGICK=false
+
+RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
+    apk --update add imagemagick imagemagick-libs imagemagick-dev && \
+    pecl install imagick && \
+    docker-php-ext-enable imagick \
+;fi
+
+###########################################################################
+# Image optimizers:
+###########################################################################
+
+ARG INSTALL_IMAGE_OPTIMIZERS=false
+
+RUN if [ ${INSTALL_IMAGE_OPTIMIZERS} = true ]; then \
+    apk --update add jpegoptim optipng pngquant gifsicle \
+;fi
+
+
 RUN rm /var/cache/apk/* \
   && mkdir -p /var/www
 
