@@ -48,9 +48,9 @@ The Laravel API and Humi Hideaway environment files need to be modified to work 
 
 In both the Laravel API and Hideaway, make a `.env` file based on the sample. `cp .env.local .env`.
 
-In the Laravel API, make a `.env.testing` file based on the sample. `cp .env.testing.sample .env.testing`.
+In the Laravel API, make a `.env.testing` file based on the sample. `cp .env.local .env.testing`.
 
-Both the `.env` and the `.env.testing` files need to be updated to use the Docker supplied database and redis. Update both files so that they contain these lines:
+Both the `.env` and the `.env.testing` files need to use the Docker supplied database and redis. Verify both files contain these lines:
 
 ```
 DB_HOST=mysql
