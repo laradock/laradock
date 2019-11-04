@@ -46,7 +46,7 @@ Now, set your hosts file on your host machine to redirect to the applications.
 
 The Laravel API and Humi Hideaway environment files need to be modified to work with Docker.
 
-In both the Laravel API and Hideaway, make a `.env` file based on the sample. `cp .env.sample .env`.
+In both the Laravel API and Hideaway, make a `.env` file based on the sample. `cp .env.local .env`.
 
 In the Laravel API, make a `.env.testing` file based on the sample. `cp .env.testing.sample .env.testing`.
 
