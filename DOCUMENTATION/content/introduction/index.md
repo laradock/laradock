@@ -194,6 +194,7 @@ That's it! enjoy :)
     - Eclipse Mosquitto
     - PHP Worker
     - Laravel Horizon
+    - Gearman
 
 - **Mail Servers:**
     - Mailu 

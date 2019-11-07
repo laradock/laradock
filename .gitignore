@@ -18,4 +18,7 @@
 /apache2/ssl/*.csr
 /apache2/ssl/*.org
 
+/.devcontainer/*
+!/.devcontainer/devcontainer.example.json
+
 .DS_Store
