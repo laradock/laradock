@@ -76,7 +76,8 @@ TODO:  - service api urls: use /etc/hosts aliases (local.api.humi.ca)
 #### Setting Up Payroll
 Humi Payroll is still on Vagrant, so you cannot connect to it as a Docker Service.
 
-MAC: `PAYROLL_API_URL=docker.for.mac.localhost`
+MAC: `PAYROLL_API_URL="http://docker.for.mac.localhost:3030/v2"`
+    `http` not `https`, port number, `/v2`, and double quotes necessary
 
 WIN: `PAYROLL_API_URL=docker.for.win.localhost`
 
