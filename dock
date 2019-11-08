@@ -35,17 +35,17 @@ fi
 
 if [ $1 == "build" ]
 then
-    docker-compose build $2
+    docker-compose -f docker-compose.override.yml -f docker-compose.yml build $2
 fi
 
 if [ $1 == "rebuild" ]
 then
-    docker-compose build --no-cache $2
+    docker-compose -f docker-compose.override.yml -f docker-compose.yml build --no-cache $2
 fi
 
 if [ $1 == "up" ]
 then
-    docker-compose up -d nginx mysql redis workspace 
+    docker-compose -f docker-compose.override.yml -f docker-compose.yml up -d nginx mysql redis workspace ld-relay
 fi
 
 if [ $1 == "down" ]

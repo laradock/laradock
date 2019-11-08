@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  ld-relay:
+    image: "launchdarkly/ld-relay:latest"
+    environment:
+      - LD_ENV_local=${LD_RELAY_KEY}
+      - USE_REDIS=true
+      - REDIS_HOST=redis
+    ports:
+      - "8030:8030"
+    networks:
+      - backend
