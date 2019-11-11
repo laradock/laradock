@@ -76,7 +76,7 @@ docker-compose exec mysql bash
 *Example: enter to MySQL prompt within MySQL container*
 
 ```bash
-docker-compose exec mysql mysql -u homestead -psecret
+docker-compose exec mysql mysql -udefault -psecret
 ```
 
 3 - To exit a container, type `exit`.
@@ -1575,7 +1575,7 @@ The default username and password for the root MySQL user are `root` and `root `
 
 1 - Enter the MySQL container: `docker-compose exec mysql bash`.
 
-2 - Enter mysql: `mysql -uroot -proot` for non root access use `mysql -uhomestead -psecret`.
+2 - Enter mysql: `mysql -uroot -proot` for non root access use `mysql -udefault -psecret`.
 
 3 - See all users: `SELECT User FROM mysql.user;`
 
