@@ -198,6 +198,8 @@ services:
           - ADDITIONAL_LOCALES=${PHP_FPM_ADDITIONAL_LOCALES}
           - INSTALL_FFMPEG=${PHP_FPM_FFMPEG}
           - INSTALL_XHPROF=${PHP_FPM_INSTALL_XHPROF}
+          - PUID=${PHP_FPM_PUID}
+          - PGID=${PHP_FPM_PGID}
           - http_proxy
           - https_proxy
           - no_proxy
