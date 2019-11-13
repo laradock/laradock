@@ -36,7 +36,6 @@ Supporting a variety of common services, all pre-configured to provide a full PH
 <a name="sponsors"></a>
 ## Sponsors
 
-<a href="https://opencollective.com/socketio/sponsor/23/website" target="_blank"><img src="https://opencollective.com/socketio/sponsor/23/avatar.svg"></a>
 <a href="https://opencollective.com/laradock/sponsor/0/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/0/avatar.svg?requireActive=false"></a>
 <a href="https://opencollective.com/laradock/sponsor/1/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/1/avatar.svg?requireActive=false"></a>
 <a href="https://opencollective.com/laradock/sponsor/2/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/2/avatar.svg?requireActive=false"></a>
