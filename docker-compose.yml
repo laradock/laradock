@@ -47,6 +47,10 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   cassandra:
     driver: ${VOLUMES_DRIVER}
+  graylog:
+    driver: ${VOLUMES_DRIVER}
+  dind:
+    driver: ${VOLUMES_DRIVER}
 
 services:
 
@@ -503,6 +507,7 @@ services:
         - "${MONGODB_PORT}:27017"
       volumes:
         - ${DATA_PATH_HOST}/mongo:/data/db
+        - ${DATA_PATH_HOST}/mongo_config:/data/configdb
       networks:
         - backend
 
@@ -936,9 +941,9 @@ services:
           - ${GRAYLOG_GELF_TCP_PORT}:12201
           # GELF UDP
           - ${GRAYLOG_GELF_UDP_PORT}:12201/udp
-        user: root
+        user: graylog
         volumes:
-          - ./graylog/config:/usr/share/graylog/data/config
+          - ${DATA_PATH_HOST}/graylog:/usr/share/graylog/data
         networks:
           - backend
 
@@ -1218,6 +1223,7 @@ services:
       privileged: true
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+        - ${DATA_PATH_HOST}/dind:/var/lib/docker
       expose:
         - 2375
       networks:
