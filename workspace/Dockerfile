@@ -777,13 +777,6 @@ RUN if [ ${COMPOSER_REPO_PACKAGIST} ]; then \
     composer config -g repo.packagist composer ${COMPOSER_REPO_PACKAGIST} \
 ;fi
 
-ARG INSTALL_LARAVEL_INSTALLER=false
-
-RUN if [ ${INSTALL_LARAVEL_INSTALLER} = true ]; then \
-    # Install the Laravel Installer
-	composer global require "laravel/installer" \
-;fi
-
 ###########################################################################
 # Deployer:
 ###########################################################################
