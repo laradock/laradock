@@ -60,6 +60,12 @@ RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
     &&  docker-php-ext-enable redis \
 ;fi
 
+# Install FFMPEG:
+ARG INSTALL_FFMPEG=false
+RUN if [ ${INSTALL_FFMPEG} = true ]; then \
+    apk --update add ffmpeg \
+;fi
+
 WORKDIR /usr/src
 RUN if [ ${INSTALL_CASSANDRA} = true ]; then \
   git clone https://github.com/datastax/php-driver.git \
@@ -105,19 +111,6 @@ RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
 
 RUN rm /var/cache/apk/* \
   && mkdir -p /var/www
-
-###########################################################################
-# FFMPEG:
-###########################################################################
-
-USER root
-
-ARG INSTALL_FFMPEG=false
-
-RUN if [ ${INSTALL_FFMPEG} = true ]; then \
-    apt-get update -yqq && \
-    apt-get -y install ffmpeg \
-;fi
 
 #
 #--------------------------------------------------------------------------
