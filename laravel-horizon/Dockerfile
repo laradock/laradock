@@ -106,6 +106,19 @@ RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
 RUN rm /var/cache/apk/* \
   && mkdir -p /var/www
 
+###########################################################################
+# FFMPEG:
+###########################################################################
+
+USER root
+
+ARG INSTALL_FFMPEG=false
+
+RUN if [ ${INSTALL_FFMPEG} = true ]; then \
+    apt-get update -yqq && \
+    apt-get -y install ffmpeg \
+;fi
+
 #
 #--------------------------------------------------------------------------
 # Optional Supervisord Configuration
