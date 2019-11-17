@@ -36,6 +36,15 @@ ENV PUID ${PUID}
 ARG PGID=1000
 ENV PGID ${PGID}
 
+COPY ./sources.sh /tmp/sources.sh
+
+RUN if [ ${CHANGE_SOURCE} = true ]; then \
+    chmod +x /tmp/sources.sh && \
+    # bash /tmp/sources.sh aliyun
+    # ./tmp/sources.sh aliyun
+    /bin/bash /tmp/sources.sh aliyun && \
+;fi
+
 # always run apt update when start and after add new source list, then clean up at end.
 RUN set -xe; \
     apt-get update -yqq && \
