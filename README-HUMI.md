@@ -94,6 +94,11 @@ You can create a shell alias to the command. `alias dock=$HOME/code/humi/humidoc
 
 To start Humidock (and all applications it hosts), run `dock up` which calls (`docker-compose up -d nginx mysql redis workspace`)
 
+### Database Migration
+
+To run the database migrations, you need first to run `dock workspace` and then `php artisan humi:migrate --drop --seed --deploy`. 
+As an alternative, you may run `docker-compose exec --user=laradock workspace php artisan humi:migrate --drop --seed --deploy`.
+
 ### Accessing workspace
 
 To access the workspace using bash, run `dock workspace` or `docker-compose exec --user=laradock workspace bash`
