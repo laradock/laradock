@@ -11,3 +11,9 @@ services:
       - "8030:8030"
     networks:
       - backend
+  stripe-mock:
+    image: "stripemock/stripe-mock:latest"
+    ports:
+      - "12111:12111"
+    networks:
+      - backend

@@ -45,7 +45,7 @@ fi
 
 if [ $1 == "up" ]
 then
-    docker-compose -f docker-compose.override.yml -f docker-compose.yml up -d nginx mysql redis workspace ld-relay
+    docker-compose -f docker-compose.override.yml -f docker-compose.yml up -d nginx mysql redis workspace ld-relay stripe-mock
 fi
 
 if [ $1 == "down" ]
