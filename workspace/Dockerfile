@@ -41,7 +41,7 @@ ARG UBUNTU_SOURCE
 COPY ./sources.sh /tmp/sources.sh
 
 RUN if [ ${CHANGE_SOURCE} = true ]; then \
-    /bin/sh -c /tmp/sources.sh ${UBUNTU_SOURCE} && \
+    /bin/sh -c /tmp/sources.sh && \
     rm -rf /tmp/sources.sh \
 ;fi
 
