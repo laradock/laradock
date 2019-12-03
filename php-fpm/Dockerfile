@@ -768,6 +768,22 @@ RUN if [ ${INSTALL_MAILPARSE} = true ]; then \
 ;fi
 
 ###########################################################################
+# CacheTool:
+###########################################################################
+
+ARG INSTALL_CACHETOOL=false
+
+RUN if [ ${INSTALL_CACHETOOL} = true ]; then \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") -ge 1 ]; then \
+            curl -sO http://gordalina.github.io/cachetool/downloads/cachetool.phar; \
+    else \
+        curl http://gordalina.github.io/cachetool/downloads/cachetool-3.2.1.phar -o cachetool.phar; \
+    fi && \
+    chmod +x cachetool.phar && \
+    mv cachetool.phar /usr/local/bin/cachetool \
+;fi
+
+###########################################################################
 # Check PHP version:
 ###########################################################################
 
