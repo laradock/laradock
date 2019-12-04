@@ -536,7 +536,7 @@ Note: Should add `--user=laradock` (example `docker-compose exec --user=laradock
 php artisan
 ```
 ```bash
-Composer update
+composer update
 ```
 ```bash
 phpunit
