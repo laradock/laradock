@@ -60,6 +60,12 @@ RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
     &&  docker-php-ext-enable redis \
 ;fi
 
+ARG INSTALL_FFMPEG=false
+RUN if [ ${INSTALL_FFMPEG} = true ]; then \
+   # Add ffmpeg to horizon
+    apk add ffmpeg \
+;fi
+
 WORKDIR /usr/src
 RUN if [ ${INSTALL_CASSANDRA} = true ]; then \
   git clone https://github.com/datastax/php-driver.git \
