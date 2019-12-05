@@ -234,6 +234,7 @@ services:
       build:
         context: ./php-worker
         args:
+          - CHANGE_SOURCE=${CHANGE_SOURCE}
           - PHP_VERSION=${PHP_VERSION}
           - PHALCON_VERSION=${PHALCON_VERSION}
           - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL}
@@ -267,6 +268,7 @@ services:
       build:
         context: ./laravel-horizon
         args:
+          - CHANGE_SOURCE=${CHANGE_SOURCE}
           - PHP_VERSION=${PHP_VERSION}
           - INSTALL_PGSQL=${PHP_FPM_INSTALL_PGSQL}
           - INSTALL_BCMATH=${PHP_FPM_INSTALL_BCMATH}
@@ -290,9 +292,9 @@ services:
       build:
         context: ./nginx
         args:
+          - CHANGE_SOURCE=${CHANGE_SOURCE}
           - PHP_UPSTREAM_CONTAINER=${NGINX_PHP_UPSTREAM_CONTAINER}
           - PHP_UPSTREAM_PORT=${NGINX_PHP_UPSTREAM_PORT}
-          - CHANGE_SOURCE=${CHANGE_SOURCE}
           - http_proxy
           - https_proxy
           - no_proxy
