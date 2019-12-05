@@ -33,7 +33,7 @@
 # EOSQL
 # 
 ### default database and user for confluence ##############################################
-if [ "$POSTGRES_CONFLUENCE_INIT" == 'true' ]; then
+if [ "$CONFLUENCE_POSTGRES_INIT" == 'true' ]; then
 	psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
 		CREATE USER $POSTGRES_CONFLUENCE_USER WITH PASSWORD '$POSTGRES_CONFLUENCE_PASSWORD';
 		CREATE DATABASE $POSTGRES_CONFLUENCE_DB;

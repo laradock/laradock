@@ -76,7 +76,7 @@ docker-compose exec mysql bash
 *Example: enter to MySQL prompt within MySQL container*
 
 ```bash
-docker-compose exec mysql mysql -u homestead -psecret
+docker-compose exec mysql mysql -udefault -psecret
 ```
 
 3 - To exit a container, type `exit`.
@@ -250,7 +250,6 @@ docker-compose build php-fpm
 <br>
 <a name="Change-the-PHP-CLI-Version"></a>
 ## Change the PHP-CLI Version
-By default **PHP-CLI 7.0** is running.
 
 >Note: it's not very essential to edit the PHP-CLI version. The PHP-CLI is only used for the Artisan Commands & Composer. It doesn't serve your Application code, this is the PHP-FPM job.
 
@@ -537,7 +536,7 @@ Note: Should add `--user=laradock` (example `docker-compose exec --user=laradock
 php artisan
 ```
 ```bash
-Composer update
+composer update
 ```
 ```bash
 phpunit
@@ -651,7 +650,7 @@ docker-compose up -d metabase
 
 1) Boot the container `docker-compose up -d jenkins`. To enter the container type `docker-compose exec jenkins bash`.
 
-2) Go to `http://localhost:8090/` (if you didn't chanhed your default port mapping)
+2) Go to `http://localhost:8090/` (if you didn't change your default port mapping)
 
 3) Authenticate from the web app.
 
@@ -1045,6 +1044,7 @@ _Note: You can customize the port on which beanstalkd console is listening by ch
 
 <br>
 <a name="Use-Confluence"></a>
+
 ## Use Confluence
 
 1 - Run the Confluence Container (`confluence`) with the `docker-compose up` command. Example:
@@ -1055,9 +1055,18 @@ docker-compose up -d confluence
 
 2 - Open your browser and visit the localhost on port **8090**:  `http://localhost:8090`
 
-**Note:** You can you trial version and then you have to buy a licence to use it.
+**Note:** Confluence is a licensed application - an evaluation licence can be obtained from Atlassian.
 
 You can set custom confluence version in `CONFLUENCE_VERSION`. [Find more info in section 'Versioning'](https://hub.docker.com/r/atlassian/confluence-server/)
+
+
+##### Confluence usage with Nginx and SSL.
+
+1. Find an instance configuration file in `nginx/sites/confluence.conf.example` and replace sample domain with yours.
+
+2. Configure ssl keys to your domain.
+
+Keep in mind that Confluence is still accessible on 8090 anyway.
 
 <br>
 <a name="Use-ElasticSearch"></a>
@@ -1576,7 +1585,7 @@ The default username and password for the root MySQL user are `root` and `root `
 
 1 - Enter the MySQL container: `docker-compose exec mysql bash`.
 
-2 - Enter mysql: `mysql -uroot -proot` for non root access use `mysql -uhomestead -psecret`.
+2 - Enter mysql: `mysql -uroot -proot` for non root access use `mysql -udefault -psecret`.
 
 3 - See all users: `SELECT User FROM mysql.user;`
 
@@ -1860,6 +1869,27 @@ To install GNU Parallel in the Workspace container
 2 - Search for the `WORKSPACE_INSTALL_GNU_PARALLEL` argument under the Workspace Container and set it to `true`
 
 3 - Re-build the container `docker-compose build workspace`
+
+
+
+
+
+
+<br>
+<a name="Install-Supervisor"></a>
+## Install Supervisor
+
+Supervisor is a client/server system that allows its users to monitor and control a number of processes on UNIX-like operating systems.
+
+(see http://supervisord.org/index.html)
+
+To install Supervisor in the Workspace container
+
+1 - Open the `.env` file
+
+2 - Set `WORKSPACE_INSTALL_SUPERVISOR` and `WORKSPACE_INSTALL_PYTHON` to `true`.
+
+3 - Re-build the container `docker-compose build workspace` Or `docker-composer up --build -d workspace` 
 
 
 
