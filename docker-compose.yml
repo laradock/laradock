@@ -53,7 +53,7 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   rabbitmq:
     driver: ${VOLUMES_DRIVER}
-  portainer_data:
+  portainer:
     driver: ${VOLUMES_DRIVER}
   mongo-webui:
     driver: ${VOLUMES_DRIVER}
