@@ -1044,6 +1044,7 @@ _Note: You can customize the port on which beanstalkd console is listening by ch
 
 <br>
 <a name="Use-Confluence"></a>
+
 ## Use Confluence
 
 1 - Run the Confluence Container (`confluence`) with the `docker-compose up` command. Example:
@@ -1057,6 +1058,15 @@ docker-compose up -d confluence
 **Note:** Confluence is a licensed application - an evaluation licence can be obtained from Atlassian.
 
 You can set custom confluence version in `CONFLUENCE_VERSION`. [Find more info in section 'Versioning'](https://hub.docker.com/r/atlassian/confluence-server/)
+
+
+##### Confluence usage with Nginx and SSL.
+
+1. Find an instance configuration file in `nginx/sites/confluence.conf.example` and replace sample domain with yours.
+
+2. Configure ssl keys to your domain.
+
+Keep in mind that Confluence is still accessible on 8090 anyway.
 
 <br>
 <a name="Use-ElasticSearch"></a>
