@@ -216,7 +216,6 @@ services:
         - "9000"
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
-      dns: 114.114.114.114
       environment:
         - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
         - DOCKER_HOST=tcp://docker-in-docker:2375
@@ -227,7 +226,6 @@ services:
         - backend
       links:
         - docker-in-docker
-
 
 ### PHP Worker ############################################
     php-worker:
@@ -379,7 +377,6 @@ services:
         context: ./mysql
         args:
           - MYSQL_VERSION=${MYSQL_VERSION}
-      command: "--innodb_use_native_aio=0"
       environment:
         - MYSQL_DATABASE=${MYSQL_DATABASE}
         - MYSQL_USER=${MYSQL_USER}
