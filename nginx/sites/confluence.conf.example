@@ -1,0 +1,43 @@
+server {
+    listen 80;
+    listen [::]:80;
+    server_name www.confluence-domain.com;
+    rewrite ^(.*) https://confluence-domain.com$1/ permanent;
+}
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name confluence-domain.com;
+    rewrite ^(.*) https://confluence-domain.com/ permanent;
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    ssl_certificate /etc/nginx/ssl/confluence-domain.com.crt;
+    ssl_certificate_key /etc/nginx/ssl/confluence-domain.com.key;
+
+    server_name confluence-domain.com;
+
+    location / {
+            client_max_body_size 100m;
+            proxy_set_header X-Forwarded-Host $host;
+            proxy_set_header X-Forwarded-Server $host;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_pass http://confluence-domain.com:8090/;
+    }
+
+    location /synchrony {
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Server $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://confluence-domain.com:8090/synchrony-proxy;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "Upgrade";
+    }
+
+    error_log /var/log/nginx/bookchangerru_error.log;
+    access_log /var/log/nginx/bookchangerru_access.log;
+}

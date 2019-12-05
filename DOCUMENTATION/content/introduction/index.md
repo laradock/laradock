@@ -12,7 +12,7 @@ Supporting a variety of common services, all pre-configured to provide a full PH
 <a name="features"></a>
 ## Features
 
-- Easy switch between PHP versions: 7.3, 7.2, 7.1, 5.6...
+- Easy switch between PHP versions: 7.4, 7.3, 7.2, 7.1, 5.6...
 - Choose your favorite database engine: MySQL, Postgres, MariaDB...
 - Run your own stack: Memcached, HHVM, RabbitMQ...
 - Each software runs on its own container: PHP-FPM, NGINX, PHP-CLI...
@@ -36,7 +36,6 @@ Supporting a variety of common services, all pre-configured to provide a full PH
 <a name="sponsors"></a>
 ## Sponsors
 
-<a href="https://opencollective.com/socketio/sponsor/23/website" target="_blank"><img src="https://opencollective.com/socketio/sponsor/23/avatar.svg"></a>
 <a href="https://opencollective.com/laradock/sponsor/0/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/0/avatar.svg?requireActive=false"></a>
 <a href="https://opencollective.com/laradock/sponsor/1/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/1/avatar.svg?requireActive=false"></a>
 <a href="https://opencollective.com/laradock/sponsor/2/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/2/avatar.svg?requireActive=false"></a>
@@ -194,6 +193,7 @@ That's it! enjoy :)
     - Eclipse Mosquitto
     - PHP Worker
     - Laravel Horizon
+    - Gearman
 
 - **Mail Servers:**
     - Mailu 
