@@ -51,6 +51,14 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   dind:
     driver: ${VOLUMES_DRIVER}
+  rabbitmq:
+    driver: ${VOLUMES_DRIVER}
+  portainer_data:
+    driver: ${VOLUMES_DRIVER}
+  mongo-webui:
+    driver: ${VOLUMES_DRIVER}
+  couchdb:
+    driver: ${VOLUMES_DRIVER}
 
 services:
 
