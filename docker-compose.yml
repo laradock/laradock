@@ -60,6 +60,7 @@ services:
         context: ./workspace
         args:
           - CHANGE_SOURCE=${CHANGE_SOURCE}
+          - UBUNTU_SOURCE=${UBUNTU_SOURCE}
           - LARADOCK_PHP_VERSION=${PHP_VERSION}
           - LARADOCK_PHALCON_VERSION=${PHALCON_VERSION}
           - INSTALL_SUBVERSION=${WORKSPACE_INSTALL_SUBVERSION}
@@ -136,8 +137,6 @@ services:
           - http_proxy
           - https_proxy
           - no_proxy
-          - CHANGE_SOURCE=${CHANGE_SOURCE}
-          - UBUNTU_SOURCE=${UBUNTU_SOURCE}
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         - ./php-worker/supervisord.d:/etc/supervisord.d
