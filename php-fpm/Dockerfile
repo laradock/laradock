@@ -683,6 +683,17 @@ RUN if [ ${INSTALL_RDKAFKA} = true ]; then \
 ;fi
 
 ###########################################################################
+# GETTEXT:
+###########################################################################
+
+ARG INSTALL_GETTEXT=false
+
+RUN if [ ${INSTALL_GETTEXT} = true ]; then \
+    apt-get install -y zlib1g-dev libicu-dev g++ libpq-dev libssl-dev gettext && \
+    docker-php-ext-install gettext \
+;fi
+
+###########################################################################
 # Install additional locales:
 ###########################################################################
 
