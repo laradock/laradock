@@ -77,6 +77,7 @@ services:
           - INSTALL_GEARMAN=${WORKSPACE_INSTALL_GEARMAN}
           - INSTALL_PHPREDIS=${WORKSPACE_INSTALL_PHPREDIS}
           - INSTALL_MSSQL=${WORKSPACE_INSTALL_MSSQL}
+          - NVM_NODEJS_ORG_MIRROR=${WORKSPACE_NVM_NODEJS_ORG_MIRROR}
           - INSTALL_NODE=${WORKSPACE_INSTALL_NODE}
           - NPM_REGISTRY=${WORKSPACE_NPM_REGISTRY}
           - INSTALL_YARN=${WORKSPACE_INSTALL_YARN}
@@ -132,6 +133,8 @@ services:
           - http_proxy
           - https_proxy
           - no_proxy
+          - CHANGE_SOURCE=${CHANGE_SOURCE}
+          - UBUNTU_SOURCE=${UBUNTU_SOURCE}
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         - ./php-worker/supervisord.d:/etc/supervisord.d

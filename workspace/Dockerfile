@@ -36,6 +36,15 @@ ENV PUID ${PUID}
 ARG PGID=1000
 ENV PGID ${PGID}
 
+ARG CHANGE_SOURCE=false
+ARG UBUNTU_SOURCE
+COPY ./sources.sh /tmp/sources.sh
+
+RUN if [ ${CHANGE_SOURCE} = true ]; then \
+    /bin/sh -c /tmp/sources.sh && \
+    rm -rf /tmp/sources.sh \
+;fi
+
 # always run apt update when start and after add new source list, then clean up at end.
 RUN set -xe; \
     apt-get update -yqq && \
@@ -580,6 +589,7 @@ ARG INSTALL_NPM_ANGULAR_CLI=false
 ARG NPM_REGISTRY
 ENV NPM_REGISTRY ${NPM_REGISTRY}
 ENV NVM_DIR /home/laradock/.nvm
+ENV NVM_NODEJS_ORG_MIRROR=${NVM_NODEJS_ORG_MIRROR}
 
 RUN if [ ${INSTALL_NODE} = true ]; then \
     # Install nvm (A Node Version Manager)
