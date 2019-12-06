@@ -1,0 +1,9 @@
+{
+  "name": "Laradock",
+  "dockerComposeFile": ["../docker-compose.yml"],
+  "runServices": ["nginx", "postgres", "pgadmin"],
+  "service": "workspace",
+  "workspaceFolder": "/var/www",
+  "shutdownAction": "stopCompose",
+  "postCreateCommand": "uname -a"
+}

@@ -70,6 +70,16 @@ If you want to only execute some command and don't want to enter bash, you can e
 docker-compose run workspace php artisan migrate
 ```
 
+### Prepare for Visual Studio Code remote development
+
+If you want to use Visual Studio Code for [remote development](https://code.visualstudio.com/docs/remote/containers) directly on your `workspace` container, copy file `devcontainer.example.json` to `devcontainer.json` and customize it (see [devcontainer.json reference](https://code.visualstudio.com/docs/remote/containers#_devcontainerjson-reference) for more options):
+```
+cd .devcontainer
+cp devcontainer.example.json devcontainer.json
+```
+
+Then open your `laradock` folder in Visual Studio Code and click on popup button **Reopen in Container**.
+
 ### Install and configure Laravel
 
 Let's install Laravel's dependencies, add the `.env` file, generate the key and give proper permissions to the cache folder.
@@ -345,7 +355,7 @@ You could choose to use either:
 1. Chrome Driver shipped with Laravel Dusk. (Default)
 2. Chrome Driver installed in `workspace` container. (Required tweak on DuskTestCase class)
 
-For Laravel 2.x, you need to update `DuskTestCase#prepare` method if you wish to go with option #2.
+For Laravel Dusk 2.x, you need to update `DuskTestCase#prepare` method if you wish to go with option #2.
 
 ```
 
@@ -365,7 +375,7 @@ abstract class DuskTestCase extends BaseTestCase
     }
 ```
 
-For Laravel 1.x, you need to add `DuskTestCase#buildChromeProcess` method if you wish to go with option #2.
+For Laravel Dusk 1.x, you need to add `DuskTestCase#buildChromeProcess` method if you wish to go with option #2.
 
 ```
 <?php
