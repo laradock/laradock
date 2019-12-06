@@ -1,3 +1,3 @@
-FROM docker.elastic.co/kibana/kibana:6.6.0
+FROM docker.elastic.co/kibana/kibana:7.1.1
 
 EXPOSE 5601

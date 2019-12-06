@@ -37,7 +37,8 @@ COMPOSE_PROJECT_NAME=laradock
 
 ### PHP Version ###########################################
 
-# Select a PHP version of the Workspace and PHP-FPM containers (Does not apply to HHVM). Accepted values: 7.3 - 7.2 - 7.1 - 7.0 - 5.6
+# Select a PHP version of the Workspace and PHP-FPM containers (Does not apply to HHVM).
+# Accepted values: 7.4 - 7.3 - 7.2 - 7.1 - 7.0 - 5.6
 PHP_VERSION=7.3
 
 ### Phalcon Version ###########################################
@@ -69,6 +70,8 @@ COMPOSE_CONVERT_WINDOWS_PATHS=1
 
 # If you need to change the sources (i.e. to China), set CHANGE_SOURCE to true
 CHANGE_SOURCE=false
+# Set CHANGE_SOURCE and UBUNTU_SOURCE option if you want to change the Ubuntu system sources.list file.
+UBUNTU_SOURCE=aliyun
 
 ### Docker Sync ###########################################
 
@@ -84,6 +87,7 @@ DOCKER_SYNC_STRATEGY=native_osx
 WORKSPACE_COMPOSER_GLOBAL_INSTALL=true
 WORKSPACE_COMPOSER_AUTH=false
 WORKSPACE_COMPOSER_REPO_PACKAGIST=
+WORKSPACE_NVM_NODEJS_ORG_MIRROR=
 WORKSPACE_INSTALL_NODE=true
 WORKSPACE_NODE_VERSION=node
 WORKSPACE_NPM_REGISTRY=
@@ -107,6 +111,7 @@ WORKSPACE_INSTALL_IMAP=false
 WORKSPACE_INSTALL_MONGO=false
 WORKSPACE_INSTALL_AMQP=false
 WORKSPACE_INSTALL_CASSANDRA=false
+WORKSPACE_INSTALL_GEARMAN=false
 WORKSPACE_INSTALL_MSSQL=false
 WORKSPACE_INSTALL_DRUSH=false
 WORKSPACE_DRUSH_VERSION=8.1.17
@@ -123,6 +128,7 @@ WORKSPACE_INSTALL_MC=false
 WORKSPACE_INSTALL_SYMFONY=false
 WORKSPACE_INSTALL_PYTHON=false
 WORKSPACE_INSTALL_POWERLINE=false
+WORKSPACE_INSTALL_SUPERVISOR=false
 WORKSPACE_INSTALL_IMAGE_OPTIMIZERS=false
 WORKSPACE_INSTALL_IMAGEMAGICK=false
 WORKSPACE_INSTALL_TERRAFORM=false
@@ -138,6 +144,8 @@ WORKSPACE_INSTALL_PING=false
 WORKSPACE_INSTALL_SSHPASS=false
 WORKSPACE_INSTALL_INOTIFY=false
 WORKSPACE_INSTALL_FSWATCH=false
+WORKSPACE_INSTALL_YAML=false
+WORKSPACE_INSTALL_MAILPARSE=false
 WORKSPACE_PUID=1000
 WORKSPACE_PGID=1000
 WORKSPACE_CHROME_DRIVER_VERSION=2.42
@@ -165,6 +173,7 @@ PHP_FPM_INSTALL_IMAP=false
 PHP_FPM_INSTALL_MONGO=false
 PHP_FPM_INSTALL_AMQP=false
 PHP_FPM_INSTALL_CASSANDRA=false
+PHP_FPM_INSTALL_GEARMAN=false
 PHP_FPM_INSTALL_MSSQL=false
 PHP_FPM_INSTALL_SSH2=false
 PHP_FPM_INSTALL_SOAP=false
@@ -185,15 +194,21 @@ PHP_FPM_INSTALL_CALENDAR=false
 PHP_FPM_INSTALL_FAKETIME=false
 PHP_FPM_INSTALL_IONCUBE=false
 PHP_FPM_INSTALL_RDKAFKA=false
+PHP_FPM_INSTALL_GETTEXT=false
 PHP_FPM_FAKETIME=-0
 PHP_FPM_INSTALL_APCU=false
+PHP_FPM_INSTALL_CACHETOOL=false
 PHP_FPM_INSTALL_YAML=false
 PHP_FPM_INSTALL_ADDITIONAL_LOCALES=false
 PHP_FPM_INSTALL_MYSQL_CLIENT=false
 PHP_FPM_INSTALL_PING=false
 PHP_FPM_INSTALL_SSHPASS=false
+PHP_FPM_INSTALL_MAILPARSE=false
 PHP_FPM_FFMPEG=false
 PHP_FPM_ADDITIONAL_LOCALES="es_ES.UTF-8 fr_FR.UTF-8"
+
+PHP_FPM_PUID=1000
+PHP_FPM_PGID=1000
 
 ### PHP_WORKER ############################################
 
@@ -210,6 +225,8 @@ PHP_WORKER_INSTALL_TAINT=false
 PHP_WORKER_INSTALL_FFMPEG=false
 PHP_WORKER_INSTALL_GMP=false
 PHP_WORKER_INSTALL_CASSANDRA=false
+PHP_WORKER_INSTALL_GEARMAN=false
+PHP_WORKER_INSTALL_REDIS=false
 
 PHP_WORKER_PUID=1000
 PHP_WORKER_PGID=1000
@@ -228,6 +245,7 @@ NGINX_SSL_PATH=./nginx/ssl/
 
 LARAVEL_HORIZON_INSTALL_SOCKETS=false
 LARAVEL_HORIZON_INSTALL_PHPREDIS=true
+LARAVEL_HORIZON_INSTALL_MONGO=false
 
 ### APACHE ################################################
 
@@ -774,3 +792,48 @@ CASSANDRA_ENABLE_RPC=true
 CASSANDRA_DATACENTER=dc1
 # Rack name for the cluster. Ignored in SimpleSnitch endpoint snitch. Default: rack1.
 CASSANDRA_RACK=rack1
+
+### GEARMAN ##################################################
+
+# Gearman version to use. See available tags at https://hub.docker.com/r/artefactual/gearmand
+GEARMAN_VERSION=latest
+# Port to use (Default: 6379)
+GEARMAN_PORT=6379
+# Logging Level (Default: INFO)
+GEARMAN_VERBOSE=INFO
+# Persistent queue type to use (Default: builtin)
+GEARMAN_QUEUE_TYPE=builtin
+# Number of I/O threads to use (Default: 4)
+GEARMAN_THREADS=4
+# Number of backlog connections for listen (Default: 32)
+GEARMAN_BACKLOG=32
+# Number of file descriptors to allow for the process (Default is max allowed for user)
+GEARMAN_FILE_DESCRIPTORS=
+# Number of attempts to run the job before the job server removes it. (Default: no limit = 0)
+GEARMAN_JOB_RETRIES=0
+# Assign work in round-robin order per worker connection (Default: 0)
+GEARMAN_ROUND_ROBIN=0
+# Number of workers to wakeup for each job received (Default: 0)
+GEARMAN_WORKER_WAKEUP=0
+# Enable keepalive on sockets (Default: 0)
+GEARMAN_KEEPALIVE=0
+# The duration between two keepalive transmissions in idle condition (Default: 30)
+GEARMAN_KEEPALIVE_IDLE=30
+# The duration between two successive keepalive retransmissions, if acknowledgement to the previous keepalive transmission is not received	(Default: 10)
+GEARMAN_KEEPALIVE_INTERVAL=10
+# The number of retransmissions to be carried out before declaring that remote end is not available (Default: 5)
+GEARMAN_KEEPALIVE_COUNT=5
+# Mysql server host (Default: localhost)
+GEARMAN_MYSQL_HOST=localhost
+# Mysql server port (Default: 3306)
+GEARMAN_MYSQL_PORT=3306
+# Mysql server user (Default: root)
+GEARMAN_MYSQL_USER=root
+# Mysql password
+GEARMAN_MYSQL_PASSWORD=	
+# Path to file with mysql password(Docker secrets)
+GEARMAN_MYSQL_PASSWORD_FILE=
+# Database to use by Gearman (Default: Gearmand)
+GEARMAN_MYSQL_DB=Gearmand
+# Table to use by Gearman (Default: gearman_queue)
+GEARMAN_MYSQL_TABLE=gearman_queue

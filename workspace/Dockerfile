@@ -14,7 +14,7 @@
 
 ARG LARADOCK_PHP_VERSION
 
-FROM laradock/workspace:2.5-${LARADOCK_PHP_VERSION}
+FROM laradock/workspace:2.6.1-${LARADOCK_PHP_VERSION}
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
@@ -35,6 +35,15 @@ ARG PUID=1000
 ENV PUID ${PUID}
 ARG PGID=1000
 ENV PGID ${PGID}
+
+ARG CHANGE_SOURCE=false
+ARG UBUNTU_SOURCE
+COPY ./sources.sh /tmp/sources.sh
+
+RUN if [ ${CHANGE_SOURCE} = true ]; then \
+    /bin/sh -c /tmp/sources.sh && \
+    rm -rf /tmp/sources.sh \
+;fi
 
 # always run apt update when start and after add new source list, then clean up at end.
 RUN set -xe; \
@@ -437,6 +446,18 @@ RUN if [ ${INSTALL_CASSANDRA} = true ]; then \
 ;fi
 
 ###########################################################################
+# Gearman:
+###########################################################################
+
+ARG INSTALL_GEARMAN=false
+
+RUN if [ ${INSTALL_GEARMAN} = true ]; then \
+    add-apt-repository -y ppa:ondrej/pkg-gearman && \
+    apt-get update && \
+    apt-get install php-gearman -y  \
+;fi
+
+###########################################################################
 # PHP REDIS EXTENSION
 ###########################################################################
 
@@ -583,6 +604,7 @@ ARG INSTALL_NPM_ANGULAR_CLI=false
 ARG NPM_REGISTRY
 ENV NPM_REGISTRY ${NPM_REGISTRY}
 ENV NVM_DIR /home/laradock/.nvm
+ENV NVM_NODEJS_ORG_MIRROR=${NVM_NODEJS_ORG_MIRROR}
 
 RUN if [ ${INSTALL_NODE} = true ]; then \
     # Install nvm (A Node Version Manager)
@@ -780,13 +802,6 @@ RUN if [ ${COMPOSER_REPO_PACKAGIST} ]; then \
     composer config -g repo.packagist composer ${COMPOSER_REPO_PACKAGIST} \
 ;fi
 
-ARG INSTALL_LARAVEL_INSTALLER=false
-
-RUN if [ ${INSTALL_LARAVEL_INSTALLER} = true ]; then \
-    # Install the Laravel Installer
-	composer global require "laravel/installer" \
-;fi
-
 ###########################################################################
 # Deployer:
 ###########################################################################
@@ -960,6 +975,20 @@ RUN if [ ${INSTALL_POWERLINE} = true ]; then \
   ;fi \
 ;fi
 
+###########################################################################
+# SUPERVISOR:
+###########################################################################
+ARG INSTALL_SUPERVISOR=false
+
+RUN if [ ${INSTALL_SUPERVISOR} = true ]; then \
+    if [ ${INSTALL_PYTHON} = true ]; then \
+    python -m pip install --upgrade supervisor && \
+    echo_supervisord_conf > /etc/supervisord.conf && \
+    sed -i 's/\;\[include\]/\[include\]/g' /etc/supervisord.conf && \
+    sed -i 's/\;files\s.*/files = supervisord.d\/*.conf/g' /etc/supervisord.conf \
+  ;fi \
+;fi
+
 USER laradock
 
 ###########################################################################
@@ -1091,6 +1120,25 @@ RUN if [ ${INSTALL_SSHPASS} = true ]; then \
 ;fi
 
 ###########################################################################
+# YAML: extension for PHP-CLI
+###########################################################################
+
+USER root
+
+ARG INSTALL_YAML=false
+
+RUN if [ ${INSTALL_YAML} = true ]; then \
+    apt-get install libyaml-dev -y ; \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+        pecl install -a yaml-1.3.2; \
+    else \
+        pecl install yaml; \
+    fi && \
+    echo "extension=yaml.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/yaml.ini && \
+    ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/yaml.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/35-yaml.ini \
+;fi
+
+###########################################################################
 # FFMpeg:
 ###########################################################################
 
@@ -1100,6 +1148,16 @@ ARG INSTALL_FFMPEG=false
 
 RUN if [ ${INSTALL_FFMPEG} = true ]; then \
   apt-get -y install ffmpeg \
+;fi
+
+###########################################################################
+# Mailparse extension:
+###########################################################################
+
+ARG INSTALL_MAILPARSE=false
+
+RUN if [ ${INSTALL_MAILPARSE} = true ]; then \
+    apt-get install -yqq php-mailparse \
 ;fi
 
 ###########################################################################
