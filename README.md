@@ -156,7 +156,7 @@ Laradock exists thanks to all the people who contribute.
 
 ### Code Contributors
 
-<a href="https://github.com/undefined/undefined/graphs/contributors"><img src="https://opencollective.com/laradock/contributors.svg?width=890&button=false" /></a>
+<a href="https://github.com/laradock/laradock/graphs/contributors"><img src="https://opencollective.com/laradock/contributors.svg?width=890&button=false" /></a>
 
 ### Financial Contributors
 
