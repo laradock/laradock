@@ -15,8 +15,7 @@ RUN if [ ${CHANGE_SOURCE} = true ]; then \
 RUN apk update \
     && apk upgrade \
     && apk --update add logrotate \
-    && apk add --no-cache openssl \
-    && apk add --no-cache bash
+    && apk add --no-cache openssl bash nginx-mod-http-headers-more
 
 RUN set -x ; \
     addgroup -g 82 -S www-data ; \
@@ -25,11 +24,17 @@ RUN set -x ; \
 ARG PHP_UPSTREAM_CONTAINER=php-fpm
 ARG PHP_UPSTREAM_PORT=9000
 
+ARG SWOOLE_UPSTREAM_CONTAINER=workspace
+ARG SWOOLE_UPSTREAM_PORT=1215
+
 # Create 'messages' file used from 'logrotate'
 RUN touch /var/log/messages
 
 # Copy 'logrotate' config file
 COPY logrotate/nginx /etc/logrotate.d/
+
+# Set laravel-swoole upstream
+#RUN echo "upstream swoole-http { server ${SWOOLE_UPSTREAM_CONTAINER}:${SWOOLE_UPSTREAM_PORT}; }" >> /etc/nginx/conf.d/upstream.conf
 
 # Set upstream conf and remove the default conf
 RUN echo "upstream php-upstream { server ${PHP_UPSTREAM_CONTAINER}:${PHP_UPSTREAM_PORT}; }" > /etc/nginx/conf.d/upstream.conf \

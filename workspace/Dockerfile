@@ -1011,7 +1011,8 @@ USER root
 ARG INSTALL_IMAGEMAGICK=false
 
 RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
-    apt-get install -y imagemagick php-imagick \
+    apt-get update && \
+    apt-get install -y --force-yes imagemagick php-imagick \
 ;fi
 
 ###########################################################################
@@ -1205,3 +1206,6 @@ RUN apt-get clean && \
 
 # Set default work directory
 WORKDIR /var/www
+
+# Expose port for laravel-swoole
+#EXPOSE 1215
