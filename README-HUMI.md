@@ -26,6 +26,11 @@ In the `.env` file, turn on PHP calendar support.
 
 `PHP_FPM_INSTALL_CALENDAR=true`
 
+In the `.env` file, turn on PHP Image Magick support.
+
+`PHP_FPM_INSTALL_IMAGEMAGICK=true`
+`WORKSPACE_INSTALL_IMAGEMAGICK=true`
+
 #### Resolving applications
 
 Humidock will mount the Humi applications in the container. Humidock uses the the **application's directory name**.
