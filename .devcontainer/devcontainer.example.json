@@ -1,9 +1,6 @@
 {
   "name": "Laradock",
-  "dockerComposeFile": [
-    "../docker-compose.yml",
-    "docker-compose.extend.yml"
-  ],
+  "dockerComposeFile": "../docker-compose.yml",
   "remoteUser": "laradock",
   "runServices": [
     "nginx",
