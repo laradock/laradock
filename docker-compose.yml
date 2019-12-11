@@ -212,6 +212,7 @@ services:
           - INSTALL_XHPROF=${PHP_FPM_INSTALL_XHPROF}
           - PUID=${PHP_FPM_PUID}
           - PGID=${PHP_FPM_PGID}
+          - LOCALE=${PHP_FPM_DEFAULT_LOCALE}
           - http_proxy
           - https_proxy
           - no_proxy
