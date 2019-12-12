@@ -1,6 +1,0 @@
-version: '3'
-services:
-  workspace:
-    volumes:
-      - ~/.gitconfig:/home/laradock/.gitconfig
-      - ~/.ssh:/home/laradock/.ssh:ro
