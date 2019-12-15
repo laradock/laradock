@@ -9,6 +9,14 @@ FROM php:${PHP_VERSION}-alpine
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
+# If you're in China, or you need to change sources, will be set CHANGE_SOURCE to true in .env.
+
+ARG CHANGE_SOURCE=false
+RUN if [ ${CHANGE_SOURCE} = true ]; then \
+    # Change application source from dl-cdn.alpinelinux.org to aliyun source
+    sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories \
+;fi
+
 RUN apk --update add wget \
   curl \
   git \
@@ -66,7 +74,11 @@ RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
 # Install MySQL Client:
 ARG INSTALL_MYSQL_CLIENT=false
 RUN if [ ${INSTALL_MYSQL_CLIENT} = true ]; then \
-    apk --update add mysql-client \
+    if [ ${PHP_VERSION} = "7.3" ]; then \
+      apk --update add default-mysql-client \
+    ;else \
+      apk --update add mysql-client \
+    ;fi \
 ;fi
 
 # Install FFMPEG:
@@ -83,6 +95,13 @@ RUN if [ ${INSTALL_AMQP} = true ]; then \
     pecl install amqp && \
     docker-php-ext-enable amqp && \
     docker-php-ext-install sockets \
+;fi
+
+# Install Gearman:
+ARG INSTALL_GEARMAN=false
+
+RUN if [ ${INSTALL_GEARMAN} = true ]; then \
+    docker-php-ext-install gearman \
 ;fi
 
 # Install Cassandra drivers:
@@ -130,10 +149,14 @@ RUN if [ ${INSTALL_GMP} = true ]; then \
    && docker-php-ext-install gmp \
 ;fi
 
-
-RUN rm /var/cache/apk/* \
-    && mkdir -p /var/www
-
+# Install Redis package:
+ARG INSTALL_REDIS=false
+RUN if [ ${INSTALL_REDIS} = true ]; then \
+    # Install Redis Extension
+    printf "\n" | pecl install -o -f redis \
+    &&  rm -rf /tmp/pear \
+    &&  docker-php-ext-enable redis \
+;fi
 
 ###########################################################################
 # Swoole EXTENSION
@@ -204,5 +227,9 @@ RUN php -v | head -n 1 | grep -q "PHP ${PHP_VERSION}."
 # Final Touch
 #--------------------------------------------------------------------------
 #
+
+# Clean up
+RUN rm /var/cache/apk/* \
+    && mkdir -p /var/www
 
 WORKDIR /etc/supervisor/conf.d/
