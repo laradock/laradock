@@ -17,3 +17,13 @@ services:
       - "12111:12111"
     networks:
       - backend
+  ### NGINX ##############################################
+  nginx:
+    networks:
+      backend:
+        aliases:
+          - local.hr.humi.ca
+      backend:
+        aliases:
+          - local.api.humi.ca
+          - local-admin.humi.ca
