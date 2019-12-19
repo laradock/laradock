@@ -1500,6 +1500,13 @@ To add locales to the container:
 
 4 - Check enabled locales with `docker-compose exec php-fpm locale -a`
 
+Update the locale setting, default is `POSIX`
+
+1 - Open the `.env` file and set `PHP_FPM_DEFAULT_LOCALE` to `en_US.UTF8` or other locale you want.
+
+2 - Re-build your PHP-FPM Container `docker-compose build php-fpm`.
+
+3 - Check the default locale with `docker-compose exec php-fpm locale`
 
 
 <br>
