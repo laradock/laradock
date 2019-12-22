@@ -1602,7 +1602,7 @@ services:
       volumes:
         - ${MANTICORE_CONFIG_PATH}:/etc/sphinxsearch
         - ${DATA_PATH_HOST}/manticore/data:/var/lib/manticore/data
-        - ${DATA_PATH_HOST}/manticore/log:/var/lib/manticore/log
+        - ${DATA_PATH_HOST}/manticore/log:/var/log/manticore
       ports:
         - "${MANTICORE_API_PORT}:9312"
         - "${MANTICORE_SPHINXQL_PORT}:9306"
