@@ -297,7 +297,7 @@ PERCONA_ENTRYPOINT_INITDB=./percona/docker-entrypoint-initdb.d
 ### MSSQL #################################################
 
 MSSQL_DATABASE=master
-MSSQL_PASSWORD=yourStrong(!)Password
+MSSQL_PASSWORD="yourStrong(!)Password"
 MSSQL_PORT=1433
 
 ### MARIADB ###############################################
@@ -385,7 +385,7 @@ MAILDEV_SMTP_PORT=25
 VARNISH_CONFIG=/etc/varnish/default.vcl
 VARNISH_PORT=8080
 VARNISH_BACKEND_PORT=8888
-VARNISHD_PARAMS=-p default_ttl=3600 -p default_grace=3600
+VARNISHD_PARAMS="-p default_ttl=3600 -p default_grace=3600"
 
 ### Varnish ###############################################
 
@@ -437,10 +437,10 @@ GRAYLOG_GELF_UDP_PORT=12201
 
 # Create an account on blackfire.io. Don't enable blackfire and xDebug at the same time. # visit https://blackfire.io/docs/24-days/06-installation#install-probe-debian for more info.
 INSTALL_BLACKFIRE=false
-BLACKFIRE_CLIENT_ID=<client_id>
-BLACKFIRE_CLIENT_TOKEN=<client_token>
-BLACKFIRE_SERVER_ID=<server_id>
-BLACKFIRE_SERVER_TOKEN=<server_token>
+BLACKFIRE_CLIENT_ID="<client_id>"
+BLACKFIRE_CLIENT_TOKEN="<client_token>"
+BLACKFIRE_SERVER_ID="<server_id>"
+BLACKFIRE_SERVER_TOKEN="<server_token>"
 
 ### AEROSPIKE #############################################
 
@@ -549,7 +549,7 @@ FACE_DETECTOR_CASCADE_FILE=haarcascade_frontalface_alt.xml
 OPTIMIZERS=[]
 JPEGTRAN_PATH=/usr/bin/jpegtran
 PROGRESSIVE_JPEG=True
-FILTERS=["thumbor.filters.brightness", "thumbor.filters.contrast", "thumbor.filters.rgb", "thumbor.filters.round_corner", "thumbor.filters.quality", "thumbor.filters.noise", "thumbor.filters.watermark", "thumbor.filters.equalize", "thumbor.filters.fill", "thumbor.filters.sharpen", "thumbor.filters.strip_icc", "thumbor.filters.frame", "thumbor.filters.grayscale", "thumbor.filters.rotate", "thumbor.filters.format", "thumbor.filters.max_bytes", "thumbor.filters.convolution", "thumbor.filters.blur", "thumbor.filters.extract_focal", "thumbor.filters.no_upscale"]
+FILTERS="[thumbor.filters.brightness, thumbor.filters.contrast, thumbor.filters.rgb, thumbor.filters.round_corner, thumbor.filters.quality, thumbor.filters.noise, thumbor.filters.watermark, thumbor.filters.equalize, thumbor.filters.fill, thumbor.filters.sharpen, thumbor.filters.strip_icc, thumbor.filters.frame, thumbor.filters.grayscale, thumbor.filters.rotate, thumbor.filters.format, thumbor.filters.max_bytes, thumbor.filters.convolution, thumbor.filters.blur, thumbor.filters.extract_focal, thumbor.filters.no_upscale]"
 RESULT_STORAGE_EXPIRATION_SECONDS=0
 RESULT_STORAGE_FILE_STORAGE_ROOT_PATH=/data/result_storage
 RESULT_STORAGE_STORES_UNSAFE=False
@@ -601,7 +601,7 @@ GITLAB_POSTGRES_DB=laradock_gitlab
 
 ### GITLAB-RUNNER ###############################################
 GITLAB_CI_SERVER_URL=http://localhost:8989
-GITLAB_RUNNER_REGISTRATION_TOKEN=<my-registration-token>
+GITLAB_RUNNER_REGISTRATION_TOKEN="<my-registration-token>"
 GITLAB_REGISTER_NON_INTERACTIVE=true
 
 ### JUPYTERHUB ###############################################
@@ -662,8 +662,8 @@ DOCKER_WEBUI_PORT=8754
 
 ### MAILU ###############################################
 MAILU_VERSION=latest
-MAILU_RECAPTCHA_PUBLIC_KEY=<YOUR_RECAPTCHA_PUBLIC_KEY>
-MAILU_RECAPTCHA_PRIVATE_KEY=<YOUR_RECAPTCHA_PRIVATE_KEY>
+MAILU_RECAPTCHA_PUBLIC_KEY="<YOUR_RECAPTCHA_PUBLIC_KEY>"
+MAILU_RECAPTCHA_PRIVATE_KEY="<YOUR_RECAPTCHA_PRIVATE_KEY>"
 # Main mail domain
 MAILU_HTTP_PORT=6080
 MAILU_HTTPS_PORT=60443
@@ -679,7 +679,7 @@ MAILU_SECRET_KEY=ChangeMeChangeMe
 # Choose how secure connections will behave (value: letsencrypt, cert, notls, mail)
 MAILU_TLS_FLAVOR=cert
 # Authentication rate limit (per source IP address)
-MAILU_AUTH_RATELIMIT=10/minute;1000/hour
+MAILU_AUTH_RATELIMIT="10/minute;1000/hour"
 # Opt-out of statistics, replace with "True" to opt out
 MAILU_DISABLE_STATISTICS=False
 # Message size limit in bytes
@@ -701,14 +701,14 @@ MAILU_DMARC_RUF=admin
 # Welcome email, enable and set a topic and body if you wish to send welcome
 # emails to all users.
 MAILU_WELCOME=True
-MAILU_WELCOME_SUBJECT=Welcome to your new email account
-MAILU_WELCOME_BODY=Welcome to your new email account, if you can read this, then it is configured properly!
+MAILU_WELCOME_SUBJECT="Welcome to your new email account"
+MAILU_WELCOME_BODY="Welcome to your new email account, if you can read this, then it is configured properly!"
 # Path to the admin interface if enabled
 MAILU_WEB_ADMIN=/admin
 # Path to the webmail if enabled
 MAILU_WEB_WEBMAIL=/webmail
 # Website name
-MAILU_SITENAME=Example Mail
+MAILU_SITENAME="Example Mail"
 # Linked Website URL
 MAILU_WEBSITE=http://mail.example.com
 # Default password scheme used for newly created accounts and changed passwords
