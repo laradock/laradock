@@ -29,8 +29,8 @@ RUN apk --update add wget \
   cyrus-sasl-dev \
   libgsasl-dev \
   supervisor \
-  procps \
-  oniguruma-dev
+  oniguruma-dev \
+  procps
 
 RUN docker-php-ext-install mysqli mbstring pdo pdo_mysql tokenizer xml pcntl
 RUN pecl channel-update pecl.php.net && pecl install memcached mcrypt-1.0.1 mongodb && docker-php-ext-enable memcached mongodb
@@ -117,30 +117,6 @@ RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
   && rm /tmp/memcached.tar.gz \
   && docker-php-ext-enable memcached \
   ;fi
-
-
-###########################################################################
-# ImageMagick:
-###########################################################################
-
-ARG INSTALL_IMAGEMAGICK=false
-
-RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
-    apk --update add imagemagick imagemagick-libs imagemagick-dev && \
-    pecl install imagick && \
-    docker-php-ext-enable imagick \
-;fi
-
-###########################################################################
-# Image optimizers:
-###########################################################################
-
-ARG INSTALL_IMAGE_OPTIMIZERS=false
-
-RUN if [ ${INSTALL_IMAGE_OPTIMIZERS} = true ]; then \
-    apk --update add jpegoptim optipng pngquant gifsicle \
-;fi
-
 
 RUN rm /var/cache/apk/* \
   && mkdir -p /var/www

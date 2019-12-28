@@ -343,6 +343,25 @@ RUN sed -i "s/xdebug.remote_autostart=0/xdebug.remote_autostart=1/" /etc/php/${L
     sed -i "s/xdebug.cli_color=0/xdebug.cli_color=1/" /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/xdebug.ini
 
 ###########################################################################
+# pcov:
+###########################################################################
+
+USER root
+
+ARG INSTALL_PCOV=false
+
+RUN if [ ${INSTALL_PCOV} = true ]; then \
+  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
+    if [ $(php -r "echo PHP_MINOR_VERSION;") != "0" ]; then \
+      pecl install pcov && \
+      echo "extension=pcov.so" >> /etc/php/${LARADOCK_PHP_VERSION}/cli/php.ini && \
+      echo "pcov.enabled" >> /etc/php/${LARADOCK_PHP_VERSION}/cli/php.ini \
+    ;fi \
+  ;fi \
+;fi
+
+
+###########################################################################
 # Phpdbg:
 ###########################################################################
 
@@ -753,6 +772,47 @@ RUN set -xe; \
     && echo 'aerospike.udf.lua_system_path=/usr/local/aerospike/lua' >> /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/aerospike.ini \
     && echo 'aerospike.udf.lua_user_path=/usr/local/aerospike/usr-lua' >> /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/aerospike.ini \
   ;fi
+
+###########################################################################
+# PHP OCI8:
+###########################################################################
+
+USER root
+ARG INSTALL_OCI8=false
+
+ENV LD_LIBRARY_PATH="/opt/oracle/instantclient_12_1"
+ENV OCI_HOME="/opt/oracle/instantclient_12_1"
+ENV OCI_LIB_DIR="/opt/oracle/instantclient_12_1"
+ENV OCI_INCLUDE_DIR="/opt/oracle/instantclient_12_1/sdk/include"
+ENV OCI_VERSION=12
+
+RUN if [ ${INSTALL_OCI8} = true ]; then \
+  # Install wget
+  apt-get update && apt-get install --no-install-recommends -y wget \
+  # Install Oracle Instantclient
+  && mkdir /opt/oracle \
+      && cd /opt/oracle \
+      && wget https://github.com/diogomascarenha/oracle-instantclient/raw/master/instantclient-basic-linux.x64-12.1.0.2.0.zip \
+      && wget https://github.com/diogomascarenha/oracle-instantclient/raw/master/instantclient-sdk-linux.x64-12.1.0.2.0.zip \
+      && unzip /opt/oracle/instantclient-basic-linux.x64-12.1.0.2.0.zip -d /opt/oracle \
+      && unzip /opt/oracle/instantclient-sdk-linux.x64-12.1.0.2.0.zip -d /opt/oracle \
+      && ln -s /opt/oracle/instantclient_12_1/libclntsh.so.12.1 /opt/oracle/instantclient_12_1/libclntsh.so \
+      && ln -s /opt/oracle/instantclient_12_1/libclntshcore.so.12.1 /opt/oracle/instantclient_12_1/libclntshcore.so \
+      && ln -s /opt/oracle/instantclient_12_1/libocci.so.12.1 /opt/oracle/instantclient_12_1/libocci.so \
+      && rm -rf /opt/oracle/*.zip \
+  # Install PHP extensions deps
+  && apt-get update \
+      && apt-get install --no-install-recommends -y \
+          libaio-dev && \
+  # Install PHP extensions
+  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+    echo 'instantclient,/opt/oracle/instantclient_12_1/' | pecl install oci8-2.0.10; \
+  else \
+    echo 'instantclient,/opt/oracle/instantclient_12_1/' | pecl install oci8; \
+  fi \
+  && echo "extension=oci8.so" >> /etc/php/${LARADOCK_PHP_VERSION}/cli/php.ini \
+  && php -m | grep -q 'oci8' \
+;fi
 
 ###########################################################################
 # PHP V8JS:
