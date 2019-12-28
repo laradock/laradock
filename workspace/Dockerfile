@@ -378,19 +378,17 @@ RUN if [ ${INSTALL_XDEBUG} = false -a ${INSTALL_BLACKFIRE} = true ]; then \
 
 ARG INSTALL_WORKSPACE_SSH=false
 
-COPY insecure_id_rsa /tmp/id_rsa
-COPY insecure_id_rsa.pub /tmp/id_rsa.pub
+COPY .ssh /tmp/.ssh
 
 RUN if [ ${INSTALL_WORKSPACE_SSH} = true ]; then \
     rm -f /etc/service/sshd/down && \
-    cat /tmp/id_rsa.pub >> /root/.ssh/authorized_keys \
-        && cat /tmp/id_rsa.pub >> /root/.ssh/id_rsa.pub \
-        && cat /tmp/id_rsa >> /root/.ssh/id_rsa \
-        && rm -f /tmp/id_rsa* \
-        && chmod 644 /root/.ssh/authorized_keys /root/.ssh/id_rsa.pub \
-    && chmod 400 /root/.ssh/id_rsa \
-    && cp -rf /root/.ssh /home/laradock \
-    && chown -R laradock:laradock /home/laradock/.ssh \
+        mv /tmp/.ssh /root && \
+        cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys && \
+        chmod 644 /root/.ssh/authorized_keys && \
+        chmod 600 /root/.ssh/id_rsa && \
+        chmod 600 /root/.ssh/id_rsa.pub && \
+        cp -rf /root/.ssh /home/laradock && \
+        chown -R laradock:laradock /home/laradock/.ssh \
 ;fi
 
 ###########################################################################
@@ -827,7 +825,8 @@ RUN if [ ${INSTALL_DEPLOYER} = true ]; then \
     # Waiting to be resolved on https://github.com/deployphp/deployer/issues/1552
     curl -LO https://deployer.org/deployer.phar && \
     mv deployer.phar /usr/local/bin/dep && \
-    chmod +x /usr/local/bin/dep \
+    chmod +x /usr/local/bin/dep && \
+    composer global require deployer/recipes \
 ;fi
 
 ###########################################################################
@@ -1011,8 +1010,7 @@ USER root
 ARG INSTALL_IMAGEMAGICK=false
 
 RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
-    apt-get update && \
-    apt-get install -y --force-yes imagemagick php-imagick \
+    apt-get install -y imagemagick php-imagick \
 ;fi
 
 ###########################################################################
