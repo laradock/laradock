@@ -552,7 +552,7 @@ docker-compose exec --user=laradock workspace bash -c "cd my-project && php arti
 This invokes the Dusk command from inside the workspace container but when the script completes
 execution, it returns your session to your project directory.
 
-[^1]: [Don't Use .dev for Development](https://iyware.com/dont-use-dev-for-development/)
+[^1]: [RFC 2606 - Reserved Top Level DNS Names](https://tools.ietf.org/html/rfc2606#section-2)
 
 
 <br>
