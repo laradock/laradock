@@ -50,11 +50,19 @@ RUN set -xe; \
       # base image (https://github.com/Laradock/php-fpm).
       #
       # next lines are here becase there is no auto build on dockerhub see https://github.com/laradock/laradock/pull/1903#issuecomment-463142846
-      libzip-dev zip unzip && \
-      docker-php-ext-configure zip --with-libzip && \
-      # Install the zip extension
-      docker-php-ext-install zip && \
-      php -m | grep -q 'zip'
+RUN if [${LARADOCK_PHP_VERSION} -lt 7.3] then \
+    libzip-dev zip unzip && \
+    docker-php-ext-configure zip --with-libzip && \
+    # Install the zip extension
+    docker-php-ext-install zip && \
+    php -m | grep -q 'zip' \
+else \
+    libzip-dev zip unzip && \
+    docker-php-ext-configure zip --with-libzip && \
+    # Install the zip extension
+    docker-php-ext-install zip && \
+    php -m | grep -q 'zip' \
+;fi
 
 #
 #--------------------------------------------------------------------------
@@ -295,7 +303,7 @@ RUN if [ ${INSTALL_XHPROF} = true ]; then \
     # Install the php xhprof extension
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = 7 ]; then \
       curl -L -o /tmp/xhprof.tar.gz "https://github.com/tideways/php-xhprof-extension/archive/v5.0.1.tar.gz"; \
-    else \ 
+    else \
       curl -L -o /tmp/xhprof.tar.gz "https://codeload.github.com/phacility/xhprof/tar.gz/master"; \
     fi \
     && mkdir -p xhprof \
