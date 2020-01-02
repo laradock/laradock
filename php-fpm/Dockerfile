@@ -34,31 +34,47 @@ RUN if [ ${CHANGE_SOURCE} = true ]; then \
 ;fi
 
 # always run apt update when start and after add new source list, then clean up at end.
-RUN set -xe; \
+RUN  if [${LARADOCK_PHP_VERSION} -lt 7.3]; then \
+    set -xe; \
     apt-get update -yqq && \
     pecl channel-update pecl.php.net && \
     apt-get install -yqq \
-      apt-utils \
-      #
-      #--------------------------------------------------------------------------
-      # Mandatory Software's Installation
-      #--------------------------------------------------------------------------
-      #
-      # Mandatory Software's such as ("mcrypt", "pdo_mysql", "libssl-dev", ....)
-      # are installed on the base image 'laradock/php-fpm' image. If you want
-      # to add more Software's or remove existing one, you need to edit the
-      # base image (https://github.com/Laradock/php-fpm).
-      #
-      # next lines are here becase there is no auto build on dockerhub see https://github.com/laradock/laradock/pull/1903#issuecomment-463142846
-RUN if [${LARADOCK_PHP_VERSION} -lt 7.3] then \
+    apt-utils \
+    #
+    #--------------------------------------------------------------------------
+    # Mandatory Software's Installation
+    #--------------------------------------------------------------------------
+    #
+    # Mandatory Software's such as ("mcrypt", "pdo_mysql", "libssl-dev", ....)
+    # are installed on the base image 'laradock/php-fpm' image. If you want
+    # to add more Software's or remove existing one, you need to edit the
+    # base image (https://github.com/Laradock/php-fpm).
+    #
+    # next lines are here becase there is no auto build on dockerhub see https://github.com/laradock/laradock/pull/1903#issuecomment-463142846
     libzip-dev zip unzip && \
     docker-php-ext-configure zip --with-libzip && \
     # Install the zip extension
     docker-php-ext-install zip && \
-    php -m | grep -q 'zip' \
+    php -m | grep -q 'zip'; \
 else \
+    set -xe; \
+    apt-get update -yqq && \
+    pecl channel-update pecl.php.net && \
+    apt-get install -yqq \
+    apt-utils \
+    #
+    #--------------------------------------------------------------------------
+    # Mandatory Software's Installation
+    #--------------------------------------------------------------------------
+    #
+    # Mandatory Software's such as ("mcrypt", "pdo_mysql", "libssl-dev", ....)
+    # are installed on the base image 'laradock/php-fpm' image. If you want
+    # to add more Software's or remove existing one, you need to edit the
+    # base image (https://github.com/Laradock/php-fpm).
+    #
+    # next lines are here becase there is no auto build on dockerhub see https://github.com/laradock/laradock/pull/1903#issuecomment-463142846
     libzip-dev zip unzip && \
-    docker-php-ext-configure zip && \
+    docker-php-ext-configure zip --with-libzip && \
     # Install the zip extension
     docker-php-ext-install zip && \
     php -m | grep -q 'zip' \
