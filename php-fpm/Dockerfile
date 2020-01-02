@@ -58,7 +58,7 @@ RUN if [${LARADOCK_PHP_VERSION} -lt 7.3] then \
     php -m | grep -q 'zip' \
 else \
     libzip-dev zip unzip && \
-    docker-php-ext-configure zip --with-libzip && \
+    docker-php-ext-configure zip && \
     # Install the zip extension
     docker-php-ext-install zip && \
     php -m | grep -q 'zip' \
