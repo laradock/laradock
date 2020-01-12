@@ -272,10 +272,6 @@ docker-compose build workspace
 ```
 
 
-
-
-
-
 <br>
 <a name="Install-xDebug"></a>
 ## Install xDebug
@@ -2065,6 +2061,19 @@ Remote debug Laravel web and phpunit tests.
 
 
 
+<br>
+<a name="Setup-gcloud"></a>
+## Setup Google Cloud for docker registry
+
+```
+gcloud auth configure-docker
+```
+
+Login to gcloud for use the registry and auth the permission.
+
+```
+gcloud auth login
+```
 
 
 
