@@ -17,7 +17,7 @@ googleAnalytics = "UA-37514928-9"
 
 	# Repository
 	provider = ""
-	repo_url = ""
+	repo_url = "https://github.com/laradock/laradock"
 
 	version = ""
 	logo = "images/logo.png"
@@ -43,7 +43,7 @@ googleAnalytics = "UA-37514928-9"
 [social]
 	twitter = ""
 	github  = "laradock/laradock"
-	email   = ""
+	email   = "support@laradock.io"
 
 # ------- MENU START -----------------------------------------
 
@@ -63,29 +63,24 @@ googleAnalytics = "UA-37514928-9"
 	weight = 3
 
 [[menu.main]]
-	name   = "4. Guides"
-	url    = "guides/"
+	name   = "4. Help & Questions"
+	url    = "help/"
 	weight = 4
 
 [[menu.main]]
-	name   = "5. Help & Questions"
-	url    = "help/"
+	name   = "5. Related Projects"
+	url    = "related-projects/"
 	weight = 5
 
 [[menu.main]]
-	name   = "6. Related Projects"
-	url    = "related-projects/"
+	name   = "6. Contributing"
+	url    = "contributing/"
 	weight = 6
 
 [[menu.main]]
-	name   = "7. Contributing"
-	url    = "contributing/"
-	weight = 7
-
-[[menu.main]]
-	name   = "8. License"
+	name   = "7. License"
 	url    = "license/"
-	weight = 8
+	weight = 7
 
 # ------- MENU END -----------------------------------------
 
