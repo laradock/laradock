@@ -290,6 +290,9 @@ services:
           - INSTALL_CASSANDRA=${PHP_FPM_INSTALL_CASSANDRA}
           - INSTALL_PHPREDIS=${LARAVEL_HORIZON_INSTALL_PHPREDIS}
           - INSTALL_MONGO=${LARAVEL_HORIZON_INSTALL_MONGO}
+          - INSTALL_FFMPEG=${LARAVEL_HORIZON_INSTALL_FFMPEG}
+          - PUID=${PHP_WORKER_PUID}
+          - PGID=${PHP_WORKER_PGID}
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
         - ./laravel-horizon/supervisord.d:/etc/supervisord.d
