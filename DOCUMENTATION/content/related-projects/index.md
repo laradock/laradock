@@ -1,5 +1,5 @@
 ---
-title: Related Projects
+title: 6. Related Projects
 type: index
 weight: 6
 ---

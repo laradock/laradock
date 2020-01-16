@@ -1,5 +1,5 @@
 ---
-title: Contributing
+title: 7. Contributing
 type: index
 weight: 7
 ---
@@ -204,4 +204,4 @@ After your pull request is merged, you can safely delete your branch and pull th
 
 
 <br>
-#### Happy Coding :)
+## Happy Coding :)
