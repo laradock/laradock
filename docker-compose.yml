@@ -770,7 +770,10 @@ services:
 
 ### ElasticSearch ########################################
     elasticsearch:
-      build: ./elasticsearch
+      build:
+        context: ./elasticsearch
+        args:
+          - ELK_VERSION=${ELK_VERSION}
       volumes:
         - elasticsearch:/usr/share/elasticsearch/data
       environment:
@@ -794,7 +797,10 @@ services:
 
 ### Logstash ##############################################
     logstash:
-      build: ./logstash
+      build:
+        context: ./logstash
+        args:
+          - ELK_VERSION=${ELK_VERSION}
       volumes:
         - './logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml'
         - './logstash/pipeline:/usr/share/logstash/pipeline'
@@ -812,7 +818,10 @@ services:
 
 ### Kibana ##############################################
     kibana:
-      build: ./kibana
+      build:
+        context: ./kibana
+        args:
+          - ELK_VERSION=${ELK_VERSION}
       ports:
         - "${KIBANA_HTTP_PORT}:5601"
       depends_on:
