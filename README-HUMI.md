@@ -101,8 +101,10 @@ To start Humidock (and all applications it hosts), run `dock up` which calls (`d
 
 ### Database Migration
 
-To run the database migrations, you need first to run `dock workspace` and then `php artisan humi:migrate --drop --seed --deploy`. 
+To run the database migrations, you need first to run `dock workspace`,then 
+1. in `application` folder run `php artisan humi:migrate --drop --seed --deploy` (if command failed, first run `composer install`)
 As an alternative, you may run `docker-compose exec --user=laradock workspace php artisan humi:migrate --drop --seed --deploy`.
+2. in `administration` folder run `php artisan migrate:fresh --seed` (if command failed, first run `composer install`)
 
 ### Accessing workspace
 
