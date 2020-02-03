@@ -37,13 +37,14 @@ COMPOSE_PROJECT_NAME=laradock
 
 ### PHP Version ###########################################
 
-# Select a PHP version of the Workspace and PHP-FPM containers (Does not apply to HHVM). Accepted values: 7.3 - 7.2 - 7.1 - 7.0 - 5.6
+# Select a PHP version of the Workspace and PHP-FPM containers (Does not apply to HHVM).
+# Accepted values: 7.4 - 7.3 - 7.2 - 7.1 - 7.0 - 5.6
 PHP_VERSION=7.3
 
 ### Phalcon Version ###########################################
 
 # Select a Phalcon version of the Workspace and PHP-FPM containers (Does not apply to HHVM). Accepted values: 3.4.0+
-PHALCON_VERSION=3.4.1
+PHALCON_VERSION=3.4.5
 
 ### PHP Interpreter #######################################
 
@@ -69,6 +70,8 @@ COMPOSE_CONVERT_WINDOWS_PATHS=1
 
 # If you need to change the sources (i.e. to China), set CHANGE_SOURCE to true
 CHANGE_SOURCE=false
+# Set CHANGE_SOURCE and UBUNTU_SOURCE option if you want to change the Ubuntu system sources.list file.
+UBUNTU_SOURCE=aliyun
 
 ### Docker Sync ###########################################
 
@@ -84,6 +87,7 @@ DOCKER_SYNC_STRATEGY=native_osx
 WORKSPACE_COMPOSER_GLOBAL_INSTALL=true
 WORKSPACE_COMPOSER_AUTH=false
 WORKSPACE_COMPOSER_REPO_PACKAGIST=
+WORKSPACE_NVM_NODEJS_ORG_MIRROR=
 WORKSPACE_INSTALL_NODE=true
 WORKSPACE_NODE_VERSION=node
 WORKSPACE_NPM_REGISTRY=
@@ -97,12 +101,14 @@ WORKSPACE_INSTALL_PHPREDIS=true
 WORKSPACE_INSTALL_WORKSPACE_SSH=false
 WORKSPACE_INSTALL_SUBVERSION=false
 WORKSPACE_INSTALL_XDEBUG=false
+WORKSPACE_INSTALL_PCOV=false
 WORKSPACE_INSTALL_PHPDBG=false
 WORKSPACE_INSTALL_SSH2=false
 WORKSPACE_INSTALL_LDAP=false
 WORKSPACE_INSTALL_GMP=false
 WORKSPACE_INSTALL_SOAP=false
 WORKSPACE_INSTALL_XSL=false
+WORKSPACE_INSTALL_SMB=false
 WORKSPACE_INSTALL_IMAP=false
 WORKSPACE_INSTALL_MONGO=false
 WORKSPACE_INSTALL_AMQP=false
@@ -114,6 +120,7 @@ WORKSPACE_DRUSH_VERSION=8.1.17
 WORKSPACE_INSTALL_DRUPAL_CONSOLE=false
 WORKSPACE_INSTALL_WP_CLI=false
 WORKSPACE_INSTALL_AEROSPIKE=false
+WORKSPACE_INSTALL_OCI8=false
 WORKSPACE_INSTALL_V8JS=false
 WORKSPACE_INSTALL_LARAVEL_ENVOY=false
 WORKSPACE_INSTALL_LARAVEL_INSTALLER=false
@@ -124,6 +131,7 @@ WORKSPACE_INSTALL_MC=false
 WORKSPACE_INSTALL_SYMFONY=false
 WORKSPACE_INSTALL_PYTHON=false
 WORKSPACE_INSTALL_POWERLINE=false
+WORKSPACE_INSTALL_SUPERVISOR=false
 WORKSPACE_INSTALL_IMAGE_OPTIMIZERS=false
 WORKSPACE_INSTALL_IMAGEMAGICK=false
 WORKSPACE_INSTALL_TERRAFORM=false
@@ -139,6 +147,7 @@ WORKSPACE_INSTALL_PING=false
 WORKSPACE_INSTALL_SSHPASS=false
 WORKSPACE_INSTALL_INOTIFY=false
 WORKSPACE_INSTALL_FSWATCH=false
+WORKSPACE_INSTALL_YAML=false
 WORKSPACE_INSTALL_MAILPARSE=false
 WORKSPACE_PUID=1000
 WORKSPACE_PGID=1000
@@ -147,6 +156,8 @@ WORKSPACE_TIMEZONE=UTC
 WORKSPACE_SSH_PORT=2222
 WORKSPACE_INSTALL_FFMPEG=false
 WORKSPACE_INSTALL_GNU_PARALLEL=false
+WORKSPACE_INSTALL_AST=true
+WORKSPACE_AST_VERSION=1.0.3
 
 ### PHP_FPM ###############################################
 
@@ -159,8 +170,10 @@ PHP_FPM_INSTALL_IMAGE_OPTIMIZERS=true
 PHP_FPM_INSTALL_PHPREDIS=true
 PHP_FPM_INSTALL_MEMCACHED=false
 PHP_FPM_INSTALL_XDEBUG=false
+PHP_FPM_INSTALL_PCOV=false
 PHP_FPM_INSTALL_XHPROF=false
 PHP_FPM_INSTALL_PHPDBG=false
+PHP_FPM_INSTALL_SMB=false
 PHP_FPM_INSTALL_IMAP=false
 PHP_FPM_INSTALL_MONGO=false
 PHP_FPM_INSTALL_AMQP=false
@@ -173,6 +186,7 @@ PHP_FPM_INSTALL_XSL=false
 PHP_FPM_INSTALL_GMP=false
 PHP_FPM_INSTALL_EXIF=false
 PHP_FPM_INSTALL_AEROSPIKE=false
+PHP_FPM_INSTALL_OCI8=false
 PHP_FPM_INSTALL_PGSQL=false
 PHP_FPM_INSTALL_GHOSTSCRIPT=false
 PHP_FPM_INSTALL_LDAP=false
@@ -186,8 +200,10 @@ PHP_FPM_INSTALL_CALENDAR=false
 PHP_FPM_INSTALL_FAKETIME=false
 PHP_FPM_INSTALL_IONCUBE=false
 PHP_FPM_INSTALL_RDKAFKA=false
+PHP_FPM_INSTALL_GETTEXT=false
 PHP_FPM_FAKETIME=-0
 PHP_FPM_INSTALL_APCU=false
+PHP_FPM_INSTALL_CACHETOOL=false
 PHP_FPM_INSTALL_YAML=false
 PHP_FPM_INSTALL_ADDITIONAL_LOCALES=false
 PHP_FPM_INSTALL_MYSQL_CLIENT=false
@@ -196,6 +212,10 @@ PHP_FPM_INSTALL_SSHPASS=false
 PHP_FPM_INSTALL_MAILPARSE=false
 PHP_FPM_FFMPEG=false
 PHP_FPM_ADDITIONAL_LOCALES="es_ES.UTF-8 fr_FR.UTF-8"
+PHP_FPM_DEFAULT_LOCALE=POSIX
+
+PHP_FPM_PUID=1000
+PHP_FPM_PGID=1000
 
 ### PHP_WORKER ############################################
 
@@ -232,6 +252,8 @@ NGINX_SSL_PATH=./nginx/ssl/
 
 LARAVEL_HORIZON_INSTALL_SOCKETS=false
 LARAVEL_HORIZON_INSTALL_PHPREDIS=true
+LARAVEL_HORIZON_INSTALL_MONGO=false
+LARAVEL_HORIZON_INSTALL_FFMPEG=false
 
 ### APACHE ################################################
 
@@ -277,8 +299,8 @@ PERCONA_ENTRYPOINT_INITDB=./percona/docker-entrypoint-initdb.d
 
 ### MSSQL #################################################
 
-MSSQL_DATABASE=homestead
-MSSQL_PASSWORD=yourStrong(!)Password
+MSSQL_DATABASE=master
+MSSQL_PASSWORD="yourStrong(!)Password"
 MSSQL_PORT=1433
 
 ### MARIADB ###############################################
@@ -366,7 +388,7 @@ MAILDEV_SMTP_PORT=25
 VARNISH_CONFIG=/etc/varnish/default.vcl
 VARNISH_PORT=6081
 VARNISH_BACKEND_PORT=81
-VARNISHD_PARAMS=-p default_ttl=3600 -p default_grace=3600
+VARNISHD_PARAMS="-p default_ttl=3600 -p default_grace=3600"
 
 ### Varnish ###############################################
 
@@ -418,10 +440,10 @@ GRAYLOG_GELF_UDP_PORT=12201
 
 # Create an account on blackfire.io. Don't enable blackfire and xDebug at the same time. # visit https://blackfire.io/docs/24-days/06-installation#install-probe-debian for more info.
 INSTALL_BLACKFIRE=false
-BLACKFIRE_CLIENT_ID=<client_id>
-BLACKFIRE_CLIENT_TOKEN=<client_token>
-BLACKFIRE_SERVER_ID=<server_id>
-BLACKFIRE_SERVER_TOKEN=<server_token>
+BLACKFIRE_CLIENT_ID="<client_id>"
+BLACKFIRE_CLIENT_TOKEN="<client_token>"
+BLACKFIRE_SERVER_ID="<server_id>"
+BLACKFIRE_SERVER_TOKEN="<server_token>"
 
 ### AEROSPIKE #############################################
 
@@ -530,7 +552,7 @@ FACE_DETECTOR_CASCADE_FILE=haarcascade_frontalface_alt.xml
 OPTIMIZERS=[]
 JPEGTRAN_PATH=/usr/bin/jpegtran
 PROGRESSIVE_JPEG=True
-FILTERS=["thumbor.filters.brightness", "thumbor.filters.contrast", "thumbor.filters.rgb", "thumbor.filters.round_corner", "thumbor.filters.quality", "thumbor.filters.noise", "thumbor.filters.watermark", "thumbor.filters.equalize", "thumbor.filters.fill", "thumbor.filters.sharpen", "thumbor.filters.strip_icc", "thumbor.filters.frame", "thumbor.filters.grayscale", "thumbor.filters.rotate", "thumbor.filters.format", "thumbor.filters.max_bytes", "thumbor.filters.convolution", "thumbor.filters.blur", "thumbor.filters.extract_focal", "thumbor.filters.no_upscale"]
+FILTERS="[thumbor.filters.brightness, thumbor.filters.contrast, thumbor.filters.rgb, thumbor.filters.round_corner, thumbor.filters.quality, thumbor.filters.noise, thumbor.filters.watermark, thumbor.filters.equalize, thumbor.filters.fill, thumbor.filters.sharpen, thumbor.filters.strip_icc, thumbor.filters.frame, thumbor.filters.grayscale, thumbor.filters.rotate, thumbor.filters.format, thumbor.filters.max_bytes, thumbor.filters.convolution, thumbor.filters.blur, thumbor.filters.extract_focal, thumbor.filters.no_upscale]"
 RESULT_STORAGE_EXPIRATION_SECONDS=0
 RESULT_STORAGE_FILE_STORAGE_ROOT_PATH=/data/result_storage
 RESULT_STORAGE_STORES_UNSAFE=False
@@ -582,7 +604,7 @@ GITLAB_POSTGRES_DB=laradock_gitlab
 
 ### GITLAB-RUNNER ###############################################
 GITLAB_CI_SERVER_URL=http://localhost:8989
-GITLAB_RUNNER_REGISTRATION_TOKEN=<my-registration-token>
+GITLAB_RUNNER_REGISTRATION_TOKEN="<my-registration-token>"
 GITLAB_REGISTER_NON_INTERACTIVE=true
 
 ### JUPYTERHUB ###############################################
@@ -643,8 +665,8 @@ DOCKER_WEBUI_PORT=8754
 
 ### MAILU ###############################################
 MAILU_VERSION=latest
-MAILU_RECAPTCHA_PUBLIC_KEY=<YOUR_RECAPTCHA_PUBLIC_KEY>
-MAILU_RECAPTCHA_PRIVATE_KEY=<YOUR_RECAPTCHA_PRIVATE_KEY>
+MAILU_RECAPTCHA_PUBLIC_KEY="<YOUR_RECAPTCHA_PUBLIC_KEY>"
+MAILU_RECAPTCHA_PRIVATE_KEY="<YOUR_RECAPTCHA_PRIVATE_KEY>"
 # Main mail domain
 MAILU_HTTP_PORT=6080
 MAILU_HTTPS_PORT=60443
@@ -660,7 +682,7 @@ MAILU_SECRET_KEY=ChangeMeChangeMe
 # Choose how secure connections will behave (value: letsencrypt, cert, notls, mail)
 MAILU_TLS_FLAVOR=cert
 # Authentication rate limit (per source IP address)
-MAILU_AUTH_RATELIMIT=10/minute;1000/hour
+MAILU_AUTH_RATELIMIT="10/minute;1000/hour"
 # Opt-out of statistics, replace with "True" to opt out
 MAILU_DISABLE_STATISTICS=False
 # Message size limit in bytes
@@ -682,14 +704,14 @@ MAILU_DMARC_RUF=admin
 # Welcome email, enable and set a topic and body if you wish to send welcome
 # emails to all users.
 MAILU_WELCOME=True
-MAILU_WELCOME_SUBJECT=Welcome to your new email account
-MAILU_WELCOME_BODY=Welcome to your new email account, if you can read this, then it is configured properly!
+MAILU_WELCOME_SUBJECT="Welcome to your new email account"
+MAILU_WELCOME_BODY="Welcome to your new email account, if you can read this, then it is configured properly!"
 # Path to the admin interface if enabled
 MAILU_WEB_ADMIN=/admin
 # Path to the webmail if enabled
 MAILU_WEB_WEBMAIL=/webmail
 # Website name
-MAILU_SITENAME=Example Mail
+MAILU_SITENAME="Example Mail"
 # Linked Website URL
 MAILU_WEBSITE=http://mail.example.com
 # Default password scheme used for newly created accounts and changed passwords
@@ -745,6 +767,10 @@ SONARQUBE_POSTGRES_HOST=postgres
 SONARQUBE_POSTGRES_DB=sonar
 SONARQUBE_POSTGRES_USER=sonar
 SONARQUBE_POSTGRES_PASSWORD=sonarPass
+
+### TOMCAT ################################################
+TOMCAT_VERSION=8.5.43
+TOMCAT_HOST_HTTP_PORT=8080
 
 ### CASSANDRA ################################################
 
