@@ -106,21 +106,21 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
   ;fi
 
 ###########################################################################
- # YAML: extension 
- ###########################################################################
+# YAML: extension 
+###########################################################################
 
- ARG INSTALL_YAML=false
+ARG INSTALL_YAML=false
  
- RUN if [ ${INSTALL_YAML} = true ]; then \
-     apt-get install libyaml-dev -y ; \
-     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-         pecl install -a yaml-1.3.2; \
-     else \
-         pecl install yaml; \
-     fi && \
-     echo "extension=yaml.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/yaml.ini && \
-     ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/yaml.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/35-yaml.ini \
- ;fi
+RUN if [ ${INSTALL_YAML} = true ]; then \
+    apt-get install libyaml-dev -y ; \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+        pecl install -a yaml-1.3.2; \
+    else \
+        pecl install yaml; \
+    fi && \
+    echo "extension=yaml.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/yaml.ini && \
+    ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/yaml.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/35-yaml.ini \
+;fi
 
 
 ###########################################################################
