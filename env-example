@@ -849,3 +849,6 @@ GEARMAN_MYSQL_PASSWORD_FILE=
 GEARMAN_MYSQL_DB=Gearmand
 # Table to use by Gearman (Default: gearman_queue)
 GEARMAN_MYSQL_TABLE=gearman_queue
+
+### ELK Stack ##################################################
+ELK_VERSION=7.5.1
