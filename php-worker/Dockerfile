@@ -4,10 +4,12 @@
 #--------------------------------------------------------------------------
 #
 
-ARG PHP_VERSION=${PHP_VERSION}
-FROM php:${PHP_VERSION}-alpine
+ARG LARADOCK_PHP_VERSION
+FROM php:${LARADOCK_PHP_VERSION}-alpine
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
+
+ARG LARADOCK_PHP_VERSION
 
 # If you're in China, or you need to change sources, will be set CHANGE_SOURCE to true in .env.
 
@@ -65,9 +67,14 @@ RUN if [ ${INSTALL_PGSQL} = true ]; then \
 
 # Install ZipArchive:
 ARG INSTALL_ZIP_ARCHIVE=false
-RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
+RUN set -eux; \
+  if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
     apk --update add libzip-dev && \
-    docker-php-ext-configure zip --with-libzip && \
+    if [ ${LARADOCK_PHP_VERSION} = "7.3" ] || [ ${LARADOCK_PHP_VERSION} = "7.4" ]; then \
+      docker-php-ext-configure zip; \
+    else \
+      docker-php-ext-configure zip --with-libzip; \
+    fi && \
     # Install the zip extension
     docker-php-ext-install zip \
 ;fi
@@ -75,7 +82,7 @@ RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
 # Install MySQL Client:
 ARG INSTALL_MYSQL_CLIENT=false
 RUN if [ ${INSTALL_MYSQL_CLIENT} = true ]; then \
-    if [ ${PHP_VERSION} = "7.3" ]; then \
+    if [ ${LARADOCK_PHP_VERSION} = "7.3" ]; then \
       apk --update add default-mysql-client \
     ;else \
       apk --update add mysql-client \
