@@ -105,6 +105,24 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
   && docker-php-ext-enable mongodb \
   ;fi
 
+###########################################################################
+# YAML: extension
+###########################################################################
+
+ARG INSTALL_YAML=false
+
+RUN if [ ${INSTALL_YAML} = true ]; then \
+     apk --update add -U --no-cache --virtual temp yaml-dev \
+     && apk add --no-cache yaml \
+     && docker-php-source extract \
+     && pecl channel-update pecl.php.net \
+     && pecl install yaml \
+     && docker-php-ext-enable yaml \
+     && pecl clear-cache \
+     && docker-php-source delete \
+     && apk del temp \
+;fi
+
 
 ###########################################################################
 # PHP Memcached:
