@@ -1377,6 +1377,8 @@ GRAYLOG_SHA256_PASSWORD=b1cb6e31e172577918c9e7806c572b5ed8477d3f57aa737bee4b5b1d
 
 5 - Go to the system->inputs and launch new input
 
+**Note** Every configuration option can be set via environment variables. Simply prefix the parameter name with GRAYLOG_ and put it all in upper case. Here you can see the graylog configuration (https://github.com/Graylog2/graylog2-server/blob/3.0/misc/graylog.conf).
+
 
 
 

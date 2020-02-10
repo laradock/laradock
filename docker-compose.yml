@@ -986,7 +986,7 @@ services:
           - ${GRAYLOG_GELF_UDP_PORT}:12201/udp
         user: graylog
         volumes:
-          - ${DATA_PATH_HOST}/graylog:/usr/share/graylog/data
+          - graylog:/usr/share/graylog/data/journal
         networks:
           - backend
 
