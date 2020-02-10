@@ -149,3 +149,7 @@ function fs() {
 		du $arg .[^.]* ./*;
 	fi;
 }
+
+# FACILITA CUSTOM ALIASES
+alias pah="php artisan horizon"
+alias parl="php artisan redis:listen"
