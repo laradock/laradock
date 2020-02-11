@@ -63,12 +63,6 @@ RUN if [ ${INSTALL_PGSQL} = true ]; then \
   && docker-php-ext-install pdo_pgsql \
   ;fi
 
-# Install Cassandra drivers:
-ARG INSTALL_CASSANDRA=false
-RUN if [ ${INSTALL_CASSANDRA} = true ]; then \
-  apk --update add cassandra-cpp-driver \
-  ;fi
-
 # Install PhpRedis package:
 ARG INSTALL_PHPREDIS=false
 RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
@@ -83,6 +77,12 @@ RUN if [ ${INSTALL_FFMPEG} = true ]; then \
    # Add ffmpeg to horizon
     apk add ffmpeg \
 ;fi
+
+# Install Cassandra drivers:
+ARG INSTALL_CASSANDRA=false
+RUN if [ ${INSTALL_CASSANDRA} = true ]; then \
+  apk --update add cassandra-cpp-driver \
+  ;fi
 
 WORKDIR /usr/src
 RUN if [ ${INSTALL_CASSANDRA} = true ]; then \
