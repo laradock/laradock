@@ -75,7 +75,7 @@ RUN set -xe; \
 ###########################################################################
 
 ARG INSTALL_BZ2=false
-RUN if [ ${INSTALL_BZ2}} = true ]; then \
+RUN if [ ${INSTALL_BZ2} = true ]; then \
   docker-php-ext-install bz2 \
 ;fi
 

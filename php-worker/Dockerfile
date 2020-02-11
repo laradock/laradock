@@ -48,7 +48,7 @@ RUN addgroup -g ${PGID} laradock && \
 
 #Install BZ2:
 ARG INSTALL_BZ2=false
-RUN if [ ${INSTALL_BZ2}} = true ]; then \
+RUN if [ ${INSTALL_BZ2} = true ]; then \
   apk --update add bzip2-dev; \
   docker-php-ext-install bz2; \
 fi

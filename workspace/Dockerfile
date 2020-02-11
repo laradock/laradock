@@ -237,7 +237,7 @@ RUN if [ ${INSTALL_WP_CLI} = true ]; then \
 ###########################################################################
 
 ARG INSTALL_BZ2=false
-RUN if [ ${INSTALL_BZ2}} = true ]; then \
+RUN if [ ${INSTALL_BZ2} = true ]; then \
   apt-get -y install php${LARADOCK_PHP_VERSION}-bz2 \
 ;fi
 
