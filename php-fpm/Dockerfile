@@ -76,6 +76,7 @@ RUN set -xe; \
 
 ARG INSTALL_BZ2=false
 RUN if [ ${INSTALL_BZ2} = true ]; then \
+  apt-get -y install libbz2-dev; \
   docker-php-ext-install bz2 \
 ;fi
 
