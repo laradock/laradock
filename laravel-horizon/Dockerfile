@@ -4,8 +4,8 @@
 #--------------------------------------------------------------------------
 #
 
-ARG PHP_VERSION=${PHP_VERSION}
-FROM php:${PHP_VERSION}-alpine
+ARG LARADOCK_PHP_VERSION=${LARADOCK_PHP_VERSION}
+FROM php:${LARADOCK_PHP_VERSION}-alpine
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
