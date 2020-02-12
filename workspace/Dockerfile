@@ -1261,6 +1261,19 @@ RUN if [ ${INSTALL_GNU_PARALLEL} = true ]; then \
   apt-get -y install parallel \
 ;fi
 
+###########################################################################
+# Bash Git Prompt
+###########################################################################
+
+ARG INSTALL_GIT_PROMPT=false
+
+COPY git-prompt.sh /tmp/git-prompt
+
+RUN if [ ${INSTALL_GIT_PROMPT} = true ]; then \
+    git clone https://github.com/magicmonty/bash-git-prompt.git /root/.bash-git-prompt --depth=1 && \
+    cat /tmp/git-prompt >> /root/.bashrc && \
+    rm /tmp/git-prompt \
+;fi
 
 ###########################################################################
 # Check PHP version:
