@@ -64,12 +64,13 @@ services:
           - LARADOCK_PHP_VERSION=${PHP_VERSION}
           - LARADOCK_PHALCON_VERSION=${PHALCON_VERSION}
           - INSTALL_SUBVERSION=${WORKSPACE_INSTALL_SUBVERSION}
+          - INSTALL_BZ2=${WORKSPACE_INSTALL_BZ2}
+          - INSTALL_GMP=${WORKSPACE_INSTALL_GMP}
           - INSTALL_XDEBUG=${WORKSPACE_INSTALL_XDEBUG}
           - INSTALL_PCOV=${WORKSPACE_INSTALL_PCOV}
           - INSTALL_PHPDBG=${WORKSPACE_INSTALL_PHPDBG}
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
           - INSTALL_SSH2=${WORKSPACE_INSTALL_SSH2}
-          - INSTALL_GMP=${WORKSPACE_INSTALL_GMP}
           - INSTALL_SOAP=${WORKSPACE_INSTALL_SOAP}
           - INSTALL_XSL=${WORKSPACE_INSTALL_XSL}
           - INSTALL_LDAP=${WORKSPACE_INSTALL_LDAP}
@@ -125,6 +126,7 @@ services:
           - INSTALL_AST=${WORKSPACE_INSTALL_AST}
           - INSTALL_YAML=${WORKSPACE_INSTALL_YAML}
           - INSTALL_MAILPARSE=${WORKSPACE_INSTALL_MAILPARSE}
+          - INSTALL_GIT_PROMPT=${WORKSPACE_INSTALL_GIT_PROMPT}
           - PUID=${WORKSPACE_PUID}
           - PGID=${WORKSPACE_PGID}
           - CHROME_DRIVER_VERSION=${WORKSPACE_CHROME_DRIVER_VERSION}
@@ -167,6 +169,8 @@ services:
           - CHANGE_SOURCE=${CHANGE_SOURCE}
           - LARADOCK_PHP_VERSION=${PHP_VERSION}
           - LARADOCK_PHALCON_VERSION=${PHALCON_VERSION}
+          - INSTALL_BZ2=${PHP_FPM_INSTALL_BZ2}
+          - INSTALL_GMP=${PHP_FPM_INSTALL_GMP}
           - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
           - INSTALL_PCOV=${PHP_FPM_INSTALL_PCOV}
           - INSTALL_PHPDBG=${PHP_FPM_INSTALL_PHPDBG}
@@ -182,7 +186,6 @@ services:
           - INSTALL_GEARMAN=${PHP_FPM_INSTALL_GEARMAN}
           - INSTALL_MSSQL=${PHP_FPM_INSTALL_MSSQL}
           - INSTALL_BCMATH=${PHP_FPM_INSTALL_BCMATH}
-          - INSTALL_GMP=${PHP_FPM_INSTALL_GMP}
           - INSTALL_PHPREDIS=${PHP_FPM_INSTALL_PHPREDIS}
           - INSTALL_MEMCACHED=${PHP_FPM_INSTALL_MEMCACHED}
           - INSTALL_OPCACHE=${PHP_FPM_INSTALL_OPCACHE}
@@ -248,8 +251,10 @@ services:
         context: ./php-worker
         args:
           - CHANGE_SOURCE=${CHANGE_SOURCE}
-          - PHP_VERSION=${PHP_VERSION}
+          - LARADOCK_PHP_VERSION=${PHP_VERSION}
           - PHALCON_VERSION=${PHALCON_VERSION}
+          - INSTALL_BZ2=${PHP_WORKER_INSTALL_BZ2}
+          - INSTALL_GMP=${PHP_WORKER_INSTALL_GMP}
           - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL}
           - INSTALL_BCMATH=${PHP_WORKER_INSTALL_BCMATH}
           - INSTALL_PHALCON=${PHP_WORKER_INSTALL_PHALCON}
@@ -263,7 +268,6 @@ services:
           - INSTALL_SWOOLE=${PHP_WORKER_INSTALL_SWOOLE}
           - INSTALL_TAINT=${PHP_WORKER_INSTALL_TAINT}
           - INSTALL_FFMPEG=${PHP_WORKER_INSTALL_FFMPEG}
-          - INSTALL_GMP=${PHP_WORKER_INSTALL_GMP}
           - INSTALL_REDIS=${PHP_WORKER_INSTALL_REDIS}
           - PUID=${PHP_WORKER_PUID}
           - PGID=${PHP_WORKER_PGID}
@@ -282,7 +286,9 @@ services:
         context: ./laravel-horizon
         args:
           - CHANGE_SOURCE=${CHANGE_SOURCE}
-          - PHP_VERSION=${PHP_VERSION}
+          - LARADOCK_PHP_VERSION=${PHP_VERSION}
+          - INSTALL_BZ2=${LARAVEL_HORIZON_INSTALL_BZ2}
+          - INSTALL_GMP=${LARAVEL_HORIZON_INSTALL_GMP}
           - INSTALL_PGSQL=${PHP_FPM_INSTALL_PGSQL}
           - INSTALL_BCMATH=${PHP_FPM_INSTALL_BCMATH}
           - INSTALL_MEMCACHED=${PHP_FPM_INSTALL_MEMCACHED}
@@ -469,7 +475,10 @@ services:
 
 ### PostgreSQL ###########################################
     postgres:
-      build: ./postgres
+      build:
+        context: ./postgres
+        args:
+          - POSTGRES_VERSION=${POSTGRES_VERSION}
       volumes:
         - ${DATA_PATH_HOST}/postgres:/var/lib/postgresql/data
         - ${POSTGRES_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
@@ -775,7 +784,10 @@ services:
 
 ### ElasticSearch ########################################
     elasticsearch:
-      build: ./elasticsearch
+      build:
+        context: ./elasticsearch
+        args:
+          - ELK_VERSION=${ELK_VERSION}
       volumes:
         - elasticsearch:/usr/share/elasticsearch/data
       environment:
@@ -799,7 +811,10 @@ services:
 
 ### Logstash ##############################################
     logstash:
-      build: ./logstash
+      build:
+        context: ./logstash
+        args:
+          - ELK_VERSION=${ELK_VERSION}
       volumes:
         - './logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml'
         - './logstash/pipeline:/usr/share/logstash/pipeline'
@@ -817,7 +832,10 @@ services:
 
 ### Kibana ##############################################
     kibana:
-      build: ./kibana
+      build:
+        context: ./kibana
+        args:
+          - ELK_VERSION=${ELK_VERSION}
       ports:
         - "${KIBANA_HTTP_PORT}:5601"
       depends_on:
