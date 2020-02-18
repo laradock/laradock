@@ -4,10 +4,20 @@
 #--------------------------------------------------------------------------
 #
 
-ARG PHP_VERSION=${PHP_VERSION}
-FROM php:${PHP_VERSION}-alpine
+ARG LARADOCK_PHP_VERSION
+FROM php:${LARADOCK_PHP_VERSION}-alpine
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
+
+ARG LARADOCK_PHP_VERSION
+
+# If you're in China, or you need to change sources, will be set CHANGE_SOURCE to true in .env.
+
+ARG CHANGE_SOURCE=false
+RUN if [ ${CHANGE_SOURCE} = true ]; then \
+    # Change application source from dl-cdn.alpinelinux.org to aliyun source
+    sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories \
+;fi
 
 RUN apk --update add wget \
   curl \
@@ -21,10 +31,34 @@ RUN apk --update add wget \
   cyrus-sasl-dev \
   libgsasl-dev \
   supervisor \
+  oniguruma-dev \
   procps
 
 RUN docker-php-ext-install mysqli mbstring pdo pdo_mysql tokenizer xml pcntl
 RUN pecl channel-update pecl.php.net && pecl install memcached mcrypt-1.0.1 mongodb && docker-php-ext-enable memcached mongodb
+
+# Add a non-root user to help install ffmpeg:
+ARG PUID=1000
+ENV PUID ${PUID}
+ARG PGID=1000
+ENV PGID ${PGID}
+
+RUN addgroup -g ${PGID} laradock && \
+    adduser -D -G laradock -u ${PUID} laradock
+
+#Install BZ2:
+ARG INSTALL_BZ2=false
+RUN if [ ${INSTALL_BZ2} = true ]; then \
+  apk --update add bzip2-dev; \
+  docker-php-ext-install bz2 \
+;fi
+
+#Install GMP package:
+ARG INSTALL_GMP=false
+RUN if [ ${INSTALL_GMP} = true ]; then \
+   apk add --update --no-cache gmp gmp-dev; \
+   docker-php-ext-install gmp \
+;fi
 
 #Install BCMath package:
 ARG INSTALL_BCMATH=false
@@ -44,6 +78,21 @@ RUN if [ ${INSTALL_PGSQL} = true ]; then \
   apk --update add postgresql-dev \
   && docker-php-ext-install pdo_pgsql \
   ;fi
+
+# Install PhpRedis package:
+ARG INSTALL_PHPREDIS=false
+RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
+    # Install Php Redis Extension
+    printf "\n" | pecl install -o -f redis \
+    &&  rm -rf /tmp/pear \
+    &&  docker-php-ext-enable redis \
+;fi
+
+ARG INSTALL_FFMPEG=false
+RUN if [ ${INSTALL_FFMPEG} = true ]; then \
+   # Add ffmpeg to horizon
+    apk add ffmpeg \
+;fi
 
 # Install Cassandra drivers:
 ARG INSTALL_CASSANDRA=false
@@ -65,6 +114,30 @@ RUN if [ ${INSTALL_CASSANDRA} = true ]; then \
   && docker-php-ext-enable cassandra \
 ;fi
 
+# Install MongoDB drivers:
+ARG INSTALL_MONGO=false
+RUN if [ ${INSTALL_MONGO} = true ]; then \
+  pecl install mongodb \
+  && docker-php-ext-enable mongodb \
+  ;fi
+
+###########################################################################
+# YAML: extension
+###########################################################################
+
+ARG INSTALL_YAML=false
+
+RUN if [ ${INSTALL_YAML} = true ]; then \
+     apk --update add -U --no-cache --virtual temp yaml-dev \
+     && apk add --no-cache yaml \
+     && docker-php-source extract \
+     && pecl channel-update pecl.php.net \
+     && pecl install yaml \
+     && docker-php-ext-enable yaml \
+     && pecl clear-cache \
+     && docker-php-source delete \
+     && apk del temp \
+;fi
 
 
 ###########################################################################
@@ -78,7 +151,7 @@ RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
   if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
   curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/2.2.0.tar.gz"; \
   else \
-  curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/php7.tar.gz"; \
+  curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/v3.1.3.tar.gz"; \
   fi \
   && mkdir -p memcached \
   && tar -C memcached -zxvf /tmp/memcached.tar.gz --strip 1 \
