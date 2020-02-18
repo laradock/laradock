@@ -1956,7 +1956,21 @@ To install FFMPEG in the Workspace container
 **PS** Don't forget to install the binary in the `php-fpm` container too by applying the same steps above to its container, otherwise the you'll get an error when running the `php-ffmpeg` binary.
 
 
+<br>
+<a name="Install-wkhtmltopdf"></a>
+## Install wkhtmltopdf
 
+[wkhtmltopdf](https://wkhtmltopdf.org/) is a utility for outputting a PDF from HTML
+
+To install wkhtmltopdf in the Workspace container
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_WKHTMLTOPDF` argument under the Workspace Container and set it to `true`
+
+3 - Re-build the container `docker-compose build workspace`
+
+**PS** Don't forget to install the binary in the `php-fpm` container too by applying the same steps above to its container, otherwise the you'll get an error when running the `wkhtmltopdf` binary.
 
 
 
