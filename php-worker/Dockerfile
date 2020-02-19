@@ -96,11 +96,7 @@ RUN set -eux; \
 # Install MySQL Client:
 ARG INSTALL_MYSQL_CLIENT=false
 RUN if [ ${INSTALL_MYSQL_CLIENT} = true ]; then \
-    if [ ${LARADOCK_PHP_VERSION} = "7.3" ]; then \
       apk --update add default-mysql-client \
-    ;else \
-      apk --update add mysql-client \
-    ;fi \
 ;fi
 
 # Install FFMPEG:
