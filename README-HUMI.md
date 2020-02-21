@@ -22,14 +22,6 @@ Create a `.env` file in Humidock by copying the example file.
 
 `env-example`. `cp env-example .env`
 
-In the `.env` file, turn on PHP calendar support.
-
-`PHP_FPM_INSTALL_CALENDAR=true`
-
-In the `.env` file, turn on PHP Image Magick support.
-
-`PHP_FPM_INSTALL_IMAGEMAGICK=true`
-`WORKSPACE_INSTALL_IMAGEMAGICK=true`
 
 #### Resolving applications
 
