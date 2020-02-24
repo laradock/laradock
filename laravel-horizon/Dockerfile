@@ -79,6 +79,20 @@ RUN if [ ${INSTALL_PGSQL} = true ]; then \
   && docker-php-ext-install pdo_pgsql \
   ;fi
 
+# Install ZipArchive:
+ARG INSTALL_ZIP_ARCHIVE=false
+RUN set -eux; \
+  if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
+    apk --update add libzip-dev && \
+    if [ ${LARADOCK_PHP_VERSION} = "7.3" ] || [ ${LARADOCK_PHP_VERSION} = "7.4" ]; then \
+      docker-php-ext-configure zip; \
+    else \
+      docker-php-ext-configure zip --with-libzip; \
+    fi && \
+    # Install the zip extension
+    docker-php-ext-install zip \
+;fi
+
 # Install PhpRedis package:
 ARG INSTALL_PHPREDIS=false
 RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
