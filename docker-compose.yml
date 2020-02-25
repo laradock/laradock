@@ -7,45 +7,15 @@ networks:
     driver: ${NETWORKS_DRIVER}
 
 volumes:
-  mysql:
-    driver: ${VOLUMES_DRIVER}
-  percona:
-    driver: ${VOLUMES_DRIVER}
-  mssql:
-    driver: ${VOLUMES_DRIVER}
-  postgres:
-    driver: ${VOLUMES_DRIVER}
-  memcached:
-    driver: ${VOLUMES_DRIVER}
   redis:
-    driver: ${VOLUMES_DRIVER}
-  neo4j:
     driver: ${VOLUMES_DRIVER}
   mariadb:
     driver: ${VOLUMES_DRIVER}
   mongo:
     driver: ${VOLUMES_DRIVER}
-  minio:
-    driver: ${VOLUMES_DRIVER}
-  rethinkdb:
-    driver: ${VOLUMES_DRIVER}
   phpmyadmin:
     driver: ${VOLUMES_DRIVER}
-  adminer:
-    driver: ${VOLUMES_DRIVER}
-  aerospike:
-    driver: ${VOLUMES_DRIVER}
-  caddy:
-    driver: ${VOLUMES_DRIVER}
   elasticsearch:
-    driver: ${VOLUMES_DRIVER}
-  mosquitto:
-    driver: ${VOLUMES_DRIVER}
-  confluence:
-    driver: ${VOLUMES_DRIVER}
-  sonarqube:
-    driver: ${VOLUMES_DRIVER}
-  cassandra:
     driver: ${VOLUMES_DRIVER}
   graylog:
     driver: ${VOLUMES_DRIVER}
@@ -552,11 +522,22 @@ services:
 ### MongoDB ##############################################
     mongo:
       build: ./mongo
+      environment:
+        - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USERNAME}
+        - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+        - MONGO_HOST=${MONGO_HOST}
+        - MONGODB_PORT=${MONGODB_PORT}
+        - MONGO_ROOT_USER=${MONGO_ROOT_USERNAME}
+        - MONGO_ROOT_PASS=${MONGO_ROOT_PASSWORD}
+        - APP_MONGO_USER=${APP_MONGO_USER}
+        - APP_MONGO_PASS=${APP_MONGO_PASS}
+        - APP_MONGO_DB=${APP_MONGO_DB}
       ports:
         - "${MONGODB_PORT}:27017"
       volumes:
         - ${DATA_PATH_HOST}/mongo:/data/db
         - ${DATA_PATH_HOST}/mongo_config:/data/configdb
+        - "./mongo/mongo-entrypoint/:/docker-entrypoint-initdb.d/"
       networks:
         - backend
 
@@ -810,7 +791,7 @@ services:
         - node.name=laradock-node
         - bootstrap.memory_lock=true
         - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-        - cluster.initial_master_nodes=laradock-node
+        # - cluster.initial_master_nodes=laradock-node
       ulimits:
         memlock:
           soft: -1
@@ -986,8 +967,12 @@ services:
         build: ./graylog
         environment:
           - GRAYLOG_PASSWORD_SECRET=${GRAYLOG_PASSWORD}
+          # Password: admin
           - GRAYLOG_ROOT_PASSWORD_SHA2=${GRAYLOG_SHA256_PASSWORD}
           - GRAYLOG_HTTP_EXTERNAL_URI=http://127.0.0.1:${GRAYLOG_PORT}/
+          - GRAYLOG_MONGODB_URI=mongodb://${APP_MONGO_USER}:${APP_MONGO_PASS}@${MONGO_HOST}:${MONGODB_PORT}/${APP_MONGO_DB}
+          - GRAYLOG_ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+          - GRAYLOG_ELASTICSEARCH_CLUSTER_NAME=laradock-cluster
         links:
           - mongo
           - elasticsearch
@@ -1285,7 +1270,7 @@ services:
     docker-in-docker:
       image: docker:19.03-dind
       environment:
-        DOCKER_TLS_SAN: DNS:docker-in-docker      
+        DOCKER_TLS_SAN: DNS:docker-in-docker
       privileged: true
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}

@@ -1,3 +1,3 @@
-FROM graylog/graylog:3.0
+FROM graylog/graylog:3.2
 
 EXPOSE 9000
