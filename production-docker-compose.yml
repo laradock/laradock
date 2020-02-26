@@ -123,8 +123,6 @@ services:
         - "dockerhost:${DOCKER_HOST_IP}"
       ports:
         - "${WORKSPACE_SSH_PORT}:22"
-        - "${WORKSPACE_VUE_CLI_SERVE_HOST_PORT}:8080"
-        - "${WORKSPACE_VUE_CLI_UI_HOST_PORT}:8000"
       tty: true
       environment:
         - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
@@ -283,7 +281,7 @@ services:
       ports:
         - "${NGINX_HOST_HTTP_PORT}:80"
         - "${NGINX_HOST_HTTPS_PORT}:443"
-        - "${VARNISH_BACKEND_PORT}:81"
+        # - "${VARNISH_BACKEND_PORT}:81"
       depends_on:
         - php-fpm
       networks:
@@ -302,8 +300,8 @@ services:
       volumes:
         - ${DATA_PATH_HOST}/mariadb:/var/lib/mysql
         - ${MARIADB_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
-      ports:
-        - "${MARIADB_PORT}:3306"
+      # ports:
+      #   - "${MARIADB_PORT}:3306"
       environment:
         - TZ=${WORKSPACE_TIMEZONE}
         - MYSQL_DATABASE=${MARIADB_DATABASE}
@@ -326,8 +324,8 @@ services:
         - APP_MONGO_USER=${APP_MONGO_USER}
         - APP_MONGO_PASS=${APP_MONGO_PASS}
         - APP_MONGO_DB=${APP_MONGO_DB}
-      ports:
-        - "${MONGODB_PORT}:27017"
+      # ports:
+      #   - "${MONGODB_PORT}:27017"
       volumes:
         - ${DATA_PATH_HOST}/mongo:/data/db
         - ${DATA_PATH_HOST}/mongo_config:/data/configdb
@@ -340,8 +338,8 @@ services:
       build: ./redis
       volumes:
         - ${DATA_PATH_HOST}/redis:/data
-      ports:
-        - "${REDIS_PORT}:6379"
+      # ports:
+      #   - "${REDIS_PORT}:6379"
       networks:
         - backend
 
@@ -362,9 +360,9 @@ services:
         memlock:
           soft: -1
           hard: -1
-      ports:
-        - "${ELASTICSEARCH_HOST_HTTP_PORT}:9200"
-        - "${ELASTICSEARCH_HOST_TRANSPORT_PORT}:9300"
+      # ports:
+      #   - "${ELASTICSEARCH_HOST_HTTP_PORT}:9200"
+      #   - "${ELASTICSEARCH_HOST_TRANSPORT_PORT}:9300"
       depends_on:
         - php-fpm
       networks:
