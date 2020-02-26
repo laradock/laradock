@@ -7,25 +7,25 @@ networks:
     driver: ${NETWORKS_DRIVER}
 
 volumes:
-  redis:
+  redis-prod:
     driver: ${VOLUMES_DRIVER}
-  mariadb:
+  mariadb-prod:
     driver: ${VOLUMES_DRIVER}
-  mongo:
+  mongo-prod:
     driver: ${VOLUMES_DRIVER}
   phpmyadmin:
     driver: ${VOLUMES_DRIVER}
-  elasticsearch:
+  elasticsearch-prod:
     driver: ${VOLUMES_DRIVER}
-  graylog:
+  graylog-prod:
     driver: ${VOLUMES_DRIVER}
-  docker-in-docker:
+  docker-in-docker-prod:
     driver: ${VOLUMES_DRIVER}
 
 services:
 
 ### Workspace Utilities ##################################
-    workspace:
+    workspace-prod:
       build:
         context: ./workspace
         args:
@@ -117,7 +117,7 @@ services:
           - no_proxy
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
-        - docker-in-docker:/certs/client
+        - docker-in-docker-prod:/certs/client
         - ./php-worker/supervisord.d:/etc/supervisord.d
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
@@ -126,7 +126,7 @@ services:
       tty: true
       environment:
         - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
-        - DOCKER_HOST=tcp://docker-in-docker:2376
+        - DOCKER_HOST=tcp://docker-in-docker-prod:2376
         - DOCKER_TLS_VERIFY=1
         - DOCKER_TLS_CERTDIR=/certs
         - DOCKER_CERT_PATH=/certs/client
@@ -134,10 +134,10 @@ services:
         - frontend
         - backend
       links:
-        - docker-in-docker
+        - docker-in-docker-prod
 
 ### PHP-FPM ##############################################
-    php-fpm:
+    php-fpm-prod:
       build:
         context: ./php-fpm
         args:
@@ -206,27 +206,27 @@ services:
       volumes:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
-        - docker-in-docker:/certs/client
+        - docker-in-docker-prod:/certs/client
       expose:
         - "9000"
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       environment:
         - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
-        - DOCKER_HOST=tcp://docker-in-docker:2376
+        - DOCKER_HOST=tcp://docker-in-docker-prod:2376
         - DOCKER_TLS_VERIFY=1
         - DOCKER_TLS_CERTDIR=/certs
         - DOCKER_CERT_PATH=/certs/client
         - FAKETIME=${PHP_FPM_FAKETIME}
       depends_on:
-        - workspace
+        - workspace-prod
       networks:
         - backend
       links:
-        - docker-in-docker
+        - docker-in-docker-prod
 
 ### PHP Worker ############################################
-    php-worker:
+    php-worker-prod:
       build:
         context: ./php-worker
         args:
@@ -256,14 +256,14 @@ services:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         - ./php-worker/supervisord.d:/etc/supervisord.d
       depends_on:
-        - workspace
+        - workspace-prod
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       networks:
         - backend
 
 ### NGINX Server #########################################
-    nginx:
+    nginx-prod:
       build:
         context: ./nginx
         args:
@@ -283,13 +283,13 @@ services:
         - "${NGINX_HOST_HTTPS_PORT}:443"
         # - "${VARNISH_BACKEND_PORT}:81"
       depends_on:
-        - php-fpm
+        - php-fpm-prod
       networks:
         - frontend
         - backend
 
 ### MariaDB ##############################################
-    mariadb:
+    mariadb-prod:
       build:
         context: ./mariadb
         args:
@@ -298,7 +298,7 @@ services:
           - no_proxy
           - MARIADB_VERSION=${MARIADB_VERSION}
       volumes:
-        - ${DATA_PATH_HOST}/mariadb:/var/lib/mysql
+        - ${DATA_PATH_HOST}/mariadb-prod:/var/lib/mysql
         - ${MARIADB_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
       # ports:
       #   - "${MARIADB_PORT}:3306"
@@ -312,7 +312,7 @@ services:
         - backend
 
 ### MongoDB ##############################################
-    mongo:
+    mongo-prod:
       build: ./mongo
       environment:
         - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USERNAME}
@@ -327,24 +327,24 @@ services:
       # ports:
       #   - "${MONGODB_PORT}:27017"
       volumes:
-        - ${DATA_PATH_HOST}/mongo:/data/db
-        - ${DATA_PATH_HOST}/mongo_config:/data/configdb
+        - ${DATA_PATH_HOST}/mongo-prod:/data/db
+        - ${DATA_PATH_HOST}/mongo_config-prod:/data/configdb
         - "./mongo/mongo-entrypoint/:/docker-entrypoint-initdb.d/"
       networks:
         - backend
 
 ### Redis ################################################
-    redis:
+    redis-prod:
       build: ./redis
       volumes:
-        - ${DATA_PATH_HOST}/redis:/data
+        - ${DATA_PATH_HOST}/redis-prod:/data
       # ports:
       #   - "${REDIS_PORT}:6379"
       networks:
         - backend
 
 ### ElasticSearch ########################################
-    elasticsearch:
+    elasticsearch-prod:
       build:
         context: ./elasticsearch
         args:
@@ -364,13 +364,13 @@ services:
       #   - "${ELASTICSEARCH_HOST_HTTP_PORT}:9200"
       #   - "${ELASTICSEARCH_HOST_TRANSPORT_PORT}:9300"
       depends_on:
-        - php-fpm
+        - php-fpm-prod
       networks:
         - frontend
         - backend
 
 ### Graylog #######################################
-    graylog:
+    graylog-prod:
         build: ./graylog
         environment:
           - GRAYLOG_PASSWORD_SECRET=${GRAYLOG_PASSWORD}
@@ -381,11 +381,11 @@ services:
           - GRAYLOG_ELASTICSEARCH_HOSTS=http://elasticsearch:9200
           - GRAYLOG_ELASTICSEARCH_CLUSTER_NAME=laradock-cluster
         links:
-          - mongo
-          - elasticsearch
+          - mongo-prod
+          - elasticsearch-prod
         depends_on:
-          - mongo
-          - elasticsearch
+          - mongo-prod
+          - elasticsearch-prod
         ports:
           # Graylog web interface and REST API
           - ${GRAYLOG_PORT}:9000
@@ -399,19 +399,19 @@ services:
           - ${GRAYLOG_GELF_UDP_PORT}:12201/udp
         user: graylog
         volumes:
-          - graylog:/usr/share/graylog/data/journal
+          - graylog-prod:/usr/share/graylog/data/journal
         networks:
           - backend
 
 ### Docker-in-Docker ################################################
-    docker-in-docker:
+    docker-in-docker-prod:
       image: docker:19.03-dind
       environment:
         DOCKER_TLS_SAN: DNS:docker-in-docker
       privileged: true
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
-        - docker-in-docker:/certs/client
+        - docker-in-docker-prod:/certs/client
       expose:
         - 2375
       networks:
