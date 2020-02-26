@@ -377,12 +377,9 @@ services:
           # Password: admin
           - GRAYLOG_ROOT_PASSWORD_SHA2=${GRAYLOG_SHA256_PASSWORD}
           - GRAYLOG_HTTP_EXTERNAL_URI=http://127.0.0.1:${GRAYLOG_PORT}/
-          - GRAYLOG_MONGODB_URI=mongodb://${APP_MONGO_USER}:${APP_MONGO_PASS}@${MONGO_HOST}:${MONGODB_PORT}/${APP_MONGO_DB}
+          - GRAYLOG_MONGODB_URI=mongodb://${APP_MONGO_USER}:${APP_MONGO_PASS}@27017:${MONGODB_PORT}/${APP_MONGO_DB}
           - GRAYLOG_ELASTICSEARCH_HOSTS=http://elasticsearch:9200
           - GRAYLOG_ELASTICSEARCH_CLUSTER_NAME=laradock-cluster
-        links:
-          - mongo-prod
-          - elasticsearch-prod
         depends_on:
           - mongo-prod
           - elasticsearch-prod
