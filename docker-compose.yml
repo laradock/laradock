@@ -123,8 +123,6 @@ services:
         - "dockerhost:${DOCKER_HOST_IP}"
       ports:
         - "${WORKSPACE_SSH_PORT}:22"
-        - "${WORKSPACE_VUE_CLI_SERVE_HOST_PORT}:8080"
-        - "${WORKSPACE_VUE_CLI_UI_HOST_PORT}:8000"
       tty: true
       environment:
         - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
@@ -314,7 +312,6 @@ services:
       ports:
         - "${NGINX_HOST_HTTP_PORT}:80"
         - "${NGINX_HOST_HTTPS_PORT}:443"
-        - "${VARNISH_BACKEND_PORT}:81"
       depends_on:
         - php-fpm
       networks:
