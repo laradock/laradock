@@ -1,6 +1,6 @@
 # Docs: https://caddyserver.com/docs/caddyfile
-0.0.0.0:80 {
-    root /var/www/public
+social-accounts.pdg.solutions {
+    root /var/www/social-accounts/public
     fastcgi / php-fpm:9000 php {
         index index.php
     }
@@ -13,17 +13,117 @@
     }
     gzip
     browse
-    log /var/log/caddy/access.log
-    errors /var/log/caddy/error.log
+    log /var/log/caddy/social-accounts-access.log
+    errors /var/log/caddy/social-accounts-error.log
     # Uncomment to enable TLS (HTTPS)
     # Change the first list to listen on port 443 when enabling TLS
     #tls self_signed
+    tls info@pdg.solutions
 
     # To use Lets encrpt tls with a DNS provider uncomment these
     # lines and change the provider as required
     #tls {
     #  dns cloudflare
     #}
+}
+
+staging-social-accounts.pdg.solutions {
+    root /var/www/social-accounts/public
+    fastcgi / php-fpm:9000 php {
+        index index.php
+    }
+
+    # To handle .html extensions with laravel change ext to
+    # ext / .html
+
+    rewrite {
+        to {path} {path}/ /index.php?{query}
+    }
+    gzip
+    browse
+    log /var/log/caddy/social-accounts-access.log
+    errors /var/log/caddy/social-accounts-error.log
+    # Uncomment to enable TLS (HTTPS)
+    # Change the first list to listen on port 443 when enabling TLS
+    #tls self_signed
+    tls info@pdg.solutions
+
+    # To use Lets encrpt tls with a DNS provider uncomment these
+    # lines and change the provider as required
+    #tls {
+    #  dns cloudflare
+    #}
+}
+
+media.pdg.solutions {
+    root /var/www/media/public
+    fastcgi / php-fpm:9000 php {
+        index index.php
+    }
+
+    # To handle .html extensions with laravel change ext to
+    # ext / .html
+
+    rewrite {
+        to {path} {path}/ /index.php?{query}
+    }
+    gzip
+    browse
+    log /var/log/caddy/media_access.log
+    errors /var/log/caddy/media_error.log
+    # Uncomment to enable TLS (HTTPS)
+    # Change the first list to listen on port 443 when enabling TLS
+    #tls self_signed
+    tls info@pdg.solutions
+
+    # To use Lets encrpt tls with a DNS provider uncomment these
+    # lines and change the provider as required
+    #tls {
+    #  dns cloudflare
+    #}
+    cors /storage/ {
+        origin            *
+        methods           GET,POST,PUT
+        allow_credentials false
+        max_age           3600
+        allowed_headers   X-Custom-Header,X-Foobar,X-Auth-Endpoint,Authorization
+        exposed_headers   X-Something-Special,SomethingElse
+    }
+}
+
+staging-media.pdg.solutions {
+    root /var/www/media/public
+    fastcgi / php-fpm:9000 php {
+        index index.php
+    }
+
+    # To handle .html extensions with laravel change ext to
+    # ext / .html
+
+    rewrite {
+        to {path} {path}/ /index.php?{query}
+    }
+    gzip
+    browse
+    log /var/log/caddy/media_access.log
+    errors /var/log/caddy/media_error.log
+    # Uncomment to enable TLS (HTTPS)
+    # Change the first list to listen on port 443 when enabling TLS
+    #tls self_signed
+    tls info@pdg.solutions
+
+    # To use Lets encrpt tls with a DNS provider uncomment these
+    # lines and change the provider as required
+    #tls {
+    #  dns cloudflare
+    #}
+    cors /storage/ {
+        origin            *
+        methods           GET,POST,PUT
+        allow_credentials false
+        max_age           3600
+        allowed_headers   X-Custom-Header,X-Foobar,X-Auth-Endpoint,Authorization
+    }
 }
 
 laradock1.demo:80 {
