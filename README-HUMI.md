@@ -18,10 +18,9 @@ Clone the Humidock repo at the same level as your application repositories.
 
 #### Env file
 
-Create a `.env` file in Humidock by copying the example file. 
+Create a `.env` file in Humidock by copying the example file.
 
 `env-example`. `cp env-example .env`
-
 
 #### Resolving applications
 
@@ -34,8 +33,10 @@ Example: If your Laravel Api is in a directory called `application`, the NGINX c
 Now, set your hosts file on your host machine to redirect to the applications.
 
 `/etc/hosts`
+
 ```
 127.0.0.1 local.api.humi.ca
+127.0.0.1 board.local.api.humi.ca
 127.0.0.1 local-admin.api.humi.ca
 ```
 
@@ -68,9 +69,10 @@ DB_DATABASE_V1=humi_v1
 
 Any `.env` files (not `.env.testing`) that reference other Humi applications need to be modified:
 
-TODO:  - service api urls: use /etc/hosts aliases (local.api.humi.ca)
+TODO: - service api urls: use /etc/hosts aliases (local.api.humi.ca)
 
 #### Setting Up Payroll
+
 Humi Payroll is still on Vagrant, so you cannot connect to it as a Docker Service.
 
 MAC: `PAYROLL_API_URL="http://docker.for.mac.localhost:3030/v2"`
@@ -79,8 +81,8 @@ MAC: `PAYROLL_API_URL="http://docker.for.mac.localhost:3030/v2"`
 
 WIN: `PAYROLL_API_URL=docker.for.win.localhost`
 
-LINUX: `PAYROLL_API_URL="http://172.17.0.1:3030/v2"` 
- 
+LINUX: `PAYROLL_API_URL="http://172.17.0.1:3030/v2"`
+
     If the ip address for Linux does not work, you'll need to find the ip address for your host machine as it is known in the docker network. You can find it on your host machine using `ip addr | grep docker` (https://nickjanetakis.com/blog/docker-tip-65-get-your-docker-hosts-ip-address-from-in-a-container).
 
 ## Running the Applications
@@ -93,9 +95,10 @@ To start Humidock (and all applications it hosts), run `dock up` which calls (`d
 
 ### Database Migration
 
-To run the database migrations, you need first to run `dock workspace`,then 
+To run the database migrations, you need first to run `dock workspace`,then
+
 1. in `application` folder run `php artisan humi:migrate --drop --seed --deploy` (if command failed, first run `composer install`)
-As an alternative, you may run `docker-compose exec --user=laradock workspace php artisan humi:migrate --drop --seed --deploy`.
+   As an alternative, you may run `docker-compose exec --user=laradock workspace php artisan humi:migrate --drop --seed --deploy`.
 2. in `administration` folder run `php artisan migrate:fresh --seed` (if command failed, first run `composer install`)
 
 ### Accessing workspace
@@ -116,7 +119,7 @@ ssh -o PasswordAuthentication=no    \
 
 see ./dock for other relevant commands/learning
 
-## Issues 
+## Issues
 
 1. How does composer update/install work now? What's the flow?
-2. On Linux, Tom has to use `sudo` for `dock up` the first time it's run. Shouldn't have to. 
+2. On Linux, Tom has to use `sudo` for `dock up` the first time it's run. Shouldn't have to.
