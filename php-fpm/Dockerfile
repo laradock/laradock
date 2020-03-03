@@ -340,6 +340,7 @@ RUN if [ ${INSTALL_XHPROF} = true ]; then \
     ) \
     && rm -r xhprof \
     && rm /tmp/xhprof.tar.gz \
+    && apt-get install -y graphviz \
 ;fi
 
 COPY ./xhprof.ini /usr/local/etc/php/conf.d
