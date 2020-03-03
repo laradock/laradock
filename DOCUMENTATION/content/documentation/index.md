@@ -618,6 +618,31 @@ docker-compose up -d php-worker
 
 
 <br>
+<a name="Use-Browsersync-With-Laravel-Mix"></a>
+## Use Browsersync with Laravel Mix
+
+1. Add the following settings to your `webpack.mix.js` file. Please refer to Browsersync [Options](https://browsersync.io/docs/options) page for more options.
+```
+const mix = require('laravel-mix')
+
+(...)
+
+mix.browserSync({
+  open: false,
+  proxy: 'nginx' // replace with your web server container
+})
+```
+
+2. Run `npm run watch` within your `workspace` container.
+
+3. Open your browser and visit address `http://localhost:[WORKSPACE_BROWSERSYNC_HOST_PORT]`. It will refresh the page automatically whenever you edit any source file in your project.
+
+4. If you wish to access Browsersync UI for your project, visit address `http://localhost:[WORKSPACE_BROWSERSYNC_UI_HOST_PORT]`.
+
+
+
+
+<br>
 <a name="Use-Mailu"></a>
 ## Use Mailu
 
