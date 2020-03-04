@@ -585,10 +585,13 @@ ARG AST_VERSION=1.0.3
 ENV AST_VERSION ${AST_VERSION}
 
 RUN if [ ${INSTALL_AST} = true ]; then \
-    # Install AST extension
-    printf "\n" | pecl -q install ast-${AST_VERSION} && \
-    echo "extension=ast.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/ast.ini && \
-    phpenmod -v ${LARADOCK_PHP_VERSION} -s cli ast \
+    # AST extension requires PHP 7.0.0 or newer
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") != "5" ]; then \
+        # Install AST extension
+        printf "\n" | pecl -q install ast-${AST_VERSION} && \
+        echo "extension=ast.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/ast.ini && \
+        phpenmod -v ${LARADOCK_PHP_VERSION} -s cli ast \
+    ;fi \
 ;fi
 
 ###########################################################################
