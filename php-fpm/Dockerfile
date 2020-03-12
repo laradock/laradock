@@ -810,11 +810,7 @@ USER root
 ARG INSTALL_MYSQL_CLIENT=false
 
 RUN if [ ${INSTALL_MYSQL_CLIENT} = true ]; then \
-    if [ ${LARADOCK_PHP_VERSION} = "7.3" ]; then \
       apt-get -y install default-mysql-client \
-    ;else \
-      apt-get -y install mysql-client \
-    ;fi \
 ;fi
 
 ###########################################################################
