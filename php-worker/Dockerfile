@@ -96,7 +96,7 @@ RUN set -eux; \
 # Install MySQL Client:
 ARG INSTALL_MYSQL_CLIENT=false
 RUN if [ ${INSTALL_MYSQL_CLIENT} = true ]; then \
-      apk --update add default-mysql-client \
+      apk --update add mysql-client \
 ;fi
 
 # Install FFMPEG:
