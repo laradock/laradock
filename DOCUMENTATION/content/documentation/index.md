@@ -793,20 +793,20 @@ Read the [Laravel official documentation](https://laravel.com/docs/5.7/redis#con
 ## Use Varnish
 
 The goal was to proxy request to varnish server using nginx. So only nginx has been configured for Varnish proxy.
-Nginx is on port 80 or 443. Nginx sends request through varnish server and varnish server sends request back to nginx on port 81 (external port is defined in `VARNISH_BACKEND_PORT`). 
+Nginx is on port 80 or 443. Nginx sends request through varnish server and varnish server sends request back to nginx on port 81 (external port is defined in `VARNISH_BACKEND_PORT`).
 
-The idea was taken from this [post](https://www.linode.com/docs/websites/varnish/use-varnish-and-nginx-to-serve-wordpress-over-ssl-and-http-on-debian-8/) 
+The idea was taken from this [post](https://www.linode.com/docs/websites/varnish/use-varnish-and-nginx-to-serve-wordpress-over-ssl-and-http-on-debian-8/)
 
 The Varnish configuration was developed and tested for Wordpress only. Probably it works with other systems.
 
 #### Steps to configure varnish proxy server:
 1. You have to set domain name for VARNISH_PROXY1_BACKEND_HOST variable.
 2. If you want to use varnish for different domains, you have to add new configuration section in your env file.
-    ``` 
+    ```
     VARNISH_PROXY1_CACHE_SIZE=128m
     VARNISH_PROXY1_BACKEND_HOST=replace_with_your_domain.name
     VARNISH_PROXY1_SERVER=SERVER1
-    ``` 
+    ```
 3. Then you have to add new config section into docker-compose.yml with related variables:
     ```
     custom_proxy_name:
@@ -828,7 +828,7 @@ The Varnish configuration was developed and tested for Wordpress only. Probably 
             - workspace
           networks:
             - frontend
-    ``` 
+    ```
 4. change your varnish config and add nginx configuration. Example Nginx configuration is here: `nginx/sites/laravel_varnish.conf.example`.
 5. `varnish/default.vcl` is old varnish configuration, which was used in the previous version. Use `default_wordpress.vcl` instead.
 
@@ -2011,7 +2011,7 @@ To install Supervisor in the Workspace container
 
 3 - Create supervisor configuration file (for ex., named `laravel-worker.conf`) for Laravel Queue Worker in `php-worker/supervisord.d/` by simply copy from `laravel-worker.conf.example`
 
-4 - Re-build the container `docker-compose build workspace` Or `docker-composer up --build -d workspace` 
+4 - Re-build the container `docker-compose build workspace` Or `docker-composer up --build -d workspace`
 
 
 
@@ -2162,8 +2162,27 @@ A bash prompt that displays information about the current git repository. In par
 **Note** You can configure bash-git-prompt by editing the `workspace/gitprompt.sh` file and re-building the workspace container.
 For configuration information, visit the [bash-git-prompt repository](https://github.com/magicmonty/bash-git-prompt).
 
+<br>
+<a name="Install-Oh-My-Zsh"></a>
+## Install Oh My ZSH! with Laravel autocomplete plugin
 
+[Zsh](https://en.wikipedia.org/wiki/Z_shell) is an extended Bourne shell with many improvements, including some features of Bash, ksh, and tcsh.
 
+[Oh My Zsh](https://ohmyz.sh/) is a delightful, open source, community-driven framework for managing your Zsh configuration.
+
+[Laravel autocomplete plugin](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/laravel) adds aliases and autocompletion for Laravel Artisan and Bob command-line interfaces.
+
+1 - Open the `.env` file
+
+2 - Search for the `SHELL_OH_MY_ZSH` argument under the Workspace Container
+
+3 - Set it to `true`
+
+4 - Re-build the container `docker-compose build workspace`
+
+5 - Use it `docker-compose exec --user=laradock workspace zsh`
+
+**Note** You can configure Oh My ZSH by editing the `/home/laradock/.zshrc` in running container.
 
 <br>
 <a name="phpstorm-debugging"></a>
