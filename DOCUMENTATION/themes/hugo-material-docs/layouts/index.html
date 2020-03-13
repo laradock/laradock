@@ -1,8 +1,8 @@
 {{ partial "head" . }}
 
 {{ if (eq (trim .Site.Params.provider " " | lower) "github") | and (isset .Site.Params "repo_url") }}
-	{{ $repo_id := replace .Site.Params.repo_url "https://github.com/" ""}}
-	{{ .Scratch.Set "repo_id" $repo_id }}
+    {{ $repo_id := replace .Site.Params.repo_url "https://github.com/" ""}}
+    {{ .Scratch.Set "repo_id" $repo_id }}
 {{ end }}
 
 <div class="backdrop">
@@ -25,26 +25,29 @@
 	<article class="article">
 		<div class="wrapper">
 
-            <!-- Wrapper arround google ads for seedanddew -->
-            <div class='snd-ad'>
-                <!-- ------------------------------------------------------------------------- -->
-                <!-- Google Ads -->
-                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                <!-- Laradock Horizontal -->
-                <ins class="adsbygoogle"
-                     style="display:inline-block;width:890px;height:100px"
-                     data-ad-client="ca-pub-9826129398689742"
-                     data-ad-slot="2340256024"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-                <!-- ------------------------------------------------------------------------- -->
-            </div>
+				<!-- ------------------------------------------------------------------------- -->
+				<!-- Google Ads -->
+				<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+				<!-- Laradock Horizontal -->
+				<ins class="adsbygoogle"
+					 style="display:inline-block;width:890px;height:100px"
+					 data-ad-client="ca-pub-9826129398689742"
+					 data-ad-slot="2340256024"></ins>
+				<script>
+					(adsbygoogle = window.adsbygoogle || []).push({});
+				</script>
+				<!-- ------------------------------------------------------------------------- -->
+
+			<br><br><br>
+			<img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/laradock-logo.jpg" alt="laradock logo">
 
 			{{ range where .Site.Pages "Type" "index" }}
-				<h1>{{ .Title }} {{ if .IsDraft }} (Draft){{ end }}</h1>
+			<br><br><br><br><br><br>
+			<hr>
+			<br>
+			<h1>{{ .Title }} {{ if .IsDraft }} (Draft){{ end }}</h1>
 
-				{{ .Content }}
+			{{ .Content }}
 			{{ end }}
 
 			<aside class="copyright" role="note">
@@ -55,8 +58,8 @@
 				<a href="https://www.gohugo.io" target="_blank">Hugo</a>
 				using the
 				<a href="http://github.com/digitalcraftsman/hugo-material-docs" target="_blank">Material</a> theme,
-                by
-                <a href="https://zalt.me">Mahmoud Zalt</a>.
+				by
+				<a href="https://zalt.me">Mahmoud Zalt</a>.
 			</aside>
 
 			<footer class="footer">
