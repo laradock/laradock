@@ -1,0 +1,31 @@
+#====================admin.luckyzhibo.cc====================
+server {
+	listen  80;
+	server_name  admin.luckyzhibo.cc;
+	server_tokens off;
+	root   D:/mywork/lkadmin/app/webroot;
+	charset utf-8;
+	rewrite_log on;
+	access_log  logs/admin.luckyzhibo.cc.access.log;
+	error_log   logs/admin.luckyzhibo.cc.error.log;
+
+	location / {
+		index index.html index.php ;
+		if (-f $request_filename) {
+			break;
+		}
+		if (!-f $request_filename) {
+			rewrite ^/(.+)$ /index.php?url=$1 last;
+			break;
+		}
+	}
+
+	location /index.php {
+		fastcgi_pass 127.0.0.1:9000;
+		fastcgi_index index.php;
+		fastcgi_param SCRIPT_FILENAME D:/mywork/lkadmin/index.php;
+		include fastcgi_params;
+		client_max_body_size 500m;
+	}
+
+}
