@@ -37,7 +37,7 @@ Now, set your hosts file on your host machine to redirect to the applications.
 ```
 127.0.0.1 local.api.humi.ca
 127.0.0.1 board.local.api.humi.ca
-127.0.0.1 local-admin.api.humi.ca
+127.0.0.1 local-admin.humi.ca
 ```
 
 ### Application Configuration
