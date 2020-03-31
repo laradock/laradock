@@ -76,7 +76,7 @@ docker-compose exec mysql bash
 *Example: enter to MySQL prompt within MySQL container*
 
 ```bash
-docker-compose exec mysql mysql -u homestead -psecret
+docker-compose exec mysql mysql -udefault -psecret
 ```
 
 3 - To exit a container, type `exit`.
@@ -272,10 +272,6 @@ docker-compose build workspace
 ```
 
 
-
-
-
-
 <br>
 <a name="Install-xDebug"></a>
 ## Install xDebug
@@ -311,6 +307,29 @@ To control the behavior of xDebug (in the `php-fpm` Container), you can run the 
 - See the status: `.php-fpm/xdebug status`.
 
 Note: If `.php-fpm/xdebug` doesn't execute and gives `Permission Denied` error the problem can be that file `xdebug` doesn't have execution access. This can be fixed by running `chmod` command  with desired access permissions.
+
+
+
+<br>
+<a name="Install-pcov"></a>
+## Install pcov
+
+1 - First install `pcov` in the Workspace and the PHP-FPM Containers:
+<br>
+a) open the `.env` file
+<br>
+b) search for the `WORKSPACE_INSTALL_PCOV` argument under the Workspace Container
+<br>
+c) set it to `true`
+<br>
+d) search for the `PHP_FPM_INSTALL_PCOV` argument under the PHP-FPM Container
+<br>
+e) set it to `true`
+
+2 - Re-build the containers `docker-compose build workspace php-fpm`
+
+Note that pcov is only supported on PHP 7.1 or newer. For more information on setting up pcov optimally, check the recommended section
+of the [README](https://github.com/krakjoe/pcov)
 
 
 
@@ -536,13 +555,19 @@ Note: Should add `--user=laradock` (example `docker-compose exec --user=laradock
 php artisan
 ```
 ```bash
-Composer update
+composer update
 ```
 ```bash
 phpunit
 ```
-
-
+```
+vue serve
+```
+(browse the results at `http://localhost:[WORKSPACE_VUE_CLI_SERVE_HOST_PORT]`)
+```
+vue ui
+```
+(browse the results at `http://localhost:[WORKSPACE_VUE_CLI_UI_HOST_PORT]`)
 
 
 
@@ -650,7 +675,7 @@ docker-compose up -d metabase
 
 1) Boot the container `docker-compose up -d jenkins`. To enter the container type `docker-compose exec jenkins bash`.
 
-2) Go to `http://localhost:8090/` (if you didn't chanhed your default port mapping)
+2) Go to `http://localhost:8090/` (if you didn't change your default port mapping)
 
 3) Authenticate from the web app.
 
@@ -674,6 +699,7 @@ You may wanna change the default security configuration, so go to `http://localh
 
 <br>
 <a name="Use-Redis"></a>
+
 ## Use Redis
 
 1 - First make sure you run the Redis Container (`redis`) with the `docker-compose up` command.
@@ -761,12 +787,81 @@ Read the [Laravel official documentation](https://laravel.com/docs/5.7/redis#con
 ```
 
 
+<br>
+<a name="Use-Varnish"></a>
 
+## Use Varnish
 
+The goal was to proxy request to varnish server using nginx. So only nginx has been configured for Varnish proxy.
+Nginx is on port 80 or 443. Nginx sends request through varnish server and varnish server sends request back to nginx on port 81 (external port is defined in `VARNISH_BACKEND_PORT`). 
 
+The idea was taken from this [post](https://www.linode.com/docs/websites/varnish/use-varnish-and-nginx-to-serve-wordpress-over-ssl-and-http-on-debian-8/) 
+
+The Varnish configuration was developed and tested for Wordpress only. Probably it works with other systems.
+
+#### Steps to configure varnish proxy server:
+1. You have to set domain name for VARNISH_PROXY1_BACKEND_HOST variable.
+2. If you want to use varnish for different domains, you have to add new configuration section in your env file.
+    ``` 
+    VARNISH_PROXY1_CACHE_SIZE=128m
+    VARNISH_PROXY1_BACKEND_HOST=replace_with_your_domain.name
+    VARNISH_PROXY1_SERVER=SERVER1
+    ``` 
+3. Then you have to add new config section into docker-compose.yml with related variables:
+    ```
+    custom_proxy_name:
+          container_name: custom_proxy_name
+          build: ./varnish
+          expose:
+            - ${VARNISH_PORT}
+          environment:
+            - VARNISH_CONFIG=${VARNISH_CONFIG}
+            - CACHE_SIZE=${VARNISH_PROXY2_CACHE_SIZE}
+            - VARNISHD_PARAMS=${VARNISHD_PARAMS}
+            - VARNISH_PORT=${VARNISH_PORT}
+            - BACKEND_HOST=${VARNISH_PROXY2_BACKEND_HOST}
+            - BACKEND_PORT=${VARNISH_BACKEND_PORT}
+            - VARNISH_SERVER=${VARNISH_PROXY2_SERVER}
+          ports:
+            - "${VARNISH_PORT}:${VARNISH_PORT}"
+          links:
+            - workspace
+          networks:
+            - frontend
+    ``` 
+4. change your varnish config and add nginx configuration. Example Nginx configuration is here: `nginx/sites/laravel_varnish.conf.example`.
+5. `varnish/default.vcl` is old varnish configuration, which was used in the previous version. Use `default_wordpress.vcl` instead.
+
+#### How to run:
+1. Rename `default_wordpress.vcl` to `default.vcl`
+2. `docker-compose up -d nginx`
+3. `docker-compose up -d proxy`
+
+Keep in mind that varnish server must be built after Nginx cause varnish checks domain affordability.
+
+#### FAQ:
+
+1. How to purge cache? <br>
+run from any cli: <br>`curl -X PURGE https://yourwebsite.com/`.
+2. How to reload varnish?<br>
+`docker container exec proxy varnishreload`
+3. Which varnish commands are allowed?
+    - varnishadm     
+    - varnishd      
+    - varnishhist    
+    - varnishlog     
+    - varnishncsa    
+    - varnishreload  
+    - varnishstat    
+    - varnishtest    
+    - varnishtop
+4. How to reload Nginx?<br>
+`docker exec Nginx nginx -t`<br>
+`docker exec Nginx nginx -s reload`
 
 <br>
 <a name="Use-Mongo"></a>
+
 ## Use Mongo
 
 1 - First install `mongo` in the Workspace and the PHP-FPM Containers:
@@ -1044,6 +1139,7 @@ _Note: You can customize the port on which beanstalkd console is listening by ch
 
 <br>
 <a name="Use-Confluence"></a>
+
 ## Use Confluence
 
 1 - Run the Confluence Container (`confluence`) with the `docker-compose up` command. Example:
@@ -1054,9 +1150,18 @@ docker-compose up -d confluence
 
 2 - Open your browser and visit the localhost on port **8090**:  `http://localhost:8090`
 
-**Note:** You can you trial version and then you have to buy a licence to use it.
+**Note:** Confluence is a licensed application - an evaluation licence can be obtained from Atlassian.
 
 You can set custom confluence version in `CONFLUENCE_VERSION`. [Find more info in section 'Versioning'](https://hub.docker.com/r/atlassian/confluence-server/)
+
+
+##### Confluence usage with Nginx and SSL.
+
+1. Find an instance configuration file in `nginx/sites/confluence.conf.example` and replace sample domain with yours.
+
+2. Configure ssl keys to your domain.
+
+Keep in mind that Confluence is still accessible on 8090 anyway.
 
 <br>
 <a name="Use-ElasticSearch"></a>
@@ -1490,6 +1595,13 @@ To add locales to the container:
 
 4 - Check enabled locales with `docker-compose exec php-fpm locale -a`
 
+Update the locale setting, default is `POSIX`
+
+1 - Open the `.env` file and set `PHP_FPM_DEFAULT_LOCALE` to `en_US.UTF8` or other locale you want.
+
+2 - Re-build your PHP-FPM Container `docker-compose build php-fpm`.
+
+3 - Check the default locale with `docker-compose exec php-fpm locale`
 
 
 <br>
@@ -1575,7 +1687,7 @@ The default username and password for the root MySQL user are `root` and `root `
 
 1 - Enter the MySQL container: `docker-compose exec mysql bash`.
 
-2 - Enter mysql: `mysql -uroot -proot` for non root access use `mysql -uhomestead -psecret`.
+2 - Enter mysql: `mysql -uroot -proot` for non root access use `mysql -udefault -psecret`.
 
 3 - See all users: `SELECT User FROM mysql.user;`
 
@@ -1784,7 +1896,11 @@ To install NPM VUE CLI in the Workspace container
 
 2 - Search for the `WORKSPACE_INSTALL_NPM_VUE_CLI` argument under the Workspace Container and set it to `true`
 
-3 - Re-build the container `docker-compose build workspace`
+3 - Change `vue serve` port using `WORKSPACE_VUE_CLI_SERVE_HOST_PORT` if you wish to (default value is 8080)
+
+4 - Change `vue ui` port using `WORKSPACE_VUE_CLI_UI_HOST_PORT` if you wish to (default value is 8001)
+
+5 - Re-build the container `docker-compose build workspace`
 
 
 
@@ -1840,7 +1956,21 @@ To install FFMPEG in the Workspace container
 **PS** Don't forget to install the binary in the `php-fpm` container too by applying the same steps above to its container, otherwise the you'll get an error when running the `php-ffmpeg` binary.
 
 
+<br>
+<a name="Install-wkhtmltopdf"></a>
+## Install wkhtmltopdf
 
+[wkhtmltopdf](https://wkhtmltopdf.org/) is a utility for outputting a PDF from HTML
+
+To install wkhtmltopdf in the Workspace container
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_WKHTMLTOPDF` argument under the Workspace Container and set it to `true`
+
+3 - Re-build the container `docker-compose build workspace`
+
+**PS** Don't forget to install the binary in the `php-fpm` container too by applying the same steps above to its container, otherwise the you'll get an error when running the `wkhtmltopdf` binary.
 
 
 
@@ -1859,6 +1989,29 @@ To install GNU Parallel in the Workspace container
 2 - Search for the `WORKSPACE_INSTALL_GNU_PARALLEL` argument under the Workspace Container and set it to `true`
 
 3 - Re-build the container `docker-compose build workspace`
+
+
+
+
+
+
+<br>
+<a name="Install-Supervisor"></a>
+## Install Supervisor
+
+Supervisor is a client/server system that allows its users to monitor and control a number of processes on UNIX-like operating systems.
+
+(see http://supervisord.org/index.html)
+
+To install Supervisor in the Workspace container
+
+1 - Open the `.env` file
+
+2 - Set `WORKSPACE_INSTALL_SUPERVISOR` and `WORKSPACE_INSTALL_PYTHON` to `true`.
+
+3 - Create supervisor configuration file (for ex., named `laravel-worker.conf`) for Laravel Queue Worker in `php-worker/supervisord.d/` by simply copy from `laravel-worker.conf.example`
+
+4 - Re-build the container `docker-compose build workspace` Or `docker-composer up --build -d workspace` 
 
 
 
@@ -1973,6 +2126,45 @@ YAML PHP extension allows you to easily parse and create YAML structured data. I
 4 - Re-build the container `docker-compose build php-fpm`<br>
 
 
+
+
+<br>
+<a name="Install-AST"></a>
+## Install AST PHP extension
+AST exposes the abstract syntax tree generated by PHP 7+. This extension is required by tools such as `Phan`, a static analyzer for PHP.
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_AST` argument under the Workspace Container
+
+3 - Set it to `true`
+
+4 - Re-build the container `docker-compose build workspace`
+
+**Note** If you need a specific version of AST then search for the `WORKSPACE_AST_VERSION` argument under the Workspace Container and set it to the desired version and continue step 4.
+
+
+
+
+<br>
+<a name="Install-Bash-Git-Prompt"></a>
+## Install Git Bash Prompt
+A bash prompt that displays information about the current git repository. In particular the branch name, difference with remote branch, number of files staged, changed, etc.
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_GIT_PROMPT` argument under the Workspace Container
+
+3 - Set it to `true`
+
+4 - Re-build the container `docker-compose build workspace`
+
+**Note** You can configure bash-git-prompt by editing the `workspace/gitprompt.sh` file and re-building the workspace container.
+For configuration information, visit the [bash-git-prompt repository](https://github.com/magicmonty/bash-git-prompt).
+
+
+
+
 <br>
 <a name="phpstorm-debugging"></a>
 ## PHPStorm Debugging Guide
@@ -1982,6 +2174,19 @@ Remote debug Laravel web and phpunit tests.
 
 
 
+<br>
+<a name="Setup-gcloud"></a>
+## Setup Google Cloud for docker registry
+
+```
+gcloud auth configure-docker
+```
+
+Login to gcloud for use the registry and auth the permission.
+
+```
+gcloud auth login
+```
 
 
 

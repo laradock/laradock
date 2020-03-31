@@ -4,10 +4,20 @@
 #--------------------------------------------------------------------------
 #
 
-ARG PHP_VERSION=${PHP_VERSION}
-FROM php:${PHP_VERSION}-alpine
+ARG LARADOCK_PHP_VERSION
+FROM php:${LARADOCK_PHP_VERSION}-alpine
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
+
+ARG LARADOCK_PHP_VERSION
+
+# If you're in China, or you need to change sources, will be set CHANGE_SOURCE to true in .env.
+
+ARG CHANGE_SOURCE=false
+RUN if [ ${CHANGE_SOURCE} = true ]; then \
+    # Change application source from dl-cdn.alpinelinux.org to aliyun source
+    sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories \
+;fi
 
 RUN apk --update add wget \
   curl \
@@ -21,6 +31,7 @@ RUN apk --update add wget \
   autoconf \
   cyrus-sasl-dev \
   libgsasl-dev \
+  oniguruma-dev \
   supervisor
 
 RUN docker-php-ext-install mysqli mbstring pdo pdo_mysql tokenizer xml pcntl
@@ -34,6 +45,27 @@ ENV PGID ${PGID}
 
 RUN addgroup -g ${PGID} laradock && \
     adduser -D -G laradock -u ${PUID} laradock
+
+#Install BZ2:
+ARG INSTALL_BZ2=false
+RUN if [ ${INSTALL_BZ2} = true ]; then \
+  apk --update add bzip2-dev; \
+  docker-php-ext-install bz2; \
+fi
+
+#Install GD package:
+ARG INSTALL_GD=false
+RUN if [ ${INSTALL_GD} = true ]; then \
+   apk add --update --no-cache libpng-dev; \
+   docker-php-ext-install gd \
+;fi
+
+#Install GMP package:
+ARG INSTALL_GMP=false
+RUN if [ ${INSTALL_GMP} = true ]; then \
+   apk add --update --no-cache gmp gmp-dev \
+   && docker-php-ext-install gmp \
+;fi
 
 #Install SOAP package:
 ARG INSTALL_SOAP=false
@@ -56,9 +88,14 @@ RUN if [ ${INSTALL_PGSQL} = true ]; then \
 
 # Install ZipArchive:
 ARG INSTALL_ZIP_ARCHIVE=false
-RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
+RUN set -eux; \
+  if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
     apk --update add libzip-dev && \
-    docker-php-ext-configure zip --with-libzip && \
+    if [ ${LARADOCK_PHP_VERSION} = "7.3" ] || [ ${LARADOCK_PHP_VERSION} = "7.4" ]; then \
+      docker-php-ext-configure zip; \
+    else \
+      docker-php-ext-configure zip --with-libzip; \
+    fi && \
     # Install the zip extension
     docker-php-ext-install zip \
 ;fi
@@ -66,7 +103,7 @@ RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
 # Install MySQL Client:
 ARG INSTALL_MYSQL_CLIENT=false
 RUN if [ ${INSTALL_MYSQL_CLIENT} = true ]; then \
-    apk --update add mysql-client \
+      apk --update add mysql-client \
 ;fi
 
 # Install FFMPEG:
@@ -89,7 +126,11 @@ RUN if [ ${INSTALL_AMQP} = true ]; then \
 ARG INSTALL_GEARMAN=false
 
 RUN if [ ${INSTALL_GEARMAN} = true ]; then \
-    docker-php-ext-install gearman \
+    sed -i "\$ahttp://dl-cdn.alpinelinux.org/alpine/edge/main" /etc/apk/repositories && \
+    sed -i "\$ahttp://dl-cdn.alpinelinux.org/alpine/edge/community" /etc/apk/repositories && \
+    sed -i "\$ahttp://dl-cdn.alpinelinux.org/alpine/edge/testing" /etc/apk/repositories && \
+    apk --update add php7-gearman && \
+    sh -c 'echo "extension=/usr/lib/php7/modules/gearman.so" > /usr/local/etc/php/conf.d/gearman.ini' \
 ;fi
 
 # Install Cassandra drivers:
@@ -126,15 +167,9 @@ RUN if [ $INSTALL_PHALCON = true ]; then \
     && rm -rf /tmp/cphalcon* \
 ;fi
 
+ARG INSTALL_GHOSTSCRIPT=false
 RUN if [ $INSTALL_GHOSTSCRIPT = true ]; then \
     apk --update add ghostscript \
-;fi
-
-#Install GMP package:
-ARG INSTALL_GMP=false
-RUN if [ ${INSTALL_GMP} = true ]; then \
-   apk add --update --no-cache gmp gmp-dev \
-   && docker-php-ext-install gmp \
 ;fi
 
 # Install Redis package:
