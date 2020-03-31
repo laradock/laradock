@@ -6,6 +6,8 @@ weight: 5
 
 Join the chat room on [Gitter](https://gitter.im/Laradock/laradock) and get help and support from the community.
 
+[![Gitter](https://badges.gitter.im/Laradock/laradock.svg)](https://gitter.im/Laradock/laradock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
 You can as well can open an [issue](https://github.com/laradock/laradock/issues) on Github (will be labeled as Question) and discuss it with people on [Gitter](https://gitter.im/Laradock/laradock).
 
 
@@ -41,7 +43,7 @@ Use `http://127.0.0.1` instead of `http://localhost` in your browser.
 
 
 <br>
-## I see an error message containing `address already in use` or `port is already allocated`
+## I see an error message containing (address already in use) or (port is already allocated)
 
 Make sure the ports for the services that you are trying to run (22, 80, 443, 3306, etc.) are not being used already by other programs on the host, such as a built in `apache`/`httpd` service or other development tools you have installed.
 
@@ -85,7 +87,7 @@ This error sometimes happens because your Laravel application isn't running on t
 * Option B
    1. Change the `DB_HOST` value to the same name as the MySQL docker container. The Laradock docker-compose file currently has this as `mysql`
 
-## I get stuck when building nginx on `fetch http://mirrors.aliyun.com/alpine/v3.5/main/x86_64/APKINDEX.tar.gz`
+## I get stuck when building nginx on (fetch mirrors.aliyun.com/alpine/v3.5/main/x86_64/APKINDEX.tar.gz)
 
 As stated on [#749](https://github.com/laradock/laradock/issues/749#issuecomment-419652646), Already fixed，just set `CHANGE_SOURCE` to false.
 
@@ -101,7 +103,7 @@ WORKSPACE_COMPOSER_REPO_PACKAGIST=https://packagist.phpcomposer.com
 
 <br>
 
-## I get `Module build failed: Error: write EPIPE` while compiling react application
+## I got (Module build failed: Error: write EPIPE) while compiling react application
 
 When you run `npm build` or `yarn dev` building a react application using webpack with elixir you may receive a `Error: write EPIPE` while processing .jpg images.
 
