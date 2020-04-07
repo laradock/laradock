@@ -78,6 +78,12 @@ UBUNTU_SOURCE=aliyun
 # If you are using Docker Sync. For `osx` use 'native_osx', for `windows` use 'unison', for `linux` docker-sync is not required
 DOCKER_SYNC_STRATEGY=native_osx
 
+### Install Oh My ZSH! ####################################
+
+# If you want to use "Oh My ZSH!" with Laravel autocomplete plugin, set SHELL_OH_MY_ZSH to true.
+
+SHELL_OH_MY_ZSH=false
+
 ###########################################################
 ################ Containers Customization #################
 ###########################################################
@@ -859,7 +865,7 @@ GEARMAN_MYSQL_PORT=3306
 # Mysql server user (Default: root)
 GEARMAN_MYSQL_USER=root
 # Mysql password
-GEARMAN_MYSQL_PASSWORD=	
+GEARMAN_MYSQL_PASSWORD=
 # Path to file with mysql password(Docker secrets)
 GEARMAN_MYSQL_PASSWORD_FILE=
 # Database to use by Gearman (Default: Gearmand)
