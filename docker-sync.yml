@@ -1,0 +1,13 @@
+version: "2"
+
+options:
+  verbose: false
+syncs:
+  applications-docker-sync: # name of the intermediary sync volume
+    compose-dev-file-path: 'docker-compose.sync.yml' # docker-compose override file
+
+    src: '${APP_CODE_PATH_HOST}' # host source directory
+    sync_userid: 1000 # giving permissions to www-data user (as defined in nginx and php-fpm Dockerfiles)
+    sync_strategy: '${DOCKER_SYNC_STRATEGY}' # for osx use 'native_osx', for windows use 'unison'
+
+    sync_excludes: ['laradock', 'ignored_folder_example'] # ignored directories

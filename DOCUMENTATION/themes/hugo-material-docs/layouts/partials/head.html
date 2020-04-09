@@ -12,17 +12,23 @@
     <title>{{ .Title }}{{ if not .IsHome }} - {{ .Site.Title }}{{ end }}</title>
     {{ .Hugo.Generator }}
 
-    {{ with .Site.Params.description }}
-    <meta name="description" content="{{ . }}">
-    {{ end }}
+    {{ with .Site.Params.description }}<meta name="description" content="{{ . }}">{{ end }}
     <link rel="canonical" href="{{ .Permalink }}">
-    {{ with .Site.Params.author }}
-    <meta name="author" content="{{ . }}">
-    {{ end }}
+    {{ with .Site.Params.author }}<meta name="author" content="{{ . }}">{{ end }}
 
     <meta property="og:url" content="{{ .Permalink }}">
+    <meta property="og:type" content="website">
+    {{ with .Site.Title }}<meta property="og:site_name" content="{{ . }}">{{ end }}
+    {{ with .Site.Params.description }}<meta property="og:description" content="{{ . }}">{{ end }}
     {{ with .Site.Title }}<meta property="og:title" content="{{ . }}">{{ end }}
     {{ with .Site.Params.logo }}<meta property="og:image" content="{{ . | absURL }}">{{ end }}
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@Mahmoud_Zalt">
+    {{ with .Site.Title }}<meta name="twitter:title" content="{{ . }}">{{ end }}
+    {{ with .Site.Params.description }}<meta name="twitter:description" content="{{ . }}">{{ end }}
+    {{ with .Site.Params.logo }}<meta name="twitter:image" content="{{ . | absURL }}">{{ end }}
+
     {{ with .Site.Title }}<meta name="apple-mobile-web-app-title" content="{{ . }}">{{ end }}
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">

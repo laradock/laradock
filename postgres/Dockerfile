@@ -1,6 +1,5 @@
-FROM postgres:latest
-
-MAINTAINER Ben M <git@bmagg.com>
+ARG POSTGRES_VERSION=alpine
+FROM postgres:${POSTGRES_VERSION}
 
 CMD ["postgres"]
 

@@ -1,11 +1,12 @@
 FROM ubuntu:14.04
 
-MAINTAINER Mahmoud Zalt <mahmoud@zalt.me>
+LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
 RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0x5a16e7281be7a449
 
 RUN apt-get update -y \
-    && apt-get install -y software-properties-common \
+    && apt-get install -y software-properties-common wget \
+    && wget -O - http://dl.hhvm.com/conf/hhvm.gpg.key | sudo apt-key add - \
     && add-apt-repository "deb http://dl.hhvm.com/ubuntu $(lsb_release -sc) main" \
     && apt-get update -y \
     && apt-get install -y hhvm \
@@ -14,7 +15,7 @@ RUN apt-get update -y \
 
 RUN mkdir -p /var/www
 
-ADD server.ini /etc/hhvm/server.ini
+COPY server.ini /etc/hhvm/server.ini
 
 RUN usermod -u 1000 www-data
 

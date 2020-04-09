@@ -1,5 +1,5 @@
 ---
-title: Contributing
+title: 7. Contributing
 type: index
 weight: 7
 ---
@@ -13,8 +13,8 @@ If you have questions about how to use Laradock, please direct your questions to
 
 ## Found an Issue
 
-If have an issue or you found a typo in the documentation, you can help us by
-opnening an [Issue](https://github.com/laradock/laradock/issues).
+If you have an issue or you found a typo in the documentation, you can help us by
+opening an [Issue](https://github.com/laradock/laradock/issues).
 
 **Steps to do before opening an Issue:**
 
@@ -24,7 +24,7 @@ opnening an [Issue](https://github.com/laradock/laradock/issues).
 
 If your issue appears to be a bug, and hasn't been reported, then open a new issue.
 
-*This Help us to maximize the effort we can spend fixing issues and adding new
+*This helps us maximize the effort we can spend fixing issues and adding new
 features, by not reporting duplicate issues.*
 
 
@@ -61,7 +61,7 @@ To update the sidebar or add a new section to it, you can edit this `DOCUMENTATI
 
 ## Support new Software (Add new Container)
 
-* Forke the repo and clone the code.
+* Fork the repo and clone the code.
 
 * Create folder as the software name (example: `mysql` - `nginx`).
 
@@ -73,7 +73,7 @@ To update the sidebar or add a new section to it, you can edit this `DOCUMENTATI
 
 * Add the environment variables to the `env-example` if you have any.
 
-* **MOST IMPORTANTLY** updated the `Documentation`, add as much information.
+* **MOST IMPORTANTLY** update the `Documentation`, add as much information.
 
 * Submit a Pull Request, to the `master` branch.
 
@@ -81,7 +81,7 @@ To update the sidebar or add a new section to it, you can edit this `DOCUMENTATI
 
 ## Edit supported Software (Edit a Container)
 
-* Forke the repo and clone the code.
+* Fork the repo and clone the code.
 
 * Open the software (container) folder (example: `mysql` - `nginx`).
 
@@ -100,7 +100,7 @@ To update the sidebar or add a new section to it, you can edit this `DOCUMENTATI
 
 * Search for the image in the [Docker Hub](https://hub.docker.com/search/) and find the source..
 
-*Most of the image in Laradock are offical images, these projects live in other repositories and maintainer by other orgnizations.*
+*Most of the image in Laradock are offical images, these projects live in other repositories and maintainer by other organizations.*
 
 **Note:** Laradock has two base images for (`Workspace` and `php-fpm`, mainly made to speed up the build time on your machine.
 
@@ -204,4 +204,4 @@ After your pull request is merged, you can safely delete your branch and pull th
 
 
 <br>
-#### Happy Coding :)
+## Happy Coding :)

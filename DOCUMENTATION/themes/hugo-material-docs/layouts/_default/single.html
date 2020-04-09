@@ -20,11 +20,11 @@
 <main class="main">
 	<div class="drawer">
 		{{ partial "drawer" . }}
-	</div>
+    </div>
 
 	<article class="article">
 		<div class="wrapper">
-			<h1>{{ .Title }} {{ if .IsDraft }} (Draft){{ end }}</h1>
+            <h1>{{ .Title }} {{ if .IsDraft }} (Draft){{ end }}</h1>
 
 			{{ .Content }}
 
