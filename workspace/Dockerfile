@@ -119,7 +119,7 @@ RUN sed -i 's/\r//' /root/aliases.sh && \
     echo "# Load Custom Aliases" >> ~/.bashrc && \
     echo "source ~/aliases.sh" >> ~/.bashrc && \
 	  echo "" >> ~/.bashrc
-
+    
 USER laradock
 
 RUN echo "" >> ~/.bashrc && \
@@ -127,6 +127,15 @@ RUN echo "" >> ~/.bashrc && \
     echo "source ~/aliases.sh" >> ~/.bashrc && \
 	  echo "" >> ~/.bashrc
 
+ARG GROUP_WRITABLE=false
+ENV GROUP_WRITABLE ${GROUP_WRITABLE}
+
+
+RUN if [ ${GROUP_WRITABLE} = true ]; then \
+    echo "# Make Group Writable" >> ~/.bashrc && \
+    echo "umask 002;" >> ~/.bashrc && \
+    echo "" >> ~/.bashrc \
+;fi
 ###########################################################################
 # Composer:
 ###########################################################################
@@ -1332,6 +1341,13 @@ bindkey "^[[4~" end-of-line\n\
 bindkey "^[[5~" up-line-or-history\n\
 bindkey "^[[6~" down-line-or-history\n\
 bindkey "^?" backward-delete-char\n' >> /home/laradock/.zshrc \
+;fi
+
+
+RUN if [ ${GROUP_WRITABLE} = true ] && [ ${SHELL_OH_MY_ZSH} = true ]; then \
+    echo "# Make Group Writable" >> /home/laradock/.zshrc && \
+    echo "umask 002;" >> /home/laradock/.zshrc && \
+    echo "" >> /home/laradock/.zshrc \
 ;fi
 
 USER root
