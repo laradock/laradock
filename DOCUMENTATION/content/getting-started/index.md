@@ -221,8 +221,12 @@ Or you can change them and rebuild the container.
 <br>
 5 - Open your browser and visit your localhost address. 
 
+Make sure you add use the right port number as provided by your running server.
+
+[http://localhost](http://localhost)
+
 If you followed the multiple projects setup, you can visit `http://project-1.test/` and `http://project-2.test/`.
 
-[http://localhost:8080](http://localhost:8080)
 
-Make sure you add use the right port number as provided by your running server. Ex: NGINX uses port 8080 by default while Apache2 uses 80.   
+
+ 

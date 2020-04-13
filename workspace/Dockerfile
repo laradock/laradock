@@ -13,7 +13,6 @@
 #
 
 ARG LARADOCK_PHP_VERSION
-
 FROM laradock/workspace:2.6.1-${LARADOCK_PHP_VERSION}
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
@@ -51,6 +50,7 @@ ARG UBUNTU_SOURCE
 COPY ./sources.sh /tmp/sources.sh
 
 RUN if [ ${CHANGE_SOURCE} = true ]; then \
+    chmod +x /tmp/sources.sh && \
     /bin/sh -c /tmp/sources.sh && \
     rm -rf /tmp/sources.sh \
 ;fi
@@ -234,20 +234,16 @@ RUN if [ ${INSTALL_WP_CLI} = true ]; then \
 ;fi
 
 ###########################################################################
-# SSH2:
+# BZ2:
 ###########################################################################
 
-USER root
-
-ARG INSTALL_SSH2=false
-
-RUN if [ ${INSTALL_SSH2} = true ]; then \
-  # Install the PHP SSH2 extension
-  apt-get -y install libssh2-1-dev php${LARADOCK_PHP_VERSION}-ssh2 \
+ARG INSTALL_BZ2=false
+RUN if [ ${INSTALL_BZ2} = true ]; then \
+  apt-get -y install php${LARADOCK_PHP_VERSION}-bz2 \
 ;fi
 
 ###########################################################################
-# GMP:
+# GMP (GNU Multiple Precision):
 ###########################################################################
 
 USER root
@@ -258,6 +254,19 @@ ARG PHP_VERSION=${LARADOCK_PHP_VERSION}
 RUN if [ ${INSTALL_GMP} = true ]; then \
   # Install the PHP GMP extension
   apt-get -y install php${LARADOCK_PHP_VERSION}-gmp \
+;fi
+
+###########################################################################
+# SSH2:
+###########################################################################
+
+USER root
+
+ARG INSTALL_SSH2=false
+
+RUN if [ ${INSTALL_SSH2} = true ]; then \
+  # Install the PHP SSH2 extension
+  apt-get -y install libssh2-1-dev php${LARADOCK_PHP_VERSION}-ssh2 \
 ;fi
 
 ###########################################################################
@@ -577,10 +586,13 @@ ARG AST_VERSION=1.0.3
 ENV AST_VERSION ${AST_VERSION}
 
 RUN if [ ${INSTALL_AST} = true ]; then \
-    # Install AST extension
-    printf "\n" | pecl -q install ast-${AST_VERSION} && \
-    echo "extension=ast.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/ast.ini && \
-    phpenmod -v ${LARADOCK_PHP_VERSION} -s cli ast \
+    # AST extension requires PHP 7.0.0 or newer
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") != "5" ]; then \
+        # Install AST extension
+        printf "\n" | pecl -q install ast-${AST_VERSION} && \
+        echo "extension=ast.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/ast.ini && \
+        phpenmod -v ${LARADOCK_PHP_VERSION} -s cli ast \
+    ;fi \
 ;fi
 
 ###########################################################################
@@ -1231,6 +1243,26 @@ RUN if [ ${INSTALL_FFMPEG} = true ]; then \
   apt-get -y install ffmpeg \
 ;fi
 
+#####################################
+# wkhtmltopdf:
+#####################################
+
+USER root
+
+ARG INSTALL_WKHTMLTOPDF=false
+
+RUN if [ ${INSTALL_WKHTMLTOPDF} = true ]; then \
+   apt-get install -y \
+   libxrender1 \
+   libfontconfig1 \
+   libx11-dev \
+   libjpeg62 \
+   libxtst6 \
+   wget \
+   && wget https://github.com/h4cc/wkhtmltopdf-amd64/blob/master/bin/wkhtmltopdf-amd64?raw=true -O /usr/local/bin/wkhtmltopdf \
+   && chmod +x /usr/local/bin/wkhtmltopdf \
+;fi
+
 ###########################################################################
 # Mailparse extension:
 ###########################################################################
@@ -1253,12 +1285,56 @@ RUN if [ ${INSTALL_GNU_PARALLEL} = true ]; then \
   apt-get -y install parallel \
 ;fi
 
+###########################################################################
+# Bash Git Prompt
+###########################################################################
+
+ARG INSTALL_GIT_PROMPT=false
+
+COPY git-prompt.sh /tmp/git-prompt
+
+RUN if [ ${INSTALL_GIT_PROMPT} = true ]; then \
+    git clone https://github.com/magicmonty/bash-git-prompt.git /root/.bash-git-prompt --depth=1 && \
+    cat /tmp/git-prompt >> /root/.bashrc && \
+    rm /tmp/git-prompt \
+;fi
 
 ###########################################################################
 # Check PHP version:
 ###########################################################################
 
 RUN set -xe; php -v | head -n 1 | grep -q "PHP ${LARADOCK_PHP_VERSION}."
+
+###########################################################################
+# Oh My ZSH!
+###########################################################################
+
+USER root
+
+ARG SHELL_OH_MY_ZSH=false
+RUN if [ ${SHELL_OH_MY_ZSH} = true ]; then \
+    apt install -y zsh \
+;fi
+
+USER laradock
+RUN if [ ${SHELL_OH_MY_ZSH} = true ]; then \
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --keep-zshrc" && \
+    sed -i -r 's/^plugins=\(.*?\)$/plugins=(laravel5)/' /home/laradock/.zshrc && \
+    echo '\n\
+bindkey "^[OB" down-line-or-search\n\
+bindkey "^[OC" forward-char\n\
+bindkey "^[OD" backward-char\n\
+bindkey "^[OF" end-of-line\n\
+bindkey "^[OH" beginning-of-line\n\
+bindkey "^[[1~" beginning-of-line\n\
+bindkey "^[[3~" delete-char\n\
+bindkey "^[[4~" end-of-line\n\
+bindkey "^[[5~" up-line-or-history\n\
+bindkey "^[[6~" down-line-or-history\n\
+bindkey "^?" backward-delete-char\n' >> /home/laradock/.zshrc \
+;fi
+
+USER root
 
 #
 #--------------------------------------------------------------------------

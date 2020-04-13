@@ -13,8 +13,7 @@
 #
 
 ARG LARADOCK_PHP_VERSION
-
-FROM laradock/php-fpm:2.6.2-${LARADOCK_PHP_VERSION}
+FROM laradock/php-fpm:2.7-${LARADOCK_PHP_VERSION}
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
@@ -72,6 +71,31 @@ RUN set -xe; \
 #
 
 ###########################################################################
+# BZ2:
+###########################################################################
+
+ARG INSTALL_BZ2=false
+RUN if [ ${INSTALL_BZ2} = true ]; then \
+  apt-get -y install libbz2-dev; \
+  docker-php-ext-install bz2 \
+;fi
+
+###########################################################################
+# GMP (GNU Multiple Precision):
+###########################################################################
+
+ARG INSTALL_GMP=false
+
+RUN if [ ${INSTALL_GMP} = true ]; then \
+    # Install the GMP extension
+	  apt-get install -y libgmp-dev && \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h \
+    ;fi && \
+    docker-php-ext-install gmp \
+;fi
+
+###########################################################################
 # SSH2:
 ###########################################################################
 
@@ -83,7 +107,7 @@ RUN if [ ${INSTALL_SSH2} = true ]; then \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
         pecl install -a ssh2-0.13; \
     else \
-        pecl install -a ssh2-1.1.2; \
+        pecl install -a ssh2-1.2; \
     fi && \
     docker-php-ext-enable ssh2 \
 ;fi
@@ -165,7 +189,11 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
   if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
     pecl install xdebug-2.5.5; \
   else \
-    pecl install xdebug; \
+    if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+      pecl install xdebug-2.9.0; \
+    else \
+      pecl install xdebug; \
+    fi \
   fi && \
   docker-php-ext-enable xdebug \
 ;fi
@@ -193,7 +221,6 @@ RUN if [ ${INSTALL_PCOV} = true ]; then \
     ;fi \
   ;fi \
 ;fi
-
 
 ###########################################################################
 # Phpdbg:
@@ -330,7 +357,7 @@ ARG INSTALL_AMQP=false
 RUN if [ ${INSTALL_AMQP} = true ]; then \
     # download and install manually, to make sure it's compatible with ampq installed by pecl later
     # install cmake first
-    apt-get update && apt-get -y install cmake && \
+    apt-get -y install cmake && \
     curl -L -o /tmp/rabbitmq-c.tar.gz https://github.com/alanxz/rabbitmq-c/archive/master.tar.gz && \
     mkdir -p rabbitmq-c && \
     tar -C rabbitmq-c -zxvf /tmp/rabbitmq-c.tar.gz --strip 1 && \
@@ -352,7 +379,6 @@ RUN if [ ${INSTALL_AMQP} = true ]; then \
 ARG INSTALL_GEARMAN=false
 
 RUN if [ ${INSTALL_GEARMAN} = true ]; then \
-    apt-get update && \
     apt-get -y install libgearman-dev && \
     cd /tmp && \
     curl -L https://github.com/wcgallego/pecl-gearman/archive/gearman-2.0.5.zip -O && \
@@ -388,21 +414,6 @@ ARG INSTALL_BCMATH=false
 RUN if [ ${INSTALL_BCMATH} = true ]; then \
     # Install the bcmath extension
     docker-php-ext-install bcmath \
-;fi
-
-###########################################################################
-# GMP (GNU Multiple Precision):
-###########################################################################
-
-ARG INSTALL_GMP=false
-
-RUN if [ ${INSTALL_GMP} = true ]; then \
-    # Install the GMP extension
-	  apt-get install -y libgmp-dev && \
-    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-      ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h \
-    ;fi && \
-    docker-php-ext-install gmp \
 ;fi
 
 ###########################################################################
@@ -799,12 +810,7 @@ USER root
 ARG INSTALL_MYSQL_CLIENT=false
 
 RUN if [ ${INSTALL_MYSQL_CLIENT} = true ]; then \
-    apt-get update -yqq && \
-    if [ ${LARADOCK_PHP_VERSION} = "7.3" ]; then \
       apt-get -y install default-mysql-client \
-    ;else \
-      apt-get -y install mysql-client \
-    ;fi \
 ;fi
 
 ###########################################################################
@@ -816,7 +822,6 @@ USER root
 ARG INSTALL_PING=false
 
 RUN if [ ${INSTALL_PING} = true ]; then \
-    apt-get update -yqq && \
     apt-get -y install inetutils-ping \
 ;fi
 
@@ -829,7 +834,6 @@ USER root
 ARG INSTALL_SSHPASS=false
 
 RUN if [ ${INSTALL_SSHPASS} = true ]; then \
-    apt-get update -yqq && \
     apt-get -y install sshpass \
 ;fi
 
@@ -842,8 +846,27 @@ USER root
 ARG INSTALL_FFMPEG=false
 
 RUN if [ ${INSTALL_FFMPEG} = true ]; then \
-    apt-get update -yqq && \
     apt-get -y install ffmpeg \
+;fi
+
+#####################################
+# wkhtmltopdf:
+#####################################
+
+USER root
+
+ARG INSTALL_WKHTMLTOPDF=false
+
+RUN if [ ${INSTALL_WKHTMLTOPDF} = true ]; then \
+    apt-get install -y \
+    libxrender1 \
+    libfontconfig1 \
+    libx11-dev \
+    libjpeg62 \
+    libxtst6 \
+    wget \
+    && wget https://github.com/h4cc/wkhtmltopdf-amd64/blob/master/bin/wkhtmltopdf-amd64?raw=true -O /usr/local/bin/wkhtmltopdf \
+    && chmod +x /usr/local/bin/wkhtmltopdf \
 ;fi
 
 ###########################################################################

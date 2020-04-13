@@ -560,8 +560,14 @@ composer update
 ```bash
 phpunit
 ```
-
-
+```
+vue serve
+```
+(browse the results at `http://localhost:[WORKSPACE_VUE_CLI_SERVE_HOST_PORT]`)
+```
+vue ui
+```
+(browse the results at `http://localhost:[WORKSPACE_VUE_CLI_UI_HOST_PORT]`)
 
 
 
@@ -607,6 +613,31 @@ docker-compose up -d php-worker
 ```
 
 
+
+
+
+
+<br>
+<a name="Use-Browsersync-With-Laravel-Mix"></a>
+## Use Browsersync with Laravel Mix
+
+1. Add the following settings to your `webpack.mix.js` file. Please refer to Browsersync [Options](https://browsersync.io/docs/options) page for more options.
+```
+const mix = require('laravel-mix')
+
+(...)
+
+mix.browserSync({
+  open: false,
+  proxy: 'nginx' // replace with your web server container
+})
+```
+
+2. Run `npm run watch` within your `workspace` container.
+
+3. Open your browser and visit address `http://localhost:[WORKSPACE_BROWSERSYNC_HOST_PORT]`. It will refresh the page automatically whenever you edit any source file in your project.
+
+4. If you wish to access Browsersync UI for your project, visit address `http://localhost:[WORKSPACE_BROWSERSYNC_UI_HOST_PORT]`.
 
 
 
@@ -693,6 +724,7 @@ You may wanna change the default security configuration, so go to `http://localh
 
 <br>
 <a name="Use-Redis"></a>
+
 ## Use Redis
 
 1 - First make sure you run the Redis Container (`redis`) with the `docker-compose up` command.
@@ -780,12 +812,81 @@ Read the [Laravel official documentation](https://laravel.com/docs/5.7/redis#con
 ```
 
 
+<br>
+<a name="Use-Varnish"></a>
 
+## Use Varnish
 
+The goal was to proxy request to varnish server using nginx. So only nginx has been configured for Varnish proxy.
+Nginx is on port 80 or 443. Nginx sends request through varnish server and varnish server sends request back to nginx on port 81 (external port is defined in `VARNISH_BACKEND_PORT`).
 
+The idea was taken from this [post](https://www.linode.com/docs/websites/varnish/use-varnish-and-nginx-to-serve-wordpress-over-ssl-and-http-on-debian-8/)
+
+The Varnish configuration was developed and tested for Wordpress only. Probably it works with other systems.
+
+#### Steps to configure varnish proxy server:
+1. You have to set domain name for VARNISH_PROXY1_BACKEND_HOST variable.
+2. If you want to use varnish for different domains, you have to add new configuration section in your env file.
+    ```
+    VARNISH_PROXY1_CACHE_SIZE=128m
+    VARNISH_PROXY1_BACKEND_HOST=replace_with_your_domain.name
+    VARNISH_PROXY1_SERVER=SERVER1
+    ```
+3. Then you have to add new config section into docker-compose.yml with related variables:
+    ```
+    custom_proxy_name:
+          container_name: custom_proxy_name
+          build: ./varnish
+          expose:
+            - ${VARNISH_PORT}
+          environment:
+            - VARNISH_CONFIG=${VARNISH_CONFIG}
+            - CACHE_SIZE=${VARNISH_PROXY2_CACHE_SIZE}
+            - VARNISHD_PARAMS=${VARNISHD_PARAMS}
+            - VARNISH_PORT=${VARNISH_PORT}
+            - BACKEND_HOST=${VARNISH_PROXY2_BACKEND_HOST}
+            - BACKEND_PORT=${VARNISH_BACKEND_PORT}
+            - VARNISH_SERVER=${VARNISH_PROXY2_SERVER}
+          ports:
+            - "${VARNISH_PORT}:${VARNISH_PORT}"
+          links:
+            - workspace
+          networks:
+            - frontend
+    ```
+4. change your varnish config and add nginx configuration. Example Nginx configuration is here: `nginx/sites/laravel_varnish.conf.example`.
+5. `varnish/default.vcl` is old varnish configuration, which was used in the previous version. Use `default_wordpress.vcl` instead.
+
+#### How to run:
+1. Rename `default_wordpress.vcl` to `default.vcl`
+2. `docker-compose up -d nginx`
+3. `docker-compose up -d proxy`
+
+Keep in mind that varnish server must be built after Nginx cause varnish checks domain affordability.
+
+#### FAQ:
+
+1. How to purge cache? <br>
+run from any cli: <br>`curl -X PURGE https://yourwebsite.com/`.
+2. How to reload varnish?<br>
+`docker container exec proxy varnishreload`
+3. Which varnish commands are allowed?
+    - varnishadm     
+    - varnishd      
+    - varnishhist    
+    - varnishlog     
+    - varnishncsa    
+    - varnishreload  
+    - varnishstat    
+    - varnishtest    
+    - varnishtop
+4. How to reload Nginx?<br>
+`docker exec Nginx nginx -t`<br>
+`docker exec Nginx nginx -s reload`
 
 <br>
 <a name="Use-Mongo"></a>
+
 ## Use Mongo
 
 1 - First install `mongo` in the Workspace and the PHP-FPM Containers:
@@ -1820,7 +1921,11 @@ To install NPM VUE CLI in the Workspace container
 
 2 - Search for the `WORKSPACE_INSTALL_NPM_VUE_CLI` argument under the Workspace Container and set it to `true`
 
-3 - Re-build the container `docker-compose build workspace`
+3 - Change `vue serve` port using `WORKSPACE_VUE_CLI_SERVE_HOST_PORT` if you wish to (default value is 8080)
+
+4 - Change `vue ui` port using `WORKSPACE_VUE_CLI_UI_HOST_PORT` if you wish to (default value is 8001)
+
+5 - Re-build the container `docker-compose build workspace`
 
 
 
@@ -1876,7 +1981,21 @@ To install FFMPEG in the Workspace container
 **PS** Don't forget to install the binary in the `php-fpm` container too by applying the same steps above to its container, otherwise the you'll get an error when running the `php-ffmpeg` binary.
 
 
+<br>
+<a name="Install-wkhtmltopdf"></a>
+## Install wkhtmltopdf
 
+[wkhtmltopdf](https://wkhtmltopdf.org/) is a utility for outputting a PDF from HTML
+
+To install wkhtmltopdf in the Workspace container
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_WKHTMLTOPDF` argument under the Workspace Container and set it to `true`
+
+3 - Re-build the container `docker-compose build workspace`
+
+**PS** Don't forget to install the binary in the `php-fpm` container too by applying the same steps above to its container, otherwise the you'll get an error when running the `wkhtmltopdf` binary.
 
 
 
@@ -1917,7 +2036,7 @@ To install Supervisor in the Workspace container
 
 3 - Create supervisor configuration file (for ex., named `laravel-worker.conf`) for Laravel Queue Worker in `php-worker/supervisord.d/` by simply copy from `laravel-worker.conf.example`
 
-4 - Re-build the container `docker-compose build workspace` Or `docker-composer up --build -d workspace` 
+4 - Re-build the container `docker-compose build workspace` Or `docker-composer up --build -d workspace`
 
 
 
@@ -2051,6 +2170,44 @@ AST exposes the abstract syntax tree generated by PHP 7+. This extension is requ
 
 
 
+
+<br>
+<a name="Install-Bash-Git-Prompt"></a>
+## Install Git Bash Prompt
+A bash prompt that displays information about the current git repository. In particular the branch name, difference with remote branch, number of files staged, changed, etc.
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_GIT_PROMPT` argument under the Workspace Container
+
+3 - Set it to `true`
+
+4 - Re-build the container `docker-compose build workspace`
+
+**Note** You can configure bash-git-prompt by editing the `workspace/gitprompt.sh` file and re-building the workspace container.
+For configuration information, visit the [bash-git-prompt repository](https://github.com/magicmonty/bash-git-prompt).
+
+<br>
+<a name="Install-Oh-My-Zsh"></a>
+## Install Oh My ZSH! with Laravel autocomplete plugin
+
+[Zsh](https://en.wikipedia.org/wiki/Z_shell) is an extended Bourne shell with many improvements, including some features of Bash, ksh, and tcsh.
+
+[Oh My Zsh](https://ohmyz.sh/) is a delightful, open source, community-driven framework for managing your Zsh configuration.
+
+[Laravel autocomplete plugin](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/laravel) adds aliases and autocompletion for Laravel Artisan and Bob command-line interfaces.
+
+1 - Open the `.env` file
+
+2 - Search for the `SHELL_OH_MY_ZSH` argument under the Workspace Container
+
+3 - Set it to `true`
+
+4 - Re-build the container `docker-compose build workspace`
+
+5 - Use it `docker-compose exec --user=laradock workspace zsh`
+
+**Note** You can configure Oh My ZSH by editing the `/home/laradock/.zshrc` in running container.
 
 <br>
 <a name="phpstorm-debugging"></a>
