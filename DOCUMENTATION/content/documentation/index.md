@@ -1209,6 +1209,12 @@ docker-compose up -d elasticsearch
 ```bash
 docker-compose exec elasticsearch /usr/share/elasticsearch/bin/plugin install {plugin-name}
 ```
+For ElasticSearch 5.0 and above, the previous "plugin" command as been renamed to "elasticsearch-plguin". 
+Use the following instead:
+
+```bash
+docker-compose exec elasticsearch /usr/share/elasticsearch/bin/elasticsearch-plugin install {plugin-name}
+```
 
 2 - Restart elasticsearch container
 
