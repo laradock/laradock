@@ -30,6 +30,17 @@ ARG PHP_UPSTREAM_PORT=9000
 # Create 'messages' file used from 'logrotate'
 RUN touch /var/log/messages
 
+# install openssl
+RUN apk add --no-cache openssl
+
+# create a folder for the keys
+RUN mkdir /etc/nginx/ssl 2> /dev/null
+
+# generate the keys for your local domain
+RUN openssl genrsa -out "/etc/nginx/ssl/local.pixelkitchen.nl.key" 2048 \
+    && openssl req -new -key "/etc/nginx/ssl/local.pixelkitchen.nl.key" -out "/etc/nginx/ssl/local.pixelkitchen.nl.csr" -subj "/CN=local.pixelkitchen.nl/O=local.pixelkitchen.nl/C=NL" \
+    && openssl x509 -req -days 365 -in "/etc/nginx/ssl/local.pixelkitchen.nl.csr" -signkey "/etc/nginx/ssl/local.pixelkitchen.nl.key" -out "/etc/nginx/ssl/local.pixelkitchen.nl.crt"
+
 # Copy 'logrotate' config file
 COPY logrotate/nginx /etc/logrotate.d/
 
