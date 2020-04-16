@@ -12,17 +12,23 @@
     <title>{{ .Title }}{{ if not .IsHome }} - {{ .Site.Title }}{{ end }}</title>
     {{ .Hugo.Generator }}
 
-    {{ with .Site.Params.description }}
-    <meta name="description" content="{{ . }}">
-    {{ end }}
+    {{ with .Site.Params.description }}<meta name="description" content="{{ . }}">{{ end }}
     <link rel="canonical" href="{{ .Permalink }}">
-    {{ with .Site.Params.author }}
-    <meta name="author" content="{{ . }}">
-    {{ end }}
+    {{ with .Site.Params.author }}<meta name="author" content="{{ . }}">{{ end }}
 
     <meta property="og:url" content="{{ .Permalink }}">
+    <meta property="og:type" content="website">
+    {{ with .Site.Title }}<meta property="og:site_name" content="{{ . }}">{{ end }}
+    {{ with .Site.Params.description }}<meta property="og:description" content="{{ . }}">{{ end }}
     {{ with .Site.Title }}<meta property="og:title" content="{{ . }}">{{ end }}
     {{ with .Site.Params.logo }}<meta property="og:image" content="{{ . | absURL }}">{{ end }}
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@Mahmoud_Zalt">
+    {{ with .Site.Title }}<meta name="twitter:title" content="{{ . }}">{{ end }}
+    {{ with .Site.Params.description }}<meta name="twitter:description" content="{{ . }}">{{ end }}
+    {{ with .Site.Params.logo }}<meta name="twitter:image" content="{{ . | absURL }}">{{ end }}
+
     {{ with .Site.Title }}<meta name="apple-mobile-web-app-title" content="{{ . }}">{{ end }}
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -69,27 +75,6 @@
     <link rel="stylesheet" href="{{ . | absURL }}">
     {{ end }}
     <script src="{{ "javascripts/modernizr.js" | absURL }}"></script>
-
-    <script>
-    // ------------------------------------------------------------
-    // seedanddew.com integration
-      var SeedAndDewConfig = {};
-      (function() {
-          SeedAndDewConfig['adClass'] = "snd-ad";
-          /* * * DON'T EDIT BELOW THIS LINE * * */
-          SeedAndDewConfig['projectId'] = 'd69f3ea2-1e30-44c7-bd2a-87686c0136e6';
-          SeedAndDewConfig['loadStartTime'] = performance.now();
-          SeedAndDewConfig['apiVersion'] = '2018-05-28'
-          SeedAndDewConfig['sessionId'] = Math.random().toString(36).substring(2, 15);
-          var snd = document.createElement('script');
-          snd.type = 'text/javascript';
-          snd.async = true;
-          snd.src = 'https://www.seedanddew.com/static/embed.min.js';
-          (document.getElementsByTagName('head')[0] ||
-              document.getElementsByTagName('body')[0]).appendChild(snd);
-      })();
-    // ------------------------------------------------------------
-    </script>
 
     {{ with .RSSLink }}
     <link href="{{ . }}" rel="alternate" type="application/rss+xml" title="{{ $.Site.Title }}" />
