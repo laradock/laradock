@@ -20,11 +20,11 @@ Clone the Humidock repo at the same level as your application repositories.
 
 Create a `.env` file in Humidock by copying the example file.
 
-`env-example`. `cp env-example .env`
+`cp .env.sample .env`
 
 #### Resolving applications
 
-Humidock will mount the Humi applications in the container. Humidock uses the the **application's directory name**.
+Humidock will mount the Humi applications in the container. Humidock uses the **application's directory name**.
 
 Verify the /nginx/sites/conf files point to the correct directories using the pattern `root /var/www/APP_FOLDER/public`.
 
@@ -69,7 +69,7 @@ DB_DATABASE_V1=humi_v1
 
 Any `.env` files (not `.env.testing`) that reference other Humi applications need to be modified:
 
-TODO: - service api urls: use /etc/hosts aliases (local.api.humi.ca)
+TODO: - service api URLs: use /etc/hosts aliases (local.api.humi.ca)
 
 #### Setting Up Payroll
 

@@ -1,7 +1,7 @@
 ---
-title: 6. Related Projects
+title: 9. Related Projects
 type: index
-weight: 6
+weight: 9
 ---
 
 Laradock related projects:
@@ -15,5 +15,7 @@ These Docker Compose projects have piqued our interest:
 * [RubyDev-Dock](https://github.com/scudelletti/rubydev-dock) by [Diogo Scudelletti](https://github.com/scudelletti)
 * [NoDock](https://github.com/Osedea/nodock) by [Osedea](https://github.com/Osedea)
 * [Dockery](https://github.com/taufek/dockery) by [Taufek](https://github.com/Taufek)
+* [Laradock Multi](https://github.com/bagart/laradock-multi) by [BAGArt](https://github.com/bagart) - Laradock wrapper template
+for running multiple related projects with different versions of PHP and Node.js such as Microservice Architecture (MSA)
 
 If you want your project listed here, please open an issue.
