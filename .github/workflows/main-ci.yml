@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: CI
 
 on: [push, pull_request]
 
@@ -7,12 +7,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php_version: ["7.2", "7.3"]
-        service: [php-fpm, php-worker]
+        php_version: ["7.1", "7.2", "7.3", "7.4"]
+        service: [php-fpm, php-worker, workspace, laravel-horizon]
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
+      env:
+        PHP_VERSION: ${{ matrix.php_version }}
       run: |
         cp env-example .env
-        sed -i -- "s/PHP_VERSION=.*/PHP_VERSION=${{ matrix.php_version }}/g" .env
         docker-compose build ${{ matrix.service }}
