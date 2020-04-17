@@ -395,7 +395,7 @@ Always download the latest version of [Loaders for ionCube ](http://www.ioncube.
 
 4 - Re-build the containers `docker-compose build workspace`
 
-[**Deployer Documentation Here**](https://deployer.org/docs)
+[**Deployer Documentation Here**](https://deployer.org/docs/getting-started.html)
 
 
 
