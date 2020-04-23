@@ -32,7 +32,7 @@ COMPOSE_FILE=docker-compose.yml
 # Change the separator from : to ; on Windows
 COMPOSE_PATH_SEPARATOR=:
 
-# Define the prefix of container names. This is useful if you have multiple projects that use laradock to have seperate containers per project.
+# Define the prefix of container names. This is useful if you have multiple projects that use laradock to have separate containers per project.
 COMPOSE_PROJECT_NAME=laradock
 
 ### PHP Version ###########################################

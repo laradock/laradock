@@ -75,7 +75,7 @@ RUN set -xe; \
       # to add more Software's or remove existing one, you need to edit the
       # base image (https://github.com/Laradock/workspace).
       #
-      # next lines are here becase there is no auto build on dockerhub see https://github.com/laradock/laradock/pull/1903#issuecomment-463142846
+      # next lines are here because there is no auto build on dockerhub see https://github.com/laradock/laradock/pull/1903#issuecomment-463142846
       libzip-dev zip unzip \
       # Install the zip extension
       php${LARADOCK_PHP_VERSION}-zip \
