@@ -3,6 +3,9 @@
     root /var/www/public
     fastcgi / php-fpm:9000 php {
         index index.php
+        connect_timeout 600s
+        read_timeout 600s
+        send_timeout 600s
     }
 
     # To handle .html extensions with laravel change ext to
