@@ -23,7 +23,7 @@
 
 
 
-<h4 align="center" style="color:#7d58c2">Use Docker First - Then Learn About It Later</h4>
+<h4 align="center" style="color:#7d58c2">Use Docker First - Then Learn About It Later!</h4>
 
 <p align="center">
 	<a href="http://laradock.io">
@@ -176,6 +176,8 @@ Contribute and help us sustain the project.
 <b>Option 2:</b> Become a Sponsor via [Github Sponsors](https://github.com/sponsors/Mahmoudz).
 <br>
 <b>Option 3:</b> Become a Sponsor/Backer via [Open Collective](https://opencollective.com/laradock/contribute).
+<br>
+<b>Option 4:</b> Become a [Patreon](https://www.patreon.com/zalt).
 
 ## Sponsors
 

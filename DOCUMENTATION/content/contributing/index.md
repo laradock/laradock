@@ -1,7 +1,7 @@
 ---
-title: 7. Contributing
+title: Contributions
 type: index
-weight: 7
+weight: 6
 ---
 
 
@@ -51,12 +51,20 @@ To update the sidebar or add a new section to it, you can edit this `DOCUMENTATI
 
 ### Host the documentation locally
 
+**Option 1: Use Hugo Docker Image:**
+
+1. Update the `DOCUMENTATION/content`.
+2. Go to `DOCUMENTATION/`.
+3. Run `docker run --rm -it -v $PWD:/src -p 1313:1313 -u hugo jguyomard/hugo-builder hugo server -w --bind=0.0.0.0`
+4. Visit [http://localhost:1313/](http://localhost:1313/)
+
+**Option 2: Install Hugo Locally:**
+
 1. Install [Hugo](https://gohugo.io/) on your machine.
-2. Edit the `DOCUMENTATION/content`.
+2. Update the `DOCUMENTATION/content`.
 3. Delete the `/docs` folder from the root.
-4. After you finish the editing, go to `DOCUMENTATION/` and run the `hugo` command to generate the HTML docs (inside a new `/docs` folder).
-
-
+4. Go to `DOCUMENTATION/`.
+5. Run the `hugo` command to generate the HTML docs inside a new `/docs` folder.
 
 
 ## Support new Software (Add new Container)

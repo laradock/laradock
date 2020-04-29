@@ -1,5 +1,5 @@
 ---
-title: 3. Documentation
+title: Documentation
 type: index
 weight: 3
 ---
@@ -57,7 +57,9 @@ docker-compose down
 
 <br>
 <a name="Enter-Container"></a>
-## Enter a Container (run commands in a running Container)
+## Enter a Container
+
+> Run commands in a running Container.
 
 1 - First list the current running containers with `docker ps`
 
@@ -88,7 +90,8 @@ docker-compose exec mysql mysql -udefault -psecret
 
 <br>
 <a name="Edit-Container"></a>
-## Edit default container configuration
+## Edit default Container config
+
 Open the `docker-compose.yml` and change anything you want.
 
 Examples:
@@ -161,7 +164,7 @@ You might use the `--no-cache` option if you want full rebuilding (`docker-compo
 
 <br>
 <a name="Add-Docker-Images"></a>
-## Add more Software (Docker Images)
+## Add more Docker Images
 
 To add an image (software), just edit the `docker-compose.yml` and add your container details, to do so you need to be familiar with the [docker compose file syntax](https://docs.docker.com/compose/compose-file/).
 
@@ -384,7 +387,9 @@ Always download the latest version of [Loaders for ionCube ](http://www.ioncube.
 
 <br>
 <a name="Install-Deployer"></a>
-## Install Deployer (Deployment tool for PHP)
+## Install Deployer
+
+> A deployment tool for PHP.
 
 1 - Open the `.env` file
 <br>
@@ -402,7 +407,10 @@ Always download the latest version of [Loaders for ionCube ](http://www.ioncube.
 <br>
 <a name="Install-SonarQube"></a>
 
-## Install SonarQube (automatic code review tool)
+## Install SonarQube
+
+> An automatic code review tool.
+
 SonarQube® is an automatic code review tool to detect bugs, vulnerabilities and code smells in your code. It can integrate with your existing workflow to enable continuous code inspection across your project branches and pull requests.
 <br>
 1 - Open the `.env` file
@@ -463,14 +471,6 @@ To learn more about how Docker publishes ports, please read [this excellent post
 
 
 
-<br>
-<a name="Digital-Ocean"></a>
-## Setup Laravel and Docker on Digital Ocean
-
-### [Full Guide Here](/guides/#Digital-Ocean)
-
-
-
 
 
 
@@ -483,7 +483,7 @@ To learn more about how Docker publishes ports, please read [this excellent post
 
 
 <a name="Install-Laravel"></a>
-## Install Laravel from a Docker Container
+## Install Laravel from Container
 
 1 - First you need to enter the Workspace Container.
 
@@ -619,7 +619,9 @@ docker-compose up -d php-worker
 
 <br>
 <a name="Use-Browsersync-With-Laravel-Mix"></a>
-## Use Browsersync with Laravel Mix
+## Use Browsersync
+
+> Using Use Browsersync with Laravel Mix.
 
 1. Add the following settings to your `webpack.mix.js` file. Please refer to Browsersync [Options](https://browsersync.io/docs/options) page for more options.
 ```
@@ -1731,7 +1733,9 @@ The default username and password for the root MySQL user are `root` and `root `
 
 <br>
 <a name="Create-Multiple-Databases"></a>
-## Create Multiple Databases (MySQL)
+## Create Multiple Databases
+
+> With MySQL.
 
 Create `createdb.sql` from `mysql/docker-entrypoint-initdb.d/createdb.sql.example` in `mysql/docker-entrypoint-initdb.d/*` and add your SQL syntax as follow:
 
@@ -1765,7 +1769,9 @@ If you need <a href="#MySQL-access-from-host">MySQL access from your host</a>, d
 
 <br>
 <a name="Use-custom-Domain"></a>
-## Use custom Domain (instead of the Docker IP)
+## Use custom Domain
+
+> How to use a custom domain, instead of the Docker IP.
 
 Assuming your custom domain is `laravel.test`
 
@@ -1791,7 +1797,7 @@ server_name laravel.test;
 
 <br>
 <a name="Enable-Global-Composer-Build-Install"></a>
-## Enable Global Composer Build Install
+## Global Composer Build Install
 
 Enabling Global Composer Install during the build for the container allows you to get your composer requirements installed and available in the container after the build is done.
 
@@ -1810,7 +1816,9 @@ Enabling Global Composer Install during the build for the container allows you t
 
 <br>
 <a name="Magento-2-authentication-credentials"></a>
-## Add authentication credential for Magento 2
+## Add authentication for Magento
+
+> Adding authentication credentials for Magento 2.
 
 1 - Open the `.env` file
 
@@ -1902,7 +1910,7 @@ To install NPM GULP toolkit in the Workspace container
 
 <br>
 <a name="Install-NPM-BOWER"></a>
-## Install NPM BOWER package manager
+## Install NPM BOWER
 
 To install NPM BOWER package manager in the Workspace container
 
@@ -2088,7 +2096,9 @@ e) set it to `true`
 
 <br>
 <a name="Install-Laravel-Envoy"></a>
-## Install Laravel Envoy (Envoy Task Runner)
+## Install Laravel Envoy
+
+> A Tasks Runner.
 
 1 - Open the `.env` file
 <br>
@@ -2121,7 +2131,8 @@ e) set it to `true`
 
 <br>
 <a name="Install-Faketime"></a>
-## Install libfaketime in the php-fpm container
+## Install libfaketime in php-fpm
+
 Libfaketime allows you to control the date and time that is returned from the operating system.
 It can be used by specifying a special string in the `PHP_FPM_FAKETIME` variable in the `.env` file.
 For example:
@@ -2145,7 +2156,8 @@ will set the clock back 1 day. See (https://github.com/wolfcw/libfaketime) for m
 
 <br>
 <a name="Install-YAML"></a>
-## Install YAML PHP extension in the php-fpm container
+## Install YAML extension in php-fpm
+
 YAML PHP extension allows you to easily parse and create YAML structured data. I like YAML because it's well readable for humans. See http://php.net/manual/en/ref.yaml.php and http://yaml.org/ for more info.
 
 1 - Open the `.env` file
@@ -2195,7 +2207,9 @@ For configuration information, visit the [bash-git-prompt repository](https://gi
 
 <br>
 <a name="Install-Oh-My-Zsh"></a>
-## Install Oh My ZSH! with Laravel autocomplete plugin
+## Install Oh My ZSH
+
+> With the Laravel autocomplete plugin.
 
 [Zsh](https://en.wikipedia.org/wiki/Z_shell) is an extended Bourne shell with many improvements, including some features of Bash, ksh, and tcsh.
 
@@ -2226,7 +2240,9 @@ Remote debug Laravel web and phpunit tests.
 
 <br>
 <a name="Setup-gcloud"></a>
-## Setup Google Cloud for docker registry
+## Setup Google Cloud
+
+> Setting up Google Cloud for the docker registry.
 
 ```
 gcloud auth configure-docker
@@ -2242,7 +2258,7 @@ gcloud auth login
 
 <br>
 <a name="keep-tracking-Laradock"></a>
-## Keep track of your Laradock changes
+## Track your Laradock changes
 
 1. Fork the Laradock repository.
 2. Use that fork as a submodule.

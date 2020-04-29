@@ -1,13 +1,18 @@
 ---
-title: 1. Introduction
+title: Introduction
 type: index
 weight: 1
 ---
 
-<b>Laradock is a full PHP development environment based on Docker.</b>
+<b>Laradock</b> is a full PHP development environment for Docker.
 
-Supporting a variety of common services, all pre-configured to provide a full PHP development environment.
+It supports a variety of common services, all pre-configured to provide a ready PHP development environment.
 
+<br>
+
+---
+### Use Docker First - Then Learn About It Later!</q>
+---
 
 <a name="features"></a>
 ## Features
@@ -26,11 +31,9 @@ Supporting a variety of common services, all pre-configured to provide a full PH
 - Everything is visible and editable.
 - Fast Images Builds.
 
-<br>
 
----
-### Use Docker First - Then Learn About It Later</q>
----
+
+
 
 
 ## Quick Overview
@@ -73,7 +76,7 @@ That's it! enjoy :)
 
 
 <a name="Supported-Containers"></a>
-## Supported Software (Docker Images)
+## Supported Services
 
 > Laradock, adheres to the 'separation of concerns' principle, thus it runs each software on its own Docker Container.
 > You can turn On/Off as many instances as you want without worrying about the configurations.
@@ -354,6 +357,8 @@ Contribute and help us sustain the project.
 <b>Option 2:</b> Become a Sponsor via [Github Sponsors](https://github.com/sponsors/Mahmoudz).
 <br>
 <b>Option 3:</b> Become a Sponsor/Backer via [Open Collective](https://opencollective.com/laradock/contribute).
+<br>
+<b>Option 4:</b> Become a [Patreon](https://www.patreon.com/zalt).
 
 <a name="sponsors"></a>
 ## Sponsors
