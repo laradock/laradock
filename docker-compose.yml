@@ -543,14 +543,15 @@ services:
 
 ### Neo4j ################################################
     neo4j:
-      build: ./neo4j
       ports:
-        - "7474:7474"
-        - "1337:1337"
+          - '7401:7474'
+          - '7402:7687'
       environment:
-        - NEO4J_AUTH=default:secret
+          - NEO4J_AUTH=none
       volumes:
-        - ${DATA_PATH_HOST}/neo4j:/var/lib/neo4j/data
+          - ${DATA_PATH_HOST}/neo4j/data:/data
+          - ${DATA_PATH_HOST}/neo4j/logs:/logs
+      image: 'neo4j:latest'
       networks:
         - backend
 
