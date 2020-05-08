@@ -1753,7 +1753,7 @@ GRANT ALL ON `your_db_1`.* TO 'mysql_user'@'%' ;
 <a name="Change-MySQL-port"></a>
 ## Change MySQL port
 
-Modify the `mysql/my.cnf` file to set your port number, `1234` is used as an example.
+Modify the `mysql/conf.d/my.cnf` file to set your port number, `1234` is used as an example.
 
 ```
 [mysqld]
