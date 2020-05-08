@@ -432,6 +432,7 @@ services:
       volumes:
         - ${DATA_PATH_HOST}/mysql:/var/lib/mysql
         - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+        - ${MYSQL_CONF_PATH}:/etc/mysql/conf.d
       ports:
         - "${MYSQL_PORT}:3306"
       networks:
