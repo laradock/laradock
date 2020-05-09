@@ -291,6 +291,17 @@ For more info contact <a href = "mailto: support@laradock.io">support@laradock.i
 <a href="https://opencollective.com/laradock/backer/48/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/48/avatar.svg?requireActive=false"></a>
 <a href="https://opencollective.com/laradock/backer/49/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/49/avatar.svg?requireActive=false"></a>
 
+## Localhost
+
+### Additions
+
+- SSL keys for Apache HTTPS
+- MIT Kerberos V5
+
+### Docker installation
+
+- [Install Docker Engine on Ubuntu](https://docs.docker.com/engine/install/ubuntu)
+- [How to install docker community on Ubuntu 20.04 LTS?](https://askubuntu.com/questions/1230189/how-to-install-docker-community-on-ubuntu-20-04-lts)
 
 ## License
 
