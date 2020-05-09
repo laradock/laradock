@@ -6,3 +6,16 @@
 .docker-sync
 /jenkins/jenkins_home
 /nginx/sites/ssl
+
+/logstash/pipeline/*.conf
+/logstash/config/pipelines.yml
+
+/nginx/ssl/*.crt
+/nginx/ssl/*.key
+/nginx/ssl/*.csr
+
+/.devcontainer/*
+!/.devcontainer/devcontainer.example.json
+!/.devcontainer/docker-compose.extend-example.yml
+
+.DS_Store

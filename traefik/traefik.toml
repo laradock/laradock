@@ -1,0 +1,23 @@
+defaultEntryPoints = ["http", "https"]
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+    [entryPoints.http.redirect]
+      entryPoint = "https"
+  [entryPoints.https]
+  address = ":443"
+    [entryPoints.https.tls]
+
+[web]
+address = ":8080"
+[acme]
+email = "email@example.org"
+storage = "acme.json"
+entryPoint = "https"
+onHostRule = true
+  [acme.httpChallenge]
+    entryPoint = "http"
+
+[[acme.domais]]
+  main = "localhost"

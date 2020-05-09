@@ -19,4 +19,4 @@ RUN npm install
 COPY laravel-echo-server.json /usr/src/app/laravel-echo-server.json
 
 EXPOSE 3000
-CMD [ "npm", "start" ]
+CMD [ "npm", "start", "--force" ]
