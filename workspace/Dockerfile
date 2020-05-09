@@ -56,6 +56,8 @@ RUN if [ ${CHANGE_SOURCE} = true ]; then \
     rm -rf /tmp/sources.sh \
 ;fi
 
+RUN chmod a+rwx /etc/apt/apt.conf /etc/apt/apt.conf.d /etc/apt/apt.conf.d/*
+
 # always run apt update when start and after add new source list, then clean up at end.
 RUN set -xe; \
     apt-get update -yqq && \
@@ -298,12 +300,28 @@ RUN if [ ${INSTALL_XSL} = true ]; then \
 
 
 ###########################################################################
+# Kerberos:
+###########################################################################
+
+ARG INSTALL_KRB5=false
+
+RUN if [ ${INSTALL_KRB5} = true ]; then \
+    apt-get update -yqq && \
+    apt-get install -y libkrb5-dev && \
+    apt-get install -y php-pear && \
+    apt-get install -y php${LARADOCK_PHP_VERSION}-dev && \
+    pecl install krb5 && \
+    echo "extension=krb5.so" > /etc/php/${LARADOCK_PHP_VERSION}/cli/php.ini \
+;fi
+
+###########################################################################
 # LDAP:
 ###########################################################################
 
 ARG INSTALL_LDAP=false
 
 RUN if [ ${INSTALL_LDAP} = true ]; then \
+    apt-get update -yqq && \
     apt-get install -y libldap2-dev && \
     apt-get install -y php${LARADOCK_PHP_VERSION}-ldap \
 ;fi

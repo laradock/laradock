@@ -75,6 +75,7 @@ services:
           - INSTALL_SSH2=${WORKSPACE_INSTALL_SSH2}
           - INSTALL_SOAP=${WORKSPACE_INSTALL_SOAP}
           - INSTALL_XSL=${WORKSPACE_INSTALL_XSL}
+          - INSTALL_KRB5=${WORKSPACE_INSTALL_KRB5}
           - INSTALL_LDAP=${WORKSPACE_INSTALL_LDAP}
           - INSTALL_SMB=${WORKSPACE_INSTALL_SMB}
           - INSTALL_IMAP=${WORKSPACE_INSTALL_IMAP}
@@ -383,11 +384,25 @@ services:
       ports:
         - "${APACHE_HOST_HTTP_PORT}:80"
         - "${APACHE_HOST_HTTPS_PORT}:443"
+        #- "6001:6001"
+        #- "9000:9000"
       depends_on:
         - php-fpm
       networks:
-        - frontend
-        - backend
+        frontend:
+         aliases:
+          - lighthouse-tutorial.localhost
+          - gripp.localhost
+          - moodle.localhost
+          - phpbb.localhost
+          - schema.localhost
+        backend:
+         aliases:
+          - lighthouse-tutorial.localhost
+          - gripp.localhost
+          - moodle.localhost
+          - phpbb.localhost
+          - schema.localhost
 
 ### HHVM #################################################
     hhvm:

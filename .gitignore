@@ -18,3 +18,6 @@
 !/.devcontainer/docker-compose.extend-example.yml
 
 .DS_Store
+
+# Eclipse IDE
+.project
