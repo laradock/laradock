@@ -298,7 +298,7 @@ For more info contact <a href = "mailto: support@laradock.io">support@laradock.i
 - SSL keys for Apache HTTPS
 - MIT Kerberos V5
 
-### Docker installation on Ubuntu 20.04 LTS
+### Installation on Ubuntu 20.04 LTS
 
 ```
 sudo apt-get remove --purge -y docker-ce docker-ce-cli containerd.io docker-compose
