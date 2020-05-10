@@ -1,0 +1,158 @@
+{
+	"info": {
+		"_postman_id": "8483cf9a-a17c-4a55-80d9-2221ea5083a0",
+		"name": "ElasticSearch",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CreateIndex",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"settings\": {\n    \"index\": {\n      \"number_of_shards\": 1,\n      \"number_of_replicas\": 1\n    },\n    \"analysis\": {\n      \"analyzer\": {\n        \"analyzer-name\": {\n          \"type\": \"custom\",\n          \"tokenizer\": \"keyword\",\n          \"filter\": \"lowercase\"\n        }\n      }\n    }\n  },\n\t\"mappings\": {\n       \"employee\": {\n       \"properties\": {\n         \"age\": {\n               \"type\": \"long\"\n         },\n         \"experienceInYears\": {\n               \"type\": \"long\"      \n         },\n         \"name\": {\n               \"type\": \"string\",\n               \"analyzer\": \"analyzer-name\"\n         }\n       \n     }\n\t}\n   }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://dev.localhost:9200/company",
+					"protocol": "http",
+					"host": [
+						"dev",
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"company"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListIndices",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://dev.localhost:9200/_cat/indices",
+					"protocol": "http",
+					"host": [
+						"dev",
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"_cat",
+						"indices"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "IndexStatus",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://dev.localhost:9200/company?pretty",
+					"protocol": "http",
+					"host": [
+						"dev",
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"company"
+					],
+					"query": [
+						{
+							"key": "pretty",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "InsertingData",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\u0001{\n\"name\": \"Andrew\",\n\"age\" : 45,\n\"experienceInYears\" : 10\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://dev.localhost:9200/company/employee/_create",
+					"protocol": "http",
+					"host": [
+						"dev",
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"company",
+						"employee",
+						"_create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RetrievingData",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9200/company/employee/_search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"company",
+						"employee",
+						"_search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteIndex",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://dev.localhost:9200/company",
+					"protocol": "http",
+					"host": [
+						"dev",
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"company"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
