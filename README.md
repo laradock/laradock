@@ -300,8 +300,10 @@ For more info contact <a href = "mailto: support@laradock.io">support@laradock.i
 
 ### Docker installation
 
-- [Install Docker Engine on Ubuntu](https://docs.docker.com/engine/install/ubuntu)
-- [How to install docker community on Ubuntu 20.04 LTS?](https://askubuntu.com/questions/1230189/how-to-install-docker-community-on-ubuntu-20-04-lts)
+```
+sudo apt-get remove --purge -y docker-ce docker-ce-cli containerd.io docker-compose
+sudo apt-get install -y docker.io docker-compose python3-docker python3-dockerpty
+```
 
 ## License
 
