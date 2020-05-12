@@ -102,10 +102,10 @@ RUN set -xe; \
 ARG TZ=PRC
 ENV TZ ${TZ}
 
-##RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 
-RUN cp /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+# RUN cp /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 ###########################################################################
 # User Aliases
@@ -634,9 +634,12 @@ RUN if [ ${INSTALL_IONCUBE} = true ]; then \
 ARG INSTALL_YAF=false
 ARG PHP_VERSION=${PHP_VERSION}
 
+ARG INSTALL_YAF_VERSION
+ENV INSTALL_YAF_VERSION ${INSTALL_YAF_VERSION}
+
 RUN if [ ${INSTALL_YAF} = true ]; then \
     # Install the yaf extension
-    pecl install yaf && \
+    pecl install yaf-${INSTALL_YAF_VERSION} && \
     echo "extension=yaf.so" >> /etc/php/${PHP_VERSION}/mods-available/yaf.ini && \
     ln -s /etc/php/${PHP_VERSION}/mods-available/yaf.ini /etc/php/${PHP_VERSION}/cli/conf.d/yaf.ini \
 ;fi
