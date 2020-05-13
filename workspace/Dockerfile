@@ -871,7 +871,7 @@ ARG INSTALL_LARAVEL_ENVOY=false
 
 RUN if [ ${INSTALL_LARAVEL_ENVOY} = true ]; then \
     # Install the Laravel Envoy
-    composer global require "laravel/envoy=~1.0" \
+    composer global require "laravel/envoy=~2.0" \
 ;fi
 
 ###########################################################################
