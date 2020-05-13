@@ -303,6 +303,8 @@ For more info contact <a href = "mailto: support@laradock.io">support@laradock.i
 ```
 sudo apt-get remove --purge -y docker-ce docker-ce-cli containerd.io docker-compose
 sudo apt-get install -y docker.io docker-compose python3-docker python3-dockerpty
+sudo usermod -a -G docker <user>
+sudo systemctl restart docker
 ```
 
 ## License

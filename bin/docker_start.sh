@@ -1,5 +1,8 @@
 #!/usr/bin/env sh
 #cd laradock
+sudo usermod -a -G docker noud
+sudo systemctl restart docker
+
 docker-compose up -d apache2 php-fpm workspace
 
 docker-compose up -d mailhog
