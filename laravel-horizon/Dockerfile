@@ -67,6 +67,16 @@ RUN if [ ${INSTALL_GMP} = true ]; then \
    docker-php-ext-install gmp \
 ;fi
 
+#Install ImageMagick package:
+ARG INSTALL_IMAGEMAGICK=false
+RUN set -eux; \
+  if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
+    apk add --update --no-cache imagemagick-dev; \
+    pecl install imagick; \
+    docker-php-ext-enable imagick; \
+    php -m | grep -q 'imagick'; \
+  fi
+
 #Install BCMath package:
 ARG INSTALL_BCMATH=false
 RUN if [ ${INSTALL_BCMATH} = true ]; then \
