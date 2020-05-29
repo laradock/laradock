@@ -2067,7 +2067,7 @@ To install Supervisor in the Workspace container
 
 3 - Create supervisor configuration file (for ex., named `laravel-worker.conf`) for Laravel Queue Worker in `php-worker/supervisord.d/` by simply copy from `laravel-worker.conf.example`
 
-4 - Re-build the container `docker-compose build workspace` Or `docker-composer up --build -d workspace`
+4 - Re-build the container `docker-compose build workspace` Or `docker-compose up --build -d workspace`
 
 
 
