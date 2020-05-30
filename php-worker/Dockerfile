@@ -217,6 +217,18 @@ RUN if [ ${INSTALL_TAINT} = true ]; then \
     docker-php-ext-enable taint \
 ;fi
 
+###########################################################################
+# Imap EXTENSION
+###########################################################################
+
+ARG INSTALL_IMAP=false
+
+RUN if [ ${INSTALL_IMAP} = true ]; then \
+    apk add --update imap-dev openssl-dev && \
+    docker-php-ext-configure imap --with-imap --with-imap-ssl && \
+    docker-php-ext-install imap \
+;fi
+
 #
 #--------------------------------------------------------------------------
 # Optional Supervisord Configuration
