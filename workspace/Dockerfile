@@ -75,7 +75,7 @@ RUN set -xe; \
       # to add more Software's or remove existing one, you need to edit the
       # base image (https://github.com/Laradock/workspace).
       #
-      # next lines are here becase there is no auto build on dockerhub see https://github.com/laradock/laradock/pull/1903#issuecomment-463142846
+      # next lines are here because there is no auto build on dockerhub see https://github.com/laradock/laradock/pull/1903#issuecomment-463142846
       libzip-dev zip unzip \
       # Install the zip extension
       php${LARADOCK_PHP_VERSION}-zip \
@@ -742,6 +742,20 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
 RUN if [ ${NPM_REGISTRY} ]; then \
     . ~/.bashrc && npm config set registry ${NPM_REGISTRY} \
 ;fi
+
+
+###########################################################################
+# PNPM:
+###########################################################################
+
+USER laradock
+
+ARG INSTALL_PNPM=false
+
+RUN if [ ${INSTALL_PNPM} = true ]; then \
+    npx pnpm add -g pnpm \
+;fi
+
 
 ###########################################################################
 # YARN:
