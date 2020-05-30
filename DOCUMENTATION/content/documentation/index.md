@@ -1870,6 +1870,23 @@ To install NVM and NodeJS in the Workspace container
 
 
 
+<br>
+<a name="Install-PNPM"></a>
+## Install PNPM
+
+pnpm uses hard links and symlinks to save one version of a module only ever once on a disk. When using npm or Yarn for example, if you have 100 projects using the same version of lodash, you will have 100 copies of lodash on disk. With pnpm, lodash will be saved in a single place on the disk and a hard link will put it into the node_modules where it should be installed.
+
+As a result, you save gigabytes of space on your disk and you have a lot faster installations! If you'd like more details about the unique node_modules structure that pnpm creates and why it works fine with the Node.js ecosystem.
+More info here: https://pnpm.js.org/en/motivation
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_NODE` and `WORKSPACE_INSTALL_PNPM` argument under the Workspace Container and set it to `true`
+
+3 - Re-build the container `docker-compose build workspace`
+
+
+
 
 
 
@@ -2050,7 +2067,7 @@ To install Supervisor in the Workspace container
 
 3 - Create supervisor configuration file (for ex., named `laravel-worker.conf`) for Laravel Queue Worker in `php-worker/supervisord.d/` by simply copy from `laravel-worker.conf.example`
 
-4 - Re-build the container `docker-compose build workspace` Or `docker-composer up --build -d workspace`
+4 - Re-build the container `docker-compose build workspace` Or `docker-compose up --build -d workspace`
 
 
 
