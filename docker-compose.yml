@@ -1624,17 +1624,17 @@ services:
         - "--providers.docker.exposedbydefault=false"
         - "--accesslog.filepath=/data/access.log"
         # entrypoints
-        - "--entrypoints.http.address=:${NGINX_HOST_HTTP_PORT}"
+        - "--entrypoints.http.address=:${TRAEFIK_HOST_HTTP_PORT}"
         - "--entrypoints.http.http.redirections.entrypoint.to=https"
-        - "--entrypoints.https.address=:${NGINX_HOST_HTTPS_PORT}"
+        - "--entrypoints.https.address=:${TRAEFIK_HOST_HTTPS_PORT}"
         - "--entrypoints.traefik.address=:${TRAEFIK_DASHBOARD_PORT}"
         # certificatesresolvers
         - "--certificatesresolvers.letsencrypt.acme.email=${ACME_EMAIL}"
         - "--certificatesresolvers.letsencrypt.acme.storage=/data/acme.json"
         - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=http"
       ports:
-        - "${NGINX_HOST_HTTP_PORT}:${TRAEFIK_HOST_HTTP_PORT}"
-        - "${NGINX_HOST_HTTPS_PORT}:${TRAEFIK_HOST_HTTPS_PORT}"
+        - "${TRAEFIK_HOST_HTTP_PORT}:${TRAEFIK_HOST_HTTP_PORT}"
+        - "${TRAEFIK_HOST_HTTPS_PORT}:${TRAEFIK_HOST_HTTPS_PORT}"
         - "${TRAEFIK_DASHBOARD_PORT}:${TRAEFIK_DASHBOARD_PORT}"
       networks:
         - frontend
