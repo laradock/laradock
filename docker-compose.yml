@@ -1307,11 +1307,13 @@ services:
 
 ### NetData ################################################
     netdata:
-      image: titpetric/netdata:latest
+      image: netdata/netdata:latest
       cap_add:
-      - SYS_PTRACE
+        - SYS_PTRACE
       volumes:
-      - /:/host:ro
+        - /proc:/host/proc:ro
+        - /sys:/host/sys:ro
+        - /var/run/docker.sock:/var/run/docker.sock:ro
       ports:
         - "${NETDATA_PORT}:19999"
       networks:
