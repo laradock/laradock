@@ -1618,19 +1618,38 @@ services:
     traefik:
       build:
         context: ./traefik
-      command: --docker
       volumes:
         - /var/run/docker.sock:/var/run/docker.sock
+        - ./traefik/data:/data
+      command:
+        - "--api"
+        - "--providers.docker.exposedbydefault=false"
+        - "--accesslog.filepath=/data/access.log"
+        # entrypoints
+        - "--entrypoints.http.address=:${TRAEFIK_HOST_HTTP_PORT}"
+        - "--entrypoints.http.http.redirections.entrypoint.to=https"
+        - "--entrypoints.https.address=:${TRAEFIK_HOST_HTTPS_PORT}"
+        - "--entrypoints.traefik.address=:${TRAEFIK_DASHBOARD_PORT}"
+        # certificatesresolvers
+        - "--certificatesresolvers.letsencrypt.acme.email=${ACME_EMAIL}"
+        - "--certificatesresolvers.letsencrypt.acme.storage=/data/acme.json"
+        - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=http"
       ports:
-        - "${TRAEFIK_HOST_HTTP_PORT}:80"
-        - "${TRAEFIK_HOST_HTTPS_PORT}:443"
+        - "${TRAEFIK_HOST_HTTP_PORT}:${TRAEFIK_HOST_HTTP_PORT}"
+        - "${TRAEFIK_HOST_HTTPS_PORT}:${TRAEFIK_HOST_HTTPS_PORT}"
+        - "${TRAEFIK_DASHBOARD_PORT}:${TRAEFIK_DASHBOARD_PORT}"
       networks:
         - frontend
         - backend
       labels:
-        - traefik.backend=traefik
-        - traefik.frontend.rule=Host:monitor.localhost
-        - traefik.port=8080
+        - "traefik.enable=true"
+        - "traefik.http.routers.traefik.rule=Host(`${ACME_DOMAIN}`)"
+        - "traefik.http.routers.traefik.entrypoints=traefik"
+        - "traefik.http.routers.traefik.service=api@internal"
+        - "traefik.http.routers.traefik.middlewares=access-auth"
+        - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
+        - "traefik.http.middlewares.access-auth.basicauth.realm=Login Required"
+        - "traefik.http.middlewares.access-auth.basicauth.users=${TRAEFIK_DASHBOARD_USER}"
 
 ### MOSQUITTO Broker #########################################
     mosquitto:
