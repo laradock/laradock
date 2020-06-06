@@ -44,7 +44,7 @@ PHP_VERSION=7.3
 ### Phalcon Version ###########################################
 
 # Select a Phalcon version of the Workspace and PHP-FPM containers (Does not apply to HHVM). Accepted values: 3.4.0+
-PHALCON_VERSION=3.4.5
+PHALCON_VERSION=4.0.5
 
 ### PHP Interpreter #######################################
 

@@ -207,6 +207,13 @@ ENV PHALCON_VERSION ${PHALCON_VERSION}
 
 RUN if [ $INSTALL_PHALCON = true ]; then \
     apk --update add unzip gcc make re2c bash\
+    && git clone https://github.com/jbboehr/php-psr.git \
+    && cd php-psr \
+    && phpize \
+    && ./configure \
+    && make \
+    && make test \
+    && make install \
     && curl -L -o /tmp/cphalcon.zip https://github.com/phalcon/cphalcon/archive/v${PHALCON_VERSION}.zip \
     && unzip -d /tmp/ /tmp/cphalcon.zip \
     && cd /tmp/cphalcon-${PHALCON_VERSION}/build \
