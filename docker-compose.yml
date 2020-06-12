@@ -825,6 +825,9 @@ services:
         memlock:
           soft: -1
           hard: -1
+        nofile:
+          soft: 65536
+          hard: 65536
       ports:
         - "${ELASTICSEARCH_HOST_HTTP_PORT}:9200"
         - "${ELASTICSEARCH_HOST_TRANSPORT_PORT}:9300"
