@@ -17,3 +17,4 @@
 !/.devcontainer/devcontainer.example.json
 
 .DS_Store
+*.code-workspace
