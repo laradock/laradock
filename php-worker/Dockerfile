@@ -66,6 +66,14 @@ RUN if [ ${INSTALL_GD} = true ]; then \
    docker-php-ext-install gd \
 ;fi
 
+#Install ImageMagick:
+ARG INSTALL_IMAGEMAGICK=false
+RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
+  apk add --update imagemagick-dev imagemagick; \
+  pecl install imagick; \
+  docker-php-ext-enable imagick \
+;fi
+
 #Install GMP package:
 ARG INSTALL_GMP=false
 RUN if [ ${INSTALL_GMP} = true ]; then \
