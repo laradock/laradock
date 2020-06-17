@@ -1,5 +1,5 @@
 {
     "files.associations": {
         "Dockerfile-*": "dockerfile"
-    },
+    }
 }
