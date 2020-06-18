@@ -399,7 +399,7 @@ MINIO_PORT=9000
 
 ### ADMINER ###############################################
 
-ADM_PORT=8080
+ADM_PORT=8081
 ADM_INSTALL_MSSQL=false
 
 ### PHP MY ADMIN ##########################################
@@ -413,7 +413,7 @@ PMA_DB_ENGINE=mysql
 PMA_USER=default
 PMA_PASSWORD=secret
 PMA_ROOT_PASSWORD=secret
-PMA_PORT=8080
+PMA_PORT=8081
 
 ### MAILDEV ###############################################
 
