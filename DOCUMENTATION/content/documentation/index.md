@@ -977,7 +977,7 @@ docker-compose up -d mariadb phpmyadmin
 
 *Note: To use with MariaDB, open `.env` and set `PMA_DB_ENGINE=mysql` to `PMA_DB_ENGINE=mariadb`.*
 
-2 - Open your browser and visit the localhost on port **8080**:  `http://localhost:8080`
+2 - Open your browser and visit the localhost on port **8081**:  `http://localhost:8081`
 
 
 
@@ -1074,7 +1074,7 @@ job1:
 docker-compose up -d adminer
 ```
 
-2 - Open your browser and visit the localhost on port **8080**:  `http://localhost:8080`
+2 - Open your browser and visit the localhost on port **8081**:  `http://localhost:8081`
 
 **Note:** We've locked Adminer to version 4.3.0 as at the time of writing [it contained a major bug](https://sourceforge.net/p/adminer/bugs-and-features/548/) preventing PostgreSQL users from logging in. If that bug is fixed (or if you're not using PostgreSQL) feel free to set Adminer to the latest version within [the Dockerfile](https://github.com/laradock/laradock/blob/master/adminer/Dockerfile#L1): `FROM adminer:latest`
 
