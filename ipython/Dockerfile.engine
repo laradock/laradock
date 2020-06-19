@@ -4,7 +4,7 @@ LABEL maintainer="ahkui <ahkui@outlook.com>"
 
 USER root
 
-RUN apk add --no-cache build-base
+RUN apk add --no-cache build-base zeromq-dev
 
 RUN python -m pip --quiet --no-cache-dir install \
         ipyparallel \

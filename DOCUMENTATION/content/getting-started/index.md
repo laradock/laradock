@@ -7,10 +7,7 @@ weight: 2
 ## Requirements
 
 - [Git](https://git-scm.com/downloads)
-- [Docker](https://www.docker.com/products/docker/) `>= 17.12`
-
-
-
+- [Docker](https://www.docker.com/products/docker/) [ >= 17.12 ]
 
 
 
@@ -44,18 +41,18 @@ Note: If you are not using Git yet for your project, you can use `git clone` ins
 *To keep track of your Laradock changes, between your projects and also keep Laradock updated [check these docs](/documentation/#keep-track-of-your-laradock-changes)*
 
 
-Your folder structure should look like this:
+2 - Make sure your folder structure should look like this:
 
 ```
-+ project-a
-  + laradock-a
-+ project-b
-  + laradock-b
+* project-a
+*   laradock-a
+* project-b
+*   laradock-b
 ```
 
 *(It's important to rename the laradock folders to unique name in each project, if you want to run laradock per project).*
 
-> **Now jump to the [Usage](#Usage) section.**
+3 - Go to the [Usage](#Usage) section.
 
 <a name="A2"></a>
 ### A.2) Don't have a PHP project yet:
@@ -69,8 +66,8 @@ git clone https://github.com/laradock/laradock.git
 Your folder structure should look like this:
 
 ```
-+ laradock
-+ project-z
+* laradock
+* project-z
 ```
 
 2 - Edit your web server sites configuration.
@@ -89,7 +86,7 @@ APP_CODE_PATH_HOST=../project-z/
 
 Make sure to replace `project-z` with your project folder name.
 
-> **Now jump to the [Usage](#Usage) section.**
+3 - Go to the [Usage](#Usage) section.
 
 
 <a name="B"></a>
@@ -105,14 +102,16 @@ git clone https://github.com/laradock/laradock.git
 Your folder structure should look like this:
 
 ```
-+ laradock
-+ project-1
-+ project-2
+* laradock
+* project-1
+* project-2
 ```
 
-2 - Go to `nginx/sites` and create config files to point to different project directory when visiting different domains.
+2 - Go to your web server and create config files to point to different project directory when visiting different domains:
 
-Laradock by default includes `app.conf.example`, `laravel.conf.example` and `symfony.conf.example`  as working samples.
+For **Nginx** go to `nginx/sites`, for **Apache2** `apache2/sites`. 
+
+Laradock by default includes some sample files for you to copy `app.conf.example`, `laravel.conf.example` and `symfony.conf.example`.
 
 3 - change the default names `*.conf`:
 
@@ -125,9 +124,10 @@ You can rename the config files, project folders and domains as you like, just m
 127.0.0.1  project-2.test
 ...
 ```
+
 If you use Chrome 63 or above for development, don't use `.dev`. [Why?](https://laravel-news.com/chrome-63-now-forces-dev-domains-https). Instead use `.localhost`, `.invalid`, `.test`, or `.example`.
 
-> **Now jump to the [Usage](#Usage) section.**
+4 - Go to the [Usage](#Usage) section.
 
 
 
@@ -161,7 +161,7 @@ We recommend using a Docker version which is newer than 1.13.
 cp env-example .env
 ```
 
-You can edit the `.env` file to choose which software you want to be installed in your environment. You can always refer to the `docker-compose.yml` file to see how those variables have been used.
+You can edit the `.env` file to choose which software's you want to be installed in your environment. You can always refer to the `docker-compose.yml` file to see how those variables are being used.
 
 Depending on the host's operating system you may need to change the value given to `COMPOSE_FILE`. When you are running Laradock on Mac OS the correct file separator to use is `:`. When running Laradock from a Windows environment multiple files must be separated with `;`.
 
@@ -213,7 +213,20 @@ Open your PHP project's `.env` file or whichever configuration file you are read
 DB_HOST=mysql
 ```
 
+You need to use the Laradock's default DB credentials which can be found in the `.env` file (ex: `MYSQL_USER=`). 
+Or you can change them and rebuild the container.  
+
 *If you want to install Laravel as PHP project, see [How to Install Laravel in a Docker Container](#Install-Laravel).*
 
 <br>
-5 - Open your browser and visit your localhost address `http://localhost/`. If you followed the multiple projects setup, you can visit `http://project-1.test/` and `http://project-2.test/`.
+5 - Open your browser and visit your localhost address. 
+
+Make sure you add use the right port number as provided by your running server.
+
+[http://localhost](http://localhost)
+
+If you followed the multiple projects setup, you can visit `http://project-1.test/` and `http://project-2.test/`.
+
+
+
+ 
