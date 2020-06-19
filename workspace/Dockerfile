@@ -610,6 +610,17 @@ RUN if [ ${INSTALL_FSWATCH} = true ]; then \
 ;fi
 
 ###########################################################################
+
+# GraphViz extension
+###########################################################################
+
+ARG INSTALL_GRAPHVIZ=false
+
+RUN if [ ${INSTALL_GRAPHVIZ} = true ]; then \
+    apt-get update && \
+    apt-get install -y graphviz \
+;fi
+
 # IonCube Loader
 ###########################################################################
 
