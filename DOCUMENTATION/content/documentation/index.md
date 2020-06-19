@@ -400,7 +400,7 @@ Always download the latest version of [Loaders for ionCube ](http://www.ioncube.
 
 4 - Re-build the containers `docker-compose build workspace`
 
-[**Deployer Documentation Here**](https://deployer.org/docs)
+[**Deployer Documentation Here**](https://deployer.org/docs/getting-started.html)
 
 
 
@@ -977,7 +977,7 @@ docker-compose up -d mariadb phpmyadmin
 
 *Note: To use with MariaDB, open `.env` and set `PMA_DB_ENGINE=mysql` to `PMA_DB_ENGINE=mariadb`.*
 
-2 - Open your browser and visit the localhost on port **8080**:  `http://localhost:8080`
+2 - Open your browser and visit the localhost on port **8081**:  `http://localhost:8081`
 
 
 
@@ -1074,7 +1074,7 @@ job1:
 docker-compose up -d adminer
 ```
 
-2 - Open your browser and visit the localhost on port **8080**:  `http://localhost:8080`
+2 - Open your browser and visit the localhost on port **8081**:  `http://localhost:8081`
 
 **Note:** We've locked Adminer to version 4.3.0 as at the time of writing [it contained a major bug](https://sourceforge.net/p/adminer/bugs-and-features/548/) preventing PostgreSQL users from logging in. If that bug is fixed (or if you're not using PostgreSQL) feel free to set Adminer to the latest version within [the Dockerfile](https://github.com/laradock/laradock/blob/master/adminer/Dockerfile#L1): `FROM adminer:latest`
 
@@ -1425,30 +1425,13 @@ GRAYLOG_SHA256_PASSWORD=b1cb6e31e172577918c9e7806c572b5ed8477d3f57aa737bee4b5b1d
 <a name="Use-Traefik"></a>
 ## Use Traefik
 
-To use Traefik you need to do some changes in `traefik/trafik.toml` and `docker-compose.yml`.
+To use Traefik you need to do some changes in `.env` and `docker-compose.yml`.
 
-1 - Open `traefik.toml` and change the `e-mail` property in `acme` section.
+1 - Open `.env` and change `ACME_DOMAIN` to your domain and `ACME_EMAIL` to your email.
 
-2 - Change your domain in `acme.domains`. For example: `main = "example.org"`
+2 - You need to change the `docker-compose.yml` file to match the Traefik needs. If you want to use Traefik, you must not expose the ports of each container to the internet, but specify some labels.
 
-2.1 - If you have subdomains, you must add them to `sans` property in `acme.domains` section.
-
-```bash
-[[acme.domais]]
-  main = "example.org"
-  sans = ["monitor.example.org", "pma.example.org"]
-```
-
-3 - If you need to add basic authentication (https://docs.traefik.io/configuration/entrypoints/#basic-authentication), you just need to add the following text after `[entryPoints.https.tls]`:
-
-```bash
-[entryPoints.https.auth.basic]
-  users = ["user:password"]
-```
-
-4 - You need to change the `docker-compose.yml` file to match the Traefik needs. If you want to use Traefik, you must not expose the ports of each container to the internet, but specify some labels.
-
-4.1 For example, let's try with NGINX. You must have:
+2.1 For example, let's try with NGINX. You must have:
 
 ```bash
 nginx:
@@ -1468,9 +1451,25 @@ nginx:
     - frontend
     - backend
   labels:
-    - traefik.backend=nginx
-    - traefik.frontend.rule=Host:example.org
-    - traefik.port=80
+    - "traefik.enable=true"
+    - "traefik.http.services.nginx.loadbalancer.server.port=80"
+    # https router
+    - "traefik.http.routers.https.rule=Host(`${ACME_DOMAIN}`, `www.${ACME_DOMAIN}`)"
+    - "traefik.http.routers.https.entrypoints=https"
+    - "traefik.http.routers.https.middlewares=www-redirectregex"
+    - "traefik.http.routers.https.service=nginx"
+    - "traefik.http.routers.https.tls.certresolver=letsencrypt"
+    # http router
+    - "traefik.http.routers.http.rule=Host(`${ACME_DOMAIN}`, `www.${ACME_DOMAIN}`)"
+    - "traefik.http.routers.http.entrypoints=http"
+    - "traefik.http.routers.http.middlewares=http-redirectscheme"
+    - "traefik.http.routers.http.service=nginx"
+    # middlewares
+    - "traefik.http.middlewares.www-redirectregex.redirectregex.permanent=true"
+    - "traefik.http.middlewares.www-redirectregex.redirectregex.regex=^https://www.(.*)"
+    - "traefik.http.middlewares.www-redirectregex.redirectregex.replacement=https://$$1"
+    - "traefik.http.middlewares.http-redirectscheme.redirectscheme.permanent=true"
+    - "traefik.http.middlewares.http-redirectscheme.redirectscheme.scheme=https"
 ```
 
 instead of
