@@ -413,6 +413,36 @@ Contribute and help us sustain the project.
 <a href="https://opencollective.com/laradock/sponsor/47/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/47/avatar.svg?requireActive=false"></a>
 <a href="https://opencollective.com/laradock/sponsor/48/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/48/avatar.svg?requireActive=false"></a>
 <a href="https://opencollective.com/laradock/sponsor/49/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/49/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/50/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/50/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/51/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/51/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/52/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/52/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/53/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/53/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/54/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/54/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/55/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/55/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/56/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/56/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/57/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/57/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/58/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/58/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/59/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/59/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/60/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/60/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/61/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/61/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/62/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/62/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/63/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/63/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/64/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/64/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/65/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/65/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/66/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/66/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/67/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/67/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/68/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/68/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/69/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/69/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/70/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/70/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/71/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/71/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/72/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/72/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/73/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/73/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/74/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/74/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/75/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/75/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/76/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/76/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/77/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/77/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/78/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/78/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/sponsor/79/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/sponsor/79/avatar.svg?requireActive=false"></a>
 
 Support Laradock with your [organization](https://opencollective.com/laradock/contribute/).
 <br>
@@ -473,6 +503,36 @@ For more info contact <a href = "mailto: support@laradock.io">support@laradock.i
 <a href="https://opencollective.com/laradock/backer/47/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/47/avatar.svg?requireActive=false"></a>
 <a href="https://opencollective.com/laradock/backer/48/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/48/avatar.svg?requireActive=false"></a>
 <a href="https://opencollective.com/laradock/backer/49/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/49/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/50/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/50/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/51/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/51/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/52/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/52/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/53/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/53/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/54/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/54/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/55/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/55/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/56/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/56/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/57/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/57/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/58/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/58/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/59/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/59/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/60/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/60/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/61/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/61/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/62/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/62/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/63/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/63/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/64/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/64/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/65/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/65/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/66/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/66/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/67/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/67/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/68/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/68/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/69/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/69/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/70/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/70/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/71/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/71/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/72/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/72/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/73/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/73/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/74/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/74/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/75/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/75/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/76/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/76/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/77/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/77/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/78/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/78/avatar.svg?requireActive=false"></a>
+<a href="https://opencollective.com/laradock/backer/79/website?requireActive=false" target="_blank"><img src="https://opencollective.com/laradock/backer/79/avatar.svg?requireActive=false"></a>
 
 
 
