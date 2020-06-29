@@ -1,5 +1,6 @@
 {
     "files.associations": {
+        "env-example": "dotenv",
         "Dockerfile-*": "dockerfile"
-    },
+    }
 }

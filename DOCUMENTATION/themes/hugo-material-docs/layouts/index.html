@@ -39,7 +39,7 @@
 				<!-- ------------------------------------------------------------------------- -->
 
 			<br><br><br>
-			<img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/laradock-logo.jpg" alt="laradock logo">
+			<img src="images/laradock-full-logo.jpg" alt="laradock logo">
 
 			{{ range where .Site.Pages "Type" "index" }}
 			<br><br><br><br><br><br>
@@ -54,6 +54,7 @@
 				{{ with .Site.Params.copyright }}
 				&copy; {{ $.Now.Format "2006" }} {{ . }} &ndash;
 				{{ end }}
+				<br><br>
 				Documentation built with
 				<a href="https://www.gohugo.io" target="_blank">Hugo</a>
 				using the
