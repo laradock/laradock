@@ -852,8 +852,8 @@ CASSANDRA_RACK=rack1
 
 # Gearman version to use. See available tags at https://hub.docker.com/r/artefactual/gearmand
 GEARMAN_VERSION=latest
-# Port to use (Default: 6379)
-GEARMAN_PORT=6379
+# Port to use (Default: 4730)
+GEARMAN_PORT=4730
 # Logging Level (Default: INFO)
 GEARMAN_VERBOSE=INFO
 # Persistent queue type to use (Default: builtin)
