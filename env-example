@@ -270,7 +270,7 @@ PHP_WORKER_INSTALL_CASSANDRA=false
 PHP_WORKER_INSTALL_GEARMAN=false
 PHP_WORKER_INSTALL_REDIS=false
 PHP_WORKER_INSTALL_IMAP=false
-PHP_WORKER_INSTALL_XMLRPC
+PHP_WORKER_INSTALL_XMLRPC=false
 
 PHP_WORKER_PUID=1000
 PHP_WORKER_PGID=1000
@@ -860,8 +860,8 @@ CASSANDRA_RACK=rack1
 
 # Gearman version to use. See available tags at https://hub.docker.com/r/artefactual/gearmand
 GEARMAN_VERSION=latest
-# Port to use (Default: 6379)
-GEARMAN_PORT=6379
+# Port to use (Default: 4730)
+GEARMAN_PORT=4730
 # Logging Level (Default: INFO)
 GEARMAN_VERBOSE=INFO
 # Persistent queue type to use (Default: builtin)
