@@ -1266,6 +1266,20 @@ RUN if [ ${INSTALL_YAML} = true ]; then \
 ;fi
 
 ###########################################################################
+# RDKAFKA:
+###########################################################################
+
+ARG INSTALL_RDKAFKA=false
+
+RUN if [ ${INSTALL_RDKAFKA} = true ]; then \
+    apt-get install -y librdkafka-dev && \
+    pecl install rdkafka && \
+    echo "extension=rdkafka.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/rdkafka.ini && \
+    ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/rdkafka.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-rdkafka.ini \
+    && php -m | grep -q 'rdkafka' \
+;fi
+
+###########################################################################
 # FFMpeg:
 ###########################################################################
 
