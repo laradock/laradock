@@ -2197,6 +2197,32 @@ YAML PHP extension allows you to easily parse and create YAML structured data. I
 4 - Re-build the container `docker-compose build php-fpm`<br>
 
 
+<br>
+<a name="Install-RDKAFKA-php"></a>
+## Install RDKAFKA extension in php-fpm
+
+1 - Open the `.env` file
+<br>
+2 - Search for the `PHP_FPM_INSTALL_RDKAFKA` argument under the PHP-FPM container
+<br>
+3 - Set it to `true`
+<br>
+4 - Re-build the container `docker-compose build php-fpm`<br>
+
+
+<br>
+<a name="Install-RDKAFKA-workspace"></a>
+## Install RDKAFKA extension in workspace
+
+This is needed for 'composer install' if your dependencies require Kafka.
+
+1 - Open the `.env` file
+<br>
+2 - Search for the `WORKSPACE_INSTALL_RDKAFKA` argument under the WORKSPACE container
+<br>
+3 - Set it to `true`
+<br>
+4 - Re-build the container `docker-compose build workspace`<br>
 
 
 <br>
