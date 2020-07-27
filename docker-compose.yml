@@ -236,6 +236,7 @@ services:
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         - ./php-worker/supervisord.d:/etc/supervisord.d
+        - ${PHP_WORKER_HOST_LOG_PATH}:/var/log/supervisor
       depends_on:
         - workspace
       extra_hosts:

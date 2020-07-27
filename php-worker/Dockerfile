@@ -116,6 +116,7 @@ RUN if [ $INSTALL_PHALCON = true ]; then \
     && unzip -d /tmp/ /tmp/cphalcon.zip \
     && cd /tmp/cphalcon-${PHALCON_VERSION}/build \
     && ./install \
+    && echo "extension=phalcon.so" >> /usr/local/etc/php/conf.d/docker-php-ext-phalcon.ini \
     && rm -rf /tmp/cphalcon* \
 ;fi
 
