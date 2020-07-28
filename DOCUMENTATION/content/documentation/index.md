@@ -1225,7 +1225,19 @@ docker-compose restart elasticsearch
 ```
 
 
+<br>
+<a name="Use-MeiliSearch"></a>
+## Use MeiliSearch
 
+1 - Run the MeiliSearch Container (`meilisearch`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d meilisearch
+```
+
+2 - Open your browser and visit the localhost on port **7700** at the following URL:  `http://localhost:7700`
+
+> The private API key is `masterkey`
 
 
 
