@@ -1050,6 +1050,8 @@ services:
     laravel-echo-server:
       build:
         context: ./laravel-echo-server
+        args:
+          - CHANGE_SOURCE=${CHANGE_SOURCE}
       volumes:
         - ./laravel-echo-server/laravel-echo-server.json:/app/laravel-echo-server.json:ro
       ports:
