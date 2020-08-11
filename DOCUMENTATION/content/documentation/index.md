@@ -624,6 +624,7 @@ docker-compose up -d php-worker
 > Using Use Browsersync with Laravel Mix.
 
 1. Add the following settings to your `webpack.mix.js` file. Please refer to Browsersync [Options](https://browsersync.io/docs/options) page for more options.
+
 ```
 const mix = require('laravel-mix')
 
