@@ -1059,14 +1059,10 @@ ARG INSTALL_SYMFONY=false
 
 RUN if [ ${INSTALL_SYMFONY} = true ]; then \
   mkdir -p /usr/local/bin \
-  && curl -LsS https://symfony.com/installer -o /usr/local/bin/symfony \
+  && apt-get -y install sudo wget \
+  && wget --quiet https://get.symfony.com/cli/installer -O - | bash \
+  && mv /root/.symfony/bin/symfony /usr/local/bin/symfony \
   && chmod a+x /usr/local/bin/symfony \
-  #  Symfony 3 alias
-  && echo 'alias dev="php bin/console -e=dev"' >> ~/.bashrc \
-  && echo 'alias prod="php bin/console -e=prod"' >> ~/.bashrc \
-  #  Symfony 2 alias
-  #  && echo 'alias dev="php app/console -e=dev"' >> ~/.bashrc \
-  #  && echo 'alias prod="php app/console -e=prod"' >> ~/.bashrc \
 ;fi
 
 ###########################################################################
