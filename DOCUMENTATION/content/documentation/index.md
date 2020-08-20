@@ -1366,7 +1366,7 @@ For more documentation on Thumbor visit the [Thumbor documenation](http://thumbo
 ## Use AWS
 
 1 - Configure AWS:
-  - make sure to add your SSH keys in aws/ssh_keys folder
+  - make sure to add your SSH keys in aws-eb-cli/ssh_keys folder
 
 2 - Run the Aws Container (`aws`) with the `docker-compose up` command. Example:
 
