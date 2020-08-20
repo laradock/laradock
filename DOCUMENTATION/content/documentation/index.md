@@ -256,7 +256,7 @@ docker-compose build php-fpm
 
 >Note: it's not very essential to edit the PHP-CLI version. The PHP-CLI is only used for the Artisan Commands & Composer. It doesn't serve your Application code, this is the PHP-FPM job.
 
-The PHP-CLI is installed in the Workspace container. To change the PHP-CLI version you need to simply change the `PHP_VERSION` in te .env file as follow:
+The PHP-CLI is installed in the Workspace container. To change the PHP-CLI version you need to simply change the `PHP_VERSION` in the .env file as follow:
 
 1 - Open the `.env`.
 
@@ -509,7 +509,7 @@ Since the new Laravel application is in the `my-cool-app` folder, we need to rep
 ```dotenv
   APP_CODE_PATH_HOST=../my-cool-app/
 ```
-4 - Go to that folder and start working..
+4 - Go to that folder and start working.
 
 ```bash
 cd my-cool-app
@@ -953,7 +953,7 @@ More details about this [here](https://github.com/jenssegers/laravel-mongodb#ins
 
 7 - Test it:
 
-- First let your Models extend from the Mongo Eloquent Model. Check the [documentation](https://github.com/jenssegers/laravel-mongodb#eloquent).
+- First, let your Models extend from the Mongo Eloquent Model. Check the [documentation](https://github.com/jenssegers/laravel-mongodb#eloquent).
 - Enter the Workspace Container.
 - Migrate the Database `php artisan migrate`.
 
@@ -1058,7 +1058,7 @@ job1:
 
 7 - Push changes to gitlab
 
-8 - Verify that pipeline is run successful
+8 - Verify that pipeline is running successfully
 
 
 
@@ -1212,7 +1212,7 @@ docker-compose up -d elasticsearch
 ```bash
 docker-compose exec elasticsearch /usr/share/elasticsearch/bin/plugin install {plugin-name}
 ```
-For ElasticSearch 5.0 and above, the previous "plugin" command as been renamed to "elasticsearch-plguin". 
+For ElasticSearch 5.0 and above, the previous "plugin" command has been renamed to "elasticsearch-plguin". 
 Use the following instead:
 
 ```bash
