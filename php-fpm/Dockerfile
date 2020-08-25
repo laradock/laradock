@@ -28,9 +28,9 @@ ENV DEBIAN_FRONTEND noninteractive
 ARG CHANGE_SOURCE=false
 RUN if [ ${CHANGE_SOURCE} = true ]; then \
     # Change application source from deb.debian.org to aliyun source
-    sed -i 's/deb.debian.org/mirrors.aliyun.com/' /etc/apt/sources.list && \
-    sed -i 's/security.debian.org/mirrors.aliyun.com/' /etc/apt/sources.list && \
-    sed -i 's/security-cdn.debian.org/mirrors.aliyun.com/' /etc/apt/sources.list \
+    sed -i 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/' /etc/apt/sources.list && \
+    sed -i 's/security.debian.org/mirrors.tuna.tsinghua.edu.cn/' /etc/apt/sources.list && \
+    sed -i 's/security-cdn.debian.org/mirrors.tuna.tsinghua.edu.cn/' /etc/apt/sources.list \
 ;fi
 
 # always run apt update when start and after add new source list, then clean up at end.
@@ -327,7 +327,7 @@ RUN if [ ${INSTALL_XHPROF} = true ]; then \
     # Install the php xhprof extension
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = 7 ]; then \
       curl -L -o /tmp/xhprof.tar.gz "https://github.com/tideways/php-xhprof-extension/archive/v5.0.1.tar.gz"; \
-    else \ 
+    else \
       curl -L -o /tmp/xhprof.tar.gz "https://codeload.github.com/phacility/xhprof/tar.gz/master"; \
     fi \
     && mkdir -p xhprof \
