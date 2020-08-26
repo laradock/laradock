@@ -887,6 +887,18 @@ RUN set -xe; \
   ;fi
 
 ###########################################################################
+# Prestissimo:
+###########################################################################
+USER laradock
+
+ARG INSTALL_PRESTISSIMO=false
+
+RUN if [ ${INSTALL_PRESTISSIMO} = true ]; then \
+    # Install Prestissimo
+    composer global require "hirak/prestissimo" \
+;fi
+
+###########################################################################
 # Laravel Envoy:
 ###########################################################################
 
@@ -936,18 +948,6 @@ RUN if [ ${INSTALL_DEPLOYER} = true ]; then \
     curl -LO https://deployer.org/deployer.phar && \
     mv deployer.phar /usr/local/bin/dep && \
     chmod +x /usr/local/bin/dep \
-;fi
-
-###########################################################################
-# Prestissimo:
-###########################################################################
-USER laradock
-
-ARG INSTALL_PRESTISSIMO=false
-
-RUN if [ ${INSTALL_PRESTISSIMO} = true ]; then \
-    # Install Prestissimo
-    composer global require "hirak/prestissimo" \
 ;fi
 
 ###########################################################################
