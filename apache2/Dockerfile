@@ -20,9 +20,9 @@ WORKDIR /var/www/
 COPY vhost.conf /etc/apache2/sites-enabled/vhost.conf
 
 ARG APACHE_INSTALL_HTTP2=false
+RUN mkdir /etc/apache2/ssl 2> /dev/null
 RUN if [ ${APACHE_INSTALL_HTTP2} = true ]; then \
-    mkdir /etc/apache2/ssl 2> /dev/null && \
-    && openssl genrsa -out "/etc/apache2/ssl/ssl_site.key" 2048 \
+    openssl genrsa -out "/etc/apache2/ssl/ssl_site.key" 2048 \
     && openssl rand -out /root/.rnd -hex 256 \
     && openssl req -new -key "/etc/apache2/ssl/ssl_site.key" -out "/etc/apache2/ssl/ssl_site.csr" -subj "/CN=site.com/O=LGS/C=IT" \
     && openssl x509 -req -days 365 -in "/etc/apache2/ssl/ssl_site.csr" -signkey "/etc/apache2/ssl/ssl_site.key" -out "/etc/apache2/ssl/ssl_site.crt" \
