@@ -256,7 +256,7 @@ docker-compose build php-fpm
 
 >Note: it's not very essential to edit the PHP-CLI version. The PHP-CLI is only used for the Artisan Commands & Composer. It doesn't serve your Application code, this is the PHP-FPM job.
 
-The PHP-CLI is installed in the Workspace container. To change the PHP-CLI version you need to simply change the `PHP_VERSION` in te .env file as follow:
+The PHP-CLI is installed in the Workspace container. To change the PHP-CLI version you need to simply change the `PHP_VERSION` in the .env file as follow:
 
 1 - Open the `.env`.
 
@@ -509,7 +509,7 @@ Since the new Laravel application is in the `my-cool-app` folder, we need to rep
 ```dotenv
   APP_CODE_PATH_HOST=../my-cool-app/
 ```
-4 - Go to that folder and start working..
+4 - Go to that folder and start working.
 
 ```bash
 cd my-cool-app
@@ -624,6 +624,7 @@ docker-compose up -d php-worker
 > Using Use Browsersync with Laravel Mix.
 
 1. Add the following settings to your `webpack.mix.js` file. Please refer to Browsersync [Options](https://browsersync.io/docs/options) page for more options.
+
 ```
 const mix = require('laravel-mix')
 
@@ -952,7 +953,7 @@ More details about this [here](https://github.com/jenssegers/laravel-mongodb#ins
 
 7 - Test it:
 
-- First let your Models extend from the Mongo Eloquent Model. Check the [documentation](https://github.com/jenssegers/laravel-mongodb#eloquent).
+- First, let your Models extend from the Mongo Eloquent Model. Check the [documentation](https://github.com/jenssegers/laravel-mongodb#eloquent).
 - Enter the Workspace Container.
 - Migrate the Database `php artisan migrate`.
 
@@ -1057,7 +1058,7 @@ job1:
 
 7 - Push changes to gitlab
 
-8 - Verify that pipeline is run successful
+8 - Verify that pipeline is running successfully
 
 
 
@@ -1211,7 +1212,7 @@ docker-compose up -d elasticsearch
 ```bash
 docker-compose exec elasticsearch /usr/share/elasticsearch/bin/plugin install {plugin-name}
 ```
-For ElasticSearch 5.0 and above, the previous "plugin" command as been renamed to "elasticsearch-plguin". 
+For ElasticSearch 5.0 and above, the previous "plugin" command has been renamed to "elasticsearch-plguin". 
 Use the following instead:
 
 ```bash
@@ -1365,7 +1366,7 @@ For more documentation on Thumbor visit the [Thumbor documenation](http://thumbo
 ## Use AWS
 
 1 - Configure AWS:
-  - make sure to add your SSH keys in aws/ssh_keys folder
+  - make sure to add your SSH keys in aws-eb-cli/ssh_keys folder
 
 2 - Run the Aws Container (`aws`) with the `docker-compose up` command. Example:
 
@@ -2197,6 +2198,32 @@ YAML PHP extension allows you to easily parse and create YAML structured data. I
 4 - Re-build the container `docker-compose build php-fpm`<br>
 
 
+<br>
+<a name="Install-RDKAFKA-php"></a>
+## Install RDKAFKA extension in php-fpm
+
+1 - Open the `.env` file
+<br>
+2 - Search for the `PHP_FPM_INSTALL_RDKAFKA` argument under the PHP-FPM container
+<br>
+3 - Set it to `true`
+<br>
+4 - Re-build the container `docker-compose build php-fpm`<br>
+
+
+<br>
+<a name="Install-RDKAFKA-workspace"></a>
+## Install RDKAFKA extension in workspace
+
+This is needed for 'composer install' if your dependencies require Kafka.
+
+1 - Open the `.env` file
+<br>
+2 - Search for the `WORKSPACE_INSTALL_RDKAFKA` argument under the WORKSPACE container
+<br>
+3 - Set it to `true`
+<br>
+4 - Re-build the container `docker-compose build workspace`<br>
 
 
 <br>

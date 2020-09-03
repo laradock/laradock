@@ -113,6 +113,7 @@ services:
           - INSTALL_MC=${WORKSPACE_INSTALL_MC}
           - INSTALL_SYMFONY=${WORKSPACE_INSTALL_SYMFONY}
           - INSTALL_PYTHON=${WORKSPACE_INSTALL_PYTHON}
+          - INSTALL_PYTHON3=${WORKSPACE_INSTALL_PYTHON3}
           - INSTALL_IMAGE_OPTIMIZERS=${WORKSPACE_INSTALL_IMAGE_OPTIMIZERS}
           - INSTALL_IMAGEMAGICK=${WORKSPACE_INSTALL_IMAGEMAGICK}
           - INSTALL_TERRAFORM=${WORKSPACE_INSTALL_TERRAFORM}
@@ -131,6 +132,7 @@ services:
           - INSTALL_FSWATCH=${WORKSPACE_INSTALL_FSWATCH}
           - INSTALL_AST=${WORKSPACE_INSTALL_AST}
           - INSTALL_YAML=${WORKSPACE_INSTALL_YAML}
+          - INSTALL_RDKAFKA=${WORKSPACE_INSTALL_RDKAFKA}
           - INSTALL_MAILPARSE=${WORKSPACE_INSTALL_MAILPARSE}
           - INSTALL_GIT_PROMPT=${WORKSPACE_INSTALL_GIT_PROMPT}
           - INSTALL_XMLRPC=${WORKSPACE_INSTALL_XMLRPC}
@@ -1014,33 +1016,33 @@ services:
 
 ### Graylog #######################################
     graylog:
-        build: ./graylog
-        environment:
-          - GRAYLOG_PASSWORD_SECRET=${GRAYLOG_PASSWORD}
-          - GRAYLOG_ROOT_PASSWORD_SHA2=${GRAYLOG_SHA256_PASSWORD}
-          - GRAYLOG_HTTP_EXTERNAL_URI=http://127.0.0.1:${GRAYLOG_PORT}/
-        links:
-          - mongo
-          - elasticsearch
-        depends_on:
-          - mongo
-          - elasticsearch
-        ports:
-          # Graylog web interface and REST API
-          - ${GRAYLOG_PORT}:9000
-          # Syslog TCP
-          - ${GRAYLOG_SYSLOG_TCP_PORT}:514
-          # Syslog UDP
-          - ${GRAYLOG_SYSLOG_UDP_PORT}:514/udp
-          # GELF TCP
-          - ${GRAYLOG_GELF_TCP_PORT}:12201
-          # GELF UDP
-          - ${GRAYLOG_GELF_UDP_PORT}:12201/udp
-        user: graylog
-        volumes:
-          - ${DATA_PATH_HOST}/graylog:/usr/share/graylog/data
-        networks:
-          - backend
+      build: ./graylog
+      environment:
+        - GRAYLOG_PASSWORD_SECRET=${GRAYLOG_PASSWORD}
+        - GRAYLOG_ROOT_PASSWORD_SHA2=${GRAYLOG_SHA256_PASSWORD}
+        - GRAYLOG_HTTP_EXTERNAL_URI=http://127.0.0.1:${GRAYLOG_PORT}/
+      links:
+        - mongo
+        - elasticsearch
+      depends_on:
+        - mongo
+        - elasticsearch
+      ports:
+        # Graylog web interface and REST API
+        - ${GRAYLOG_PORT}:9000
+        # Syslog TCP
+        - ${GRAYLOG_SYSLOG_TCP_PORT}:514
+        # Syslog UDP
+        - ${GRAYLOG_SYSLOG_UDP_PORT}:514/udp
+        # GELF TCP
+        - ${GRAYLOG_GELF_TCP_PORT}:12201
+        # GELF UDP
+        - ${GRAYLOG_GELF_UDP_PORT}:12201/udp
+      user: graylog
+      volumes:
+        - ${DATA_PATH_HOST}/graylog:/usr/share/graylog/data
+      networks:
+        - backend
 
 ### Laravel Echo Server #######################################
     laravel-echo-server:

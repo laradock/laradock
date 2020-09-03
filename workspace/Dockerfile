@@ -1068,7 +1068,7 @@ RUN if [ ${INSTALL_SYMFONY} = true ]; then \
 ;fi
 
 ###########################################################################
-# PYTHON:
+# PYTHON2:
 ###########################################################################
 
 ARG INSTALL_PYTHON=false
@@ -1077,6 +1077,18 @@ RUN if [ ${INSTALL_PYTHON} = true ]; then \
   apt-get -y install python python-pip python-dev build-essential  \
   && python -m pip install --upgrade pip  \
   && python -m pip install --upgrade virtualenv \
+;fi
+
+###########################################################################
+# PYTHON3:
+###########################################################################
+
+ARG INSTALL_PYTHON3=false
+
+RUN if [ ${INSTALL_PYTHON3} = true ]; then \
+  apt-get -y install python3 python3-pip python3-dev build-essential  \
+  && python3 -m pip install --upgrade --force-reinstall pip  \
+  && python3 -m pip install --upgrade virtualenv \
 ;fi
 
 ###########################################################################
@@ -1263,6 +1275,20 @@ RUN if [ ${INSTALL_YAML} = true ]; then \
     fi && \
     echo "extension=yaml.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/yaml.ini && \
     ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/yaml.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/35-yaml.ini \
+;fi
+
+###########################################################################
+# RDKAFKA:
+###########################################################################
+
+ARG INSTALL_RDKAFKA=false
+
+RUN if [ ${INSTALL_RDKAFKA} = true ]; then \
+    apt-get install -y librdkafka-dev && \
+    pecl install rdkafka && \
+    echo "extension=rdkafka.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/rdkafka.ini && \
+    ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/rdkafka.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-rdkafka.ini \
+    && php -m | grep -q 'rdkafka' \
 ;fi
 
 ###########################################################################
