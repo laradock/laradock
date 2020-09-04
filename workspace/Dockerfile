@@ -1003,8 +1003,10 @@ RUN set -eux; \
       ln -sfn /opt/mssql-tools/bin/bcp /usr/bin/bcp && \
       echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
       locale-gen && \
-      if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+      if [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70000" ]; then \
         pecl install sqlsrv-5.3.0 pdo_sqlsrv-5.3.0 \
+      ;elif [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70100" ]; then \
+        pecl install sqlsrv-5.6.1 pdo_sqlsrv-5.6.1 \
       ;else \
         pecl install sqlsrv pdo_sqlsrv \
       ;fi && \
