@@ -1003,8 +1003,10 @@ RUN set -eux; \
       ln -sfn /opt/mssql-tools/bin/bcp /usr/bin/bcp && \
       echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
       locale-gen && \
-      if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+      if [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70000" ]; then \
         pecl install sqlsrv-5.3.0 pdo_sqlsrv-5.3.0 \
+      ;elif [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70100" ]; then \
+        pecl install sqlsrv-5.6.1 pdo_sqlsrv-5.6.1 \
       ;else \
         pecl install sqlsrv pdo_sqlsrv \
       ;fi && \
@@ -1160,10 +1162,10 @@ ARG INSTALL_PG_CLIENT=false
 RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
     # Install the pgsql client
     apt-get install wget \
-    && add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main" \
     && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
+    && echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list \
     && apt-get update \
-    && apt-get -y install postgresql-client-10 \
+    && apt-get -y install postgresql-client-12 \
 ;fi
 
 ###########################################################################
@@ -1318,9 +1320,14 @@ RUN if [ ${INSTALL_WKHTMLTOPDF} = true ]; then \
    libx11-dev \
    libjpeg62 \
    libxtst6 \
+   fontconfig \ 
+   libjpeg-turbo8-dev \
+   xfonts-base \
+   xfonts-75dpi \
    wget \
-   && wget https://github.com/h4cc/wkhtmltopdf-amd64/blob/master/bin/wkhtmltopdf-amd64?raw=true -O /usr/local/bin/wkhtmltopdf \
-   && chmod +x /usr/local/bin/wkhtmltopdf \
+   && wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.bionic_amd64.deb \
+   && dpkg -i wkhtmltox_0.12.6-1.bionic_amd64.deb \
+   && apt -f install \
 ;fi
 
 ###########################################################################
