@@ -1377,6 +1377,16 @@ RUN if [ ${INSTALL_XMLRPC} = true ]; then \
 ;fi
 
 ###########################################################################
+# Lnav:
+###########################################################################
+
+ARG INSTALL_LNAV=false
+
+RUN if [ ${INSTALL_LNAV} = true ]; then \
+    apt-get install -y lnav \
+;fi
+
+###########################################################################
 # Protoc:
 ###########################################################################
 
@@ -1395,7 +1405,6 @@ RUN if [ ${INSTALL_PROTOC} = true ]; then \
   unzip -q -o /tmp/protoc.zip -d /usr/local bin/protoc && \
   unzip -q -o /tmp/protoc.zip -d /usr/local 'include/*' && \
   rm -f /tmp/protoc.zip \
-;fi
 
 ###########################################################################
 # Check PHP version:
