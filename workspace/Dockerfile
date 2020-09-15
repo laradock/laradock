@@ -1405,6 +1405,7 @@ RUN if [ ${INSTALL_PROTOC} = true ]; then \
   unzip -q -o /tmp/protoc.zip -d /usr/local bin/protoc && \
   unzip -q -o /tmp/protoc.zip -d /usr/local 'include/*' && \
   rm -f /tmp/protoc.zip \
+;fi
 
 ###########################################################################
 # Check PHP version:
