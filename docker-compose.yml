@@ -152,6 +152,8 @@ services:
           - INSTALL_WKHTMLTOPDF=${WORKSPACE_INSTALL_WKHTMLTOPDF}
           - INSTALL_GNU_PARALLEL=${WORKSPACE_INSTALL_GNU_PARALLEL}
           - INSTALL_LNAV=${WORKSPACE_INSTALL_LNAV}
+          - INSTALL_PROTOC=${WORKSPACE_INSTALL_PROTOC}
+          - PROTOC_VERSION=${WORKSPACE_PROTOC_VERSION}
           - http_proxy
           - https_proxy
           - no_proxy

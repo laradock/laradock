@@ -1387,6 +1387,27 @@ RUN if [ ${INSTALL_LNAV} = true ]; then \
 ;fi
 
 ###########################################################################
+# Protoc:
+###########################################################################
+
+ARG INSTALL_PROTOC=false
+ARG PROTOC_VERSION
+
+RUN if [ ${INSTALL_PROTOC} = true ]; then \
+  if [ ${PROTOC_VERSION} = "latest" ]; then \
+    REAL_PROTOC_VERSION=$(curl -s https://api.github.com/repos/protocolbuffers/protobuf/releases/latest | \
+      sed -nr 's/.*"tag_name":\s?"v(.+?)".*/\1/p'); \
+  else \
+    REAL_PROTOC_VERSION=${PROTOC_VERSION}; \
+  fi && \
+  PROTOC_ZIP=protoc-${REAL_PROTOC_VERSION}-linux-x86_64.zip; \
+  curl -L -o /tmp/protoc.zip https://github.com/protocolbuffers/protobuf/releases/download/v${REAL_PROTOC_VERSION}/${PROTOC_ZIP} && \
+  unzip -q -o /tmp/protoc.zip -d /usr/local bin/protoc && \
+  unzip -q -o /tmp/protoc.zip -d /usr/local 'include/*' && \
+  rm -f /tmp/protoc.zip \
+;fi
+
+###########################################################################
 # Check PHP version:
 ###########################################################################
 
