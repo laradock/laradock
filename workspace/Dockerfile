@@ -1404,7 +1404,9 @@ RUN if [ ${INSTALL_PROTOC} = true ]; then \
   curl -L -o /tmp/protoc.zip https://github.com/protocolbuffers/protobuf/releases/download/v${REAL_PROTOC_VERSION}/${PROTOC_ZIP} && \
   unzip -q -o /tmp/protoc.zip -d /usr/local bin/protoc && \
   unzip -q -o /tmp/protoc.zip -d /usr/local 'include/*' && \
-  rm -f /tmp/protoc.zip \
+  rm -f /tmp/protoc.zip && \
+  chmod +x /usr/local/bin/protoc && \
+  chmod -R +r /usr/local/include/google \
 ;fi
 
 ###########################################################################
