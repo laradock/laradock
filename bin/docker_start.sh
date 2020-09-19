@@ -16,6 +16,7 @@ declare -a arr=("apache2" "php-fpm" "workspace" \
 "mongo" "mongo-webui" \
 "mariadb" "mysql" "phpmyadmin" \
 "rabbitmq" \
+"sqs" \
 # docker \
 "docker-web-ui" \
 # mail \
