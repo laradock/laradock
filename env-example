@@ -83,6 +83,8 @@ DOCKER_SYNC_STRATEGY=native_osx
 # If you want to use "Oh My ZSH!" with Laravel autocomplete plugin, set SHELL_OH_MY_ZSH to true.
 
 SHELL_OH_MY_ZSH=false
+SHELL_OH_MY_ZSH_AUTOSUGESTIONS=false
+SHELL_OH_MY_ZSH_ALIASES=false
 
 ###########################################################
 ################ Containers Customization #################

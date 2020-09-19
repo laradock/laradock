@@ -2284,6 +2284,26 @@ For configuration information, visit the [bash-git-prompt repository](https://gi
 
 **Note** You can configure Oh My ZSH by editing the `/home/laradock/.zshrc` in running container.
 
+> With the ZSH autosuggestions plugin.
+
+[ZSH autosuggestions plugin](https://github.com/zsh-users/zsh-autosuggestions) suggests commands as you type based on history and completions.
+
+1 - Enable ZSH as described previously
+
+2 - Set `SHELL_OH_MY_ZSH_AUTOSUGESTIONS` to `true`
+
+3 - Rebuild and use ZSH as described previously
+
+> With bash aliases loaded.
+
+Laradock provides aliases through the `aliases.sh` file located in the `laradock/workspace` directory. You can load it into ZSH.
+
+1 - Enable ZSH as described previously
+
+2 - Set `SHELL_OH_MY_ZSH_ALIASES` to `true`
+
+3 - Rebuild and enjoy aliases
+
 <br>
 <a name="phpstorm-debugging"></a>
 ## PHPStorm Debugging Guide
