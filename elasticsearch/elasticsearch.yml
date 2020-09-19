@@ -1,0 +1,22 @@
+bootstrap.memory_lock: false
+xpack.security.enabled: true
+cluster.name: es-cluster
+node.data: true
+node.ingest: true
+node.master: true
+node.max_local_storage_nodes: 2
+node.name: es1
+network.host: 0.0.0.0
+transport.tcp.port: 9300
+path.data: /usr/share/elasticsearch/data
+path.logs: /usr/share/elasticsearch/logs
+discovery.zen.minimum_master_nodes: 2
+gateway.recover_after_nodes: 1
+discovery.zen.ping.unicast.hosts: ["elasticsearch1:9300", "elasticsearch2:9300","elasticsearch1:9200", "elasticsearch2:9200"]
+network.publish_host: elasticsearch1
+network.host: elasticsearch1
+http.port: 9200
+http.cors.allow-origin: http://dev.localhost:1358,http://localhost:1358,http://127.0.0.1:1358
+http.cors.enabled: true
+http.cors.allow-headers : X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization
+http.cors.allow-credentials: true
