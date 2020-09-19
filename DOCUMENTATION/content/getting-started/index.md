@@ -38,7 +38,7 @@ git submodule add https://github.com/Laradock/laradock.git
 
 Note: If you are not using Git yet for your project, you can use `git clone` instead of `git submodule `.
 
-*To keep track of your Laradock changes, between your projects and also keep Laradock updated [check these docs](/documentation/#keep-track-of-your-laradock-changes)*
+*To keep track of your Laradock changes, between your projects and also keep Laradock updated [check these docs](/documentation/#track-your-laradock-changes)*
 
 
 2 - Make sure your folder structure should look like this:

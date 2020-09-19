@@ -19,6 +19,19 @@ WORKDIR /var/www/
 
 COPY vhost.conf /etc/apache2/sites-enabled/vhost.conf
 
+ARG APACHE_INSTALL_HTTP2=false
+RUN mkdir /etc/apache2/ssl 2> /dev/null
+RUN if [ ${APACHE_INSTALL_HTTP2} = true ]; then \
+    openssl genrsa -out "/etc/apache2/ssl/ssl_site.key" 2048 \
+    && openssl rand -out /root/.rnd -hex 256 \
+    && openssl req -new -key "/etc/apache2/ssl/ssl_site.key" -out "/etc/apache2/ssl/ssl_site.csr" -subj "/CN=site.com/O=LGS/C=IT" \
+    && openssl x509 -req -days 365 -in "/etc/apache2/ssl/ssl_site.csr" -signkey "/etc/apache2/ssl/ssl_site.key" -out "/etc/apache2/ssl/ssl_site.crt" \
+    && a2enmod rewrite \
+    && a2enmod headers \
+    && a2enmod proxy proxy_html proxy_http xml2enc ssl http2 \
+    && service apache2 restart \
+;fi
+
 ENTRYPOINT ["/opt/docker/bin/entrypoint.sh"]
 
 CMD ["supervisord"]
