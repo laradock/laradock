@@ -108,7 +108,7 @@ To update the sidebar or add a new section to it, you can edit this `DOCUMENTATI
 
 * Search for the image in the [Docker Hub](https://hub.docker.com/search/) and find the source..
 
-*Most of the image in Laradock are offical images, these projects live in other repositories and maintainer by other organizations.*
+*Most of the image in Laradock are official images, these projects live in other repositories and maintainer by other organizations.*
 
 **Note:** Laradock has two base images for (`Workspace` and `php-fpm`, mainly made to speed up the build time on your machine.
 
