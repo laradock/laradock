@@ -1450,13 +1450,17 @@ services:
         context: ./mongo-webui
       environment:
         - ROOT_URL=${MONGO_WEBUI_ROOT_URL}
-        - MONGO_URL=${MONGO_WEBUI_MONGO_URL}
+        # - MONGO_URL=${MONGO_WEBUI_MONGO_URL}
         - INSTALL_MONGO=${MONGO_WEBUI_INSTALL_MONGO}
+        # @todo try
+        - MONGOCLIENT_DEFAULT_CONNECTION_URL=''
+
       volumes:
         - ${DATA_PATH_HOST}/mongo-webui:/data/db
       ports:
         - "${MONGO_WEBUI_PORT}:3000"
       networks:
+        - frontend
         - backend
       depends_on:
         - mongo
