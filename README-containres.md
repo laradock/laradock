@@ -9,4 +9,6 @@
 - Message brokers
     - Amazon [Simple Queue Service (SQS)](http://aws.amazon.com/sqs) [🌐](http://localhost:9325)
     - [RabbitMQ](http://rabbitmq.com) [🌐](http://localhost:15672)
-- [MailCatcher](http://mailcatcher.me) [🌐](http://localhost:1080)
+- mail
+    - [MailCatcher](http://mailcatcher.me) [🌐](http://localhost:1080)
+    - [MailHog](http://github.com/mailhog/MailHog)
