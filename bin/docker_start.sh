@@ -16,10 +16,10 @@ export BUILD=""
 declare -a arr=("apache2" "php-fpm" "workspace" \
 # infra \
 "kibana" "dejavu" \
-"memcached" "redis" "redis-webui" \
-"mongo" "mongo-webui" \
+"memcached" "redis-webui" \
+"mongo-webui" \
 # cd /var/lib/mysql && rm ib_logfile0 ib_logfile1  \
-"mariadb" "mysql" "phpmyadmin" \
+"mysql" "phpmyadmin" \
 "rabbitmq" \
 "sqs" \
 # docker \
