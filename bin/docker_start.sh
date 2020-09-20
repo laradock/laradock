@@ -15,7 +15,7 @@ export BUILD=""
 
 declare -a arr=("apache2" "php-fpm" "workspace" \
 # infra \
-"kibana" "elasticsearch" \
+"kibana" "dejavu" \
 "redis" "redis-webui" \
 "mongo" "mongo-webui" \
 "mariadb" "mysql" "phpmyadmin" \
@@ -33,6 +33,3 @@ do
     export CONTAINER="$i"
     docker-compose up ${BUILD} -d ${CONTAINER}
 done
-
-# @todo
-# docker run -p 1358:1358 -d appbaseio/dejavu
