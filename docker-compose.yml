@@ -910,6 +910,18 @@ services:
         - frontend
         - backend
 
+### Dejavu ##############################################
+    dejavu:
+      build:
+        context: ./dejavu
+      ports:
+        - "${DEJAVU_HTTP_PORT}:1358"
+      depends_on:
+        - elasticsearch
+      networks:
+        - frontend
+        - backend
+
 ### Certbot #########################################
     certbot:
       build:
@@ -922,6 +934,16 @@ services:
         - EMAIL="fake.email@gmail.com"
       networks:
         - frontend
+
+### Mailcatcher ################################################
+    mailcatcher:
+      build: ./mailcatcher
+      ports:
+        - "1025:1025"
+        - "1080:1080"
+      networks:
+        - frontend
+        - backend
 
 ### Mailhog ################################################
     mailhog:
