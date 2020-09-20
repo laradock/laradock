@@ -2,8 +2,9 @@
 - Cashing
     - [Redis](http://redis.io) [phpRedisAdmin](github.com/erikdubbelboer/phpRedisAdmin)
 - Databases
-    - [MySQL](http://mariadb.org) [PhpMyAdmin](http://phpmyadmin.net) [🌐](http://localhost:8081)
-    - [MariaDB](http://mariadb.org)
+    - [PhpMyAdmin](http://phpmyadmin.net) [🌐](http://localhost:8081)
+        - [MySQL](http://mariadb.org)
+        - [MariaDB](http://mariadb.org)
     - [MongoDB](http://mongodb.com) [Nosqlclient](http://nosqlclient.com) 
 - Message brokers
     - Amazon [Simple Queue Service (SQS)](http://aws.amazon.com/sqs) [🌐](http://localhost:9325)
