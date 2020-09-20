@@ -896,6 +896,7 @@ services:
         - bootstrap.memory_lock=true
         - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
         - cluster.initial_master_nodes=laradock-node
+        # @todo remove this
         # for Dejavu
         # - discovery.type=single-node
         - http.cors.enabled=true
