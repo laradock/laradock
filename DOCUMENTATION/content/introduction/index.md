@@ -137,7 +137,7 @@ That's it! enjoy :)
 
 - **Mail Servers:**
     - Mailu 
-    - Mailcatcher
+    - MailCatcher
     - Mailhog 
     - MailDev
 
