@@ -18,7 +18,6 @@ declare -a arr=("apache2" "php-fpm" "workspace" \
 "kibana" "dejavu" \
 "memcached" "redis-webui" \
 "mongo-webui" \
-# cd /var/lib/mysql && rm ib_logfile0 ib_logfile1  \
 "mysql" "phpmyadmin" \
 "rabbitmq" \
 "sqs" \
