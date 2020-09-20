@@ -4,7 +4,7 @@
 - Databases
     - [MySQL](http://mariadb.org) [PhpMyAdmin](http://phpmyadmin.net) [🌐](http://localhost:8081)
     - [MariaDB](http://mariadb.org)
-    - [MongoDB](http://mongodb.com) [Nosqlclient](http://nosqlclient.com) [🌐](http://localhost:5300)
+    - [MongoDB](http://mongodb.com) [Nosqlclient](http://nosqlclient.com) 
 - Message brokers
     - Amazon [Simple Queue Service (SQS)](http://aws.amazon.com/sqs) [🌐](http://localhost:9325)
     - [RabbitMQ](http://rabbitmq.com) [🌐](http://localhost:15672)
