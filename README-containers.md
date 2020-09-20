@@ -1,18 +1,19 @@
 # Containers
 - Search
-    - [Kibana](http://elastic.co/kibana) [🌐](http://localhost:5601) [Elasticsearch](http://elastic.co) [Dejavu](http://opensource.appbase.io/dejavu) [🌐](http://localhost:1358)
+    - [Kibana](http://elastic.co/kibana)[🌐](http://localhost:5601) [Elasticsearch](http://elastic.co) [Dejavu](http://opensource.appbase.io/dejavu)[🌐](http://localhost:1358)
 - Cashing
     - [Memcached](http://memcached.org)
     - [Redis](http://redis.io) [phpRedisAdmin](github.com/erikdubbelboer/phpRedisAdmin)
 - Databases
-    - [PhpMyAdmin](http://phpmyadmin.net) [🌐](http://localhost:8081)
+    - [PhpMyAdmin](http://phpmyadmin.net)[🌐](http://localhost:8081)
         - [MariaDB](http://mariadb.org)
         - [MySQL](http://mysql.com)
+    - [PostgreSQL](http://postgresql.org) [pgAdmin](http://pgadmin.org)[🌐](http://localhost:5050)
     - [MongoDB](http://mongodb.com) [Nosqlclient](http://nosqlclient.com) 
 - Message brokers
-    - Amazon [Simple Queue Service (SQS)](http://aws.amazon.com/sqs) [🌐](http://localhost:9325)
-    - [RabbitMQ](http://rabbitmq.com) [🌐](http://localhost:15672)
+    - Amazon [Simple Queue Service (SQS)](http://aws.amazon.com/sqs)[🌐](http://localhost:9325)
+    - [RabbitMQ](http://rabbitmq.com)[🌐](http://localhost:15672)
 - mail
-    - [MailCatcher](http://mailcatcher.me) [🌐](http://localhost:1080)
+    - [MailCatcher](http://mailcatcher.me)[🌐](http://localhost:1080)
     - [MailHog](http://github.com/mailhog/MailHog)
-- [Docker](http://docker.com) [🌐](http://localhost:8754)
+- [Docker](http://docker.com)[🌐](http://localhost:8754)

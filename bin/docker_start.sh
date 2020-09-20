@@ -20,6 +20,8 @@ declare -a arr=("apache2" "php-fpm" "workspace" \
 # It looks like you are trying to access MongoDB over HTTP on the native driver port. \
 "mongo-webui" \
 "mysql" "phpmyadmin" \
+# PermissionError: [Errno 1] Operation not permitted: '/var/lib/pgadmin/sessions' \
+"postgres" "pgadmin" \
 "rabbitmq" \
 "sqs" \
 # docker \
