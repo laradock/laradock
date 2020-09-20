@@ -921,6 +921,16 @@ services:
       networks:
         - frontend
 
+### Mailcatcher ################################################
+    mailcatcher:
+      build: ./mailcatcher
+      ports:
+        - "1025:1025"
+        - "1080:1080"
+      networks:
+        - frontend
+        - backend
+
 ### Mailhog ################################################
     mailhog:
       build: ./mailhog
