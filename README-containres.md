@@ -1,6 +1,6 @@
 # Docker containers
 - Search
-    - [Kibana](http://elastic.co/kibana) [Elasticsearch](http://elastic.co)
+    - [Kibana](http://elastic.co/kibana) [🌐](http://localhost:5601) [Elasticsearch](http://elastic.co)
 - Cashing
     - [Redis](http://redis.io) [phpRedisAdmin](github.com/erikdubbelboer/phpRedisAdmin)
 - Databases
