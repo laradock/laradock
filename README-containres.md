@@ -1,0 +1,11 @@
+# Docker containers
+- Cashing
+    - [Redis](http://redis.io) [phpRedisAdmin](github.com/erikdubbelboer/phpRedisAdmin)
+- Databases
+    - [MySQL](http://mariadb.org) [PhpMyAdmin](http://phpmyadmin.net) [🌐](http://localhost:8081)
+    - [MariaDB](http://mariadb.org) [PhpMyAdmin](http://phpmyadmin.net)
+    - [MongoDB](http://mongodb.com) [Nosqlclient](http://nosqlclient.com) [🌐](http://localhost:5300)
+- Message brokers
+    - Amazon [Simple Queue Service (SQS)](http://aws.amazon.com/sqs) [🌐](http://localhost:9325)
+    - [RabbitMQ](http://rabbitmq.com) [🌐](http://localhost:15672)
+- [MailCatcher](http://mailcatcher.me) [🌐](http://localhost:1080)
