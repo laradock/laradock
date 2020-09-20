@@ -387,6 +387,10 @@ ELASTICSEARCH_HOST_TRANSPORT_PORT=9300
 
 KIBANA_HTTP_PORT=5601
 
+### DEJAVU ################################################
+
+DEJAVU_HTTP_PORT=1358
+
 ### MEMCACHED #############################################
 
 MEMCACHED_HOST_PORT=11211
