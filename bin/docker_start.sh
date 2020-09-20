@@ -7,11 +7,15 @@ sudo systemctl stop mongodb
 sudo usermod -a -G docker noud
 sudo systemctl restart docker
 
+# memmory for elasticsearch
+sudo sysctl -w vm.max_map_count=262144
+
 # export BUILD="--build"
 export BUILD=""
 
 declare -a arr=("apache2" "php-fpm" "workspace" \
 # infra \
+"kibana" "elasticsearch" \
 "redis" "redis-webui" \
 "mongo" "mongo-webui" \
 "mariadb" "mysql" "phpmyadmin" \
@@ -30,7 +34,5 @@ do
     docker-compose up ${BUILD} -d ${CONTAINER}
 done
 
-# memmory
-sudo sysctl -w vm.max_map_count=262144
-# elasticsearch
+# @todo
 # docker run -p 1358:1358 -d appbaseio/dejavu
