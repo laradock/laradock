@@ -398,6 +398,10 @@ KIBANA_HTTP_PORT=5601
 
 DEJAVU_HTTP_PORT=1358
 
+### MANIFOLDCF ############################################
+
+MANIFOLDCF_HTTP_PORT=8345
+
 ### MEMCACHED #############################################
 
 MEMCACHED_HOST_PORT=11211
