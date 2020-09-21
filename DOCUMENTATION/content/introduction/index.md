@@ -134,6 +134,7 @@ That's it! enjoy :)
     - PHP Worker
     - Laravel Horizon
     - Gearman
+    - Amazon Simple Queue Service
 
 - **Mail Servers:**
     - Mailu 

@@ -365,6 +365,11 @@ POSTGRES_PASSWORD=secret
 POSTGRES_PORT=5432
 POSTGRES_ENTRYPOINT_INITDB=./postgres/docker-entrypoint-initdb.d
 
+### SQS ##############################################
+
+SQS_NODE_HOST_PORT=9324
+SQS_MANAGEMENT_HTTP_HOST_PORT=9325
+
 ### RABBITMQ ##############################################
 
 RABBITMQ_NODE_HOST_PORT=5672

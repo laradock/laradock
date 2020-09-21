@@ -663,6 +663,20 @@ services:
       networks:
         - backend
 
+### SQS #############################################
+    sqs:
+      build: ./sqs
+      ports:
+        - "${SQS_NODE_HOST_PORT}:9324"
+        - "${SQS_MANAGEMENT_HTTP_HOST_PORT}:9325"
+      privileged: true
+      hostname: laradock-sqs
+      volumes:
+        - ${DATA_PATH_HOST}/sqs:/opt/custom
+      networks:
+        - frontend
+        - backend
+
 ### RabbitMQ #############################################
     rabbitmq:
       build: ./rabbitmq
