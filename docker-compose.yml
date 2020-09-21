@@ -925,6 +925,16 @@ services:
         - frontend
         - backend
 
+### ManifoldCF ##############################################
+    manifoldcf:
+      build:
+        context: ./manifoldcf
+      ports:
+        - "${MANIFOLDCF_HTTP_PORT}:8345"
+      networks:
+        - frontend
+        - backend
+
 ### Certbot #########################################
     certbot:
       build:
