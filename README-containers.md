@@ -1,6 +1,6 @@
 # Service containers
 - Search
-    - [Kibana](http://elastic.co/kibana)[🌐](http://localhost:5601) [Elasticsearch](http://elastic.co) [Dejavu](http://opensource.appbase.io/dejavu)[🌐](http://localhost:1358)
+    - [Kibana](http://elastic.co/kibana)[🌐](http://localhost:5601) [🔍Elasticsearch](http://elastic.co) [Dejavu](http://opensource.appbase.io/dejavu)[🌐](http://localhost:1358)
 - Cashing
     - [Memcached](http://memcached.org)
     - [Redis](http://redis.io) [phpRedisAdmin](github.com/erikdubbelboer/phpRedisAdmin)
@@ -14,8 +14,8 @@
 - Message brokers
     - [SQS](http://aws.amazon.com/sqs)[🌐](http://localhost:9325)
     - [RabbitMQ](http://rabbitmq.com)[🌐](http://localhost:15672)
-- mail
+- 📧mail
     - [MailCatcher](http://mailcatcher.me)[🌐](http://localhost:1080)
     - [MailHog](http://github.com/mailhog/MailHog)
-- [Docker](http://docker.com)[🌐](http://localhost:8754)
+- [🐳Docker](http://docker.com)[🌐](http://localhost:8754)
 # [👨‍💻noud](http://github.com/noud)
