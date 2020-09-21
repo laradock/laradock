@@ -5,10 +5,11 @@
     - [Memcached](http://memcached.org)
     - [Redis](http://redis.io) [phpRedisAdmin](github.com/erikdubbelboer/phpRedisAdmin)
 - Databases
-    - [PhpMyAdmin](http://phpmyadmin.net)[🌐](http://localhost:8081)
-        - [MariaDB](http://mariadb.org)
-        - [MySQL](http://mysql.com)
-    - [PostgreSQL](http://postgresql.org) [pgAdmin](http://pgadmin.org)[🌐](http://localhost:5050)
+    - [SQL](http://en.wikipedia.org/wiki/SQL)
+        - [PhpMyAdmin](http://phpmyadmin.net)[🌐](http://localhost:8081)
+            - [MariaDB](http://mariadb.org)
+            - [MySQL](http://mysql.com)
+        - [PostgreSQL](http://postgresql.org) [pgAdmin](http://pgadmin.org)[🌐](http://localhost:5050)
     - [MongoDB](http://mongodb.com) [Nosqlclient](http://nosqlclient.com) 
 - Message brokers
     - [Simple Queue Service (SQS)](http://aws.amazon.com/sqs)[🌐](http://localhost:9325)
