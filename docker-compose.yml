@@ -63,6 +63,8 @@ services:
         args:
           - CHANGE_SOURCE=${CHANGE_SOURCE}
           - SHELL_OH_MY_ZSH=${SHELL_OH_MY_ZSH}
+          - SHELL_OH_MY_ZSH_AUTOSUGESTIONS=${SHELL_OH_MY_ZSH_AUTOSUGESTIONS}
+          - SHELL_OH_MY_ZSH_ALIASES=${SHELL_OH_MY_ZSH_ALIASES}
           - UBUNTU_SOURCE=${UBUNTU_SOURCE}
           - BASE_IMAGE_TAG_PREFIX=${WORKSPACE_BASE_IMAGE_TAG_PREFIX}
           - LARADOCK_PHP_VERSION=${PHP_VERSION}
@@ -248,6 +250,7 @@ services:
           - INSTALL_WKHTMLTOPDF=${PHP_FPM_INSTALL_WKHTMLTOPDF}
           - INSTALL_XHPROF=${PHP_FPM_INSTALL_XHPROF}
           - INSTALL_XMLRPC=${PHP_FPM_INSTALL_XMLRPC}
+          - DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL=${PHP_DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL}
           - PUID=${PHP_FPM_PUID}
           - PGID=${PHP_FPM_PGID}
           - LOCALE=${PHP_FPM_DEFAULT_LOCALE}
@@ -979,7 +982,7 @@ services:
       networks:
         - frontend
 
-### Mailcatcher ################################################
+### MailCatcher ################################################
     mailcatcher:
       build: ./mailcatcher
       ports:

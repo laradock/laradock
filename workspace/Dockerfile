@@ -1442,6 +1442,9 @@ RUN if [ ${SHELL_OH_MY_ZSH} = true ]; then \
     apt install -y zsh \
 ;fi
 
+ARG SHELL_OH_MY_ZSH_AUTOSUGESTIONS=false
+ARG SHELL_OH_MY_ZSH_ALIASES=false
+
 USER laradock
 RUN if [ ${SHELL_OH_MY_ZSH} = true ]; then \
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --keep-zshrc" && \
@@ -1457,7 +1460,21 @@ bindkey "^[[3~" delete-char\n\
 bindkey "^[[4~" end-of-line\n\
 bindkey "^[[5~" up-line-or-history\n\
 bindkey "^[[6~" down-line-or-history\n\
-bindkey "^?" backward-delete-char\n' >> /home/laradock/.zshrc \
+bindkey "^?" backward-delete-char\n' >> /home/laradock/.zshrc && \
+  if [ ${SHELL_OH_MY_ZSH_AUTOSUGESTIONS} = true ]; then \
+    sh -c "git clone https://github.com/zsh-users/zsh-autosuggestions /home/laradock/.oh-my-zsh/custom/plugins/zsh-autosuggestions" && \
+    sed -i 's~plugins=(~plugins=(zsh-autosuggestions ~g' /home/laradock/.zshrc && \
+    sed -i '1iZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20' /home/laradock/.zshrc && \
+    sed -i '1iZSH_AUTOSUGGEST_STRATEGY=(history completion)' /home/laradock/.zshrc && \
+    sed -i '1iZSH_AUTOSUGGEST_USE_ASYNC=1' /home/laradock/.zshrc && \
+    sed -i '1iTERM=xterm-256color' /home/laradock/.zshrc \
+  ;fi && \
+  if [ ${SHELL_OH_MY_ZSH_ALIASES} = true ]; then \
+    echo "" >> /home/laradock/.zshrc && \
+    echo "# Load Custom Aliases" >> /home/laradock/.zshrc && \
+    echo "source /home/laradock/aliases.sh" >> /home/laradock/.zshrc && \
+    echo "" >> /home/laradock/.zshrc \
+  ;fi \
 ;fi
 
 USER root
