@@ -15,7 +15,7 @@ export BUILD=""
 
 declare -a arr=("apache2" "php-fpm" "workspace" \
 # infra \
-"kibana" "dejavu" \
+"kibana" "dejavu" "manifoldcf" \
 "memcached" "redis-webui" \
 # It looks like you are trying to access MongoDB over HTTP on the native driver port. \
 "mongo-webui" \
