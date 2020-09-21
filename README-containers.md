@@ -11,7 +11,7 @@
     - [PostgreSQL](http://postgresql.org) [pgAdmin](http://pgadmin.org)[🌐](http://localhost:5050)
     - [MongoDB](http://mongodb.com) [Nosqlclient](http://nosqlclient.com) 
 - Message brokers
-    - Amazon [Simple Queue Service (SQS)](http://aws.amazon.com/sqs)[🌐](http://localhost:9325)
+    - [Simple Queue Service (SQS)](http://aws.amazon.com/sqs)[🌐](http://localhost:9325)
     - [RabbitMQ](http://rabbitmq.com)[🌐](http://localhost:15672)
 - mail
     - [MailCatcher](http://mailcatcher.me)[🌐](http://localhost:1080)
