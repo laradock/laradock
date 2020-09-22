@@ -317,7 +317,29 @@ services:
         - "dockerhost:${DOCKER_HOST_IP}"
       networks:
         - backend
-### Laravel Horizon ############################################
+
+
+### NODEJS ##############################################
+    nodejs:
+      build:
+        context: ./nodejs
+        args:
+          - LARADOCK_NODE_VERSION=${NODE_VERSION}
+      volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+      expose:
+        - "3000-3010"
+      extra_hosts:
+        - "dockerhost:${DOCKER_HOST_IP}"
+      environment:
+        - TZ=${NODE_TZ}
+      depends_on:
+        - workspace
+      networks:
+        - frontend
+        - backend
+
+
     laravel-horizon:
       build:
         context: ./laravel-horizon

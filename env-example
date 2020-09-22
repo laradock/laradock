@@ -61,6 +61,10 @@ DOCKER_HOST_IP=10.0.75.1
 # Choose a Remote Interpreter entry matching name. Default is `laradock`
 PHP_IDE_CONFIG=serverName=laradock
 
+### NodeJS VERSION #########################################
+
+NODE_VERSION=10
+
 ### Windows Path ##########################################
 
 # A fix for Windows users, to ensure the application path works
@@ -273,6 +277,12 @@ PHP_WORKER_INSTALL_XMLRPC=false
 
 PHP_WORKER_PUID=1000
 PHP_WORKER_PGID=1000
+
+### NODEJS ###############################################
+
+# visit https://www.iana.org/time-zones
+
+NODE_TZ=UTC    
 
 ### NGINX #################################################
 
