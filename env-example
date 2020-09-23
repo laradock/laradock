@@ -61,6 +61,10 @@ DOCKER_HOST_IP=10.0.75.1
 # Choose a Remote Interpreter entry matching name. Default is `laradock`
 PHP_IDE_CONFIG=serverName=laradock
 
+### PHP DOWNGRADEOPENSSL TLS AND SECLEVEL #################
+
+PHP_DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL=false
+
 ### Windows Path ##########################################
 
 # A fix for Windows users, to ensure the application path works
