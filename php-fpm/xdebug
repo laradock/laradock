@@ -36,7 +36,7 @@ xdebug_start ()
 
     # And uncomment line with xdebug extension, thus enabling it
     ON_CMD="sed -i 's/^;zend_extension=/zend_extension=/g' \
-                    /usr/local/etc/php/conf.d/xdebug.ini"
+                    /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini"
 
 
     # If running on Windows, need to prepend with winpty :(
@@ -58,7 +58,7 @@ xdebug_stop ()
     echo 'Stop xDebug'
 
     # Comment out xdebug extension line
-    OFF_CMD="sed -i 's/^zend_extension=/;zend_extension=/g' /usr/local/etc/php/conf.d/xdebug.ini"
+    OFF_CMD="sed -i 's/^zend_extension=/;zend_extension=/g' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini"
 
 
     # If running on Windows, need to prepend with winpty :(
