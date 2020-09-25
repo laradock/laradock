@@ -1,8 +1,23 @@
 version: '3'
-  
+
 services:
 
 ### MySQL ################################################
     mysql:
       ports:
         - "${MYSQL_PORT}:3306"
+
+    nginx:
+      networks:
+        frontend:
+          aliases:
+            - onbrand-brandhub.test
+            - onbrand-enterprise.test
+            - media.onbrand.test
+            - social-accounts.onbrand.test
+        backend:
+          aliases:
+            - onbrand-brandhub.test
+            - onbrand-enterprise.test
+            - media.onbrand.test
+            - social-accounts.onbrand.test
