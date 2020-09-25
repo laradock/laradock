@@ -3,7 +3,7 @@
 ### How to start
 
 * Clone the social-accounts and media projects in the same path of the laradock
-* Create the .env from the env_default
+* Create the .env from one of the env-example files. Choose the environment.
 * You should change the database default user and root user passwords in the .env file
 * ONLY IN LOCAL or STAGING: To recreate the database and users remove the folder ~/.laradock/data/mysql rebuild and restart the mysql.
 
