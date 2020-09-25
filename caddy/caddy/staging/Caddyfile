@@ -36,3 +36,34 @@ media-staging.onbrand.services {
         allowed_headers   X-Custom-Header,X-Foobar,X-Auth-Endpoint,Authorization
     }
 }
+
+social-staging.onbrand.services {
+    root /var/www/social-accounts/public
+
+    fastcgi / php-fpm:9000 php {
+        index index.php
+    }
+
+    # To handle .html extensions with laravel change ext to
+    # ext / .html
+
+    rewrite {
+        to {path} {path}/ /index.php?{query}
+    }
+
+    gzip
+    browse
+    log /var/log/caddy/staging/social-accounts-access.log
+    errors /var/log/caddy/staging/social-accounts-error.log
+
+    # Uncomment to enable TLS (HTTPS)
+    # Change the first list to listen on port 443 when enabling TLS
+    # tls self_signed
+    tls support@onbrandhq.com
+
+    # To use Lets encrpt tls with a DNS provider uncomment these
+    # lines and change the provider as required
+    # tls {
+    #   dns cloudflare
+    # }
+}
