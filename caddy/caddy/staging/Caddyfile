@@ -14,13 +14,13 @@ media-staging.onbrand.services {
 
     gzip
     browse
-    log /var/log/caddy/staging/media_access.log
-    errors /var/log/caddy/staging/media_error.log
+    log /var/log/caddy/staging-media_access.log
+    errors /var/log/caddy/staging-media_error.log
 
     # Uncomment to enable TLS (HTTPS)
     # Change the first list to listen on port 443 when enabling TLS
     # tls self_signed
-    support@onbrandhq.com
+    tls support@onbrandhq.com
 
     # To use Lets encrpt tls with a DNS provider uncomment these
     # lines and change the provider as required
@@ -53,8 +53,8 @@ social-staging.onbrand.services {
 
     gzip
     browse
-    log /var/log/caddy/staging/social-accounts-access.log
-    errors /var/log/caddy/staging/social-accounts-error.log
+    log /var/log/caddy/staging-social-accounts-access.log
+    errors /var/log/caddy/staging-social-accounts-error.log
 
     # Uncomment to enable TLS (HTTPS)
     # Change the first list to listen on port 443 when enabling TLS

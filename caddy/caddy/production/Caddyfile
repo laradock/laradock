@@ -1,4 +1,4 @@
-media-staging.onbrand.services {
+media-production.onbrand.services {
     root /var/www/media/public
 
     fastcgi / php-fpm:9000 php {
@@ -14,13 +14,13 @@ media-staging.onbrand.services {
 
     gzip
     browse
-    log /var/log/caddy/staging/media_access.log
-    errors /var/log/caddy/staging/media_error.log
+    log /var/log/caddy/production-media_access.log
+    errors /var/log/caddy/production-media_error.log
 
     # Uncomment to enable TLS (HTTPS)
     # Change the first list to listen on port 443 when enabling TLS
     # tls self_signed
-    support@onbrandhq.com
+    tls support@onbrandhq.com
 
     # To use Lets encrpt tls with a DNS provider uncomment these
     # lines and change the provider as required
@@ -35,4 +35,35 @@ media-staging.onbrand.services {
         max_age           3600
         allowed_headers   X-Custom-Header,X-Foobar,X-Auth-Endpoint,Authorization
     }
+}
+
+social-production.onbrand.services {
+    root /var/www/social-accounts/public
+
+    fastcgi / php-fpm:9000 php {
+        index index.php
+    }
+
+    # To handle .html extensions with laravel change ext to
+    # ext / .html
+
+    rewrite {
+        to {path} {path}/ /index.php?{query}
+    }
+
+    gzip
+    browse
+    log /var/log/caddy/production-social-accounts-access.log
+    errors /var/log/caddy/production-social-accounts-error.log
+
+    # Uncomment to enable TLS (HTTPS)
+    # Change the first list to listen on port 443 when enabling TLS
+    # tls self_signed
+    tls support@onbrandhq.com
+
+    # To use Lets encrpt tls with a DNS provider uncomment these
+    # lines and change the provider as required
+    # tls {
+    #   dns cloudflare
+    # }
 }
