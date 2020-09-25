@@ -813,6 +813,8 @@ services:
         context: ./adminer
         args:
           - INSTALL_MSSQL=${ADM_INSTALL_MSSQL}
+      environment:
+          - ADMINER_DESIGN=${ADM_DESIGN}
       ports:
         - "${ADM_PORT}:8080"
       depends_on:

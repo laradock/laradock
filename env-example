@@ -428,6 +428,7 @@ MINIO_PORT=9000
 
 ADM_PORT=8081
 ADM_INSTALL_MSSQL=false
+ADM_DESIGN=pepa-linha
 
 ### PHP MY ADMIN ##########################################
 
