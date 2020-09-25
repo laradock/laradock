@@ -1,0 +1,38 @@
+media-staging.onbrand.services {
+    root /var/www/media/public
+
+    fastcgi / php-fpm:9000 php {
+        index index.php
+    }
+
+    # To handle .html extensions with laravel change ext to
+    # ext / .html
+
+    rewrite {
+        to {path} {path}/ /index.php?{query}
+    }
+
+    gzip
+    browse
+    log /var/log/caddy/staging/media_access.log
+    errors /var/log/caddy/staging/media_error.log
+
+    # Uncomment to enable TLS (HTTPS)
+    # Change the first list to listen on port 443 when enabling TLS
+    # tls self_signed
+    support@onbrandhq.com
+
+    # To use Lets encrpt tls with a DNS provider uncomment these
+    # lines and change the provider as required
+    # tls {
+    #   dns cloudflare
+    # }
+
+    cors /storage/ {
+        origin            *
+        methods           GET,POST,PUT
+        allow_credentials false
+        max_age           3600
+        allowed_headers   X-Custom-Header,X-Foobar,X-Auth-Endpoint,Authorization
+    }
+}
