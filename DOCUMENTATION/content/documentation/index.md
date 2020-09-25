@@ -874,14 +874,14 @@ run from any cli: <br>`curl -X PURGE https://yourwebsite.com/`.
 2. How to reload varnish?<br>
 `docker container exec proxy varnishreload`
 3. Which varnish commands are allowed?
-    - varnishadm     
-    - varnishd      
-    - varnishhist    
-    - varnishlog     
-    - varnishncsa    
-    - varnishreload  
-    - varnishstat    
-    - varnishtest    
+    - varnishadm
+    - varnishd
+    - varnishhist
+    - varnishlog
+    - varnishncsa
+    - varnishreload
+    - varnishstat
+    - varnishtest
     - varnishtop
 4. How to reload Nginx?<br>
 `docker exec Nginx nginx -t`<br>
@@ -1085,7 +1085,6 @@ docker-compose up -d adminer
 
 - You can specify the default host with the `ADM_DEFAULT_SERVER` variable in the `.env` file. This is useful if you are connecting to an external server or a docker container named something other than the default `mysql`.
 
-**Note:** We've locked Adminer to version 4.3.0 as at the time of writing [it contained a major bug](https://sourceforge.net/p/adminer/bugs-and-features/548/) preventing PostgreSQL users from logging in. If that bug is fixed (or if you're not using PostgreSQL) feel free to set Adminer to the latest version within [the Dockerfile](https://github.com/laradock/laradock/blob/master/adminer/Dockerfile#L1): `FROM adminer:latest`
 
 
 
@@ -1220,7 +1219,7 @@ docker-compose up -d elasticsearch
 ```bash
 docker-compose exec elasticsearch /usr/share/elasticsearch/bin/plugin install {plugin-name}
 ```
-For ElasticSearch 5.0 and above, the previous "plugin" command has been renamed to "elasticsearch-plguin". 
+For ElasticSearch 5.0 and above, the previous "plugin" command has been renamed to "elasticsearch-plguin".
 Use the following instead:
 
 ```bash
