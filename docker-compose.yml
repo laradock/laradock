@@ -814,7 +814,9 @@ services:
         args:
           - INSTALL_MSSQL=${ADM_INSTALL_MSSQL}
       environment:
+          - ADMINER_PLUGINS=${ADM_PLUGINS}
           - ADMINER_DESIGN=${ADM_DESIGN}
+          - ADMINER_DEFAULT_SERVER=${ADM_DEFAULT_SERVER}
       ports:
         - "${ADM_PORT}:8080"
       depends_on:
