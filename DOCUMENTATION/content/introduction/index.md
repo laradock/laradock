@@ -21,7 +21,7 @@ It supports a variety of common services, all pre-configured to provide a ready 
 - Choose your favorite database engine: MySQL, Postgres, MariaDB...
 - Run your own stack: Memcached, HHVM, RabbitMQ...
 - Each software runs on its own container: PHP-FPM, NGINX, PHP-CLI...
-- Easy to customize any container, with simple edit to the `Dockerfile`.
+- Easy to customize any container, with simple edits to the `Dockerfile`.
 - All Images extends from an official base Image. (Trusted base Images).
 - Pre-configured NGINX to host any code at your root directory.
 - Can use Laradock per project, or single Laradock for all projects.
@@ -82,7 +82,7 @@ That's it! enjoy :)
 > You can turn On/Off as many instances as you want without worrying about the configurations.
 
 > To run a chosen container from the list below, run `docker-compose up -d {container-name}`. 
-> The container name `{container-name}` is the same as its folder name. Example to run the "PHP FPM" container use the name "php-fpm".
+> The container name `{container-name}` is the same as its folder name. Example to run the "PHP FPM" container, use the name "php-fpm".
 
 - **Web Servers:**
     - NGINX 
@@ -134,9 +134,11 @@ That's it! enjoy :)
     - PHP Worker
     - Laravel Horizon
     - Gearman
+    - Amazon Simple Queue Service
 
 - **Mail Servers:**
     - Mailu 
+    - MailCatcher
     - Mailhog 
     - MailDev
 
@@ -180,6 +182,7 @@ That's it! enjoy :)
          - `Wordpress CLI`
     - Apache ZooKeeper *(Centralized service for distributed systems to a hierarchical key-value store)*
     - Kibana *(Visualize your Elasticsearch data and navigate the Elastic Stack)*
+    - Dejavu *(Edit your Elasticsearch data)*
     - LogStash *(Server-side data processing pipeline that ingests data from a multitude of sources simultaneously)*
     - Jenkins *(automation server, that provides plugins to support building, deploying and automating any project)*
     - Certbot *(Automatically enable HTTPS on your website)*

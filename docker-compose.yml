@@ -37,6 +37,8 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   caddy:
     driver: ${VOLUMES_DRIVER}
+  meilisearch:
+    driver: ${VOLUMES_DRIVER}
   elasticsearch:
     driver: ${VOLUMES_DRIVER}
   mosquitto:
@@ -61,6 +63,8 @@ services:
         args:
           - CHANGE_SOURCE=${CHANGE_SOURCE}
           - SHELL_OH_MY_ZSH=${SHELL_OH_MY_ZSH}
+          - SHELL_OH_MY_ZSH_AUTOSUGESTIONS=${SHELL_OH_MY_ZSH_AUTOSUGESTIONS}
+          - SHELL_OH_MY_ZSH_ALIASES=${SHELL_OH_MY_ZSH_ALIASES}
           - UBUNTU_SOURCE=${UBUNTU_SOURCE}
           - BASE_IMAGE_TAG_PREFIX=${WORKSPACE_BASE_IMAGE_TAG_PREFIX}
           - LARADOCK_PHP_VERSION=${PHP_VERSION}
@@ -111,6 +115,7 @@ services:
           - INSTALL_MC=${WORKSPACE_INSTALL_MC}
           - INSTALL_SYMFONY=${WORKSPACE_INSTALL_SYMFONY}
           - INSTALL_PYTHON=${WORKSPACE_INSTALL_PYTHON}
+          - INSTALL_PYTHON3=${WORKSPACE_INSTALL_PYTHON3}
           - INSTALL_IMAGE_OPTIMIZERS=${WORKSPACE_INSTALL_IMAGE_OPTIMIZERS}
           - INSTALL_IMAGEMAGICK=${WORKSPACE_INSTALL_IMAGEMAGICK}
           - INSTALL_TERRAFORM=${WORKSPACE_INSTALL_TERRAFORM}
@@ -129,6 +134,7 @@ services:
           - INSTALL_FSWATCH=${WORKSPACE_INSTALL_FSWATCH}
           - INSTALL_AST=${WORKSPACE_INSTALL_AST}
           - INSTALL_YAML=${WORKSPACE_INSTALL_YAML}
+          - INSTALL_RDKAFKA=${WORKSPACE_INSTALL_RDKAFKA}
           - INSTALL_MAILPARSE=${WORKSPACE_INSTALL_MAILPARSE}
           - INSTALL_GIT_PROMPT=${WORKSPACE_INSTALL_GIT_PROMPT}
           - INSTALL_XMLRPC=${WORKSPACE_INSTALL_XMLRPC}
@@ -147,6 +153,9 @@ services:
           - INSTALL_FFMPEG=${WORKSPACE_INSTALL_FFMPEG}
           - INSTALL_WKHTMLTOPDF=${WORKSPACE_INSTALL_WKHTMLTOPDF}
           - INSTALL_GNU_PARALLEL=${WORKSPACE_INSTALL_GNU_PARALLEL}
+          - INSTALL_LNAV=${WORKSPACE_INSTALL_LNAV}
+          - INSTALL_PROTOC=${WORKSPACE_INSTALL_PROTOC}
+          - PROTOC_VERSION=${WORKSPACE_PROTOC_VERSION}
           - http_proxy
           - https_proxy
           - no_proxy
@@ -239,6 +248,7 @@ services:
           - INSTALL_WKHTMLTOPDF=${PHP_FPM_INSTALL_WKHTMLTOPDF}
           - INSTALL_XHPROF=${PHP_FPM_INSTALL_XHPROF}
           - INSTALL_XMLRPC=${PHP_FPM_INSTALL_XMLRPC}
+          - DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL=${PHP_DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL}
           - PUID=${PHP_FPM_PUID}
           - PGID=${PHP_FPM_PGID}
           - LOCALE=${PHP_FPM_DEFAULT_LOCALE}
@@ -386,6 +396,7 @@ services:
           - PHP_UPSTREAM_PORT=${APACHE_PHP_UPSTREAM_PORT}
           - PHP_UPSTREAM_TIMEOUT=${APACHE_PHP_UPSTREAM_TIMEOUT}
           - DOCUMENT_ROOT=${APACHE_DOCUMENT_ROOT}
+          - APACHE_INSTALL_HTTP2=${APACHE_INSTALL_HTTP2}
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         - ${APACHE_HOST_LOG_PATH}:/var/log/apache2
@@ -655,6 +666,20 @@ services:
       networks:
         - backend
 
+### SQS #############################################
+    sqs:
+      build: ./sqs
+      ports:
+        - "${SQS_NODE_HOST_PORT}:9324"
+        - "${SQS_MANAGEMENT_HTTP_HOST_PORT}:9325"
+      privileged: true
+      hostname: laradock-sqs
+      volumes:
+        - ${DATA_PATH_HOST}/sqs:/opt/custom
+      networks:
+        - frontend
+        - backend
+
 ### RabbitMQ #############################################
     rabbitmq:
       build: ./rabbitmq
@@ -812,6 +837,17 @@ services:
         - frontend
         - backend
 
+### MeiliSearch ##########################################
+    meilisearch:
+      image: getmeili/meilisearch:latest
+      volumes: 
+        - ${DATA_PATH_HOST}/meilisearch:/var/lib/meilisearch
+      ports: 
+        - "${MEILISEARCH_HOST_PORT}:7700"
+      networks: 
+        - frontend
+        - backend
+
 ### ElasticSearch ########################################
     elasticsearch:
       build:
@@ -877,6 +913,18 @@ services:
         - frontend
         - backend
 
+### Dejavu ##############################################
+    dejavu:
+      build:
+        context: ./dejavu
+      ports:
+        - "${DEJAVU_HTTP_PORT}:1358"
+      depends_on:
+        - elasticsearch
+      networks:
+        - frontend
+        - backend
+
 ### Certbot #########################################
     certbot:
       build:
@@ -889,6 +937,16 @@ services:
         - EMAIL="fake.email@gmail.com"
       networks:
         - frontend
+
+### MailCatcher ################################################
+    mailcatcher:
+      build: ./mailcatcher
+      ports:
+        - "1025:1025"
+        - "1080:1080"
+      networks:
+        - frontend
+        - backend
 
 ### Mailhog ################################################
     mailhog:
@@ -1001,38 +1059,40 @@ services:
 
 ### Graylog #######################################
     graylog:
-        build: ./graylog
-        environment:
-          - GRAYLOG_PASSWORD_SECRET=${GRAYLOG_PASSWORD}
-          - GRAYLOG_ROOT_PASSWORD_SHA2=${GRAYLOG_SHA256_PASSWORD}
-          - GRAYLOG_HTTP_EXTERNAL_URI=http://127.0.0.1:${GRAYLOG_PORT}/
-        links:
-          - mongo
-          - elasticsearch
-        depends_on:
-          - mongo
-          - elasticsearch
-        ports:
-          # Graylog web interface and REST API
-          - ${GRAYLOG_PORT}:9000
-          # Syslog TCP
-          - ${GRAYLOG_SYSLOG_TCP_PORT}:514
-          # Syslog UDP
-          - ${GRAYLOG_SYSLOG_UDP_PORT}:514/udp
-          # GELF TCP
-          - ${GRAYLOG_GELF_TCP_PORT}:12201
-          # GELF UDP
-          - ${GRAYLOG_GELF_UDP_PORT}:12201/udp
-        user: graylog
-        volumes:
-          - ${DATA_PATH_HOST}/graylog:/usr/share/graylog/data
-        networks:
-          - backend
+      build: ./graylog
+      environment:
+        - GRAYLOG_PASSWORD_SECRET=${GRAYLOG_PASSWORD}
+        - GRAYLOG_ROOT_PASSWORD_SHA2=${GRAYLOG_SHA256_PASSWORD}
+        - GRAYLOG_HTTP_EXTERNAL_URI=http://127.0.0.1:${GRAYLOG_PORT}/
+      links:
+        - mongo
+        - elasticsearch
+      depends_on:
+        - mongo
+        - elasticsearch
+      ports:
+        # Graylog web interface and REST API
+        - ${GRAYLOG_PORT}:9000
+        # Syslog TCP
+        - ${GRAYLOG_SYSLOG_TCP_PORT}:514
+        # Syslog UDP
+        - ${GRAYLOG_SYSLOG_UDP_PORT}:514/udp
+        # GELF TCP
+        - ${GRAYLOG_GELF_TCP_PORT}:12201
+        # GELF UDP
+        - ${GRAYLOG_GELF_UDP_PORT}:12201/udp
+      user: graylog
+      volumes:
+        - ${DATA_PATH_HOST}/graylog:/usr/share/graylog/data
+      networks:
+        - backend
 
 ### Laravel Echo Server #######################################
     laravel-echo-server:
       build:
         context: ./laravel-echo-server
+        args:
+          - CHANGE_SOURCE=${CHANGE_SOURCE}
       volumes:
         - ./laravel-echo-server/laravel-echo-server.json:/app/laravel-echo-server.json:ro
       ports:
