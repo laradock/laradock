@@ -42,11 +42,12 @@ RUN if [ ${APACHE_INSTALL_HTTP2} = true ]; then \
 # RUN openssl genrsa -out "/etc/apache2/ssl/personalprotein.key" 2048 \
 #     && openssl req -new -key "/etc/apache2/ssl/personalprotein.key" -out "/etc/apache2/ssl/personalprotein.csr" -subj "/CN=personalprotein.localhost/O=PersonalProtein/C=NL" \
 #     && openssl x509 -req -days 365 -in "/etc/apache2/ssl/personalprotein.csr" -signkey "/etc/apache2/ssl/personalprotein.key" -out "/etc/apache2/ssl/personalprotein.crt"
+RUN openssl rand -out /root/.rnd -hex -hex 256
 RUN openssl genrsa -out "/etc/apache2/ssl/crawler.key" 2048 \
-    && openssl req -new -key "/etc/apache2/ssl/crawler.key" -out "/etc/apache2/ssl/crawler.csr" -subj "/CN=crawler.localhost/O=crawler/C=localhost" \
+    && openssl req -new -key "/etc/apache2/ssl/crawler.key" -out "/etc/apache2/ssl/crawler.csr" -subj "/CN=crawler.localhost/O=Crawler/C=NL" \
     && openssl x509 -req -days 365 -in "/etc/apache2/ssl/crawler.csr" -signkey "/etc/apache2/ssl/crawler.key" -out "/etc/apache2/ssl/crawler.crt"
 RUN openssl genrsa -out "/etc/apache2/ssl/databrydge.key" 2048 \
-    && openssl req -new -key "/etc/apache2/ssl/databrydge.key" -out "/etc/apache2/ssl/databrydge.csr" -subj "/CN=databrydge.localhost/O=databrydge/C=com" \
+    && openssl req -new -key "/etc/apache2/ssl/databrydge.key" -out "/etc/apache2/ssl/databrydge.csr" -subj "/CN=databrydge.localhost/O=Databrydge/C=NL" \
     && openssl x509 -req -days 365 -in "/etc/apache2/ssl/databrydge.csr" -signkey "/etc/apache2/ssl/databrydge.key" -out "/etc/apache2/ssl/databrydge.crt"
 RUN a2enmod rewrite && a2enmod headers && a2enmod proxy proxy_html proxy_http xml2enc
 RUN a2enmod ssl
