@@ -17,9 +17,9 @@
 #
 
 CREATE DATABASE IF NOT EXISTS `qsystem_db` COLLATE 'utf8_general_ci' ;
-GRANT ALL ON `qsystem_db`.* TO 'default'@'%' ;
+GRANT ALL ON `qsystem_db`.* TO 'qsystemuser'@'%' ;
 
 CREATE DATABASE IF NOT EXISTS `qsystem_test` COLLATE 'utf8_general_ci' ;
-GRANT ALL ON `qsystem_test`.* TO 'default'@'%' ;
+GRANT ALL ON `qsystem_test`.* TO 'qsystemuser'@'%' ;
 
 FLUSH PRIVILEGES ;
