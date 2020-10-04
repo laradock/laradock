@@ -318,7 +318,7 @@ APACHE_INSTALL_HTTP2=false
 ### MYSQL #################################################
 
 MYSQL_VERSION=latest
-MYSQL_DATABASE=qsystem_api
+MYSQL_DATABASE=qsystem_db
 MYSQL_USER=qsystemuser
 MYSQL_PASSWORD=qsystemsecret
 MYSQL_PORT=3306
