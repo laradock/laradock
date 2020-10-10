@@ -168,6 +168,33 @@ RUN if [ ${INSTALL_FFMPEG} = true ]; then \
     apk --update add ffmpeg \
 ;fi
 
+# Install BBC Audio Waveform Image Generator:
+ARG INSTALL_AUDIOWAVEFORM=false
+RUN if [ ${INSTALL_AUDIOWAVEFORM} = true ]; then \
+   apk add git make cmake gcc g++ libmad-dev libid3tag-dev libsndfile-dev gd-dev boost-dev libgd libpng-dev zlib-dev \
+   && apk add autoconf automake libtool gettext \
+   && wget https://github.com/xiph/flac/archive/1.3.3.tar.gz \
+   && tar xzf 1.3.3.tar.gz \
+   && cd flac-1.3.3 \
+   && ./autogen.sh \
+   && ./configure --enable-shared=no \
+   && make \
+   && make install \
+   && cd .. \
+   && git clone https://github.com/bbc/audiowaveform.git \
+   && cd audiowaveform \
+   && wget https://github.com/google/googletest/archive/release-1.10.0.tar.gz \
+   && tar xzf release-1.10.0.tar.gz \
+   && ln -s googletest-release-1.10.0/googletest googletest \
+   && ln -s googletest-release-1.10.0/googlemock googlemock \
+   && mkdir build \
+   && cd build \
+   && cmake .. \
+   && make \
+   && make install \
+;fi
+
+
 # Install AMQP:
 ARG INSTALL_AMQP=false
 
