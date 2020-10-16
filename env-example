@@ -76,6 +76,8 @@ COMPOSE_CONVERT_WINDOWS_PATHS=1
 CHANGE_SOURCE=false
 # Set CHANGE_SOURCE and UBUNTU_SOURCE option if you want to change the Ubuntu system sources.list file.
 UBUNTU_SOURCE=aliyun
+# Set ORACLE INSTANT_CLIENT_MIRROR option if you want to use Intranet improve download, you can download files first
+ORACLE_INSTANT_CLIENT_MIRROR=http://192.168.0.42/downloads/oracle_instant_client/
 
 ### Docker Sync ###########################################
 
