@@ -983,6 +983,7 @@ RUN if [ ${INSTALL_LINUXBREW} = true ]; then \
 ###########################################################################
 
 ARG INSTALL_MSSQL=false
+ARG MSSQL_VERSION=2017
 
 RUN set -eux; \
   if [ ${INSTALL_MSSQL} = true ]; then \
@@ -991,29 +992,34 @@ RUN set -eux; \
       && php -m | grep -q 'mssql' \
       && php -m | grep -q 'pdo_dblib' \
     ;else \
-      ###########################################################################
-      #  The following steps were taken from
-      #  https://github.com/Microsoft/msphpsql/wiki/Install-and-configuration
-      ###########################################################################
-      curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
-      curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
-      apt-get update -yqq && \
-      ACCEPT_EULA=Y apt-get install -y msodbcsql17 mssql-tools unixodbc unixodbc-dev libgss3 odbcinst locales && \
-      ln -sfn /opt/mssql-tools/bin/sqlcmd /usr/bin/sqlcmd && \
-      ln -sfn /opt/mssql-tools/bin/bcp /usr/bin/bcp && \
-      echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
-      locale-gen && \
-      if [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70000" ]; then \
-        pecl install sqlsrv-5.3.0 pdo_sqlsrv-5.3.0 \
-      ;elif [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70100" ]; then \
-        pecl install sqlsrv-5.6.1 pdo_sqlsrv-5.6.1 \
+      if [ ${MSSQL_VERSION} -lt "2017" ]; then \
+        apt-get -y install php${LARADOCK_PHP_VERSION}-sybase freetds-bin freetds-common libsybdb5 \
+        && php -m | grep -q 'pdo_dblib' \
       ;else \
-        pecl install sqlsrv pdo_sqlsrv \
-      ;fi && \
-      echo "extension=sqlsrv.so"     > /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-sqlsrv.ini && \
-      echo "extension=pdo_sqlsrv.so" > /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-pdo_sqlsrv.ini \
-      && php -m | grep -q 'sqlsrv' \
-      && php -m | grep -q 'pdo_sqlsrv' \
+        ###########################################################################
+        #  The following steps were taken from
+        #  https://github.com/Microsoft/msphpsql/wiki/Install-and-configuration
+        ###########################################################################
+        curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
+        curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
+        apt-get update -yqq && \
+        ACCEPT_EULA=Y apt-get install -y msodbcsql17 mssql-tools unixodbc unixodbc-dev libgss3 odbcinst locales && \
+        ln -sfn /opt/mssql-tools/bin/sqlcmd /usr/bin/sqlcmd && \
+        ln -sfn /opt/mssql-tools/bin/bcp /usr/bin/bcp && \
+        echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
+        locale-gen && \
+        if [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70000" ]; then \
+          pecl install sqlsrv-5.3.0 pdo_sqlsrv-5.3.0 \
+        ;elif [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70100" ]; then \
+          pecl install sqlsrv-5.6.1 pdo_sqlsrv-5.6.1 \
+        ;else \
+          pecl install sqlsrv pdo_sqlsrv \
+        ;fi && \
+        echo "extension=sqlsrv.so"     > /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-sqlsrv.ini && \
+        echo "extension=pdo_sqlsrv.so" > /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-pdo_sqlsrv.ini \
+        && php -m | grep -q 'sqlsrv' \
+        && php -m | grep -q 'pdo_sqlsrv' \
+      ;fi \
     ;fi \
   ;fi
 

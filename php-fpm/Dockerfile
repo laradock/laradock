@@ -612,6 +612,7 @@ RUN if [ ${INSTALL_LDAP} = true ]; then \
 ###########################################################################
 
 ARG INSTALL_MSSQL=false
+ARG MSSQL_VERSION=2017
 
 RUN set -eux; \
   if [ ${INSTALL_MSSQL} = true ]; then \
@@ -622,29 +623,36 @@ RUN set -eux; \
       && php -m | grep -q 'mssql' \
       && php -m | grep -q 'pdo_dblib' \
     ;else \
-      ###########################################################################
-      # Ref from https://github.com/Microsoft/msphpsql/wiki/Dockerfile-for-adding-pdo_sqlsrv-and-sqlsrv-to-official-php-image
-      ###########################################################################
-      # Add Microsoft repo for Microsoft ODBC Driver 13 for Linux
-      apt-get install -y apt-transport-https gnupg \
-      && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-      && curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list \
-      && apt-get update -yqq \
-      # Install Dependencies
-      && ACCEPT_EULA=Y apt-get install -y unixodbc unixodbc-dev libgss3 odbcinst msodbcsql17 locales \
-      && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
-      # link local aliases
-      && ln -sfn /etc/locale.alias /usr/share/locale/locale.alias \
-      && locale-gen \
-      # Install pdo_sqlsrv and sqlsrv from PECL. Replace pdo_sqlsrv-4.1.8preview with preferred version.
-      && if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
-        pecl install pdo_sqlsrv-5.3.0 sqlsrv-5.3.0 \
+      if [ ${MSSQL_VERSION} -lt "2017" ]; then \
+        apt-get -y install freetds-dev libsybdb5 \
+        && ln -s /usr/lib/x86_64-linux-gnu/libsybdb.so /usr/lib/libsybdb.so \
+        && docker-php-ext-install pdo_dblib \
+        && php -m | grep -q 'pdo_dblib' \
       ;else \
-        pecl install pdo_sqlsrv sqlsrv \
+        ###########################################################################
+        # Ref from https://github.com/Microsoft/msphpsql/wiki/Dockerfile-for-adding-pdo_sqlsrv-and-sqlsrv-to-official-php-image
+        ###########################################################################
+        # Add Microsoft repo for Microsoft ODBC Driver 13 for Linux
+        apt-get install -y apt-transport-https gnupg \
+        && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+        && curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+        && apt-get update -yqq \
+        # Install Dependencies
+        && ACCEPT_EULA=Y apt-get install -y unixodbc unixodbc-dev libgss3 odbcinst msodbcsql17 locales \
+        && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
+        # link local aliases
+        && ln -sfn /etc/locale.alias /usr/share/locale/locale.alias \
+        && locale-gen \
+        # Install pdo_sqlsrv and sqlsrv from PECL. Replace pdo_sqlsrv-4.1.8preview with preferred version.
+        && if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+          pecl install pdo_sqlsrv-5.3.0 sqlsrv-5.3.0 \
+        ;else \
+          pecl install pdo_sqlsrv sqlsrv \
+        ;fi \
+        && docker-php-ext-enable pdo_sqlsrv sqlsrv \
+        && php -m | grep -q 'pdo_sqlsrv' \
+        && php -m | grep -q 'sqlsrv' \
       ;fi \
-      && docker-php-ext-enable pdo_sqlsrv sqlsrv \
-      && php -m | grep -q 'pdo_sqlsrv' \
-      && php -m | grep -q 'sqlsrv' \
     ;fi \
   ;fi
 
