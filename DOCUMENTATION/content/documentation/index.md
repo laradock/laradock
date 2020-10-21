@@ -196,6 +196,7 @@ More [options](https://docs.docker.com/compose/reference/logs/)
 
 
 <br>
+
 <a name="PHP"></a>
 
 
@@ -221,6 +222,7 @@ docker build --no-cache {container-name}
 
 
 <br>
+
 <a name="Change-the-PHP-FPM-Version"></a>
 ## Change the (PHP-FPM) Version
 
