@@ -206,11 +206,14 @@ More [options](https://docs.docker.com/compose/reference/logs/)
 <a name="Install-PHP-Extensions"></a>
 ## Install PHP Extensions
 
-Before installing PHP extensions, you have to decide first whether you need `FPM` or `CLI`, because each of them has it's own different container, if you need it for both, you have to edit both containers.
+You can set extensions to install in the .env file's corresponding section (`PHP_FPM`, `WORKSPACE`, `PHP_WORKER`), 
+just change the `false` to `true` at the desired extension's line.
+After this you have to rebuild the container with the `--no-cache` option.
 
-The PHP-FPM extensions should be installed in `php-fpm/Dockerfile-XX`. *(replace XX with your default PHP version number)*.
-<br>
-The PHP-CLI extensions should be installed in `workspace/Dockerfile`.
+```bash
+docker build --no-cache {container-name}
+```
+
 
 
 
@@ -220,6 +223,7 @@ The PHP-CLI extensions should be installed in `workspace/Dockerfile`.
 <br>
 <a name="Change-the-PHP-FPM-Version"></a>
 ## Change the (PHP-FPM) Version
+
 By default the latest stable PHP version is configured to run.
 
 >The PHP-FPM is responsible for serving your application code, you don't have to change the PHP-CLI version if you are planning to run your application on different PHP-FPM version.
