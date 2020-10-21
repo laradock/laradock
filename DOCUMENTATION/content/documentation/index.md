@@ -1335,12 +1335,26 @@ docker-compose up -d minio
 
 5 - When configuring your other clients use the following details:
   ```
-  S3_HOST=http://minio
-  S3_KEY=access
-  S3_SECRET=secretkey
-  S3_REGION=us-east-1
-  S3_BUCKET=bucket
+  AWS_URL=http://minio:9000
+  AWS_ACCESS_KEY_ID=access
+  AWS_SECRET_ACCESS_KEY=secretkey
+  AWS_DEFAULT_REGION=us-east-1
+  AWS_BUCKET=test
+  AWS_PATH_STYLE=true
   ```
+6 - In `filesystems.php` you shoud use the following details (s3):
+  ```
+'s3' => [
+            'driver' => 's3',
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION'),
+            'bucket' => env('AWS_BUCKET'),
+            'endpoint' => env('AWS_URL'),
+            'use_path_style_endpoint' => env('AWS_PATH_STYLE', false)
+        ],
+```
+`'AWS_PATH_STYLE'` shout set to true only for local purpouse 
 
 
 
