@@ -146,6 +146,9 @@ RUN chown -R laradock:laradock /home/laradock/.composer
 # Export composer vendor path
 RUN echo "" >> ~/.bashrc && \
     echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' >> ~/.bashrc
+    
+# Update composer
+RUN composer self-update --${COMPOSER_VERSION}
 
 USER laradock
 
