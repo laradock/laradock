@@ -147,6 +147,9 @@ RUN chown -R laradock:laradock /home/laradock/.composer
 RUN echo "" >> ~/.bashrc && \
     echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' >> ~/.bashrc
 
+# Update composer
+RUN composer self-update --${COMPOSER_VERSION}
+
 USER laradock
 
 # Check if global install need to be ran
