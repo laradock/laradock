@@ -217,6 +217,7 @@ services:
           - INSTALL_EXIF=${PHP_FPM_INSTALL_EXIF}
           - INSTALL_AEROSPIKE=${PHP_FPM_INSTALL_AEROSPIKE}
           - INSTALL_OCI8=${PHP_FPM_INSTALL_OCI8}
+          - INSTALL_DEPRECATED_MYSQL=${PHP_FPM_INSTALL_DEPRECATED_MYSQL}
           - INSTALL_MYSQLI=${PHP_FPM_INSTALL_MYSQLI}
           - INSTALL_PGSQL=${PHP_FPM_INSTALL_PGSQL}
           - INSTALL_PG_CLIENT=${PHP_FPM_INSTALL_PG_CLIENT}
@@ -844,11 +845,11 @@ services:
 ### MeiliSearch ##########################################
     meilisearch:
       image: getmeili/meilisearch:latest
-      volumes: 
+      volumes:
         - ${DATA_PATH_HOST}/meilisearch:/var/lib/meilisearch
-      ports: 
+      ports:
         - "${MEILISEARCH_HOST_PORT}:7700"
-      networks: 
+      networks:
         - frontend
         - backend
 
@@ -1367,7 +1368,7 @@ services:
     docker-in-docker:
       image: docker:19.03-dind
       environment:
-        DOCKER_TLS_SAN: DNS:docker-in-docker      
+        DOCKER_TLS_SAN: DNS:docker-in-docker
       privileged: true
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
@@ -1812,4 +1813,3 @@ services:
         - ${DATA_PATH_HOST}/tomcat/webapps:/usr/local/tomcat/webapps
         - ${DATA_PATH_HOST}/tomcat/logs:/usr/local/tomcat/logs
       # restart: always
-
