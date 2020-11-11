@@ -39,7 +39,7 @@ COMPOSE_PROJECT_NAME=laradock
 
 # Select a PHP version of the Workspace and PHP-FPM containers (Does not apply to HHVM).
 # Accepted values: 7.4 - 7.3 - 7.2 - 7.1 - 7.0 - 5.6
-PHP_VERSION=7.3
+PHP_VERSION=7.4
 
 ### Phalcon Version ###########################################
 
@@ -324,6 +324,20 @@ MYSQL_PASSWORD=secret
 MYSQL_PORT=3306
 MYSQL_ROOT_PASSWORD=root
 MYSQL_ENTRYPOINT_INITDB=./mysql/docker-entrypoint-initdb.d
+
+### CLICKHOUSE #################################################
+
+CLICKHOUSE_VERSION=20.6
+CLICKHOUSE_GOSU_VERSION=1.10
+CLICKHOUSE_CUSTOM_CONFIG=./clickhouse/config.xml
+CLICKHOUSE_USERS_CUSTOM_CONFIG=./clickhouse/users.xml
+CLICKHOUSE_USER=default
+CLICKHOUSE_PASSWORD=HAHA
+CLICKHOUSE_HTTP_PORT=8123
+CLICKHOUSE_CLIENT_PORT=9000
+CLICKHOUSE_NATIVE_PORT=9009
+CLICKHOUSE_ENTRYPOINT_INITDB=./clickhouse/docker-entrypoint-initdb.d
+CLICKHOUSE_HOST_LOG_PATH=./logs/clickhouse
 
 ### REDIS #################################################
 
