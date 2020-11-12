@@ -327,7 +327,7 @@ MYSQL_ENTRYPOINT_INITDB=./mysql/docker-entrypoint-initdb.d
 
 ### CLICKHOUSE #################################################
 
-CLICKHOUSE_VERSION=20.6
+CLICKHOUSE_VERSION=20.9.4.76
 CLICKHOUSE_GOSU_VERSION=1.10
 CLICKHOUSE_CUSTOM_CONFIG=./clickhouse/config.xml
 CLICKHOUSE_USERS_CUSTOM_CONFIG=./clickhouse/users.xml
