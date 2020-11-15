@@ -57,7 +57,11 @@ RUN if [ ${INSTALL_BZ2} = true ]; then \
 ARG INSTALL_GD=false
 RUN if [ ${INSTALL_GD} = true ]; then \
    apk add --update --no-cache freetype-dev libjpeg-turbo-dev jpeg-dev libpng-dev; \
-   docker-php-ext-configure gd --with-freetype-dir=/usr/lib/ --with-jpeg-dir=/usr/lib/ --with-png-dir=/usr/lib/ && \
+   if [ ${LARADOCK_PHP_VERSION} = "7.4" ]; then \
+      docker-php-ext-configure gd --with-freetype --with-jpeg; \
+   else \
+      docker-php-ext-configure gd --with-freetype-dir=/usr/lib/ --with-jpeg-dir=/usr/lib/ --with-png-dir=/usr/lib/; \
+   fi && \
    docker-php-ext-install gd \
 ;fi
 
