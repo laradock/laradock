@@ -53,6 +53,8 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   docker-in-docker:
     driver: ${VOLUMES_DRIVER}
+  react:
+    driver: ${VOLUMES_DRIVER}
 
 services:
 
@@ -1812,4 +1814,21 @@ services:
         - ${DATA_PATH_HOST}/tomcat/webapps:/usr/local/tomcat/webapps
         - ${DATA_PATH_HOST}/tomcat/logs:/usr/local/tomcat/logs
       # restart: always
+
+### react #####################################################
+    react:
+      build:
+        context: ./react
+      ports:
+        - "3000:3000"
+      container_name: react
+      stdin_open: true
+      environment: 
+        - CHOKIDAR_USEPOLLING=true
+      networks:
+          - frontend
+          - backend
+      volumes:
+        - ./react:/usr/src/app/react
+        - /usr/src/app/react/node_modules
 
