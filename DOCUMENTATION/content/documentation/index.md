@@ -2032,6 +2032,27 @@ To install FFMPEG in the Workspace container
 
 
 <br>
+<a name="Install-audiowaveform"></a>
+## Install BBC Audio Waveform Image Generator
+
+audiowaveform is a C++ command-line application that generates waveform data from either MP3, WAV, FLAC, or Ogg Vorbis format audio files. 
+Waveform data can be used to produce a visual rendering of the audio, similar in appearance to audio editing applications.
+Waveform data files are saved in either binary format (.dat) or JSON (.json).
+
+To install BBC Audio Waveform Image Generator in the Workspace container
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_AUDIOWAVEFORM` argument under the Workspace Container and set it to `true`
+
+3 - Re-build the container `docker-compose build workspace`
+
+4 - If you use the `php-worker` or `laravel-horizon` container too, please follow the same steps above especially if you have processing that have been queued.
+
+**PS** Don't forget to install the binary in the `php-fpm` container too by applying the same steps above to its container, otherwise you'll get an error when running the `audiowaveform` binary.
+
+
+<br>
 <a name="Install-wkhtmltopdf"></a>
 ## Install wkhtmltopdf
 
