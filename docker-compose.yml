@@ -320,7 +320,7 @@ services:
           - INSTALL_GHOSTSCRIPT=${PHP_FPM_INSTALL_GHOSTSCRIPT}
           - INSTALL_LDAP=${PHP_FPM_INSTALL_LDAP}
           - INSTALL_PHALCON=${PHP_FPM_INSTALL_PHALCON}
-          - INSTALL_SWOOLE=false
+          - INSTALL_SWOOLE=${PHP_FPM_INSTALL_SWOOLE}
           - INSTALL_TAINT=${PHP_FPM_INSTALL_TAINT}
           - INSTALL_IMAGE_OPTIMIZERS=${PHP_FPM_INSTALL_IMAGE_OPTIMIZERS}
           - INSTALL_IMAGEMAGICK=${PHP_FPM_INSTALL_IMAGEMAGICK}
@@ -411,7 +411,7 @@ services:
           - INSTALL_GHOSTSCRIPT=${PHP_FPM_INSTALL_GHOSTSCRIPT}
           - INSTALL_LDAP=${PHP_FPM_INSTALL_LDAP}
           - INSTALL_PHALCON=${PHP_FPM_INSTALL_PHALCON}
-          - INSTALL_SWOOLE=false
+          - INSTALL_SWOOLE=${PHP_FPM_INSTALL_SWOOLE}
           - INSTALL_TAINT=${PHP_FPM_INSTALL_TAINT}
           - INSTALL_IMAGE_OPTIMIZERS=${PHP_FPM_INSTALL_IMAGE_OPTIMIZERS}
           - INSTALL_IMAGEMAGICK=${PHP_FPM_INSTALL_IMAGEMAGICK}
@@ -462,13 +462,13 @@ services:
         - backend
       links:
         - docker-in-docker
-    ## php-fpm 7.3
-    php-fpm73:
+    ## php-fpm 7.2
+    php-fpm72:
       build:
         context: ./php-fpm
         args:
           - CHANGE_SOURCE=${CHANGE_SOURCE}
-          - LARADOCK_PHP_VERSION=7.3
+          - LARADOCK_PHP_VERSION=7.2
           - LARADOCK_PHALCON_VERSION=${PHALCON_VERSION}
           - INSTALL_BZ2=${PHP_FPM_INSTALL_BZ2}
           - INSTALL_GMP=${PHP_FPM_INSTALL_GMP}
@@ -501,7 +501,7 @@ services:
           - INSTALL_GHOSTSCRIPT=${PHP_FPM_INSTALL_GHOSTSCRIPT}
           - INSTALL_LDAP=${PHP_FPM_INSTALL_LDAP}
           - INSTALL_PHALCON=${PHP_FPM_INSTALL_PHALCON}
-          - INSTALL_SWOOLE=false
+          - INSTALL_SWOOLE=${PHP_FPM_INSTALL_SWOOLE}
           - INSTALL_TAINT=${PHP_FPM_INSTALL_TAINT}
           - INSTALL_IMAGE_OPTIMIZERS=${PHP_FPM_INSTALL_IMAGE_OPTIMIZERS}
           - INSTALL_IMAGEMAGICK=${PHP_FPM_INSTALL_IMAGEMAGICK}
@@ -530,7 +530,7 @@ services:
           - https_proxy
           - no_proxy
       volumes:
-        - ./php-fpm/php7.3.ini:/usr/local/etc/php/php.ini
+        - ./php-fpm/php7.2.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         ## - /etc/hosts:/etc/hosts             ### php 内部调用 外部设置的 hosts时需要，比如，后台登录，post APP_URL 的地址
         - ./workspace/hosts:/etc/hosts
@@ -591,7 +591,7 @@ services:
           - INSTALL_GHOSTSCRIPT=${PHP_FPM_INSTALL_GHOSTSCRIPT}
           - INSTALL_LDAP=${PHP_FPM_INSTALL_LDAP}
           - INSTALL_PHALCON=${PHP_FPM_INSTALL_PHALCON}
-          - INSTALL_SWOOLE=true
+          - INSTALL_SWOOLE=${PHP_FPM_INSTALL_SWOOLE}
           - INSTALL_TAINT=${PHP_FPM_INSTALL_TAINT}
           - INSTALL_IMAGE_OPTIMIZERS=${PHP_FPM_INSTALL_IMAGE_OPTIMIZERS}
           - INSTALL_IMAGEMAGICK=${PHP_FPM_INSTALL_IMAGEMAGICK}
@@ -742,7 +742,7 @@ services:
         - php-fpm
         - php-fpm70
         - php-fpm71
-        - php-fpm73
+        - php-fpm72
         - php-fpm74
       networks:
         - frontend

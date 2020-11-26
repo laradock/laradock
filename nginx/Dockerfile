@@ -27,7 +27,7 @@ RUN set -x ; \
 ARG PHP_UPSTREAM_CONTAINER=php-fpm
 ARG PHP70_UPSTREAM_CONTAINER=php-fpm70
 ARG PHP71_UPSTREAM_CONTAINER=php-fpm71
-ARG PHP73_UPSTREAM_CONTAINER=php-fpm73
+ARG PHP72_UPSTREAM_CONTAINER=php-fpm72
 ARG PHP74_UPSTREAM_CONTAINER=php-fpm74
 ARG PHP_UPSTREAM_PORT=9000
 
@@ -47,8 +47,8 @@ RUN echo "upstream php70-upstream { server ${PHP70_UPSTREAM_CONTAINER}:${PHP_UPS
 # 写入 php-fpm71
 RUN echo "upstream php71-upstream { server ${PHP71_UPSTREAM_CONTAINER}:${PHP_UPSTREAM_PORT}; }" >> /etc/nginx/conf.d/upstream.conf
 
-# 写入 php-fpm73
-RUN echo "upstream php73-upstream { server ${PHP73_UPSTREAM_CONTAINER}:${PHP_UPSTREAM_PORT}; }" >> /etc/nginx/conf.d/upstream.conf
+# 写入 php-fpm72
+RUN echo "upstream php72-upstream { server ${PHP72_UPSTREAM_CONTAINER}:${PHP_UPSTREAM_PORT}; }" >> /etc/nginx/conf.d/upstream.conf
 
 # 写入 php-fpm74
 RUN echo "upstream php74-upstream { server ${PHP74_UPSTREAM_CONTAINER}:${PHP_UPSTREAM_PORT}; }" >> /etc/nginx/conf.d/upstream.conf
