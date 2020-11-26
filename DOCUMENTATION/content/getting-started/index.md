@@ -1,18 +1,18 @@
 ---
-title: 2. Getting Started
+title: Getting Started
 type: index
 weight: 2
 ---
 
-## 2.1 Requirements
+## Requirements
 
 - [Git](https://git-scm.com/downloads)
-- [Docker](https://www.docker.com/products/docker/) `>= 17.12`
+- [Docker](https://www.docker.com/products/docker/) [ >= 17.12 ]
 
 
 
 
-## 2.2 Installation
+## Installation
 
 Choose the setup the best suits your needs.
 
@@ -38,16 +38,16 @@ git submodule add https://github.com/Laradock/laradock.git
 
 Note: If you are not using Git yet for your project, you can use `git clone` instead of `git submodule `.
 
-*To keep track of your Laradock changes, between your projects and also keep Laradock updated [check these docs](/documentation/#keep-track-of-your-laradock-changes)*
+*To keep track of your Laradock changes, between your projects and also keep Laradock updated [check these docs](/documentation/#track-your-laradock-changes)*
 
 
 2 - Make sure your folder structure should look like this:
 
 ```
-+ project-a
-  + laradock-a
-+ project-b
-  + laradock-b
+* project-a
+*   laradock-a
+* project-b
+*   laradock-b
 ```
 
 *(It's important to rename the laradock folders to unique name in each project, if you want to run laradock per project).*
@@ -66,8 +66,8 @@ git clone https://github.com/laradock/laradock.git
 Your folder structure should look like this:
 
 ```
-+ laradock
-+ project-z
+* laradock
+* project-z
 ```
 
 2 - Edit your web server sites configuration.
@@ -102,9 +102,9 @@ git clone https://github.com/laradock/laradock.git
 Your folder structure should look like this:
 
 ```
-+ laradock
-+ project-1
-+ project-2
+* laradock
+* project-1
+* project-2
 ```
 
 2 - Go to your web server and create config files to point to different project directory when visiting different domains:
@@ -136,7 +136,7 @@ If you use Chrome 63 or above for development, don't use `.dev`. [Why?](https://
 
 
 <a name="Usage"></a>
-## 2.3 Usage
+## Usage
 
 **Read Before starting:**
 
