@@ -25,6 +25,10 @@ RUN set -x ; \
     adduser -u 82 -D -S -G www-data www-data && exit 0 ; exit 1
 
 ARG PHP_UPSTREAM_CONTAINER=php-fpm
+ARG PHP70_UPSTREAM_CONTAINER=php-fpm70
+ARG PHP71_UPSTREAM_CONTAINER=php-fpm71
+ARG PHP73_UPSTREAM_CONTAINER=php-fpm73
+ARG PHP74_UPSTREAM_CONTAINER=php-fpm74
 ARG PHP_UPSTREAM_PORT=9000
 
 # Create 'messages' file used from 'logrotate'
@@ -36,6 +40,18 @@ COPY logrotate/nginx /etc/logrotate.d/
 # Set upstream conf and remove the default conf
 RUN echo "upstream php-upstream { server ${PHP_UPSTREAM_CONTAINER}:${PHP_UPSTREAM_PORT}; }" > /etc/nginx/conf.d/upstream.conf \
     && rm /etc/nginx/conf.d/default.conf
+
+# 写入 php-fpm70
+RUN echo "upstream php70-upstream { server ${PHP70_UPSTREAM_CONTAINER}:${PHP_UPSTREAM_PORT}; }" >> /etc/nginx/conf.d/upstream.conf
+
+# 写入 php-fpm71
+RUN echo "upstream php71-upstream { server ${PHP71_UPSTREAM_CONTAINER}:${PHP_UPSTREAM_PORT}; }" >> /etc/nginx/conf.d/upstream.conf
+
+# 写入 php-fpm73
+RUN echo "upstream php73-upstream { server ${PHP73_UPSTREAM_CONTAINER}:${PHP_UPSTREAM_PORT}; }" >> /etc/nginx/conf.d/upstream.conf
+
+# 写入 php-fpm74
+RUN echo "upstream php74-upstream { server ${PHP74_UPSTREAM_CONTAINER}:${PHP_UPSTREAM_PORT}; }" >> /etc/nginx/conf.d/upstream.conf
 
 ADD ./startup.sh /opt/startup.sh
 RUN sed -i 's/\r//g' /opt/startup.sh
