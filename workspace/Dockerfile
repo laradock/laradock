@@ -858,7 +858,7 @@ RUN if [ ${INSTALL_OCI8} = true ]; then \
   if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
     echo 'instantclient,/opt/oracle/instantclient_12_1/' | pecl install oci8-2.0.10; \
   else \
-    echo 'instantclient,/opt/oracle/instantclient_12_1/' | pecl install oci8; \
+    echo 'instantclient,/opt/oracle/instantclient_12_1/' | pecl install oci8-2.2.0; \
   fi \
   && echo "extension=oci8.so" >> /etc/php/${LARADOCK_PHP_VERSION}/cli/php.ini \
   && php -m | grep -q 'oci8' \

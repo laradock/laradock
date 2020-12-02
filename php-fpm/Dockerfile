@@ -519,7 +519,7 @@ RUN if [ ${INSTALL_OCI8} = true ]; then \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
       echo 'instantclient,/opt/oracle/instantclient_12_1/' | pecl install oci8-2.0.10; \
     else \
-      echo 'instantclient,/opt/oracle/instantclient_12_1/' | pecl install oci8; \
+      echo 'instantclient,/opt/oracle/instantclient_12_1/' | pecl install oci8-2.2.0; \
     fi \
         && docker-php-ext-configure pdo_oci --with-pdo-oci=instantclient,/opt/oracle/instantclient_12_1,12.1 \
         && docker-php-ext-configure pdo_dblib --with-libdir=/lib/x86_64-linux-gnu \
