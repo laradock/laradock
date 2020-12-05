@@ -1305,6 +1305,30 @@ RUN if [ ${INSTALL_FFMPEG} = true ]; then \
   apt-get -y install ffmpeg \
 ;fi
 
+
+###########################################################################
+# BBC Audio Waveform Image Generator:
+###########################################################################
+
+USER root
+
+ARG INSTALL_AUDIOWAVEFORM=false
+
+RUN if [ ${INSTALL_AUDIOWAVEFORM} = true ]; then \
+   apt-get -y install git wget make cmake gcc g++ libmad0-dev libid3tag0-dev libsndfile1-dev libgd-dev libboost-filesystem-dev libboost-program-options-dev libboost-regex-dev \
+   && git clone https://github.com/bbc/audiowaveform.git \
+   && cd audiowaveform \
+   && wget https://github.com/google/googletest/archive/release-1.10.0.tar.gz \
+   && tar xzf release-1.10.0.tar.gz \
+   && ln -s googletest-release-1.10.0/googletest googletest \
+   && ln -s googletest-release-1.10.0/googlemock googlemock \
+   && mkdir build \
+   && cd build \
+   && cmake .. \
+   && make \
+   && make install \
+;fi
+
 #####################################
 # wkhtmltopdf:
 #####################################
@@ -1404,7 +1428,9 @@ RUN if [ ${INSTALL_PROTOC} = true ]; then \
   curl -L -o /tmp/protoc.zip https://github.com/protocolbuffers/protobuf/releases/download/v${REAL_PROTOC_VERSION}/${PROTOC_ZIP} && \
   unzip -q -o /tmp/protoc.zip -d /usr/local bin/protoc && \
   unzip -q -o /tmp/protoc.zip -d /usr/local 'include/*' && \
-  rm -f /tmp/protoc.zip \
+  rm -f /tmp/protoc.zip && \
+  chmod +x /usr/local/bin/protoc && \
+  chmod -R +r /usr/local/include/google \
 ;fi
 
 ###########################################################################
@@ -1457,6 +1483,36 @@ bindkey "^?" backward-delete-char\n' >> /home/laradock/.zshrc && \
     echo "source /home/laradock/aliases.sh" >> /home/laradock/.zshrc && \
     echo "" >> /home/laradock/.zshrc \
   ;fi \
+;fi
+
+USER root
+
+###########################################################################
+# ZSH User Aliases
+###########################################################################
+
+USER root
+
+COPY ./aliases.sh /root/aliases.sh
+COPY ./aliases.sh /home/laradock/aliases.sh
+
+RUN if [ ${SHELL_OH_MY_ZSH} = true ]; then \
+    sed -i 's/\r//' /root/aliases.sh && \
+    sed -i 's/\r//' /home/laradock/aliases.sh && \
+    chown laradock:laradock /home/laradock/aliases.sh && \
+    echo "" >> ~/.zshrc && \
+    echo "# Load Custom Aliases" >> ~/.zshrc && \
+    echo "source ~/aliases.sh" >> ~/.zshrc && \
+	  echo "" >> ~/.zshrc \
+;fi
+
+USER laradock
+
+RUN if [ ${SHELL_OH_MY_ZSH} = true ]; then \
+    echo "" >> ~/.zshrc && \
+    echo "# Load Custom Aliases" >> ~/.zshrc && \
+    echo "source ~/aliases.sh" >> ~/.zshrc && \
+	  echo "" >> ~/.zshrc \
 ;fi
 
 USER root
