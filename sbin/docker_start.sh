@@ -27,8 +27,8 @@ declare -a arr=("apache2" "php-fpm" "workspace" \
 # docker \
 "docker-web-ui" \
 # mail \
-"mailcatcher" \
-# "mailhog" \
+# "mailcatcher" \
+"mailhog" \
 )
 
 for i in "${arr[@]}"
