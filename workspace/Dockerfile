@@ -350,9 +350,26 @@ USER root
 ARG INSTALL_XDEBUG=false
 
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
-    # Load the xdebug extension only with phpunit commands
-    apt-get install -y php${LARADOCK_PHP_VERSION}-xdebug && \
-    sed -i 's/^;//g' /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-xdebug.ini \
+  # Install the xdebug extension
+  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+    pecl install xdebug-2.5.5; \
+  else \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+      pecl install xdebug-2.9.0; \
+    else \
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "1" ]; then \
+        pecl install xdebug-2.9.8; \
+      else \
+        if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
+          pecl install xdebug-2.9.8; \
+        else \
+          #pecl install xdebug; \
+          echo "xDebug 3 required, not supported."; \
+        fi \
+      fi \
+    fi \
+  fi && \
+  echo "zend_extension=xdebug.so" >> /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-xdebug.ini \
 ;fi
 
 # ADD for REMOTE debugging
