@@ -19,8 +19,7 @@ declare -a arr=("apache2" \
 "memcached" "redis-webui" \
 "mongo" \
 "phpmyadmin" \
-"pgadmin" \
-"rabbitmq" "sqs" \
+"beanstalkd-console" "rabbitmq" "sqs" \
 "mailhog"
 )
 
@@ -30,13 +29,14 @@ declare -a arr=("apache2" \
 # "redis"
 # "mysql"
 # "postgres"
+# "beanstalkd"
 
 # above can optinally do
 # "mailcatcher"
 
 # above fails for
 # "mongo-webui" # It looks like you are trying to access MongoDB over HTTP on the native driver port.
-# PermissionError: [Errno 1] Operation not permitted: '/var/lib/pgadmin/sessions'
+# "pgadmin" # PermissionError: [Errno 1] Operation not permitted: '/var/lib/pgadmin/sessions'
 
 for i in "${arr[@]}"
 do
