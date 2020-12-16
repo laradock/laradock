@@ -1,5 +1,6 @@
 127.0.1.1	HP-ProDesk-600-G2-DM
 127.0.0.1	dev.localhost
+127.0.0.1	laravel.localhost
 # Person
 127.0.0.1	bo.localhost
 127.0.0.1	hieutube.localhost
