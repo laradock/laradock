@@ -250,6 +250,12 @@ PHP_FPM_DEFAULT_LOCALE=POSIX
 PHP_FPM_PUID=1000
 PHP_FPM_PGID=1000
 
+### PHP_FPM_NEW_RELIC #####################################
+
+PHP_FPM_NEW_RELIC=false
+PHP_FPM_NEW_RELIC_KEY=0000
+PHP_FPM_NEW_RELIC_APP_NAME=app_name
+
 ### PHP_WORKER ############################################
 
 PHP_WORKER_INSTALL_BZ2=false
