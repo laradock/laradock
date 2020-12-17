@@ -333,6 +333,20 @@ MYSQL_PORT=3306
 MYSQL_ROOT_PASSWORD=root
 MYSQL_ENTRYPOINT_INITDB=./mysql/docker-entrypoint-initdb.d
 
+### CLICKHOUSE #################################################
+
+CLICKHOUSE_VERSION=20.9.4.76
+CLICKHOUSE_GOSU_VERSION=1.10
+CLICKHOUSE_CUSTOM_CONFIG=./clickhouse/config.xml
+CLICKHOUSE_USERS_CUSTOM_CONFIG=./clickhouse/users.xml
+CLICKHOUSE_USER=default
+CLICKHOUSE_PASSWORD=HAHA
+CLICKHOUSE_HTTP_PORT=8123
+CLICKHOUSE_CLIENT_PORT=9000
+CLICKHOUSE_NATIVE_PORT=9009
+CLICKHOUSE_ENTRYPOINT_INITDB=./clickhouse/docker-entrypoint-initdb.d
+CLICKHOUSE_HOST_LOG_PATH=./logs/clickhouse
+
 ### REDIS #################################################
 
 REDIS_PORT=6379
