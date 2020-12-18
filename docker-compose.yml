@@ -260,6 +260,9 @@ services:
           - PUID=${PHP_FPM_PUID}
           - PGID=${PHP_FPM_PGID}
           - LOCALE=${PHP_FPM_DEFAULT_LOCALE}
+          - PHP_FPM_NEW_RELIC=${PHP_FPM_NEW_RELIC}
+          - PHP_FPM_NEW_RELIC_KEY=${PHP_FPM_NEW_RELIC_KEY}
+          - PHP_FPM_NEW_RELIC_APP_NAME=${PHP_FPM_NEW_RELIC_APP_NAME}
           - http_proxy
           - https_proxy
           - no_proxy
