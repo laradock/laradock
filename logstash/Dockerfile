@@ -1,4 +1,4 @@
-ARG ELK_VERSION=7.5.1
+ARG ELK_VERSION
 FROM docker.elastic.co/logstash/logstash:${ELK_VERSION}
 
 USER root

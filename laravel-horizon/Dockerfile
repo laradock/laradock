@@ -56,7 +56,12 @@ RUN if [ ${INSTALL_BZ2} = true ]; then \
 #Install GD package:
 ARG INSTALL_GD=false
 RUN if [ ${INSTALL_GD} = true ]; then \
-   apk add --update --no-cache libpng-dev; \
+   apk add --update --no-cache freetype-dev libjpeg-turbo-dev jpeg-dev libpng-dev; \
+   if [ ${LARADOCK_PHP_VERSION} = "7.4" ]; then \
+      docker-php-ext-configure gd --with-freetype --with-jpeg; \
+   else \
+      docker-php-ext-configure gd --with-freetype-dir=/usr/lib/ --with-jpeg-dir=/usr/lib/ --with-png-dir=/usr/lib/; \
+   fi && \
    docker-php-ext-install gd \
 ;fi
 
@@ -124,6 +129,33 @@ RUN if [ ${INSTALL_FFMPEG} = true ]; then \
    # Add ffmpeg to horizon
     apk add ffmpeg \
 ;fi
+
+# Install BBC Audio Waveform Image Generator:
+ARG INSTALL_AUDIOWAVEFORM=false
+RUN if [ ${INSTALL_AUDIOWAVEFORM} = true ]; then \
+   apk add git make cmake gcc g++ libmad-dev libid3tag-dev libsndfile-dev gd-dev boost-dev libgd libpng-dev zlib-dev \
+   && apk add autoconf automake libtool gettext \
+   && wget https://github.com/xiph/flac/archive/1.3.3.tar.gz \
+   && tar xzf 1.3.3.tar.gz \
+   && cd flac-1.3.3 \
+   && ./autogen.sh \
+   && ./configure --enable-shared=no \
+   && make \
+   && make install \
+   && cd .. \
+   && git clone https://github.com/bbc/audiowaveform.git \
+   && cd audiowaveform \
+   && wget https://github.com/google/googletest/archive/release-1.10.0.tar.gz \
+   && tar xzf release-1.10.0.tar.gz \
+   && ln -s googletest-release-1.10.0/googletest googletest \
+   && ln -s googletest-release-1.10.0/googlemock googlemock \
+   && mkdir build \
+   && cd build \
+   && cmake .. \
+   && make \
+   && make install \
+;fi
+
 
 # Install Cassandra drivers:
 ARG INSTALL_CASSANDRA=false
