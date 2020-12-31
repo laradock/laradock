@@ -151,7 +151,7 @@ We recommend using a Docker version which is newer than 1.13.
 
 <br>
 
->**Warning:** If you used an older version of Laradock it's highly recommended to rebuild the containers you need to use [see how you rebuild a container](#Build-Re-build-Containers) in order to prevent as much errors as possible.
+>**Warning:** If you used an older version of Laradock it's highly recommended to rebuild the containers you need to use [see how you rebuild a container](/documentation/#Build-Re-build-Containers) in order to prevent as much errors as possible.
 
 <br>
 
