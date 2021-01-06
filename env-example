@@ -76,6 +76,8 @@ COMPOSE_CONVERT_WINDOWS_PATHS=1
 CHANGE_SOURCE=false
 # Set CHANGE_SOURCE and UBUNTU_SOURCE option if you want to change the Ubuntu system sources.list file.
 UBUNTU_SOURCE=aliyun
+# Set ORACLE INSTANT_CLIENT_MIRROR option if you want to use Intranet improve download, you can download files first
+ORACLE_INSTANT_CLIENT_MIRROR=https://github.com/diogomascarenha/oracle-instantclient/raw/master/
 
 ### Docker Sync ###########################################
 
@@ -104,6 +106,10 @@ WORKSPACE_NVM_NODEJS_ORG_MIRROR=
 WORKSPACE_INSTALL_NODE=true
 WORKSPACE_NODE_VERSION=node
 WORKSPACE_NPM_REGISTRY=
+WORKSPACE_NPM_FETCH_RETRIES=2
+WORKSPACE_NPM_FETCH_RETRY_FACTOR=10
+WORKSPACE_NPM_FETCH_RETRY_MINTIMEOUT=10000
+WORKSPACE_NPM_FETCH_RETRY_MAXTIMEOUT=60000
 WORKSPACE_INSTALL_PNPM=false
 WORKSPACE_INSTALL_YARN=true
 WORKSPACE_YARN_VERSION=latest
@@ -252,6 +258,12 @@ PHP_FPM_DEFAULT_LOCALE=POSIX
 PHP_FPM_PUID=1000
 PHP_FPM_PGID=1000
 
+### PHP_FPM_NEW_RELIC #####################################
+
+PHP_FPM_NEW_RELIC=false
+PHP_FPM_NEW_RELIC_KEY=0000
+PHP_FPM_NEW_RELIC_APP_NAME=app_name
+
 ### PHP_WORKER ############################################
 
 PHP_WORKER_INSTALL_BZ2=false
@@ -328,6 +340,20 @@ MYSQL_PASSWORD=secret
 MYSQL_PORT=3306
 MYSQL_ROOT_PASSWORD=root
 MYSQL_ENTRYPOINT_INITDB=./mysql/docker-entrypoint-initdb.d
+
+### CLICKHOUSE #################################################
+
+CLICKHOUSE_VERSION=20.9.4.76
+CLICKHOUSE_GOSU_VERSION=1.10
+CLICKHOUSE_CUSTOM_CONFIG=./clickhouse/config.xml
+CLICKHOUSE_USERS_CUSTOM_CONFIG=./clickhouse/users.xml
+CLICKHOUSE_USER=default
+CLICKHOUSE_PASSWORD=HAHA
+CLICKHOUSE_HTTP_PORT=8123
+CLICKHOUSE_CLIENT_PORT=9000
+CLICKHOUSE_NATIVE_PORT=9009
+CLICKHOUSE_ENTRYPOINT_INITDB=./clickhouse/docker-entrypoint-initdb.d
+CLICKHOUSE_HOST_LOG_PATH=./logs/clickhouse
 
 ### REDIS #################################################
 
