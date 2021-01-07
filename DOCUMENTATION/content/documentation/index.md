@@ -196,6 +196,7 @@ More [options](https://docs.docker.com/compose/reference/logs/)
 
 
 <br>
+
 <a name="PHP"></a>
 
 
@@ -206,20 +207,25 @@ More [options](https://docs.docker.com/compose/reference/logs/)
 <a name="Install-PHP-Extensions"></a>
 ## Install PHP Extensions
 
-Before installing PHP extensions, you have to decide first whether you need `FPM` or `CLI`, because each of them has it's own different container, if you need it for both, you have to edit both containers.
+You can set extensions to install in the .env file's corresponding section (`PHP_FPM`, `WORKSPACE`, `PHP_WORKER`), 
+just change the `false` to `true` at the desired extension's line.
+After this you have to rebuild the container with the `--no-cache` option.
 
-The PHP-FPM extensions should be installed in `php-fpm/Dockerfile-XX`. *(replace XX with your default PHP version number)*.
+```bash
+docker build --no-cache {container-name}
+```
+
+
+
+
+
+
+
 <br>
-The PHP-CLI extensions should be installed in `workspace/Dockerfile`.
 
-
-
-
-
-
-<br>
 <a name="Change-the-PHP-FPM-Version"></a>
 ## Change the (PHP-FPM) Version
+
 By default the latest stable PHP version is configured to run.
 
 >The PHP-FPM is responsible for serving your application code, you don't have to change the PHP-CLI version if you are planning to run your application on different PHP-FPM version.
@@ -1335,12 +1341,26 @@ docker-compose up -d minio
 
 5 - When configuring your other clients use the following details:
   ```
-  S3_HOST=http://minio
-  S3_KEY=access
-  S3_SECRET=secretkey
-  S3_REGION=us-east-1
-  S3_BUCKET=bucket
+  AWS_URL=http://minio:9000
+  AWS_ACCESS_KEY_ID=access
+  AWS_SECRET_ACCESS_KEY=secretkey
+  AWS_DEFAULT_REGION=us-east-1
+  AWS_BUCKET=test
+  AWS_PATH_STYLE=true
   ```
+6 - In `filesystems.php` you shoud use the following details (s3):
+  ```
+'s3' => [
+            'driver' => 's3',
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION'),
+            'bucket' => env('AWS_BUCKET'),
+            'endpoint' => env('AWS_URL'),
+            'use_path_style_endpoint' => env('AWS_PATH_STYLE', false)
+        ],
+```
+`'AWS_PATH_STYLE'` shout set to true only for local purpouse 
 
 
 
@@ -1887,6 +1907,7 @@ To install NVM and NodeJS in the Workspace container
 
 3 - Re-build the container `docker-compose build workspace`
 
+A `.npmrc` file is included in the `workspace` folder if you need to utilise this globally. This is copied automatically into the root and laradock user's folders on build.
 
 
 <br>
