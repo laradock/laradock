@@ -1907,6 +1907,7 @@ To install NVM and NodeJS in the Workspace container
 
 3 - Re-build the container `docker-compose build workspace`
 
+A `.npmrc` file is included in the `workspace` folder if you need to utilise this globally. This is copied automatically into the root and laradock user's folders on build.
 
 
 <br>

@@ -199,6 +199,14 @@ COPY ./crontab /etc/cron.d
 RUN chmod -R 644 /etc/cron.d
 
 ###########################################################################
+# Update Repositories
+###########################################################################
+
+USER root
+
+RUN apt-get update -yqq
+
+###########################################################################
 # Drush:
 ###########################################################################
 
@@ -769,6 +777,10 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
 RUN if [ ${NPM_REGISTRY} ]; then \
     . ~/.bashrc && npm config set registry ${NPM_REGISTRY} \
 ;fi
+
+# Mount .npmrc into home folder
+COPY ./.npmrc /root/.npmrc
+COPY ./.npmrc /home/laradock/.npmrc
 
 
 ###########################################################################
