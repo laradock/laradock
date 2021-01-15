@@ -192,6 +192,7 @@ That's it! enjoy :)
     - PostGIS *(Database extender for PostgreSQL. It adds support for geographic objects allowing location queries to be run in SQL)*
     - Blackfire *(Empowers all PHP developers and IT/Ops to continuously verify and improve their app's performance)*
     - Laravel Echo *(Bring the power of WebSockets to your Laravel applications)*
+    - Mercure *(Server-sent events)*
     - Phalcon *(A PHP web framework based on the model–view–controller pattern)*
     - Minio *(Cloud storage server released under Apache License v2, compatible with Amazon S3)*
     - AWS EB CLI *(CLI that helps you deploy and manage your AWS Elastic Beanstalk applications and environments)*

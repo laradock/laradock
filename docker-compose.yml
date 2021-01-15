@@ -744,6 +744,24 @@ services:
       networks:
         - backend
 
+### Mercure #############################################
+    mercure:
+      build: ./mercure
+      ports:
+        - "${MERCURE_NODE_HOST_HTTP_PORT}:80"
+        - "${MERCURE_NODE_HOST_HTTPS_PORT}:443"
+      privileged: true
+      environment:
+        - MERCURE_PUBLISHER_JWT_KEY=${MERCURE_PUBLISHER_JWT_KEY}
+        - MERCURE_SUBSCRIBER_JWT_KEY=${MERCURE_SUBSCRIBER_JWT_KEY}
+        - DEBUG=${MERCURE_DEBUG}
+        - SERVER_NAME=${MERCURE_SERVER_NAME}
+        - MERCURE_EXTRA_DIRECTIVES=cors_allowed_origins *\npublish_allowed_origins http://localhost:${MERCURE_NODE_HOST_HTTP_PORT} https://localhost:${MERCURE_NODE_HOST_HTTP_PORT}
+      hostname: laradock-mercure
+      networks:
+        - frontend
+        - backend
+
 ### Cassandra ############################################
     cassandra:
       build: ./cassandra
