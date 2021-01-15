@@ -1,12 +1,12 @@
 ### Step
 1. modify `docker-compose.yml`
-    change `extra_hosts` in `php-fpm` as your own host name
+    - change `extra_hosts` in `php-fpm` use your own host name
 2. change `env-local` name
-    `env-local` -> `.env`
+    - from `env-local` to `.env`
 3. modify `.env`
-    - change code path:`APP_CODE_PATH_HOST`
-    - change your own docker host IP:`DOCKER_HOST_IP`
-4. add your conf in `laradock/nginx/sites`
+    - change `APP_CODE_PATH_HOST` source code path
+    - change `DOCKER_HOST_IP` with your own docker host IP
+4. add your conf into `laradock/nginx/sites`
     - example:
     ```
     server {
@@ -54,7 +54,8 @@
     }
     ```
 4. build docker container
-    - `cd` in `laradock` path
-    - build docker container `docker-compose up -d nginx redis php-fpm workspace mysql`
-5. clone you project code in the path `APP_CODE_PATH_HOST`
-6. start docker container `docker-compose start nginx redis php-fpm workspace mysql`
+    - `cd` into `laradock` path
+    - run `docker-compose up -d nginx redis php-fpm workspace mysql`
+5. clone your project source code into the path `APP_CODE_PATH_HOST`
+6. start docker container
+    - run `docker-compose start nginx redis php-fpm workspace mysql`
