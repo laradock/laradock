@@ -196,6 +196,7 @@ More [options](https://docs.docker.com/compose/reference/logs/)
 
 
 <br>
+
 <a name="PHP"></a>
 
 
@@ -206,20 +207,25 @@ More [options](https://docs.docker.com/compose/reference/logs/)
 <a name="Install-PHP-Extensions"></a>
 ## Install PHP Extensions
 
-Before installing PHP extensions, you have to decide first whether you need `FPM` or `CLI`, because each of them has it's own different container, if you need it for both, you have to edit both containers.
+You can set extensions to install in the .env file's corresponding section (`PHP_FPM`, `WORKSPACE`, `PHP_WORKER`), 
+just change the `false` to `true` at the desired extension's line.
+After this you have to rebuild the container with the `--no-cache` option.
 
-The PHP-FPM extensions should be installed in `php-fpm/Dockerfile-XX`. *(replace XX with your default PHP version number)*.
+```bash
+docker build --no-cache {container-name}
+```
+
+
+
+
+
+
+
 <br>
-The PHP-CLI extensions should be installed in `workspace/Dockerfile`.
 
-
-
-
-
-
-<br>
 <a name="Change-the-PHP-FPM-Version"></a>
 ## Change the (PHP-FPM) Version
+
 By default the latest stable PHP version is configured to run.
 
 >The PHP-FPM is responsible for serving your application code, you don't have to change the PHP-CLI version if you are planning to run your application on different PHP-FPM version.
@@ -874,14 +880,14 @@ run from any cli: <br>`curl -X PURGE https://yourwebsite.com/`.
 2. How to reload varnish?<br>
 `docker container exec proxy varnishreload`
 3. Which varnish commands are allowed?
-    - varnishadm     
-    - varnishd      
-    - varnishhist    
-    - varnishlog     
-    - varnishncsa    
-    - varnishreload  
-    - varnishstat    
-    - varnishtest    
+    - varnishadm
+    - varnishd
+    - varnishhist
+    - varnishlog
+    - varnishncsa
+    - varnishreload
+    - varnishstat
+    - varnishtest
     - varnishtop
 4. How to reload Nginx?<br>
 `docker exec Nginx nginx -t`<br>
@@ -1077,7 +1083,14 @@ docker-compose up -d adminer
 
 2 - Open your browser and visit the localhost on port **8081**:  `http://localhost:8081`
 
-**Note:** We've locked Adminer to version 4.3.0 as at the time of writing [it contained a major bug](https://sourceforge.net/p/adminer/bugs-and-features/548/) preventing PostgreSQL users from logging in. If that bug is fixed (or if you're not using PostgreSQL) feel free to set Adminer to the latest version within [the Dockerfile](https://github.com/laradock/laradock/blob/master/adminer/Dockerfile#L1): `FROM adminer:latest`
+#### Additional Notes
+
+- You can load plugins in the `ADM_PLUGINS` variable in the `.env` file. If a plugin requires parameters to work correctly you will need to add a custom file to the container. [Find more info in section 'Loading plugins'](https://hub.docker.com/_/adminer).
+
+- You can choose a design in the `ADM_DESIGN` variable in the `.env` file. [Find more info in section 'Choosing a design'](https://hub.docker.com/_/adminer).
+
+- You can specify the default host with the `ADM_DEFAULT_SERVER` variable in the `.env` file. This is useful if you are connecting to an external server or a docker container named something other than the default `mysql`.
+
 
 
 
@@ -1212,7 +1225,7 @@ docker-compose up -d elasticsearch
 ```bash
 docker-compose exec elasticsearch /usr/share/elasticsearch/bin/plugin install {plugin-name}
 ```
-For ElasticSearch 5.0 and above, the previous "plugin" command has been renamed to "elasticsearch-plguin". 
+For ElasticSearch 5.0 and above, the previous "plugin" command has been renamed to "elasticsearch-plguin".
 Use the following instead:
 
 ```bash
@@ -1328,12 +1341,26 @@ docker-compose up -d minio
 
 5 - When configuring your other clients use the following details:
   ```
-  S3_HOST=http://minio
-  S3_KEY=access
-  S3_SECRET=secretkey
-  S3_REGION=us-east-1
-  S3_BUCKET=bucket
+  AWS_URL=http://minio:9000
+  AWS_ACCESS_KEY_ID=access
+  AWS_SECRET_ACCESS_KEY=secretkey
+  AWS_DEFAULT_REGION=us-east-1
+  AWS_BUCKET=test
+  AWS_PATH_STYLE=true
   ```
+6 - In `filesystems.php` you shoud use the following details (s3):
+  ```
+'s3' => [
+            'driver' => 's3',
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION'),
+            'bucket' => env('AWS_BUCKET'),
+            'endpoint' => env('AWS_URL'),
+            'use_path_style_endpoint' => env('AWS_PATH_STYLE', false)
+        ],
+```
+`'AWS_PATH_STYLE'` shout set to true only for local purpouse 
 
 
 
@@ -1880,6 +1907,7 @@ To install NVM and NodeJS in the Workspace container
 
 3 - Re-build the container `docker-compose build workspace`
 
+A `.npmrc` file is included in the `workspace` folder if you need to utilise this globally. This is copied automatically into the root and laradock user's folders on build.
 
 
 <br>
@@ -2022,6 +2050,27 @@ To install FFMPEG in the Workspace container
 4 - If you use the `php-worker` container too, please follow the same steps above especially if you have conversions that have been queued.
 
 **PS** Don't forget to install the binary in the `php-fpm` container too by applying the same steps above to its container, otherwise you'll get an error when running the `php-ffmpeg` binary.
+
+
+<br>
+<a name="Install-audiowaveform"></a>
+## Install BBC Audio Waveform Image Generator
+
+audiowaveform is a C++ command-line application that generates waveform data from either MP3, WAV, FLAC, or Ogg Vorbis format audio files. 
+Waveform data can be used to produce a visual rendering of the audio, similar in appearance to audio editing applications.
+Waveform data files are saved in either binary format (.dat) or JSON (.json).
+
+To install BBC Audio Waveform Image Generator in the Workspace container
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_AUDIOWAVEFORM` argument under the Workspace Container and set it to `true`
+
+3 - Re-build the container `docker-compose build workspace`
+
+4 - If you use the `php-worker` or `laravel-horizon` container too, please follow the same steps above especially if you have processing that have been queued.
+
+**PS** Don't forget to install the binary in the `php-fpm` container too by applying the same steps above to its container, otherwise you'll get an error when running the `audiowaveform` binary.
 
 
 <br>
