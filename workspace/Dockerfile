@@ -1601,6 +1601,24 @@ RUN if [ ${SHELL_OH_MY_ZSH} = true ]; then \
 
 USER root
 
+
+###########################################################################
+# PHP DECIMAL:
+###########################################################################
+
+USER root
+
+ARG INSTALL_PHPDECIMAL=false
+
+RUN if [ ${INSTALL_PHPDECIMAL} = true ]; then \
+    apt-get update -yqq \
+    && apt-get install -y libmpdec-dev \
+    && pecl install decimal \
+    && echo "extension=decimal.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/decimal.ini \
+    && ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/decimal.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/30-decimal.ini \
+    && php -m | grep -q 'decimal' \
+;fi
+
 #
 #--------------------------------------------------------------------------
 # Final Touch

@@ -978,6 +978,21 @@ RUN if [ ${INSTALL_XMLRPC} = true ]; then \
 ;fi
 
 ###########################################################################
+# PHP DECIMAL:
+###########################################################################
+
+USER root
+
+ARG INSTALL_PHPDECIMAL=false
+
+RUN if [ ${INSTALL_PHPDECIMAL} = true ]; then \
+    apt-get update -yqq \
+    && apt-get install -y libmpdec-dev \
+    && pecl install decimal \
+    && docker-php-ext-enable decimal \
+;fi
+
+###########################################################################
 # New Relic for PHP:
 ###########################################################################
 ARG NEW_RELIC=${NEW_RELIC}
