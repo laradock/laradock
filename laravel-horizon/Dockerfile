@@ -53,12 +53,34 @@ RUN if [ ${INSTALL_BZ2} = true ]; then \
   docker-php-ext-install bz2 \
 ;fi
 
+#Install GD package:
+ARG INSTALL_GD=false
+RUN if [ ${INSTALL_GD} = true ]; then \
+   apk add --update --no-cache freetype-dev libjpeg-turbo-dev jpeg-dev libpng-dev; \
+   if [ ${LARADOCK_PHP_VERSION} = "7.4" ]; then \
+      docker-php-ext-configure gd --with-freetype --with-jpeg; \
+   else \
+      docker-php-ext-configure gd --with-freetype-dir=/usr/lib/ --with-jpeg-dir=/usr/lib/ --with-png-dir=/usr/lib/; \
+   fi && \
+   docker-php-ext-install gd \
+;fi
+
 #Install GMP package:
 ARG INSTALL_GMP=false
 RUN if [ ${INSTALL_GMP} = true ]; then \
    apk add --update --no-cache gmp gmp-dev; \
    docker-php-ext-install gmp \
 ;fi
+
+#Install ImageMagick package:
+ARG INSTALL_IMAGEMAGICK=false
+RUN set -eux; \
+  if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
+    apk add --update --no-cache imagemagick-dev; \
+    pecl install imagick; \
+    docker-php-ext-enable imagick; \
+    php -m | grep -q 'imagick'; \
+  fi
 
 #Install BCMath package:
 ARG INSTALL_BCMATH=false
@@ -79,6 +101,20 @@ RUN if [ ${INSTALL_PGSQL} = true ]; then \
   && docker-php-ext-install pdo_pgsql \
   ;fi
 
+# Install ZipArchive:
+ARG INSTALL_ZIP_ARCHIVE=false
+RUN set -eux; \
+  if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
+    apk --update add libzip-dev && \
+    if [ ${LARADOCK_PHP_VERSION} = "7.3" ] || [ ${LARADOCK_PHP_VERSION} = "7.4" ] || [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+      docker-php-ext-configure zip; \
+    else \
+      docker-php-ext-configure zip --with-libzip; \
+    fi && \
+    # Install the zip extension
+    docker-php-ext-install zip \
+;fi
+
 # Install PhpRedis package:
 ARG INSTALL_PHPREDIS=false
 RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
@@ -93,6 +129,33 @@ RUN if [ ${INSTALL_FFMPEG} = true ]; then \
    # Add ffmpeg to horizon
     apk add ffmpeg \
 ;fi
+
+# Install BBC Audio Waveform Image Generator:
+ARG INSTALL_AUDIOWAVEFORM=false
+RUN if [ ${INSTALL_AUDIOWAVEFORM} = true ]; then \
+   apk add git make cmake gcc g++ libmad-dev libid3tag-dev libsndfile-dev gd-dev boost-dev libgd libpng-dev zlib-dev \
+   && apk add autoconf automake libtool gettext \
+   && wget https://github.com/xiph/flac/archive/1.3.3.tar.gz \
+   && tar xzf 1.3.3.tar.gz \
+   && cd flac-1.3.3 \
+   && ./autogen.sh \
+   && ./configure --enable-shared=no \
+   && make \
+   && make install \
+   && cd .. \
+   && git clone https://github.com/bbc/audiowaveform.git \
+   && cd audiowaveform \
+   && wget https://github.com/google/googletest/archive/release-1.10.0.tar.gz \
+   && tar xzf release-1.10.0.tar.gz \
+   && ln -s googletest-release-1.10.0/googletest googletest \
+   && ln -s googletest-release-1.10.0/googlemock googlemock \
+   && mkdir build \
+   && cd build \
+   && cmake .. \
+   && make \
+   && make install \
+;fi
+
 
 # Install Cassandra drivers:
 ARG INSTALL_CASSANDRA=false

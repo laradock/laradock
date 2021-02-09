@@ -87,7 +87,6 @@ alias npm-global="npm list -g --depth 0"
 alias ra="reload"
 alias reload="source ~/.aliases && echo \"$COL_GREEN ==> Aliases Reloaded... $COL_RESET \n \""
 alias run="npm run"
-alias tree="xtree"
 
 # Xvfb
 alias xvfb="Xvfb -ac :0 -screen 0 1024x768x16 &"
