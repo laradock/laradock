@@ -141,6 +141,7 @@ services:
           - INSTALL_SUPERVISOR=${WORKSPACE_INSTALL_SUPERVISOR}
           - INSTALL_FFMPEG=${WORKSPACE_INSTALL_FFMPEG}
           - INSTALL_GNU_PARALLEL=${WORKSPACE_INSTALL_GNU_PARALLEL}
+          - INSTALL_DOCKER_CLIENT=${WORKSPACE_INSTALL_DOCKER_CLIENT}
           - http_proxy
           - https_proxy
           - no_proxy
@@ -228,6 +229,7 @@ services:
           - PUID=${PHP_FPM_PUID}
           - PGID=${PHP_FPM_PGID}
           - LOCALE=${PHP_FPM_DEFAULT_LOCALE}
+          - INSTALL_DOCKER_CLIENT=${PHP_FPM_INSTALL_DOCKER_CLIENT}
           - http_proxy
           - https_proxy
           - no_proxy
