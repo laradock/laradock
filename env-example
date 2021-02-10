@@ -483,6 +483,9 @@ PMA_USER=default
 PMA_PASSWORD=secret
 PMA_ROOT_PASSWORD=secret
 PMA_PORT=8081
+PMA_MAX_EXECUTION_TIME=600
+PMA_MEMORY_LIMIT=256M
+PMA_UPLOAD_LIMIT=2G
 
 ### MAILDEV ###############################################
 
