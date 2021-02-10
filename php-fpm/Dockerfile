@@ -863,6 +863,21 @@ RUN if [ ${INSTALL_SSHPASS} = true ]; then \
 ;fi
 
 ###########################################################################
+# Docker Client:
+###########################################################################
+
+USER root
+
+ARG INSTALL_DOCKER_CLIENT=false
+
+RUN if [ ${INSTALL_DOCKER_CLIENT} = true ]; then \
+    curl -sS https://download.docker.com/linux/static/stable/x86_64/docker-20.10.3.tgz -o /tmp/docker.tar.gz && \
+    tar -xzf /tmp/docker.tar.gz -C /tmp/ && \
+    cp /tmp/docker/docker* /usr/local/bin && \
+    chmod +x /usr/local/bin/docker* \
+;fi
+
+###########################################################################
 # FFMPEG:
 ###########################################################################
 
