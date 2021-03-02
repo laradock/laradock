@@ -187,13 +187,17 @@ ARG INSTALL_XDEBUG=false
 
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
   # Install the xdebug extension
-  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-    pecl install xdebug-2.5.5; \
+  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+    pecl install xdebug-3.0.0; \
   else \
-    if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
-      pecl install xdebug-2.9.0; \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      pecl install xdebug-2.5.5; \
     else \
-      pecl install xdebug-2.9.8; \
+      if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+        pecl install xdebug-2.9.0; \
+      else \
+        pecl install xdebug-2.9.8; \
+      fi \
     fi \
   fi && \
   docker-php-ext-enable xdebug \
@@ -202,9 +206,20 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
 # Copy xdebug configuration for remote debugging
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
-RUN sed -i "s/xdebug.remote_autostart=0/xdebug.remote_autostart=1/" /usr/local/etc/php/conf.d/xdebug.ini && \
-    sed -i "s/xdebug.remote_enable=0/xdebug.remote_enable=1/" /usr/local/etc/php/conf.d/xdebug.ini && \
-    sed -i "s/xdebug.cli_color=0/xdebug.cli_color=1/" /usr/local/etc/php/conf.d/xdebug.ini
+RUN if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+  sed -i "s/xdebug.remote_host=/xdebug.client_host=/" /usr/local/etc/php/conf.d/xdebug.ini && \
+  sed -i "s/xdebug.remote_connect_back=0/xdebug.discover_client_host=false/" /usr/local/etc/php/conf.d/xdebug.ini && \
+  sed -i "s/xdebug.remote_port=9000/xdebug.client_port=9003/" /usr/local/etc/php/conf.d/xdebug.ini && \
+  sed -i "s/xdebug.profiler_enable=0/; xdebug.profiler_enable=0/" /usr/local/etc/php/conf.d/xdebug.ini && \
+  sed -i "s/xdebug.profiler_output_dir=/xdebug.output_dir=/" /usr/local/etc/php/conf.d/xdebug.ini && \
+  sed -i "s/xdebug.remote_mode=req/; xdebug.remote_mode=req/" /usr/local/etc/php/conf.d/xdebug.ini && \
+  sed -i "s/xdebug.remote_autostart=0/xdebug.start_with_request=yes/" /usr/local/etc/php/conf.d/xdebug.ini && \
+  sed -i "s/xdebug.remote_enable=0/xdebug.mode=debug/" /usr/local/etc/php/conf.d/xdebug.ini \
+;else \
+  sed -i "s/xdebug.remote_autostart=0/xdebug.remote_autostart=1/" /usr/local/etc/php/conf.d/xdebug.ini && \
+  sed -i "s/xdebug.remote_enable=0/xdebug.remote_enable=1/" /usr/local/etc/php/conf.d/xdebug.ini \
+;fi
+RUN sed -i "s/xdebug.cli_color=0/xdebug.cli_color=1/" /usr/local/etc/php/conf.d/xdebug.ini
 
 ###########################################################################
 # pcov:
@@ -845,6 +860,21 @@ ARG INSTALL_SSHPASS=false
 
 RUN if [ ${INSTALL_SSHPASS} = true ]; then \
     apt-get -y install sshpass \
+;fi
+
+###########################################################################
+# Docker Client:
+###########################################################################
+
+USER root
+
+ARG INSTALL_DOCKER_CLIENT=false
+
+RUN if [ ${INSTALL_DOCKER_CLIENT} = true ]; then \
+    curl -sS https://download.docker.com/linux/static/stable/x86_64/docker-20.10.3.tgz -o /tmp/docker.tar.gz && \
+    tar -xzf /tmp/docker.tar.gz -C /tmp/ && \
+    cp /tmp/docker/docker* /usr/local/bin && \
+    chmod +x /usr/local/bin/docker* \
 ;fi
 
 ###########################################################################
