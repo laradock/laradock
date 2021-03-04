@@ -274,7 +274,7 @@ services:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         - docker-in-docker:/certs/client
       ports:
-        - "9003:9003"
+        - "${PHP_FRM_PORT}:9003"
       expose:
         - "9000"
       extra_hosts:
