@@ -225,7 +225,7 @@ ARG DRUSH_VERSION
 ENV DRUSH_VERSION ${DRUSH_VERSION}
 
 RUN if [ ${INSTALL_DRUSH} = true ]; then \
-    apt-get -y install mysql-client && \
+    apt-get -yqq install mysql-client && \
     # Install Drush with the phar file.
     curl -fsSL -o /usr/local/bin/drush https://github.com/drush-ops/drush/releases/download/${DRUSH_VERSION}/drush.phar | bash && \
     chmod +x /usr/local/bin/drush && \
@@ -608,8 +608,8 @@ RUN if [ "${INSTALL_TAINT}" = true ]; then \
 ARG INSTALL_LIBPNG=false
 
 RUN if [ ${INSTALL_LIBPNG} = true ]; then \
-    apt-get update && \
-    apt-get install libpng16-16 \
+    apt-get -qq -y update && \
+    apt-get install -qq libpng16-16 \
 ;fi
 
 ###########################################################################
@@ -619,7 +619,7 @@ RUN if [ ${INSTALL_LIBPNG} = true ]; then \
 ARG INSTALL_INOTIFY=false
 
 RUN if [ ${INSTALL_INOTIFY} = true ]; then \
-    if [ $(php -r "echo PHP_MAJOR_VERSION;") != "5" ]; then \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
       pecl -q install inotify-0.1.6 && \
       echo "extension=inotify.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/inotify.ini && \
       ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/inotify.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-inotify.ini \
