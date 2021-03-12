@@ -49,13 +49,21 @@ env:
     - PHP_VERSION=NA BUILD_SERVICE="ipython-controller manticore"
     # - PHP_VERSION=NA BUILD_SERVICE="aws"
 
+cache:
+  directories:
+    - docker_images
+
+before_cache:
+  - docker save -o docker_images/images.tar $(docker images -a -q)
+
 # Installing a newer Docker version
 before_install:
   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
   - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-  - sudo apt-get update
-  - sudo apt-get -y install docker-ce
+  - sudo apt-get -qq update
+  - sudo apt-get -qqy install docker-ce
   - docker version
+  - docker load -i docker_images/images.tar || true
 
 script: ./travis-build.sh
 
