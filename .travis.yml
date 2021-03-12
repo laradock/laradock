@@ -54,7 +54,7 @@ cache:
     - docker_images
 
 before_cache:
-  - docker save -o docker_images/images.tar $(docker images -a -q)
+  - docker save -o docker_images/images_${BUILD_SERVICE}.tar $(docker images -a -q)
 
 # Installing a newer Docker version
 before_install:
@@ -63,7 +63,7 @@ before_install:
   - sudo apt-get -qq update
   - sudo apt-get -qqy install docker-ce
   - docker version
-  - docker load -i docker_images/images.tar || true
+  - docker load -i docker_images/images_${BUILD_SERVICE}.tar || true
 
 script: ./travis-build.sh
 
