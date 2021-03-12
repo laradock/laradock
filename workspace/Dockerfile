@@ -635,7 +635,7 @@ RUN if [ ${INSTALL_INOTIFY} = true ]; then \
 ###########################################################################
 
 ARG INSTALL_AST=false
-ARG AST_VERSION=1.0.3
+ARG AST_VERSION=1.0.10
 ENV AST_VERSION ${AST_VERSION}
 
 RUN if [ ${INSTALL_AST} = true ]; then \
@@ -1428,7 +1428,7 @@ RUN if [ ${INSTALL_WKHTMLTOPDF} = true ]; then \
    libx11-dev \
    libjpeg62 \
    libxtst6 \
-   fontconfig \ 
+   fontconfig \
    libjpeg-turbo8-dev \
    xfonts-base \
    xfonts-75dpi \
