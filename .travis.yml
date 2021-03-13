@@ -52,12 +52,12 @@ env:
 cache:
   bundler: true
   directories:
-    - $HOME/docker
+    - docker_images
 
 before_cache:
   - >
-    mkdir -p $HOME/docker && docker images -a --filter='dangling=false' --format '{{.Repository}}:{{.Tag}} {{.ID}}'
-    | xargs -n 2 -t sh -c 'test -e $HOME/docker/$1.tar.gz || docker save $0 | gzip -2 > $HOME/docker/$1.tar.gz'
+    mkdir -p docker_images && docker images -a --filter='dangling=false' --format '{{.Repository}}:{{.Tag}} {{.ID}}'
+    | xargs -n 2 -t sh -c 'test -e docker_images/$1_${BUILD_SERVICE}.tar.gz || docker save $0 | gzip -2 > docker_images/$1_${BUILD_SERVICE}.tar.gz'
 
 # Installing a newer Docker version
 before_install:
@@ -66,9 +66,12 @@ before_install:
   - sudo apt-get -qq update
   - sudo apt-get -qqy install docker-ce
   - docker version
-  - if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi
+  - if [[ -d docker_images/docker ]]; then ls docker_images/*_${BUILD_SERVICE}.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi
 
-script: ./travis-build.sh
+script:
+  - docker --version
+  - env | sort
+  - ./travis-build.sh
 
 deploy:
   provider: pages
