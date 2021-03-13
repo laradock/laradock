@@ -209,7 +209,7 @@ RUN chmod -R 644 /etc/cron.d
 
 USER root
 
-RUN apt-get update -yqq
+RUN apt-get -yqq update
 
 ###########################################################################
 # Drush:
@@ -225,7 +225,7 @@ ARG DRUSH_VERSION
 ENV DRUSH_VERSION ${DRUSH_VERSION}
 
 RUN if [ ${INSTALL_DRUSH} = true ]; then \
-    apt-get -y install mysql-client && \
+    apt-get -qq -y install mysql-client && \
     # Install Drush with the phar file.
     curl -fsSL -o /usr/local/bin/drush https://github.com/drush-ops/drush/releases/download/${DRUSH_VERSION}/drush.phar | bash && \
     chmod +x /usr/local/bin/drush && \
