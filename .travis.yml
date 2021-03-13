@@ -49,13 +49,24 @@ env:
     - PHP_VERSION=NA BUILD_SERVICE="ipython-controller manticore"
     # - PHP_VERSION=NA BUILD_SERVICE="aws"
 
+cache:
+  bundler: true
+  directories:
+    - $HOME/docker
+
+before_cache:
+  - >
+    mkdir -p $HOME/docker && docker images -a --filter='dangling=false' --format '{{.Repository}}:{{.Tag}} {{.ID}}'
+    | xargs -n 2 -t sh -c 'test -e $HOME/docker/$1.tar.gz || docker save $0 | gzip -2 > $HOME/docker/$1.tar.gz'
+
 # Installing a newer Docker version
 before_install:
   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
   - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-  - sudo apt-get update
-  - sudo apt-get -y install docker-ce
+  - sudo apt-get -qq update
+  - sudo apt-get -qqy install docker-ce
   - docker version
+  - if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi
 
 script: ./travis-build.sh
 
