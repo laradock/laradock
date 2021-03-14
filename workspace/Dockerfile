@@ -886,9 +886,9 @@ RUN set -xe; \
               && make install \
           ) \
         else \
-          echo "AEROSPIKE does not support PHP 8.0"
-        fi \
-      fi \
+          echo "AEROSPIKE does not support PHP 8.0" \
+        ;fi \
+      ;fi \
     && rm /tmp/aerospike-client-php.tar.gz \
     && echo 'extension=aerospike.so' >> /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/aerospike.ini \
     && echo 'aerospike.udf.lua_system_path=/usr/local/aerospike/lua' >> /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/aerospike.ini \
