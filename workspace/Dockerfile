@@ -884,19 +884,23 @@ RUN set -xe; \
     && \
       if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
         ( \
-            cd /tmp/aerospike-client-php/src/aerospike \
-            && phpize \
-            && ./build.sh \
-            && make install \
+          cd /tmp/aerospike-client-php/src/aerospike \
+          && phpize \
+          && ./build.sh \
+          && make install \
         ) \
       else \
-        ( \
-            cd /tmp/aerospike-client-php/src \
-            && phpize \
-            && ./build.sh \
-            && make install \
-        ) \
-      fi \
+        if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
+          ( \
+              cd /tmp/aerospike-client-php/src \
+              && phpize \
+              && ./build.sh \
+              && make install \
+          ) \
+        else \
+          echo "AEROSPIKE does not support PHP 8.0" \
+        ;fi \
+      ;fi \
     && rm /tmp/aerospike-client-php.tar.gz \
     && echo 'extension=aerospike.so' >> /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/aerospike.ini \
     && echo 'aerospike.udf.lua_system_path=/usr/local/aerospike/lua' >> /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/aerospike.ini \
