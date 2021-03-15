@@ -580,12 +580,16 @@ ARG INSTALL_SWOOLE=false
 RUN if [ ${INSTALL_SWOOLE} = true ]; then \
     # Install Php Swoole Extension
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-      pecl -q install swoole-2.0.10; \
+      pecl -q install swoole-2.0.11; \
     else \
       if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
-        pecl install swoole-2.2.0; \
+        echo '' | pecl install swoole-4.3.5; \
       else \
-        pecl install swoole; \
+        if [ $(php -r "echo PHP_MINOR_VERSION;") = "1" ]; then \
+          echo '' | pecl install swoole-4.6.0; \
+        else \
+          echo '' | pecl install swoole; \
+        fi \
       fi \
     fi && \
     echo "extension=swoole.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/swoole.ini && \
