@@ -1,14 +1,20 @@
 name: CI
 
-on: [push, pull_request]
+on: 
+  push:
+    branches: '**'
+    tags: '**'
+  pull_request:
+  schedule:
+  - cron: '0 0 * * 0'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php_version: ["7.1", "7.2", "7.3", "7.4", "8.0"]
-        service: [php-fpm, php-worker, workspace, laravel-horizon]
+        php_version: ["7.2", "7.3", "7.4", "8.0"]
+        service: [php-fpm, php-worker, workspace, laravel-horizon, 'nginx redis']
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
