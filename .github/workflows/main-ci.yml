@@ -24,4 +24,5 @@ jobs:
         cp env-example .env
         sed -i -- '201,272s/=false/=true/g' .env
         sed -i -- 's/CHANGE_SOURCE=true/CHANGE_SOURCE=false/g' .env
+        sed -i -- 's/PHPDBG=true/PHPDBG=false/g' .env
         docker-compose build ${{ matrix.service }}
