@@ -285,24 +285,21 @@ RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
 ###########################################################################
 
 ARG INSTALL_SWOOLE=false
-RUN if [ ${INSTALL_SWOOLE} = true ]; then \
-    # Install Php Swoole Extension
-    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-      pecl -q install swoole-2.0.11; \
-    else \
-      if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
-        echo '' | pecl install swoole-4.3.5; \
+RUN set -eux; \
+    if [ ${INSTALL_SWOOLE} = true ]; then \
+      # Install Php Swoole Extension
+      if   [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "50600" ]; then \
+        pecl install swoole-2.0.11; \
+      elif [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70000" ]; then \
+        pecl install swoole-4.3.5; \
+      elif [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70100" ]; then \
+        pecl install swoole-4.6.0; \
       else \
-        if [ $(php -r "echo PHP_MINOR_VERSION;") = "1" ]; then \
-          echo '' | pecl install swoole-4.6.0; \
-        else \
-          echo '' | pecl install swoole; \
-        fi \
-      fi \
-    fi && \
-    docker-php-ext-enable swoole \
-    && php -m | grep -q 'swoole' \
-;fi
+        pecl install swoole; \
+      fi; \
+      docker-php-ext-enable swoole; \
+      php -m | grep -q 'swoole'; \
+    fi
 
 ###########################################################################
 # Taint EXTENSION
