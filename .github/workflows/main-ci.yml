@@ -33,6 +33,7 @@ jobs:
         sed -i -- 's/MAILPARSE=true/MAILPARSE=false/g' .env
         sed -i -- 's/YAML=true/YAML=false/g' .env
         sed -i -- 's/MSSQL=true/MSSQL=false/g' .env
+        sed -i -- 's/AMQP=true/AMQP=false/g' .env
         docker-compose build ${{ matrix.service }}
 
   build-other:
