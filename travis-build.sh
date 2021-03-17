@@ -14,7 +14,16 @@ if [ -n "${PHP_VERSION}" ]; then
     cp env-example .env
     sed -i -- "s/PHP_VERSION=.*/PHP_VERSION=${PHP_VERSION}/g" .env
     sed -i -- 's/=false/=true/g' .env
+    sed -i -- 's/CHANGE_SOURCE=true/CHANGE_SOURCE=false/g' .env
     sed -i -- 's/PHPDBG=true/PHPDBG=false/g' .env
+    sed -i -- 's/CASSANDRA=true/CASSANDRA=false/g' .env
+    sed -i -- 's/GEARMAN=true/GEARMAN=false/g' .env
+    sed -i -- 's/AEROSPIKE=true/AEROSPIKE=false/g' .env
+    sed -i -- 's/PHALCON=true/PHALCON=false/g' .env
+    sed -i -- 's/RDKAFKA=true/RDKAFKA=false/g' .env
+    sed -i -- 's/MAILPARSE=true/MAILPARSE=false/g' .env
+    sed -i -- 's/SWOOLE=true/SWOOLE=false/g' .env
+    sed -i -- 's/V8JS=true/V8JS=false/g' .env
     if [ "${PHP_VERSION}" == "5.6" ]; then
         # Aerospike C Client SDK 4.0.7, Debian 9.6 is not supported
         # https://github.com/aerospike/aerospike-client-php5/issues/145
