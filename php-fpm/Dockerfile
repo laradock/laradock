@@ -1034,7 +1034,13 @@ RUN if [ ${INSTALL_CACHETOOL} = true ]; then \
 ARG INSTALL_XMLRPC=false
 
 RUN if [ ${INSTALL_XMLRPC} = true ]; then \
-    docker-php-ext-install xmlrpc \
+  apt-get -yq install libxml2-dev; \
+  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+    pecl install xmlrpc-1.0.0RC2; \
+    docker-php-ext-enable xmlrpc; \
+  else \
+    docker-php-ext-install xmlrpc; \
+  fi \
 ;fi
 
 ###########################################################################
