@@ -14,7 +14,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php_version: ["7.2", "7.3", "7.4", "8.0"]
+        # php_version: ["7.2", "7.3", "7.4", "8.0"]
+        php_version: ["8.0"]
         service: [php-fpm, php-worker, workspace, laravel-horizon]
     steps:
     - uses: actions/checkout@v2
@@ -40,17 +41,17 @@ jobs:
         sed -i -- 's/IONCUBE=true/IONCUBE=false/g' .env
         docker-compose build ${{ matrix.service }}
 
-  build-other:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        service: ['nginx', 'redis', 'mysql', 'mariadb', 'percona', 'minio', 'mongo']
-    steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: |
-        cp env-example .env
-        sed -i -- 's/=false/=true/g' .env
-        sed -i -- 's/CHANGE_SOURCE=true/CHANGE_SOURCE=false/g' .env
-        sed -i -- 's/PHPDBG=true/PHPDBG=false/g' .env
-        docker-compose build ${{ matrix.service }}
+  # build-other:
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       service: ['nginx', 'redis', 'mysql', 'mariadb', 'percona', 'minio', 'mongo']
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - name: Build the Docker image
+  #     run: |
+  #       cp env-example .env
+  #       sed -i -- 's/=false/=true/g' .env
+  #       sed -i -- 's/CHANGE_SOURCE=true/CHANGE_SOURCE=false/g' .env
+  #       sed -i -- 's/PHPDBG=true/PHPDBG=false/g' .env
+  #       docker-compose build ${{ matrix.service }}
