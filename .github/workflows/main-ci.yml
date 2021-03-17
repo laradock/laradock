@@ -37,6 +37,7 @@ jobs:
         sed -i -- 's/AMQP=true/AMQP=false/g' .env
         sed -i -- 's/MEMCACHED=true/MEMCACHED=false/g' .env
         sed -i -- 's/OCI8=true/OCI8=false/g' .env
+        sed -i -- 's/IONCUBE=true/IONCUBE=false/g' .env
         docker-compose build ${{ matrix.service }}
 
   build-other:
