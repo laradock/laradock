@@ -12,6 +12,7 @@ jobs:
   build-php:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         php_version: ["7.2", "7.3", "7.4", "8.0"]
         service: [php-fpm, php-worker, workspace, laravel-horizon]
@@ -22,14 +23,27 @@ jobs:
         PHP_VERSION: ${{ matrix.php_version }}
       run: |
         cp env-example .env
-        # sed -i -- '201,272s/=false/=true/g' .env
+        sed -i -- '201,272s/=false/=true/g' .env
         sed -i -- 's/CHANGE_SOURCE=true/CHANGE_SOURCE=false/g' .env
         sed -i -- 's/PHPDBG=true/PHPDBG=false/g' .env
+        sed -i -- 's/CASSANDRA=true/CASSANDRA=false/g' .env
+        sed -i -- 's/GEARMAN=true/GEARMAN=false/g' .env
+        sed -i -- 's/AEROSPIKE=true/AEROSPIKE=false/g' .env
+        sed -i -- 's/PHALCON=true/PHALCON=false/g' .env
+        sed -i -- 's/RDKAFKA=true/RDKAFKA=false/g' .env
+        sed -i -- 's/MAILPARSE=true/MAILPARSE=false/g' .env
+        sed -i -- 's/YAML=true/YAML=false/g' .env
+        sed -i -- 's/MSSQL=true/MSSQL=false/g' .env
+        sed -i -- 's/AMQP=true/AMQP=false/g' .env
+        sed -i -- 's/MEMCACHED=true/MEMCACHED=false/g' .env
+        sed -i -- 's/OCI8=true/OCI8=false/g' .env
+        sed -i -- 's/IONCUBE=true/IONCUBE=false/g' .env
         docker-compose build ${{ matrix.service }}
 
   build-other:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         service: ['nginx', 'redis', 'mysql', 'mariadb', 'percona', 'minio', 'mongo']
     steps:
@@ -39,5 +53,4 @@ jobs:
         cp env-example .env
         sed -i -- 's/=false/=true/g' .env
         sed -i -- 's/CHANGE_SOURCE=true/CHANGE_SOURCE=false/g' .env
-        sed -i -- 's/PHPDBG=true/PHPDBG=false/g' .env
         docker-compose build ${{ matrix.service }}

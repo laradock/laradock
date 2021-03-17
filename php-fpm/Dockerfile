@@ -339,31 +339,38 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
 
 ARG INSTALL_XHPROF=false
 
-RUN if [ ${INSTALL_XHPROF} = true ]; then \
-    # Install the php xhprof extension
-    if [ $(php -r "echo PHP_MAJOR_VERSION;") = 7 ]; then \
-      curl -L -o /tmp/xhprof.tar.gz "https://github.com/tideways/php-xhprof-extension/archive/v5.0.1.tar.gz"; \
-    else \
-      curl -L -o /tmp/xhprof.tar.gz "https://codeload.github.com/phacility/xhprof/tar.gz/master"; \
-    fi \
-    && mkdir -p xhprof \
-    && tar -C xhprof -zxvf /tmp/xhprof.tar.gz --strip 1 \
-    && ( \
-        cd xhprof \
-        && phpize \
-        && ./configure \
-        && make \
-        && make install \
-    ) \
-    && rm -r xhprof \
-    && rm /tmp/xhprof.tar.gz \
-;fi
+RUN set -eux; \
+    if [ ${INSTALL_XHPROF} = true ]; then \
+      # Install the php xhprof extension
+      if   [ $(php -r "echo PHP_MAJOR_VERSION;") != 5 ]; then \
+        pecl install xhprof; \
+      else \
+        curl -L -o /tmp/xhprof.tar.gz "https://codeload.github.com/phacility/xhprof/tar.gz/master"; \
+        mkdir -p /tmp/xhprof; \
+        tar -C /tmp/xhprof -zxvf /tmp/xhprof.tar.gz --strip 1; \
+        ( \
+            cd /tmp/xhprof/extension; \
+            phpize; \
+            ./configure; \
+            make; \
+            make install; \
+        ); \
+        rm -r /tmp/xhprof; \
+        rm /tmp/xhprof.tar.gz; \
+      fi; \
+      docker-php-ext-enable xhprof; \
+      php -m | grep -q 'xhprof'; \
+    fi
 
-COPY ./xhprof.ini /usr/local/etc/php/conf.d
+# if [ ${INSTALL_XHPROF_USE_TIDYWAYS} = true ]; then \
+#   https://github.com/tideways/php-xhprof-extension
+# fi
 
-RUN if [ ${INSTALL_XHPROF} = false ]; then \
-    rm /usr/local/etc/php/conf.d/xhprof.ini \
-;fi
+# COPY ./xhprof.ini /usr/local/etc/php/conf.d
+
+# RUN if [ ${INSTALL_XHPROF} = false ]; then \
+#     rm /usr/local/etc/php/conf.d/xhprof.ini \
+# ;fi
 
 ###########################################################################
 # AMQP:
@@ -1027,7 +1034,13 @@ RUN if [ ${INSTALL_CACHETOOL} = true ]; then \
 ARG INSTALL_XMLRPC=false
 
 RUN if [ ${INSTALL_XMLRPC} = true ]; then \
-    docker-php-ext-install xmlrpc \
+  apt-get -yq install libxml2-dev; \
+  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+    pecl install xmlrpc-1.0.0RC2; \
+    docker-php-ext-enable xmlrpc; \
+  else \
+    docker-php-ext-install xmlrpc; \
+  fi \
 ;fi
 
 ###########################################################################
