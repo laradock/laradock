@@ -381,7 +381,8 @@ ARG INSTALL_AMQP=false
 RUN if [ ${INSTALL_AMQP} = true ]; then \
     # download and install manually, to make sure it's compatible with ampq installed by pecl later
     # install cmake first
-    apt-get -y install cmake && \
+    apt-get -yqq update && \
+    apt-get -yqq install cmake && \
     curl -L -o /tmp/rabbitmq-c.tar.gz https://github.com/alanxz/rabbitmq-c/archive/master.tar.gz && \
     mkdir -p rabbitmq-c && \
     tar -C rabbitmq-c -zxvf /tmp/rabbitmq-c.tar.gz --strip 1 && \
@@ -390,7 +391,11 @@ RUN if [ ${INSTALL_AMQP} = true ]; then \
     cmake .. && \
     cmake --build . --target install && \
     # Install the amqp extension
-    pecl install amqp && \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+      printf "\n" | pecl install amqp-1.11.0beta; \
+    else \
+      printf "\n" | pecl install amqp; \
+    fi && \
     docker-php-ext-enable amqp && \
     # Install the sockets extension
     docker-php-ext-install sockets \
