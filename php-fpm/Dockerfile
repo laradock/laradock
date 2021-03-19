@@ -381,7 +381,6 @@ ARG INSTALL_AMQP=false
 RUN if [ ${INSTALL_AMQP} = true ]; then \
     # download and install manually, to make sure it's compatible with ampq installed by pecl later
     # install cmake first
-    apt-get -yqq update && \
     apt-get -yqq install cmake && \
     curl -L -o /tmp/rabbitmq-c.tar.gz https://github.com/alanxz/rabbitmq-c/archive/master.tar.gz && \
     mkdir -p rabbitmq-c && \
