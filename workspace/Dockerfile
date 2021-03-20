@@ -1026,13 +1026,13 @@ RUN if [ ${INSTALL_DEPLOYER} = true ]; then \
 ###########################################################################
 # Prestissimo:
 ###########################################################################
-USER laradock
-
 ARG INSTALL_PRESTISSIMO=false
 
 RUN if [ ${INSTALL_PRESTISSIMO} = true ]; then \
-    # Install Prestissimo
-    composer global require "hirak/prestissimo" \
+    if [ $(php -r "echo COMPOSER_VERSION;") = "1" ]; then \
+      # Install Prestissimo
+      composer global require "hirak/prestissimo" \
+    ;fi
 ;fi
 
 ###########################################################################
