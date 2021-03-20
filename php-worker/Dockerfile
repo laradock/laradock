@@ -111,8 +111,13 @@ RUN if [ ${INSTALL_SOAP} = true ]; then \
 # Install MongoDB drivers:
 ARG INSTALL_MONGO=false
 RUN if [ ${INSTALL_MONGO} = true ]; then \
-    pecl install mongodb; \
-    docker-php-ext-enable mongodb; \
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+        pecl install mongo; \
+        docker-php-ext-enable mongo; \
+      else \
+        pecl install mongodb; \
+        docker-php-ext-enable mongodb; \
+      fi; \
     fi
 
 #Install BCMath package:
@@ -356,6 +361,16 @@ ARG INSTALL_XMLRPC=false
 RUN if [ ${INSTALL_XMLRPC} = true ]; then \
     docker-php-ext-install xmlrpc \
 ;fi
+
+RUN if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      pecl install mongo; \
+      docker-php-ext-enable mongo; \
+      php -m | grep -q 'mongo'; \
+    else \
+      pecl install mongodb; \
+      docker-php-ext-enable mongodb; \
+      php -m | grep -q 'mongodb'; \
+    fi
 
 #
 #--------------------------------------------------------------------------
