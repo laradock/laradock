@@ -35,7 +35,11 @@ RUN apk --update add wget \
   procps
 
 RUN docker-php-ext-install mysqli mbstring pdo pdo_mysql tokenizer xml pcntl
-RUN pecl channel-update pecl.php.net && pecl install memcached mcrypt-1.0.1 && docker-php-ext-enable memcached
+RUN if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+  pecl channel-update pecl.php.net && pecl install memcached-2.2.0 mcrypt-1.0.1 && docker-php-ext-enable memcached \
+;else \
+  pecl channel-update pecl.php.net && pecl install memcached mcrypt-1.0.1 && docker-php-ext-enable memcached \
+;fi
 
 # Add a non-root user to help install ffmpeg:
 ARG PUID=1000
