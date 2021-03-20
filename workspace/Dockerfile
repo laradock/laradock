@@ -1032,7 +1032,7 @@ RUN if [ ${INSTALL_PRESTISSIMO} = true ]; then \
     if [ $(php -r "echo COMPOSER_VERSION;") = "1" ]; then \
       # Install Prestissimo
       composer global require "hirak/prestissimo" \
-    ;fi
+    ;fi \
 ;fi
 
 ###########################################################################
