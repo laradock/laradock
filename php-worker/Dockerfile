@@ -362,16 +362,6 @@ RUN if [ ${INSTALL_XMLRPC} = true ]; then \
     docker-php-ext-install xmlrpc \
 ;fi
 
-RUN if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-      pecl install mongo; \
-      docker-php-ext-enable mongo; \
-      php -m | grep -q 'mongo'; \
-    else \
-      pecl install mongodb; \
-      docker-php-ext-enable mongodb; \
-      php -m | grep -q 'mongodb'; \
-    fi
-
 #
 #--------------------------------------------------------------------------
 # Optional Supervisord Configuration
