@@ -840,11 +840,13 @@ ARG INSTALL_YAML=false
 RUN if [ ${INSTALL_YAML} = true ]; then \
     apt-get install libyaml-dev -y ; \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-        pecl install -a yaml-1.3.2; \
-    else \
-        pecl install yaml; \
-    fi && \
-    docker-php-ext-enable yaml \
+        echo '' | pecl install -a yaml-1.3.2; \
+    elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+        echo '' | pecl install yaml-2.0.4; \
+    else
+        echo '' | pecl install yaml; \
+    fi \
+    && docker-php-ext-enable yaml; \
 ;fi
 
 ###########################################################################

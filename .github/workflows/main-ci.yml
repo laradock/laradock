@@ -1,6 +1,6 @@
 name: CI
 
-on: 
+on:
   push:
     branches: '**'
     tags: '**'
@@ -32,7 +32,6 @@ jobs:
         sed -i -- 's/PHALCON=true/PHALCON=false/g' .env
         sed -i -- 's/RDKAFKA=true/RDKAFKA=false/g' .env
         sed -i -- 's/MAILPARSE=true/MAILPARSE=false/g' .env
-        sed -i -- 's/YAML=true/YAML=false/g' .env
         sed -i -- 's/MSSQL=true/MSSQL=false/g' .env
         sed -i -- 's/AMQP=true/AMQP=false/g' .env
         sed -i -- 's/MEMCACHED=true/MEMCACHED=false/g' .env

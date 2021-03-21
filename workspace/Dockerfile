@@ -1388,12 +1388,14 @@ ARG INSTALL_YAML=false
 RUN if [ ${INSTALL_YAML} = true ]; then \
     apt-get install libyaml-dev -y ; \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-        pecl install -a yaml-1.3.2; \
-    else \
-        pecl install yaml; \
-    fi && \
-    echo "extension=yaml.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/yaml.ini && \
-    ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/yaml.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/35-yaml.ini \
+        echo '' | pecl install -a yaml-1.3.2; \
+    elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+        echo '' | pecl install yaml-2.0.4; \
+    else
+        echo '' | pecl install yaml; \
+    fi \
+    && echo "extension=yaml.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/yaml.ini \
+    && ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/yaml.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/35-yaml.ini; \
 ;fi
 
 ###########################################################################
@@ -1631,8 +1633,6 @@ RUN if [ ${SHELL_OH_MY_ZSH} = true ]; then \
     echo "source ~/aliases.sh" >> ~/.zshrc && \
 	  echo "" >> ~/.zshrc \
 ;fi
-
-USER root
 
 #
 #--------------------------------------------------------------------------
