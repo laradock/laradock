@@ -226,14 +226,20 @@ RUN if [ ${INSTALL_AUDIOWAVEFORM} = true ]; then \
    && make install \
 ;fi
 
-
 # Install AMQP:
 ARG INSTALL_AMQP=false
 
 RUN if [ ${INSTALL_AMQP} = true ]; then \
-    apk --update add rabbitmq-c rabbitmq-c-dev && \
-    pecl install amqp && \
+    apk del -q openssl openssl-dev && \
+    apk --update add -q rabbitmq-c rabbitmq-c-dev && \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+      printf "\n" | pecl install amqp-1.11.0beta; \
+    else \
+      printf "\n" | pecl install amqp; \
+    fi && \
     docker-php-ext-enable amqp && \
+    apk del -q rabbitmq-c-dev && \
+    apk add --update -q openssl openssl-dev && \
     docker-php-ext-install sockets \
 ;fi
 
