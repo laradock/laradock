@@ -1391,7 +1391,7 @@ RUN if [ ${INSTALL_YAML} = true ]; then \
         echo '' | pecl install -a yaml-1.3.2; \
     elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
         echo '' | pecl install yaml-2.0.4; \
-    else
+    else \
         echo '' | pecl install yaml; \
     fi \
     && echo "extension=yaml.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/yaml.ini \
