@@ -1395,7 +1395,7 @@ RUN if [ ${INSTALL_YAML} = true ]; then \
         echo '' | pecl install yaml; \
     fi \
     && echo "extension=yaml.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/yaml.ini \
-    && ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/yaml.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/35-yaml.ini; \
+    && ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/yaml.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/35-yaml.ini \
 ;fi
 
 ###########################################################################
