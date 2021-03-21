@@ -57,6 +57,23 @@ RUN if [ ${INSTALL_BZ2} = true ]; then \
   docker-php-ext-install bz2 \
 ;fi
 
+###########################################################################
+# PHP GnuPG:
+###########################################################################
+
+ARG INSTALL_GNUPG=false
+
+RUN set -eux; if [ ${INSTALL_GNUPG} = true ]; then \
+      apk add --no-cache --no-progress --virtual BUILD_DEPS_PHP_GNUPG gpgme-dev; \
+      apk add --no-cache --no-progress gpgme; \
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+        pecl install gnupg-1.5.0RC2; \
+      else \
+        pecl install gnupg; \
+      fi; \
+      docker-php-ext-enable gnupg; \
+    fi
+
 #Install GD package:
 ARG INSTALL_GD=false
 RUN if [ ${INSTALL_GD} = true ]; then \

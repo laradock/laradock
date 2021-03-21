@@ -97,6 +97,21 @@ RUN if [ ${INSTALL_GMP} = true ]; then \
 ;fi
 
 ###########################################################################
+# GnuPG:
+###########################################################################
+
+ARG INSTALL_GNUPG=false
+
+RUN if [ ${INSTALL_GNUPG} = true ]; then \
+      apt-get -yq install libgpgme-dev; \
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+        pecl install gnupg-1.5.0RC2; \
+      else \
+        pecl install gnupg; \
+      fi; \
+    fi
+
+###########################################################################
 # SSH2:
 ###########################################################################
 
