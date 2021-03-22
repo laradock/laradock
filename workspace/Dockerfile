@@ -240,121 +240,90 @@ RUN if [ ${INSTALL_WP_CLI} = true ]; then \
 ;fi
 
 ###########################################################################
-# BZ2:
-###########################################################################
-
-ARG INSTALL_BZ2=false
-RUN if [ ${INSTALL_BZ2} = true ]; then \
-  apt-get -y install php${LARADOCK_PHP_VERSION}-bz2 \
-;fi
-
-###########################################################################
-# GMP (GNU Multiple Precision):
-###########################################################################
-
 USER root
 
+ARG INSTALL_BZ2=false
 ARG INSTALL_GMP=false
+ARG INSTALL_GNUPG=false
+ARG INSTALL_SSH2=false
+ARG INSTALL_SOAP=false
+ARG INSTALL_XSL=false
 ARG PHP_VERSION=${LARADOCK_PHP_VERSION}
 
-RUN if [ ${INSTALL_GMP} = true ]; then \
-  # Install the PHP GMP extension
-  apt-get -y install php${LARADOCK_PHP_VERSION}-gmp \
-;fi
-
-###########################################################################
-# GnuPG:
-###########################################################################
-
-ARG INSTALL_GNUPG=false
-
-RUN if [ ${INSTALL_GNUPG} = true ]; then \
-      apt-get install -yqq php${LARADOCK_PHP_VERSION}-gnupg; \
+RUN set -eux; \
+    ###########################################################################
+    # BZ2:
+    ###########################################################################
+    if [ ${INSTALL_BZ2} = true ]; then \
+      apt-get -yqq install php${LARADOCK_PHP_VERSION}-bz2; \
+    fi; \
+    ###########################################################################
+    # GMP (GNU Multiple Precision):
+    ###########################################################################
+    if [ ${INSTALL_GMP} = true ]; then \
+      # Install the PHP GMP extension
+      apt-get -yqq install php${LARADOCK_PHP_VERSION}-gmp; \
+    fi; \
+    ###########################################################################
+    # GnuPG:
+    ###########################################################################
+    if [ ${INSTALL_GNUPG} = true ]; then \
+        apt-get -yqq install php${LARADOCK_PHP_VERSION}-gnupg; \
+    fi; \
+    ###########################################################################
+    # SSH2:
+    ###########################################################################
+    if [ ${INSTALL_SSH2} = true ]; then \
+      # Install the PHP SSH2 extension
+      apt-get -yqq install libssh2-1-dev php${LARADOCK_PHP_VERSION}-ssh2; \
+    fi; \
+    ###########################################################################
+    # SOAP:
+    ###########################################################################
+    if [ ${INSTALL_SOAP} = true ]; then \
+      # Install the PHP SOAP extension
+      apt-get -yqq install libxml2-dev php${LARADOCK_PHP_VERSION}-soap; \
+    fi; \
+    ###########################################################################
+    # XSL:
+    ###########################################################################
+    if [ ${INSTALL_XSL} = true ]; then \
+      # Install the PHP XSL extension
+      apt-get -yqq install libxslt-dev php${LARADOCK_PHP_VERSION}-xsl; \
     fi
 
 ###########################################################################
-# SSH2:
-###########################################################################
-
-USER root
-
-ARG INSTALL_SSH2=false
-
-RUN if [ ${INSTALL_SSH2} = true ]; then \
-  # Install the PHP SSH2 extension
-  apt-get -y install libssh2-1-dev php${LARADOCK_PHP_VERSION}-ssh2 \
-;fi
-
-###########################################################################
-# SOAP:
-###########################################################################
-
-USER root
-
-ARG INSTALL_SOAP=false
-
-RUN if [ ${INSTALL_SOAP} = true ]; then \
-  # Install the PHP SOAP extension
-  apt-get -y install libxml2-dev php${LARADOCK_PHP_VERSION}-soap \
-;fi
-
-###########################################################################
-# XSL:
-###########################################################################
-
-USER root
-
-ARG INSTALL_XSL=false
-
-RUN if [ ${INSTALL_XSL} = true ]; then \
-  # Install the PHP XSL extension
-  apt-get -y install libxslt-dev php${LARADOCK_PHP_VERSION}-xsl \
-;fi
-
-
-###########################################################################
-# LDAP:
-###########################################################################
 
 ARG INSTALL_LDAP=false
-
-RUN if [ ${INSTALL_LDAP} = true ]; then \
-    apt-get install -y libldap2-dev && \
-    apt-get install -y php${LARADOCK_PHP_VERSION}-ldap \
-;fi
-
-###########################################################################
-# SMB:
-###########################################################################
-
 ARG INSTALL_SMB=false
-
-RUN if [ ${INSTALL_SMB} = true ]; then \
-    apt-get install -y smbclient php-smbclient coreutils \
-;fi
-
-###########################################################################
-# IMAP:
-###########################################################################
-
 ARG INSTALL_IMAP=false
-
-RUN if [ ${INSTALL_IMAP} = true ]; then \
-    apt-get install -y php${LARADOCK_PHP_VERSION}-imap \
-;fi
-
-###########################################################################
-# Subversion:
-###########################################################################
-
-USER root
-
 ARG INSTALL_SUBVERSION=false
 
-RUN if [ ${INSTALL_SUBVERSION} = true ]; then \
-    apt-get install -y subversion \
-;fi
-
+RUN set -eux; \
+    ###########################################################################
+    # LDAP:
+    ###########################################################################
+    if [ ${INSTALL_LDAP} = true ]; then \
+        apt-get install -yqq libldap2-dev php${LARADOCK_PHP_VERSION}-ldap; \
+    fi; \
+    ###########################################################################
+    # SMB:
+    ###########################################################################
+    if [ ${INSTALL_SMB} = true ]; then \
+        apt-get install -yqq smbclient php-smbclient coreutils; \
+    fi; \
+    ###########################################################################
+    # IMAP:
+    ###########################################################################
+    if [ ${INSTALL_IMAP} = true ]; then \
+        apt-get install -yqq php${LARADOCK_PHP_VERSION}-imap; \
+    fi; \
+    ###########################################################################
+    # Subversion:
+    ###########################################################################
+    if [ ${INSTALL_SUBVERSION} = true ]; then \
+        apt-get install -yqq subversion; \
+    fi
 
 ###########################################################################
 # xDebug:
@@ -559,7 +528,7 @@ ARG INSTALL_GEARMAN=false
 RUN if [ ${INSTALL_GEARMAN} = true ]; then \
     add-apt-repository -y ppa:ondrej/pkg-gearman && \
     apt-get update && \
-    apt-get install php-gearman -y  \
+    apt-get -yqq install php-gearman \
 ;fi
 
 ###########################################################################
@@ -569,7 +538,6 @@ RUN if [ ${INSTALL_GEARMAN} = true ]; then \
 ARG INSTALL_PHPREDIS=false
 
 RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
-    apt-get update -yqq && \
     apt-get install -yqq php${LARADOCK_PHP_VERSION}-redis \
 ;fi
 
@@ -619,8 +587,7 @@ RUN if [ "${INSTALL_TAINT}" = true ]; then \
 ARG INSTALL_LIBPNG=false
 
 RUN if [ ${INSTALL_LIBPNG} = true ]; then \
-    apt-get update && \
-    apt-get install libpng16-16 \
+    apt-get -yqq install libpng16-16 \
 ;fi
 
 ###########################################################################
@@ -680,8 +647,7 @@ RUN if [ ${INSTALL_FSWATCH} = true ]; then \
 ARG INSTALL_GRAPHVIZ=false
 
 RUN if [ ${INSTALL_GRAPHVIZ} = true ]; then \
-    apt-get update && \
-    apt-get install -y graphviz \
+    apt-get install -yqq graphviz \
 ;fi
 
 # IonCube Loader
@@ -1249,7 +1215,7 @@ USER root
 ARG INSTALL_TERRAFORM=false
 
 RUN if [ ${INSTALL_TERRAFORM} = true ]; then \
-    apt-get -y install sudo wget unzip \
+    apt-get -yqq install sudo wget unzip \
     && wget https://releases.hashicorp.com/terraform/0.10.6/terraform_0.10.6_linux_amd64.zip \
     && unzip terraform_0.10.6_linux_amd64.zip \
     && mv terraform /usr/local/bin \
@@ -1265,7 +1231,7 @@ ARG INSTALL_PG_CLIENT=false
 
 RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
     # Install the pgsql client
-    apt-get install wget \
+    apt-get -yqq install wget \
     && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
     && echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list \
     && apt-get update \
@@ -1307,7 +1273,7 @@ ARG LARADOCK_PHALCON_VERSION
 ENV LARADOCK_PHALCON_VERSION ${LARADOCK_PHALCON_VERSION}
 
 RUN if [ $INSTALL_PHALCON = true ]; then \
-    apt-get update && apt-get install -y unzip libpcre3-dev gcc make re2c git automake autoconf\
+    apt-get update && apt-get install -yqq unzip libpcre3-dev gcc make re2c git automake autoconf\
     && git clone https://github.com/jbboehr/php-psr.git \
     && cd php-psr \
     && phpize \
@@ -1326,106 +1292,81 @@ RUN if [ $INSTALL_PHALCON = true ]; then \
 ;fi
 
 ###########################################################################
-# MySQL Client:
-###########################################################################
-
 USER root
 
 ARG INSTALL_MYSQL_CLIENT=false
-
-RUN if [ ${INSTALL_MYSQL_CLIENT} = true ]; then \
-    apt-get update -yqq && \
-    apt-get -y install mysql-client \
-;fi
-
-###########################################################################
-# ping:
-###########################################################################
-
-USER root
-
 ARG INSTALL_PING=false
-
-RUN if [ ${INSTALL_PING} = true ]; then \
-    apt-get update -yqq && \
-    apt-get -y install inetutils-ping \
-;fi
-
-###########################################################################
-# sshpass:
-###########################################################################
-
-USER root
-
 ARG INSTALL_SSHPASS=false
-
-RUN if [ ${INSTALL_SSHPASS} = true ]; then \
-    apt-get update -yqq && \
-    apt-get -y install sshpass \
-;fi
-
-###########################################################################
-# Docker Client:
-###########################################################################
-
-USER root
-
 ARG INSTALL_DOCKER_CLIENT=false
 
-RUN if [ ${INSTALL_DOCKER_CLIENT} = true ]; then \
-    curl -sS https://download.docker.com/linux/static/stable/x86_64/docker-20.10.3.tgz -o /tmp/docker.tar.gz && \
-    tar -xzf /tmp/docker.tar.gz -C /tmp/ && \
-    cp /tmp/docker/docker* /usr/local/bin && \
-    chmod +x /usr/local/bin/docker* \
-;fi
+RUN set -eux; \
+  ###########################################################################
+  # MySQL Client:
+  ###########################################################################
+  if [ ${INSTALL_MYSQL_CLIENT} = true ]; then \
+    apt-get -yqq install mysql-client; \
+  fi; \
+  ###########################################################################
+  # ping:
+  ###########################################################################
+  if [ ${INSTALL_PING} = true ]; then \
+    apt-get -yqq install inetutils-ping; \
+  fi; \
+  ###########################################################################
+  # sshpass:
+  ###########################################################################
+  if [ ${INSTALL_SSHPASS} = true ]; then \
+    apt-get -yqq install sshpass; \
+  fi; \
+  ###########################################################################
+  # Docker Client:
+  ###########################################################################
+  if [ ${INSTALL_DOCKER_CLIENT} = true ]; then \
+    curl -sS https://download.docker.com/linux/static/stable/x86_64/docker-20.10.3.tgz -o /tmp/docker.tar.gz; \
+    tar -xzf /tmp/docker.tar.gz -C /tmp/; \
+    cp /tmp/docker/docker* /usr/local/bin; \
+    chmod +x /usr/local/bin/docker*; \
+  fi
 
 ###########################################################################
-# YAML: extension for PHP-CLI
-###########################################################################
-
 USER root
 
 ARG INSTALL_YAML=false
+ARG INSTALL_RDKAFKA=false
+ARG INSTALL_FFMPEG=false
 
-RUN if [ ${INSTALL_YAML} = true ]; then \
-    apt-get install libyaml-dev -y ; \
-    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+RUN set -eux; \
+  ###########################################################################
+  # YAML: extension for PHP-CLI
+  ###########################################################################
+  if [ ${INSTALL_YAML} = true ]; then \
+    apt-get install -yqq libyaml-dev; \
+    if   [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
         echo '' | pecl install -a yaml-1.3.2; \
     elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
         echo '' | pecl install yaml-2.0.4; \
     else \
         echo '' | pecl install yaml; \
-    fi \
-    && echo "extension=yaml.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/yaml.ini \
-    && ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/yaml.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/35-yaml.ini \
-;fi
-
-###########################################################################
-# RDKAFKA:
-###########################################################################
-
-ARG INSTALL_RDKAFKA=false
-
-RUN if [ ${INSTALL_RDKAFKA} = true ]; then \
-    apt-get install -y librdkafka-dev && \
-    pecl install rdkafka && \
-    echo "extension=rdkafka.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/rdkafka.ini && \
-    ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/rdkafka.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-rdkafka.ini \
-    && php -m | grep -q 'rdkafka' \
-;fi
-
-###########################################################################
-# FFMpeg:
-###########################################################################
-
-USER root
-
-ARG INSTALL_FFMPEG=false
-
-RUN if [ ${INSTALL_FFMPEG} = true ]; then \
-  apt-get -y install ffmpeg \
-;fi
-
+    fi; \
+    echo "extension=yaml.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/yaml.ini; \
+    ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/yaml.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/35-yaml.ini; \
+  fi; \
+  ###########################################################################
+  # RDKAFKA:
+  ###########################################################################
+  if [ ${INSTALL_RDKAFKA} = true ]; then \
+    apt-get install -yqq librdkafka-dev; \
+    pecl install rdkafka; \
+    echo "extension=rdkafka.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/rdkafka.ini; \
+    ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/rdkafka.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-rdkafka.ini; \
+    php -m | grep -q 'rdkafka'; \
+  fi; \
+  ###########################################################################
+  # FFMpeg:
+  ###########################################################################
+  if [ ${INSTALL_FFMPEG} = true ]; then \
+    apt-get -yqq install ffmpeg; \
+  fi
 
 ###########################################################################
 # BBC Audio Waveform Image Generator:
@@ -1494,7 +1435,7 @@ USER root
 ARG INSTALL_GNU_PARALLEL=false
 
 RUN if [ ${INSTALL_GNU_PARALLEL} = true ]; then \
-  apt-get -y install parallel \
+  apt-get -yqq install parallel \
 ;fi
 
 ###########################################################################
@@ -1528,7 +1469,7 @@ RUN if [ ${INSTALL_XMLRPC} = true ]; then \
 ARG INSTALL_LNAV=false
 
 RUN if [ ${INSTALL_LNAV} = true ]; then \
-    apt-get install -y lnav \
+    apt-get install -yqq lnav \
 ;fi
 
 ###########################################################################
