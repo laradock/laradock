@@ -39,6 +39,7 @@ RUN set -xe; \
     pecl channel-update pecl.php.net && \
     apt-get install -yqq \
       apt-utils \
+      git \
       #
       #--------------------------------------------------------------------------
       # Mandatory Software's Installation
@@ -77,7 +78,7 @@ RUN set -xe; \
 
 ARG INSTALL_BZ2=false
 RUN if [ ${INSTALL_BZ2} = true ]; then \
-  apt-get -y install libbz2-dev; \
+  apt-get -yqq install libbz2-dev; \
   docker-php-ext-install bz2 \
 ;fi
 
@@ -89,7 +90,7 @@ ARG INSTALL_GMP=false
 
 RUN if [ ${INSTALL_GMP} = true ]; then \
     # Install the GMP extension
-	  apt-get install -y libgmp-dev && \
+	  apt-get install -yqq libgmp-dev && \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
       ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h \
     ;fi && \
@@ -137,7 +138,7 @@ USER root
 ARG INSTALL_FAKETIME=false
 
 RUN if [ ${INSTALL_FAKETIME} = true ]; then \
-    apt-get install -y libfaketime \
+    apt-get install -yqq libfaketime \
 ;fi
 
 ###########################################################################
@@ -184,14 +185,16 @@ ARG INSTALL_PG_CLIENT=false
 ARG INSTALL_POSTGIS=false
 
 RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
-    # Create folders if not exists (https://github.com/tianon/docker-brew-debian/issues/65)
-    mkdir -p /usr/share/man/man1 && \
-    mkdir -p /usr/share/man/man7 && \
-    # Install the pgsql client
-    apt-get install -y postgresql-client && \
+    apt-get install -yqq gnupg \
+    && . /etc/os-release \
+    && echo "deb http://apt.postgresql.org/pub/repos/apt $VERSION_CODENAME-pgdg main" > /etc/apt/sources.list.d/pgdg.list \
+    && curl -sL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
+    && apt-get update -yqq \
+    && apt-get install -yqq postgresql-client-12 postgis; \
     if [ ${INSTALL_POSTGIS} = true ]; then \
-      apt-get install -y postgis; \
+      apt-get install -yqq postgis; \
     fi \
+    && apt-get purge -yqq gnupg \
 ;fi
 
 ###########################################################################
@@ -261,7 +264,7 @@ ARG INSTALL_PHPDBG=false
 
 RUN if [ ${INSTALL_PHPDBG} = true ]; then \
     # Load the xdebug extension only with phpunit commands
-    apt-get install -y --force-yes php${LARADOCK_PHP_VERSION}-phpdbg \
+    apt-get install -yqq --force-yes php${LARADOCK_PHP_VERSION}-phpdbg \
 ;fi
 
 ###########################################################################
@@ -576,7 +579,7 @@ ENV OCI_VERSION=12
 
 RUN if [ ${INSTALL_OCI8} = true ]; then \
     # Install wget
-    apt-get update && apt-get install --no-install-recommends -y wget \
+    apt-get install --no-install-recommends -yqq wget \
     # Install Oracle Instantclient
     && mkdir /opt/oracle \
         && cd /opt/oracle \
@@ -589,10 +592,9 @@ RUN if [ ${INSTALL_OCI8} = true ]; then \
         && ln -s /opt/oracle/instantclient_12_1/libocci.so.12.1 /opt/oracle/instantclient_12_1/libocci.so \
         && rm -rf /opt/oracle/*.zip \
     # Install PHP extensions deps
-    && apt-get update \
-        && apt-get install --no-install-recommends -y \
-            libaio-dev \
-            freetds-dev && \
+    && apt-get install --no-install-recommends -yqq \
+      libaio-dev \
+      freetds-dev && \
     # Install PHP extensions
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
       echo 'instantclient,/opt/oracle/instantclient_12_1/' | pecl install oci8-2.0.10; \
@@ -614,12 +616,14 @@ RUN if [ ${INSTALL_OCI8} = true ]; then \
 ARG INSTALL_IONCUBE=false
 
 RUN if [ ${INSTALL_IONCUBE} = true ]; then \
-    # Install the php ioncube loader
-    curl -L -o /tmp/ioncube_loaders_lin_x86-64.tar.gz https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
-    && tar zxpf /tmp/ioncube_loaders_lin_x86-64.tar.gz -C /tmp \
-    && mv /tmp/ioncube/ioncube_loader_lin_${LARADOCK_PHP_VERSION}.so $(php -r "echo ini_get('extension_dir');")/ioncube_loader.so \
-    && printf "zend_extension=ioncube_loader.so\n" > $PHP_INI_DIR/conf.d/0ioncube.ini \
-    && rm -rf /tmp/ioncube* \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") != "8" ]; then \
+      # Install the php ioncube loader
+      curl -L -o /tmp/ioncube_loaders_lin_x86-64.tar.gz https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
+      && tar zxpf /tmp/ioncube_loaders_lin_x86-64.tar.gz -C /tmp \
+      && mv /tmp/ioncube/ioncube_loader_lin_${LARADOCK_PHP_VERSION}.so $(php -r "echo ini_get('extension_dir');")/ioncube_loader.so \
+      && printf "zend_extension=ioncube_loader.so\n" > $PHP_INI_DIR/conf.d/0ioncube.ini \
+      && rm -rf /tmp/ioncube* \
+    ;fi \
 ;fi
 
 ###########################################################################
@@ -654,7 +658,7 @@ ARG INSTALL_INTL=false
 
 RUN if [ ${INSTALL_INTL} = true ]; then \
     # Install intl and requirements
-    apt-get install -y zlib1g-dev libicu-dev g++ && \
+    apt-get install -yqq zlib1g-dev libicu-dev g++ && \
     docker-php-ext-configure intl && \
     docker-php-ext-install intl \
 ;fi
@@ -668,7 +672,7 @@ ARG INSTALL_GHOSTSCRIPT=false
 RUN if [ ${INSTALL_GHOSTSCRIPT} = true ]; then \
     # Install the ghostscript extension
     # for PDF editing
-    apt-get install -y \
+    apt-get install -yqq \
     poppler-utils \
     ghostscript \
 ;fi
@@ -680,7 +684,7 @@ RUN if [ ${INSTALL_GHOSTSCRIPT} = true ]; then \
 ARG INSTALL_LDAP=false
 
 RUN if [ ${INSTALL_LDAP} = true ]; then \
-    apt-get install -y libldap2-dev && \
+    apt-get install -yqq libldap2-dev && \
     docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
     docker-php-ext-install ldap \
 ;fi
@@ -704,12 +708,12 @@ RUN set -eux; \
       # Ref from https://github.com/Microsoft/msphpsql/wiki/Dockerfile-for-adding-pdo_sqlsrv-and-sqlsrv-to-official-php-image
       ###########################################################################
       # Add Microsoft repo for Microsoft ODBC Driver 13 for Linux
-      apt-get install -y apt-transport-https gnupg \
+      apt-get install -yqq apt-transport-https gnupg \
       && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
       && curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list \
       && apt-get update -yqq \
       # Install Dependencies
-      && ACCEPT_EULA=Y apt-get install -y unixodbc unixodbc-dev libgss3 odbcinst msodbcsql17 locales \
+      && ACCEPT_EULA=Y apt-get install -yqq unixodbc unixodbc-dev libgss3 odbcinst msodbcsql17 locales \
       && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
       # link local aliases
       && ln -sfn /etc/locale.alias /usr/share/locale/locale.alias \
@@ -735,7 +739,7 @@ USER root
 ARG INSTALL_IMAGE_OPTIMIZERS=false
 
 RUN if [ ${INSTALL_IMAGE_OPTIMIZERS} = true ]; then \
-    apt-get install -y jpegoptim optipng pngquant gifsicle \
+    apt-get install -yqq jpegoptim optipng pngquant gifsicle \
 ;fi
 
 ###########################################################################
@@ -749,9 +753,8 @@ ARG IMAGEMAGICK_VERSION=latest
 ENV IMAGEMAGICK_VERSION ${IMAGEMAGICK_VERSION}
 
 RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
-    apt-get install -y libmagickwand-dev imagemagick && \
+    apt-get install -yqq libmagickwand-dev imagemagick && \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
-      apt-get install -y git && \
       cd /tmp && \
       if [ ${IMAGEMAGICK_VERSION} = "latest" ]; then \
         git clone https://github.com/Imagick/imagick; \
@@ -777,7 +780,7 @@ RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
 ARG INSTALL_SMB=false
 
 RUN if [ ${INSTALL_SMB} = true ]; then \
-    apt-get install -y smbclient php-smbclient coreutils \
+    apt-get install -yqq smbclient php-smbclient coreutils \
 ;fi
 
 ###########################################################################
@@ -787,7 +790,7 @@ RUN if [ ${INSTALL_SMB} = true ]; then \
 ARG INSTALL_IMAP=false
 
 RUN if [ ${INSTALL_IMAP} = true ]; then \
-    apt-get install -y libc-client-dev libkrb5-dev && \
+    apt-get install -yqq libc-client-dev libkrb5-dev && \
     docker-php-ext-configure imap --with-kerberos --with-imap-ssl && \
     docker-php-ext-install imap \
 ;fi
@@ -817,7 +820,7 @@ ENV LARADOCK_PHALCON_VERSION ${LARADOCK_PHALCON_VERSION}
 COPY ./phalcon.ini /usr/local/etc/php/conf.d/phalcon.ini.disable
 
 RUN if [ $INSTALL_PHALCON = true ]; then \
-    apt-get update && apt-get install -y unzip libpcre3-dev gcc make re2c git automake autoconf\
+    apt-get install -yqq unzip libpcre3-dev gcc make re2c git automake autoconf\
     && git clone https://github.com/jbboehr/php-psr.git \
     && cd php-psr \
     && phpize \
@@ -857,13 +860,15 @@ USER root
 ARG INSTALL_YAML=false
 
 RUN if [ ${INSTALL_YAML} = true ]; then \
-    apt-get install libyaml-dev -y ; \
+    apt-get install -yqq libyaml-dev; \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-        pecl install -a yaml-1.3.2; \
+        echo '' | pecl install -a yaml-1.3.2; \
+    elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+        echo '' | pecl install yaml-2.0.4; \
     else \
-        pecl install yaml; \
-    fi && \
-    docker-php-ext-enable yaml \
+        echo '' | pecl install yaml; \
+    fi \
+    && docker-php-ext-enable yaml \
 ;fi
 
 ###########################################################################
@@ -873,7 +878,7 @@ RUN if [ ${INSTALL_YAML} = true ]; then \
 ARG INSTALL_RDKAFKA=false
 
 RUN if [ ${INSTALL_RDKAFKA} = true ]; then \
-    apt-get install -y librdkafka-dev && \
+    apt-get install -yqq librdkafka-dev && \
     pecl install rdkafka && \
     docker-php-ext-enable rdkafka \
 ;fi
@@ -885,7 +890,7 @@ RUN if [ ${INSTALL_RDKAFKA} = true ]; then \
 ARG INSTALL_GETTEXT=false
 
 RUN if [ ${INSTALL_GETTEXT} = true ]; then \
-    apt-get install -y zlib1g-dev libicu-dev g++ libpq-dev libssl-dev gettext && \
+    apt-get install -yqq zlib1g-dev libicu-dev g++ libpq-dev libssl-dev gettext && \
     docker-php-ext-install gettext \
 ;fi
 
@@ -897,7 +902,7 @@ ARG INSTALL_ADDITIONAL_LOCALES=false
 ARG ADDITIONAL_LOCALES
 
 RUN if [ ${INSTALL_ADDITIONAL_LOCALES} = true ]; then \
-    apt-get install -y locales \
+    apt-get install -yqq locales \
     && echo '' >> /usr/share/locale/locale.alias \
     && temp="${ADDITIONAL_LOCALES%\"}" \
     && temp="${temp#\"}" \
@@ -977,7 +982,7 @@ USER root
 ARG INSTALL_AUDIOWAVEFORM=false
 
 RUN if [ ${INSTALL_AUDIOWAVEFORM} = true ]; then \
-   apt-get -y install git wget make cmake gcc g++ libmad0-dev libid3tag0-dev libsndfile1-dev libgd-dev libboost-filesystem-dev libboost-program-options-dev libboost-regex-dev \
+   apt-get -y install wget make cmake gcc g++ libmad0-dev libid3tag0-dev libsndfile1-dev libgd-dev libboost-filesystem-dev libboost-program-options-dev libboost-regex-dev \
    && git clone https://github.com/bbc/audiowaveform.git \
    && cd audiowaveform \
    && wget https://github.com/google/googletest/archive/release-1.10.0.tar.gz \
@@ -1001,17 +1006,17 @@ USER root
 ARG INSTALL_WKHTMLTOPDF=false
 
 RUN if [ ${INSTALL_WKHTMLTOPDF} = true ]; then \
-    apt-get install -y \
-    libxrender1 \
-    libfontconfig1 \
-    libx11-dev \
-    libjpeg62 \
-    libxtst6 \
-    fontconfig \
-    libjpeg62-turbo \
-    xfonts-base \
-    xfonts-75dpi \
-    wget \
+    apt-get install -yqq \
+      libxrender1 \
+      libfontconfig1 \
+      libx11-dev \
+      libjpeg62 \
+      libxtst6 \
+      fontconfig \
+      libjpeg62-turbo \
+      xfonts-base \
+      xfonts-75dpi \
+      wget \
     && wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.stretch_amd64.deb \
     && dpkg -i wkhtmltox_0.12.6-1.stretch_amd64.deb \
     && apt -f install \
