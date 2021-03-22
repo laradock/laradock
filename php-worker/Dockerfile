@@ -59,6 +59,23 @@ RUN if [ ${INSTALL_BZ2} = true ]; then \
   docker-php-ext-install bz2; \
 fi
 
+###########################################################################
+# PHP GnuPG:
+###########################################################################
+
+ARG INSTALL_GNUPG=false
+
+RUN set -eux; if [ ${INSTALL_GNUPG} = true ]; then \
+      apk add --no-cache --no-progress --virtual BUILD_DEPS_PHP_GNUPG gpgme-dev; \
+      apk add --no-cache --no-progress gpgme; \
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+        pecl install gnupg-1.5.0RC2; \
+      else \
+        pecl install gnupg; \
+      fi; \
+      docker-php-ext-enable gnupg; \
+    fi
+
 #Install GD package:
 ARG INSTALL_GD=false
 RUN if [ ${INSTALL_GD} = true ]; then \
@@ -226,14 +243,20 @@ RUN if [ ${INSTALL_AUDIOWAVEFORM} = true ]; then \
    && make install \
 ;fi
 
-
 # Install AMQP:
 ARG INSTALL_AMQP=false
 
 RUN if [ ${INSTALL_AMQP} = true ]; then \
-    apk --update add rabbitmq-c rabbitmq-c-dev && \
-    pecl install amqp && \
+    apk del -q openssl openssl-dev && \
+    apk --update add -q rabbitmq-c rabbitmq-c-dev && \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+      printf "\n" | pecl install amqp-1.11.0beta; \
+    else \
+      printf "\n" | pecl install amqp; \
+    fi && \
     docker-php-ext-enable amqp && \
+    apk del -q rabbitmq-c-dev && \
+    apk add --update -q openssl openssl-dev && \
     docker-php-ext-install sockets \
 ;fi
 

@@ -98,6 +98,21 @@ RUN if [ ${INSTALL_GMP} = true ]; then \
 ;fi
 
 ###########################################################################
+# GnuPG:
+###########################################################################
+
+ARG INSTALL_GNUPG=false
+
+RUN if [ ${INSTALL_GNUPG} = true ]; then \
+      apt-get -yq install libgpgme-dev; \
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+        pecl install gnupg-1.5.0RC2; \
+      else \
+        pecl install gnupg; \
+      fi; \
+    fi
+
+###########################################################################
 # SSH2:
 ###########################################################################
 
@@ -845,13 +860,15 @@ USER root
 ARG INSTALL_YAML=false
 
 RUN if [ ${INSTALL_YAML} = true ]; then \
-    apt-get install libyaml-dev -yqq; \
+    apt-get install -yqq libyaml-dev; \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-        pecl install -a yaml-1.3.2; \
+        echo '' | pecl install -a yaml-1.3.2; \
+    elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+        echo '' | pecl install yaml-2.0.4; \
     else \
-        pecl install yaml; \
-    fi && \
-    docker-php-ext-enable yaml \
+        echo '' | pecl install yaml; \
+    fi \
+    && docker-php-ext-enable yaml \
 ;fi
 
 ###########################################################################
