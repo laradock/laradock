@@ -588,20 +588,17 @@ RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
 ARG INSTALL_SWOOLE=false
 
 RUN if [ ${INSTALL_SWOOLE} = true ]; then \
-    # Install Php Swoole Extension
-    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-      pecl -q install swoole-2.0.11; \
-    else \
-      if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
-        echo '' | pecl install swoole-4.3.5; \
+      # Install Php Swoole Extension
+      if   [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "50600" ]; then \
+        pecl install swoole-2.0.10; \
+      elif [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70000" ]; then \
+        pecl install swoole-4.3.5; \
+      elif [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70100" ]; then \
+        pecl install swoole-4.5.11; \
       else \
-        if [ $(php -r "echo PHP_MINOR_VERSION;") = "1" ]; then \
-          echo '' | pecl install swoole-4.6.0; \
-        else \
-          echo '' | pecl install swoole; \
-        fi \
-      fi \
-    fi && \
+        pecl install swoole; \
+      fi; \
+    fi; \
     echo "extension=swoole.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/swoole.ini && \
     ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/swoole.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-swoole.ini \
     && php -m | grep -q 'swoole' \
@@ -1529,7 +1526,7 @@ RUN if [ ${INSTALL_GIT_PROMPT} = true ]; then \
 ARG INSTALL_XMLRPC=false
 
 RUN if [ ${INSTALL_XMLRPC} = true ]; then \
-    docker-php-ext-install xmlrpc \
+    apt-get install -yqq php${LARADOCK_PHP_VERSION}-xmlrpc \
 ;fi
 
 ###########################################################################

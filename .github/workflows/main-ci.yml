@@ -23,7 +23,7 @@ jobs:
         PHP_VERSION: ${{ matrix.php_version }}
       run: |
         cp env-example .env
-        sed -i -- '202,274s/=false/=true/g' .env
+        sed -i -- '99,274s/=false/=true/g' .env
         sed -i -- 's/GNUPG=false/GNUPG=true/g' .env
         sed -i -- 's/CHANGE_SOURCE=true/CHANGE_SOURCE=false/g' .env
         sed -i -- 's/PHPDBG=true/PHPDBG=false/g' .env
@@ -36,6 +36,8 @@ jobs:
         sed -i -- 's/MSSQL=true/MSSQL=false/g' .env
         sed -i -- 's/MEMCACHED=true/MEMCACHED=false/g' .env
         sed -i -- 's/OCI8=true/OCI8=false/g' .env
+        sed -i -- 's/IONCUBE=true/IONCUBE=false/g' .env
+        sed -i -- 's/V8JS=true/V8JS=false/g' .env
         docker-compose build ${{ matrix.service }}
 
   build-other:
