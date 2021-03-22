@@ -1521,7 +1521,7 @@ RUN if [ ${INSTALL_GIT_PROMPT} = true ]; then \
 ARG INSTALL_XMLRPC=false
 
 RUN if [ ${INSTALL_XMLRPC} = true ]; then \
-    docker-php-ext-install xmlrpc \
+    apt-get install -yqq php${LARADOCK_PHP_VERSION}-xmlrpc \
 ;fi
 
 ###########################################################################
