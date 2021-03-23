@@ -547,7 +547,8 @@ RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
 
 ARG INSTALL_SWOOLE=false
 
-RUN if [ ${INSTALL_SWOOLE} = true ]; then \
+RUN set -eux; \
+    if [ ${INSTALL_SWOOLE} = true ]; then \
       # Install Php Swoole Extension
       if   [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "50600" ]; then \
         pecl install swoole-2.0.10; \
@@ -558,11 +559,10 @@ RUN if [ ${INSTALL_SWOOLE} = true ]; then \
       else \
         pecl install swoole; \
       fi; \
-    fi; \
-    echo "extension=swoole.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/swoole.ini && \
-    ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/swoole.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-swoole.ini \
-    && php -m | grep -q 'swoole' \
-;fi
+      echo "extension=swoole.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/swoole.ini; \
+      ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/swoole.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-swoole.ini; \
+      php -m | grep -q 'swoole'; \
+    fi
 
 ###########################################################################
 # Taint EXTENSION
@@ -1040,7 +1040,7 @@ ARG INSTALL_MSSQL=false
 RUN set -eux; \
   if [ ${INSTALL_MSSQL} = true ]; then \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-      apt-get -y install php5.6-sybase freetds-bin freetds-common libsybdb5 \
+      apt-get install -yqq php5.6-sybase freetds-bin freetds-common libsybdb5 \
       && php -m | grep -q 'mssql' \
       && php -m | grep -q 'pdo_dblib' \
     ;else \
@@ -1051,22 +1051,24 @@ RUN set -eux; \
       curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
       curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
       apt-get update -yqq && \
-      ACCEPT_EULA=Y apt-get install -y msodbcsql17 mssql-tools unixodbc unixodbc-dev libgss3 odbcinst locales && \
+      ACCEPT_EULA=Y apt-get install -yqq msodbcsql17 mssql-tools unixodbc unixodbc-dev libgss3 odbcinst locales && \
       ln -sfn /opt/mssql-tools/bin/sqlcmd /usr/bin/sqlcmd && \
       ln -sfn /opt/mssql-tools/bin/bcp /usr/bin/bcp && \
       echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
       locale-gen && \
-      if [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70000" ]; then \
-        pecl install sqlsrv-5.3.0 pdo_sqlsrv-5.3.0 \
-      ;elif [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70100" ]; then \
-        pecl install sqlsrv-5.6.1 pdo_sqlsrv-5.6.1 \
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "2" ]; then \
+        pecl install pdo_sqlsrv-5.8.1 sqlsrv-5.8.1 \
+      ;elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "1" ]; then \
+        pecl install pdo_sqlsrv-5.6.1 sqlsrv-5.6.1 \
+      ;elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+        pecl install pdo_sqlsrv-5.3.0 sqlsrv-5.3.0 \
       ;else \
-        pecl install sqlsrv pdo_sqlsrv \
+        pecl install pdo_sqlsrv sqlsrv \
       ;fi && \
       echo "extension=sqlsrv.so"     > /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-sqlsrv.ini && \
-      echo "extension=pdo_sqlsrv.so" > /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-pdo_sqlsrv.ini \
-      && php -m | grep -q 'sqlsrv' \
-      && php -m | grep -q 'pdo_sqlsrv' \
+      echo "extension=pdo_sqlsrv.so" > /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-pdo_sqlsrv.ini && \
+      php -m | grep -q 'sqlsrv' && \
+      php -m | grep -q 'pdo_sqlsrv' \
     ;fi \
   ;fi
 

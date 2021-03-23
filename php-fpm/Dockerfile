@@ -698,7 +698,7 @@ ARG INSTALL_MSSQL=false
 RUN set -eux; \
   if [ ${INSTALL_MSSQL} = true ]; then \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-      apt-get -y install freetds-dev libsybdb5 \
+      apt-get -yqq install freetds-dev libsybdb5 \
       && ln -s /usr/lib/x86_64-linux-gnu/libsybdb.so /usr/lib/libsybdb.so \
       && docker-php-ext-install mssql pdo_dblib \
       && php -m | grep -q 'mssql' \
@@ -712,14 +712,15 @@ RUN set -eux; \
       && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
       && curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list \
       && apt-get update -yqq \
-      # Install Dependencies
       && ACCEPT_EULA=Y apt-get install -yqq unixodbc unixodbc-dev libgss3 odbcinst msodbcsql17 locales \
       && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
-      # link local aliases
       && ln -sfn /etc/locale.alias /usr/share/locale/locale.alias \
       && locale-gen \
-      # Install pdo_sqlsrv and sqlsrv from PECL. Replace pdo_sqlsrv-4.1.8preview with preferred version.
-      && if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+      && if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "2" ]; then \
+        pecl install pdo_sqlsrv-5.8.1 sqlsrv-5.8.1 \
+      ;elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "1" ]; then \
+        pecl install pdo_sqlsrv-5.6.1 sqlsrv-5.6.1 \
+      ;elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
         pecl install pdo_sqlsrv-5.3.0 sqlsrv-5.3.0 \
       ;else \
         pecl install pdo_sqlsrv sqlsrv \
