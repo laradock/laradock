@@ -23,7 +23,7 @@ jobs:
         PHP_VERSION: ${{ matrix.php_version }}
       run: |
         set -eux
-        cp env-example .env
+        cp .env.example .env
         sed -i -- 's/=false/=true/g' .env
         sed -i -- 's/CHANGE_SOURCE=true/CHANGE_SOURCE=false/g' .env
         sed -i -- 's/PHPDBG=true/PHPDBG=false/g' .env
@@ -51,7 +51,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build the Docker image
       run: |
-        cp env-example .env
+        cp .env.example .env
         sed -i -- 's/=false/=true/g' .env
         sed -i -- 's/CHANGE_SOURCE=true/CHANGE_SOURCE=false/g' .env
         docker-compose build ${{ matrix.service }}

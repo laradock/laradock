@@ -70,7 +70,7 @@ git clone https://github.com/laradock/laradock.git
 
 2. 进入 Laradock 目录
  ```bash
-cp env-example .env
+cp .env.example .env
 ```
 
 3. 运行这些容器。
