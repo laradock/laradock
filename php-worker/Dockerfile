@@ -38,9 +38,9 @@ RUN apk --update add wget \
 
 RUN docker-php-ext-install mysqli mbstring pdo pdo_mysql tokenizer xml pcntl
 RUN if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-  pecl channel-update pecl.php.net && pecl install memcached-2.2.0 mcrypt-1.0.1 mongodb && docker-php-ext-enable memcached mongodb \
+  pecl channel-update pecl.php.net && pecl install memcached-2.2.0 mcrypt-1.0.1 && docker-php-ext-enable memcached \
 ;else \
-  pecl channel-update pecl.php.net && pecl install memcached mcrypt-1.0.1 mongodb && docker-php-ext-enable memcached mongodb \
+  pecl channel-update pecl.php.net && pecl install memcached mcrypt-1.0.1 && docker-php-ext-enable memcached \
 ;fi
 
 # Add a non-root user:
@@ -59,6 +59,23 @@ RUN if [ ${INSTALL_BZ2} = true ]; then \
   docker-php-ext-install bz2; \
 fi
 
+###########################################################################
+# PHP GnuPG:
+###########################################################################
+
+ARG INSTALL_GNUPG=false
+
+RUN set -eux; if [ ${INSTALL_GNUPG} = true ]; then \
+      apk add --no-cache --no-progress --virtual BUILD_DEPS_PHP_GNUPG gpgme-dev; \
+      apk add --no-cache --no-progress gpgme; \
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+        pecl install gnupg-1.5.0RC2; \
+      else \
+        pecl install gnupg; \
+      fi; \
+      docker-php-ext-enable gnupg; \
+    fi
+
 #Install GD package:
 ARG INSTALL_GD=false
 RUN if [ ${INSTALL_GD} = true ]; then \
@@ -69,11 +86,31 @@ RUN if [ ${INSTALL_GD} = true ]; then \
 
 #Install ImageMagick:
 ARG INSTALL_IMAGEMAGICK=false
-RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
-  apk add --update imagemagick-dev imagemagick; \
-  pecl install imagick; \
-  docker-php-ext-enable imagick \
-;fi
+ARG IMAGEMAGICK_VERSION=latest
+ENV IMAGEMAGICK_VERSION ${IMAGEMAGICK_VERSION}
+RUN set -eux; \
+  if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
+    apk add --update --no-cache imagemagick-dev; \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+      apk add --update --no-cache git && \
+      cd /tmp && \
+      if [ ${IMAGEMAGICK_VERSION} = "latest" ]; then \
+        git clone https://github.com/Imagick/imagick; \
+      else \
+        git clone --branch ${IMAGEMAGICK_VERSION} https://github.com/Imagick/imagick; \
+      fi && \
+      cd imagick && \
+      phpize && \
+      ./configure && \
+      make && \
+      make install && \
+      rm -r /tmp/imagick; \
+    else \
+      pecl install imagick; \
+    fi && \
+    docker-php-ext-enable imagick; \
+    php -m | grep -q 'imagick'; \
+  fi
 
 #Install GMP package:
 ARG INSTALL_GMP=false
@@ -87,6 +124,18 @@ ARG INSTALL_SOAP=false
 RUN if [ ${INSTALL_SOAP} = true ]; then \
     docker-php-ext-install soap \
 ;fi
+
+# Install MongoDB drivers:
+ARG INSTALL_MONGO=false
+RUN if [ ${INSTALL_MONGO} = true ]; then \
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+        pecl install mongo; \
+        docker-php-ext-enable mongo; \
+      else \
+        pecl install mongodb; \
+        docker-php-ext-enable mongodb; \
+      fi; \
+    fi
 
 #Install BCMath package:
 ARG INSTALL_BCMATH=false
@@ -194,14 +243,20 @@ RUN if [ ${INSTALL_AUDIOWAVEFORM} = true ]; then \
    && make install \
 ;fi
 
-
 # Install AMQP:
 ARG INSTALL_AMQP=false
 
 RUN if [ ${INSTALL_AMQP} = true ]; then \
-    apk --update add rabbitmq-c rabbitmq-c-dev && \
-    pecl install amqp && \
+    apk del -q openssl openssl-dev && \
+    apk --update add -q rabbitmq-c rabbitmq-c-dev && \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+      printf "\n" | pecl install amqp-1.11.0beta; \
+    else \
+      printf "\n" | pecl install amqp; \
+    fi && \
     docker-php-ext-enable amqp && \
+    apk del -q rabbitmq-c-dev && \
+    apk add --update -q openssl openssl-dev && \
     docker-php-ext-install sockets \
 ;fi
 
@@ -219,21 +274,24 @@ RUN if [ ${INSTALL_GEARMAN} = true ]; then \
 # Install Cassandra drivers:
 ARG INSTALL_CASSANDRA=false
 RUN if [ ${INSTALL_CASSANDRA} = true ]; then \
-  apk --update add cassandra-cpp-driver \
-  ;fi
-
-WORKDIR /usr/src
-RUN if [ ${INSTALL_CASSANDRA} = true ]; then \
-  git clone https://github.com/datastax/php-driver.git \
-  && cd php-driver/ext \
-  && phpize \
-  && mkdir -p /usr/src/php-driver/build \
-  && cd /usr/src/php-driver/build \
-  && ../ext/configure --with-php-config=/usr/bin/php-config7.1 > /dev/null \
-  && make clean >/dev/null \
-  && make >/dev/null 2>&1 \
-  && make install \
-  && docker-php-ext-enable cassandra \
+  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+    echo "PHP Driver for Cassandra is not supported for PHP 8.0."; \
+  else \
+    apk add --update --no-cache cassandra-cpp-driver libuv gmp \
+    && apk add --update --no-cache cassandra-cpp-driver-dev gmp-dev --virtual .build-sec \
+    && cd /usr/src \
+    && git clone https://github.com/datastax/php-driver.git \
+    && cd php-driver/ext \
+    && phpize \
+    && mkdir -p /usr/src/php-driver/build \
+    && cd /usr/src/php-driver/build \
+    && ../ext/configure > /dev/null \
+    && make clean > /dev/null \
+    && make > /dev/null 2>&1 \
+    && make install \
+    && docker-php-ext-enable cassandra \
+    && apk del .build-sec; \
+  fi \
 ;fi
 
 # Install Phalcon ext
