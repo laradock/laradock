@@ -46,10 +46,10 @@ Let's see how easy it is to setup our demo stack `PHP`, `NGINX`, `MySQL`, `Redis
 git clone https://github.com/Laradock/laradock.git
 ```
 
-2 - Enter the laradock folder and rename `env-example` to `.env`.
+2 - Enter the laradock folder and rename `.env.example` to `.env`.
 
 ```shell
-cp env-example .env
+cp .env.example .env
 ```
 
 3 - Run your containers:
