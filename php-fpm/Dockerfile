@@ -507,9 +507,9 @@ ARG INSTALL_MEMCACHED=false
 RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
     # Install the php memcached extension
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-      pecl install memcached-2.2.0; \
+      echo '' | pecl -q install memcached-2.2.0; \
     else \
-      pecl install memcached-3.1.3; \
+      echo '' | pecl -q install memcached; \
     fi \
     && docker-php-ext-enable memcached \
 ;fi
