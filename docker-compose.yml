@@ -1880,6 +1880,24 @@ services:
       volumes:
         - ${DATA_PATH_HOST}/Confluence:/var/atlassian/application-data
 
+### SWAGGER EDITOR ############################################
+    swagger-editor:
+      build: ./swagger-editor
+      ports:
+        - ${SWAGGER_EDITOR_PORT}:8080
+      networks:
+        - backend
+
+### SWAGGER UI ################################################
+    swagger-ui:
+      build: ./swagger-ui
+      environment:
+        - API_URL=${SWAGGER_API_URL}
+      ports:
+        - ${SWAGGER_UI_PORT}:8080
+      networks:
+        - backend
+
 ### tomcat ####################################################
     tomcat:
       container_name: tomcat
@@ -1910,4 +1928,3 @@ services:
       volumes:
         - ./react:/usr/src/app/react
         - /usr/src/app/react/node_modules
-
