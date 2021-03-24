@@ -13,6 +13,12 @@ ENV WEB_DOCUMENT_ROOT=${DOCUMENT_ROOT}
 ENV APACHE_HTTP2=${APACHE_INSTALL_HTTP2}
 ENV WEB_PHP_TIMEOUT=${PHP_UPSTREAM_TIMEOUT}
 
+ENV LOG_STDOUT=/var/log/apache2/access.log
+
+ENV LOG_STDERR=/var/log/apache2/error.log
+
+EXPOSE 80 443
+
 WORKDIR /var/www/
 
 COPY vhost.conf /etc/apache2/sites-enabled/vhost.conf
