@@ -7,4 +7,4 @@ VOLUME /datalog
 
 EXPOSE 2181
 
-CMD ["zookeeper"]
+CMD ["zkServer.sh", "start-foreground"]

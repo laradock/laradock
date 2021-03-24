@@ -57,9 +57,11 @@ docker-compose down
 
 <br>
 <a name="Enter-Container"></a>
-## Enter a Container (run commands in a running Container)
+## Enter a Container
 
-1 - First list the current running containers with `docker ps`
+> Run commands in a running Container.
+
+1 - First list the currently running containers with `docker ps`
 
 2 - Enter any container using:
 
@@ -76,7 +78,7 @@ docker-compose exec mysql bash
 *Example: enter to MySQL prompt within MySQL container*
 
 ```bash
-docker-compose exec mysql mysql -u homestead -psecret
+docker-compose exec mysql mysql -udefault -psecret
 ```
 
 3 - To exit a container, type `exit`.
@@ -88,7 +90,8 @@ docker-compose exec mysql mysql -u homestead -psecret
 
 <br>
 <a name="Edit-Container"></a>
-## Edit default container configuration
+## Edit default Container config
+
 Open the `docker-compose.yml` and change anything you want.
 
 Examples:
@@ -161,7 +164,7 @@ You might use the `--no-cache` option if you want full rebuilding (`docker-compo
 
 <br>
 <a name="Add-Docker-Images"></a>
-## Add more Software (Docker Images)
+## Add more Docker Images
 
 To add an image (software), just edit the `docker-compose.yml` and add your container details, to do so you need to be familiar with the [docker compose file syntax](https://docs.docker.com/compose/compose-file/).
 
@@ -193,6 +196,7 @@ More [options](https://docs.docker.com/compose/reference/logs/)
 
 
 <br>
+
 <a name="PHP"></a>
 
 
@@ -203,23 +207,28 @@ More [options](https://docs.docker.com/compose/reference/logs/)
 <a name="Install-PHP-Extensions"></a>
 ## Install PHP Extensions
 
-Before installing PHP extensions, you have to decide first whether you need `FPM` or `CLI`, because each of them has it's own different container, if you need it for both, you have to edit both containers.
+You can set extensions to install in the .env file's corresponding section (`PHP_FPM`, `WORKSPACE`, `PHP_WORKER`), 
+just change the `false` to `true` at the desired extension's line.
+After this you have to rebuild the container with the `--no-cache` option.
 
-The PHP-FPM extensions should be installed in `php-fpm/Dockerfile-XX`. *(replace XX with your default PHP version number)*.
+```bash
+docker build --no-cache {container-name}
+```
+
+
+
+
+
+
+
 <br>
-The PHP-CLI extensions should be installed in `workspace/Dockerfile`.
 
-
-
-
-
-
-<br>
 <a name="Change-the-PHP-FPM-Version"></a>
 ## Change the (PHP-FPM) Version
-By default the latest stable PHP versin is configured to run.
 
->The PHP-FPM is responsible of serving your application code, you don't have to change the PHP-CLI version if you are planning to run your application on different PHP-FPM version.
+By default the latest stable PHP version is configured to run.
+
+>The PHP-FPM is responsible for serving your application code, you don't have to change the PHP-CLI version if you are planning to run your application on different PHP-FPM version.
 
 
 ### A) Switch from PHP `7.2` to PHP `5.6`
@@ -250,11 +259,10 @@ docker-compose build php-fpm
 <br>
 <a name="Change-the-PHP-CLI-Version"></a>
 ## Change the PHP-CLI Version
-By default **PHP-CLI 7.0** is running.
 
 >Note: it's not very essential to edit the PHP-CLI version. The PHP-CLI is only used for the Artisan Commands & Composer. It doesn't serve your Application code, this is the PHP-FPM job.
 
-The PHP-CLI is installed in the Workspace container. To change the PHP-CLI version you need to simply change the `PHP_VERSION` in te .env file as follow:
+The PHP-CLI is installed in the Workspace container. To change the PHP-CLI version you need to simply change the `PHP_VERSION` in the .env file as follow:
 
 1 - Open the `.env`.
 
@@ -271,10 +279,6 @@ PHP_VERSION=7.2
 ```bash
 docker-compose build workspace
 ```
-
-
-
-
 
 
 <br>
@@ -297,6 +301,47 @@ e) set it to `true`
 
 For information on how to configure xDebug with your IDE and work it out, check this [Repository](https://github.com/LarryEitel/laravel-laradock-phpstorm) or follow up on the next section if you use linux and PhpStorm.
 
+
+
+<br>
+<a name="Control-xDebug"></a>
+## Start/Stop xDebug:
+
+By installing xDebug, you are enabling it to run on startup by default.
+
+To control the behavior of xDebug (in the `php-fpm` Container), you can run the following commands from the Laradock root folder, (at the same prompt where you run docker-compose):
+
+- Stop xDebug from running by default: `.php-fpm/xdebug stop`.
+- Start xDebug by default: `.php-fpm/xdebug start`.
+- See the status: `.php-fpm/xdebug status`.
+
+Note: If `.php-fpm/xdebug` doesn't execute and gives `Permission Denied` error the problem can be that file `xdebug` doesn't have execution access. This can be fixed by running `chmod` command with desired access permissions.
+
+
+
+<br>
+<a name="Install-pcov"></a>
+## Install pcov
+
+1 - First install `pcov` in the Workspace and the PHP-FPM Containers:
+<br>
+a) open the `.env` file
+<br>
+b) search for the `WORKSPACE_INSTALL_PCOV` argument under the Workspace Container
+<br>
+c) set it to `true`
+<br>
+d) search for the `PHP_FPM_INSTALL_PCOV` argument under the PHP-FPM Container
+<br>
+e) set it to `true`
+
+2 - Re-build the containers `docker-compose build workspace php-fpm`
+
+Note that pcov is only supported on PHP 7.1 or newer. For more information on setting up pcov optimally, check the recommended section
+of the [README](https://github.com/krakjoe/pcov)
+
+
+
 <br>
 <a name="Install-phpdbg"></a>
 ## Install phpdbg
@@ -318,37 +363,6 @@ WORKSPACE_INSTALL_PHPDBG=true
 ```dotenv
 PHP_FPM_INSTALL_PHPDBG=true
 ```
-
-
-<a name="Setup remote debugging for PhpStorm on Linux"></a>
-## Setup remote debugging for PhpStorm on Linux
-
- - Make sure you have followed the steps above in the [Install Xdebug section](#install-xdebug).
-
- - Make sure Xdebug accepts connections and listens on port 9000. (Should be default configuration).
-
-![Debug Configuration](/images/photos/PHPStorm/linux/configuration/debugConfiguration.png "Debug Configuration").
-
- - Create a server with name `laradock` (matches **PHP_IDE_CONFIG** key in environment file) and make sure to map project root path with server correctly.
-
-![Server Configuration](/images/photos/PHPStorm/linux/configuration/serverConfiguration.png "Server Configuration").
-
- - Start listening for debug connections, place a breakpoint and you are good to go !
-
-
-<br>
-<a name="Control-xDebug"></a>
-## Start/Stop xDebug:
-
-By installing xDebug, you are enabling it to run on startup by default.
-
-To control the behavior of xDebug (in the `php-fpm` Container), you can run the following commands from the Laradock root folder, (at the same prompt where you run docker-compose):
-
-- Stop xDebug from running by default: `.php-fpm/xdebug stop`.
-- Start xDebug by default: `.php-fpm/xdebug start`.
-- See the status: `.php-fpm/xdebug status`.
-
-Note: If `.php-fpm/xdebug` doesn't execute and gives `Permission Denied` error the problem can be that file `xdebug` doesn't have execution access. This can be fixed by running `chmod` command  with desired access permissions.
 
 
 
@@ -379,7 +393,9 @@ Always download the latest version of [Loaders for ionCube ](http://www.ioncube.
 
 <br>
 <a name="Install-Deployer"></a>
-## Install Deployer (Deployment tool for PHP)
+## Install Deployer
+
+> A deployment tool for PHP.
 
 1 - Open the `.env` file
 <br>
@@ -390,14 +406,17 @@ Always download the latest version of [Loaders for ionCube ](http://www.ioncube.
 
 4 - Re-build the containers `docker-compose build workspace`
 
-[**Deployer Documentation Here**](https://deployer.org/docs)
+[**Deployer Documentation Here**](https://deployer.org/docs/getting-started.html)
 
 
 
 <br>
 <a name="Install-SonarQube"></a>
 
-## Install SonarQube (automatic code review tool)
+## Install SonarQube
+
+> An automatic code review tool.
+
 SonarQube® is an automatic code review tool to detect bugs, vulnerabilities and code smells in your code. It can integrate with your existing workflow to enable continuous code inspection across your project branches and pull requests.
 <br>
 1 - Open the `.env` file
@@ -458,14 +477,6 @@ To learn more about how Docker publishes ports, please read [this excellent post
 
 
 
-<br>
-<a name="Digital-Ocean"></a>
-## Setup Laravel and Docker on Digital Ocean
-
-### [Full Guide Here](/guides/#Digital-Ocean)
-
-
-
 
 
 
@@ -478,7 +489,7 @@ To learn more about how Docker publishes ports, please read [this excellent post
 
 
 <a name="Install-Laravel"></a>
-## Install Laravel from a Docker Container
+## Install Laravel from Container
 
 1 - First you need to enter the Workspace Container.
 
@@ -504,7 +515,7 @@ Since the new Laravel application is in the `my-cool-app` folder, we need to rep
 ```dotenv
   APP_CODE_PATH_HOST=../my-cool-app/
 ```
-4 - Go to that folder and start working..
+4 - Go to that folder and start working.
 
 ```bash
 cd my-cool-app
@@ -550,13 +561,19 @@ Note: Should add `--user=laradock` (example `docker-compose exec --user=laradock
 php artisan
 ```
 ```bash
-Composer update
+composer update
 ```
 ```bash
 phpunit
 ```
-
-
+```
+vue serve
+```
+(browse the results at `http://localhost:[WORKSPACE_VUE_CLI_SERVE_HOST_PORT]`)
+```
+vue ui
+```
+(browse the results at `http://localhost:[WORKSPACE_VUE_CLI_UI_HOST_PORT]`)
 
 
 
@@ -602,6 +619,34 @@ docker-compose up -d php-worker
 ```
 
 
+
+
+
+
+<br>
+<a name="Use-Browsersync-With-Laravel-Mix"></a>
+## Use Browsersync
+
+> Using Use Browsersync with Laravel Mix.
+
+1. Add the following settings to your `webpack.mix.js` file. Please refer to Browsersync [Options](https://browsersync.io/docs/options) page for more options.
+
+```
+const mix = require('laravel-mix')
+
+(...)
+
+mix.browserSync({
+  open: false,
+  proxy: 'nginx' // replace with your web server container
+})
+```
+
+2. Run `npm run watch` within your `workspace` container.
+
+3. Open your browser and visit address `http://localhost:[WORKSPACE_BROWSERSYNC_HOST_PORT]`. It will refresh the page automatically whenever you edit any source file in your project.
+
+4. If you wish to access Browsersync UI for your project, visit address `http://localhost:[WORKSPACE_BROWSERSYNC_UI_HOST_PORT]`.
 
 
 
@@ -664,7 +709,7 @@ docker-compose up -d metabase
 
 1) Boot the container `docker-compose up -d jenkins`. To enter the container type `docker-compose exec jenkins bash`.
 
-2) Go to `http://localhost:8090/` (if you didn't chanhed your default port mapping)
+2) Go to `http://localhost:8090/` (if you didn't change your default port mapping)
 
 3) Authenticate from the web app.
 
@@ -688,6 +733,7 @@ You may wanna change the default security configuration, so go to `http://localh
 
 <br>
 <a name="Use-Redis"></a>
+
 ## Use Redis
 
 1 - First make sure you run the Redis Container (`redis`) with the `docker-compose up` command.
@@ -775,12 +821,81 @@ Read the [Laravel official documentation](https://laravel.com/docs/5.7/redis#con
 ```
 
 
+<br>
+<a name="Use-Varnish"></a>
 
+## Use Varnish
 
+The goal was to proxy the request to varnish server using nginx. So only nginx has been configured for Varnish proxy.
+Nginx is on port 80 or 443. Nginx sends request through varnish server and varnish server sends request back to nginx on port 81 (external port is defined in `VARNISH_BACKEND_PORT`).
 
+The idea was taken from this [post](https://www.linode.com/docs/websites/varnish/use-varnish-and-nginx-to-serve-wordpress-over-ssl-and-http-on-debian-8/)
+
+The Varnish configuration was developed and tested for Wordpress only. Probably it works with other systems.
+
+#### Steps to configure varnish proxy server:
+1. You have to set domain name for VARNISH_PROXY1_BACKEND_HOST variable.
+2. If you want to use varnish for different domains, you have to add new configuration section in your env file.
+    ```
+    VARNISH_PROXY1_CACHE_SIZE=128m
+    VARNISH_PROXY1_BACKEND_HOST=replace_with_your_domain.name
+    VARNISH_PROXY1_SERVER=SERVER1
+    ```
+3. Then you have to add new config section into docker-compose.yml with related variables:
+    ```
+    custom_proxy_name:
+          container_name: custom_proxy_name
+          build: ./varnish
+          expose:
+            - ${VARNISH_PORT}
+          environment:
+            - VARNISH_CONFIG=${VARNISH_CONFIG}
+            - CACHE_SIZE=${VARNISH_PROXY2_CACHE_SIZE}
+            - VARNISHD_PARAMS=${VARNISHD_PARAMS}
+            - VARNISH_PORT=${VARNISH_PORT}
+            - BACKEND_HOST=${VARNISH_PROXY2_BACKEND_HOST}
+            - BACKEND_PORT=${VARNISH_BACKEND_PORT}
+            - VARNISH_SERVER=${VARNISH_PROXY2_SERVER}
+          ports:
+            - "${VARNISH_PORT}:${VARNISH_PORT}"
+          links:
+            - workspace
+          networks:
+            - frontend
+    ```
+4. change your varnish config and add nginx configuration. Example Nginx configuration is here: `nginx/sites/laravel_varnish.conf.example`.
+5. `varnish/default.vcl` is old varnish configuration, which was used in the previous version. Use `default_wordpress.vcl` instead.
+
+#### How to run:
+1. Rename `default_wordpress.vcl` to `default.vcl`
+2. `docker-compose up -d nginx`
+3. `docker-compose up -d proxy`
+
+Keep in mind that varnish server must be built after Nginx cause varnish checks domain affordability.
+
+#### FAQ:
+
+1. How to purge cache? <br>
+run from any cli: <br>`curl -X PURGE https://yourwebsite.com/`.
+2. How to reload varnish?<br>
+`docker container exec proxy varnishreload`
+3. Which varnish commands are allowed?
+    - varnishadm
+    - varnishd
+    - varnishhist
+    - varnishlog
+    - varnishncsa
+    - varnishreload
+    - varnishstat
+    - varnishtest
+    - varnishtop
+4. How to reload Nginx?<br>
+`docker exec Nginx nginx -t`<br>
+`docker exec Nginx nginx -s reload`
 
 <br>
 <a name="Use-Mongo"></a>
+
 ## Use Mongo
 
 1 - First install `mongo` in the Workspace and the PHP-FPM Containers:
@@ -844,7 +959,7 @@ More details about this [here](https://github.com/jenssegers/laravel-mongodb#ins
 
 7 - Test it:
 
-- First let your Models extend from the Mongo Eloquent Model. Check the [documentation](https://github.com/jenssegers/laravel-mongodb#eloquent).
+- First, let your Models extend from the Mongo Eloquent Model. Check the [documentation](https://github.com/jenssegers/laravel-mongodb#eloquent).
 - Enter the Workspace Container.
 - Migrate the Database `php artisan migrate`.
 
@@ -869,7 +984,7 @@ docker-compose up -d mariadb phpmyadmin
 
 *Note: To use with MariaDB, open `.env` and set `PMA_DB_ENGINE=mysql` to `PMA_DB_ENGINE=mariadb`.*
 
-2 - Open your browser and visit the localhost on port **8080**:  `http://localhost:8080`
+2 - Open your browser and visit the localhost on port **8081**:  `http://localhost:8081`
 
 
 
@@ -949,7 +1064,7 @@ job1:
 
 7 - Push changes to gitlab
 
-8 - Verify that pipeline is run successful
+8 - Verify that pipeline is running successfully
 
 
 
@@ -966,9 +1081,16 @@ job1:
 docker-compose up -d adminer
 ```
 
-2 - Open your browser and visit the localhost on port **8080**:  `http://localhost:8080`
+2 - Open your browser and visit the localhost on port **8081**:  `http://localhost:8081`
 
-**Note:** We've locked Adminer to version 4.3.0 as at the time of writing [it contained a major bug](https://sourceforge.net/p/adminer/bugs-and-features/548/) preventing PostgreSQL users from logging in. If that bug is fixed (or if you're not using PostgreSQL) feel free to set Adminer to the latest version within [the Dockerfile](https://github.com/laradock/laradock/blob/master/adminer/Dockerfile#L1): `FROM adminer:latest`
+#### Additional Notes
+
+- You can load plugins in the `ADM_PLUGINS` variable in the `.env` file. If a plugin requires parameters to work correctly you will need to add a custom file to the container. [Find more info in section 'Loading plugins'](https://hub.docker.com/_/adminer).
+
+- You can choose a design in the `ADM_DESIGN` variable in the `.env` file. [Find more info in section 'Choosing a design'](https://hub.docker.com/_/adminer).
+
+- You can specify the default host with the `ADM_DEFAULT_SERVER` variable in the `.env` file. This is useful if you are connecting to an external server or a docker container named something other than the default `mysql`.
+
 
 
 
@@ -1058,6 +1180,7 @@ _Note: You can customize the port on which beanstalkd console is listening by ch
 
 <br>
 <a name="Use-Confluence"></a>
+
 ## Use Confluence
 
 1 - Run the Confluence Container (`confluence`) with the `docker-compose up` command. Example:
@@ -1068,9 +1191,18 @@ docker-compose up -d confluence
 
 2 - Open your browser and visit the localhost on port **8090**:  `http://localhost:8090`
 
-**Note:** You can you trial version and then you have to buy a licence to use it.
+**Note:** Confluence is a licensed application - an evaluation licence can be obtained from Atlassian.
 
 You can set custom confluence version in `CONFLUENCE_VERSION`. [Find more info in section 'Versioning'](https://hub.docker.com/r/atlassian/confluence-server/)
+
+
+##### Confluence usage with Nginx and SSL.
+
+1. Find an instance configuration file in `nginx/sites/confluence.conf.example` and replace sample domain with yours.
+
+2. Configure ssl keys to your domain.
+
+Keep in mind that Confluence is still accessible on 8090 anyway.
 
 <br>
 <a name="Use-ElasticSearch"></a>
@@ -1093,6 +1225,12 @@ docker-compose up -d elasticsearch
 ```bash
 docker-compose exec elasticsearch /usr/share/elasticsearch/bin/plugin install {plugin-name}
 ```
+For ElasticSearch 5.0 and above, the previous "plugin" command has been renamed to "elasticsearch-plguin".
+Use the following instead:
+
+```bash
+docker-compose exec elasticsearch /usr/share/elasticsearch/bin/elasticsearch-plugin install {plugin-name}
+```
 
 2 - Restart elasticsearch container
 
@@ -1101,7 +1239,19 @@ docker-compose restart elasticsearch
 ```
 
 
+<br>
+<a name="Use-MeiliSearch"></a>
+## Use MeiliSearch
 
+1 - Run the MeiliSearch Container (`meilisearch`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d meilisearch
+```
+
+2 - Open your browser and visit the localhost on port **7700** at the following URL:  `http://localhost:7700`
+
+> The private API key is `masterkey`
 
 
 
@@ -1191,12 +1341,26 @@ docker-compose up -d minio
 
 5 - When configuring your other clients use the following details:
   ```
-  S3_HOST=http://minio
-  S3_KEY=access
-  S3_SECRET=secretkey
-  S3_REGION=us-east-1
-  S3_BUCKET=bucket
+  AWS_URL=http://minio:9000
+  AWS_ACCESS_KEY_ID=access
+  AWS_SECRET_ACCESS_KEY=secretkey
+  AWS_DEFAULT_REGION=us-east-1
+  AWS_BUCKET=test
+  AWS_PATH_STYLE=true
   ```
+6 - In `filesystems.php` you shoud use the following details (s3):
+  ```
+'s3' => [
+            'driver' => 's3',
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION'),
+            'bucket' => env('AWS_BUCKET'),
+            'endpoint' => env('AWS_URL'),
+            'use_path_style_endpoint' => env('AWS_PATH_STYLE', false)
+        ],
+```
+`'AWS_PATH_STYLE'` shout set to true only for local purpouse 
 
 
 
@@ -1229,7 +1393,7 @@ For more documentation on Thumbor visit the [Thumbor documenation](http://thumbo
 ## Use AWS
 
 1 - Configure AWS:
-  - make sure to add your SSH keys in aws/ssh_keys folder
+  - make sure to add your SSH keys in aws-eb-cli/ssh_keys folder
 
 2 - Run the Aws Container (`aws`) with the `docker-compose up` command. Example:
 
@@ -1301,30 +1465,13 @@ GRAYLOG_SHA256_PASSWORD=b1cb6e31e172577918c9e7806c572b5ed8477d3f57aa737bee4b5b1d
 <a name="Use-Traefik"></a>
 ## Use Traefik
 
-To use Traefik you need to do some changes in `traefik/trafik.toml` and `docker-compose.yml`.
+To use Traefik you need to do some changes in `.env` and `docker-compose.yml`.
 
-1 - Open `traefik.toml` and change the `e-mail` property in `acme` section.
+1 - Open `.env` and change `ACME_DOMAIN` to your domain and `ACME_EMAIL` to your email.
 
-2 - Change your domain in `acme.domains`. For example: `main = "example.org"`
+2 - You need to change the `docker-compose.yml` file to match the Traefik needs. If you want to use Traefik, you must not expose the ports of each container to the internet, but specify some labels.
 
-2.1 - If you have subdomains, you must add them to `sans` property in `acme.domains` section.
-
-```bash
-[[acme.domais]]
-  main = "example.org"
-  sans = ["monitor.example.org", "pma.example.org"]
-```
-
-3 - If you need to add basic authentication (https://docs.traefik.io/configuration/entrypoints/#basic-authentication), you just need to add the following text after `[entryPoints.https.tls]`:
-
-```bash
-[entryPoints.https.auth.basic]
-  users = ["user:password"]
-```
-
-4 - You need to change the `docker-compose.yml` file to match the Traefik needs. If you want to use Traefik, you must not expose the ports of each container to the internet, but specify some labels.
-
-4.1 For example, let's try with NGINX. You must have:
+2.1 For example, let's try with NGINX. You must have:
 
 ```bash
 nginx:
@@ -1344,9 +1491,25 @@ nginx:
     - frontend
     - backend
   labels:
-    - traefik.backend=nginx
-    - traefik.frontend.rule=Host:example.org
-    - traefik.port=80
+    - "traefik.enable=true"
+    - "traefik.http.services.nginx.loadbalancer.server.port=80"
+    # https router
+    - "traefik.http.routers.https.rule=Host(`${ACME_DOMAIN}`, `www.${ACME_DOMAIN}`)"
+    - "traefik.http.routers.https.entrypoints=https"
+    - "traefik.http.routers.https.middlewares=www-redirectregex"
+    - "traefik.http.routers.https.service=nginx"
+    - "traefik.http.routers.https.tls.certresolver=letsencrypt"
+    # http router
+    - "traefik.http.routers.http.rule=Host(`${ACME_DOMAIN}`, `www.${ACME_DOMAIN}`)"
+    - "traefik.http.routers.http.entrypoints=http"
+    - "traefik.http.routers.http.middlewares=http-redirectscheme"
+    - "traefik.http.routers.http.service=nginx"
+    # middlewares
+    - "traefik.http.middlewares.www-redirectregex.redirectregex.permanent=true"
+    - "traefik.http.middlewares.www-redirectregex.redirectregex.regex=^https://www.(.*)"
+    - "traefik.http.middlewares.www-redirectregex.redirectregex.replacement=https://$$1"
+    - "traefik.http.middlewares.http-redirectscheme.redirectscheme.permanent=true"
+    - "traefik.http.middlewares.http-redirectscheme.redirectscheme.scheme=https"
 ```
 
 instead of
@@ -1504,6 +1667,13 @@ To add locales to the container:
 
 4 - Check enabled locales with `docker-compose exec php-fpm locale -a`
 
+Update the locale setting, default is `POSIX`
+
+1 - Open the `.env` file and set `PHP_FPM_DEFAULT_LOCALE` to `en_US.UTF8` or other locale you want.
+
+2 - Re-build your PHP-FPM Container `docker-compose build php-fpm`.
+
+3 - Check the default locale with `docker-compose exec php-fpm locale`
 
 
 <br>
@@ -1582,22 +1752,6 @@ Available versions are: 5.5, 5.6, 5.7, 8.0, or latest.  See https://store.docker
 
 
 <br>
-<a name="MySQL-access-from-host"></a>
-## MySQL access from host
-
-You can forward the MySQL/MariaDB port to your host by making sure these lines are added to the `mysql` or `mariadb` section of the `docker-compose.yml` or in your [environment specific Compose](https://docs.docker.com/compose/extends/) file.
-
-```
-ports:
-    - "3306:3306"
-```
-
-
-
-
-
-
-<br>
 <a name="MySQL-root-access"></a>
 ## MySQL root access
 
@@ -1605,7 +1759,7 @@ The default username and password for the root MySQL user are `root` and `root `
 
 1 - Enter the MySQL container: `docker-compose exec mysql bash`.
 
-2 - Enter mysql: `mysql -uroot -proot` for non root access use `mysql -uhomestead -psecret`.
+2 - Enter mysql: `mysql -uroot -proot` for non root access use `mysql -udefault -psecret`.
 
 3 - See all users: `SELECT User FROM mysql.user;`
 
@@ -1618,7 +1772,9 @@ The default username and password for the root MySQL user are `root` and `root `
 
 <br>
 <a name="Create-Multiple-Databases"></a>
-## Create Multiple Databases (MySQL)
+## Create Multiple Databases
+
+> With MySQL.
 
 Create `createdb.sql` from `mysql/docker-entrypoint-initdb.d/createdb.sql.example` in `mysql/docker-entrypoint-initdb.d/*` and add your SQL syntax as follow:
 
@@ -1652,7 +1808,9 @@ If you need <a href="#MySQL-access-from-host">MySQL access from your host</a>, d
 
 <br>
 <a name="Use-custom-Domain"></a>
-## Use custom Domain (instead of the Docker IP)
+## Use custom Domain
+
+> How to use a custom domain, instead of the Docker IP.
 
 Assuming your custom domain is `laravel.test`
 
@@ -1678,7 +1836,7 @@ server_name laravel.test;
 
 <br>
 <a name="Enable-Global-Composer-Build-Install"></a>
-## Enable Global Composer Build Install
+## Global Composer Build Install
 
 Enabling Global Composer Install during the build for the container allows you to get your composer requirements installed and available in the container after the build is done.
 
@@ -1697,7 +1855,9 @@ Enabling Global Composer Install during the build for the container allows you t
 
 <br>
 <a name="Magento-2-authentication-credentials"></a>
-## Magento 2 authentication credential (composer install)
+## Add authentication for Magento
+
+> Adding authentication credentials for Magento 2.
 
 1 - Open the `.env` file
 
@@ -1747,6 +1907,24 @@ To install NVM and NodeJS in the Workspace container
 
 3 - Re-build the container `docker-compose build workspace`
 
+A `.npmrc` file is included in the `workspace` folder if you need to utilise this globally. This is copied automatically into the root and laradock user's folders on build.
+
+
+<br>
+<a name="Install-PNPM"></a>
+## Install PNPM
+
+pnpm uses hard links and symlinks to save one version of a module only ever once on a disk. When using npm or Yarn for example, if you have 100 projects using the same version of lodash, you will have 100 copies of lodash on disk. With pnpm, lodash will be saved in a single place on the disk and a hard link will put it into the node_modules where it should be installed.
+
+As a result, you save gigabytes of space on your disk and you have a lot faster installations! If you'd like more details about the unique node_modules structure that pnpm creates and why it works fine with the Node.js ecosystem.
+More info here: https://pnpm.js.org/en/motivation
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_NODE` and `WORKSPACE_INSTALL_PNPM` argument under the Workspace Container and set it to `true`
+
+3 - Re-build the container `docker-compose build workspace`
+
 
 
 
@@ -1789,7 +1967,7 @@ To install NPM GULP toolkit in the Workspace container
 
 <br>
 <a name="Install-NPM-BOWER"></a>
-## Install NPM BOWER package manager
+## Install NPM BOWER
 
 To install NPM BOWER package manager in the Workspace container
 
@@ -1814,7 +1992,11 @@ To install NPM VUE CLI in the Workspace container
 
 2 - Search for the `WORKSPACE_INSTALL_NPM_VUE_CLI` argument under the Workspace Container and set it to `true`
 
-3 - Re-build the container `docker-compose build workspace`
+3 - Change `vue serve` port using `WORKSPACE_VUE_CLI_SERVE_HOST_PORT` if you wish to (default value is 8080)
+
+4 - Change `vue ui` port using `WORKSPACE_VUE_CLI_UI_HOST_PORT` if you wish to (default value is 8001)
+
+5 - Re-build the container `docker-compose build workspace`
 
 
 
@@ -1867,10 +2049,45 @@ To install FFMPEG in the Workspace container
 
 4 - If you use the `php-worker` container too, please follow the same steps above especially if you have conversions that have been queued.
 
-**PS** Don't forget to install the binary in the `php-fpm` container too by applying the same steps above to its container, otherwise the you'll get an error when running the `php-ffmpeg` binary.
+**PS** Don't forget to install the binary in the `php-fpm` container too by applying the same steps above to its container, otherwise you'll get an error when running the `php-ffmpeg` binary.
 
 
+<br>
+<a name="Install-audiowaveform"></a>
+## Install BBC Audio Waveform Image Generator
 
+audiowaveform is a C++ command-line application that generates waveform data from either MP3, WAV, FLAC, or Ogg Vorbis format audio files. 
+Waveform data can be used to produce a visual rendering of the audio, similar in appearance to audio editing applications.
+Waveform data files are saved in either binary format (.dat) or JSON (.json).
+
+To install BBC Audio Waveform Image Generator in the Workspace container
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_AUDIOWAVEFORM` argument under the Workspace Container and set it to `true`
+
+3 - Re-build the container `docker-compose build workspace`
+
+4 - If you use the `php-worker` or `laravel-horizon` container too, please follow the same steps above especially if you have processing that have been queued.
+
+**PS** Don't forget to install the binary in the `php-fpm` container too by applying the same steps above to its container, otherwise you'll get an error when running the `audiowaveform` binary.
+
+
+<br>
+<a name="Install-wkhtmltopdf"></a>
+## Install wkhtmltopdf
+
+[wkhtmltopdf](https://wkhtmltopdf.org/) is a utility for outputting a PDF from HTML
+
+To install wkhtmltopdf in the Workspace container
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_WKHTMLTOPDF` argument under the Workspace Container and set it to `true`
+
+3 - Re-build the container `docker-compose build workspace`
+
+**PS** Don't forget to install the binary in the `php-fpm` container too by applying the same steps above to its container, otherwise the you'll get an error when running the `wkhtmltopdf` binary.
 
 
 
@@ -1889,6 +2106,29 @@ To install GNU Parallel in the Workspace container
 2 - Search for the `WORKSPACE_INSTALL_GNU_PARALLEL` argument under the Workspace Container and set it to `true`
 
 3 - Re-build the container `docker-compose build workspace`
+
+
+
+
+
+
+<br>
+<a name="Install-Supervisor"></a>
+## Install Supervisor
+
+Supervisor is a client/server system that allows its users to monitor and control a number of processes on UNIX-like operating systems.
+
+(see http://supervisord.org/index.html)
+
+To install Supervisor in the Workspace container
+
+1 - Open the `.env` file
+
+2 - Set `WORKSPACE_INSTALL_SUPERVISOR` and `WORKSPACE_INSTALL_PYTHON` to `true`.
+
+3 - Create supervisor configuration file (for ex., named `laravel-worker.conf`) for Laravel Queue Worker in `php-worker/supervisord.d/` by simply copy from `laravel-worker.conf.example`
+
+4 - Re-build the container `docker-compose build workspace` Or `docker-compose up --build -d workspace`
 
 
 
@@ -1934,7 +2174,9 @@ e) set it to `true`
 
 <br>
 <a name="Install-Laravel-Envoy"></a>
-## Install Laravel Envoy (Envoy Task Runner)
+## Install Laravel Envoy
+
+> A Tasks Runner.
 
 1 - Open the `.env` file
 <br>
@@ -1967,7 +2209,8 @@ e) set it to `true`
 
 <br>
 <a name="Install-Faketime"></a>
-## Install libfaketime in the php-fpm container
+## Install libfaketime in php-fpm
+
 Libfaketime allows you to control the date and time that is returned from the operating system.
 It can be used by specifying a special string in the `PHP_FPM_FAKETIME` variable in the `.env` file.
 For example:
@@ -1991,7 +2234,8 @@ will set the clock back 1 day. See (https://github.com/wolfcw/libfaketime) for m
 
 <br>
 <a name="Install-YAML"></a>
-## Install YAML PHP extension in the php-fpm container
+## Install YAML extension in php-fpm
+
 YAML PHP extension allows you to easily parse and create YAML structured data. I like YAML because it's well readable for humans. See http://php.net/manual/en/ref.yaml.php and http://yaml.org/ for more info.
 
 1 - Open the `.env` file
@@ -2004,6 +2248,112 @@ YAML PHP extension allows you to easily parse and create YAML structured data. I
 
 
 <br>
+<a name="Install-RDKAFKA-php"></a>
+## Install RDKAFKA extension in php-fpm
+
+1 - Open the `.env` file
+<br>
+2 - Search for the `PHP_FPM_INSTALL_RDKAFKA` argument under the PHP-FPM container
+<br>
+3 - Set it to `true`
+<br>
+4 - Re-build the container `docker-compose build php-fpm`<br>
+
+
+<br>
+<a name="Install-RDKAFKA-workspace"></a>
+## Install RDKAFKA extension in workspace
+
+This is needed for 'composer install' if your dependencies require Kafka.
+
+1 - Open the `.env` file
+<br>
+2 - Search for the `WORKSPACE_INSTALL_RDKAFKA` argument under the WORKSPACE container
+<br>
+3 - Set it to `true`
+<br>
+4 - Re-build the container `docker-compose build workspace`<br>
+
+
+<br>
+<a name="Install-AST"></a>
+## Install AST PHP extension
+AST exposes the abstract syntax tree generated by PHP 7+. This extension is required by tools such as `Phan`, a static analyzer for PHP.
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_AST` argument under the Workspace Container
+
+3 - Set it to `true`
+
+4 - Re-build the container `docker-compose build workspace`
+
+**Note** If you need a specific version of AST then search for the `WORKSPACE_AST_VERSION` argument under the Workspace Container and set it to the desired version and continue step 4.
+
+
+
+
+<br>
+<a name="Install-Bash-Git-Prompt"></a>
+## Install Git Bash Prompt
+A bash prompt that displays information about the current git repository. In particular the branch name, difference with remote branch, number of files staged, changed, etc.
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_GIT_PROMPT` argument under the Workspace Container
+
+3 - Set it to `true`
+
+4 - Re-build the container `docker-compose build workspace`
+
+**Note** You can configure bash-git-prompt by editing the `workspace/gitprompt.sh` file and re-building the workspace container.
+For configuration information, visit the [bash-git-prompt repository](https://github.com/magicmonty/bash-git-prompt).
+
+<br>
+<a name="Install-Oh-My-Zsh"></a>
+## Install Oh My ZSH
+
+> With the Laravel autocomplete plugin.
+
+[Zsh](https://en.wikipedia.org/wiki/Z_shell) is an extended Bourne shell with many improvements, including some features of Bash, ksh, and tcsh.
+
+[Oh My Zsh](https://ohmyz.sh/) is a delightful, open source, community-driven framework for managing your Zsh configuration.
+
+[Laravel autocomplete plugin](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/laravel) adds aliases and autocompletion for Laravel Artisan and Bob command-line interfaces.
+
+1 - Open the `.env` file
+
+2 - Search for the `SHELL_OH_MY_ZSH` argument under the Workspace Container
+
+3 - Set it to `true`
+
+4 - Re-build the container `docker-compose build workspace`
+
+5 - Use it `docker-compose exec --user=laradock workspace zsh`
+
+**Note** You can configure Oh My ZSH by editing the `/home/laradock/.zshrc` in running container.
+
+> With the ZSH autosuggestions plugin.
+
+[ZSH autosuggestions plugin](https://github.com/zsh-users/zsh-autosuggestions) suggests commands as you type based on history and completions.
+
+1 - Enable ZSH as described previously
+
+2 - Set `SHELL_OH_MY_ZSH_AUTOSUGESTIONS` to `true`
+
+3 - Rebuild and use ZSH as described previously
+
+> With bash aliases loaded.
+
+Laradock provides aliases through the `aliases.sh` file located in the `laradock/workspace` directory. You can load it into ZSH.
+
+1 - Enable ZSH as described previously
+
+2 - Set `SHELL_OH_MY_ZSH_ALIASES` to `true`
+
+3 - Rebuild and enjoy aliases
+
+<br>
 <a name="phpstorm-debugging"></a>
 ## PHPStorm Debugging Guide
 Remote debug Laravel web and phpunit tests.
@@ -2012,12 +2362,27 @@ Remote debug Laravel web and phpunit tests.
 
 
 
+<br>
+<a name="Setup-gcloud"></a>
+## Setup Google Cloud
+
+> Setting up Google Cloud for the docker registry.
+
+```
+gcloud auth configure-docker
+```
+
+Login to gcloud for use the registry and auth the permission.
+
+```
+gcloud auth login
+```
 
 
 
 <br>
 <a name="keep-tracking-Laradock"></a>
-## Keep track of your Laradock changes
+## Track your Laradock changes
 
 1. Fork the Laradock repository.
 2. Use that fork as a submodule.
@@ -2027,22 +2392,6 @@ Remote debug Laravel web and phpunit tests.
 
 
 
-
-
-<br>
-<a name="upgrading-laradock"></a>
-## Upgrading Laradock
-
-Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requires upgrading Laradock from v3.* to v4.*:
-
-1. Stop the docker VM `docker-machine stop {default}`
-2. Install Docker for [Mac](https://docs.docker.com/docker-for-mac/) or [Windows](https://docs.docker.com/docker-for-windows/).
-3. Upgrade Laradock to `v4.*.*` (`git pull origin master`)
-4. Use Laradock as you used to do: `docker-compose up -d nginx mysql`.
-
-**Note:** If you face any problem with the last step above: rebuild all your containers
-`docker-compose build --no-cache`
-"Warning Containers Data might be lost!"
 
 
 
@@ -2212,126 +2561,17 @@ docker-compose up ...
 
 
 
-
-
-
 <br>
-<a name="Common-Problems"></a>
-## Common Problems
+<a name="upgrade-laradock"></a>
+## Upgrade Laradock
 
-*Here's a list of the common problems you might face, and the possible solutions.*
+Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requires upgrading Laradock from v3.* to v4.*:
 
+1. Stop the docker VM `docker-machine stop {default}`
+2. Install Docker for [Mac](https://docs.docker.com/docker-for-mac/) or [Windows](https://docs.docker.com/docker-for-windows/).
+3. Upgrade Laradock to `v4.*.*` (`git pull origin master`)
+4. Use Laradock as you used to do: `docker-compose up -d nginx mysql`.
 
-
-
-
-
-<br>
-## I see a blank (white) page instead of the Laravel 'Welcome' page!
-
-Run the following command from the Laravel root directory:
-
-```bash
-sudo chmod -R 777 storage bootstrap/cache
-```
-
-
-
-
-
-
-<br>
-## I see "Welcome to nginx" instead of the Laravel App!
-
-Use `http://127.0.0.1` instead of `http://localhost` in your browser.
-
-
-
-
-
-
-<br>
-## I see an error message containing `address already in use` or `port is already allocated`
-
-Make sure the ports for the services that you are trying to run (22, 80, 443, 3306, etc.) are not being used already by other programs on the host, such as a built in `apache`/`httpd` service or other development tools you have installed.
-
-
-
-
-
-
-<br>
-## I get NGINX error 404 Not Found on Windows.
-
-1. Go to docker Settings on your Windows machine.
-2. Click on the `Shared Drives` tab and check the drive that contains your project files.
-3. Enter your windows username and password.
-4. Go to the `reset` tab and click restart docker.
-
-
-
-
-
-
-<br>
-## The time in my services does not match the current time
-
-1. Make sure you've [changed the timezone](#Change-the-timezone).
-2. Stop and rebuild the containers (`docker-compose up -d --build <services>`)
-
-
-
-
-
-
-<br>
-## I get MySQL connection refused
-
-This error sometimes happens because your Laravel application isn't running on the container localhost IP (Which is 127.0.0.1). Steps to fix it:
-
-* Option A
-  1. Check your running Laravel application IP by dumping `Request::ip()` variable using `dd(Request::ip())` anywhere on your application. The result is the IP of your Laravel container.
-  2. Change the `DB_HOST` variable on env with the IP that you received from previous step.
-* Option B
-   1. Change the `DB_HOST` value to the same name as the MySQL docker container. The Laradock docker-compose file currently has this as `mysql`
-
-## I get stuck when building nginx on `fetch http://mirrors.aliyun.com/alpine/v3.5/main/x86_64/APKINDEX.tar.gz`
-
-As stated on [#749](https://github.com/laradock/laradock/issues/749#issuecomment-419652646), Already fixed，just set `CHANGE_SOURCE` to false.
-
-## Custom composer repo packagist url and npm registry url
-
-In China, the origin source of composer and npm is very slow. You can add `WORKSPACE_NPM_REGISTRY` and `WORKSPACE_COMPOSER_REPO_PACKAGIST` config in `.env` to use your custom source.
-
-Example:
-```bash
-WORKSPACE_NPM_REGISTRY=https://registry.npm.taobao.org
-WORKSPACE_COMPOSER_REPO_PACKAGIST=https://packagist.phpcomposer.com
-```
-
-<br>
-
-## I get `Module build failed: Error: write EPIPE` while compiling react application
-
-When you run `npm build` or `yarn dev` building a react application using webpack with elixir you may receive a `Error: write EPIPE` while processing .jpg images.
-
-This is caused of an outdated library for processing **.jpg files** in ubuntu 16.04.
-
-To fix the problem you can follow those steps
-
-1 - Open the `.env`.
-
-2 - Search for `WORKSPACE_INSTALL_LIBPNG` or add the key if missing.
-
-3 - Set the value to true:
-
-```dotenv
-WORKSPACE_INSTALL_LIBPNG=true
-```
-
-4 - Finally rebuild the workspace image
-
-```bash
-docker-compose build workspace
-```
-
+**Note:** If you face any problem with the last step above: rebuild all your containers
+`docker-compose build --no-cache`
+"Warning Containers Data might be lost!"

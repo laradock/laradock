@@ -17,16 +17,16 @@ googleAnalytics = "UA-37514928-9"
 
 	# Repository
 	provider = ""
-	repo_url = ""
+	repo_url = "https://github.com/laradock/laradock"
 
 	version = ""
-	logo = "images/logo.png"
-	favicon = ""
+	logo = "images/favicons/ms-icon-310x310.png"
+	favicon = "images/favicons/favicon.ico"
 
 	permalink = "#"
 
 	# Custom assets
-	custom_css = []
+	custom_css = ["custom-style.css"]
 	custom_js  = []
 
 	# Syntax highlighting theme
@@ -43,7 +43,7 @@ googleAnalytics = "UA-37514928-9"
 [social]
 	twitter = ""
 	github  = "laradock/laradock"
-	email   = ""
+	email   = "support@laradock.io"
 
 # ------- MENU START -----------------------------------------
 
@@ -63,29 +63,19 @@ googleAnalytics = "UA-37514928-9"
 	weight = 3
 
 [[menu.main]]
-	name   = "Guides"
-	url    = "guides/"
-	weight = 4
-
-[[menu.main]]
 	name   = "Help & Questions"
 	url    = "help/"
-	weight = 5
+	weight = 4
 
 [[menu.main]]
 	name   = "Related Projects"
 	url    = "related-projects/"
-	weight = 6
+	weight = 5
 
 [[menu.main]]
-	name   = "Contributing"
+	name   = "Contributions"
 	url    = "contributing/"
-	weight = 7
-
-[[menu.main]]
-	name   = "License"
-	url    = "license/"
-	weight = 8
+	weight = 6
 
 # ------- MENU END -----------------------------------------
 
