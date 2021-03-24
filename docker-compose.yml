@@ -1388,6 +1388,7 @@ services:
       volumes:
         - ${DATA_PATH_HOST}/gitlab/runner:/etc/gitlab-runner
         - /var/run/docker.sock:/var/run/docker.sock:rw
+      restart: always
 
 ### JupyterHub #########################################
     jupyterhub:
@@ -1516,6 +1517,18 @@ services:
         - ${DATA_PATH_HOST}/metabase-data:/metabase-data
       networks:
         - backend
+
+### Weaver (Athena PDF) #################################################
+    weaver:
+      image: arachnysdocker/athenapdf-service
+      ports:
+        - "8080:8080"
+      env_file:
+        - ./weaver/conf/sample.env
+      networks:
+        - backend
+      depends_on:
+        - workspace
 
 ### IDE-THEIA ################################################
     ide-theia:
