@@ -1,0 +1,31 @@
+.spinnerContainer {
+  height: 100vh;
+  width: 100%;
+}
+
+.loading-indicator:before {
+  content: "";
+  background: #000000cc;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.loading-indicator:after {
+  content: "\f1ce";
+  font-family: FontAwesome;
+  position: fixed;
+  width: 100%;
+  top: 50%;
+  left: 0;
+  z-index: 1001;
+  color: white;
+  text-align: center;
+  font-weight: 100;
+  font-size: 4rem;
+  -webkit-animation: fa-spin 1s infinite linear;
+  animation: fa-spin 1s infinite linear;
+}
