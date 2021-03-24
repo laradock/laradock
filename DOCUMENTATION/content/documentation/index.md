@@ -289,17 +289,31 @@ docker-compose build workspace
 <br>
 a) open the `.env` file
 <br>
-b) search for the `WORKSPACE_INSTALL_XDEBUG` argument under the Workspace Container
+b) search for the `WORKSPACE_INSTALL_XDEBUG` argument under the Workspace settings
 <br>
 c) set it to `true`
 <br>
-d) search for the `PHP_FPM_INSTALL_XDEBUG` argument under the PHP-FPM Container
+d) search for the `PHP_FPM_INSTALL_XDEBUG` argument under the PHP-FPM settings
 <br>
 e) set it to `true`
 
 2 - Re-build the containers `docker-compose build workspace php-fpm`
 
 For information on how to configure xDebug with your IDE and work it out, check this [Repository](https://github.com/LarryEitel/laravel-laradock-phpstorm) or follow up on the next section if you use linux and PhpStorm.
+```
+###########################################################
+################ Containers Customization #################
+###########################################################
+
+### WORKSPACE #############################################
+...
+WORKSPACE_INSTALL_XDEBUG=true
+...
+### PHP_FPM ###############################################
+...
+PHP_FPM_INSTALL_XDEBUG=true
+...
+```
 
 
 
