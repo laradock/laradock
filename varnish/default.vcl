@@ -52,6 +52,7 @@ sub vcl_init {
     # vdir.add_backend(servern);
 }
 
+# This function is used when a request is send by a HTTP client (Browser)
 sub vcl_recv {
     # Called at the beginning of a request, after the complete request has been received and parsed.
     # Its purpose is to decide whether or not to serve the request, how to do it, and, if applicable,
@@ -75,8 +76,12 @@ sub vcl_recv {
             # Not from an allowed IP? Then die with an error.
             return (synth(405, "This IP is not allowed to send PURGE requests."));
         }
-    # If you got this stage (and didn't error out above), purge the cached result
-        return (purge);
+
+        ban("req.http.host == " + req.http.host);
+        # Throw a synthetic page so the request won't go to the backend.
+        return(synth(200, "Ban added"));
+        # If allowed, do a cache_lookup -> vlc_hit() or vlc_miss()
+        #return (purge);
     }
 
     # Only deal with "normal" types
@@ -266,7 +271,7 @@ sub vcl_hit {
             return (deliver);
         } else {
             # No candidate for grace. Fetch a fresh object.
-            return(fetch);
+            return(miss);
         }
     } else {
     # backend is sick - use full grace
@@ -275,12 +280,12 @@ sub vcl_hit {
             return (deliver);
         } else {
             # no graced object.
-            return (fetch);
+            return (miss);
         }
     }
 
     # fetch & deliver once we get the result
-    return (fetch); # Dead code, keep as a safeguard
+    return (miss); # Dead code, keep as a safeguard
 }
 
 sub vcl_miss {

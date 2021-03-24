@@ -2,7 +2,7 @@
 # Copy createdb.sql.example to createdb.sql
 # then uncomment then set database name and username to create you need databases
 #
-# example: .env MYSQL_USER=appuser and need db name is myshop_db
+# example: .env MYSQL_USER=appuser and needed db name is myshop_db
 #
 #    CREATE DATABASE IF NOT EXISTS `myshop_db` ;
 #    GRANT ALL ON `myshop_db`.* TO 'appuser'@'%' ;
