@@ -1202,7 +1202,8 @@ RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
       pecl install imagick; \
     fi && \
     echo "extension=imagick.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/imagick.ini && \
-    ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/imagick.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-imagick.ini \
+    ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/imagick.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-imagick.ini && \
+    php -m | grep -q 'imagick' \
 ;fi
 
 ###########################################################################
