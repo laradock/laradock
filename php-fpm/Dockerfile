@@ -1095,6 +1095,31 @@ RUN if [ ${INSTALL_PHPDECIMAL} = true ]; then \
 ;fi
 
 ###########################################################################
+# zookeeper
+###########################################################################
+ARG INSTALL_ZOOKEEPER=false
+
+RUN set -eux; \
+    if [ ${INSTALL_ZOOKEEPER} = true ]; then \
+    apt install -yqq libzookeeper-mt-dev; \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+      curl -L -o /tmp/php-zookeeper.tar.gz https://github.com/php-zookeeper/php-zookeeper/archive/master.tar.gz; \
+      mkdir -p /tmp/php-zookeeper; \
+      tar -C /tmp/php-zookeeper -zxvf /tmp/php-zookeeper.tar.gz --strip 1; \
+      cd /tmp/php-zookeeper; \
+      phpize && ./configure && make && make install;\
+    else \
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+        pecl install zookeeper-0.5.0; \
+      else \
+        pecl install zookeeper-0.7.2; \
+      fi; \
+    fi; \
+    docker-php-ext-enable zookeeper; \
+    php -m | grep -q 'zookeeper'; \
+    fi
+
+###########################################################################
 # New Relic for PHP:
 ###########################################################################
 ARG NEW_RELIC=${NEW_RELIC}
