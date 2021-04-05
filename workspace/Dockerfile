@@ -1225,7 +1225,7 @@ RUN if [ ${INSTALL_TERRAFORM} = true ]; then \
 # Memcached Dependecies:
 ###########################################################################
 
-RUN if [ ${PHP_FPM_INSTALL_MEMCACHED} = true ]; then \
+RUN if [ ${WORKSPACE_INSTALL_MEMCACHED} = true ]; then \
   apt-get -y install php${LARADOCK_PHP_VERSION}-igbinary \
   && apt-get -y install php${LARADOCK_PHP_VERSION}-memcached \
 ;fi

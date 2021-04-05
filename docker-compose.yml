@@ -168,6 +168,7 @@ services:
           - INSTALL_PHPDECIMAL=${WORKSPACE_INSTALL_PHPDECIMAL}
           - PROTOC_VERSION=${WORKSPACE_PROTOC_VERSION}
           - INSTALL_DOCKER_CLIENT=${WORKSPACE_INSTALL_DOCKER_CLIENT}
+          - INSTALL_MEMCACHED=${WORKSPACE_INSTALL_MEMCACHED}
           - http_proxy
           - https_proxy
           - no_proxy
