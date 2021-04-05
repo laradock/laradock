@@ -1221,6 +1221,18 @@ RUN if [ ${INSTALL_TERRAFORM} = true ]; then \
     && mv terraform /usr/local/bin \
     && rm terraform_0.10.6_linux_amd64.zip \
 ;fi
+
+###########################################################################
+# Memcached Dependecies:
+###########################################################################
+
+ARG INSTALL_MEMCACHED=false
+
+RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
+  apt-get -y install php${LARADOCK_PHP_VERSION}-igbinary \
+  && apt-get -y install php${LARADOCK_PHP_VERSION}-memcached \
+;fi
+
 ###########################################################################
 # pgsql client
 ###########################################################################

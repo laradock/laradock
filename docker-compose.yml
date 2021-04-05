@@ -169,6 +169,7 @@ services:
           - INSTALL_ZOOKEEPER=${WORKSPACE_INSTALL_ZOOKEEPER}
           - PROTOC_VERSION=${WORKSPACE_PROTOC_VERSION}
           - INSTALL_DOCKER_CLIENT=${WORKSPACE_INSTALL_DOCKER_CLIENT}
+          - INSTALL_MEMCACHED=${WORKSPACE_INSTALL_MEMCACHED}
           - http_proxy
           - https_proxy
           - no_proxy
