@@ -111,7 +111,9 @@ RUN if [ ${INSTALL_GNUPG} = true ]; then \
       else \
         pecl install gnupg; \
       fi; \
-    fi
+    fi; \
+    docker-php-ext-enable gnupg;  \
+    php -m | grep -q 'gnupg'
 
 ###########################################################################
 # SSH2:
