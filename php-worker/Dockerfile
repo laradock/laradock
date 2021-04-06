@@ -79,9 +79,13 @@ RUN set -eux; if [ ${INSTALL_GNUPG} = true ]; then \
 #Install GD package:
 ARG INSTALL_GD=false
 RUN if [ ${INSTALL_GD} = true ]; then \
-   apk add --update --no-cache freetype-dev libjpeg-turbo-dev jpeg-dev libpng-dev; \
-   docker-php-ext-configure gd --with-freetype-dir=/usr/lib/ --with-jpeg-dir=/usr/lib/ --with-png-dir=/usr/lib/ && \
-   docker-php-ext-install gd \
+    apk add --update --no-cache freetype-dev libjpeg-turbo-dev jpeg-dev libpng-dev; \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "4" ]; then \
+      docker-php-ext-configure gd --with-freetype --with-jpeg --with-png; \
+    else \
+      docker-php-ext-configure gd --with-freetype-dir=/usr/lib/ --with-jpeg-dir=/usr/lib/ --with-png-dir=/usr/lib/; \
+    fi; \
+    docker-php-ext-install gd \
 ;fi
 
 #Install ImageMagick:
@@ -324,9 +328,13 @@ RUN if [ $INSTALL_GHOSTSCRIPT = true ]; then \
 ARG INSTALL_REDIS=false
 RUN if [ ${INSTALL_REDIS} = true ]; then \
     # Install Redis Extension
-    printf "\n" | pecl install -o -f redis \
-    &&  rm -rf /tmp/pear \
-    &&  docker-php-ext-enable redis \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      printf "\n" | pecl install -o -f redis-4.3.0; \
+    else \
+      printf "\n" | pecl install -o -f redis; \
+    fi; \
+    rm -rf /tmp/pear; \
+    docker-php-ext-enable redis \
 ;fi
 
 ###########################################################################
@@ -360,8 +368,11 @@ RUN if [ ${INSTALL_TAINT} = true ]; then \
     # Install Php TAINT Extension
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
       pecl install taint; \
-    fi && \
-    docker-php-ext-enable taint \
+      docker-php-ext-enable taint; \
+      php -m | grep -q 'taint'; \
+    else \
+      echo 'taint not Support'; \
+    fi \
 ;fi
 
 ###########################################################################
@@ -383,8 +394,14 @@ RUN if [ ${INSTALL_IMAP} = true ]; then \
 ARG INSTALL_XMLRPC=false
 
 RUN if [ ${INSTALL_XMLRPC} = true ]; then \
-    docker-php-ext-install xmlrpc \
-;fi
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+        pecl install xmlrpc-1.0.0RC2; \
+        docker-php-ext-enable xmlrpc; \
+      else \
+        docker-php-ext-install xmlrpc; \
+      fi; \
+      php -m | grep -r 'xmlrpc'; \
+    fi
 
 #
 #--------------------------------------------------------------------------
