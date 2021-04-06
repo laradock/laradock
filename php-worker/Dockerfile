@@ -32,15 +32,17 @@ RUN apk --update add wget \
   cyrus-sasl-dev \
   libgsasl-dev \
   oniguruma-dev \
-  openssl \
-  openssl-dev \
+  libressl \
+  libressl-dev \
   supervisor
 
-RUN docker-php-ext-install mysqli mbstring pdo pdo_mysql tokenizer xml pcntl
+RUN pecl channel-update pecl.php.net; \
+    docker-php-ext-install mysqli mbstring pdo pdo_mysql tokenizer xml pcntl
+
 RUN if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-  pecl channel-update pecl.php.net && pecl install memcached-2.2.0 mcrypt-1.0.1 && docker-php-ext-enable memcached \
+  pecl install memcached-2.2.0 mcrypt-1.0.1 && docker-php-ext-enable memcached \
 ;else \
-  pecl channel-update pecl.php.net && pecl install memcached mcrypt-1.0.1 && docker-php-ext-enable memcached \
+  pecl install memcached mcrypt-1.0.1 && docker-php-ext-enable memcached \
 ;fi
 
 # Add a non-root user:
@@ -96,7 +98,6 @@ RUN set -eux; \
   if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
     apk add --update --no-cache imagemagick-dev; \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
-      apk add --update --no-cache git && \
       cd /tmp && \
       if [ ${IMAGEMAGICK_VERSION} = "latest" ]; then \
         git clone https://github.com/Imagick/imagick; \
@@ -251,7 +252,6 @@ RUN if [ ${INSTALL_AUDIOWAVEFORM} = true ]; then \
 ARG INSTALL_AMQP=false
 
 RUN if [ ${INSTALL_AMQP} = true ]; then \
-    apk del -q openssl openssl-dev && \
     apk --update add -q rabbitmq-c rabbitmq-c-dev && \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
       printf "\n" | pecl install amqp-1.11.0beta; \
@@ -260,7 +260,6 @@ RUN if [ ${INSTALL_AMQP} = true ]; then \
     fi && \
     docker-php-ext-enable amqp && \
     apk del -q rabbitmq-c-dev && \
-    apk add --update -q openssl openssl-dev && \
     docker-php-ext-install sockets \
 ;fi
 
@@ -382,7 +381,7 @@ RUN if [ ${INSTALL_TAINT} = true ]; then \
 ARG INSTALL_IMAP=false
 
 RUN if [ ${INSTALL_IMAP} = true ]; then \
-    apk add --update imap-dev openssl-dev && \
+    apk add --update imap-dev && \
     docker-php-ext-configure imap --with-imap --with-imap-ssl && \
     docker-php-ext-install imap \
 ;fi
