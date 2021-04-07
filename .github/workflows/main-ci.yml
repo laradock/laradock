@@ -22,7 +22,7 @@ jobs:
       env:
         PHP_VERSION: ${{ matrix.php_version }}
       run: |
-        set -eux;
+        set -eux
         cp env-example .env
         sed -i -- '99,313s/=false/=true/g' .env
         sed -i -- 's/CHANGE_SOURCE=true/CHANGE_SOURCE=false/g' .env
