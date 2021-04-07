@@ -36,6 +36,7 @@ RUN apk --update add wget \
   libressl-dev \
   supervisor
 
+
 RUN pecl channel-update pecl.php.net; \
     docker-php-ext-install mysqli mbstring pdo pdo_mysql tokenizer xml pcntl
 
@@ -125,6 +126,12 @@ RUN if [ ${INSTALL_GMP} = true ]; then \
    && docker-php-ext-install gmp \
 ;fi
 
+#Install BCMath package:
+ARG INSTALL_BCMATH=false
+RUN if [ ${INSTALL_BCMATH} = true ]; then \
+    docker-php-ext-install bcmath \
+;fi
+
 #Install SOAP package:
 ARG INSTALL_SOAP=false
 RUN if [ ${INSTALL_SOAP} = true ]; then \
@@ -142,12 +149,6 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
         docker-php-ext-enable mongodb; \
       fi; \
     fi
-
-#Install BCMath package:
-ARG INSTALL_BCMATH=false
-RUN if [ ${INSTALL_BCMATH} = true ]; then \
-    docker-php-ext-install bcmath \
-;fi
 
 ###########################################################################
 # PHP OCI8:

@@ -92,13 +92,6 @@ RUN if [ ${INSTALL_GD} = true ]; then \
    docker-php-ext-install gd \
 ;fi
 
-#Install GMP package:
-ARG INSTALL_GMP=false
-RUN if [ ${INSTALL_GMP} = true ]; then \
-   apk add --update --no-cache gmp gmp-dev; \
-   docker-php-ext-install gmp \
-;fi
-
 #Install ImageMagick package:
 ARG INSTALL_IMAGEMAGICK=false
 ARG IMAGEMAGICK_VERSION=latest
@@ -107,7 +100,6 @@ RUN set -eux; \
   if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
     apk add --update --no-cache imagemagick-dev; \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
-      apk add --update --no-cache git && \
       cd /tmp && \
       if [ ${IMAGEMAGICK_VERSION} = "latest" ]; then \
         git clone https://github.com/Imagick/imagick; \
@@ -126,6 +118,13 @@ RUN set -eux; \
     docker-php-ext-enable imagick; \
     php -m | grep -q 'imagick'; \
   fi
+
+#Install GMP package:
+ARG INSTALL_GMP=false
+RUN if [ ${INSTALL_GMP} = true ]; then \
+   apk add --update --no-cache gmp gmp-dev; \
+   docker-php-ext-install gmp \
+;fi
 
 #Install BCMath package:
 ARG INSTALL_BCMATH=false
