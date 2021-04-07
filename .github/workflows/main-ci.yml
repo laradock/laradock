@@ -37,6 +37,7 @@ jobs:
         sed -i -- 's/IONCUBE=true/IONCUBE=false/g' .env
         sed -i -- 's/V8JS=true/V8JS=false/g' .env
         docker-compose build ${{ matrix.service }}
+        docker-compose run --rm --no-deps -- ${{ matrix.service }} php -m
 
   build-other:
     runs-on: ubuntu-latest
