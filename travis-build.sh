@@ -33,8 +33,6 @@ if [ -n "${PHP_VERSION}" ]; then
     if [ "${PHP_VERSION}" == "7.3" ]; then
         # This ssh2 extension does not yet support PHP 7.3.
         sed -i -- 's/PHP_FPM_INSTALL_SSH2=true/PHP_FPM_INSTALL_SSH2=false/g' .env
-        # xdebug extension does not yet support PHP 7.3.
-        sed -i -- 's/PHP_FPM_INSTALL_XDEBUG=true/PHP_FPM_INSTALL_XDEBUG=false/g' .env
     fi
 
     cat .env
