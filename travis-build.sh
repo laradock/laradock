@@ -31,8 +31,6 @@ if [ -n "${PHP_VERSION}" ]; then
         sed -i -- 's/PHP_FPM_INSTALL_AEROSPIKE=true/PHP_FPM_INSTALL_AEROSPIKE=false/g' .env
     fi
     if [ "${PHP_VERSION}" == "7.3" ]; then
-        # V8JS extension does not yet support PHP 7.3.
-        sed -i -- 's/WORKSPACE_INSTALL_V8JS=true/WORKSPACE_INSTALL_V8JS=false/g' .env
         # This ssh2 extension does not yet support PHP 7.3.
         sed -i -- 's/PHP_FPM_INSTALL_SSH2=true/PHP_FPM_INSTALL_SSH2=false/g' .env
         # xdebug extension does not yet support PHP 7.3.
