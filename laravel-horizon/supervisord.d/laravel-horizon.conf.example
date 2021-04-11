@@ -5,3 +5,4 @@ command=php /var/www/artisan horizon
 autostart=true
 autorestart=true
 redirect_stderr=true
+stdout_logfile=/var/www/storage/logs/horizon.log

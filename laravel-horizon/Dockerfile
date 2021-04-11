@@ -26,16 +26,26 @@ RUN apk --update add wget \
   libmemcached-dev \
   libmcrypt-dev \
   libxml2-dev \
+  pcre-dev \
   zlib-dev \
   autoconf \
   cyrus-sasl-dev \
   libgsasl-dev \
-  supervisor \
   oniguruma-dev \
+  libressl \
+  libressl-dev \
+  supervisor \
   procps
 
-RUN docker-php-ext-install mysqli mbstring pdo pdo_mysql tokenizer xml pcntl
-RUN pecl channel-update pecl.php.net && pecl install memcached mcrypt-1.0.1 mongodb && docker-php-ext-enable memcached mongodb
+RUN pecl channel-update pecl.php.net; \
+    docker-php-ext-install mysqli mbstring pdo pdo_mysql tokenizer xml pcntl
+
+RUN if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      pecl install memcached-2.2.0 mcrypt-1.0.1; \
+    else \
+      pecl install memcached mcrypt-1.0.1; \
+    fi; \
+    docker-php-ext-enable memcached
 
 # Add a non-root user to help install ffmpeg:
 ARG PUID=1000
@@ -53,17 +63,61 @@ RUN if [ ${INSTALL_BZ2} = true ]; then \
   docker-php-ext-install bz2 \
 ;fi
 
+###########################################################################
+# PHP GnuPG:
+###########################################################################
+
+ARG INSTALL_GNUPG=false
+
+RUN set -eux; if [ ${INSTALL_GNUPG} = true ]; then \
+      apk add --no-cache --no-progress --virtual BUILD_DEPS_PHP_GNUPG gpgme-dev; \
+      apk add --no-cache --no-progress gpgme; \
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+        pecl install gnupg-1.5.0RC2; \
+      else \
+        pecl install gnupg; \
+      fi; \
+      docker-php-ext-enable gnupg; \
+    fi
+
 #Install GD package:
 ARG INSTALL_GD=false
 RUN if [ ${INSTALL_GD} = true ]; then \
    apk add --update --no-cache freetype-dev libjpeg-turbo-dev jpeg-dev libpng-dev; \
-   if [ ${LARADOCK_PHP_VERSION} = "7.4" ]; then \
-      docker-php-ext-configure gd --with-freetype --with-jpeg; \
+   if [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "80000" ] || [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70400" ]; then \
+     docker-php-ext-configure gd --with-freetype --with-jpeg; \
    else \
-      docker-php-ext-configure gd --with-freetype-dir=/usr/lib/ --with-jpeg-dir=/usr/lib/ --with-png-dir=/usr/lib/; \
+     docker-php-ext-configure gd --with-freetype-dir=/usr/lib/ --with-jpeg-dir=/usr/lib/ --with-png-dir=/usr/lib/; \
    fi && \
    docker-php-ext-install gd \
 ;fi
+
+#Install ImageMagick package:
+ARG INSTALL_IMAGEMAGICK=false
+ARG IMAGEMAGICK_VERSION=latest
+ENV IMAGEMAGICK_VERSION ${IMAGEMAGICK_VERSION}
+RUN set -eux; \
+  if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
+    apk add --update --no-cache imagemagick-dev imagemagick; \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+      cd /tmp && \
+      if [ ${IMAGEMAGICK_VERSION} = "latest" ]; then \
+        git clone https://github.com/Imagick/imagick; \
+      else \
+        git clone --branch ${IMAGEMAGICK_VERSION} https://github.com/Imagick/imagick; \
+      fi && \
+      cd imagick && \
+      phpize && \
+      ./configure && \
+      make && \
+      make install && \
+      rm -r /tmp/imagick; \
+    else \
+      pecl install imagick; \
+    fi && \
+    docker-php-ext-enable imagick; \
+    php -m | grep -q 'imagick'; \
+  fi
 
 #Install GMP package:
 ARG INSTALL_GMP=false
@@ -71,16 +125,6 @@ RUN if [ ${INSTALL_GMP} = true ]; then \
    apk add --update --no-cache gmp gmp-dev; \
    docker-php-ext-install gmp \
 ;fi
-
-#Install ImageMagick package:
-ARG INSTALL_IMAGEMAGICK=false
-RUN set -eux; \
-  if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
-    apk add --update --no-cache imagemagick-dev; \
-    pecl install imagick; \
-    docker-php-ext-enable imagick; \
-    php -m | grep -q 'imagick'; \
-  fi
 
 #Install BCMath package:
 ARG INSTALL_BCMATH=false
@@ -119,10 +163,14 @@ RUN set -eux; \
 ARG INSTALL_PHPREDIS=false
 RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
     # Install Php Redis Extension
-    printf "\n" | pecl install -o -f redis \
-    &&  rm -rf /tmp/pear \
-    &&  docker-php-ext-enable redis \
-;fi
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      printf "\n" | pecl install -o -f redis-4.3.0; \
+    else \
+      printf "\n" | pecl install -o -f redis; \
+    fi; \
+    rm -rf /tmp/pear; \
+    docker-php-ext-enable redis; \
+fi
 
 ARG INSTALL_FFMPEG=false
 RUN if [ ${INSTALL_FFMPEG} = true ]; then \
@@ -160,29 +208,37 @@ RUN if [ ${INSTALL_AUDIOWAVEFORM} = true ]; then \
 # Install Cassandra drivers:
 ARG INSTALL_CASSANDRA=false
 RUN if [ ${INSTALL_CASSANDRA} = true ]; then \
-  apk --update add cassandra-cpp-driver \
-  ;fi
-
-WORKDIR /usr/src
-RUN if [ ${INSTALL_CASSANDRA} = true ]; then \
-  git clone https://github.com/datastax/php-driver.git \
-  && cd php-driver/ext \
-  && phpize \
-  && mkdir -p /usr/src/php-driver/build \
-  && cd /usr/src/php-driver/build \
-  && ../ext/configure > /dev/null \
-  && make clean >/dev/null \
-  && make >/dev/null 2>&1 \
-  && make install \
-  && docker-php-ext-enable cassandra \
+  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+    echo "PHP Driver for Cassandra is not supported for PHP 8.0."; \
+  else \
+    apk add --update --no-cache cassandra-cpp-driver libuv gmp \
+    && apk add --update --no-cache cassandra-cpp-driver-dev gmp-dev --virtual .build-sec \
+    && cd /usr/src \
+    && git clone https://github.com/datastax/php-driver.git \
+    && cd php-driver/ext \
+    && phpize \
+    && mkdir -p /usr/src/php-driver/build \
+    && cd /usr/src/php-driver/build \
+    && ../ext/configure > /dev/null \
+    && make clean > /dev/null \
+    && make > /dev/null 2>&1 \
+    && make install \
+    && docker-php-ext-enable cassandra \
+    && apk del .build-sec; \
+  fi \
 ;fi
 
 # Install MongoDB drivers:
 ARG INSTALL_MONGO=false
 RUN if [ ${INSTALL_MONGO} = true ]; then \
-  pecl install mongodb \
-  && docker-php-ext-enable mongodb \
-  ;fi
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+        pecl install mongo; \
+        docker-php-ext-enable mongo; \
+      else \
+        pecl install mongodb; \
+        docker-php-ext-enable mongodb; \
+      fi; \
+    fi
 
 ###########################################################################
 # YAML: extension
@@ -193,15 +249,19 @@ ARG INSTALL_YAML=false
 RUN if [ ${INSTALL_YAML} = true ]; then \
      apk --update add -U --no-cache --virtual temp yaml-dev \
      && apk add --no-cache yaml \
-     && docker-php-source extract \
-     && pecl channel-update pecl.php.net \
-     && pecl install yaml \
+     && docker-php-source extract; \
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+        pecl install yaml-1.3.2; \
+      elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+        pecl install yaml-2.0.4; \
+      else \
+        pecl install yaml; \
+      fi \
      && docker-php-ext-enable yaml \
      && pecl clear-cache \
      && docker-php-source delete \
      && apk del temp \
 ;fi
-
 
 ###########################################################################
 # PHP Memcached:
@@ -214,7 +274,7 @@ RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
   if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
   curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/2.2.0.tar.gz"; \
   else \
-  curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/v3.1.3.tar.gz"; \
+  curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/v3.1.4.tar.gz"; \
   fi \
   && mkdir -p memcached \
   && tar -C memcached -zxvf /tmp/memcached.tar.gz --strip 1 \
