@@ -226,7 +226,7 @@ docker build --no-cache {container-name}
 <a name="Change-the-PHP-FPM-Version"></a>
 ## Change the (PHP-FPM) Version
 
-By default the latest stable PHP version is configured to run.
+By default, the latest stable PHP version is configured to run.
 
 >The PHP-FPM is responsible for serving your application code, you don't have to change the PHP-CLI version if you are planning to run your application on different PHP-FPM version.
 
@@ -281,6 +281,9 @@ docker-compose build workspace
 ```
 
 
+
+Change the PHP-CLI Version
+
 <br>
 <a name="Install-xDebug"></a>
 ## Install xDebug
@@ -289,17 +292,32 @@ docker-compose build workspace
 <br>
 a) open the `.env` file
 <br>
-b) search for the `WORKSPACE_INSTALL_XDEBUG` argument under the Workspace Container
+b) search for the `WORKSPACE_INSTALL_XDEBUG` argument under the Workspace settings
 <br>
 c) set it to `true`
 <br>
-d) search for the `PHP_FPM_INSTALL_XDEBUG` argument under the PHP-FPM Container
+d) search for the `PHP_FPM_INSTALL_XDEBUG` argument under the PHP-FPM settings
 <br>
 e) set it to `true`
 
 2 - Re-build the containers `docker-compose build workspace php-fpm`
 
 For information on how to configure xDebug with your IDE and work it out, check this [Repository](https://github.com/LarryEitel/laravel-laradock-phpstorm) or follow up on the next section if you use linux and PhpStorm.
+
+```
+###########################################################
+################ Containers Customization #################
+###########################################################
+
+### WORKSPACE #############################################
+...
+WORKSPACE_INSTALL_XDEBUG=true
+...
+### PHP_FPM ###############################################
+...
+PHP_FPM_INSTALL_XDEBUG=true
+...
+```
 
 
 
@@ -459,11 +477,11 @@ docker-compose run --user=root --rm sonarqube chown sonarqube:sonarqube /opt/son
 <a name="Laradock-for-Production"></a>
 ## Prepare Laradock for Production
 
-It's recommended for production to create a custom `docker-compose.yml` file, for example `production-docker-compose.yml`
+It's recommended for production to create a custom `docker-compose.yml` file, for example, `production-docker-compose.yml`
 
-In your new production `docker-compose.yml` file you should contain only the containers you are planning to run in production (usage example: `docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...`).
+In your new production `docker-compose.yml` file, you should include only the containers you are planning to run in production (usage example: `docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...`).
 
-Note: The Database (MySQL/MariaDB/...) ports should not be forwarded on production, because Docker will automatically publish the port on the host, which is quite insecure, unless specifically told not to. So make sure to remove these lines:
+Note: The Database (MySQL/MariaDB/...) ports should not be forwarded on production, because Docker will automatically publish the port on the host unless specifically told not to.  Forwarding these ports on production is quite insecure - so make sure to remove these lines:
 
 ```
 ports:
@@ -582,7 +600,7 @@ vue ui
 <a name="Run-Laravel-Queue-Worker"></a>
 ## Run Laravel Queue Worker
 
-1 - Create supervisor configuration file (for ex., named `laravel-worker.conf`) for Laravel Queue Worker in `php-worker/supervisord.d/` by simply copy from `laravel-worker.conf.example`
+1 - Create a suitable configuration file (for example named `laravel-worker.conf`) for Laravel Queue Worker in `php-worker/supervisord.d/` by simply copying from `laravel-worker.conf.example`
 
 2 - Start everything up
 
@@ -600,29 +618,20 @@ docker-compose up -d php-worker
 ## Run Laravel Scheduler
 
 Laradock provides 2 ways to run Laravel Scheduler
-1 - Using cron in workspace container. Most of the time, when you start Laradock, it'll automatically start workspace container with cron inside, along with setting to run `schedule:run` command every minute.
+1. Using cron in workspace container. 
+Most of the time, when you start Laradock, it'll automatically start workspace container with cron inside, along with setting to run `schedule:run` command every minute.
+2. Using Supervisord in php-worker to run `schedule:run`. 
+This way is suggested when you don't want to start workspace in production environment.
+   * Comment out cron setting in workspace container, file `workspace/crontab/laradock`
+     ```bash
+     # * * * * * laradock /usr/bin/php /var/www/artisan schedule:run >> /dev/null 2>&1
+      ```
+   * Create a suitable configuration file (for ex., named `laravel-scheduler.conf`) for Laravel Scheduler in `php-worker/supervisord.d/` by simply copying from `laravel-scheduler.conf.example`
 
-2 - Using Supervisord in php-worker to run `schedule:run`. This way is suggested when you don't want to start workspace in production environment.
-<br>
-a) Comment out cron setting in workspace container, file `workspace/crontab/laradock`
-
-```bash
-# * * * * * laradock /usr/bin/php /var/www/artisan schedule:run >> /dev/null 2>&1
-```
-<br>
-b) Create supervisor configuration file (for ex., named `laravel-scheduler.conf`) for Laravel Scheduler in `php-worker/supervisord.d/` by simply copy from `laravel-scheduler.conf.example`
-<br>
-c) Start php-worker container
-
-```bash
-docker-compose up -d php-worker
-```
-
-
-
-
-
-
+   * Start php-worker container
+     ```bash
+     docker-compose up -d php-worker
+     ```
 <br>
 <a name="Use-Browsersync-With-Laravel-Mix"></a>
 ## Use Browsersync
@@ -655,11 +664,11 @@ mix.browserSync({
 <a name="Use-Mailu"></a>
 ## Use Mailu
 
-1 - You need register a domain.
+1. You will need a registered domain.
 
-2 - Required RECAPTCHA for signup email [HERE](https://www.google.com/recaptcha/admin)
+2. Required RECAPTCHA for signup email [HERE](https://www.google.com/recaptcha/admin)
 
-2 - modify following environment variable in `.env` file
+3. Modify following environment variable in `.env` file
 
 ```
 MAILU_RECAPTCHA_PUBLIC_KEY=<YOUR_RECAPTCHA_PUBLIC_KEY>
@@ -668,36 +677,32 @@ MAILU_DOMAIN=laradock.io
 MAILU_HOSTNAMES=mail.laradock.io
 ```
 
-2 - Open your browser and visit `http://YOUR_DOMAIN`.
-
-
+4. Open your browser and visit `http://YOUR_DOMAIN`.
 
 
 <br>
 <a name="Use-NetData"></a>
 ## Use NetData
 
-1 - Run the NetData Container (`netdata`) with the `docker-compose up` command. Example:
+1. Run the NetData Container (`netdata`) with the `docker-compose up` command. Example:
 
 ```bash
 docker-compose up -d netdata
 ```
 
-2 - Open your browser and visit the localhost on port **19999**:  `http://localhost:19999`
+2. Open your browser and visit the localhost on port **19999**:  `http://localhost:19999`
 
 <br>
 <a name="Use-Metabase"></a>
 ## Use Metabase
 
-1 - Run the Metabase Container (`metbase`) with the `docker-compose up` command. Example:
+1. Run the Metabase Container (`metabase`) with the `docker-compose up` command. Example:
+   ```bash
+   docker-compose up -d metabase
+   ```
+2. Open your browser and visit the localhost on port **3030**:  `http://localhost:3030`
 
-```bash
-docker-compose up -d metabase
-```
-
-2 - Open your browser and visit the localhost on port **3030**:  `http://localhost:3030`
-
-3 - You can use environment to configure Metabase container. See docs in: [Running Metabase on Docker](https://www.metabase.com/docs/v0.12.0/operations-guide/running-metabase-on-docker.html)
+3. You can use environment to configure Metabase container. See docs in: [Running Metabase on Docker](https://www.metabase.com/docs/v0.12.0/operations-guide/running-metabase-on-docker.html)
 
 
 
@@ -736,52 +741,40 @@ You may wanna change the default security configuration, so go to `http://localh
 
 ## Use Redis
 
-1 - First make sure you run the Redis Container (`redis`) with the `docker-compose up` command.
+1. First make sure you run the Redis Container (`redis`) with the `docker-compose up` command.
+   ```bash
+   docker-compose up -d redis
+   ```
+   > To execute redis commands, enter the redis container first `docker-compose exec redis bash` then enter the `redis-cli`.
 
-```bash
-docker-compose up -d redis
-```
-
-> To execute redis commands, enter the redis container first `docker-compose exec redis bash` then enter the `redis-cli`.
-
-2 - Open your Laravel's `.env` file and set the `REDIS_HOST` to `redis`
-
-```env
-REDIS_HOST=redis
-```
-
-If you're using Laravel, and you don't find the `REDIS_HOST` variable in your `.env` file. Go to the database configuration file `config/database.php` and replace the default `127.0.0.1` IP with `redis` for Redis like this:
-
-```php
-'redis' => [
-    'cluster' => false,
-    'default' => [
-        'host'     => 'redis',
-        'port'     => 6379,
-        'database' => 0,
+2. Open your Laravel's `.env` file and set the `REDIS_HOST` to `redis`
+   ```env
+   REDIS_HOST=redis
+   ```
+   If you're using Laravel, and you don't find the `REDIS_HOST` variable in your `.env` file. Go to the database configuration file `config/database.php` and replace the default `127.0.0.1` IP with `redis` for Redis like this:
+    ```php
+    'redis' => [
+        'cluster' => false,
+        'default' => [
+            'host'     => 'redis',
+            'port'     => 6379,
+            'database' => 0,
+        ],
     ],
-],
-```
-
-3 - To enable Redis Caching and/or for Sessions Management. Also from the `.env` file set `CACHE_DRIVER` and `SESSION_DRIVER` to `redis` instead of the default `file`.
-
-```env
-CACHE_DRIVER=redis
-SESSION_DRIVER=redis
-```
-
-4 - Finally make sure you have the `predis/predis` package `(~1.0)` installed via Composer:
-
-```bash
-composer require predis/predis:^1.0
-```
-
-5 - You can manually test it from Laravel with this code:
-
-```php
-\Cache::store('redis')->put('Laradock', 'Awesome', 10);
-```
-
+    ```
+3. To enable Redis Caching and/or for Sessions Management. Also from the `.env` file set `CACHE_DRIVER` and `SESSION_DRIVER` to `redis` instead of the default `file`.
+   ```env
+   CACHE_DRIVER=redis
+   SESSION_DRIVER=redis
+   ```
+4. Finally make sure you have the `predis/predis` package `(~1.0)` installed via Composer:
+   ```bash
+   composer require predis/predis:^1.0
+   ```
+5. You can manually test it from Laravel with this code:
+   ```php
+   \Cache::store('redis')->put('Laradock', 'Awesome', 10);
+   ```
 
 
 
@@ -790,36 +783,30 @@ composer require predis/predis:^1.0
 <br>
 <a name="Use-Redis-Cluster"></a>
 ## Use Redis Cluster
-
-1 - First make sure you run the Redis-Cluster Container (`redis-cluster`) with the `docker-compose up` command.
-
-```bash
-docker-compose up -d redis-cluster
-```
-
-2 - Open your Laravel's `config/database.php` and set the redis cluster configuration. Below is example configuration with phpredis.
-
-Read the [Laravel official documentation](https://laravel.com/docs/5.7/redis#configuration) for more details.
-
-```php
-'redis' => [
-    'client' => 'phpredis',
-    'options' => [
-        'cluster' => 'redis',
-    ],
-    'clusters' => [
-        'default' => [
-            [
-                'host' => 'redis-cluster',
-                'password' => null,
-                'port' => 7000,
-                'database' => 0,
+1. First make sure you run the Redis-Cluster Container (`redis-cluster`) with the `docker-compose up` command.
+   ```bash
+   docker-compose up -d redis-cluster
+   ```
+2. Open your Laravel's `config/database.php` and set the redis cluster configuration. Below is example configuration with phpredis.
+   Read the [Laravel official documentation](https://laravel.com/docs/5.7/redis#configuration) for more details.
+    ```php
+    'redis' => [
+        'client' => 'phpredis',
+        'options' => [
+            'cluster' => 'redis',
+        ],
+        'clusters' => [
+            'default' => [
+                [
+                    'host' => 'redis-cluster',
+                    'password' => null,
+                    'port' => 7000,
+                    'database' => 0,
+                ],
             ],
         ],
     ],
-],
-```
-
+    ```
 
 <br>
 <a name="Use-Varnish"></a>
@@ -897,45 +884,36 @@ run from any cli: <br>`curl -X PURGE https://yourwebsite.com/`.
 <a name="Use-Mongo"></a>
 
 ## Use Mongo
-
-1 - First install `mongo` in the Workspace and the PHP-FPM Containers:
-<br>
-a) open the `.env` file
-<br>
-b) search for the `WORKSPACE_INSTALL_MONGO` argument under the Workspace Container
-<br>
-c) set it to `true`
-<br>
-d) search for the `PHP_FPM_INSTALL_MONGO` argument under the PHP-FPM Container
-<br>
-e) set it to `true`
-
-2 - Re-build the containers `docker-compose build workspace php-fpm`
-
-
-
-3 - Run the MongoDB Container (`mongo`) with the `docker-compose up` command.
-
-```bash
-docker-compose up -d mongo
-```
-
-
-4 - Add the MongoDB configurations to the `config/database.php` configuration file:
-
-```php
-'connections' => [
-
-    'mongodb' => [
-        'driver'   => 'mongodb',
-        'host'     => env('DB_HOST', 'localhost'),
-        'port'     => env('DB_PORT', 27017),
-        'database' => env('DB_DATABASE', 'database'),
-        'username' => '',
-        'password' => '',
-        'options'  => [
-            'database' => '',
-        ]
+1. First install `mongo` in the Workspace and the PHP-FPM Containers:
+   * open the `.env` file
+   * search for the `WORKSPACE_INSTALL_MONGO` argument under the Workspace Container
+   * set it to `true`
+   * search for the `PHP_FPM_INSTALL_MONGO` argument under the PHP-FPM Container
+   * set it to `true`
+2. Re-build the containers 
+   * `docker-compose build workspace php-fpm`
+3. Run the MongoDB Container (`mongo`) with the `docker-compose up` command.
+    ```bash
+    docker-compose up -d mongo
+    ```
+4. Add the MongoDB configurations to the `config/database.php` configuration file:
+    ```php
+    'connections' => [
+    
+        'mongodb' => [
+            'driver'   => 'mongodb',
+            'host'     => env('DB_HOST', 'localhost'),
+            'port'     => env('DB_PORT', 27017),
+            'database' => env('DB_DATABASE', 'database'),
+            'username' => '',
+            'password' => '',
+            'options'  => [
+                'database' => '',
+            ]
+        ],
+    
+    	// ...
+    
     ],
 
 	// ...
@@ -971,21 +949,16 @@ More details about this [here](https://github.com/jenssegers/laravel-mongodb#ins
 <br>
 <a name="Use-phpMyAdmin"></a>
 ## Use PhpMyAdmin
+1. Run the phpMyAdmin Container (`phpmyadmin`) with the `docker-compose up` command.
+    ```bash
+    # use with mysql
+    docker-compose up -d mysql phpmyadmin
 
-1 - Run the phpMyAdmin Container (`phpmyadmin`) with the `docker-compose up` command. Example:
-
-```bash
-# use with mysql
-docker-compose up -d mysql phpmyadmin
-
-# use with mariadb
-docker-compose up -d mariadb phpmyadmin
-```
-
-*Note: To use with MariaDB, open `.env` and set `PMA_DB_ENGINE=mysql` to `PMA_DB_ENGINE=mariadb`.*
-
-2 - Open your browser and visit the localhost on port **8081**:  `http://localhost:8081`
-
+    # use with mariadb
+    docker-compose up -d mariadb phpmyadmin
+    ```
+    *Note: To use with MariaDB, open `.env` and set `PMA_DB_ENGINE=mysql` to `PMA_DB_ENGINE=mariadb`.*
+2. Open your browser and visit the localhost on port **8080**:  `http://localhost:8080`
 
 
 
@@ -994,15 +967,11 @@ docker-compose up -d mariadb phpmyadmin
 <br>
 <a name="Use-Gitlab"></a>
 ## Use Gitlab
-
-1 - Run the Gitlab Container (`gitlab`) with the `docker-compose up` command. Example:
-
-```bash
-docker-compose up -d gitlab
-```
-
-2 - Open your browser and visit the localhost on port **8989**:  `http://localhost:8989`
-<br>
+1. Run the Gitlab Container (`gitlab`) with the `docker-compose up` command. Example:
+    ```bash
+    docker-compose up -d gitlab
+    ```
+2. Open your browser and visit the localhost on port **8989**:  `http://localhost:8989`
 *Note: You may change GITLAB_DOMAIN_NAME to your own domain name like `http://gitlab.example.com` default is `http://localhost`*
 
 
@@ -1013,60 +982,48 @@ docker-compose up -d gitlab
 <br>
 <a name="Use-Gitlab-Runner"></a>
 ## Use Gitlab Runner
+1. Retrieve the registration token in your gitlab project (Settings > CI / CD > Runners > Set up a specific Runner manually)
+2. Open the `.env` file and set the following changes:
+    ```
+    # so that gitlab container will pass the correct domain to gitlab-runner container
+    GITLAB_DOMAIN_NAME=http://gitlab
 
-1 - Retrieve the registration token in your gitlab project (Settings > CI / CD > Runners > Set up a specific Runner manually)
+    GITLAB_RUNNER_REGISTRATION_TOKEN=<value-in-step-1>
 
-2 - Open the `.env` file and set the following changes:
-```
-# so that gitlab container will pass the correct domain to gitlab-runner container
-GITLAB_DOMAIN_NAME=http://gitlab
+    # so that gitlab-runner container will send POST request for registration to correct domain
+    GITLAB_CI_SERVER_URL=http://gitlab
+    ```
+3. Open the `docker-compose.yml` file and add the following changes:
+    ```yml
+        gitlab-runner:
+          environment: # these values will be used during `gitlab-runner register`
+            - RUNNER_EXECUTOR=docker # change from shell (default)
+            - DOCKER_IMAGE=alpine
+            - DOCKER_NETWORK_MODE=laradock_backend
+          networks:
+            - backend # connect to network where gitlab service is connected
+    ```
+4. Run the Gitlab-Runner Container (`gitlab-runner`) with the `docker-compose up` command. Example:
+    ```bash
+    docker-compose up -d gitlab-runner
+    ```
+5. Register the gitlab-runner to the gitlab container
+    ```bash
+    docker-compose exec gitlab-runner bash
+    gitlab-runner register
+    ```
 
-GITLAB_RUNNER_REGISTRATION_TOKEN=<value-in-step-1>
-
-# so that gitlab-runner container will send POST request for registration to correct domain
-GITLAB_CI_SERVER_URL=http://gitlab
-```
-
-3 - Open the `docker-compose.yml` file and add the following changes:
-```yml
-    gitlab-runner:
-      environment: # these values will be used during `gitlab-runner register`
-        - RUNNER_EXECUTOR=docker # change from shell (default)
-        - DOCKER_IMAGE=alpine
-        - DOCKER_NETWORK_MODE=laradock_backend
-      networks:
-        - backend # connect to network where gitlab service is connected
-```
-
-4 - Run the Gitlab-Runner Container (`gitlab-runner`) with the `docker-compose up` command. Example:
-
-```bash
-docker-compose up -d gitlab-runner
-```
-
-5 - Register the gitlab-runner to the gitlab container
-
-```bash
-docker-compose exec gitlab-runner bash
-gitlab-runner register
-```
-
-6 - Create a `.gitlab-ci.yml` file for your pipeline
-
-```yml
-before_script:
-  - echo Hello!
-
-job1:
-  scripts:
-    - echo job1
-```
-
-7 - Push changes to gitlab
-
-8 - Verify that pipeline is running successfully
-
-
+6. Create a `.gitlab-ci.yml` file for your pipeline
+    ```yml
+    before_script:
+      - echo Hello!
+    
+    job1:
+      scripts:
+        - echo job1
+    ```
+7. Push changes to gitlab
+8. Verify that pipeline is run successful
 
 
 
@@ -1075,13 +1032,11 @@ job1:
 <a name="Use-Adminer"></a>
 ## Use Adminer
 
-1 - Run the Adminer Container (`adminer`) with the `docker-compose up` command. Example:
-
-```bash
-docker-compose up -d adminer
-```
-
-2 - Open your browser and visit the localhost on port **8081**:  `http://localhost:8081`
+1. Run the Adminer Container (`adminer`) with the `docker-compose up` command. Example:
+    ```bash
+    docker-compose up -d adminer
+    ```
+2. Open your browser and visit the localhost on port **8080**:  `http://localhost:8080`
 
 #### Additional Notes
 
@@ -1095,19 +1050,14 @@ docker-compose up -d adminer
 
 
 
-
-
 <br>
 <a name="Use-Portainer"></a>
 ## Use Portainer
-
-1 - Run the Portainer Container (`portainer`) with the `docker-compose up` command. Example:
-
-```bash
-docker-compose up -d portainer
-```
-
-2 - Open your browser and visit the localhost on port **9010**:  `http://localhost:9010`
+1. Run the Portainer Container (`portainer`) with the `docker-compose up` command. Example:
+    ```bash
+    docker-compose up -d portainer
+    ```
+2. Open your browser and visit the localhost on port **9010**:  `http://localhost:9010`
 
 
 
@@ -1117,21 +1067,14 @@ docker-compose up -d portainer
 <br>
 <a name="Use-pgAdmin"></a>
 ## Use PgAdmin
-
-1 - Run the pgAdmin Container (`pgadmin`) with the `docker-compose up` command. Example:
-
-```bash
-docker-compose up -d postgres pgadmin
-```
-
-2 - Open your browser and visit the localhost on port **5050**:  `http://localhost:5050`
-
-
-3 - At login page use default credentials:
-
-Username : pgadmin4@pgadmin.org
-
-Password : admin
+1. Run the pgAdmin Container (`pgadmin`) with the `docker-compose up` command. Example:
+    ```bash
+    docker-compose up -d postgres pgadmin
+    ```
+2. Open your browser and visit the localhost on port **5050**:  `http://localhost:5050`
+3. At login page use default credentials:
+    Username : pgadmin4@pgadmin.org
+    Password : admin
 
 
 
@@ -1140,41 +1083,28 @@ Password : admin
 <br>
 <a name="Use-Beanstalkd"></a>
 ## Use Beanstalkd
+1. Run the Beanstalkd Container:
+    ```bash
+    docker-compose up -d beanstalkd
+    ```
+2. Configure Laravel to connect to that container by editing the `config/queue.php` config file.
+    * first set `beanstalkd` as default queue driver
+    * set the queue host to beanstalkd : `QUEUE_HOST=beanstalkd`
+    *beanstalkd is now available on default port `11300`.*
+3. Require the dependency package [pda/pheanstalk](https://github.com/pda/pheanstalk) using composer.
+    Optionally you can use the Beanstalkd Console Container to manage your Queues from a web interface.
+    * Run the Beanstalkd Console Container:
+    ```bash
+    docker-compose up -d beanstalkd-console
+    ```
+    * Open your browser and visit `http://localhost:2080/`
+    _Note: You can customize the port on which beanstalkd console is listening by changing `BEANSTALKD_CONSOLE_HOST_PORT` in `.env`. The default value is *2080*._
 
-1 - Run the Beanstalkd Container:
+    * Add the server
+        - Host: beanstalkd
+        - Port: 11300
+4. Done
 
-```bash
-docker-compose up -d beanstalkd
-```
-
-2 - Configure Laravel to connect to that container by editing the `config/queue.php` config file.
-
-a. first set `beanstalkd` as default queue driver
-b. set the queue host to beanstalkd : `QUEUE_HOST=beanstalkd`
-
-*beanstalkd is now available on default port `11300`.*
-
-3 - Require the dependency package [pda/pheanstalk](https://github.com/pda/pheanstalk) using composer.
-
-
-Optionally you can use the Beanstalkd Console Container to manage your Queues from a web interface.
-
-1 - Run the Beanstalkd Console Container:
-
-```bash
-docker-compose up -d beanstalkd-console
-```
-
-2 - Open your browser and visit `http://localhost:2080/`
-
-_Note: You can customize the port on which beanstalkd console is listening by changing `BEANSTALKD_CONSOLE_HOST_PORT` in `.env`. The default value is *2080*._
-
-3 - Add the server
-
-- Host: beanstalkd
-- Port: 11300
-
-4 - Done.
 
 
 
@@ -1182,12 +1112,10 @@ _Note: You can customize the port on which beanstalkd console is listening by ch
 <a name="Use-Confluence"></a>
 
 ## Use Confluence
-
-1 - Run the Confluence Container (`confluence`) with the `docker-compose up` command. Example:
-
-```bash
-docker-compose up -d confluence
-```
+1. Run the Confluence Container (`confluence`) with the `docker-compose up` command. Example:
+   ```bash
+   docker-compose up -d confluence
+   ```
 
 2 - Open your browser and visit the localhost on port **8090**:  `http://localhost:8090`
 
@@ -1220,23 +1148,14 @@ docker-compose up -d elasticsearch
 
 ### Install ElasticSearch Plugin
 
-1 - Install an ElasticSearch plugin.
-
-```bash
-docker-compose exec elasticsearch /usr/share/elasticsearch/bin/plugin install {plugin-name}
-```
-For ElasticSearch 5.0 and above, the previous "plugin" command has been renamed to "elasticsearch-plguin".
-Use the following instead:
-
-```bash
-docker-compose exec elasticsearch /usr/share/elasticsearch/bin/elasticsearch-plugin install {plugin-name}
-```
-
-2 - Restart elasticsearch container
-
-```bash
-docker-compose restart elasticsearch
-```
+1. Install an ElasticSearch plugin.
+   ```bash
+   docker-compose exec elasticsearch /usr/share/elasticsearch/bin/plugin install {plugin-name}
+   ```
+2. Restart elasticsearch container
+   ```bash
+   docker-compose restart elasticsearch
+   ```
 
 
 <br>
@@ -1258,14 +1177,11 @@ docker-compose up -d meilisearch
 <br>
 <a name="Use-Selenium"></a>
 ## Use Selenium
-
-1 - Run the Selenium Container (`selenium`) with the `docker-compose up` command. Example:
-
-```bash
-docker-compose up -d selenium
-```
-
-2 - Open your browser and visit the localhost on port **4444** at the following URL:  `http://localhost:4444/wd/hub`
+1. Run the Selenium Container (`selenium`) with the `docker-compose up` command. Example:
+   ```bash
+   docker-compose up -d selenium
+   ```
+2. Open your browser and visit the localhost on port **4444** at the following URL:  `http://localhost:4444/wd/hub`
 
 
 
@@ -1279,38 +1195,35 @@ docker-compose up -d selenium
 The RethinkDB is an open-source Database for Real-time Web ([RethinkDB](https://rethinkdb.com/)).
 A package ([Laravel RethinkDB](https://github.com/duxet/laravel-rethinkdb)) is being developed and was released a version for Laravel 5.2 (experimental).
 
-1 - Run the RethinkDB Container (`rethinkdb`) with the `docker-compose up` command.
+1. Run the RethinkDB Container (`rethinkdb`) with the `docker-compose up` command.
+    ```bash
+    docker-compose up -d rethinkdb
+    ```
 
-```bash
-docker-compose up -d rethinkdb
-```
+2. Access the RethinkDB Administration Console [http://localhost:8090/#tables](http://localhost:8090/#tables) for create a database called `database`.
 
-2 - Access the RethinkDB Administration Console [http://localhost:8090/#tables](http://localhost:8090/#tables) for create a database called `database`.
+3. Add the RethinkDB configurations to the `config/database.php` configuration file:
+    ```php
+    'connections' => [
+    
+    	'rethinkdb' => [
+    		'name'      => 'rethinkdb',
+    		'driver'    => 'rethinkdb',
+    		'host'      => env('DB_HOST', 'rethinkdb'),
+    		'port'      => env('DB_PORT', 28015),
+    		'database'  => env('DB_DATABASE', 'test'),
+    	]
+    
+    	// ...
+    
+    ],
+    ```
 
-3 - Add the RethinkDB configurations to the `config/database.php` configuration file:
-
-```php
-'connections' => [
-
-	'rethinkdb' => [
-		'name'      => 'rethinkdb',
-		'driver'    => 'rethinkdb',
-		'host'      => env('DB_HOST', 'rethinkdb'),
-		'port'      => env('DB_PORT', 28015),
-		'database'  => env('DB_DATABASE', 'test'),
-	]
-
-	// ...
-
-],
-```
-
-4 - Open your Laravel's `.env` file and update the following variables:
-
-- set the `DB_CONNECTION` to your `rethinkdb`.
-- set the `DB_HOST` to `rethinkdb`.
-- set the `DB_PORT` to `28015`.
-- set the `DB_DATABASE` to `database`.
+4. Open your Laravel's `.env` file and update the following variables:
+    - set the `DB_CONNECTION` to your `rethinkdb`.
+    - set the `DB_HOST` to `rethinkdb`.
+    - set the `DB_PORT` to `28015`.
+    - set the `DB_DATABASE` to `database`.
 
 
 #### Additional Notes
@@ -1322,23 +1235,18 @@ docker-compose up -d rethinkdb
 <a name="Use-Minio"></a>
 ## Use Minio
 
-1 - Configure Minio:
-  - On the workspace container, change `INSTALL_MC` to true to get the client
-  - Set `MINIO_ACCESS_KEY` and `MINIO_ACCESS_SECRET` if you wish to set proper keys
-
-2 - Run the Minio Container (`minio`) with the `docker-compose up` command. Example:
-
-```bash
-docker-compose up -d minio
-```
-
-3 - Open your browser and visit the localhost on port **9000** at the following URL:  `http://localhost:9000`
-
-4 - Create a bucket either through the webui or using the mc client:
-  ```bash
-  mc mb minio/bucket
-  ```
-
+1. Configure Minio:
+   - On the workspace container, change `INSTALL_MC` to true to get the client
+   - Set `MINIO_ACCESS_KEY` and `MINIO_ACCESS_SECRET` if you wish to set proper keys
+2. Run the Minio Container (`minio`) with the `docker-compose up` command. Example:
+    ```bash
+    docker-compose up -d minio
+    ```
+3. Open your browser and visit the localhost on port **9000** at the following URL:  `http://localhost:9000`
+4. Create a bucket either through the webui or using the mc client:
+    ```bash
+    mc mb minio/bucket
+    ```
 5 - When configuring your other clients use the following details:
   ```
   AWS_URL=http://minio:9000
@@ -1361,7 +1269,6 @@ docker-compose up -d minio
         ],
 ```
 `'AWS_PATH_STYLE'` shout set to true only for local purpouse 
-
 
 
 
@@ -2291,6 +2198,20 @@ AST exposes the abstract syntax tree generated by PHP 7+. This extension is requ
 **Note** If you need a specific version of AST then search for the `WORKSPACE_AST_VERSION` argument under the Workspace Container and set it to the desired version and continue step 4.
 
 
+<br>
+<a name="Install-PHP-Decimal"></a>
+## Install PHP Decimal extension
+The PHP Decimal extension adds support for correctly-rounded, arbitrary-precision decimal floating point arithmetic. Applications that rely on accurate numbers (ie. money, measurements, or mathematics) can use Decimal instead of float or string to represent numerical values.
+
+For more information visit the [PHP Decimal website](https://php-decimal.io).
+
+2 - Search for the `WORKSPACE_INSTALL_PHPDECIMAL` argument under the Workspace Container
+
+2 - Search for the `PHP_FPM_INSTALL_PHPDECIMAL` argument under the PHP-FPM container
+
+3 - Set it to `true`
+
+4 - Re-build the container `docker-compose build workspace php-fpm`
 
 
 <br>
