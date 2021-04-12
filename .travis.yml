@@ -7,20 +7,6 @@ env:
   matrix:
     - HUGO_VERSION=0.20.2
 
-    - PHP_VERSION=5.6 BUILD_SERVICE=workspace
-    - PHP_VERSION=7.0 BUILD_SERVICE=workspace
-    - PHP_VERSION=7.1 BUILD_SERVICE=workspace
-    - PHP_VERSION=7.2 BUILD_SERVICE=workspace
-    - PHP_VERSION=7.3 BUILD_SERVICE=workspace
-    - PHP_VERSION=7.4 BUILD_SERVICE=workspace
-
-    - PHP_VERSION=5.6 BUILD_SERVICE=php-fpm
-    - PHP_VERSION=7.0 BUILD_SERVICE=php-fpm
-    - PHP_VERSION=7.1 BUILD_SERVICE=php-fpm
-    - PHP_VERSION=7.2 BUILD_SERVICE=php-fpm
-    - PHP_VERSION=7.3 BUILD_SERVICE=php-fpm
-    - PHP_VERSION=7.4 BUILD_SERVICE=php-fpm
-
     - PHP_VERSION=hhvm BUILD_SERVICE=hhvm
 
     # - PHP_VERSION=5.6 BUILD_SERVICE=php-worker
@@ -29,12 +15,14 @@ env:
     - PHP_VERSION=7.2 BUILD_SERVICE=php-worker
     - PHP_VERSION=7.3 BUILD_SERVICE=php-worker
     - PHP_VERSION=7.4 BUILD_SERVICE=php-worker
+    - PHP_VERSION=8.0 BUILD_SERVICE=php-worker
 
     - PHP_VERSION=7.0 BUILD_SERVICE=laravel-horizon
     - PHP_VERSION=7.1 BUILD_SERVICE=laravel-horizon
     - PHP_VERSION=7.2 BUILD_SERVICE=laravel-horizon
     - PHP_VERSION=7.3 BUILD_SERVICE=laravel-horizon
     - PHP_VERSION=7.4 BUILD_SERVICE=laravel-horizon
+    - PHP_VERSION=8.0 BUILD_SERVICE=laravel-horizon
 
     - PHP_VERSION=NA BUILD_SERVICE=solr
     - PHP_VERSION=NA BUILD_SERVICE="mssql rethinkdb aerospike"
