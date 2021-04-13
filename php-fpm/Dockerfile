@@ -657,6 +657,16 @@ RUN if [ ${INSTALL_MYSQLI} = true ]; then \
     docker-php-ext-install mysqli \
 ;fi
 
+###########################################################################
+# Deprecated Mysql Extension (only for php 5):
+###########################################################################
+
+ARG INSTALL_DEPRECATED_MYSQL=false
+
+RUN if [ ${INSTALL_DEPRECATED_MYSQL} = true ]; then \
+    docker-php-ext-install mysql \
+;fi
+
 
 ###########################################################################
 # Human Language and Character Encoding Support:
