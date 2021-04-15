@@ -10,6 +10,8 @@ on:
 
 jobs:
   build-php:
+    # Don't trigger on schedule event when in a fork
+    if: github.event_name != 'schedule' || (github.event_name == 'schedule' && github.repository == 'laradock/laradock')
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -42,6 +44,8 @@ jobs:
         docker-compose down
 
   build-other:
+    # Don't trigger on schedule event when in a fork
+    if: github.event_name != 'schedule' || (github.event_name == 'schedule' && github.repository == 'laradock/laradock')
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
