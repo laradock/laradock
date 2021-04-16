@@ -23,7 +23,6 @@ RUN apk --update add wget \
   curl \
   git \
   build-base \
-  libmemcached-dev \
   libmcrypt-dev \
   libxml2-dev \
   pcre-dev \
@@ -39,13 +38,6 @@ RUN apk --update add wget \
 
 RUN pecl channel-update pecl.php.net; \
     docker-php-ext-install mysqli mbstring pdo pdo_mysql tokenizer xml pcntl
-
-RUN if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-      pecl install memcached-2.2.0 mcrypt-1.0.1; \
-    else \
-      pecl install memcached mcrypt-1.0.1; \
-    fi; \
-    docker-php-ext-enable memcached
 
 # Add a non-root user:
 ARG PUID=1000
@@ -403,6 +395,24 @@ RUN if [ ${INSTALL_XMLRPC} = true ]; then \
       fi; \
       php -m | grep -r 'xmlrpc'; \
     fi
+
+###########################################################################
+# PHP Memcached:
+###########################################################################
+
+ARG INSTALL_MEMCACHED=false
+
+RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
+  apk --update add libmemcached-dev; \
+  # Install the php memcached extension
+  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+    pecl install memcached-2.2.0; \
+  else \
+    pecl install memcached; \
+  fi; \
+  docker-php-ext-enable memcached; \
+  php -m | grep -r 'memcached'; \
+fi
 
 #
 #--------------------------------------------------------------------------
