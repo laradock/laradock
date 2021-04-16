@@ -23,7 +23,6 @@ RUN apk --update add wget \
   curl \
   git \
   build-base \
-  libmemcached-dev \
   libmcrypt-dev \
   libxml2-dev \
   pcre-dev \
@@ -39,13 +38,6 @@ RUN apk --update add wget \
 
 RUN pecl channel-update pecl.php.net; \
     docker-php-ext-install mysqli mbstring pdo pdo_mysql tokenizer xml pcntl
-
-RUN if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-      pecl install memcached-2.2.0 mcrypt-1.0.1; \
-    else \
-      pecl install memcached mcrypt-1.0.1; \
-    fi; \
-    docker-php-ext-enable memcached
 
 # Add a non-root user to help install ffmpeg:
 ARG PUID=1000
@@ -270,25 +262,20 @@ RUN if [ ${INSTALL_YAML} = true ]; then \
 ARG INSTALL_MEMCACHED=false
 
 RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
+  apk --update add libmemcached-dev; \
   # Install the php memcached extension
   if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-  curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/2.2.0.tar.gz"; \
+    pecl install memcached-2.2.0; \
   else \
-  curl -L -o /tmp/memcached.tar.gz "https://github.com/php-memcached-dev/php-memcached/archive/v3.1.4.tar.gz"; \
-  fi \
-  && mkdir -p memcached \
-  && tar -C memcached -zxvf /tmp/memcached.tar.gz --strip 1 \
-  && ( \
-  cd memcached \
-  && phpize \
-  && ./configure \
-  && make -j$(nproc) \
-  && make install \
-  ) \
-  && rm -r memcached \
-  && rm /tmp/memcached.tar.gz \
-  && docker-php-ext-enable memcached \
-  ;fi
+    pecl install memcached; \
+  fi; \
+  docker-php-ext-enable memcached; \
+  php -m | grep -r 'memcached'; \
+fi
+
+#--------------------------------------------------------------------------
+# Clean up
+#--------------------------------------------------------------------------
 
 RUN rm /var/cache/apk/* \
   && mkdir -p /var/www
