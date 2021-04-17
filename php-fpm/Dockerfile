@@ -84,6 +84,17 @@ RUN if [ ${INSTALL_BZ2} = true ]; then \
 ;fi
 
 ###########################################################################
+# Enchant:
+###########################################################################
+
+ARG INSTALL_ENCHANT=false
+RUN if [ ${INSTALL_ENCHANT} = true ]; then \
+  apt-get install -yqq libenchant-dev; \
+  docker-php-ext-install enchant; \
+  php -m | grep -oiE '^enchant$'; \
+fi
+
+###########################################################################
 # GMP (GNU Multiple Precision):
 ###########################################################################
 
