@@ -38,6 +38,7 @@ RUN set -xe; \
     apt-get update -yqq && \
     pecl channel-update pecl.php.net && \
     apt-get install -yqq \
+      nano \
       apt-utils \
       gnupg2 \
       git \
