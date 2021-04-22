@@ -53,9 +53,12 @@
         access_log /var/log/nginx/xinan_fd_access.log;
     }
     ```
-4. build docker container
+5. modify ssh key
+    - use your own ssh key to change these files's content below
+    - `workspace/insecure_id_rsa.pub` and `workspace/insecure_id_rsa`
+6. build docker container
     - `cd` into `laradock` path
     - run `docker-compose up -d nginx redis php-fpm workspace mysql`
-5. clone your project source code into the path `APP_CODE_PATH_HOST`
-6. start docker container
+7. clone your project source code into the path `APP_CODE_PATH_HOST`
+8. start docker container
     - run `docker-compose start nginx redis php-fpm workspace mysql`
