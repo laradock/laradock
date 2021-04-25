@@ -413,7 +413,6 @@ ARG INSTALL_AMQP=false
 RUN set -eux; \
     if [ ${INSTALL_AMQP} = true ]; then \
       # # Install the amqp extension
-      apt-get update; \
       apt-get -yqq install librabbitmq-dev; \
       if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
         pecl install amqp-1.11.0beta; \
