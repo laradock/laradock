@@ -410,32 +410,19 @@ RUN set -eux; \
 
 ARG INSTALL_AMQP=false
 
-RUN if [ ${INSTALL_AMQP} = true ]; then \
-    # download and install manually, to make sure it's compatible with ampq installed by pecl later
-    # install cmake first
-    apt-get -yqq install cmake && \
-    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ] || [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70000" ]; then \
-      curl -L -o /tmp/rabbitmq-c.tar.gz https://github.com/alanxz/rabbitmq-c/archive/v0.11.0.tar.gz; \
-    else \
-      curl -L -o /tmp/rabbitmq-c.tar.gz https://github.com/alanxz/rabbitmq-c/archive/master.tar.gz; \
-    fi && \
-    mkdir -p rabbitmq-c && \
-    tar -C rabbitmq-c -zxvf /tmp/rabbitmq-c.tar.gz --strip 1 && \
-    cd rabbitmq-c/ && \
-    mkdir _build && cd _build/ && \
-    cmake .. && \
-    cmake --build . --target install && \
-    # Install the amqp extension
-    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
-      printf "\n" | pecl install amqp-1.11.0beta; \
-    else \
-      printf "\n" | pecl install amqp; \
-    fi && \
-    docker-php-ext-enable amqp && \
-    # Install the sockets extension
-    docker-php-ext-install sockets && \
-    php -m | grep -q 'sockets' \
-;fi
+RUN set -eux; \
+    if [ ${INSTALL_AMQP} = true ]; then \
+      # # Install the amqp extension
+      apt-get update; \
+      apt-get -yqq install librabbitmq-dev; \
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+        pecl install amqp-1.11.0beta; \
+      else \
+        pecl install amqp; \
+      fi; \
+      docker-php-ext-enable amqp; \
+      php -m | grep -oiE '^amqp$'; \
+    fi
 
 ###########################################################################
 # CASSANDRA:
