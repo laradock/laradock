@@ -178,7 +178,7 @@ services:
         - docker-in-docker:/certs/client
         - ./php-worker/supervisord.d:/etc/supervisord.d
       extra_hosts:
-        - "dockerhost:${DOCKER_HOST_IP}"
+        - "host.docker.internal:${DOCKER_HOST_IP}"
       ports:
         - "${WORKSPACE_SSH_PORT}:22"
         - "${WORKSPACE_BROWSERSYNC_HOST_PORT}:3000"
@@ -288,7 +288,7 @@ services:
       expose:
         - "9000"
       extra_hosts:
-        - "dockerhost:${DOCKER_HOST_IP}"
+        - "host.docker.internal:${DOCKER_HOST_IP}"
       environment:
         - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
         - DOCKER_HOST=tcp://docker-in-docker:2376
@@ -346,7 +346,7 @@ services:
       depends_on:
         - workspace
       extra_hosts:
-        - "dockerhost:${DOCKER_HOST_IP}"
+        - "host.docker.internal:${DOCKER_HOST_IP}"
       networks:
         - backend
 ### Laravel Horizon ############################################
@@ -382,7 +382,7 @@ services:
       depends_on:
         - workspace
       extra_hosts:
-        - "dockerhost:${DOCKER_HOST_IP}"
+        - "host.docker.internal:${DOCKER_HOST_IP}"
       networks:
         - backend
 
@@ -1346,7 +1346,7 @@ services:
         - ${DATA_PATH_HOST}/portainer_data:/data
         - /var/run/docker.sock:/var/run/docker.sock
       extra_hosts:
-        - "dockerhost:${DOCKER_HOST_IP}"
+        - "host.docker.internal:${DOCKER_HOST_IP}"
       ports:
         - 9010:9000
       networks:
