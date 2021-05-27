@@ -1977,3 +1977,15 @@ services:
         ZK_HOSTS: zookeeper:2181
       networks:
         - backend
+
+
+### tarantool ###########################################
+    tarantool:
+      build: ./tarantool
+      volumes:
+        - ${DATA_PATH_HOST}/tarantool:/var/lib/tarantool
+        - ./tarantool/lua:/opt/tarantool
+      ports:
+        - ${TARANTOOL_PORT}:3301
+      networks:
+        - backend
