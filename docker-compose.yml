@@ -1989,3 +1989,9 @@ services:
         - ${TARANTOOL_PORT}:3301
       networks:
         - backend
+    tarantool-admin:
+      build: ./tarantool-admin
+      ports:
+        - ${TARANTOOL_ADMIN_PORT}:80
+      networks:
+        - backend

@@ -1467,8 +1467,31 @@ docker-compose up -d mosquitto
 5 - Publish: `mqtt pub -t 'test' -h localhost -p 9001 -C 'ws' -m 'Hello!'`
 
 
+<br>
+<a name="Use-Tarantool"></a>
+## Use Tarantool (+ Admin panel)
 
+1 - Configure Tarantool Port and Tarantool Admin Port using environment variables: `TARANTOOL_PORT` and `TARANTOOL_ADMIN_PORT`. Default ports are 3301 and 8002.
 
+2 - Run the Tarantool and Tarantool Admin tool using `docker-compose up`command:
+
+```bash
+docker-compose up -d tarantool tarantool-admin
+```
+
+3 - You can open admin tool visiting localhost:8002
+
+4 - There you should set `Hostname` with the value `tarantool` 
+
+5 - After that your tarantool data will be available inside admin panel.
+
+6 - Also you can connect to tarantool server in console mode with this command:
+
+```bash
+docker-compose exec tarantool console
+```
+
+7 - There you can operate with tarantool database ([official documentation](https://www.tarantool.io/en/doc/latest/) can be helpful).
 
 
 <br>
