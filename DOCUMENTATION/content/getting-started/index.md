@@ -107,6 +107,12 @@ Your folder structure should look like this:
 * project-2
 ```
 
+Make sure the `APP_CODE_PATH_HOST` variable points to parent directory.
+
+```
+APP_CODE_PATH_HOST=../
+```
+
 2 - Go to your web server and create config files to point to different project directory when visiting different domains:
 
 For **Nginx** go to `nginx/sites`, for **Apache2** `apache2/sites`. 
