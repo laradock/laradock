@@ -1492,17 +1492,21 @@ docker-compose exec tarantool console
 ```
 
 7 - There you can operate with tarantool database ([official documentation](https://www.tarantool.io/en/doc/latest/) can be helpful).
-
-
 <br>
-<a name="CodeIgniter"></a>
-
-
-
-
-
-
 <br>
+
+<a name="Use-Camunda"></a>
+## Use Camunda
+
+1. Configure camunda environment variables `CAMUNDA_*`.
+
+2. Run the docker-compose:
+
+```bash
+docker-compose up -d camunda
+```
+<br>
+
 <a name="Install-CodeIgniter"></a>
 ## Install CodeIgniter
 
