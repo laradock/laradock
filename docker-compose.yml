@@ -1991,13 +1991,13 @@ services:
         - postgres
       environment:
         - DB_DRIVER=org.postgresql.Driver
-        - DB_URL=jdbc:postgresql://postgres:5432/camunda
-        - DB_USERNAME=camunda
-        - DB_PASSWORD=camunda
+        - DB_URL=jdbc:postgresql://postgres:5432/${CAMUNDA_POSTGRES_DB}
+        - DB_USERNAME=${CAMUNDA_POSTGRES_USER}
+        - DB_PASSWORD=${CAMUNDA_POSTGRES_PASSWORD}
         - WAIT_FOR=postgres:5432
         - TZ=${CAMUNDA_TZ}
       ports:
-        - '8051:8080'
+        - 8051:8080
       networks:
         - frontend
         - backend
