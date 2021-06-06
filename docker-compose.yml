@@ -2002,3 +2002,20 @@ services:
         - frontend
         - backend
       restart: unless-stopped
+
+### tarantool ###########################################
+    tarantool:
+      build: ./tarantool
+      volumes:
+        - ${DATA_PATH_HOST}/tarantool:/var/lib/tarantool
+        - ./tarantool/lua:/opt/tarantool
+      ports:
+        - ${TARANTOOL_PORT}:3301
+      networks:
+        - backend
+    tarantool-admin:
+      build: ./tarantool-admin
+      ports:
+        - ${TARANTOOL_ADMIN_PORT}:80
+      networks:
+        - backend
