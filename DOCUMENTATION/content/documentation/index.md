@@ -207,7 +207,7 @@ More [options](https://docs.docker.com/compose/reference/logs/)
 <a name="Install-PHP-Extensions"></a>
 ## Install PHP Extensions
 
-You can set extensions to install in the .env file's corresponding section (`PHP_FPM`, `WORKSPACE`, `PHP_WORKER`), 
+You can set extensions to install in the .env file's corresponding section (`PHP_FPM`, `WORKSPACE`, `PHP_WORKER`),
 just change the `false` to `true` at the desired extension's line.
 After this you have to rebuild the container with the `--no-cache` option.
 
@@ -451,7 +451,7 @@ Troubleshooting:
 
 if you encounter a database error:
 ```
-docker-compose exec --user=root postgres
+docker-compose exec --user=root postgres bash
 source docker-entrypoint-initdb.d/init_sonarqube_db.sh
 ```
 
@@ -618,9 +618,9 @@ docker-compose up -d php-worker
 ## Run Laravel Scheduler
 
 Laradock provides 2 ways to run Laravel Scheduler
-1. Using cron in workspace container. 
+1. Using cron in workspace container.
 Most of the time, when you start Laradock, it'll automatically start workspace container with cron inside, along with setting to run `schedule:run` command every minute.
-2. Using Supervisord in php-worker to run `schedule:run`. 
+2. Using Supervisord in php-worker to run `schedule:run`.
 This way is suggested when you don't want to start workspace in production environment.
    * Comment out cron setting in workspace container, file `workspace/crontab/laradock`
      ```bash
@@ -890,7 +890,7 @@ run from any cli: <br>`curl -X PURGE https://yourwebsite.com/`.
    * set it to `true`
    * search for the `PHP_FPM_INSTALL_MONGO` argument under the PHP-FPM Container
    * set it to `true`
-2. Re-build the containers 
+2. Re-build the containers
    * `docker-compose build workspace php-fpm`
 3. Run the MongoDB Container (`mongo`) with the `docker-compose up` command.
     ```bash
@@ -899,7 +899,7 @@ run from any cli: <br>`curl -X PURGE https://yourwebsite.com/`.
 4. Add the MongoDB configurations to the `config/database.php` configuration file:
     ```php
     'connections' => [
-    
+
         'mongodb' => [
             'driver'   => 'mongodb',
             'host'     => env('DB_HOST', 'localhost'),
@@ -911,9 +911,9 @@ run from any cli: <br>`curl -X PURGE https://yourwebsite.com/`.
                 'database' => '',
             ]
         ],
-    
+
     	// ...
-    
+
     ],
 
 	// ...
@@ -1017,7 +1017,7 @@ More details about this [here](https://github.com/jenssegers/laravel-mongodb#ins
     ```yml
     before_script:
       - echo Hello!
-    
+
     job1:
       scripts:
         - echo job1
@@ -1205,7 +1205,7 @@ A package ([Laravel RethinkDB](https://github.com/duxet/laravel-rethinkdb)) is b
 3. Add the RethinkDB configurations to the `config/database.php` configuration file:
     ```php
     'connections' => [
-    
+
     	'rethinkdb' => [
     		'name'      => 'rethinkdb',
     		'driver'    => 'rethinkdb',
@@ -1213,9 +1213,9 @@ A package ([Laravel RethinkDB](https://github.com/duxet/laravel-rethinkdb)) is b
     		'port'      => env('DB_PORT', 28015),
     		'database'  => env('DB_DATABASE', 'test'),
     	]
-    
+
     	// ...
-    
+
     ],
     ```
 
@@ -1268,7 +1268,7 @@ A package ([Laravel RethinkDB](https://github.com/duxet/laravel-rethinkdb)) is b
             'use_path_style_endpoint' => env('AWS_PATH_STYLE', false)
         ],
 ```
-`'AWS_PATH_STYLE'` shout set to true only for local purpouse 
+`'AWS_PATH_STYLE'` shout set to true only for local purpouse
 
 
 
@@ -1481,7 +1481,7 @@ docker-compose up -d tarantool tarantool-admin
 
 3 - You can open admin tool visiting localhost:8002
 
-4 - There you should set `Hostname` with the value `tarantool` 
+4 - There you should set `Hostname` with the value `tarantool`
 
 5 - After that your tarantool data will be available inside admin panel.
 
@@ -1986,7 +1986,7 @@ To install FFMPEG in the Workspace container
 <a name="Install-audiowaveform"></a>
 ## Install BBC Audio Waveform Image Generator
 
-audiowaveform is a C++ command-line application that generates waveform data from either MP3, WAV, FLAC, or Ogg Vorbis format audio files. 
+audiowaveform is a C++ command-line application that generates waveform data from either MP3, WAV, FLAC, or Ogg Vorbis format audio files.
 Waveform data can be used to produce a visual rendering of the audio, similar in appearance to audio editing applications.
 Waveform data files are saved in either binary format (.dat) or JSON (.json).
 
