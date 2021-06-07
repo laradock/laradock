@@ -1194,7 +1194,9 @@ ARG IMAGEMAGICK_VERSION=latest
 ENV IMAGEMAGICK_VERSION ${IMAGEMAGICK_VERSION}
 
 RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
+	apt-get update -yqq && \
     apt-get install -y libmagickwand-dev imagemagick && \
+    sed -i "s/<policy domain=\"coder\" rights=\"none\" pattern=\"PDF\" \/>/<\!--<policy domain=\"coder\" rights=\"none\" pattern=\"PDF\" \/>-->/" /etc/ImageMagick-6/policy.xml && \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
       apt-get install -y git && \
       cd /tmp && \

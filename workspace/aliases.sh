@@ -1,5 +1,7 @@
 #! /bin/bash
 
+export CHROME_DEVEL_SANDBOX=/usr/local/sbin/chrome-devel-sandbox
+
 # Colors used for status updates
 ESC_SEQ="\x1b["
 COL_RESET=$ESC_SEQ"39;49;00m"
