@@ -1,2 +1,7 @@
 #! /usr/bin/env bash
-docker-compose up caddy php-fpm workspace mysql mailhog redis docker-in-docker
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+(
+cd "$SCRIPT_DIR" \
+&& docker-compose up caddy php-fpm workspace mysql mailhog redis docker-in-docker
+)
