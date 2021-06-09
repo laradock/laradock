@@ -1,3 +1,4 @@
-FROM docker.elastic.co/elasticsearch/elasticsearch:7.1.1
+ARG ELK_VERSION
+FROM elasticsearch:${ELK_VERSION}
 
 EXPOSE 9200 9300

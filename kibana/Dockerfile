@@ -1,3 +1,4 @@
-FROM docker.elastic.co/kibana/kibana:6.6.0
+ARG ELK_VERSION
+FROM kibana:${ELK_VERSION}
 
 EXPOSE 5601
