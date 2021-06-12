@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Helps on Laradock</title>
+    <link>https://laradock.io/help.html</link>
+    <description>Recent content in Helps on Laradock</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="https://laradock.io/help/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Help &amp; Questions</title>
+      <link>https://laradock.io/help/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://laradock.io/help/</guid>
+      <description>Join the chat room on Gitter and get help and support from the community.
+
+You can as well can open an issue on Github (will be labeled as Question) and discuss it with people on Gitter.
+
+
+Common Problems Here&amp;rsquo;s a list of the common problems you might face, and the possible solutions.
+
+I see a blank (white) page instead of the Laravel &amp;lsquo;Welcome&amp;rsquo; page! Run the following command from the Laravel root directory:</description>
+    </item>
+    
+  </channel>
+</rss>

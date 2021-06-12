@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Introductions on Laradock</title>
+    <link>https://laradock.io/introduction.html</link>
+    <description>Recent content in Introductions on Laradock</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="https://laradock.io/introduction/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Introduction</title>
+      <link>https://laradock.io/introduction/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://laradock.io/introduction/</guid>
+      <description>Laradock is a full PHP development environment for Docker.
+It supports a variety of common services, all pre-configured to provide a ready PHP development environment.
+
+Use Docker First - Learn About It Later! 
+Features  Easy switch between PHP versions: 7.4, 7.3, 7.2, 7.1, 5.6&amp;hellip; Choose your favorite database engine: MySQL, Postgres, MariaDB&amp;hellip; Run your own stack: Memcached, HHVM, RabbitMQ&amp;hellip; Each software runs on its own container: PHP-FPM, NGINX, PHP-CLI&amp;hellip; Easy to customize any container, with simple edits to the Dockerfile.</description>
+    </item>
+    
+  </channel>
+</rss>

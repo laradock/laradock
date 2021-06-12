@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Getting-starteds on Laradock</title>
+    <link>https://laradock.io/getting-started.html</link>
+    <description>Recent content in Getting-starteds on Laradock</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="https://laradock.io/getting-started/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Getting Started</title>
+      <link>https://laradock.io/getting-started/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://laradock.io/getting-started/</guid>
+      <description>Requirements  Git Docker [ &amp;gt;= 17.12 ]  Installation Choose the setup the best suits your needs.
+ A) Setup for Single Project  A.1) Already have a PHP project A.2) Don&amp;rsquo;t have a PHP project yet  B) Setup for Multiple Projects  
+A) Setup for Single Project  (Follow these steps if you want a separate Docker environment for each project)
+ 
+A.1) Already have a PHP project: 1 - Clone laradock on your project root directory:</description>
+    </item>
+    
+  </channel>
+</rss>

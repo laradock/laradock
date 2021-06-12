@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>https://laradock.io/introduction/</loc>
+  </url>
+  
+  <url>
+    <loc>https://laradock.io/getting-started/</loc>
+  </url>
+  
+  <url>
+    <loc>https://laradock.io/documentation/</loc>
+  </url>
+  
+  <url>
+    <loc>https://laradock.io/help/</loc>
+  </url>
+  
+  <url>
+    <loc>https://laradock.io/related-projects/</loc>
+  </url>
+  
+  <url>
+    <loc>https://laradock.io/contributing/</loc>
+  </url>
+  
+  <url>
+    <loc>https://laradock.io/categories.html</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://laradock.io/contributing.html</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://laradock.io/documentation.html</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://laradock.io/getting-started.html</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://laradock.io/help.html</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://laradock.io/introduction.html</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://laradock.io/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://laradock.io/related-projects.html</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://laradock.io/tags.html</loc>
+    <priority>0</priority>
+  </url>
+  
+</urlset>

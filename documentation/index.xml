@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Documentations on Laradock</title>
+    <link>https://laradock.io/documentation.html</link>
+    <description>Recent content in Documentations on Laradock</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="https://laradock.io/documentation/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Documentation</title>
+      <link>https://laradock.io/documentation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://laradock.io/documentation/</guid>
+      <description>List current running Containers docker ps  You can also use the following command if you want to see only this project containers:
+docker-compose ps  
+
+Close all running Containers docker-compose stop  To stop single container do:
+docker-compose stop {container-name}  
+
+Delete all existing Containers docker-compose down  
+
+Enter a Container  Run commands in a running Container.
+ 1 - First list the currently running containers with docker ps</description>
+    </item>
+    
+  </channel>
+</rss>
