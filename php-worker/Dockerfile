@@ -447,7 +447,6 @@ RUN set -xe; \
     && make install \
     && rm /tmp/ssdb-client-php.tar.gz \
     && docker-php-ext-enable ssdb \
-    && php -m | grep -r 'ssdb'; \
 ;fi
 
 #
