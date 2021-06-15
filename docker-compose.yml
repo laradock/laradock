@@ -1038,7 +1038,8 @@ services:
         - ./data/certbot/certs/:/var/certs
         - ./certbot/letsencrypt/:/var/www/letsencrypt
       environment:
-        - CN="fake.domain.com"
+        - ENV=staging #change to 'production' to generate real certificates. 'staging' will by default dry run the request to prevent hitting rate limits during testing 
+        - CN="fake.domain.com,domain.com,domain1.com,domain2.com,domainX.com" #comma separated values of all the domains you wish to add ssl certificates on
         - EMAIL="fake.email@gmail.com"
       networks:
         - frontend
