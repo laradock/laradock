@@ -42,6 +42,23 @@ bash ./start.sh
 * [start.sh](start.sh) - Starts docker compose environment.
 * [stop.sh](stop.sh) - Stops project docker containers.
 * [workspace.sh](workspace.sh) - Opens shell inside the workspace container.
+* [exec.sh](exec.sh) - Executes a command inside the workspace container.
+
+### Script Examples
+Install composer dependencies.
+```bash
+bash ./exec.sh composer i
+```
+
+Run an NPM script within the workspace container.
+```bash
+bash ./exec.sh npm run prod
+```
+
+Run an Artisan command.
+```bash
+bash ./exec.sh php artisan migrate
+```
 
 ## Containers and Ports
 
