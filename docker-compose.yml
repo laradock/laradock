@@ -726,7 +726,6 @@ services:
         - ${DATA_PATH_HOST}/ssdb:/data
       ports:
         - "${SSDB_PORT}:8888"
-      dns: 172.17.0.1
       networks:
         - backend
 
