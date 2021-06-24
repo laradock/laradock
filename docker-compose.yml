@@ -1101,6 +1101,7 @@ services:
 #      build: ./selenium
 #      ports:
 #        - "${SELENIUM_PORT}:4444"
+#        - "${SELENIUM_DEBUG_PORT}:7900"
 #      expose:
 #        - "4444"
 #        - "9515"
@@ -1108,6 +1109,21 @@ services:
 #        - /dev/shm:/dev/shm
 #      networks:
 #        - frontend
+
+#### Selenium Firefox ###############################################
+#  selenium-firefox:
+#    build: ./selenium-firefox
+#    ports:
+#      - "${SELENIUM_PORT}:4444"
+#    # Debug port.  Uncomment and visit 127.0.0.1:{SELENIUM_DEBUG_PORT} to watch what the container is doing.
+#    #        - "${SELENIUM_DEBUG_PORT}:7900"
+#    expose:
+#      - "4444"
+#      - "9515"
+#    volumes:
+#      - /dev/shm:/dev/shm
+#    networks:
+#      - frontend
 
 ### Varnish ##########################################
 #    proxy:
