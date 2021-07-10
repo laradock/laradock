@@ -470,8 +470,8 @@ services:
         - "${MINIO_PORT}:9000"
         - "${MINIO_CONSOLE_PORT}:9001"
       environment:
-        - MINIO_ROOT_USER=access
-        - MINIO_ROOT_PASSWORD=secretkey
+        - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+        - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
       networks:
         - frontend
         - backend
