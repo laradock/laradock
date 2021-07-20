@@ -522,7 +522,7 @@ services:
         - SA_PASSWORD=${MSSQL_PASSWORD}
         - ACCEPT_EULA=Y
       volumes:
-        - ${DATA_PATH_HOST}/mssql:/var/opt/mssql
+        - mssql:/var/opt/mssql
       ports:
         - "${MSSQL_PORT}:1433"
       networks:
@@ -610,6 +610,15 @@ services:
           - ${DATA_PATH_HOST}/neo4j/data:/data
           - ${DATA_PATH_HOST}/neo4j/logs:/logs
       image: 'neo4j:latest'
+      networks:
+        - backend
+### Nats ################################################
+    nats:
+      build: ./nats
+      ports:
+        - "${NATS_CLIENT_PORT}:4222"
+        - "${NATS_MONITORING_PORT}:6222"
+        - "${NATS_ROUTE_PORT}:8222"
       networks:
         - backend
 

@@ -958,7 +958,7 @@ More details about this [here](https://github.com/jenssegers/laravel-mongodb#ins
     docker-compose up -d mariadb phpmyadmin
     ```
     *Note: To use with MariaDB, open `.env` and set `PMA_DB_ENGINE=mysql` to `PMA_DB_ENGINE=mariadb`.*
-2. Open your browser and visit the localhost on port **8080**:  `http://localhost:8080`
+2. Open your browser and visit the localhost on port **8081**:  `http://localhost:8081`, use server: "mysql", user: "default" and password: "secret for the default mysql setup.  
 
 
 
