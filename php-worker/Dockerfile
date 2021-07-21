@@ -432,7 +432,7 @@ ARG INSTALL_SSDB=false
 
 RUN set -xe; \
     if [ ${INSTALL_SSDB} = true ] && [ $(php -r "echo PHP_MAJOR_VERSION;") != "8" ]; then \
-    apt-get -y install sudo wget && \
+    apk --update add sudo wget && \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
       curl -L -o /tmp/ssdb-client-php.tar.gz https://github.com/jonnywang/phpssdb/archive/php7.tar.gz; \
     else \
