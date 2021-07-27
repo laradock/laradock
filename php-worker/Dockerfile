@@ -326,7 +326,7 @@ RUN if [ $INSTALL_GHOSTSCRIPT = true ]; then \
 ;fi
 
 # Install Redis package:
-ARG INSTALL_REDIS=false
+ARG INSTALL_REDIS=true
 RUN if [ ${INSTALL_REDIS} = true ]; then \
     # Install Redis Extension
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
