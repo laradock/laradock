@@ -1,6 +1,3 @@
-# TODO:
-- Create setup script for first time project setup.
-
 ## Getting Started
 
 1. Copy `.env.example` into `.env`
@@ -28,7 +25,7 @@ COMPOSE_PROJECT_NAME=realtyless
 
 5. Build containers with build script.
 ```bash
-bash ./build.sh
+bash ./scripts/build
 ```
 
 6. Start environment with start script.
@@ -38,26 +35,29 @@ bash ./start.sh
 
 ## Available scripts
 
-* [build.sh](build.sh) - Builds containers.
+* [./scripts/build](./scripts/build) - Builds containers.
 * [start.sh](start.sh) - Starts docker compose environment.
 * [stop.sh](stop.sh) - Stops project docker containers.
 * [workspace.sh](workspace.sh) - Opens shell inside the workspace container.
-* [exec.sh](exec.sh) - Executes a command inside the workspace container.
+* [./scripts/exec](./scripts/exec) - Executes a command inside the workspace container.
+* [./scripts/workspace-root](./scripts/workspace-root) - Opens shell inside the workspace container as root.
+* [./scripts/prep-testing-database](./scripts/prep-testing-database) - Preps testing database for Dusk tests.
+* [./scripts/remove-orphans](./scripts/remove-orphans) - Preps testing database for Dusk tests.
 
 ### Script Examples
 Install composer dependencies.
 ```bash
-bash ./exec.sh composer i
+bash ./scripts/exec composer i
 ```
 
 Run an NPM script within the workspace container.
 ```bash
-bash ./exec.sh npm run prod
+bash ./scripts/exec npm run prod
 ```
 
 Run an Artisan command.
 ```bash
-bash ./exec.sh php artisan migrate
+bash ./scripts/exec php artisan migrate
 ```
 
 ## Containers and Ports
