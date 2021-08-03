@@ -81,7 +81,7 @@ To update the sidebar or add a new section to it, you can edit this `DOCUMENTATI
 
 * Make sure you follow the same code/comments style.
 
-* Add the environment variables to the `env-example` if you have any.
+* Add the environment variables to the `.env.example` if you have any.
 
 * **MOST IMPORTANTLY** update the `Documentation`, add as much information.
 

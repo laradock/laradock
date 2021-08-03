@@ -11,27 +11,29 @@ env | sort
 
 #### Build the Docker Images
 if [ -n "${PHP_VERSION}" ]; then
-    cp env-example .env
+    cp .env.example .env
     sed -i -- "s/PHP_VERSION=.*/PHP_VERSION=${PHP_VERSION}/g" .env
     sed -i -- 's/=false/=true/g' .env
+    sed -i -- 's/CHANGE_SOURCE=true/CHANGE_SOURCE=false/g' .env
     sed -i -- 's/PHPDBG=true/PHPDBG=false/g' .env
+    sed -i -- 's/CASSANDRA=true/CASSANDRA=false/g' .env
+    sed -i -- 's/GEARMAN=true/GEARMAN=false/g' .env
+    sed -i -- 's/AEROSPIKE=true/AEROSPIKE=false/g' .env
+    sed -i -- 's/PHALCON=true/PHALCON=false/g' .env
+    sed -i -- 's/RDKAFKA=true/RDKAFKA=false/g' .env
+    sed -i -- 's/MAILPARSE=true/MAILPARSE=false/g' .env
+    sed -i -- 's/V8JS=true/V8JS=false/g' .env
+    sed -i -- 's/OCI8=true/OCI8=false/g' .env
     if [ "${PHP_VERSION}" == "5.6" ]; then
         # Aerospike C Client SDK 4.0.7, Debian 9.6 is not supported
         # https://github.com/aerospike/aerospike-client-php5/issues/145
+        sed -i -- 's/WORKSPACE_INSTALL_AEROSPIKE=true/WORKSPACE_INSTALL_AEROSPIKE=false/g' .env
         sed -i -- 's/PHP_FPM_INSTALL_AEROSPIKE=true/PHP_FPM_INSTALL_AEROSPIKE=false/g' .env
     fi
     if [ "${PHP_VERSION}" == "7.3" ]; then
-        # V8JS extension does not yet support PHP 7.3.
-        sed -i -- 's/WORKSPACE_INSTALL_V8JS=true/WORKSPACE_INSTALL_V8JS=false/g' .env
         # This ssh2 extension does not yet support PHP 7.3.
         sed -i -- 's/PHP_FPM_INSTALL_SSH2=true/PHP_FPM_INSTALL_SSH2=false/g' .env
-        # xdebug extension does not yet support PHP 7.3.
-        sed -i -- 's/PHP_FPM_INSTALL_XDEBUG=true/PHP_FPM_INSTALL_XDEBUG=false/g' .env
-        # memcached extension does not yet support PHP 7.3.
-        sed -i -- 's/PHP_FPM_INSTALL_MEMCACHED=true/PHP_FPM_INSTALL_MEMCACHED=false/g' .env
     fi
-
-    sed -i -- 's/CHANGE_SOURCE=true/CHANGE_SOURCE=false/g' .env
 
     cat .env
     docker-compose build ${BUILD_SERVICE}
