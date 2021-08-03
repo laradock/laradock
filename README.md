@@ -18,7 +18,7 @@ DATA_PATH_HOST=~/.dev-data/realtyless/data
 COMPOSE_PROJECT_NAME=realtyless
 ```
 
-4. Add a URL for your website to the Caddy configuration file ([CaddyFile](./caddy/caddy/Caddyfile)). Alter the second line and add a local development url. If you wanted to use the development url `some-website.local`, you would change it to look like this:
+4. Add a URL for your website to the Caddy configuration file ([./caddy/caddy/Caddyfile](./caddy/caddy/Caddyfile)). Alter the second line and add a local development url. If you wanted to use the development url `some-website.local`, you would change it to look like this:
 ```caddy
 0.0.0.0:80, 0.0.0.0:443, 0.0.0.0, some-website.local:443, some-website.local:80 {
 ```
