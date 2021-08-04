@@ -63,8 +63,8 @@ volumes:
 #    driver: ${VOLUMES_DRIVER}
 #  graylog:
 #    driver: ${VOLUMES_DRIVER}
-  docker-in-docker:
-    driver: ${VOLUMES_DRIVER}
+#  docker-in-docker:
+#    driver: ${VOLUMES_DRIVER}
 #  react:
 #    driver: ${VOLUMES_DRIVER}
 
@@ -187,7 +187,7 @@ services:
           - no_proxy
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
-        - docker-in-docker:/certs/client
+#        - docker-in-docker:/certs/client
         - ./php-worker/supervisord.d:/etc/supervisord.d
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
@@ -202,7 +202,7 @@ services:
       environment:
         <<: *laravel-environment
         PHP_IDE_CONFIG: ${PHP_IDE_CONFIG}
-        DOCKER_HOST: tcp://docker-in-docker:2376
+#        DOCKER_HOST: tcp://docker-in-docker:2376
         DOCKER_TLS_VERIFY: 1
         DOCKER_TLS_CERTDIR: /certs
         DOCKER_CERT_PATH: /certs/client
@@ -216,7 +216,7 @@ services:
           aliases:
             - workspace.local
       depends_on:
-        - docker-in-docker
+#        - docker-in-docker
         - mysql
         - redis
 
@@ -303,7 +303,7 @@ services:
       volumes:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
-        - docker-in-docker:/certs/client
+#        - docker-in-docker:/certs/client
       ports:
         - "${PHP_FPM_XDEBUG_PORT}:9003"
       expose:
@@ -313,14 +313,14 @@ services:
       environment:
         <<: *laravel-environment
         PHP_IDE_CONFIG: ${PHP_IDE_CONFIG}
-        DOCKER_HOST: tcp://docker-in-docker:2376
+#        DOCKER_HOST: tcp://docker-in-docker:2376
         DOCKER_TLS_VERIFY: 1
         DOCKER_TLS_CERTDIR: /certs
         DOCKER_CERT_PATH: /certs/client
         FAKETIME: ${PHP_FPM_FAKETIME}
       depends_on:
         - workspace
-        - docker-in-docker
+#        - docker-in-docker
       networks:
         backend:
 
@@ -1508,18 +1508,18 @@ services:
 #        - "laradock-ipython:${LARADOCK_IPYTHON_CONTROLLER_IP}"
 
 ### Docker-in-Docker ################################################
-    docker-in-docker:
-      image: docker:19.03-dind
-      environment:
-        DOCKER_TLS_SAN: DNS:docker-in-docker
-      privileged: true
-      volumes:
-        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
-        - docker-in-docker:/certs/client
-      expose:
-        - 2375
-      networks:
-        - backend
+#    docker-in-docker:
+#      image: docker:19.03-dind
+#      environment:
+#        DOCKER_TLS_SAN: DNS:docker-in-docker
+#      privileged: true
+#      volumes:
+#        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+#        - docker-in-docker:/certs/client
+#      expose:
+#        - 2375
+#      networks:
+#        - backend
 
 ### NetData ################################################
 #    netdata:
