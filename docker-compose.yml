@@ -470,9 +470,10 @@ services:
         - ${DATA_PATH_HOST}/minio/config:/root/.minio
       ports:
         - "${MINIO_PORT}:9000"
+        - "${MINIO_CONSOLE_PORT}:9001"
       environment:
-        - MINIO_ACCESS_KEY=access
-        - MINIO_SECRET_KEY=secretkey
+        - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+        - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
       networks:
         - frontend
         - backend
