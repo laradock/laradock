@@ -9,6 +9,34 @@ on:
     - cron: '0 0 * * 0'
 
 jobs:
+  build-deploy-docs:
+    runs-on: ubuntu-20.04
+#    concurrency:
+#      group: ${{ github.workflow }}-${{ github.ref }}
+    defaults:
+      run:
+        working-directory: ./DOCUMENTATION
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v2
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: 'latest'
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+      - name: Build Hugo Site
+        run: hugo --minify
+
+      - name: Deploy Hugo Site to Github Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./docs
+
   build-php:
     # Don't trigger on schedule event when in a fork
     if: github.event_name != 'schedule' || (github.event_name == 'schedule' && github.repository == 'laradock/laradock')
@@ -17,7 +45,7 @@ jobs:
       fail-fast: false
       matrix:
         php_version: [ "5.6", "7.0", "7.1", "7.2", "7.3", "7.4", "8.0" ]
-        service: [ php-fpm, php-worker, workspace, laravel-horizon ]
+        service: [ php-fpm, php-worker, workspace ]
     steps:
       - uses: actions/checkout@v2
       - name: Build the Docker image
@@ -60,28 +88,3 @@ jobs:
           sed -i -- 's/=false/=true/g' .env
           sed -i -- 's/CHANGE_SOURCE=true/CHANGE_SOURCE=false/g' .env
           docker-compose build ${{ matrix.service }}
-
-  build-deploy-docs:
-    runs-on: ubuntu-20.04
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
-    defaults:
-      run:
-        working-directory: ./DOCUMENTATION
-    steps:
-      - name: Checkout Source Code
-        uses: actions/checkout@v2
-
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2.1.0
-        with:
-          hugo-version: '0.20.2'
-
-      - name: Build Hugo Site
-        run: hugo --minify
-
-      - name: Deploy Hugo Site to Guthub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
