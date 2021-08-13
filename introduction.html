@@ -1,367 +1,165 @@
-<!DOCTYPE html>
-  
-  
-  
-  
-   <html class="no-js"> 
-
-  <head lang="en-us">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="IE=10" />
-    <title>Introduction - Laradock</title>
-    <meta name="generator" content="Hugo 0.87.0" />
-
-    <meta name="description" content="Full PHP development environment for Docker.">
-    <link rel="canonical" href="https://laradock.io/introduction.html">
-    <meta name="author" content="Mahmoud Zalt">
-
-    <meta property="og:url" content="https://laradock.io/introduction.html">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Laradock">
-    <meta property="og:description" content="Full PHP development environment for Docker.">
-    <meta property="og:title" content="Laradock">
-    <meta property="og:image" content="https://laradock.io/images/favicons/ms-icon-310x310.png">
-
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:site" content="@Mahmoud_Zalt">
-    <meta name="twitter:title" content="Laradock">
-    <meta name="twitter:description" content="Full PHP development environment for Docker.">
-    <meta name="twitter:image" content="https://laradock.io/images/favicons/ms-icon-310x310.png">
-
-    <meta name="apple-mobile-web-app-title" content="Laradock">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-    <link rel="shortcut icon" type="image/x-icon" href="https://laradock.io/images/favicons/favicon.ico">
-    <link rel="icon" type="image/x-icon" href="https://laradock.io/images/favicons/favicon.ico">
-
-
-
-
-
-
-    <link rel="apple-touch-icon" sizes="57x57" href="images/favicons/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="images/favicons/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="images/favicons/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="images/favicons/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="images/favicons/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="images/favicons/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="images/favicons/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-icon-180x180.png">
-    <link rel="manifest" href="images/favicons/manifest.json">
-    <meta name="msapplication-TileColor" content="#7e57c2">
-    <meta name="msapplication-TileImage" content="images/favicons/ms-icon-144x144.png">
-    <meta name="theme-color" content="#7e57c2">
-
-    <style>
-      @font-face {
-        font-family: 'Icon';
-        src: url('https://laradock.io/fonts/icon.eot');
-        src: url('https://laradock.io/fonts/icon.eot')
-               format('embedded-opentype'),
-             url('https://laradock.io/fonts/icon.woff')
-               format('woff'),
-             url('https://laradock.io/fonts/icon.ttf')
-               format('truetype'),
-             url('https://laradock.io/fonts/icon.svg')
-               format('svg');
-        font-weight: normal;
-        font-style: normal;
-      }
-    </style>
-
-    <link rel="stylesheet" href="https://laradock.io/stylesheets/application.css">
-    <link rel="stylesheet" href="https://laradock.io/stylesheets/temporary.css">
-    <link rel="stylesheet" href="https://laradock.io/stylesheets/palettes.css">
-    <link rel="stylesheet" href="https://laradock.io/stylesheets/highlight/highlight.css">
-
-    
-    
-    
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Doctarine:400,700|Source&#43;Code&#43;Pro">
-    <style>
-      body, input {
-        font-family: 'Doctarine', Helvetica, Arial, sans-serif;
-      }
-      pre, code {
-        font-family: 'Source Code Pro', 'Courier New', 'Courier', monospace;
-      }
-    </style>
-
-    
-    <link rel="stylesheet" href="https://laradock.io/custom-style.css">
-    
-    <script src="https://laradock.io/javascripts/modernizr.js"></script>
-
-    
-
-  </head>
-  <body class="palette-primary-deep-purple palette-accent-purple">
-
-
-
-
-<div class="backdrop">
-	<div class="backdrop-paper"></div>
+<!doctype html><html class=no-js>
+<head lang=en-us>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+<meta http-equiv=x-ua-compatible content="IE=10">
+<title>Introduction - Laradock</title>
+<meta name=generator content="Hugo 0.87.0">
+<meta name=description content="Full PHP development environment for Docker.">
+<link rel=canonical href=https://laradock.io/introduction.html>
+<meta name=author content="Mahmoud Zalt">
+<meta property="og:url" content="https://laradock.io/introduction.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Laradock">
+<meta property="og:description" content="Full PHP development environment for Docker.">
+<meta property="og:title" content="Laradock">
+<meta property="og:image" content="https://laradock.io/images/favicons/ms-icon-310x310.png">
+<meta name=twitter:card content="summary">
+<meta name=twitter:site content="@Mahmoud_Zalt">
+<meta name=twitter:title content="Laradock">
+<meta name=twitter:description content="Full PHP development environment for Docker.">
+<meta name=twitter:image content="https://laradock.io/images/favicons/ms-icon-310x310.png">
+<meta name=apple-mobile-web-app-title content="Laradock">
+<meta name=apple-mobile-web-app-capable content="yes">
+<meta name=apple-mobile-web-app-status-bar-style content="black-translucent">
+<link rel="shortcut icon" type=image/x-icon href=https://laradock.io/images/favicons/favicon.ico>
+<link rel=icon type=image/x-icon href=https://laradock.io/images/favicons/favicon.ico>
+<link rel=apple-touch-icon sizes=57x57 href=images/favicons/apple-icon-57x57.png>
+<link rel=apple-touch-icon sizes=60x60 href=images/favicons/apple-icon-60x60.png>
+<link rel=apple-touch-icon sizes=72x72 href=images/favicons/apple-icon-72x72.png>
+<link rel=apple-touch-icon sizes=76x76 href=images/favicons/apple-icon-76x76.png>
+<link rel=apple-touch-icon sizes=114x114 href=images/favicons/apple-icon-114x114.png>
+<link rel=apple-touch-icon sizes=120x120 href=images/favicons/apple-icon-120x120.png>
+<link rel=apple-touch-icon sizes=144x144 href=images/favicons/apple-icon-144x144.png>
+<link rel=apple-touch-icon sizes=152x152 href=images/favicons/apple-icon-152x152.png>
+<link rel=apple-touch-icon sizes=180x180 href=images/favicons/apple-icon-180x180.png>
+<link rel=manifest href=images/favicons/manifest.json>
+<meta name=msapplication-TileColor content="#7e57c2">
+<meta name=msapplication-TileImage content="images/favicons/ms-icon-144x144.png">
+<meta name=theme-color content="#7e57c2">
+<style>@font-face{font-family:icon;src:url(https://laradock.io/fonts/icon.eot);src:url(https://laradock.io/fonts/icon.eot)format('embedded-opentype'),url(https://laradock.io/fonts/icon.woff)format('woff'),url(https://laradock.io/fonts/icon.ttf)format('truetype'),url(https://laradock.io/fonts/icon.svg)format('svg');font-weight:400;font-style:normal}</style>
+<link rel=stylesheet href=https://laradock.io/stylesheets/application.css>
+<link rel=stylesheet href=https://laradock.io/stylesheets/temporary.css>
+<link rel=stylesheet href=https://laradock.io/stylesheets/palettes.css>
+<link rel=stylesheet href=https://laradock.io/stylesheets/highlight/highlight.css>
+<link rel=stylesheet href="//fonts.googleapis.com/css?family=Doctarine:400,700|Source+Code+Pro">
+<style>body,input{font-family:doctarine,Helvetica,Arial,sans-serif}pre,code{font-family:source code pro,courier new,courier,monospace}</style>
+<link rel=stylesheet href=https://laradock.io/custom-style.css>
+<script src=https://laradock.io/javascripts/modernizr.js></script>
+</head>
+<body class="palette-primary-deep-purple palette-accent-purple">
+<div class=backdrop>
+<div class=backdrop-paper></div>
 </div>
-
-<input class="toggle" type="checkbox" id="toggle-drawer">
-<input class="toggle" type="checkbox" id="toggle-search">
-<label class="toggle-button overlay" for="toggle-drawer"></label>
-
-<header class="header">
-	<nav aria-label="Header">
-  <div class="bar default">
-    <div class="button button-menu" role="button" aria-label="Menu">
-      <label class="toggle-button icon icon-menu" for="toggle-drawer">
-        <span></span>
-      </label>
-    </div>
-    <div class="stretch">
-      <div class="title">
-          <b>Laradock</b> <span style="color: rgba(249, 245, 255, 0.63);"> / Introduction</span>
-      </div>
-    </div>
-
-    
-
-    
-    <div class="button button-github" role="button" aria-label="GitHub">
-        <a style="padding: 0px; font-size:40px" href="https://github.com/laradock/laradock" title="@laradock/laradock on GitHub" target="_blank" class="toggle-button icon icon-github"></a>
-    </div>
-    
-    
-        
-  </div>
-  <div class="bar search">
-    <div class="button button-close" role="button" aria-label="Close">
-      <label class="toggle-button icon icon-back" for="toggle-search"></label>
-    </div>
-    <div class="stretch">
-      <div class="field">
-        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
-      </div>
-    </div>
-    <div class="button button-reset" role="button" aria-label="Search">
-      <button class="toggle-button icon icon-close" id="reset-search"></button>
-    </div>
-  </div>
+<input class=toggle type=checkbox id=toggle-drawer>
+<input class=toggle type=checkbox id=toggle-search>
+<label class="toggle-button overlay" for=toggle-drawer></label>
+<header class=header>
+<nav aria-label=Header>
+<div class="bar default">
+<div class="button button-menu" role=button aria-label=Menu>
+<label class="toggle-button icon icon-menu" for=toggle-drawer>
+<span></span>
+</label>
+</div>
+<div class=stretch>
+<div class=title>
+<b>Laradock</b> <span style=color:rgba(249,245,255,.63)> / Introduction</span>
+</div>
+</div>
+<div class="button button-github" role=button aria-label=GitHub>
+<a style=padding:0;font-size:40px href=https://github.com/laradock/laradock title="@laradock/laradock on GitHub" target=_blank class="toggle-button icon icon-github"></a>
+</div>
+</div>
+<div class="bar search">
+<div class="button button-close" role=button aria-label=Close>
+<label class="toggle-button icon icon-back" for=toggle-search></label>
+</div>
+<div class=stretch>
+<div class=field>
+<input class=query type=text placeholder=Search autocapitalize=off autocorrect=off autocomplete=off spellcheck>
+</div>
+</div>
+<div class="button button-reset" role=button aria-label=Search>
+<button class="toggle-button icon icon-close" id=reset-search></button>
+</div>
+</div>
 </nav>
-
 </header>
-
-<main class="main">
-	<div class="drawer">
-		<nav aria-label="Navigation">
-  <a href="https://github.com/laradock/laradock" class="project">
-    <div class="banner">
-      
-        <div class="logo">
-          <img src="https://laradock.io/images/favicons/ms-icon-310x310.png">
-        </div>
-
-      
-      
-        
-        
-      
-    </div>
-  </a>
-
-  <div class="scrollable">
-    <div class="wrapper">
-      
-
-      <div class="toc">
-        
-        <ul>
-          
-
-
-
-
-<li>
-  
-    
-
-
-
-<a  title="Introduction" href="https://laradock.io/introduction/">
-	
-	Introduction
+<main class=main>
+<div class=drawer>
+<nav aria-label=Navigation>
+<a href=https://github.com/laradock/laradock class=project>
+<div class=banner>
+<div class=logo>
+<img src=https://laradock.io/images/favicons/ms-icon-310x310.png>
+</div>
+</div>
 </a>
-
-
-
-  
-</li>
-
-
-
-<li>
-  
-    
-
-
-
-<a  title="Getting Started" href="https://laradock.io/getting-started/">
-	
-	Getting Started
-</a>
-
-
-
-  
-</li>
-
-
-
-<li>
-  
-    
-
-
-
-<a  title="Documentation" href="https://laradock.io/documentation/">
-	
-	Documentation
-</a>
-
-
-
-  
-</li>
-
-
-
-<li>
-  
-    
-
-
-
-<a  title="Help &amp; Questions" href="https://laradock.io/help/">
-	
-	Help &amp; Questions
-</a>
-
-
-
-  
-</li>
-
-
-
-<li>
-  
-    
-
-
-
-<a  title="Related Projects" href="https://laradock.io/related-projects/">
-	
-	Related Projects
-</a>
-
-
-
-  
-</li>
-
-
-
-<li>
-  
-    
-
-
-
-<a  title="Contributions" href="https://laradock.io/contributing/">
-	
-	Contributions
-</a>
-
-
-
-  
-</li>
-
-
-        </ul>
-        
-
-
-        <br>
-        <br>
-          <div>
-            
-            
-            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-            
-            <ins class="adsbygoogle"
-               style="display:inline-block;width:237px;height:600px"
-               data-ad-client="ca-pub-9826129398689742"
-               data-ad-slot="9891442983"></ins>
-            <script>
-              (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-            
-          </div>
-          <br>
-          <br>
-
-
-          
-        
-        
-        
-        
-          
-
-          
-          
-            
-              
-            
-          
-          
-
-          
-          
-            
-              
-            
-          
-          
-        
-        
-      </div>
-
-    </div>
-  </div>
-</nav>
-
-    </div>
-
-	<article class="article">
-		<div class="wrapper">
-            <h1>Introduction </h1>
-
-			<p><!-- raw HTML omitted -->Laradock<!-- raw HTML omitted --> is a full PHP development environment for Docker.</p>
-<p>It supports a variety of common services, all pre-configured to provide a ready PHP development environment.</p>
-<!-- raw HTML omitted -->
-<hr>
-<h3 id="use-docker-first---learn-about-it-laterq">Use Docker First - Learn About It Later!<!-- raw HTML omitted --></h3>
-<hr>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<h2 id="features">Features</h2>
+<div class=scrollable>
+<div class=wrapper>
+<div class=toc>
 <ul>
-<li>Easy switch between PHP versions: 8.0, 7.4, 7.3, 7.2, 7.1, 5.6&hellip;</li>
-<li>Choose your favorite database engine: MySQL, Postgres, MariaDB&hellip;</li>
-<li>Run your own stack: Memcached, HHVM, RabbitMQ&hellip;</li>
-<li>Each software runs on its own container: PHP-FPM, NGINX, PHP-CLI&hellip;</li>
+<li>
+<a title=Introduction href=https://laradock.io/introduction/>
+Introduction
+</a>
+</li>
+<li>
+<a title="Getting Started" href=https://laradock.io/getting-started/>
+Getting Started
+</a>
+</li>
+<li>
+<a title=Documentation href=https://laradock.io/documentation/>
+Documentation
+</a>
+</li>
+<li>
+<a title="Help & Questions" href=https://laradock.io/help/>
+Help & Questions
+</a>
+</li>
+<li>
+<a title="Related Projects" href=https://laradock.io/related-projects/>
+Related Projects
+</a>
+</li>
+<li>
+<a title=Contributions href=https://laradock.io/contributing/>
+Contributions
+</a>
+</li>
+</ul>
+<br>
+<br>
+<div>
+<script async src=//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js></script>
+<ins class=adsbygoogle style=display:inline-block;width:237px;height:600px data-ad-client=ca-pub-9826129398689742 data-ad-slot=9891442983></ins>
+<script>(adsbygoogle=window.adsbygoogle||[]).push({})</script>
+</div>
+<br>
+<br>
+</div>
+</div>
+</div>
+</nav>
+</div>
+<article class=article>
+<div class=wrapper>
+<h1>Introduction </h1>
+<p>Laradock is a full PHP development environment for Docker.</p>
+<p>It supports a variety of common services, all pre-configured to provide a ready PHP development environment.</p>
+<hr>
+<h3 id=use-docker-first---learn-about-it-laterq>Use Docker First - Learn About It Later!</h3>
+<hr>
+<p></p>
+<h2 id=features>Features</h2>
+<ul>
+<li>Easy switch between PHP versions: 8.0, 7.4, 7.3, 7.2, 7.1, 5.6&mldr;</li>
+<li>Choose your favorite database engine: MySQL, Postgres, MariaDB&mldr;</li>
+<li>Run your own stack: Memcached, HHVM, RabbitMQ&mldr;</li>
+<li>Each software runs on its own container: PHP-FPM, NGINX, PHP-CLI&mldr;</li>
 <li>Easy to customize any container, with simple edits to the <code>Dockerfile</code>.</li>
 <li>All Images extend from an official base Image. (Trusted base Images).</li>
 <li>Pre-configured NGINX to host any code at your root directory.</li>
@@ -372,22 +170,22 @@
 <li>Everything is visible and editable.</li>
 <li>Fast Images Builds.</li>
 </ul>
-<h2 id="quick-overview">Quick Overview</h2>
+<h2 id=quick-overview>Quick Overview</h2>
 <p>Let&rsquo;s see how easy it is to setup our demo stack <code>PHP</code>, <code>NGINX</code>, <code>MySQL</code>, <code>Redis</code> and <code>Composer</code>:</p>
 <p>1 - Clone Laradock inside your PHP project:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">git clone https://github.com/Laradock/laradock.git
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>git clone https://github.com/Laradock/laradock.git
 </code></pre></div><p>2 - Enter the laradock folder and rename <code>.env.example</code> to <code>.env</code>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cp .env.example .env
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>cp .env.example .env
 </code></pre></div><p>3 - Run your containers:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker-compose up -d nginx mysql phpmyadmin redis workspace 
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>docker-compose up -d nginx mysql phpmyadmin redis workspace 
 </code></pre></div><p>4 - Open your project&rsquo;s <code>.env</code> file and set the following:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">DB_HOST<span style="color:#f92672">=</span>mysql
-REDIS_HOST<span style="color:#f92672">=</span>redis
-QUEUE_HOST<span style="color:#f92672">=</span>beanstalkd
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>DB_HOST<span style=color:#f92672>=</span>mysql
+REDIS_HOST<span style=color:#f92672>=</span>redis
+QUEUE_HOST<span style=color:#f92672>=</span>beanstalkd
 </code></pre></div><p>5 - Open your browser and visit localhost: <code>http://localhost</code>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">That<span style="color:#960050;background-color:#1e0010">&#39;</span>s it! enjoy :<span style="color:#f92672">)</span>
-</code></pre></div><p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<h2 id="supported-services">Supported Services</h2>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>That<span style=color:#960050;background-color:#1e0010>&#39;</span>s it! enjoy :<span style=color:#f92672>)</span>
+</code></pre></div><p></p>
+<h2 id=supported-services>Supported Services</h2>
 <blockquote>
 <p>Laradock, adheres to the &lsquo;separation of concerns&rsquo; principle, thus it runs each software on its own Docker Container.
 You can turn On/Off as many instances as you want without worrying about the configurations.</p>
@@ -582,261 +380,97 @@ The container name <code>{container-name}</code> is the same as its folder name.
 </blockquote>
 <p><em>If you can&rsquo;t find your Software in the list, build it yourself and submit it. Contributions are welcomed :)</em></p>
 <hr>
-<h2 id="join-us">Join Us</h2>
-<p><a href="https://gitter.im/Laradock/laradock?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge"><img src="https://badges.gitter.im/Laradock/laradock.svg" alt="Gitter"></a></p>
-<p><a href="https://gitpod.io/#https://github.com/laradock/laradock"><img src="https://img.shields.io/badge/Gitpod-ready--to--code-blue" alt="Gitpod"></a></p>
+<h2 id=join-us>Join Us</h2>
+<p><a href="https://gitter.im/Laradock/laradock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge"><img src=https://badges.gitter.im/Laradock/laradock.svg alt=Gitter></a></p>
+<p><a href=https://gitpod.io/#https://github.com/laradock/laradock><img src=https://img.shields.io/badge/Gitpod-ready--to--code-blue alt=Gitpod></a></p>
 <hr>
-<h2 id="awesome-people">Awesome People</h2>
+<h2 id=awesome-people>Awesome People</h2>
 <p>Laradock is an MIT-licensed open source project with its ongoing development made possible entirely by the support of all these smart and generous people, from code contributors to financial contributors. 💜</p>
-<h3 id="project-maintainers">Project Maintainers</h3>
-<!-- raw HTML omitted -->
-<h3 id="code-contributors">Code Contributors</h3>
-<p><a href="https://github.com/laradock/laradock/graphs/contributors"><img src="https://opencollective.com/laradock/contributors.svg?width=890&amp;button=false&amp;isActive=true" alt="Laradock Contributors"></a></p>
-<h3 id="financial-contributors">Financial Contributors</h3>
-<p><a href="https://opencollective.com/laradock#contributors"><img src="https://opencollective.com/laradock/tiers/awesome-backers.svg?width=890&amp;button=false&amp;isActive=true" alt="Open Collective backers"></a></p>
+<h3 id=project-maintainers>Project Maintainers</h3>
+<h3 id=code-contributors>Code Contributors</h3>
+<p><a href=https://github.com/laradock/laradock/graphs/contributors><img src="https://opencollective.com/laradock/contributors.svg?width=890&button=false&isActive=true" alt="Laradock Contributors"></a></p>
+<h3 id=financial-contributors>Financial Contributors</h3>
+<p><a href=https://opencollective.com/laradock#contributors><img src="https://opencollective.com/laradock/tiers/awesome-backers.svg?width=890&button=false&isActive=true" alt="Open Collective backers"></a></p>
 <p>You can support us using any of the methods below:</p>
-<p><!-- raw HTML omitted -->1:<!-- raw HTML omitted --> <a href="https://opencollective.com/laradock">Open Collective</a>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->2:<!-- raw HTML omitted --> <a href="https://paypal.me/mzmmzz">Paypal</a>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->3:<!-- raw HTML omitted --> <a href="https://github.com/sponsors/Mahmoudz">Github Sponsors</a>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->4:<!-- raw HTML omitted --> <a href="https://www.patreon.com/zalt">Patreon</a></p>
+<p>1: <a href=https://opencollective.com/laradock>Open Collective</a>
+2: <a href=https://paypal.me/mzmmzz>Paypal</a>
+3: <a href=https://github.com/sponsors/Mahmoudz>Github Sponsors</a>
+4: <a href=https://www.patreon.com/zalt>Patreon</a></p>
 <hr>
-<h2 id="sponsors">Sponsors</h2>
+<h2 id=sponsors>Sponsors</h2>
 <p>Sponsoring is an act of giving in a different fashion. 🌱</p>
-<h3 id="gold-sponsors">Gold Sponsors</h3>
-<!-- raw HTML omitted -->
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
-<h3 id="silver-sponsors">Silver Sponsors</h3>
-<!-- raw HTML omitted -->
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
-<h3 id="bronze-sponsors">Bronze Sponsors</h3>
-<!-- raw HTML omitted -->
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted -->
-<!-- raw HTML omitted --><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
+<h3 id=gold-sponsors>Gold Sponsors</h3>
+<p>
+</p>
+<p>
+</p>
+<p>
+</p>
+<h3 id=silver-sponsors>Silver Sponsors</h3>
+<p></p>
+<p>
+</p>
+<p>
+</p>
+<h3 id=bronze-sponsors>Bronze Sponsors</h3>
+<p>
+</p>
+<p>
+</p>
+<p>
+</p>
 <p>You can sponsor us using any of the methods below:</p>
-<p><!-- raw HTML omitted -->1:<!-- raw HTML omitted --> Sponsor via <a href="https://opencollective.com/laradock/">Open Collective</a>.
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->2:<!-- raw HTML omitted --> Email us at <!-- raw HTML omitted --><a href="mailto:support@laradock.io">support@laradock.io</a><!-- raw HTML omitted -->.</p>
-<p><em>Sponsors logos are displayed on the <a href="https://github.com/laradock/laradock/">github repository</a> page and the <a href="http://laradock.io/">documentation website</a> home page.</em></p>
-<h2 id="license">License</h2>
-<p><a href="https://github.com/laradock/laradock/blob/master/LICENSE">MIT</a> © Mahmoud Zalt</p>
-<!-- raw HTML omitted -->
-
-
-			<aside class="copyright" role="note">
-				
-				<br><br>
-				Documentation built with
-				<a href="https://www.gohugo.io" target="_blank">Hugo</a>
-				using the
-				<a href="http://github.com/digitalcraftsman/hugo-material-docs" target="_blank">Material</a> theme.
-			</aside>
-
-			<footer class="footer">
-				
-
-<nav class="pagination" aria-label="Footer">
-  <div class="previous">
-  
-      <a href="https://laradock.io/getting-started.html" title="Getting Started">
-        <span class="direction">
-          Previous
-        </span>
-        <div class="page">
-          <div class="button button-previous" role="button" aria-label="Previous">
-            <i class="icon icon-back"></i>
-          </div>
-          <div class="stretch">
-            <div class="title">
-              Getting Started
-            </div>
-          </div>
-        </div>
-      </a>
-  
-  </div>
-
-  <div class="next">
-  
-  </div>
+<p>1: Sponsor via <a href=https://opencollective.com/laradock/>Open Collective</a>.
+2: Email us at <a href=mailto:support@laradock.io>support@laradock.io</a>.</p>
+<p><em>Sponsors logos are displayed on the <a href=https://github.com/laradock/laradock/>github repository</a> page and the <a href=http://laradock.io/>documentation website</a> home page.</em></p>
+<h2 id=license>License</h2>
+<p><a href=https://github.com/laradock/laradock/blob/master/LICENSE>MIT</a> © Mahmoud Zalt</p>
+<aside class=copyright role=note>
+<br><br>
+Documentation built with
+<a href=https://www.gohugo.io target=_blank>Hugo</a>
+using the
+<a href=http://github.com/digitalcraftsman/hugo-material-docs target=_blank>Material</a> theme.
+</aside>
+<footer class=footer>
+<nav class=pagination aria-label=Footer>
+<div class=previous>
+<a href=https://laradock.io/getting-started.html title="Getting Started">
+<span class=direction>
+Previous
+</span>
+<div class=page>
+<div class="button button-previous" role=button aria-label=Previous>
+<i class="icon icon-back"></i>
+</div>
+<div class=stretch>
+<div class=title>
+Getting Started
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class=next>
+</div>
 </nav>
-
-
-
-
-
-			</footer>
-		</div>
-	</article>
-
-	<div class="results" role="status" aria-live="polite">
-		<div class="scrollable">
-			<div class="wrapper">
-				<div class="meta"></div>
-				<div class="list"></div>
-			</div>
-		</div>
-	</div>
+</footer>
+</div>
+</article>
+<div class=results role=status aria-live=polite>
+<div class=scrollable>
+<div class=wrapper>
+<div class=meta></div>
+<div class=list></div>
+</div>
+</div>
+</div>
 </main>
-
-    <script>
-    
-      var base_url = '';
-      var repo_id  = '';
-    
-    </script>
-
-    <script src="https://laradock.io/javascripts/application.js"></script>
-    
-
-    <script>
-      /* Add headers to scrollspy */
-      var headers   = document.getElementsByTagName("h2");
-      var scrollspy = document.getElementById('scrollspy');
-
-      if(scrollspy) {
-        if(headers.length > 0) {
-          for(var i = 0; i < headers.length; i++) {
-            var li = document.createElement("li");
-            li.setAttribute("class", "anchor");
-
-            var a  = document.createElement("a");
-            a.setAttribute("href", "#" + headers[i].id);
-            a.setAttribute("title", headers[i].innerHTML);
-            a.innerHTML = headers[i].innerHTML;
-
-            li.appendChild(a)
-            scrollspy.appendChild(li);
-          }
-        } else {
-          scrollspy.parentElement.removeChild(scrollspy)
-        }
-
-
-        /* Add permanent link next to the headers */
-        var headers = document.querySelectorAll("h1, h2, h3, h4, h5, h6");
-
-        for(var i = 0; i < headers.length; i++) {
-            var a = document.createElement("a");
-            a.setAttribute("class", "headerlink");
-            a.setAttribute("href", "#" + headers[i].id);
-            a.setAttribute("title", "Permanent link")
-            a.innerHTML = "#";
-            headers[i].appendChild(a);
-        }
-      }
-    </script>
-
-    
-      <script>
-        (function(i,s,o,g,r,a,m){
-          i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||
-          []).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;
-          m.parentNode.insertBefore(a,m)
-        })(window, document,
-          'script', '//www.google-analytics.com/analytics.js', 'ga');
-         
-        ga('create', 'UA-37514928-9', 'auto');
-        ga('set', 'anonymizeIp', true);
-        ga('send', 'pageview');
-         
-        var buttons = document.querySelectorAll('a');
-        Array.prototype.map.call(buttons, function(item) {
-          if (item.host != document.location.host) {
-            item.addEventListener('click', function() {
-              var action = item.getAttribute('data-action') || 'follow';
-              ga('send', 'event', 'outbound', action, item.href);
-            });
-          }
-        });
-         
-        var query = document.querySelector('.query');
-        query.addEventListener('blur', function() {
-          if (this.value) {
-            var path = document.location.pathname;
-            ga('send', 'pageview', path + '?q=' + this.value);
-          }
-        });
-      </script>
-    
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
-  </body>
+<script>var base_url='',repo_id=''</script>
+<script src=https://laradock.io/javascripts/application.js></script>
+<script>var headers=document.getElementsByTagName("h2"),scrollspy=document.getElementById('scrollspy'),i,li,a;if(scrollspy){if(headers.length>0)for(i=0;i<headers.length;i++)li=document.createElement("li"),li.setAttribute("class","anchor"),a=document.createElement("a"),a.setAttribute("href","#"+headers[i].id),a.setAttribute("title",headers[i].innerHTML),a.innerHTML=headers[i].innerHTML,li.appendChild(a),scrollspy.appendChild(li);else scrollspy.parentElement.removeChild(scrollspy);headers=document.querySelectorAll("h1, h2, h3, h4, h5, h6");for(i=0;i<headers.length;i++)a=document.createElement("a"),a.setAttribute("class","headerlink"),a.setAttribute("href","#"+headers[i].id),a.setAttribute("title","Permanent link"),a.innerHTML="#",headers[i].appendChild(a)}</script>
+<script>var buttons,query;(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','//www.google-analytics.com/analytics.js','ga'),ga('create','UA-37514928-9','auto'),ga('set','anonymizeIp',!0),ga('send','pageview'),buttons=document.querySelectorAll('a'),Array.prototype.map.call(buttons,function(a){a.host!=document.location.host&&a.addEventListener('click',function(){var b=a.getAttribute('data-action')||'follow';ga('send','event','outbound',b,a.href)})}),query=document.querySelector('.query'),query.addEventListener('blur',function(){if(this.value){var a=document.location.pathname;ga('send','pageview',a+'?q='+this.value)}})</script>
+<script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
 </html>
-
