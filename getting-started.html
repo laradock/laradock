@@ -1,208 +1,409 @@
-<!doctype html><html class=no-js>
-<head lang=en-us>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
-<meta http-equiv=x-ua-compatible content="IE=10">
-<title>Getting Started - Laradock</title>
-<meta name=generator content="Hugo 0.87.0">
-<meta name=description content="Full PHP development environment for Docker.">
-<link rel=canonical href=https://laradock.io/getting-started.html>
-<meta name=author content="Mahmoud Zalt">
-<meta property="og:url" content="https://laradock.io/getting-started.html">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Laradock">
-<meta property="og:description" content="Full PHP development environment for Docker.">
-<meta property="og:title" content="Laradock">
-<meta property="og:image" content="https://laradock.io/images/favicons/ms-icon-310x310.png">
-<meta name=twitter:card content="summary">
-<meta name=twitter:site content="@Mahmoud_Zalt">
-<meta name=twitter:title content="Laradock">
-<meta name=twitter:description content="Full PHP development environment for Docker.">
-<meta name=twitter:image content="https://laradock.io/images/favicons/ms-icon-310x310.png">
-<meta name=apple-mobile-web-app-title content="Laradock">
-<meta name=apple-mobile-web-app-capable content="yes">
-<meta name=apple-mobile-web-app-status-bar-style content="black-translucent">
-<link rel="shortcut icon" type=image/x-icon href=https://laradock.io/images/favicons/favicon.ico>
-<link rel=icon type=image/x-icon href=https://laradock.io/images/favicons/favicon.ico>
-<link rel=apple-touch-icon sizes=57x57 href=images/favicons/apple-icon-57x57.png>
-<link rel=apple-touch-icon sizes=60x60 href=images/favicons/apple-icon-60x60.png>
-<link rel=apple-touch-icon sizes=72x72 href=images/favicons/apple-icon-72x72.png>
-<link rel=apple-touch-icon sizes=76x76 href=images/favicons/apple-icon-76x76.png>
-<link rel=apple-touch-icon sizes=114x114 href=images/favicons/apple-icon-114x114.png>
-<link rel=apple-touch-icon sizes=120x120 href=images/favicons/apple-icon-120x120.png>
-<link rel=apple-touch-icon sizes=144x144 href=images/favicons/apple-icon-144x144.png>
-<link rel=apple-touch-icon sizes=152x152 href=images/favicons/apple-icon-152x152.png>
-<link rel=apple-touch-icon sizes=180x180 href=images/favicons/apple-icon-180x180.png>
-<link rel=manifest href=images/favicons/manifest.json>
-<meta name=msapplication-TileColor content="#7e57c2">
-<meta name=msapplication-TileImage content="images/favicons/ms-icon-144x144.png">
-<meta name=theme-color content="#7e57c2">
-<style>@font-face{font-family:icon;src:url(https://laradock.io/fonts/icon.eot);src:url(https://laradock.io/fonts/icon.eot)format('embedded-opentype'),url(https://laradock.io/fonts/icon.woff)format('woff'),url(https://laradock.io/fonts/icon.ttf)format('truetype'),url(https://laradock.io/fonts/icon.svg)format('svg');font-weight:400;font-style:normal}</style>
-<link rel=stylesheet href=https://laradock.io/stylesheets/application.css>
-<link rel=stylesheet href=https://laradock.io/stylesheets/temporary.css>
-<link rel=stylesheet href=https://laradock.io/stylesheets/palettes.css>
-<link rel=stylesheet href=https://laradock.io/stylesheets/highlight/highlight.css>
-<link rel=stylesheet href="//fonts.googleapis.com/css?family=Doctarine:400,700|Source+Code+Pro">
-<style>body,input{font-family:doctarine,Helvetica,Arial,sans-serif}pre,code{font-family:source code pro,courier new,courier,monospace}</style>
-<link rel=stylesheet href=https://laradock.io/custom-style.css>
-<script src=https://laradock.io/javascripts/modernizr.js></script>
-</head>
-<body class="palette-primary-deep-purple palette-accent-purple">
-<div class=backdrop>
-<div class=backdrop-paper></div>
+<!DOCTYPE html>
+  
+  
+  
+  
+   <html class="no-js"> 
+
+  <head lang="en-us">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=10" />
+    <title>Getting Started - Laradock</title>
+    <meta name="generator" content="Hugo 0.87.0" />
+
+    <meta name="description" content="Full PHP development environment for Docker.">
+    <link rel="canonical" href="https://laradock.io/getting-started.html">
+    <meta name="author" content="Mahmoud Zalt">
+
+    <meta property="og:url" content="https://laradock.io/getting-started.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Laradock">
+    <meta property="og:description" content="Full PHP development environment for Docker.">
+    <meta property="og:title" content="Laradock">
+    <meta property="og:image" content="https://laradock.io/images/favicons/ms-icon-310x310.png">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@Mahmoud_Zalt">
+    <meta name="twitter:title" content="Laradock">
+    <meta name="twitter:description" content="Full PHP development environment for Docker.">
+    <meta name="twitter:image" content="https://laradock.io/images/favicons/ms-icon-310x310.png">
+
+    <meta name="apple-mobile-web-app-title" content="Laradock">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <link rel="shortcut icon" type="image/x-icon" href="https://laradock.io/images/favicons/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="https://laradock.io/images/favicons/favicon.ico">
+
+
+
+
+
+
+    <link rel="apple-touch-icon" sizes="57x57" href="images/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="images/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="images/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="images/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="images/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-icon-180x180.png">
+    <link rel="manifest" href="images/favicons/manifest.json">
+    <meta name="msapplication-TileColor" content="#7e57c2">
+    <meta name="msapplication-TileImage" content="images/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#7e57c2">
+
+    <style>
+      @font-face {
+        font-family: 'Icon';
+        src: url('https://laradock.io/fonts/icon.eot');
+        src: url('https://laradock.io/fonts/icon.eot')
+               format('embedded-opentype'),
+             url('https://laradock.io/fonts/icon.woff')
+               format('woff'),
+             url('https://laradock.io/fonts/icon.ttf')
+               format('truetype'),
+             url('https://laradock.io/fonts/icon.svg')
+               format('svg');
+        font-weight: normal;
+        font-style: normal;
+      }
+    </style>
+
+    <link rel="stylesheet" href="https://laradock.io/stylesheets/application.css">
+    <link rel="stylesheet" href="https://laradock.io/stylesheets/temporary.css">
+    <link rel="stylesheet" href="https://laradock.io/stylesheets/palettes.css">
+    <link rel="stylesheet" href="https://laradock.io/stylesheets/highlight/highlight.css">
+
+    
+    
+    
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Doctarine:400,700|Source&#43;Code&#43;Pro">
+    <style>
+      body, input {
+        font-family: 'Doctarine', Helvetica, Arial, sans-serif;
+      }
+      pre, code {
+        font-family: 'Source Code Pro', 'Courier New', 'Courier', monospace;
+      }
+    </style>
+
+    
+    <link rel="stylesheet" href="https://laradock.io/custom-style.css">
+    
+    <script src="https://laradock.io/javascripts/modernizr.js"></script>
+
+    
+
+  </head>
+  <body class="palette-primary-deep-purple palette-accent-purple">
+
+
+
+
+<div class="backdrop">
+	<div class="backdrop-paper"></div>
 </div>
-<input class=toggle type=checkbox id=toggle-drawer>
-<input class=toggle type=checkbox id=toggle-search>
-<label class="toggle-button overlay" for=toggle-drawer></label>
-<header class=header>
-<nav aria-label=Header>
-<div class="bar default">
-<div class="button button-menu" role=button aria-label=Menu>
-<label class="toggle-button icon icon-menu" for=toggle-drawer>
-<span></span>
-</label>
-</div>
-<div class=stretch>
-<div class=title>
-<b>Laradock</b> <span style=color:rgba(249,245,255,.63)> / Getting Started</span>
-</div>
-</div>
-<div class="button button-github" role=button aria-label=GitHub>
-<a style=padding:0;font-size:40px href=https://github.com/laradock/laradock title="@laradock/laradock on GitHub" target=_blank class="toggle-button icon icon-github"></a>
-</div>
-</div>
-<div class="bar search">
-<div class="button button-close" role=button aria-label=Close>
-<label class="toggle-button icon icon-back" for=toggle-search></label>
-</div>
-<div class=stretch>
-<div class=field>
-<input class=query type=text placeholder=Search autocapitalize=off autocorrect=off autocomplete=off spellcheck>
-</div>
-</div>
-<div class="button button-reset" role=button aria-label=Search>
-<button class="toggle-button icon icon-close" id=reset-search></button>
-</div>
-</div>
+
+<input class="toggle" type="checkbox" id="toggle-drawer">
+<input class="toggle" type="checkbox" id="toggle-search">
+<label class="toggle-button overlay" for="toggle-drawer"></label>
+
+<header class="header">
+	<nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+          <b>Laradock</b> <span style="color: rgba(249, 245, 255, 0.63);"> / Getting Started</span>
+      </div>
+    </div>
+
+    
+
+    
+    <div class="button button-github" role="button" aria-label="GitHub">
+        <a style="padding: 0px; font-size:40px" href="https://github.com/laradock/laradock" title="@laradock/laradock on GitHub" target="_blank" class="toggle-button icon icon-github"></a>
+    </div>
+    
+    
+        
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
 </nav>
+
 </header>
-<main class=main>
-<div class=drawer>
-<nav aria-label=Navigation>
-<a href=https://github.com/laradock/laradock class=project>
-<div class=banner>
-<div class=logo>
-<img src=https://laradock.io/images/favicons/ms-icon-310x310.png>
-</div>
-</div>
-</a>
-<div class=scrollable>
-<div class=wrapper>
-<div class=toc>
-<ul>
+
+<main class="main">
+	<div class="drawer">
+		<nav aria-label="Navigation">
+  <a href="https://github.com/laradock/laradock" class="project">
+    <div class="banner">
+      
+        <div class="logo">
+          <img src="https://laradock.io/images/favicons/ms-icon-310x310.png">
+        </div>
+
+      
+      
+        
+        
+      
+    </div>
+  </a>
+
+  <div class="scrollable">
+    <div class="wrapper">
+      
+
+      <div class="toc">
+        
+        <ul>
+          
+
+
+
+
 <li>
-<a title=Introduction href=https://laradock.io/introduction/>
-Introduction
+  
+    
+
+
+
+<a  title="Introduction" href="https://laradock.io/introduction/">
+	
+	Introduction
 </a>
+
+
+
+  
 </li>
+
+
+
 <li>
-<a title="Getting Started" href=https://laradock.io/getting-started/>
-Getting Started
+  
+    
+
+
+
+<a  title="Getting Started" href="https://laradock.io/getting-started/">
+	
+	Getting Started
 </a>
+
+
+
+  
 </li>
+
+
+
 <li>
-<a title=Documentation href=https://laradock.io/documentation/>
-Documentation
+  
+    
+
+
+
+<a  title="Documentation" href="https://laradock.io/documentation/">
+	
+	Documentation
 </a>
+
+
+
+  
 </li>
+
+
+
 <li>
-<a title="Help & Questions" href=https://laradock.io/help/>
-Help & Questions
+  
+    
+
+
+
+<a  title="Help &amp; Questions" href="https://laradock.io/help/">
+	
+	Help &amp; Questions
 </a>
+
+
+
+  
 </li>
+
+
+
 <li>
-<a title="Related Projects" href=https://laradock.io/related-projects/>
-Related Projects
+  
+    
+
+
+
+<a  title="Related Projects" href="https://laradock.io/related-projects/">
+	
+	Related Projects
 </a>
+
+
+
+  
 </li>
+
+
+
 <li>
-<a title=Contributions href=https://laradock.io/contributing/>
-Contributions
+  
+    
+
+
+
+<a  title="Contributions" href="https://laradock.io/contributing/">
+	
+	Contributions
 </a>
+
+
+
+  
 </li>
-</ul>
-<br>
-<br>
-<div>
-<script async src=//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js></script>
-<ins class=adsbygoogle style=display:inline-block;width:237px;height:600px data-ad-client=ca-pub-9826129398689742 data-ad-slot=9891442983></ins>
-<script>(adsbygoogle=window.adsbygoogle||[]).push({})</script>
-</div>
-<br>
-<br>
-</div>
-</div>
-</div>
+
+
+        </ul>
+        
+
+
+        <br>
+        <br>
+          <div>
+            
+            
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            
+            <ins class="adsbygoogle"
+               style="display:inline-block;width:237px;height:600px"
+               data-ad-client="ca-pub-9826129398689742"
+               data-ad-slot="9891442983"></ins>
+            <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+            
+          </div>
+          <br>
+          <br>
+
+
+          
+        
+        
+        
+        
+          
+
+          
+          
+            
+              
+            
+          
+          
+
+          
+          
+            
+              
+            
+          
+          
+        
+        
+      </div>
+
+    </div>
+  </div>
 </nav>
-</div>
-<article class=article>
-<div class=wrapper>
-<h1>Getting Started </h1>
-<h2 id=requirements>Requirements</h2>
+
+    </div>
+
+	<article class="article">
+		<div class="wrapper">
+            <h1>Getting Started </h1>
+
+			<h2 id="requirements">Requirements</h2>
 <ul>
-<li><a href=https://git-scm.com/downloads>Git</a></li>
-<li><a href=https://www.docker.com/products/docker/>Docker</a> [ >= 17.12 ]</li>
+<li><a href="https://git-scm.com/downloads">Git</a></li>
+<li><a href="https://www.docker.com/products/docker/">Docker</a> [ &gt;= 17.12 ]</li>
 </ul>
-<h2 id=installation>Installation</h2>
+<h2 id="installation">Installation</h2>
 <p>Choose the setup the best suits your needs.</p>
 <ul>
-<li><a href=#A>A) Setup for Single Project</a>
+<li><a href="#A">A) Setup for Single Project</a>
 <ul>
-<li><a href=#A1>A.1) Already have a PHP project</a></li>
-<li><a href=#A2>A.2) Don&rsquo;t have a PHP project yet</a></li>
+<li><a href="#A1">A.1) Already have a PHP project</a></li>
+<li><a href="#A2">A.2) Don&rsquo;t have a PHP project yet</a></li>
 </ul>
 </li>
-<li><a href=#B>B) Setup for Multiple Projects</a></li>
+<li><a href="#B">B) Setup for Multiple Projects</a></li>
 </ul>
-<p></p>
-<h3 id=a-setup-for-single-project>A) Setup for Single Project</h3>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<h3 id="a-setup-for-single-project">A) Setup for Single Project</h3>
 <blockquote>
 <p>(Follow these steps if you want a separate Docker environment for each project)</p>
 </blockquote>
-<p></p>
-<h3 id=a1-already-have-a-php-project>A.1) Already have a PHP project:</h3>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<h3 id="a1-already-have-a-php-project">A.1) Already have a PHP project:</h3>
 <p>1 - Clone laradock on your project root directory:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>git submodule add https://github.com/Laradock/laradock.git
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git submodule add https://github.com/Laradock/laradock.git
 </code></pre></div><p>Note: If you are not using Git yet for your project, you can use <code>git clone</code> instead of <code>git submodule </code>.</p>
-<p><em>To keep track of your Laradock changes, between your projects and also keep Laradock updated <a href=https://laradock.io/documentation/#track-your-laradock-changes>check these docs</a></em></p>
+<p><em>To keep track of your Laradock changes, between your projects and also keep Laradock updated <a href="https://laradock.io/documentation/#track-your-laradock-changes">check these docs</a></em></p>
 <p>2 - Make sure your folder structure should look like this:</p>
 <pre><code>* project-a
 *   laradock-a
 * project-b
 *   laradock-b
 </code></pre><p><em>(It&rsquo;s important to rename the laradock folders to unique name in each project, if you want to run laradock per project).</em></p>
-<p>3 - Go to the <a href=#Usage>Usage</a> section.</p>
-<p></p>
-<h3 id=a2-dont-have-a-php-project-yet>A.2) Don&rsquo;t have a PHP project yet:</h3>
+<p>3 - Go to the <a href="#Usage">Usage</a> section.</p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<h3 id="a2-dont-have-a-php-project-yet">A.2) Don&rsquo;t have a PHP project yet:</h3>
 <p>1 - Clone this repository anywhere on your machine:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>git clone https://github.com/laradock/laradock.git
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/laradock/laradock.git
 </code></pre></div><p>Your folder structure should look like this:</p>
 <pre><code>* laradock
 * project-z
 </code></pre><p>2 - Edit your web server sites configuration.</p>
-<p>We&rsquo;ll need to do step 1 of the <a href=#Usage>Usage</a> section now to make this happen.</p>
+<p>We&rsquo;ll need to do step 1 of the <a href="#Usage">Usage</a> section now to make this happen.</p>
 <pre><code>cp .env.example .env
 </code></pre><p>At the top, change the <code>APP_CODE_PATH_HOST</code> variable to your project path.</p>
 <pre><code>APP_CODE_PATH_HOST=../project-z/
 </code></pre><p>Make sure to replace <code>project-z</code> with your project folder name.</p>
-<p>3 - Go to the <a href=#Usage>Usage</a> section.</p>
-<p></p>
-<h3 id=b-setup-for-multiple-projects>B) Setup for Multiple Projects:</h3>
+<p>3 - Go to the <a href="#Usage">Usage</a> section.</p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<h3 id="b-setup-for-multiple-projects">B) Setup for Multiple Projects:</h3>
 <blockquote>
 <p>(Follow these steps if you want a single Docker environment for all your projects)</p>
 </blockquote>
-<p>1 - Clone this repository anywhere on your machine (similar to <a href=#A2>Steps A.2. from above</a>):</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>git clone https://github.com/laradock/laradock.git
+<p>1 - Clone this repository anywhere on your machine (similar to <a href="#A2">Steps A.2. from above</a>):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/laradock/laradock.git
 </code></pre></div><p>Your folder structure should look like this:</p>
 <pre><code>* laradock
 * project-1
@@ -218,106 +419,209 @@ Contributions
 <pre><code>127.0.0.1  project-1.test
 127.0.0.1  project-2.test
 ...
-</code></pre><p>If you use Chrome 63 or above for development, don&rsquo;t use <code>.dev</code>. <a href=https://laravel-news.com/chrome-63-now-forces-dev-domains-https>Why?</a>. Instead use <code>.localhost</code>, <code>.invalid</code>, <code>.test</code>, or <code>.example</code>.</p>
-<p>4 - Go to the <a href=#Usage>Usage</a> section.</p>
-<p></p>
-<h2 id=usage>Usage</h2>
+</code></pre><p>If you use Chrome 63 or above for development, don&rsquo;t use <code>.dev</code>. <a href="https://laravel-news.com/chrome-63-now-forces-dev-domains-https">Why?</a>. Instead use <code>.localhost</code>, <code>.invalid</code>, <code>.test</code>, or <code>.example</code>.</p>
+<p>4 - Go to the <a href="#Usage">Usage</a> section.</p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<h2 id="usage">Usage</h2>
 <p><strong>Read Before starting:</strong></p>
 <p>If you are using <strong>Docker Toolbox</strong> (VM), do one of the following:</p>
 <ul>
-<li>Upgrade to Docker <a href=https://www.docker.com/products/docker>Native</a> for Mac/Windows (Recommended). Check out <a href=https://laradock.io/documentation/#upgrading-laradock>Upgrading Laradock</a></li>
-<li>Use Laradock v3.*. Visit the <a href=https://github.com/laradock/laradock/tree/LaraDock-ToolBox>Laradock-ToolBox</a> branch. <em>(outdated)</em></li>
+<li>Upgrade to Docker <a href="https://www.docker.com/products/docker">Native</a> for Mac/Windows (Recommended). Check out <a href="https://laradock.io/documentation/#upgrading-laradock">Upgrading Laradock</a></li>
+<li>Use Laradock v3.*. Visit the <a href="https://github.com/laradock/laradock/tree/LaraDock-ToolBox">Laradock-ToolBox</a> branch. <em>(outdated)</em></li>
 </ul>
+<!-- raw HTML omitted -->
 <p>We recommend using a Docker version which is newer than 1.13.</p>
+<!-- raw HTML omitted -->
 <blockquote>
-<p><strong>Warning:</strong> If you used an older version of Laradock it&rsquo;s highly recommended to rebuild the containers you need to use <a href=https://laradock.io/documentation/#Build-Re-build-Containers>see how you rebuild a container</a> in order to prevent as much errors as possible.</p>
+<p><strong>Warning:</strong> If you used an older version of Laradock it&rsquo;s highly recommended to rebuild the containers you need to use <a href="https://laradock.io/documentation/#Build-Re-build-Containers">see how you rebuild a container</a> in order to prevent as much errors as possible.</p>
 </blockquote>
+<!-- raw HTML omitted -->
 <p>1 - Enter the laradock folder and copy <code>.env.example</code> to <code>.env</code></p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>cp .env.example .env
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cp .env.example .env
 </code></pre></div><p>You can edit the <code>.env</code> file to choose which software&rsquo;s you want to be installed in your environment. You can always refer to the <code>docker-compose.yml</code> file to see how those variables are being used.</p>
 <p>Depending on the host&rsquo;s operating system you may need to change the value given to <code>COMPOSE_FILE</code>. When you are running Laradock on Mac OS the correct file separator to use is <code>:</code>. When running Laradock from a Windows environment multiple files must be separated with <code>;</code>.</p>
-<p>By default the containers that will be created have the current directory name as suffix (e.g. <code>laradock_workspace_1</code>). This can cause mixture of data inside the container volumes if you use laradock in multiple projects. In this case, either read the guide for <a href=#B>multiple projects</a> or change the variable <code>COMPOSE_PROJECT_NAME</code> to something unique like your project name.</p>
+<p>By default the containers that will be created have the current directory name as suffix (e.g. <code>laradock_workspace_1</code>). This can cause mixture of data inside the container volumes if you use laradock in multiple projects. In this case, either read the guide for <a href="#B">multiple projects</a> or change the variable <code>COMPOSE_PROJECT_NAME</code> to something unique like your project name.</p>
 <p>2 - Build the environment and run it using <code>docker-compose</code></p>
 <p>In this example we&rsquo;ll see how to run NGINX (web server) and MySQL (database engine) to host a PHP Web Scripts:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>docker-compose up -d nginx mysql
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker-compose up -d nginx mysql
 </code></pre></div><p><strong>Note</strong>: All the web server containers <code>nginx</code>, <code>apache</code> ..etc depends on <code>php-fpm</code>, which means if you run any of them, they will automatically launch the <code>php-fpm</code> container for you, so no need to explicitly specify it in the <code>up</code> command. If you have to do so, you may need to run them as follows: <code>docker-compose up -d nginx php-fpm mysql</code>.</p>
-<p>You can select your own combination of containers from <a href=http://laradock.io/introduction/#supported-software-images>this list</a>.</p>
+<p>You can select your own combination of containers from <a href="http://laradock.io/introduction/#supported-software-images">this list</a>.</p>
 <p><em>(Please note that sometimes we forget to update the docs, so check the <code>docker-compose.yml</code> file to see an updated list of all available containers).</em></p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>docker-compose exec workspace bash
+<!-- raw HTML omitted -->
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker-compose exec workspace bash
 </code></pre></div><p><em>Alternatively, for Windows PowerShell users: execute the following command to enter any running container:</em></p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>docker exec -it <span style=color:#f92672>{</span>workspace-container-id<span style=color:#f92672>}</span> bash
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker exec -it <span style="color:#f92672">{</span>workspace-container-id<span style="color:#f92672">}</span> bash
 </code></pre></div><p><strong>Note:</strong> You can add <code>--user=laradock</code> to have files created as your host&rsquo;s user. Example:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>docker-compose exec --user<span style=color:#f92672>=</span>laradock workspace bash
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker-compose exec --user<span style="color:#f92672">=</span>laradock workspace bash
 </code></pre></div><p><em>You can change the PUID (User id) and PGID (group id) variables from the <code>.env</code> file)</em></p>
+<!-- raw HTML omitted -->
 <p>Open your PHP project&rsquo;s <code>.env</code> file or whichever configuration file you are reading from, and set the database host <code>DB_HOST</code> to <code>mysql</code>:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-env data-lang=env>DB_HOST<span style=color:#f92672>=</span>mysql
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-env" data-lang="env">DB_HOST<span style="color:#f92672">=</span>mysql
 </code></pre></div><p>You need to use the Laradock&rsquo;s default DB credentials which can be found in the <code>.env</code> file (ex: <code>MYSQL_USER=</code>).
 Or you can change them and rebuild the container.</p>
-<p><em>If you want to install Laravel as PHP project, see <a href=#Install-Laravel>How to Install Laravel in a Docker Container</a>.</em></p>
+<p><em>If you want to install Laravel as PHP project, see <a href="#Install-Laravel">How to Install Laravel in a Docker Container</a>.</em></p>
+<!-- raw HTML omitted -->
 <p>Make sure you add use the right port number as provided by your running server.</p>
-<p><a href=http://localhost>http://localhost</a></p>
+<p><a href="http://localhost">http://localhost</a></p>
 <p>If you followed the multiple projects setup, you can visit <code>http://project-1.test/</code> and <code>http://project-2.test/</code>.</p>
-<aside class=copyright role=note>
-<br><br>
-Documentation built with
-<a href=https://www.gohugo.io target=_blank>Hugo</a>
-using the
-<a href=http://github.com/digitalcraftsman/hugo-material-docs target=_blank>Material</a> theme.
-</aside>
-<footer class=footer>
-<nav class=pagination aria-label=Footer>
-<div class=previous>
-<a href=https://laradock.io/documentation.html title=Documentation>
-<span class=direction>
-Previous
-</span>
-<div class=page>
-<div class="button button-previous" role=button aria-label=Previous>
-<i class="icon icon-back"></i>
-</div>
-<div class=stretch>
-<div class=title>
-Documentation
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class=next>
-<a href=https://laradock.io/introduction.html title=Introduction>
-<span class=direction>
-Next
-</span>
-<div class=page>
-<div class=stretch>
-<div class=title>
-Introduction
-</div>
-</div>
-<div class="button button-next" role=button aria-label=Next>
-<i class="icon icon-forward"></i>
-</div>
-</div>
-</a>
-</div>
+
+
+			<aside class="copyright" role="note">
+				
+				<br><br>
+				Documentation built with
+				<a href="https://www.gohugo.io" target="_blank">Hugo</a>
+				using the
+				<a href="http://github.com/digitalcraftsman/hugo-material-docs" target="_blank">Material</a> theme.
+			</aside>
+
+			<footer class="footer">
+				
+
+<nav class="pagination" aria-label="Footer">
+  <div class="previous">
+  
+      <a href="https://laradock.io/documentation.html" title="Documentation">
+        <span class="direction">
+          Previous
+        </span>
+        <div class="page">
+          <div class="button button-previous" role="button" aria-label="Previous">
+            <i class="icon icon-back"></i>
+          </div>
+          <div class="stretch">
+            <div class="title">
+              Documentation
+            </div>
+          </div>
+        </div>
+      </a>
+  
+  </div>
+
+  <div class="next">
+  
+      <a href="https://laradock.io/introduction.html" title="Introduction">
+        <span class="direction">
+          Next
+        </span>
+        <div class="page">
+          <div class="stretch">
+            <div class="title">
+              Introduction
+            </div>
+          </div>
+          <div class="button button-next" role="button" aria-label="Next">
+            <i class="icon icon-forward"></i>
+          </div>
+        </div>
+      </a>
+  
+  </div>
 </nav>
-</footer>
-</div>
-</article>
-<div class=results role=status aria-live=polite>
-<div class=scrollable>
-<div class=wrapper>
-<div class=meta></div>
-<div class=list></div>
-</div>
-</div>
-</div>
+
+
+
+
+
+			</footer>
+		</div>
+	</article>
+
+	<div class="results" role="status" aria-live="polite">
+		<div class="scrollable">
+			<div class="wrapper">
+				<div class="meta"></div>
+				<div class="list"></div>
+			</div>
+		</div>
+	</div>
 </main>
-<script>var base_url='',repo_id=''</script>
-<script src=https://laradock.io/javascripts/application.js></script>
-<script>var headers=document.getElementsByTagName("h2"),scrollspy=document.getElementById('scrollspy'),i,li,a;if(scrollspy){if(headers.length>0)for(i=0;i<headers.length;i++)li=document.createElement("li"),li.setAttribute("class","anchor"),a=document.createElement("a"),a.setAttribute("href","#"+headers[i].id),a.setAttribute("title",headers[i].innerHTML),a.innerHTML=headers[i].innerHTML,li.appendChild(a),scrollspy.appendChild(li);else scrollspy.parentElement.removeChild(scrollspy);headers=document.querySelectorAll("h1, h2, h3, h4, h5, h6");for(i=0;i<headers.length;i++)a=document.createElement("a"),a.setAttribute("class","headerlink"),a.setAttribute("href","#"+headers[i].id),a.setAttribute("title","Permanent link"),a.innerHTML="#",headers[i].appendChild(a)}</script>
-<script>var buttons,query;(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','//www.google-analytics.com/analytics.js','ga'),ga('create','UA-37514928-9','auto'),ga('set','anonymizeIp',!0),ga('send','pageview'),buttons=document.querySelectorAll('a'),Array.prototype.map.call(buttons,function(a){a.host!=document.location.host&&a.addEventListener('click',function(){var b=a.getAttribute('data-action')||'follow';ga('send','event','outbound',b,a.href)})}),query=document.querySelector('.query'),query.addEventListener('blur',function(){if(this.value){var a=document.location.pathname;ga('send','pageview',a+'?q='+this.value)}})</script>
-<script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js></script>
-<script>hljs.initHighlightingOnLoad()</script>
-</body>
+
+    <script>
+    
+      var base_url = '';
+      var repo_id  = '';
+    
+    </script>
+
+    <script src="https://laradock.io/javascripts/application.js"></script>
+    
+
+    <script>
+      /* Add headers to scrollspy */
+      var headers   = document.getElementsByTagName("h2");
+      var scrollspy = document.getElementById('scrollspy');
+
+      if(scrollspy) {
+        if(headers.length > 0) {
+          for(var i = 0; i < headers.length; i++) {
+            var li = document.createElement("li");
+            li.setAttribute("class", "anchor");
+
+            var a  = document.createElement("a");
+            a.setAttribute("href", "#" + headers[i].id);
+            a.setAttribute("title", headers[i].innerHTML);
+            a.innerHTML = headers[i].innerHTML;
+
+            li.appendChild(a)
+            scrollspy.appendChild(li);
+          }
+        } else {
+          scrollspy.parentElement.removeChild(scrollspy)
+        }
+
+
+        /* Add permanent link next to the headers */
+        var headers = document.querySelectorAll("h1, h2, h3, h4, h5, h6");
+
+        for(var i = 0; i < headers.length; i++) {
+            var a = document.createElement("a");
+            a.setAttribute("class", "headerlink");
+            a.setAttribute("href", "#" + headers[i].id);
+            a.setAttribute("title", "Permanent link")
+            a.innerHTML = "#";
+            headers[i].appendChild(a);
+        }
+      }
+    </script>
+
+    
+      <script>
+        (function(i,s,o,g,r,a,m){
+          i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||
+          []).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;
+          m.parentNode.insertBefore(a,m)
+        })(window, document,
+          'script', '//www.google-analytics.com/analytics.js', 'ga');
+         
+        ga('create', 'UA-37514928-9', 'auto');
+        ga('set', 'anonymizeIp', true);
+        ga('send', 'pageview');
+         
+        var buttons = document.querySelectorAll('a');
+        Array.prototype.map.call(buttons, function(item) {
+          if (item.host != document.location.host) {
+            item.addEventListener('click', function() {
+              var action = item.getAttribute('data-action') || 'follow';
+              ga('send', 'event', 'outbound', action, item.href);
+            });
+          }
+        });
+         
+        var query = document.querySelector('.query');
+        query.addEventListener('blur', function() {
+          if (this.value) {
+            var path = document.location.pathname;
+            ga('send', 'pageview', path + '?q=' + this.value);
+          }
+        });
+      </script>
+    
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
 </html>
+
