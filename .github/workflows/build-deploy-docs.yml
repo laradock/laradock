@@ -9,8 +9,8 @@ jobs:
   build-deploy-docs:
     if: github.repository == 'laradock/laradock'
     runs-on: ubuntu-20.04
-#    concurrency:
-#      group: ${{ github.workflow }}-${{ github.ref }}
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
     defaults:
       run:
         working-directory: ./DOCUMENTATION
@@ -21,7 +21,7 @@ jobs:
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: 'latest'
+          hugo-version: '0.55.0'
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
