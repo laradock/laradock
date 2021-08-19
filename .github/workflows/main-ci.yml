@@ -4,6 +4,9 @@ on:
   push:
     branches: '**'
     tags: '**'
+    paths-ignore:
+      - '.github/workflows/build-deploy-docs.yml'
+      - 'DOCUMENTATION/**'
   pull_request:
   schedule:
     - cron: '0 0 * * 0'
