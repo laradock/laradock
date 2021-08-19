@@ -1664,5 +1664,10 @@ RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     rm /var/log/lastlog /var/log/faillog
 
+# Allow running php as laradock user when executing docker command.
+COPY ./php-laradock /usr/bin/php-laradock
+
+RUN chmod +x /usr/bin/php-laradock
+
 # Set default work directory
 WORKDIR /var/www

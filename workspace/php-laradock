@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Allows running php as laradock user when executing docker command.
+/sbin/setuser laradock php "$@"

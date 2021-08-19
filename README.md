@@ -33,16 +33,22 @@ bash ./scripts/build
 bash ./start.sh
 ```
 
+### Stopping the containers
+```bash
+bash ./stop.sh
+```
+
 ## Available scripts
 
 * [./scripts/build](./scripts/build) - Builds containers.
-* [start.sh](start.sh) - Starts docker compose environment.
-* [stop.sh](stop.sh) - Stops project docker containers.
-* [workspace.sh](workspace.sh) - Opens shell inside the workspace container.
+* [start.sh](./start.sh) - Starts docker compose environment.
+* [stop.sh](./stop.sh) - Stops project docker containers.
+* [workspace.sh](./workspace.sh) - Opens shell inside the workspace container.
 * [./scripts/exec](./scripts/exec) - Executes a command inside the workspace container.
 * [./scripts/workspace-root](./scripts/workspace-root) - Opens shell inside the workspace container as root.
 * [./scripts/prep-testing-database](./scripts/prep-testing-database) - Preps testing database for Dusk tests.
 * [./scripts/remove-orphans](./scripts/remove-orphans) - Preps testing database for Dusk tests.
+* [./php-fpm/xdebug](./php-fpm/xdebug) - Enables and disables xdebug in the php-fpm container. 
 
 ### Script Examples
 Install composer dependencies.
@@ -60,6 +66,24 @@ Run an Artisan command.
 bash ./scripts/exec php artisan migrate
 ```
 
+## Using Xdebug
+Xdebug is enabled by default.  If PhpStorm is set up to listen to port 9000 and listening to PHP debug connections is enabled, then xdebug will stop at breakpoints.  Xdebug can be enabled and disabled using the xdebug management script.  Xdebug breakpoints will be ignored if PhpStorm is not listening for PHP debug connections.
+
+Checking status of Xdebug.  If the output list Xdebug as in the output, then Xdebug is enabled.
+```bash
+./php-fpm/xdebug status
+```
+
+Enable Xdebug
+```bash
+./php-fpm/xdebug start
+```
+
+Disable Xdebug
+```bash
+./php-fpm/xdebug stop
+```
+
 ## Containers and Ports
 
 ### caddy
@@ -69,23 +93,27 @@ Ports:
 *  443 to serve https.
 
 ### mailhog
-Mailhog is used to catch all email through smtp.  The web client is available at [0.0.0.0:8025](0.0.0.0:8025).  
+Mailhog is used to catch all email through smtp.  The web client is available at [http://0.0.0.0:8025](http://0.0.0.0:8025).  
 Ports:
 * 1025 for smtp and
 * 8025 for mail web client.
 
 ### mysql
 Mysql instance.  
-Ports:
-*  3306 to serve mysql by default, but can be changed by setting `MYSQL_PORT` in [.env](.env).
+Ports: 
+*  3306 to serve mysql by default, but can be changed by setting `MYSQL_PORT` in [.env](./.env).   
+  
+The mysql server can be connected to at `0.0.0.0:3306`.  The port reflects the value of `MYSQL_PORT` in [.env](./.env).
 
 ### php-fpm
 Used by Caddy to serve website.
 
 ### redis
 Redis instance.  
-Ports:
-*  6379 to serve redis by default, but can be changed by setting `REDIS_PORT` in [.env](.env).
+Ports: 
+*  6379 to serve redis by default, but can be changed by setting `REDIS_PORT` in [.env](./.env).
+
+The redis server can be connected to at `0.0.0.0:6379`.  The port reflects the value of `REDIS_PORT` in [.env](./.env).
 
 ### workspace
 Container with various utilities installed.  Use this container if you want to run artisan commands in the docker environment.  The workspace can be used to run npm scripts.

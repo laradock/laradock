@@ -7,10 +7,13 @@ x-environment:
     DB_PORT: ${MYSQL_PORT}
     DB_USERNAME: ${MYSQL_USER}
     DB_PASSWORD: ${MYSQL_PASSWORD}
+    CACHE_DRIVER: redis
+    QUEUE_CONNECTION: redis
     REDIS_HOST: redis.local
     REDIS_PORT: ${REDIS_PORT}
     MAIL_HOST: mailhog.local
     MAIL_PORT: 1025
+    DUMP_SERVER_HOST: ${DUMP_SERVER_HOST}
 
 networks:
   frontend:
@@ -190,24 +193,25 @@ services:
 #        - docker-in-docker:/certs/client
         - ./php-worker/supervisord.d:/etc/supervisord.d
       extra_hosts:
+        - "host.docker.internal:host-gateway"
         - "dockerhost:${DOCKER_HOST_IP}"
-      ports:
-        - "${WORKSPACE_SSH_PORT}:22"
-        - "${WORKSPACE_BROWSERSYNC_HOST_PORT}:3000"
-        - "${WORKSPACE_BROWSERSYNC_UI_HOST_PORT}:3001"
-        - "${WORKSPACE_VUE_CLI_SERVE_HOST_PORT}:8080"
-        - "${WORKSPACE_VUE_CLI_UI_HOST_PORT}:8000"
-        - "${WORKSPACE_ANGULAR_CLI_SERVE_HOST_PORT}:4200"
+#      ports:
+#        - "${WORKSPACE_SSH_PORT}:22"
+#        - "${WORKSPACE_BROWSERSYNC_HOST_PORT}:3000"
+#        - "${WORKSPACE_BROWSERSYNC_UI_HOST_PORT}:3001"
+#        - "${WORKSPACE_VUE_CLI_SERVE_HOST_PORT}:8080"
+#        - "${WORKSPACE_VUE_CLI_UI_HOST_PORT}:8000"
+#        - "${WORKSPACE_ANGULAR_CLI_SERVE_HOST_PORT}:4200"
       tty: true
       environment:
         <<: *laravel-environment
         PHP_IDE_CONFIG: ${PHP_IDE_CONFIG}
 #        DOCKER_HOST: tcp://docker-in-docker:2376
-        DOCKER_TLS_VERIFY: 1
-        DOCKER_TLS_CERTDIR: /certs
-        DOCKER_CERT_PATH: /certs/client
-#        security_opt:
-#         - seccomp:"./workspace/chrome.json"
+#        DOCKER_TLS_VERIFY: 1
+#        DOCKER_TLS_CERTDIR: /certs
+#        DOCKER_CERT_PATH: /certs/client
+      security_opt:
+        - seccomp:"./workspace/chrome.json"
       networks:
         frontend:
           aliases:
@@ -309,14 +313,15 @@ services:
       expose:
         - "9000"
       extra_hosts:
+        - "host.docker.internal:host-gateway"
         - "dockerhost:${DOCKER_HOST_IP}"
       environment:
         <<: *laravel-environment
         PHP_IDE_CONFIG: ${PHP_IDE_CONFIG}
 #        DOCKER_HOST: tcp://docker-in-docker:2376
-        DOCKER_TLS_VERIFY: 1
-        DOCKER_TLS_CERTDIR: /certs
-        DOCKER_CERT_PATH: /certs/client
+#        DOCKER_TLS_VERIFY: 1
+#        DOCKER_TLS_CERTDIR: /certs
+#        DOCKER_CERT_PATH: /certs/client
         FAKETIME: ${PHP_FPM_FAKETIME}
       depends_on:
         - workspace
@@ -640,6 +645,15 @@ services:
 #      image: 'neo4j:latest'
 #      networks:
 #        - backend
+### Nats ################################################
+#  nats:
+#    build: ./nats
+#    ports:
+#      - "${NATS_CLIENT_PORT}:4222"
+#      - "${NATS_MONITORING_PORT}:6222"
+#      - "${NATS_ROUTE_PORT}:8222"
+#    networks:
+#      - backend
 
 ### MongoDB ##############################################
 #    mongo:
@@ -662,7 +676,7 @@ services:
 #      networks:
 #        - backend
 
-  ### ClickHouse #############################################
+### ClickHouse #############################################
 #    clickhouse:
 #      build:
 #        context: ./clickhouse
@@ -693,7 +707,7 @@ services:
 ##        - frontend
 #        - backend
 
-  ### Redis ################################################
+### Redis ################################################
     redis:
       build: ./redis
       volumes:
@@ -905,8 +919,14 @@ services:
       depends_on:
         - php-fpm
       networks:
-        - frontend
-        - backend
+        backend:
+          aliases:
+            - caddy.local
+            - caddy
+        frontend:
+          aliases:
+            - caddy.local
+            - caddy
 
 ### phpMyAdmin ###########################################
 #    phpmyadmin:

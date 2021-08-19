@@ -1,6 +1,6 @@
 # Docs: https://caddyserver.com/docs/caddyfile
-0.0.0.0:80, 0.0.0.0:443, 0.0.0.0, quarrymill.local:443, quarrymill.local:80 {
-    root /var/www
+0.0.0.0:80, 0.0.0.0:443, 0.0.0.0 {
+    root /var/www/public
     fastcgi / php-fpm:9000 php {
         index index.php
     }
