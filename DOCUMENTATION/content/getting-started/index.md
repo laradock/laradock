@@ -1,18 +1,18 @@
 ---
-title: 2. Getting Started
+title: Getting Started
 type: index
 weight: 2
 ---
 
-## 2.1 Requirements
+## Requirements
 
 - [Git](https://git-scm.com/downloads)
-- [Docker](https://www.docker.com/products/docker/) `>= 17.12`
+- [Docker](https://www.docker.com/products/docker/) [ >= 17.12 ]
 
 
 
 
-## 2.2 Installation
+## Installation
 
 Choose the setup the best suits your needs.
 
@@ -38,16 +38,16 @@ git submodule add https://github.com/Laradock/laradock.git
 
 Note: If you are not using Git yet for your project, you can use `git clone` instead of `git submodule `.
 
-*To keep track of your Laradock changes, between your projects and also keep Laradock updated [check these docs](/documentation/#keep-track-of-your-laradock-changes)*
+*To keep track of your Laradock changes, between your projects and also keep Laradock updated [check these docs](/documentation/#track-your-laradock-changes)*
 
 
 2 - Make sure your folder structure should look like this:
 
 ```
-+ project-a
-  + laradock-a
-+ project-b
-  + laradock-b
+* project-a
+*   laradock-a
+* project-b
+*   laradock-b
 ```
 
 *(It's important to rename the laradock folders to unique name in each project, if you want to run laradock per project).*
@@ -66,8 +66,8 @@ git clone https://github.com/laradock/laradock.git
 Your folder structure should look like this:
 
 ```
-+ laradock
-+ project-z
+* laradock
+* project-z
 ```
 
 2 - Edit your web server sites configuration.
@@ -75,7 +75,7 @@ Your folder structure should look like this:
 We'll need to do step 1 of the [Usage](#Usage) section now to make this happen.
 
 ```
-cp env-example .env
+cp .env.example .env
 ```
 
 At the top, change the `APP_CODE_PATH_HOST` variable to your project path.
@@ -102,9 +102,15 @@ git clone https://github.com/laradock/laradock.git
 Your folder structure should look like this:
 
 ```
-+ laradock
-+ project-1
-+ project-2
+* laradock
+* project-1
+* project-2
+```
+
+Make sure the `APP_CODE_PATH_HOST` variable points to parent directory.
+
+```
+APP_CODE_PATH_HOST=../
 ```
 
 2 - Go to your web server and create config files to point to different project directory when visiting different domains:
@@ -136,7 +142,7 @@ If you use Chrome 63 or above for development, don't use `.dev`. [Why?](https://
 
 
 <a name="Usage"></a>
-## 2.3 Usage
+## Usage
 
 **Read Before starting:**
 
@@ -151,14 +157,14 @@ We recommend using a Docker version which is newer than 1.13.
 
 <br>
 
->**Warning:** If you used an older version of Laradock it's highly recommended to rebuild the containers you need to use [see how you rebuild a container](#Build-Re-build-Containers) in order to prevent as much errors as possible.
+>**Warning:** If you used an older version of Laradock it's highly recommended to rebuild the containers you need to use [see how you rebuild a container](/documentation/#Build-Re-build-Containers) in order to prevent as much errors as possible.
 
 <br>
 
-1 - Enter the laradock folder and copy `env-example` to `.env`
+1 - Enter the laradock folder and copy `.env.example` to `.env`
 
 ```shell
-cp env-example .env
+cp .env.example .env
 ```
 
 You can edit the `.env` file to choose which software's you want to be installed in your environment. You can always refer to the `docker-compose.yml` file to see how those variables are being used.

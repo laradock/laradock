@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: '**'
+    tags: '**'
+    paths-ignore:
+      - '.github/workflows/build-deploy-docs.yml'
+      - 'DOCUMENTATION/**'
+  pull_request:
+  schedule:
+    - cron: '0 0 * * 0'
+
+jobs:
+  build-php:
+    # Don't trigger on schedule event when in a fork
+    if: github.event_name != 'schedule' || (github.event_name == 'schedule' && github.repository == 'laradock/laradock')
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php_version: [ "5.6", "7.0", "7.1", "7.2", "7.3", "7.4", "8.0" ]
+        service: [ php-fpm, php-worker, workspace ]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the Docker image
+        env:
+          PHP_VERSION: ${{ matrix.php_version }}
+        run: |
+          set -eux
+          cp .env.example .env
+          sed -i -- 's/=false/=true/g' .env
+          sed -i -- 's/CHANGE_SOURCE=true/CHANGE_SOURCE=false/g' .env
+          sed -i -- 's/PHPDBG=true/PHPDBG=false/g' .env
+          sed -i -- 's/CASSANDRA=true/CASSANDRA=false/g' .env
+          sed -i -- 's/GEARMAN=true/GEARMAN=false/g' .env
+          sed -i -- 's/AEROSPIKE=true/AEROSPIKE=false/g' .env
+          sed -i -- 's/PHALCON=true/PHALCON=false/g' .env
+          sed -i -- 's/RDKAFKA=true/RDKAFKA=false/g' .env
+          sed -i -- 's/MAILPARSE=true/MAILPARSE=false/g' .env
+          sed -i -- 's/OCI8=true/OCI8=false/g' .env
+          sed -i -- 's/IONCUBE=true/IONCUBE=false/g' .env
+          sed -i -- 's/V8JS=true/V8JS=false/g' .env
+          sed -i -- 's/AUDIOWAVEFORM=true/AUDIOWAVEFORM=false/g' .env
+          sed -i -- 's/SSDB=true/SSDB=false/g' .env
+          docker-compose build ${{ matrix.service }}
+          docker-compose up -d --no-deps -- ${{ matrix.service }}
+          docker-compose exec -T -- ${{ matrix.service }} php -m
+          docker-compose down
+
+  build-other:
+    # Don't trigger on schedule event when in a fork
+    if: github.event_name != 'schedule' || (github.event_name == 'schedule' && github.repository == 'laradock/laradock')
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        service: [ 'nginx', 'redis', 'mysql', 'mariadb', 'percona', 'minio', 'mongo' ]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the Docker image
+        run: |
+          cp .env.example .env
+          sed -i -- 's/=false/=true/g' .env
+          sed -i -- 's/CHANGE_SOURCE=true/CHANGE_SOURCE=false/g' .env
+          docker-compose build ${{ matrix.service }}

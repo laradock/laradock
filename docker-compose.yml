@@ -1,11 +1,10 @@
-version: '3'
+version: '3.5'
 
 networks:
   frontend:
     driver: ${NETWORKS_DRIVER}
   backend:
     driver: ${NETWORKS_DRIVER}
-
 volumes:
   mysql:
     driver: ${VOLUMES_DRIVER}
@@ -37,6 +36,8 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   caddy:
     driver: ${VOLUMES_DRIVER}
+  meilisearch:
+    driver: ${VOLUMES_DRIVER}
   elasticsearch:
     driver: ${VOLUMES_DRIVER}
   mosquitto:
@@ -51,6 +52,8 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   docker-in-docker:
     driver: ${VOLUMES_DRIVER}
+  react:
+    driver: ${VOLUMES_DRIVER}
 
 services:
 
@@ -60,12 +63,17 @@ services:
         context: ./workspace
         args:
           - CHANGE_SOURCE=${CHANGE_SOURCE}
+          - SHELL_OH_MY_ZSH=${SHELL_OH_MY_ZSH}
+          - SHELL_OH_MY_ZSH_AUTOSUGESTIONS=${SHELL_OH_MY_ZSH_AUTOSUGESTIONS}
+          - SHELL_OH_MY_ZSH_ALIASES=${SHELL_OH_MY_ZSH_ALIASES}
           - UBUNTU_SOURCE=${UBUNTU_SOURCE}
+          - BASE_IMAGE_TAG_PREFIX=${WORKSPACE_BASE_IMAGE_TAG_PREFIX}
           - LARADOCK_PHP_VERSION=${PHP_VERSION}
           - LARADOCK_PHALCON_VERSION=${PHALCON_VERSION}
           - INSTALL_SUBVERSION=${WORKSPACE_INSTALL_SUBVERSION}
           - INSTALL_BZ2=${WORKSPACE_INSTALL_BZ2}
           - INSTALL_GMP=${WORKSPACE_INSTALL_GMP}
+          - INSTALL_GNUPG=${WORKSPACE_INSTALL_GNUPG}
           - INSTALL_XDEBUG=${WORKSPACE_INSTALL_XDEBUG}
           - INSTALL_PCOV=${WORKSPACE_INSTALL_PCOV}
           - INSTALL_PHPDBG=${WORKSPACE_INSTALL_PHPDBG}
@@ -85,6 +93,11 @@ services:
           - NVM_NODEJS_ORG_MIRROR=${WORKSPACE_NVM_NODEJS_ORG_MIRROR}
           - INSTALL_NODE=${WORKSPACE_INSTALL_NODE}
           - NPM_REGISTRY=${WORKSPACE_NPM_REGISTRY}
+          - NPM_FETCH_RETRIES=${WORKSPACE_NPM_FETCH_RETRIES}
+          - NPM_FETCH_RETRY_FACTOR=${WORKSPACE_NPM_FETCH_RETRY_FACTOR}
+          - NPM_FETCH_RETRY_MINTIMEOUT=${WORKSPACE_NPM_FETCH_RETRY_MINTIMEOUT}
+          - NPM_FETCH_RETRY_MAXTIMEOUT=${WORKSPACE_NPM_FETCH_RETRY_MAXTIMEOUT}
+          - INSTALL_PNPM=${WORKSPACE_INSTALL_PNPM}
           - INSTALL_YARN=${WORKSPACE_INSTALL_YARN}
           - INSTALL_NPM_GULP=${WORKSPACE_INSTALL_NPM_GULP}
           - INSTALL_NPM_BOWER=${WORKSPACE_INSTALL_NPM_BOWER}
@@ -97,6 +110,7 @@ services:
           - INSTALL_OCI8=${WORKSPACE_INSTALL_OCI8}
           - INSTALL_V8JS=${WORKSPACE_INSTALL_V8JS}
           - COMPOSER_GLOBAL_INSTALL=${WORKSPACE_COMPOSER_GLOBAL_INSTALL}
+          - COMPOSER_VERSION=${WORKSPACE_COMPOSER_VERSION}
           - COMPOSER_AUTH=${WORKSPACE_COMPOSER_AUTH}
           - COMPOSER_REPO_PACKAGIST=${WORKSPACE_COMPOSER_REPO_PACKAGIST}
           - INSTALL_WORKSPACE_SSH=${WORKSPACE_INSTALL_WORKSPACE_SSH}
@@ -108,6 +122,7 @@ services:
           - INSTALL_MC=${WORKSPACE_INSTALL_MC}
           - INSTALL_SYMFONY=${WORKSPACE_INSTALL_SYMFONY}
           - INSTALL_PYTHON=${WORKSPACE_INSTALL_PYTHON}
+          - INSTALL_PYTHON3=${WORKSPACE_INSTALL_PYTHON3}
           - INSTALL_IMAGE_OPTIMIZERS=${WORKSPACE_INSTALL_IMAGE_OPTIMIZERS}
           - INSTALL_IMAGEMAGICK=${WORKSPACE_INSTALL_IMAGEMAGICK}
           - INSTALL_TERRAFORM=${WORKSPACE_INSTALL_TERRAFORM}
@@ -117,6 +132,7 @@ services:
           - INSTALL_SWOOLE=${WORKSPACE_INSTALL_SWOOLE}
           - INSTALL_TAINT=${WORKSPACE_INSTALL_TAINT}
           - INSTALL_LIBPNG=${WORKSPACE_INSTALL_LIBPNG}
+          - INSTALL_GRAPHVIZ=${WORKSPACE_INSTALL_GRAPHVIZ}
           - INSTALL_IONCUBE=${WORKSPACE_INSTALL_IONCUBE}
           - INSTALL_MYSQL_CLIENT=${WORKSPACE_INSTALL_MYSQL_CLIENT}
           - INSTALL_PING=${WORKSPACE_INSTALL_PING}
@@ -125,8 +141,10 @@ services:
           - INSTALL_FSWATCH=${WORKSPACE_INSTALL_FSWATCH}
           - INSTALL_AST=${WORKSPACE_INSTALL_AST}
           - INSTALL_YAML=${WORKSPACE_INSTALL_YAML}
+          - INSTALL_RDKAFKA=${WORKSPACE_INSTALL_RDKAFKA}
           - INSTALL_MAILPARSE=${WORKSPACE_INSTALL_MAILPARSE}
           - INSTALL_GIT_PROMPT=${WORKSPACE_INSTALL_GIT_PROMPT}
+          - INSTALL_XMLRPC=${WORKSPACE_INSTALL_XMLRPC}
           - PUID=${WORKSPACE_PUID}
           - PGID=${WORKSPACE_PGID}
           - CHROME_DRIVER_VERSION=${WORKSPACE_CHROME_DRIVER_VERSION}
@@ -134,14 +152,24 @@ services:
           - YARN_VERSION=${WORKSPACE_YARN_VERSION}
           - DRUSH_VERSION=${WORKSPACE_DRUSH_VERSION}
           - AST_VERSION=${WORKSPACE_AST_VERSION}
+          - IMAGEMAGICK_VERSION=${WORKSPACE_IMAGEMAGICK_VERSION}
           - TZ=${WORKSPACE_TIMEZONE}
           - BLACKFIRE_CLIENT_ID=${BLACKFIRE_CLIENT_ID}
           - BLACKFIRE_CLIENT_TOKEN=${BLACKFIRE_CLIENT_TOKEN}
           - INSTALL_POWERLINE=${WORKSPACE_INSTALL_POWERLINE}
           - INSTALL_SUPERVISOR=${WORKSPACE_INSTALL_SUPERVISOR}
           - INSTALL_FFMPEG=${WORKSPACE_INSTALL_FFMPEG}
+          - INSTALL_AUDIOWAVEFORM=${WORKSPACE_INSTALL_AUDIOWAVEFORM}
           - INSTALL_WKHTMLTOPDF=${WORKSPACE_INSTALL_WKHTMLTOPDF}
           - INSTALL_GNU_PARALLEL=${WORKSPACE_INSTALL_GNU_PARALLEL}
+          - INSTALL_LNAV=${WORKSPACE_INSTALL_LNAV}
+          - INSTALL_PROTOC=${WORKSPACE_INSTALL_PROTOC}
+          - INSTALL_PHPDECIMAL=${WORKSPACE_INSTALL_PHPDECIMAL}
+          - INSTALL_ZOOKEEPER=${WORKSPACE_INSTALL_ZOOKEEPER}
+          - INSTALL_SSDB=${WORKSPACE_INSTALL_SSDB}
+          - PROTOC_VERSION=${WORKSPACE_PROTOC_VERSION}
+          - INSTALL_DOCKER_CLIENT=${WORKSPACE_INSTALL_DOCKER_CLIENT}
+          - INSTALL_MEMCACHED=${WORKSPACE_INSTALL_MEMCACHED}
           - http_proxy
           - https_proxy
           - no_proxy
@@ -153,8 +181,11 @@ services:
         - "dockerhost:${DOCKER_HOST_IP}"
       ports:
         - "${WORKSPACE_SSH_PORT}:22"
+        - "${WORKSPACE_BROWSERSYNC_HOST_PORT}:3000"
+        - "${WORKSPACE_BROWSERSYNC_UI_HOST_PORT}:3001"
         - "${WORKSPACE_VUE_CLI_SERVE_HOST_PORT}:8080"
         - "${WORKSPACE_VUE_CLI_UI_HOST_PORT}:8000"
+        - "${WORKSPACE_ANGULAR_CLI_SERVE_HOST_PORT}:4200"
       tty: true
       environment:
         - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
@@ -174,10 +205,13 @@ services:
         context: ./php-fpm
         args:
           - CHANGE_SOURCE=${CHANGE_SOURCE}
+          - BASE_IMAGE_TAG_PREFIX=${PHP_FPM_BASE_IMAGE_TAG_PREFIX}
           - LARADOCK_PHP_VERSION=${PHP_VERSION}
           - LARADOCK_PHALCON_VERSION=${PHALCON_VERSION}
           - INSTALL_BZ2=${PHP_FPM_INSTALL_BZ2}
+          - INSTALL_ENCHANT=${PHP_FPM_INSTALL_ENCHANT}
           - INSTALL_GMP=${PHP_FPM_INSTALL_GMP}
+          - INSTALL_GNUPG=${PHP_FPM_INSTALL_GNUPG}
           - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
           - INSTALL_PCOV=${PHP_FPM_INSTALL_PCOV}
           - INSTALL_PHPDBG=${PHP_FPM_INSTALL_PHPDBG}
@@ -227,11 +261,22 @@ services:
           - INSTALL_PCNTL=${PHP_FPM_INSTALL_PCNTL}
           - ADDITIONAL_LOCALES=${PHP_FPM_ADDITIONAL_LOCALES}
           - INSTALL_FFMPEG=${PHP_FPM_FFMPEG}
+          - INSTALL_AUDIOWAVEFORM=${PHP_FPM_AUDIOWAVEFORM}
           - INSTALL_WKHTMLTOPDF=${PHP_FPM_INSTALL_WKHTMLTOPDF}
           - INSTALL_XHPROF=${PHP_FPM_INSTALL_XHPROF}
+          - INSTALL_XMLRPC=${PHP_FPM_INSTALL_XMLRPC}
+          - INSTALL_PHPDECIMAL=${PHP_FPM_INSTALL_PHPDECIMAL}
+          - INSTALL_ZOOKEEPER=${PHP_FPM_INSTALL_ZOOKEEPER}
+          - INSTALL_SSDB=${PHP_FPM_INSTALL_SSDB}
+          - DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL=${PHP_DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL}
           - PUID=${PHP_FPM_PUID}
           - PGID=${PHP_FPM_PGID}
+          - IMAGEMAGICK_VERSION=${PHP_FPM_IMAGEMAGICK_VERSION}
           - LOCALE=${PHP_FPM_DEFAULT_LOCALE}
+          - PHP_FPM_NEW_RELIC=${PHP_FPM_NEW_RELIC}
+          - PHP_FPM_NEW_RELIC_KEY=${PHP_FPM_NEW_RELIC_KEY}
+          - PHP_FPM_NEW_RELIC_APP_NAME=${PHP_FPM_NEW_RELIC_APP_NAME}
+          - INSTALL_DOCKER_CLIENT=${PHP_FPM_INSTALL_DOCKER_CLIENT}
           - http_proxy
           - https_proxy
           - no_proxy
@@ -239,6 +284,8 @@ services:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         - docker-in-docker:/certs/client
+      ports:
+        - "${PHP_FPM_XDEBUG_PORT}:9003"
       expose:
         - "9000"
       extra_hosts:
@@ -267,9 +314,15 @@ services:
           - PHALCON_VERSION=${PHALCON_VERSION}
           - INSTALL_BZ2=${PHP_WORKER_INSTALL_BZ2}
           - INSTALL_GD=${PHP_WORKER_INSTALL_GD}
+          - INSTALL_IMAGEMAGICK=${PHP_WORKER_INSTALL_IMAGEMAGICK}
           - INSTALL_GMP=${PHP_WORKER_INSTALL_GMP}
+          - INSTALL_GNUPG=${PHP_WORKER_INSTALL_GNUPG}
+          - INSTALL_LDAP=${PHP_WORKER_INSTALL_LDAP}
           - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL}
+          - INSTALL_MONGO=${PHP_WORKER_INSTALL_MONGO}
           - INSTALL_BCMATH=${PHP_WORKER_INSTALL_BCMATH}
+          - INSTALL_MEMCACHED=${PHP_WORKER_INSTALL_MEMCACHED}
+          - INSTALL_OCI8=${PHP_WORKER_INSTALL_OCI8}
           - INSTALL_PHALCON=${PHP_WORKER_INSTALL_PHALCON}
           - INSTALL_SOAP=${PHP_WORKER_INSTALL_SOAP}
           - INSTALL_ZIP_ARCHIVE=${PHP_WORKER_INSTALL_ZIP_ARCHIVE}
@@ -281,9 +334,14 @@ services:
           - INSTALL_SWOOLE=${PHP_WORKER_INSTALL_SWOOLE}
           - INSTALL_TAINT=${PHP_WORKER_INSTALL_TAINT}
           - INSTALL_FFMPEG=${PHP_WORKER_INSTALL_FFMPEG}
+          - INSTALL_AUDIOWAVEFORM=${PHP_WORKER_INSTALL_AUDIOWAVEFORM}
           - INSTALL_REDIS=${PHP_WORKER_INSTALL_REDIS}
+          - INSTALL_IMAP=${PHP_WORKER_INSTALL_IMAP}
+          - INSTALL_XMLRPC=${PHP_WORKER_INSTALL_XMLRPC}
+          - INSTALL_SSDB=${PHP_WORKER_INSTALL_SSDB}
           - PUID=${PHP_WORKER_PUID}
           - PGID=${PHP_WORKER_PGID}
+          - IMAGEMAGICK_VERSION=${PHP_WORKER_IMAGEMAGICK_VERSION}
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         - ./php-worker/supervisord.d:/etc/supervisord.d
@@ -303,18 +361,23 @@ services:
           - INSTALL_BZ2=${LARAVEL_HORIZON_INSTALL_BZ2}
           - INSTALL_GD=${LARAVEL_HORIZON_INSTALL_GD}
           - INSTALL_GMP=${LARAVEL_HORIZON_INSTALL_GMP}
+          - INSTALL_GNUPG=${LARAVEL_HORIZON_INSTALL_GNUPG}
+          - INSTALL_LDAP=${LARAVEL_HORIZON_INSTALL_LDAP}
+          - INSTALL_IMAGEMAGICK=${LARAVEL_HORIZON_INSTALL_IMAGEMAGICK}
           - INSTALL_PGSQL=${PHP_FPM_INSTALL_PGSQL}
           - INSTALL_ZIP_ARCHIVE=${LARAVEL_HORIZON_INSTALL_ZIP_ARCHIVE}
           - INSTALL_BCMATH=${PHP_FPM_INSTALL_BCMATH}
           - INSTALL_MEMCACHED=${PHP_FPM_INSTALL_MEMCACHED}
           - INSTALL_SOCKETS=${LARAVEL_HORIZON_INSTALL_SOCKETS}
           - INSTALL_YAML=${LARAVEL_HORIZON_INSTALL_YAML}
-          - INSTALL_CASSANDRA=${PHP_FPM_INSTALL_CASSANDRA}
+          - INSTALL_CASSANDRA=${LARAVEL_HORIZON_INSTALL_CASSANDRA}
           - INSTALL_PHPREDIS=${LARAVEL_HORIZON_INSTALL_PHPREDIS}
           - INSTALL_MONGO=${LARAVEL_HORIZON_INSTALL_MONGO}
           - INSTALL_FFMPEG=${LARAVEL_HORIZON_INSTALL_FFMPEG}
+          - INSTALL_AUDIOWAVEFORM=${LARAVEL_HORIZON_INSTALL_AUDIOWAVEFORM}
           - PUID=${LARAVEL_HORIZON_PUID}
           - PGID=${LARAVEL_HORIZON_PGID}
+          - IMAGEMAGICK_VERSION=${LARAVEL_HORIZON_IMAGEMAGICK_VERSION}
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
         - ./laravel-horizon/supervisord.d:/etc/supervisord.d
@@ -351,6 +414,32 @@ services:
         - frontend
         - backend
 
+### OpenResty Server #########################################
+    openresty:
+      build:
+        context: ./openresty
+        args:
+          - CHANGE_SOURCE=${CHANGE_SOURCE}
+          - PHP_UPSTREAM_CONTAINER=${OPENRESTY_PHP_UPSTREAM_CONTAINER}
+          - PHP_UPSTREAM_PORT=${OPENRESTY_PHP_UPSTREAM_PORT}
+          - http_proxy
+          - https_proxy
+          - no_proxy
+      volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+        - ${OPENRESTY_HOST_LOG_PATH}:/var/log/nginx
+        - ${OPENRESTY_SITES_PATH}:/etc/nginx/sites-available
+        - ${OPENRESTY_SSL_PATH}:/etc/nginx/ssl
+      ports:
+        - "${OPENRESTY_HOST_HTTP_PORT}:80"
+        - "${OPENRESTY_HOST_HTTPS_PORT}:443"
+        - "${VARNISH_BACKEND_PORT}:81"
+      depends_on:
+        - php-fpm
+      networks:
+        - frontend
+        - backend
+
 ### Blackfire ########################################
     blackfire:
       image: blackfire/blackfire
@@ -371,10 +460,12 @@ services:
           - PHP_UPSTREAM_PORT=${APACHE_PHP_UPSTREAM_PORT}
           - PHP_UPSTREAM_TIMEOUT=${APACHE_PHP_UPSTREAM_TIMEOUT}
           - DOCUMENT_ROOT=${APACHE_DOCUMENT_ROOT}
+          - APACHE_INSTALL_HTTP2=${APACHE_INSTALL_HTTP2}
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         - ${APACHE_HOST_LOG_PATH}:/var/log/apache2
         - ${APACHE_SITES_PATH}:/etc/apache2/sites-available
+        - ${APACHE_SSL_PATH}:/etc/apache2/ssl
       ports:
         - "${APACHE_HOST_HTTP_PORT}:80"
         - "${APACHE_HOST_HTTPS_PORT}:443"
@@ -405,9 +496,10 @@ services:
         - ${DATA_PATH_HOST}/minio/config:/root/.minio
       ports:
         - "${MINIO_PORT}:9000"
+        - "${MINIO_CONSOLE_PORT}:9001"
       environment:
-        - MINIO_ACCESS_KEY=access
-        - MINIO_SECRET_KEY=secretkey
+        - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+        - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
       networks:
         - frontend
         - backend
@@ -459,7 +551,7 @@ services:
         - SA_PASSWORD=${MSSQL_PASSWORD}
         - ACCEPT_EULA=Y
       volumes:
-        - ${DATA_PATH_HOST}/mssql:/var/opt/mssql
+        - mssql:/var/opt/mssql
       ports:
         - "${MSSQL_PORT}:1433"
       networks:
@@ -538,14 +630,24 @@ services:
 
 ### Neo4j ################################################
     neo4j:
-      build: ./neo4j
       ports:
-        - "7474:7474"
-        - "1337:1337"
+          - '7401:7474'
+          - '7402:7687'
       environment:
-        - NEO4J_AUTH=default:secret
+          - NEO4J_AUTH=none
       volumes:
-        - ${DATA_PATH_HOST}/neo4j:/var/lib/neo4j/data
+          - ${DATA_PATH_HOST}/neo4j/data:/data
+          - ${DATA_PATH_HOST}/neo4j/logs:/logs
+      image: 'neo4j:latest'
+      networks:
+        - backend
+### Nats ################################################
+    nats:
+      build: ./nats
+      ports:
+        - "${NATS_CLIENT_PORT}:4222"
+        - "${NATS_MONITORING_PORT}:6222"
+        - "${NATS_ROUTE_PORT}:8222"
       networks:
         - backend
 
@@ -570,7 +672,38 @@ services:
       networks:
         - backend
 
-### Redis ################################################
+  ### ClickHouse #############################################
+    clickhouse:
+      build:
+        context: ./clickhouse
+        args:
+          - CLICKHOUSE_VERSION=${CLICKHOUSE_VERSION}
+          - CLICKHOUSE_GOSU_VERSION=${CLICKHOUSE_GOSU_VERSION}
+      environment:
+        - CLICKHOUSE_USER=${CLICKHOUSE_USER}
+        - CLICKHOUSE_PASSWORD=${CLICKHOUSE_PASSWORD}
+      volumes:
+        - ${DATA_PATH_HOST}/clickhouse:/var/lib/clickhouse
+        - ${CLICKHOUSE_CUSTOM_CONFIG}:/etc/clickhouse-server/config.xml
+        - ${CLICKHOUSE_USERS_CUSTOM_CONFIG}:/etc/clickhouse-server/users.xml
+        - ${CLICKHOUSE_HOST_LOG_PATH}:/var/log/clickhouse
+        - ${CLICKHOUSE_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+      links:
+        - workspace
+      ports:
+        - "${CLICKHOUSE_HTTP_PORT}:8123"
+        - "${CLICKHOUSE_CLIENT_PORT}:9000"
+        - "${CLICKHOUSE_NATIVE_PORT}:9009"
+      ulimits:
+        nproc: 65535
+        nofile:
+          soft: 262144
+          hard: 262144
+      networks:
+#        - frontend
+        - backend
+
+  ### Redis ################################################
     redis:
       build: ./redis
       volumes:
@@ -585,6 +718,15 @@ services:
       build: ./redis-cluster
       ports:
         - "${REDIS_CLUSTER_PORT_RANGE}:7000-7005"
+      networks:
+        - backend
+### SSDB ################################################
+    ssdb:
+      build: ./ssdb
+      volumes:
+        - ${DATA_PATH_HOST}/ssdb:/data
+      ports:
+        - "${SSDB_PORT}:8888"
       networks:
         - backend
 
@@ -640,6 +782,20 @@ services:
       networks:
         - backend
 
+### SQS #############################################
+    sqs:
+      build: ./sqs
+      ports:
+        - "${SQS_NODE_HOST_PORT}:9324"
+        - "${SQS_MANAGEMENT_HTTP_HOST_PORT}:9325"
+      privileged: true
+      hostname: laradock-sqs
+      volumes:
+        - ${DATA_PATH_HOST}/sqs:/opt/custom
+      networks:
+        - frontend
+        - backend
+
 ### RabbitMQ #############################################
     rabbitmq:
       build: ./rabbitmq
@@ -648,15 +804,32 @@ services:
         - "${RABBITMQ_MANAGEMENT_HTTP_HOST_PORT}:15672"
         - "${RABBITMQ_MANAGEMENT_HTTPS_HOST_PORT}:15671"
       privileged: true
-      environment:
-        - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
-        - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
       hostname: laradock-rabbitmq
       volumes:
         - ${DATA_PATH_HOST}/rabbitmq:/var/lib/rabbitmq
+        - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+        - ./rabbitmq/management_agent.disable_metrics_collector.conf:/etc/rabbitmq/conf.d/management_agent.disable_metrics_collector.conf
       depends_on:
         - php-fpm
       networks:
+        - backend
+
+### Mercure #############################################
+    mercure:
+      build: ./mercure
+      ports:
+        - "${MERCURE_NODE_HOST_HTTP_PORT}:80"
+        - "${MERCURE_NODE_HOST_HTTPS_PORT}:443"
+      privileged: true
+      environment:
+        - MERCURE_PUBLISHER_JWT_KEY=${MERCURE_PUBLISHER_JWT_KEY}
+        - MERCURE_SUBSCRIBER_JWT_KEY=${MERCURE_SUBSCRIBER_JWT_KEY}
+        - DEBUG=${MERCURE_DEBUG}
+        - SERVER_NAME=${MERCURE_SERVER_NAME}
+        - MERCURE_EXTRA_DIRECTIVES=cors_allowed_origins *\npublish_allowed_origins http://localhost:${MERCURE_NODE_HOST_HTTP_PORT} https://localhost:${MERCURE_NODE_HOST_HTTP_PORT}
+      hostname: laradock-mercure
+      networks:
+        - frontend
         - backend
 
 ### Cassandra ############################################
@@ -759,6 +932,9 @@ services:
         - MYSQL_USER=${PMA_USER}
         - MYSQL_PASSWORD=${PMA_PASSWORD}
         - MYSQL_ROOT_PASSWORD=${PMA_ROOT_PASSWORD}
+        - MAX_EXECUTION_TIME=${PMA_MAX_EXECUTION_TIME}
+        - MEMORY_LIMIT=${PMA_MEMORY_LIMIT}
+        - UPLOAD_LIMIT=${PMA_UPLOAD_LIMIT}
       ports:
         - "${PMA_PORT}:80"
       depends_on:
@@ -773,6 +949,10 @@ services:
         context: ./adminer
         args:
           - INSTALL_MSSQL=${ADM_INSTALL_MSSQL}
+      environment:
+          - ADMINER_PLUGINS=${ADM_PLUGINS}
+          - ADMINER_DESIGN=${ADM_DESIGN}
+          - ADMINER_DEFAULT_SERVER=${ADM_DEFAULT_SERVER}
       ports:
         - "${ADM_PORT}:8080"
       depends_on:
@@ -797,6 +977,17 @@ services:
         - frontend
         - backend
 
+### MeiliSearch ##########################################
+    meilisearch:
+      image: getmeili/meilisearch:latest
+      volumes:
+        - ${DATA_PATH_HOST}/meilisearch:/var/lib/meilisearch
+      ports:
+        - "${MEILISEARCH_HOST_PORT}:7700"
+      networks:
+        - frontend
+        - backend
+
 ### ElasticSearch ########################################
     elasticsearch:
       build:
@@ -815,6 +1006,9 @@ services:
         memlock:
           soft: -1
           hard: -1
+        nofile:
+          soft: 65536
+          hard: 65536
       ports:
         - "${ELASTICSEARCH_HOST_HTTP_PORT}:9200"
         - "${ELASTICSEARCH_HOST_TRANSPORT_PORT}:9300"
@@ -859,6 +1053,18 @@ services:
         - frontend
         - backend
 
+### Dejavu ##############################################
+    dejavu:
+      build:
+        context: ./dejavu
+      ports:
+        - "${DEJAVU_HTTP_PORT}:1358"
+      depends_on:
+        - elasticsearch
+      networks:
+        - frontend
+        - backend
+
 ### Certbot #########################################
     certbot:
       build:
@@ -871,6 +1077,16 @@ services:
         - EMAIL="fake.email@gmail.com"
       networks:
         - frontend
+
+### MailCatcher ################################################
+    mailcatcher:
+      build: ./mailcatcher
+      ports:
+        - "1025:1025"
+        - "1080:1080"
+      networks:
+        - frontend
+        - backend
 
 ### Mailhog ################################################
     mailhog:
@@ -983,38 +1199,40 @@ services:
 
 ### Graylog #######################################
     graylog:
-        build: ./graylog
-        environment:
-          - GRAYLOG_PASSWORD_SECRET=${GRAYLOG_PASSWORD}
-          - GRAYLOG_ROOT_PASSWORD_SHA2=${GRAYLOG_SHA256_PASSWORD}
-          - GRAYLOG_HTTP_EXTERNAL_URI=http://127.0.0.1:${GRAYLOG_PORT}/
-        links:
-          - mongo
-          - elasticsearch
-        depends_on:
-          - mongo
-          - elasticsearch
-        ports:
-          # Graylog web interface and REST API
-          - ${GRAYLOG_PORT}:9000
-          # Syslog TCP
-          - ${GRAYLOG_SYSLOG_TCP_PORT}:514
-          # Syslog UDP
-          - ${GRAYLOG_SYSLOG_UDP_PORT}:514/udp
-          # GELF TCP
-          - ${GRAYLOG_GELF_TCP_PORT}:12201
-          # GELF UDP
-          - ${GRAYLOG_GELF_UDP_PORT}:12201/udp
-        user: graylog
-        volumes:
-          - ${DATA_PATH_HOST}/graylog:/usr/share/graylog/data
-        networks:
-          - backend
+      build: ./graylog
+      environment:
+        - GRAYLOG_PASSWORD_SECRET=${GRAYLOG_PASSWORD}
+        - GRAYLOG_ROOT_PASSWORD_SHA2=${GRAYLOG_SHA256_PASSWORD}
+        - GRAYLOG_HTTP_EXTERNAL_URI=http://127.0.0.1:${GRAYLOG_PORT}/
+      links:
+        - mongo
+        - elasticsearch
+      depends_on:
+        - mongo
+        - elasticsearch
+      ports:
+        # Graylog web interface and REST API
+        - ${GRAYLOG_PORT}:9000
+        # Syslog TCP
+        - ${GRAYLOG_SYSLOG_TCP_PORT}:514
+        # Syslog UDP
+        - ${GRAYLOG_SYSLOG_UDP_PORT}:514/udp
+        # GELF TCP
+        - ${GRAYLOG_GELF_TCP_PORT}:12201
+        # GELF UDP
+        - ${GRAYLOG_GELF_UDP_PORT}:12201/udp
+      user: graylog
+      volumes:
+        - ${DATA_PATH_HOST}/graylog:/usr/share/graylog/data
+      networks:
+        - backend
 
 ### Laravel Echo Server #######################################
     laravel-echo-server:
       build:
         context: ./laravel-echo-server
+        args:
+          - CHANGE_SOURCE=${CHANGE_SOURCE}
       volumes:
         - ./laravel-echo-server/laravel-echo-server.json:/app/laravel-echo-server.json:ro
       ports:
@@ -1225,6 +1443,7 @@ services:
       volumes:
         - ${DATA_PATH_HOST}/gitlab/runner:/etc/gitlab-runner
         - /var/run/docker.sock:/var/run/docker.sock:rw
+      restart: always
 
 ### JupyterHub #########################################
     jupyterhub:
@@ -1285,7 +1504,7 @@ services:
     docker-in-docker:
       image: docker:19.03-dind
       environment:
-        DOCKER_TLS_SAN: DNS:docker-in-docker      
+        DOCKER_TLS_SAN: DNS:docker-in-docker
       privileged: true
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
@@ -1297,11 +1516,13 @@ services:
 
 ### NetData ################################################
     netdata:
-      image: titpetric/netdata:latest
+      image: netdata/netdata:latest
       cap_add:
-      - SYS_PTRACE
+        - SYS_PTRACE
       volumes:
-      - /:/host:ro
+        - /proc:/host/proc:ro
+        - /sys:/host/sys:ro
+        - /var/run/docker.sock:/var/run/docker.sock:ro
       ports:
         - "${NETDATA_PORT}:19999"
       networks:
@@ -1351,6 +1572,18 @@ services:
         - ${DATA_PATH_HOST}/metabase-data:/metabase-data
       networks:
         - backend
+
+### Weaver (Athena PDF) #################################################
+    weaver:
+      image: arachnysdocker/athenapdf-service
+      ports:
+        - "8080:8080"
+      env_file:
+        - ./weaver/conf/sample.env
+      networks:
+        - backend
+      depends_on:
+        - workspace
 
 ### IDE-THEIA ################################################
     ide-theia:
@@ -1606,19 +1839,38 @@ services:
     traefik:
       build:
         context: ./traefik
-      command: --docker
       volumes:
         - /var/run/docker.sock:/var/run/docker.sock
+        - ./traefik/data:/data
+      command:
+        - "--api"
+        - "--providers.docker.exposedbydefault=false"
+        - "--accesslog.filepath=/data/access.log"
+        # entrypoints
+        - "--entrypoints.http.address=:${TRAEFIK_HOST_HTTP_PORT}"
+        - "--entrypoints.http.http.redirections.entrypoint.to=https"
+        - "--entrypoints.https.address=:${TRAEFIK_HOST_HTTPS_PORT}"
+        - "--entrypoints.traefik.address=:${TRAEFIK_DASHBOARD_PORT}"
+        # certificatesresolvers
+        - "--certificatesresolvers.letsencrypt.acme.email=${ACME_EMAIL}"
+        - "--certificatesresolvers.letsencrypt.acme.storage=/data/acme.json"
+        - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=http"
       ports:
-        - "${TRAEFIK_HOST_HTTP_PORT}:80"
-        - "${TRAEFIK_HOST_HTTPS_PORT}:443"
+        - "${TRAEFIK_HOST_HTTP_PORT}:${TRAEFIK_HOST_HTTP_PORT}"
+        - "${TRAEFIK_HOST_HTTPS_PORT}:${TRAEFIK_HOST_HTTPS_PORT}"
+        - "${TRAEFIK_DASHBOARD_PORT}:${TRAEFIK_DASHBOARD_PORT}"
       networks:
         - frontend
         - backend
       labels:
-        - traefik.backend=traefik
-        - traefik.frontend.rule=Host:monitor.localhost
-        - traefik.port=8080
+        - "traefik.enable=true"
+        - "traefik.http.routers.traefik.rule=Host(`${ACME_DOMAIN}`)"
+        - "traefik.http.routers.traefik.entrypoints=traefik"
+        - "traefik.http.routers.traefik.service=api@internal"
+        - "traefik.http.routers.traefik.middlewares=access-auth"
+        - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
+        - "traefik.http.middlewares.access-auth.basicauth.realm=Login Required"
+        - "traefik.http.middlewares.access-auth.basicauth.users=${TRAEFIK_DASHBOARD_USER}"
 
 ### MOSQUITTO Broker #########################################
     mosquitto:
@@ -1696,6 +1948,24 @@ services:
       volumes:
         - ${DATA_PATH_HOST}/Confluence:/var/atlassian/application-data
 
+### SWAGGER EDITOR ############################################
+    swagger-editor:
+      build: ./swagger-editor
+      ports:
+        - ${SWAGGER_EDITOR_PORT}:8080
+      networks:
+        - backend
+
+### SWAGGER UI ################################################
+    swagger-ui:
+      build: ./swagger-ui
+      environment:
+        - API_URL=${SWAGGER_API_URL}
+      ports:
+        - ${SWAGGER_UI_PORT}:8080
+      networks:
+        - backend
+
 ### tomcat ####################################################
     tomcat:
       container_name: tomcat
@@ -1710,3 +1980,64 @@ services:
         - ${DATA_PATH_HOST}/tomcat/logs:/usr/local/tomcat/logs
       # restart: always
 
+### react #####################################################
+    react:
+      build:
+        context: ./react
+      ports:
+        - "3000:3000"
+      container_name: react
+      stdin_open: true
+      environment:
+        - CHOKIDAR_USEPOLLING=true
+      networks:
+          - frontend
+          - backend
+      volumes:
+        - ./react:/usr/src/app/react
+        - /usr/src/app/react/node_modules
+
+### kafka ####################################################
+    kafka:
+      image: wurstmeister/kafka
+      ports:
+        - "9092:9092"
+      environment:
+        KAFKA_BROKER_ID: 1
+        KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
+        KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://127.0.0.1:9092
+        KAFKA_MESSAGE_MAX_BYTES: 2000000
+        KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      volumes:
+        - ${DATA_PATH_HOST}/kafka:/kafka
+        - /var/run/docker.sock:/var/run/docker.sock
+      networks:
+        - backend
+
+### kafka-manager ###########################################
+    kafka-manager:
+      image: sheepkiller/kafka-manager
+      ports:
+        - 9020:9000
+      environment:
+        ZK_HOSTS: zookeeper:2181
+      networks:
+        - backend
+
+
+### tarantool ###########################################
+    tarantool:
+      build: ./tarantool
+      volumes:
+        - ${DATA_PATH_HOST}/tarantool:/var/lib/tarantool
+        - ./tarantool/lua:/opt/tarantool
+      ports:
+        - ${TARANTOOL_PORT}:3301
+      networks:
+        - backend
+    tarantool-admin:
+      build: ./tarantool-admin
+      ports:
+        - ${TARANTOOL_ADMIN_PORT}:80
+      networks:
+        - backend
