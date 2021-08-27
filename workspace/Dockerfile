@@ -1043,34 +1043,34 @@ RUN set -eux; \
   if [ ${INSTALL_MSSQL} = true ]; then \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
       apt-get install -yqq php5.6-sybase freetds-bin freetds-common libsybdb5 \
-      && php -m | grep -q 'mssql' \
-      && php -m | grep -q 'pdo_dblib' \
+      && php -m | grep -oiE '^mssql$' \
+      && php -m | grep -oiE '^pdo_dblib$' \
     ;else \
       ###########################################################################
       #  The following steps were taken from
       #  https://github.com/Microsoft/msphpsql/wiki/Install-and-configuration
       ###########################################################################
       curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
-      curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
+      curl https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
       apt-get update -yqq && \
       ACCEPT_EULA=Y apt-get install -yqq msodbcsql17 mssql-tools unixodbc unixodbc-dev libgss3 odbcinst locales && \
       ln -sfn /opt/mssql-tools/bin/sqlcmd /usr/bin/sqlcmd && \
       ln -sfn /opt/mssql-tools/bin/bcp /usr/bin/bcp && \
       echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
-      locale-gen && \
-      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "2" ]; then \
-        pecl install pdo_sqlsrv-5.8.1 sqlsrv-5.8.1 \
-      ;elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "1" ]; then \
-        pecl install pdo_sqlsrv-5.6.1 sqlsrv-5.6.1 \
-      ;elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+      locale-gen \
+      && if [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70000" ]; then \
         pecl install pdo_sqlsrv-5.3.0 sqlsrv-5.3.0 \
+      ;elif [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70100" ]; then \
+        pecl install pdo_sqlsrv-5.6.1 sqlsrv-5.6.1 \
+      ;elif [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70200" ]; then \
+        pecl install pdo_sqlsrv-5.8.1 sqlsrv-5.8.1 \
       ;else \
         pecl install pdo_sqlsrv sqlsrv \
       ;fi && \
-      echo "extension=sqlsrv.so"     > /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-sqlsrv.ini && \
       echo "extension=pdo_sqlsrv.so" > /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-pdo_sqlsrv.ini && \
-      php -m | grep -q 'sqlsrv' && \
-      php -m | grep -q 'pdo_sqlsrv' \
+      echo "extension=sqlsrv.so"     > /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-sqlsrv.ini && \
+      php -m | grep -oiE '^pdo_sqlsrv$' && \
+      php -m | grep -oiE '^sqlsrv$' \
     ;fi \
   ;fi
 
