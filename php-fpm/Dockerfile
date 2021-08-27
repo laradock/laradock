@@ -31,6 +31,7 @@ RUN if [ ${CHANGE_SOURCE} = true ]; then \
     sed -i 's/deb.debian.org/mirrors.aliyun.com/' /etc/apt/sources.list && \
     sed -i 's/security.debian.org/mirrors.aliyun.com/' /etc/apt/sources.list && \
     sed -i 's/security-cdn.debian.org/mirrors.aliyun.com/' /etc/apt/sources.list \
+    sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list; \
 ;fi
 
 # always run apt update when start and after add new source list, then clean up at end.
