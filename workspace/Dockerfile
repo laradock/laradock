@@ -1285,6 +1285,14 @@ RUN if [ ${INSTALL_DUSK_DEPS} = true ]; then \
   && unzip chromedriver_linux64.zip \
   && mv chromedriver /usr/local/bin/ \
   && rm chromedriver_linux64.zip \
+  && mkdir -p /tmp/noto && \
+  cd /tmp/noto && \
+  wget https://noto-website-2.storage.googleapis.com/pkgs/NotoSansCJKtc-hinted.zip && \
+  unzip NotoSansCJKtc-hinted.zip && \
+  mkdir -p /usr/share/fonts/noto && \
+  mv *.otf /usr/share/fonts/noto && \
+  chmod -R 755 /usr/share/fonts/noto && \
+  fc-cache -fv \
 ;fi
 
 ###########################################################################
@@ -1333,7 +1341,11 @@ RUN set -eux; \
   # ping:
   ###########################################################################
   if [ ${INSTALL_PING} = true ]; then \
-    apt-get -yqq install inetutils-ping; \
+      apt-get update -yqq && \
+      apt-get -y install inetutils-ping && \
+      apt update && \
+      apt -y install iputils-ping && \
+      apt -y install net-tools; \
   fi; \
   ###########################################################################
   # sshpass:

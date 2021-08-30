@@ -1,0 +1,3 @@
+* * * * * laradock /usr/bin/php /var/www/fanswoo-framework/ff schedule:run >> /dev/null 2>&1
+
+# crontab

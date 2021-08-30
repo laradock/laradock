@@ -1,0 +1,122 @@
+version: '3'
+
+networks:
+  frontend:
+    driver: ${NETWORKS_DRIVER}
+  backend:
+    driver: ${NETWORKS_DRIVER}
+
+volumes:
+  mysql:
+    driver: ${VOLUMES_DRIVER}
+  phpmyadmin:
+    driver: ${VOLUMES_DRIVER}
+
+services:
+
+### Workspace Utilities ##################################
+    workspace:
+      image: ghcr.io/fanswoo/workspace:latest
+      volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+        - ./php-worker/supervisord.d:/etc/supervisord.d
+        - /dev/shm:/dev/shm
+        - /etc/localtime:/etc/localtime:ro
+        - ${SSH_PATH}:/home/laradock/.ssh
+      extra_hosts:
+        - "dockerhost:${DOCKER_HOST_IP}"
+      ports:
+        - "${WORKSPACE_SSH_PORT}:22"
+        - "${WORKSPACE_BROWSERSYNC_HOST_PORT}:3000"
+        - "${WORKSPACE_BROWSERSYNC_UI_HOST_PORT}:3001"
+        - "${WORKSPACE_VUE_CLI_SERVE_HOST_PORT}:8080"
+        - "${WORKSPACE_VUE_CLI_UI_HOST_PORT}:8000"
+        - "${WORKSPACE_ANGULAR_CLI_SERVE_HOST_PORT}:4200"
+      tty: true
+      environment:
+        - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
+        - DOCKER_TLS_VERIFY=1
+        - DOCKER_TLS_CERTDIR=/certs
+        - DOCKER_CERT_PATH=/certs/client
+      networks:
+        - frontend
+        - backend
+
+### PHP-FPM ##############################################
+    php-fpm:
+      image: ghcr.io/fanswoo/php-fpm:latest
+      volumes:
+        - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+        - ./php-fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
+        - /etc/localtime:/etc/localtime:ro
+        - /dev/shm:/dev/shm
+      expose:
+        - "9000"
+      extra_hosts:
+        - "dockerhost:${DOCKER_HOST_IP}"
+      environment:
+        - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
+        - DOCKER_TLS_VERIFY=1
+        - DOCKER_TLS_CERTDIR=/certs
+        - DOCKER_CERT_PATH=/certs/client
+        - FAKETIME=${PHP_FPM_FAKETIME}
+      networks:
+        - backend
+
+### NGINX Server #########################################
+    nginx:
+      image: ghcr.io/fanswoo/nginx:latest
+      volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+        - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
+        - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
+        - ${NGINX_SSL_PATH}:/etc/nginx/ssl
+        - /etc/localtime:/etc/localtime:ro
+        - /dev/shm:/dev/shm
+      ports:
+        - "${NGINX_HOST_HTTP_PORT}:80"
+        - "${NGINX_HOST_HTTPS_PORT}:443"
+        - "${VARNISH_BACKEND_PORT}:81"
+      depends_on:
+        - php-fpm
+      networks:
+        - frontend
+        - backend
+
+### MySQL ################################################
+    mysql:
+      image: ghcr.io/fanswoo/mysql:latest
+      environment:
+        - MYSQL_DATABASE=${MYSQL_DATABASE}
+        - MYSQL_USER=${MYSQL_USER}
+        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+        - TZ=${WORKSPACE_TIMEZONE}
+      volumes:
+        - ${DATA_PATH_HOST}/mysql:/var/lib/mysql
+        - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+        - /etc/localtime:/etc/localtime:ro
+      ports:
+        - "${MYSQL_PORT}:3306"
+      networks:
+        - backend
+
+### phpMyAdmin ###########################################
+    phpmyadmin:
+      image: ghcr.io/fanswoo/phpmyadmin:latest
+      environment:
+        - PMA_ARBITRARY=1
+        - MYSQL_USER=${PMA_USER}
+        - MYSQL_PASSWORD=${PMA_PASSWORD}
+        - MYSQL_ROOT_PASSWORD=${PMA_ROOT_PASSWORD}
+        - UPLOAD_LIMIT=200M
+      ports:
+        - "${PMA_PORT}:80"
+      volumes:
+        - /etc/localtime:/etc/localtime:ro
+      depends_on:
+        - "${PMA_DB_ENGINE}"
+      networks:
+        - frontend
+        - backend

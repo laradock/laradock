@@ -1,0 +1,20 @@
+location /subsite/ {
+    index  index.html index.htm index.php;
+    if (!-e $request_filename){
+        rewrite ^/subsite/(.*)$ /subsite/index.php?s=$1 last;
+    }
+}
+
+location /subsite/public/ {
+    index  index.html index.htm index.php;
+    if (!-e $request_filename){
+        rewrite ^/subsite/public/(.*)$ /subsite/public/index.php?s=$1 last;
+    }
+}
+
+location ~* ^/ligo/public/pic/[\S]*\.(?:jpg|jpeg|gif|png)$ {
+    expires 1M;
+    access_log off;
+    add_header Cache-Control "public";
+    try_files $uri /ligo/public/img/product/blank-w600h600.jpg;
+}
