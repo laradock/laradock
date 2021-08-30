@@ -12,10 +12,6 @@ server {
     server_name localhost;
     root /var/www;
     index index.php index.html index.htm;
-    
-    # 設定 proxy server IP，供子伺服器解析真實 IP
-    set_real_ip_from 10.142.0.4;
-    real_ip_header X-Real-IP;
 
     include /etc/nginx/sites-available/subsites/*.conf;
 
