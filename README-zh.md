@@ -78,8 +78,6 @@ cp .env.example .env
 ```
 # 开启ubuntu国内源
 CHANGE_SOURCE=true
-# 默认是阿里云，可选项有aliyun|zju|tsinghua|163|ustc
-UBUNTU_SOURCE=aliyun
 # composer镜像源
 WORKSPACE_COMPOSER_REPO_PACKAGIST=https://mirrors.aliyun.com/composer/
 # nvm镜像源
