@@ -11,6 +11,7 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   phpmyadmin:
     driver: ${VOLUMES_DRIVER}
+  framework-template:
 
 services:
 
@@ -23,6 +24,9 @@ services:
         - /dev/shm:/dev/shm
         - /etc/localtime:/etc/localtime:ro
         - ${SSH_PATH}:/home/laradock/.ssh
+        # framework-template volume
+        - framework-template:/var/www/framework-template
+        - ${APP_CODE_PATH_HOST}/framework-template/.env:/var/www/framework-template/.env
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       ports:
@@ -50,6 +54,9 @@ services:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         - /etc/localtime:/etc/localtime:ro
         - /dev/shm:/dev/shm
+        # framework-template volume
+        - framework-template:/var/www/framework-template
+        - ${APP_CODE_PATH_HOST}/framework-template/.env:/var/www/framework-template/.env
       expose:
         - "9000"
       extra_hosts:
@@ -73,6 +80,9 @@ services:
         - ${NGINX_SSL_PATH}:/etc/nginx/ssl
         - /etc/localtime:/etc/localtime:ro
         - /dev/shm:/dev/shm
+        # framework-template volume
+        - framework-template:/var/www/framework-template
+        - ${APP_CODE_PATH_HOST}/framework-template/.env:/var/www/framework-template/.env
       ports:
         - "${NGINX_HOST_HTTP_PORT}:80"
         - "${NGINX_HOST_HTTPS_PORT}:443"
@@ -119,3 +129,10 @@ services:
       networks:
         - frontend
         - backend
+
+### framework-template Server #########################################
+    framework-template:
+      image: ghcr.io/sacriley/framework-template:dev
+      volumes:
+         - framework-template:/var/www
+      tty: true
