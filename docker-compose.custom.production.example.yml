@@ -132,7 +132,7 @@ services:
 
 ### framework-template Server #########################################
     framework-template:
-      image: ghcr.io/sacriley/framework-template:dev
+      image: ghcr.io/fanswoo/framework-template:latest
+      tty: true
       volumes:
          - framework-template:/var/www
-      tty: true
