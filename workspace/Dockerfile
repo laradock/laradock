@@ -201,7 +201,7 @@ RUN echo "" >> ~/.bashrc && \
 
 USER root
 
-COPY ./crontab /etc/cron.d
+COPY ./crontab/laradock.example /etc/cron.d/laradock
 
 RUN chmod -R 644 /etc/cron.d
 

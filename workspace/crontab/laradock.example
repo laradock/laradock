@@ -1,0 +1,4 @@
+* * * * * laradock /usr/bin/php /var/www/ligo/ff schedule:run >> /dev/null 2>&1
+* * * * * laradock /usr/bin/php /var/www/fanswork/ff schedule:run >> /dev/null 2>&1
+* * * * * laradock /usr/bin/php /var/www/fanswoo/ff schedule:run >> /dev/null 2>&1
+* * * * * laradock /usr/bin/php /var/www/fanswoo-framework/ff schedule:run >> /dev/null 2>&1
