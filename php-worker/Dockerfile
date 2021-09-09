@@ -56,6 +56,31 @@ RUN if [ ${INSTALL_BZ2} = true ]; then \
 fi
 
 ###########################################################################
+# MSSQL:
+###########################################################################
+
+ARG INSTALL_MSSQL=false
+
+RUN if [ ${INSTALL_MSSQL} = true ]; then \
+  apk --update add unixodbc-dev && \
+  # Install ODBC Driver
+  # Download the desired package(s)
+  curl -o /tmp/msodbcsql.apk https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/msodbcsql17_17.7.2.1-1_amd64.apk && \
+  curl -o /tmp/mssql-tools.apk https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/mssql-tools_17.7.1.1-1_amd64.apk && \
+
+  # Install the package(s)
+  apk add --allow-untrusted /tmp/msodbcsql.apk && \
+  apk add --allow-untrusted /tmp/mssql-tools.apk && \
+
+  # Clean up
+  rm -f /tmp/*.apk && \
+
+  # Install && enable PHP Extension
+  pecl install sqlsrv pdo_sqlsrv && \
+  docker-php-ext-enable sqlsrv pdo_sqlsrv; \
+fi
+
+###########################################################################
 # PHP GnuPG:
 ###########################################################################
 
