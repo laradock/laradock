@@ -1,0 +1,84 @@
+#!/bin/bash
+
+command=$1
+params=${@:2}
+cur_dir_name=${PWD##*/}
+project_dir="/var/www/$cur_dir_name"
+script=$(readlink -f "$0")
+script_dir=$(dirname $script)
+
+node_init="source \"\$NVM_DIR/nvm.sh\" && export PATH=\$PATH:/home/laradock/.nvm/versions/node/\$(echo \"nvm current\")/bin"
+
+help_text="Laradock CLI v0.1
+The easiest way to use tools inside 'workspace' container.
+
+Tools available:
+    artisan
+    composer
+    node
+    npm
+    nvm
+    gulp
+    bower
+    install (makes this script global)
+    init (download latest laradock release into current project)
+    run (runs any available system command)
+
+Examples (do it inside project's directory):
+    ldk artisan make:model MyNewModel
+    ldk composer install
+    ldk run php -v
+"
+
+
+case $command in
+    install)
+        echo "Installing..."
+        if [ "$EUID" -ne 0 ]
+        then
+            echo "Failed! Be shure that you run install with 'sudo'"
+            exit 1
+        else
+            if [ -f /usr/bin/ldk ]
+            then
+                rm /usr/bin/ldk
+            fi
+            cp "$script_dir/ldk" /usr/bin/ldk
+            echo "Success! Laradock cli starter installed."
+            echo "Now you can go in project directory and run 'ldk artisan'"
+            exit 0
+        fi ;;
+
+    run)
+        tail="$params" ;;
+
+    artisan)
+        tail="cd ${project_dir} && ./artisan $params" ;;
+
+    composer)
+        tail="${*} --working-dir ${project_dir}" ;;
+
+    node)
+        tail="$node_init && node" ;;
+
+    npm)
+        tail="$node_init && npm --prefix=${project_dir} $params" ;;
+
+    nvm)
+        tail="$node_init && nvm $params" ;;
+
+    gulp)
+        tail="$node_init && gulp $params --cwd ${project_dir}" ;;
+
+    bower)
+        tail="$node_init && bower $params --config.cwd=${project_dir}" ;;
+
+    *)
+        echo "$help_text" ;;
+
+esac
+
+if [ "$tail" != "" ]
+then
+    cd ${script_dir} && docker-compose exec --user=laradock workspace /bin/bash -c "$tail"
+fi
