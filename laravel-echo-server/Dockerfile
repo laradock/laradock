@@ -16,8 +16,8 @@ RUN if [ ${CHANGE_SOURCE} = true ]; then \
 ;fi
 
 RUN apk add --update \
-    python \
-    python-dev \
+    python3 \
+    python3-dev \
     py-pip \
     build-base
 
