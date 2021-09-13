@@ -28,6 +28,19 @@ COMPOSE_PROJECT_NAME=realtyless
 bash ./scripts/build
 ```
 
+5a. Make sure to modify your Host file.
+```
+IP Address  Domain Name
+127.0.0.1   some-website.local
+```
+
+5b. For the database, upate the website `.env` to match the Laradock [.env](.env).
+```
+DB_DATABASE=default
+DB_USERNAME=default
+DB_PASSWORD=secret
+```
+
 6. Start environment with start script.
 ```bash
 bash ./start.sh
