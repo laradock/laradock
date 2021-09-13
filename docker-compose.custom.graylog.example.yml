@@ -361,3 +361,13 @@ services:
       networks:
         - frontend
         - backend
+        
+### Redis ################################################
+    redis:
+      image: ghcr.io/fanswoo/redis:latest
+      volumes:
+        - ${DATA_PATH_HOST}/redis:/data
+      ports:
+        - "${REDIS_PORT}:6379"
+      networks:
+        - backend

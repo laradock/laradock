@@ -29,6 +29,7 @@ services:
         # framework-template volume
         - framework-template:${APP_CODE_PATH_CONTAINER}/framework-template
         - ${APP_CODE_PATH_HOST}/framework-template/.env:${APP_CODE_PATH_CONTAINER}/framework-template/.env
+        - ${APP_CODE_PATH_HOST}/framework-template/storage/framework/cache:${APP_CODE_PATH_CONTAINER}/framework-template/storage/
         - ${APP_CODE_PATH_HOST}/framework-template/public/pic:${APP_CODE_PATH_CONTAINER}/framework-template/public/pic
         - ${APP_CODE_PATH_HOST}/framework-template/public/file:${APP_CODE_PATH_CONTAINER}/framework-template/public/file
       extra_hosts:
@@ -61,6 +62,7 @@ services:
         # framework-template volume
         - framework-template:${APP_CODE_PATH_CONTAINER}/framework-template
         - ${APP_CODE_PATH_HOST}/framework-template/.env:${APP_CODE_PATH_CONTAINER}/framework-template/.env
+        - ${APP_CODE_PATH_HOST}/framework-template/storage/framework/cache:${APP_CODE_PATH_CONTAINER}/framework-template/storage/
         - ${APP_CODE_PATH_HOST}/framework-template/public/pic:${APP_CODE_PATH_CONTAINER}/framework-template/public/pic
         - ${APP_CODE_PATH_HOST}/framework-template/public/file:${APP_CODE_PATH_CONTAINER}/framework-template/public/file
       expose:
@@ -89,6 +91,7 @@ services:
         # framework-template volume
         - framework-template:${APP_CODE_PATH_CONTAINER}/framework-template
         - ${APP_CODE_PATH_HOST}/framework-template/.env:${APP_CODE_PATH_CONTAINER}/framework-template/.env
+        - ${APP_CODE_PATH_HOST}/framework-template/storage/framework/cache:${APP_CODE_PATH_CONTAINER}/framework-template/storage/
         - ${APP_CODE_PATH_HOST}/framework-template/public/pic:${APP_CODE_PATH_CONTAINER}/framework-template/public/pic
         - ${APP_CODE_PATH_HOST}/framework-template/public/file:${APP_CODE_PATH_CONTAINER}/framework-template/public/file
       ports:
@@ -136,6 +139,16 @@ services:
         - "${PMA_DB_ENGINE}"
       networks:
         - frontend
+        - backend
+        
+### Redis ################################################
+    redis:
+      image: ghcr.io/fanswoo/redis:latest
+      volumes:
+        - ${DATA_PATH_HOST}/redis:/data
+      ports:
+        - "${REDIS_PORT}:6379"
+      networks:
         - backend
 
 ### framework-template Server #########################################
