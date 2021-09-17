@@ -1,0 +1,39 @@
+name: Build Deploy Docs
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '.github/workflows/build-deploy-docs.yml'
+      - 'DOCUMENTATION/**'
+
+jobs:
+  build-deploy-docs:
+    if: github.repository == 'laradock/laradock'
+    runs-on: ubuntu-20.04
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    defaults:
+      run:
+        working-directory: ./DOCUMENTATION
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v2
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.55.0'
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+      - name: Build Hugo Site
+        run: hugo --minify
+
+      - name: Deploy Hugo Site to Github Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./docs

@@ -28,9 +28,9 @@ ENV DEBIAN_FRONTEND noninteractive
 ARG CHANGE_SOURCE=false
 RUN if [ ${CHANGE_SOURCE} = true ]; then \
     # Change application source from deb.debian.org to aliyun source
-    sed -i 's/deb.debian.org/mirrors.aliyun.com/' /etc/apt/sources.list && \
-    sed -i 's/security.debian.org/mirrors.aliyun.com/' /etc/apt/sources.list && \
-    sed -i 's/security-cdn.debian.org/mirrors.aliyun.com/' /etc/apt/sources.list \
+    sed -i 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/' /etc/apt/sources.list && \
+    sed -i 's/security.debian.org/mirrors.tuna.tsinghua.edu.cn/' /etc/apt/sources.list && \
+    sed -i 's/security-cdn.debian.org/mirrors.tuna.tsinghua.edu.cn/' /etc/apt/sources.list \
 ;fi
 
 # always run apt update when start and after add new source list, then clean up at end.
@@ -706,33 +706,33 @@ RUN set -eux; \
       apt-get -yqq install freetds-dev libsybdb5 \
       && ln -s /usr/lib/x86_64-linux-gnu/libsybdb.so /usr/lib/libsybdb.so \
       && docker-php-ext-install mssql pdo_dblib \
-      && php -m | grep -q 'mssql' \
-      && php -m | grep -q 'pdo_dblib' \
+      && php -m | grep -oiE '^mssql$' \
+      && php -m | grep -oiE '^pdo_dblib$' \
     ;else \
       ###########################################################################
       # Ref from https://github.com/Microsoft/msphpsql/wiki/Dockerfile-for-adding-pdo_sqlsrv-and-sqlsrv-to-official-php-image
       ###########################################################################
       # Add Microsoft repo for Microsoft ODBC Driver 13 for Linux
-      apt-get install -yqq apt-transport-https gnupg \
+      apt-get install -yqq apt-transport-https gnupg lsb-release \
       && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-      && curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+      && curl https://packages.microsoft.com/config/debian/$(lsb_release -rs)/prod.list > /etc/apt/sources.list.d/mssql-release.list \
       && apt-get update -yqq \
       && ACCEPT_EULA=Y apt-get install -yqq unixodbc unixodbc-dev libgss3 odbcinst msodbcsql17 locales \
       && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
       && ln -sfn /etc/locale.alias /usr/share/locale/locale.alias \
       && locale-gen \
-      && if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "2" ]; then \
-        pecl install pdo_sqlsrv-5.8.1 sqlsrv-5.8.1 \
-      ;elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "1" ]; then \
-        pecl install pdo_sqlsrv-5.6.1 sqlsrv-5.6.1 \
-      ;elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+      && if [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70000" ]; then \
         pecl install pdo_sqlsrv-5.3.0 sqlsrv-5.3.0 \
+      ;elif [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70100" ]; then \
+        pecl install pdo_sqlsrv-5.6.1 sqlsrv-5.6.1 \
+      ;elif [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70200" ]; then \
+        pecl install pdo_sqlsrv-5.8.1 sqlsrv-5.8.1 \
       ;else \
         pecl install pdo_sqlsrv sqlsrv \
       ;fi \
       && docker-php-ext-enable pdo_sqlsrv sqlsrv \
-      && php -m | grep -q 'pdo_sqlsrv' \
-      && php -m | grep -q 'sqlsrv' \
+      && php -m | grep -oiE '^pdo_sqlsrv$' \
+      && php -m | grep -oiE '^sqlsrv$' \
     ;fi \
   ;fi
 
@@ -787,7 +787,9 @@ RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
 ARG INSTALL_SMB=false
 
 RUN if [ ${INSTALL_SMB} = true ]; then \
-    apt-get install -yqq smbclient php-smbclient coreutils \
+    apt-get install    apt-get install -yqq smbclient libsmbclient-dev coreutils && \
+    pecl install smbclient && \
+    docker-php-ext-enable smbclient \
 ;fi
 
 ###########################################################################
@@ -990,19 +992,17 @@ ARG INSTALL_AUDIOWAVEFORM=false
 
 RUN if [ ${INSTALL_AUDIOWAVEFORM} = true ]; then \
    apt-get -y install wget make cmake gcc g++ libmad0-dev libid3tag0-dev libsndfile1-dev libgd-dev libboost-filesystem-dev libboost-program-options-dev libboost-regex-dev \
+   && cd /tmp \
    && git clone https://github.com/bbc/audiowaveform.git \
    && cd audiowaveform \
-   && wget https://github.com/google/googletest/archive/release-1.10.0.tar.gz \
-   && tar xzf release-1.10.0.tar.gz \
-   && ln -s googletest-release-1.10.0/googletest googletest \
-   && ln -s googletest-release-1.10.0/googlemock googlemock \
+   && git clone --depth=1 https://github.com/google/googletest.git -b release-1.11.0 \
    && mkdir build \
    && cd build \
    && cmake .. \
    && make \
    && make install \
 ;fi
-
+ 
 
 #####################################
 # wkhtmltopdf:
@@ -1132,11 +1132,38 @@ RUN if [ ${NEW_RELIC} = true ]; then \
   /tmp/newrelic-php5-*/newrelic-install install && \
   rm -rf /tmp/newrelic-php5-* /tmp/nrinstall* && \
   sed -i \
-  -e 's/"REPLACE_WITH_REAL_KEY"/"${NEW_RELIC_KEY}"/' \
-  -e 's/newrelic.appname = "PHP Application"/newrelic.appname = "${NEW_RELIC_APP_NAME}"/' \
+  -e 's/"REPLACE_WITH_REAL_KEY"/"'${NEW_RELIC_KEY}'"/' \
+  -e 's/newrelic.appname = "PHP Application"/newrelic.appname = "'${NEW_RELIC_APP_NAME}'"/' \
   -e 's/;newrelic.daemon.app_connect_timeout =.*/newrelic.daemon.app_connect_timeout=15s/' \
   -e 's/;newrelic.daemon.start_timeout =.*/newrelic.daemon.start_timeout=5s/' \
   /usr/local/etc/php/conf.d/newrelic.ini \
+;fi
+
+###########################################################################
+# PHP SSDB:
+###########################################################################
+
+USER root
+
+ARG INSTALL_SSDB=false
+
+RUN set -xe; \
+    if [ ${INSTALL_SSDB} = true ] && [ $(php -r "echo PHP_MAJOR_VERSION;") != "8" ]; then \
+    apt-get -y install sudo wget && \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
+      curl -L -o /tmp/ssdb-client-php.tar.gz https://github.com/jonnywang/phpssdb/archive/php7.tar.gz; \
+    else \
+      curl -L -o /tmp/ssdb-client-php.tar.gz https://github.com/jonnywang/phpssdb/archive/master.tar.gz; \
+    fi \
+    && mkdir -p /tmp/ssdb-client-php \
+    && tar -C /tmp/ssdb-client-php -zxvf /tmp/ssdb-client-php.tar.gz --strip 1 \
+    && cd /tmp/ssdb-client-php \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && rm /tmp/ssdb-client-php.tar.gz \
+    && docker-php-ext-enable ssdb \
 ;fi
 ###########################################################################
 # Downgrade Openssl:
