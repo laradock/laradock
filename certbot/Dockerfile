@@ -1,6 +1,7 @@
 FROM phusion/baseimage:bionic-1.0.0
 
-LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
+LABEL maintainer="Nyongesa Ignatius <ignatius.freelancer@gmail.com>"
+LABEL website="Bytedots Technologies <https://bytedots.com>"
 
 COPY run-certbot.sh /root/certbot/run-certbot.sh
 
