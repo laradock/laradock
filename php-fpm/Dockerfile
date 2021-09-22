@@ -1031,6 +1031,19 @@ RUN if [ ${INSTALL_WKHTMLTOPDF} = true ]; then \
     && apt -f install \
 ;fi
 
+#####################################
+# trader:
+#####################################
+
+USER root
+
+ARG INSTALL_TRADER=false
+
+RUN if [ ${INSTALL_TRADER} = true ]; then \
+    pecl install trader \
+    && echo "extension=trader.so" >> $PHP_INI_DIR/conf.d/trader.ini \
+;fi
+
 ###########################################################################
 # Mailparse extension:
 ###########################################################################

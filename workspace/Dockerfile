@@ -1670,6 +1670,21 @@ RUN set -xe; \
     && rm /tmp/ssdb-client-php.tar.gz \
     && docker-php-ext-enable ssdb \
 ;fi
+
+#####################################
+# trader:
+#####################################
+
+USER root
+
+ARG INSTALL_TRADER=false
+
+RUN if [ ${INSTALL_TRADER} = true ]; then \
+    pecl install trader \
+    && echo "extension=trader.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/trader.ini \
+    && ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/trader.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-trader.ini \
+;fi
+
 #
 #--------------------------------------------------------------------------
 # Final Touch
