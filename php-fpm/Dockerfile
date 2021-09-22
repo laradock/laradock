@@ -789,7 +789,7 @@ RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
 ARG INSTALL_SMB=false
 
 RUN if [ ${INSTALL_SMB} = true ]; then \
-    apt-get install    apt-get install -yqq smbclient libsmbclient-dev coreutils && \
+    apt-get install -yqq smbclient libsmbclient-dev coreutils && \
     pecl install smbclient && \
     docker-php-ext-enable smbclient \
 ;fi
