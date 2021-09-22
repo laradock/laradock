@@ -18,7 +18,7 @@ RUN if [ ${CHANGE_SOURCE} = true ]; then \
 RUN apk add --update \
     python3 \
     python3-dev \
-    py-pip \
+    py3-pip \
     build-base
 
 RUN npm install
