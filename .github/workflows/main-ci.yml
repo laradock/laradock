@@ -43,6 +43,7 @@ jobs:
           sed -i -- 's/V8JS=true/V8JS=false/g' .env
           sed -i -- 's/AUDIOWAVEFORM=true/AUDIOWAVEFORM=false/g' .env
           sed -i -- 's/SSDB=true/SSDB=false/g' .env
+          sed -i -- 's/ENCHANT=true/ENCHANT=false/g' .env
           docker-compose build ${{ matrix.service }}
           docker-compose up -d --no-deps -- ${{ matrix.service }}
           docker-compose exec -T -- ${{ matrix.service }} php -m
