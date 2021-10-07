@@ -357,7 +357,7 @@ ARG INSTALL_MONGO=false
 RUN if [ ${INSTALL_MONGO} = true ]; then \
     # Install the mongodb extension
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-      pecl install mongo && \
+      pecl install mongo; \
       docker-php-ext-enable mongo; \
       php -m | grep -oiE '^mongo$'; \
     else \
@@ -366,7 +366,7 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
       else \
         pecl install mongodb; \
       fi; \
-      docker-php-ext-enable mongodb \
+      docker-php-ext-enable mongodb; \
       php -m | grep -oiE '^mongodb$'; \
     fi; \
 fi
