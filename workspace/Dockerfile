@@ -659,6 +659,7 @@ RUN if [ ${INSTALL_IONCUBE} = true ]; then \
       && echo "zend_extension=ioncube_loader.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/ioncube.ini \
       && ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/ioncube.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/0ioncube.ini \
       && rm -rf /tmp/ioncube* \
+      && php -m | grep -oiE '^ionCube Loader$' \
     ;fi \
 ;fi
 
