@@ -1,9 +1,0 @@
-# Docs: https://caddyserver.com/docs/caddyfile
-laradock.test {
-    root * /var/www/public
-    php_fastcgi php-fpm:9000
-    file_server
-
-    encode gzip
-    tls internal
-}

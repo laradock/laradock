@@ -1,8 +1,0 @@
-[program:laravel-horizon]
-process_name=%(program_name)s_%(process_num)02d
-user=laradock
-command=php /var/www/artisan horizon
-autostart=true
-autorestart=true
-redirect_stderr=true
-stdout_logfile=/var/www/storage/logs/horizon.log
