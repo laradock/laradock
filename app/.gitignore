@@ -1,0 +1,26 @@
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+# .env
+.env.backup
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+.phpunit.result.cache
+composer.lock
+.env.save
+/public/uploads
+# /public/permissions
+*.DS_Store
+/public/vendor
+.arcconfig
+.gitignore.save
+package-lock.json
+composer.lock
+
+.env.example
+.env.local
