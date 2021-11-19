@@ -54,6 +54,8 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   react:
     driver: ${VOLUMES_DRIVER}
+  filebeat:
+    driver: ${VOLUMES_DRIVER}
 
 services:
 
@@ -1056,6 +1058,24 @@ services:
         - "${KIBANA_HTTP_PORT}:5601"
       depends_on:
         - elasticsearch
+      networks:
+        - frontend
+        - backend
+
+### Filebeat ##############################################
+    filebeat:
+      build:
+        context: ./filebeat
+        args:
+          - ELK_VERSION=${ELK_VERSION}
+      depends_on:
+        - elasticsearch
+      environment:
+        - ELASTICSEARCH_HOSTS=${ELASTICSEARCH_HOSTS}
+        - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME}
+        - ELASTICSEARCH_PASSWORD=${ELASTICSEARCH_PASSWORD}
+      volumes:
+        - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
       networks:
         - frontend
         - backend
