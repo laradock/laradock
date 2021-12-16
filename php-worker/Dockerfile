@@ -367,6 +367,24 @@ RUN set -eux; \
     php -m | grep -oiE '^swoole$'; \
   fi
 
+
+
+
+
+###########################################################################
+# xlswriter:
+###########################################################################
+
+ARG INSTALL_XLSWRITER=false
+RUN set -eux; \
+    if [ ${INSTALL_XLSWRITER} = true ]; then \
+      # Install Php Swoole Extension \
+      pecl install xlswriter; \
+      docker-php-ext-enable xlswriter; \
+      php -m | grep -q 'xlswriter'; \
+    fi
+
+
 ###########################################################################
 # Taint EXTENSION
 ###########################################################################

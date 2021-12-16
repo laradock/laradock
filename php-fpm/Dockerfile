@@ -488,6 +488,23 @@ RUN if [ ${INSTALL_GEARMAN} = true ]; then \
     docker-php-ext-enable gearman \
 ;fi
 
+
+
+###########################################################################
+# xlswriter:
+###########################################################################
+
+ARG INSTALL_XLSWRITER=false
+RUN set -eux; \
+    if [ ${INSTALL_XLSWRITER} = true ]; then \
+      # Install Php Swoole Extension \
+      pecl install xlswriter; \
+      docker-php-ext-enable xlswriter; \
+      php -m | grep -q 'xlswriter'; \
+    fi
+
+
+
 ###########################################################################
 # pcntl
 ###########################################################################
