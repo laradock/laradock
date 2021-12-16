@@ -574,7 +574,7 @@ RUN set -eux; \
 ARG INSTALL_XLSWRITER=false
 RUN set -eux; \
     if [ ${INSTALL_XLSWRITER} = true ]; then \
-      # Install Php Swoole Extension
+      # Install Php xlswriter Extension
       echo '' | pecl -q install xlswriter; \
       echo "extension=xlswriter.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/xlswriter.ini; \
       ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/xlswriter.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-xlswriter.ini; \

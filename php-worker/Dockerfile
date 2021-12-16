@@ -378,7 +378,7 @@ RUN set -eux; \
 ARG INSTALL_XLSWRITER=false
 RUN set -eux; \
     if [ ${INSTALL_XLSWRITER} = true ]; then \
-      # Install Php Swoole Extension \
+      # Install Php xlswriter Extension \
       pecl install xlswriter; \
       docker-php-ext-enable xlswriter; \
       php -m | grep -q 'xlswriter'; \
