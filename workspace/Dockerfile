@@ -914,6 +914,8 @@ RUN if [ ${INSTALL_OCI8} = true ]; then \
     echo 'instantclient,/opt/oracle/instantclient_12_1/' | pecl install oci8-2.0.12; \
   elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
     echo 'instantclient,/opt/oracle/instantclient_12_1/' | pecl install oci8-2.2.0; \
+  elif [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "80000" ]; then \
+    echo 'instantclient,/opt/oracle/instantclient_12_1/' | pecl install oci8-3.0.1; \
   else \
     echo 'instantclient,/opt/oracle/instantclient_12_1/' | pecl install oci8; \
   fi \
