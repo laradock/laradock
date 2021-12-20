@@ -502,8 +502,8 @@ RUN set -eux; \
           php -m | grep -q 'xlswriter'; \
       else \
           echo "PHP Extension for xlswriter is not supported for PHP 5.0"\
-      fi; \
-    fi
+      fi \
+    ;fi
 
 ###########################################################################
 # pcntl
