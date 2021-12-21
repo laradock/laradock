@@ -9,7 +9,7 @@ RUN if [ ${INSTALL_PGSQL_HTTP_FOR_POSTGIS13} = true ]; then \
     && apt-get install -y \
         git \
         make \
-        gcc \ 
+        gcc \
         libcurl4-openssl-dev \
         postgresql-server-dev-13 \
         postgresql-13-cron \
