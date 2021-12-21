@@ -619,7 +619,10 @@ services:
 
 ### PostgreSQL PostGis ###################################
     postgres-postgis:
-      build: ./postgres-postgis
+      build:
+        context: ./postgres-postgis
+        args:
+          - POSTGRES_VERSION=${POSTGRES_VERSION}   
       volumes:
         - ${DATA_PATH_HOST}/postgres:/var/lib/postgresql/data
       ports:
@@ -628,6 +631,7 @@ services:
         - POSTGRES_DB=${POSTGRES_DB}
         - POSTGRES_USER=${POSTGRES_USER}
         - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+        - INSTALL_PGSQL_HTTP_FOR_POSTGIS13=${POSTGIS_INSTALL_PGSQL_HTTP_FOR_POSTGIS13}
       networks:
         - backend
 
