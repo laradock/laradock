@@ -3,6 +3,8 @@ FROM postgis/postgis:${POSTGRES_VERSION}
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
+ARG INSTALL_PGSQL_HTTP_FOR_POSTGIS13=false
+
 RUN if [ ${INSTALL_PGSQL_HTTP_FOR_POSTGIS13} = true ]; then \
     apt-get clean \
     && apt-get update -yqq \
