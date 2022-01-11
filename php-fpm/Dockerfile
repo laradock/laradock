@@ -485,6 +485,23 @@ RUN if [ ${INSTALL_GEARMAN} = true ]; then \
 ;fi
 
 ###########################################################################
+# xlswriter:
+###########################################################################
+
+ARG INSTALL_XLSWRITER=false
+RUN set -eux; \
+    if [ ${INSTALL_XLSWRITER} = true ]; then \
+      # Install Php xlswriter Extension \
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") > "5" ]; then \
+          pecl install xlswriter  &&\
+          docker-php-ext-enable xlswriter &&\
+          php -m | grep -q 'xlswriter'; \
+      else \
+          echo "PHP Extension for xlswriter is not supported for PHP 5.0";\
+      fi \
+    ;fi
+
+###########################################################################
 # pcntl
 ###########################################################################
 
