@@ -492,7 +492,7 @@ ARG INSTALL_XLSWRITER=false
 RUN set -eux; \
     if [ ${INSTALL_XLSWRITER} = true ]; then \
       # Install Php xlswriter Extension \
-      if [ $(php -r "echo PHP_MAJOR_VERSION;") > "5" ]; then \
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") != "5" ]; then \
           pecl install xlswriter  &&\
           docker-php-ext-enable xlswriter &&\
           php -m | grep -q 'xlswriter'; \
