@@ -70,7 +70,20 @@ git clone https://github.com/laradock/laradock.git
 
 2. 进入 Laradock 目录
  ```bash
-cp env-example .env
+cp .env.example .env
+```
+如果你在中国内地，可以修改一些配置来进行镜像加速，不过build时还是会请求GitHub来下载一些文件，此时需要保证你的计算机能连上GitHub   
+(1）配置DockerHub镜像加速，[链接](https://www.runoob.com/docker/docker-mirror-acceleration.html)   
+(2) 修改.env
+```
+# 开启ubuntu国内源
+CHANGE_SOURCE=true
+# composer镜像源
+WORKSPACE_COMPOSER_REPO_PACKAGIST=https://mirrors.aliyun.com/composer/
+# nvm镜像源
+WORKSPACE_NVM_NODEJS_ORG_MIRROR=https://npm.taobao.org/mirrors/node
+# npm镜像源
+WORKSPACE_NPM_REGISTRY=https://registry.npm.taobao.org
 ```
 
 3. 运行这些容器。
