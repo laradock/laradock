@@ -75,7 +75,7 @@ Your folder structure should look like this:
 We'll need to do step 1 of the [Usage](#Usage) section now to make this happen.
 
 ```
-cp env-example .env
+cp .env.example .env
 ```
 
 At the top, change the `APP_CODE_PATH_HOST` variable to your project path.
@@ -105,6 +105,12 @@ Your folder structure should look like this:
 * laradock
 * project-1
 * project-2
+```
+
+Make sure the `APP_CODE_PATH_HOST` variable points to parent directory.
+
+```
+APP_CODE_PATH_HOST=../
 ```
 
 2 - Go to your web server and create config files to point to different project directory when visiting different domains:
@@ -155,10 +161,10 @@ We recommend using a Docker version which is newer than 1.13.
 
 <br>
 
-1 - Enter the laradock folder and copy `env-example` to `.env`
+1 - Enter the laradock folder and copy `.env.example` to `.env`
 
 ```shell
-cp env-example .env
+cp .env.example .env
 ```
 
 You can edit the `.env` file to choose which software's you want to be installed in your environment. You can always refer to the `docker-compose.yml` file to see how those variables are being used.
