@@ -843,6 +843,9 @@ RUN if [ $INSTALL_PHALCON = true ]; then \
     && rm -rf /tmp/cphalcon* \
 ;fi
 
+RUN if [ $INSTALL_PHALCON = true && LARADOCK_PHALCON_VERSION > 4.0.0 ]; then \
+    pecl install psr \
+;fi
 ###########################################################################
 # APCU:
 ###########################################################################
