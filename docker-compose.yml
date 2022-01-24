@@ -625,7 +625,7 @@ services:
       build:
         context: ./postgres-postgis
         args:
-          - POSTGRES_VERSION=${POSTGRES_VERSION}   
+          - POSTGIS_VERSION=${POSTGIS_VERSION}   
           - INSTALL_PGSQL_HTTP_FOR_POSTGIS13=${POSTGIS_INSTALL_PGSQL_HTTP_FOR_POSTGIS13}
       volumes:
         - ${DATA_PATH_HOST}/postgres:/var/lib/postgresql/data
