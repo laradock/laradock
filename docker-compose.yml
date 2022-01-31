@@ -1516,7 +1516,7 @@ services:
 
 ### Docker-in-Docker ################################################
     docker-in-docker:
-      image: docker:19.03-dind
+      image: docker:20.10-dind
       environment:
         DOCKER_TLS_SAN: DNS:docker-in-docker
       privileged: true
