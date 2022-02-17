@@ -1,0 +1,7 @@
+version: '3.5'
+
+services:
+  mailhog:
+    volumes:
+      - ${DATA_PATH_HOST}/mailhog/maildir:/maildir
+    command: [ "-storage=maildir", "-maildir-path=/maildir" ]
