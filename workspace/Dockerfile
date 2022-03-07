@@ -1709,6 +1709,30 @@ RUN if [ ${INSTALL_TRADER} = true ]; then \
 
 #
 #--------------------------------------------------------------------------
+# zmq
+#--------------------------------------------------------------------------
+#
+
+USER root
+
+ARG INSTALL_ZMQ=false
+
+RUN if [ ${INSTALL_ZMQ} = true ]; then \
+    apt-get install --yes git libzmq3-dev \
+    && git clone git://github.com/mkoppanen/php-zmq.git \
+    && cd php-zmq \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && cd .. \
+    && rm -fr php-zmq \
+    && echo "extension=zmq.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/zmq.ini \
+    && ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/zmq.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-zmq.ini \
+;fi
+
+#
+#--------------------------------------------------------------------------
 # Final Touch
 #--------------------------------------------------------------------------
 #

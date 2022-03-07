@@ -1216,6 +1216,27 @@ RUN if [ ${DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL} = true ]; then \
 ;fi
 
 ###########################################################################
+# zmq
+###########################################################################
+
+USER root
+
+ARG INSTALL_ZMQ=false
+
+RUN if [ ${INSTALL_ZMQ} = true ]; then \
+    apt-get install --yes git libzmq3-dev \
+    && git clone git://github.com/mkoppanen/php-zmq.git \
+    && cd php-zmq \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && cd .. \
+    && rm -fr php-zmq \
+    && echo "extension=zmq.so" > /usr/local/etc/php/conf.d/zmq.ini \
+;fi
+
+###########################################################################
 # Check PHP version:
 ###########################################################################
 
