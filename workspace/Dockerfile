@@ -1081,6 +1081,8 @@ RUN set -eux; \
         pecl install pdo_sqlsrv-5.6.1 sqlsrv-5.6.1 \
       ;elif [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70200" ]; then \
         pecl install pdo_sqlsrv-5.8.1 sqlsrv-5.8.1 \
+      ;elif [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70300" ]; then \
+        pecl install pdo_sqlsrv-5.9.0 sqlsrv-5.9.0 \
       ;else \
         pecl install pdo_sqlsrv sqlsrv \
       ;fi && \
@@ -1705,6 +1707,30 @@ RUN if [ ${INSTALL_TRADER} = true ]; then \
     pecl install trader \
     && echo "extension=trader.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/trader.ini \
     && ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/trader.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-trader.ini \
+;fi
+
+#
+#--------------------------------------------------------------------------
+# zmq
+#--------------------------------------------------------------------------
+#
+
+USER root
+
+ARG INSTALL_ZMQ=false
+
+RUN if [ ${INSTALL_ZMQ} = true ]; then \
+    apt-get install --yes git libzmq3-dev \
+    && git clone git://github.com/mkoppanen/php-zmq.git \
+    && cd php-zmq \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && cd .. \
+    && rm -fr php-zmq \
+    && echo "extension=zmq.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/zmq.ini \
+    && ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/zmq.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-zmq.ini \
 ;fi
 
 #
