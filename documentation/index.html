@@ -141,33 +141,24 @@ links:
 networks:
 - frontend</code></li><li>change your varnish config and add nginx configuration. Example Nginx configuration is here: <code>nginx/sites/laravel_varnish.conf.example</code>.</li><li><code>varnish/default.vcl</code> is old varnish configuration, which was used in the previous version. Use <code>default_wordpress.vcl</code> instead.</li></ol><h4 id=how-to-run>How to run:</h4><ol><li>Rename <code>default_wordpress.vcl</code> to <code>default.vcl</code></li><li><code>docker-compose up -d nginx</code></li><li><code>docker-compose up -d proxy</code></li></ol><p>Keep in mind that varnish server must be built after Nginx cause varnish checks domain affordability.</p><h4 id=faq>FAQ:</h4><ol><li>How to purge cache?<br>run from any cli:<br><code>curl -X PURGE https://yourwebsite.com/</code>.</li><li>How to reload varnish?<br><code>docker container exec proxy varnishreload</code></li><li>Which varnish commands are allowed?<ul><li>varnishadm</li><li>varnishd</li><li>varnishhist</li><li>varnishlog</li><li>varnishncsa</li><li>varnishreload</li><li>varnishstat</li><li>varnishtest</li><li>varnishtop</li></ul></li><li>How to reload Nginx?<br><code>docker exec Nginx nginx -t</code><br><code>docker exec Nginx nginx -s reload</code></li></ol><p><br><a name=Use-Mongo></a></p><h2 id=use-mongo>Use Mongo</h2><ol><li>First install <code>mongo</code> in the Workspace and the PHP-FPM Containers:<ul><li>open the <code>.env</code> file</li><li>search for the <code>WORKSPACE_INSTALL_MONGO</code> argument under the Workspace Container</li><li>set it to <code>true</code></li><li>search for the <code>PHP_FPM_INSTALL_MONGO</code> argument under the PHP-FPM Container</li><li>set it to <code>true</code></li></ul></li><li>Re-build the containers<ul><li><code>docker-compose build workspace php-fpm</code></li></ul></li><li>Run the MongoDB Container (<code>mongo</code>) with the <code>docker-compose up</code> command.
 <code>bash
-docker-compose up -d mongo</code></li><li><p>Add the MongoDB configurations to the <code>config/database.php</code> configuration file:
-```php
-&lsquo;connections&rsquo; =&gt; [</p><pre><code>'mongodb' =&gt; [
-    'driver'   =&gt; 'mongodb',
-    'host'     =&gt; env('DB_HOST', 'localhost'),
-    'port'     =&gt; env('DB_PORT', 27017),
-    'database' =&gt; env('DB_DATABASE', 'database'),
-    'username' =&gt; '',
-    'password' =&gt; '',
-    'options'  =&gt; [
-        'database' =&gt; '',
-    ]
+docker-compose up -d mongo</code></li><li><p>Add the MongoDB configurations to the <code>config/database.php</code> configuration file:</p><pre><code class=language-php>'connections' =&gt; [
+    
+    'mongodb' =&gt; [
+        'driver'   =&gt; 'mongodb',
+        'host'     =&gt; env('DB_HOST', 'localhost'),
+        'port'     =&gt; env('DB_PORT', 27017),
+        'database' =&gt; env('DB_DATABASE', 'database'),
+        'username' =&gt; '',
+        'password' =&gt; '',
+        'options'  =&gt; [
+            'database' =&gt; '',
+        ]
+    ],
+    
+    // ...
+    
 ],
-
-// ...
-</code></pre><p>],</p><p>// &hellip;</p></li></ol><p>],</p><pre><code>
-5 - Open your Laravel's `.env` file and update the following variables:
-
-- set the `DB_HOST` to your `mongo`.
-- set the `DB_PORT` to `27017`.
-- set the `DB_DATABASE` to `database`.
-
-
-6 - Finally make sure you have the `jenssegers/mongodb` package installed via Composer and its Service Provider is added.
-
-```bash
-composer require jenssegers/mongodb
+</code></pre></li></ol><p>5 - Open your Laravel&rsquo;s <code>.env</code> file and update the following variables:</p><ul><li>set the <code>DB_HOST</code> to your <code>mongo</code>.</li><li>set the <code>DB_PORT</code> to <code>27017</code>.</li><li>set the <code>DB_DATABASE</code> to <code>database</code>.</li></ul><p>6 - Finally make sure you have the <code>jenssegers/mongodb</code> package installed via Composer and its Service Provider is added.</p><pre><code class=language-bash>composer require jenssegers/mongodb
 </code></pre><p>More details about this <a href=https://github.com/jenssegers/laravel-mongodb#installation>here</a>.</p><p>7 - Test it:</p><ul><li>First, let your Models extend from the Mongo Eloquent Model. Check the <a href=https://github.com/jenssegers/laravel-mongodb#eloquent>documentation</a>.</li><li>Enter the Workspace Container.</li><li>Migrate the Database <code>php artisan migrate</code>.</li></ul><p><br><a name=Use-phpMyAdmin></a></p><h2 id=use-phpmyadmin>Use PhpMyAdmin</h2><ol><li><p>Run the phpMyAdmin Container (<code>phpmyadmin</code>) with the <code>docker-compose up</code> command.</p><pre><code class=language-bash># use with mysql
 docker-compose up -d mysql phpmyadmin
 
