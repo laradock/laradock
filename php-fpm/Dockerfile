@@ -625,6 +625,8 @@ RUN if [ ${INSTALL_OCI8} = true ]; then \
       echo 'instantclient,/opt/oracle/instantclient_12_1/' | pecl install oci8-2.0.12; \
     elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
       echo 'instantclient,/opt/oracle/instantclient_12_1/' | pecl install oci8-2.2.0; \
+    elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+      echo 'instantclient,/opt/oracle/instantclient_12_1/' | pecl install oci8-3.0.1; \
     else \
       echo 'instantclient,/opt/oracle/instantclient_12_1/' | pecl install oci8; \
     fi \
@@ -1211,6 +1213,27 @@ RUN if [ ${DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL} = true ]; then \
     sed -i 's,^\(MinProtocol[ ]*=\).*,\1'TLSv1.2',g' /etc/ssl/openssl.cnf \
     && \
     sed -i 's,^\(CipherString[ ]*=\).*,\1'DEFAULT@SECLEVEL=1',g' /etc/ssl/openssl.cnf\
+;fi
+
+###########################################################################
+# zmq
+###########################################################################
+
+USER root
+
+ARG INSTALL_ZMQ=false
+
+RUN if [ ${INSTALL_ZMQ} = true ]; then \
+    apt-get install --yes git libzmq3-dev \
+    && git clone git://github.com/mkoppanen/php-zmq.git \
+    && cd php-zmq \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && cd .. \
+    && rm -fr php-zmq \
+    && echo "extension=zmq.so" > /usr/local/etc/php/conf.d/zmq.ini \
 ;fi
 
 ###########################################################################
