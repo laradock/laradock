@@ -420,7 +420,13 @@ services:
         - php-fpm
       networks:
         - frontend
+        # frontend:
+        #   aliases:
+        #     - laraveldock8.test
         - backend
+        # backend:
+        #   aliases:
+        #     - laraveldock8.test
 
 ### OpenResty Server #########################################
     openresty:
