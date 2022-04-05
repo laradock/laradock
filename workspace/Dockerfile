@@ -159,10 +159,10 @@ RUN if [ ${COMPOSER_GLOBAL_INSTALL} = true ]; then \
 ;fi
 
 # Check if auth file is disabled
-ARG COMPOSER_AUTH=false
-ENV COMPOSER_AUTH ${COMPOSER_AUTH}
+ARG COMPOSER_JSON_AUTH=false
+ENV COMPOSER_JSON_AUTH ${COMPOSER_JSON_AUTH}
 
-RUN if [ ${COMPOSER_AUTH} = false ]; then \
+RUN if [ ${COMPOSER_JSON_AUTH} = false ]; then \
     # remove the file
     rm /home/laradock/.composer/auth.json \
 ;fi
