@@ -159,10 +159,10 @@ RUN if [ ${COMPOSER_GLOBAL_INSTALL} = true ]; then \
 ;fi
 
 # Check if auth file is disabled
-ARG COMPOSER_AUTH=false
-ENV COMPOSER_AUTH ${COMPOSER_AUTH}
+ARG COMPOSER_AUTH_JSON=false
+ENV COMPOSER_AUTH_JSON ${COMPOSER_AUTH_JSON}
 
-RUN if [ ${COMPOSER_AUTH} = false ]; then \
+RUN if [ ${COMPOSER_AUTH_JSON} = false ]; then \
     # remove the file
     rm /home/laradock/.composer/auth.json \
 ;fi
@@ -305,7 +305,7 @@ RUN set -eux; \
     # SMB:
     ###########################################################################
     if [ ${INSTALL_SMB} = true ]; then \
-        apt-get install -yqq smbclient php-smbclient coreutils; \
+        apt-get install -yqq smbclient php${LARADOCK_PHP_VERSION}-smbclient coreutils; \
     fi; \
     ###########################################################################
     # IMAP:
