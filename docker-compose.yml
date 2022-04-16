@@ -54,6 +54,8 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   react:
     driver: ${VOLUMES_DRIVER}
+  camunda:
+    driver: ${VOLUMES_DRIVER}
 
 services:
 
@@ -619,6 +621,10 @@ services:
         - POSTGRES_CONFLUENCE_DB=${CONFLUENCE_POSTGRES_DB}
         - POSTGRES_CONFLUENCE_USER=${CONFLUENCE_POSTGRES_USER}
         - POSTGRES_CONFLUENCE_PASSWORD=${CONFLUENCE_POSTGRES_PASSWORD}
+        - CAMUNDA_POSTGRES_INIT=${CAMUNDA_POSTGRES_INIT}
+        - CAMUNDA_POSTGRES_DB=${CAMUNDA_POSTGRES_DB}
+        - CAMUNDA_POSTGRES_USER=${CAMUNDA_POSTGRES_USER}
+        - CAMUNDA_POSTGRES_PASSWORD=${CAMUNDA_POSTGRES_PASSWORD}
       networks:
         - backend
 
@@ -2040,6 +2046,24 @@ services:
       networks:
         - backend
 
+### camunda ###########################################
+    camunda:
+      image: camunda/camunda-bpm-platform:latest
+      depends_on:
+        - postgres
+      environment:
+        - DB_DRIVER=org.postgresql.Driver
+        - DB_URL=jdbc:postgresql://postgres:5432/${CAMUNDA_POSTGRES_DB}
+        - DB_USERNAME=${CAMUNDA_POSTGRES_USER}
+        - DB_PASSWORD=${CAMUNDA_POSTGRES_PASSWORD}
+        - WAIT_FOR=postgres:5432
+        - TZ=${CAMUNDA_TZ}
+      ports:
+        - 8051:8080
+      networks:
+        - frontend
+        - backend
+      restart: unless-stopped
 
 ### tarantool ###########################################
     tarantool:
