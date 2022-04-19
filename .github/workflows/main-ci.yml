@@ -31,7 +31,6 @@ jobs:
           cp .env.example .env
           sed -i -- 's/=false/=true/g' .env
           sed -i -- 's/CHANGE_SOURCE=true/CHANGE_SOURCE=false/g' .env
-          sed -i -- 's/PHPDBG=true/PHPDBG=false/g' .env
           sed -i -- 's/CASSANDRA=true/CASSANDRA=false/g' .env
           sed -i -- 's/GEARMAN=true/GEARMAN=false/g' .env
           sed -i -- 's/AEROSPIKE=true/AEROSPIKE=false/g' .env
