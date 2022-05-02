@@ -1228,7 +1228,7 @@ ARG INSTALL_ZMQ=false
 
 RUN if [ ${INSTALL_ZMQ} = true ]; then \
     apt-get install --yes git libzmq3-dev \
-    && git clone git://github.com/mkoppanen/php-zmq.git \
+    && git clone https://github.com/zeromq/php-zmq.git \
     && cd php-zmq \
     && phpize \
     && ./configure \
