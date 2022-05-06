@@ -1733,6 +1733,38 @@ RUN if [ ${INSTALL_ZMQ} = true ]; then \
     && ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/zmq.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-zmq.ini \
 ;fi
 
+############################################################################
+## Event:
+############################################################################
+USER root
+
+ARG INSTALL_EVENT=false
+
+RUN set -eux; \
+  if [ ${INSTALL_EVENT} = true ]; then \
+      curl -L -o  /tmp/libevent.tar.gz https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz   &&\
+      mkdir -p /tmp/libevent-php &&\
+      tar -C /tmp/libevent-php -zxvf /tmp/libevent.tar.gz --strip 1 &&\
+      cd /tmp/libevent-php &&\
+      ./configure --prefix=/usr/local/libevent-2.1.12  &&\
+      make &&\
+      make install &&\
+      rm /tmp/libevent.tar.gz &&\
+      docker-php-ext-install sockets  &&\
+      curl -L -o /tmp/event.tar.gz http://pecl.php.net/get/event-3.0.6.tgz &&\
+      mkdir -p /tmp/event-php &&\
+      tar -C /tmp/event-php -zxvf /tmp/event.tar.gz --strip 1 &&\
+      cd /tmp/event-php &&\
+      phpize &&\
+      ./configure  --with-event-libevent-dir=/usr/local/libevent-2.1.12/ &&\
+      make &&\
+      make install &&\
+      rm /tmp/event.tar.gz &&\
+      docker-php-ext-enable event &&\
+      php -m  | grep -q 'event' \
+;fi
+
+
 #
 #--------------------------------------------------------------------------
 # Final Touch
