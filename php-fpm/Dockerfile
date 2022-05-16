@@ -1038,7 +1038,8 @@ USER root
 ARG INSTALL_WKHTMLTOPDF=false
 
 RUN if [ ${INSTALL_WKHTMLTOPDF} = true ]; then \
-    apt-get install -yqq \
+    ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/) \
+    && apt-get install -yqq \
       libxrender1 \
       libfontconfig1 \
       libx11-dev \
@@ -1049,8 +1050,8 @@ RUN if [ ${INSTALL_WKHTMLTOPDF} = true ]; then \
       xfonts-base \
       xfonts-75dpi \
       wget \
-    && wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.stretch_amd64.deb \
-    && dpkg -i wkhtmltox_0.12.6-1.stretch_amd64.deb \
+    && wget "https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.stretch_${ARCH}.deb" \
+    && dpkg -i "wkhtmltox_0.12.6-1.stretch_${ARCH}.deb" \
     && apt -f install \
 ;fi
 
