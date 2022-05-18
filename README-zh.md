@@ -78,14 +78,12 @@ cp .env.example .env
 ```
 # 开启ubuntu国内源
 CHANGE_SOURCE=true
-# 默认是阿里云，可选项有aliyun|zju|tsinghua|163|ustc
-UBUNTU_SOURCE=aliyun
 # composer镜像源
 WORKSPACE_COMPOSER_REPO_PACKAGIST=https://mirrors.aliyun.com/composer/
 # nvm镜像源
-WORKSPACE_NVM_NODEJS_ORG_MIRROR=https://npm.taobao.org/mirrors/node
+WORKSPACE_NVM_NODEJS_ORG_MIRROR=https://npmmirror.com/mirrors/node
 # npm镜像源
-WORKSPACE_NPM_REGISTRY=https://registry.npm.taobao.org
+WORKSPACE_NPM_REGISTRY=https://registry.npmmirror.com
 ```
 
 3. 运行这些容器。
