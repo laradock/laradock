@@ -58,6 +58,7 @@ alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
+alias pa="php artisan"
 alias art="php artisan"
 alias artisan="php artisan"
 alias cdump="composer dump-autoload -o"
@@ -65,6 +66,8 @@ alias composer:dump="composer dump-autoload -o"
 alias db:reset="php artisan migrate:reset && php artisan migrate --seed"
 alias dusk="php artisan dusk"
 alias fresh="php artisan migrate:fresh"
+alias pamf="php artisan migrate:fresh"
+alias pamfs="php artisan migrate:fresh --seed"
 alias migrate="php artisan migrate"
 alias refresh="php artisan migrate:refresh"
 alias rollback="php artisan migrate:rollback"
