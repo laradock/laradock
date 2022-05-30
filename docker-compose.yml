@@ -1554,6 +1554,7 @@ services:
         - ADMIN_PASS=${REDIS_WEBUI_PASSWORD}
         - REDIS_1_HOST=${REDIS_WEBUI_CONNECT_HOST}
         - REDIS_1_PORT=${REDIS_WEBUI_CONNECT_PORT}
+        - REDIS_1_AUTH=${REDIS_PASSWORD}
       networks:
         - backend
       ports:
