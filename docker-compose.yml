@@ -111,7 +111,7 @@ services:
           - INSTALL_V8JS=${WORKSPACE_INSTALL_V8JS}
           - COMPOSER_GLOBAL_INSTALL=${WORKSPACE_COMPOSER_GLOBAL_INSTALL}
           - COMPOSER_VERSION=${WORKSPACE_COMPOSER_VERSION}
-          - COMPOSER_AUTH=${WORKSPACE_COMPOSER_AUTH}
+          - COMPOSER_AUTH_JSON=${WORKSPACE_COMPOSER_AUTH_JSON}
           - COMPOSER_REPO_PACKAGIST=${WORKSPACE_COMPOSER_REPO_PACKAGIST}
           - INSTALL_WORKSPACE_SSH=${WORKSPACE_INSTALL_WORKSPACE_SSH}
           - INSTALL_LARAVEL_ENVOY=${WORKSPACE_INSTALL_LARAVEL_ENVOY}
@@ -627,7 +627,7 @@ services:
       build:
         context: ./postgres-postgis
         args:
-          - POSTGIS_VERSION=${POSTGIS_VERSION}   
+          - POSTGIS_VERSION=${POSTGIS_VERSION}
           - INSTALL_PGSQL_HTTP_FOR_POSTGIS13=${POSTGIS_INSTALL_PGSQL_HTTP_FOR_POSTGIS13}
       volumes:
         - ${DATA_PATH_HOST}/postgres:/var/lib/postgresql/data
@@ -723,6 +723,7 @@ services:
       build: ./redis
       volumes:
         - ${DATA_PATH_HOST}/redis:/data
+      command: --requirepass ${REDIS_PASSWORD}
       ports:
         - "${REDIS_PORT}:6379"
       networks:
