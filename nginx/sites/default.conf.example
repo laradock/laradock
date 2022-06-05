@@ -22,12 +22,12 @@ server {
     }
 
     location / {
-        limit_conn limit_conn_zone 5;
-        limit_req zone=limit_req_zone burst=5 nodelay;
         try_files $uri $uri/ /index.php$is_args$args;
     }
 
     location ~ \.php$ {
+        limit_conn limit_conn_zone 5;
+        limit_req zone=limit_req_zone burst=5 nodelay;
         try_files $uri /index.php =404;
         fastcgi_pass php-upstream;
         fastcgi_index index.php;
