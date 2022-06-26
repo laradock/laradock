@@ -124,7 +124,7 @@ RUN echo "" >> ~/.bashrc && \
     echo "# Load Custom Aliases" >> ~/.bashrc && \
     echo "source ~/aliases.sh" >> ~/.bashrc && \
 	  echo "" >> ~/.bashrc && \
-    echo 'export PS1="\e[1;32m\u\e[0m:\e[1;34m\W\e[0m$ "' >> ~/.bashrc && \
+    echo 'export PS1="\[\033[38;5;10m\]\u\[$(tput sgr0)\]:\[$(tput sgr0)\]\[\033[38;5;33m\]\W\[$(tput sgr0)\]\\$ \[$(tput sgr0)\]"' >> ~/.bashrc && \
 	  echo "" >> ~/.bashrc
 
 ###########################################################################

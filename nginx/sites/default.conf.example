@@ -14,6 +14,7 @@ server {
     index index.php index.html index.htm;
 
     include /etc/nginx/sites-available/subsites/*.conf;
+    # include /etc/nginx/sites-available/config/agentbot.conf;
 
     location ~* \.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|htc)$ {
         expires 1M;

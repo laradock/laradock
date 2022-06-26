@@ -1,0 +1,6 @@
+if ($http_user_agent ~* (ApacheBench|pingback|YisouSpider|MJ12bot|AhrefsBot|360JK|Jorgee) ) {return 101;}
+if ($http_user_agent = "" ) {return 101;}
+if ( $request = "POST /reg.html HTTP/1.1" ) {return 400;}
+if ( $request = "POST / HTTP/1.1" ) {return 400;}
+if ( $request = "POST / HTTP/1.0" ) {return 400;}
+if ( $request = "POST // HTTP/1.0" ) {return 400;}
