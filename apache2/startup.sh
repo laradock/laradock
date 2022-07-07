@@ -17,5 +17,5 @@ if [ ${APACHE_HTTP2} = true ]; then
   service apache2 restart
 fi
 
-# Start supervisord in foreground
-supervisord
+# Start apache in foreground
+/usr/sbin/apache2ctl -D FOREGROUND

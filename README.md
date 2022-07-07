@@ -80,7 +80,7 @@ bash ./scripts/exec php artisan migrate
 ```
 
 ## Using Xdebug
-Xdebug is enabled by default.  If PhpStorm is set up to listen to port 9000 and listening to PHP debug connections is enabled, then xdebug will stop at breakpoints.  Xdebug can be enabled and disabled using the xdebug management script.  Xdebug breakpoints will be ignored if PhpStorm is not listening for PHP debug connections.
+Xdebug is disabled by default.  If PhpStorm is set up to listen to port 9000 and listening to PHP debug connections is enabled, then xdebug will stop at breakpoints.  Xdebug can be enabled and disabled using the xdebug management script.  Xdebug breakpoints will be ignored if PhpStorm is not listening for PHP debug connections.
 
 Checking status of Xdebug.  If the output list Xdebug as in the output, then Xdebug is enabled.
 ```bash
