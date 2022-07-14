@@ -11,13 +11,13 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   phpmyadmin:
     driver: ${VOLUMES_DRIVER}
-  framework-template:
 
 services:
 
 ### Workspace Utilities ##################################
     workspace:
       image: ghcr.io/fanswoo/workspace:latest
+      # image: ghcr.io/fanswoo/workspace:php-7.4
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         - ./php-worker/supervisord.d:/etc/supervisord.d
@@ -26,12 +26,6 @@ services:
         - /dev/shm:/dev/shm
         - /etc/localtime:/etc/localtime:ro
         - ${SSH_PATH}:/home/laradock/.ssh
-        # framework-template volume
-        - framework-template:${APP_CODE_PATH_CONTAINER}/framework-template
-        - ${APP_CODE_PATH_HOST}/framework-template/.env:${APP_CODE_PATH_CONTAINER}/framework-template/.env
-        - ${APP_CODE_PATH_HOST}/framework-template/storage/framework/cache:${APP_CODE_PATH_CONTAINER}/framework-template/storage/
-        - ${APP_CODE_PATH_HOST}/framework-template/public/pic:${APP_CODE_PATH_CONTAINER}/framework-template/public/pic
-        - ${APP_CODE_PATH_HOST}/framework-template/public/file:${APP_CODE_PATH_CONTAINER}/framework-template/public/file
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       ports:
@@ -54,17 +48,12 @@ services:
 ### PHP-FPM ##############################################
     php-fpm:
       image: ghcr.io/fanswoo/php-fpm:latest
+      # image: ghcr.io/fanswoo/workspace:php-7.4
       volumes:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         - /etc/localtime:/etc/localtime:ro
         - /dev/shm:/dev/shm
-        # framework-template volume
-        - framework-template:${APP_CODE_PATH_CONTAINER}/framework-template
-        - ${APP_CODE_PATH_HOST}/framework-template/.env:${APP_CODE_PATH_CONTAINER}/framework-template/.env
-        - ${APP_CODE_PATH_HOST}/framework-template/storage/framework/cache:${APP_CODE_PATH_CONTAINER}/framework-template/storage/
-        - ${APP_CODE_PATH_HOST}/framework-template/public/pic:${APP_CODE_PATH_CONTAINER}/framework-template/public/pic
-        - ${APP_CODE_PATH_HOST}/framework-template/public/file:${APP_CODE_PATH_CONTAINER}/framework-template/public/file
       expose:
         - "9000"
       extra_hosts:
@@ -88,12 +77,6 @@ services:
         - ${NGINX_SSL_PATH}:/etc/nginx/ssl
         - /etc/localtime:/etc/localtime:ro
         - /dev/shm:/dev/shm
-        # framework-template volume
-        - framework-template:${APP_CODE_PATH_CONTAINER}/framework-template
-        - ${APP_CODE_PATH_HOST}/framework-template/.env:${APP_CODE_PATH_CONTAINER}/framework-template/.env
-        - ${APP_CODE_PATH_HOST}/framework-template/storage/framework/cache:${APP_CODE_PATH_CONTAINER}/framework-template/storage/
-        - ${APP_CODE_PATH_HOST}/framework-template/public/pic:${APP_CODE_PATH_CONTAINER}/framework-template/public/pic
-        - ${APP_CODE_PATH_HOST}/framework-template/public/file:${APP_CODE_PATH_CONTAINER}/framework-template/public/file
       ports:
         - "${NGINX_HOST_HTTP_PORT}:80"
         - "${NGINX_HOST_HTTPS_PORT}:443"
@@ -150,10 +133,3 @@ services:
         - "${REDIS_PORT}:6379"
       networks:
         - backend
-
-### framework-template Server #########################################
-    framework-template:
-      image: ghcr.io/fanswoo/framework-template:latest
-      tty: true
-      volumes:
-         - framework-template:${APP_CODE_PATH_CONTAINER}
