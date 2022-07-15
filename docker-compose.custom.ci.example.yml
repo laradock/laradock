@@ -118,6 +118,7 @@ services:
         - "${PMA_PORT}:80"
       volumes:
         - /etc/localtime:/etc/localtime:ro
+        - ./phpmyadmin/php.ini:/usr/local/etc/php/conf.d/php-phpmyadmin.ini
       depends_on:
         - "${PMA_DB_ENGINE}"
       networks:
