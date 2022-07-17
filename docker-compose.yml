@@ -396,6 +396,17 @@ services:
       networks:
         - backend
 
+  ### Soketi Server ##############################################
+    soketi:
+      build:
+        context: ./soketi
+      ports:
+        - "${SOKETI_PORT}:6001"
+        - "${SOKETI_METRICS_SERVER_PORT}:9601"
+      networks:
+        - frontend
+        - backend
+
 ### NGINX Server #########################################
     nginx:
       build:
