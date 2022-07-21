@@ -1866,6 +1866,19 @@ RUN if [ ${INSTALL_JDK} = true ]; then \
     && update-ca-certificates -f \
 ;fi
 
+###########################################################################
+# PUPPETEER:
+###########################################################################
+USER laradock
+
+ARG INSTALL_PUPPETEER=false
+# Assumes Node is installed
+
+RUN if [ ${INSTALL_PUPPETEER} = true ]; then \
+    npm install --global puppeteer \
+    && chmod -R o+rx ~/.cache/puppeteer \
+;fi
+
 #
 #--------------------------------------------------------------------------
 # Final Touch
