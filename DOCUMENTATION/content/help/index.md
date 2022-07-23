@@ -97,7 +97,7 @@ In China, the origin source of composer and npm is very slow. You can add `WORKS
 
 Example:
 ```bash
-WORKSPACE_NPM_REGISTRY=https://registry.npm.taobao.org
+WORKSPACE_NPM_REGISTRY=https://registry.npmmirror.com
 WORKSPACE_COMPOSER_REPO_PACKAGIST=https://packagist.phpcomposer.com
 ```
 
