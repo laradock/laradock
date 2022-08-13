@@ -22,6 +22,7 @@ services:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         - ./php-worker/supervisord.d:/etc/supervisord.d
         # - ~/.gitconfig:/etc/gitconfig
+        # - ~/.composer:/home/laradock/.composer
         # - ./workspace/crontab/laradock:/etc/cron.d/laradock
         - /dev/shm:/dev/shm
         - /etc/localtime:/etc/localtime:ro
