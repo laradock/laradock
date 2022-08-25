@@ -429,15 +429,31 @@ services:
         - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
         - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
         - ${NGINX_SSL_PATH}:/etc/nginx/ssl
-      ports:
-        - "${NGINX_HOST_HTTP_PORT}:80"
-        - "${NGINX_HOST_HTTPS_PORT}:443"
-        - "${VARNISH_BACKEND_PORT}:81"
       depends_on:
         - php-fpm
       networks:
         - frontend
         - backend
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.services.nginx.loadbalancer.server.port=80"
+        # https router
+        - "traefik.http.routers.https.rule=Host(`${ACME_DOMAIN}`, `www.${ACME_DOMAIN}`)"
+        - "traefik.http.routers.https.entrypoints=https"
+        - "traefik.http.routers.https.middlewares=www-redirectregex"
+        - "traefik.http.routers.https.service=nginx"
+        - "traefik.http.routers.https.tls.certresolver=letsencrypt"
+        # http router
+        - "traefik.http.routers.http.rule=Host(`${ACME_DOMAIN}`, `www.${ACME_DOMAIN}`)"
+        - "traefik.http.routers.http.entrypoints=http"
+        - "traefik.http.routers.http.middlewares=http-redirectscheme"
+        - "traefik.http.routers.http.service=nginx"
+        # middlewares
+        - "traefik.http.middlewares.www-redirectregex.redirectregex.permanent=true"
+        - "traefik.http.middlewares.www-redirectregex.redirectregex.regex=^https://www.(.*)"
+        - "traefik.http.middlewares.www-redirectregex.redirectregex.replacement=https://$$1"
+        - "traefik.http.middlewares.http-redirectscheme.redirectscheme.permanent=true"
+        - "traefik.http.middlewares.http-redirectscheme.redirectscheme.scheme=https"
 
 ### OpenResty Server #########################################
     openresty:
