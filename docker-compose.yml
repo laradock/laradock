@@ -421,9 +421,6 @@ services:
           - CHANGE_SOURCE=${CHANGE_SOURCE}
           - PHP_UPSTREAM_CONTAINER=${NGINX_PHP_UPSTREAM_CONTAINER}
           - PHP_UPSTREAM_PORT=${NGINX_PHP_UPSTREAM_PORT}
-          - http_proxy
-          - https_proxy
-          - no_proxy
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
