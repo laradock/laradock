@@ -1014,7 +1014,7 @@ services:
     meilisearch:
       image: getmeili/meilisearch:latest
       volumes:
-        - ${DATA_PATH_HOST}/meilisearch:/data.ms
+        - ${DATA_PATH_HOST}/meilisearch:/meili_data/data.ms
       ports:
         - "${MEILISEARCH_HOST_PORT}:7700"
       networks:
