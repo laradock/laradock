@@ -11,6 +11,9 @@ on:
   schedule:
     - cron: '0 0 * * 0'
 
+permissions:
+  contents: read # to fetch code (actions/checkout)
+
 jobs:
   build-php:
     # Don't trigger on schedule event when in a fork
