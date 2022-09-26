@@ -1321,23 +1321,16 @@ ARG INSTALL_PHALCON=false
 ARG LARADOCK_PHALCON_VERSION
 ENV LARADOCK_PHALCON_VERSION ${LARADOCK_PHALCON_VERSION}
 
+# Copy phalcon configration
+COPY ./phalcon.ini /usr/local/etc/php/conf.d/phalcon.ini.disable
+
 RUN if [ $INSTALL_PHALCON = true ]; then \
-    apt-get update && apt-get install -yqq unzip libpcre3-dev gcc make re2c git automake autoconf\
-    && git clone https://github.com/jbboehr/php-psr.git \
-    && cd php-psr \
-    && phpize \
-    && ./configure \
-    && make \
-    && make test \
-    && make install \
-    && curl -L -o /tmp/cphalcon.zip https://github.com/phalcon/cphalcon/archive/v${LARADOCK_PHALCON_VERSION}.zip \
-    && unzip -d /tmp/ /tmp/cphalcon.zip \
-    && cd /tmp/cphalcon-${LARADOCK_PHALCON_VERSION}/build \
-    && ./install \
+    echo '' | pecl install phalcon-${LARADOCK_PHALCON_VERSION} ; \
+    && mv /usr/local/etc/php/conf.d/phalcon.ini.disable /usr/local/etc/php/conf.d/phalcon.ini \
     && echo "extension=psr.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/phalcon.ini \
     && echo "extension=phalcon.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/phalcon.ini \
     && ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/phalcon.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/30-phalcon.ini \
-    && rm -rf /tmp/cphalcon* \
+    && docker-php-ext-enable phalcon \
 ;fi
 
 ###########################################################################
