@@ -313,9 +313,6 @@ ARG INSTALL_PHALCON=false
 ARG LARADOCK_PHALCON_VERSION
 ENV LARADOCK_PHALCON_VERSION ${LARADOCK_PHALCON_VERSION}
 
-# Copy phalcon configration
-COPY ./phalcon.ini /usr/local/etc/php/conf.d/phalcon.ini.disable
-
 RUN if [ $INSTALL_PHALCON = true ]; then \
     echo '' | pecl install phalcon-${LARADOCK_PHALCON_VERSION} ; \
     && mv /usr/local/etc/php/conf.d/phalcon.ini.disable /usr/local/etc/php/conf.d/phalcon.ini \
