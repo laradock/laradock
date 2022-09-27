@@ -317,9 +317,8 @@ RUN if [ $INSTALL_PHALCON = true ]; then \
       apt-get update -yqq \
       && pecl channel-update pecl.php.net \
       && apt-get install -yqq libpcre3-dev; \
-      pecl install phalcon-5.0.0; \
-      mv /usr/local/etc/php/conf.d/phalcon.ini.disable /usr/local/etc/php/conf.d/phalcon.ini \
-      && echo "extension=psr.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/phalcon.ini \
+      pecl install phalcon-${LARADOCK_PHALCON_VERSION}; \
+      echo "extension=psr.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/phalcon.ini \
       && echo "extension=phalcon.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/phalcon.ini \
       && ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/phalcon.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/30-phalcon.ini \
       && docker-php-ext-enable phalcon \
