@@ -5,7 +5,7 @@
 #
 
 ARG LARADOCK_PHP_VERSION
-FROM php:${LARADOCK_PHP_VERSION}-alpine3.13
+FROM php:${LARADOCK_PHP_VERSION}-alpine
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
@@ -37,7 +37,12 @@ RUN apk --update add wget \
   procps
 
 RUN pecl channel-update pecl.php.net; \
-    docker-php-ext-install mysqli mbstring pdo pdo_mysql tokenizer xml pcntl
+    docker-php-ext-install mysqli mbstring pdo pdo_mysql xml pcntl; \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "1" ]; then \
+      php -m | grep -q 'tokenizer'; \
+    else \
+      docker-php-ext-install tokenizer; \
+    fi
 
 # Add a non-root user to help install ffmpeg:
 ARG PUID=1000

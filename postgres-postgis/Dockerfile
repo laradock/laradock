@@ -1,5 +1,5 @@
-ARG POSTGRES_VERSION=latest
-FROM postgis/postgis:${POSTGRES_VERSION}
+ARG POSTGIS_VERSION=latest
+FROM postgis/postgis:${POSTGIS_VERSION}
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
