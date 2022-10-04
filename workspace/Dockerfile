@@ -23,18 +23,18 @@ ARG LARADOCK_PHP_VERSION
 # Set Environment Variables
 ENV DEBIAN_FRONTEND noninteractive
 
+# Start as root
+USER root
+
+###########################################################################
 # If you're in China, or you need to change sources, will be set CHANGE_SOURCE to true in .env.
+###########################################################################
 
 ARG CHANGE_SOURCE=false
 RUN if [ ${CHANGE_SOURCE} = true ]; then \
     # Change application source from deb.debian.org to aliyun source
-    sed -i 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/' /etc/apt/sources.list && \
-    sed -i 's/security.debian.org/mirrors.tuna.tsinghua.edu.cn/' /etc/apt/sources.list && \
-    sed -i 's/security-cdn.debian.org/mirrors.tuna.tsinghua.edu.cn/' /etc/apt/sources.list \
-;fi
-
-# Start as root
-USER root
+    sed -i 's/ports.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list; \
+  fi;
 
 ###########################################################################
 # Laradock non-root user:
@@ -46,22 +46,12 @@ ENV PUID ${PUID}
 ARG PGID=1000
 ENV PGID ${PGID}
 
-ARG CHANGE_SOURCE=false
-ARG UBUNTU_SOURCE
-COPY ./sources.sh /tmp/sources.sh
-
-RUN if [ ${CHANGE_SOURCE} = true ]; then \
-    chmod +x /tmp/sources.sh && \
-    /bin/sh -c /tmp/sources.sh && \
-    rm -rf /tmp/sources.sh \
-;fi
-
 # always run apt update when start and after add new source list, then clean up at end.
 RUN set -xe; \
     apt-get update -yqq && \
     pecl channel-update pecl.php.net && \
     groupadd -g ${PGID} laradock && \
-    useradd -u ${PUID} -g laradock -m laradock -G docker_env && \
+    useradd -l -u ${PUID} -g laradock -m laradock -G docker_env && \
     usermod -p "*" laradock -s /bin/bash && \
     apt-get install -yqq \
       apt-utils \
@@ -147,6 +137,16 @@ RUN chown -R laradock:laradock /home/laradock/.composer
 RUN echo "" >> ~/.bashrc && \
     echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' >> ~/.bashrc
 
+# Update composer
+ARG COMPOSER_VERSION=2
+ENV COMPOSER_VERSION ${COMPOSER_VERSION}
+RUN set -eux; \
+      if [ "$COMPOSER_VERSION" = "1" ] || [ "$COMPOSER_VERSION" = "2" ]; then \
+          composer self-update --${COMPOSER_VERSION}; \
+      else \
+          composer self-update ${COMPOSER_VERSION}; \
+      fi
+
 USER laradock
 
 # Check if global install need to be ran
@@ -159,10 +159,10 @@ RUN if [ ${COMPOSER_GLOBAL_INSTALL} = true ]; then \
 ;fi
 
 # Check if auth file is disabled
-ARG COMPOSER_AUTH=false
-ENV COMPOSER_AUTH ${COMPOSER_AUTH}
+ARG COMPOSER_AUTH_JSON=false
+ENV COMPOSER_AUTH_JSON ${COMPOSER_AUTH_JSON}
 
-RUN if [ ${COMPOSER_AUTH} = false ]; then \
+RUN if [ ${COMPOSER_AUTH_JSON} = false ]; then \
     # remove the file
     rm /home/laradock/.composer/auth.json \
 ;fi
@@ -212,7 +212,7 @@ ARG DRUSH_VERSION
 ENV DRUSH_VERSION ${DRUSH_VERSION}
 
 RUN if [ ${INSTALL_DRUSH} = true ]; then \
-    apt-get -y install mysql-client && \
+    apt-get -qq -y install mysql-client && \
     # Install Drush with the phar file.
     curl -fsSL -o /usr/local/bin/drush https://github.com/drush-ops/drush/releases/download/${DRUSH_VERSION}/drush.phar | bash && \
     chmod +x /usr/local/bin/drush && \
@@ -235,111 +235,90 @@ RUN if [ ${INSTALL_WP_CLI} = true ]; then \
 ;fi
 
 ###########################################################################
-# BZ2:
-###########################################################################
+USER root
 
 ARG INSTALL_BZ2=false
-RUN if [ ${INSTALL_BZ2} = true ]; then \
-  apt-get -y install php${LARADOCK_PHP_VERSION}-bz2 \
-;fi
-
-###########################################################################
-# GMP (GNU Multiple Precision):
-###########################################################################
-
-USER root
-
 ARG INSTALL_GMP=false
+ARG INSTALL_GNUPG=false
+ARG INSTALL_SSH2=false
+ARG INSTALL_SOAP=false
+ARG INSTALL_XSL=false
 ARG PHP_VERSION=${LARADOCK_PHP_VERSION}
 
-RUN if [ ${INSTALL_GMP} = true ]; then \
-  # Install the PHP GMP extension
-  apt-get -y install php${LARADOCK_PHP_VERSION}-gmp \
-;fi
+RUN set -eux; \
+    ###########################################################################
+    # BZ2:
+    ###########################################################################
+    if [ ${INSTALL_BZ2} = true ]; then \
+      apt-get -yqq install php${LARADOCK_PHP_VERSION}-bz2; \
+    fi; \
+    ###########################################################################
+    # GMP (GNU Multiple Precision):
+    ###########################################################################
+    if [ ${INSTALL_GMP} = true ]; then \
+      # Install the PHP GMP extension
+      apt-get -yqq install php${LARADOCK_PHP_VERSION}-gmp; \
+    fi; \
+    ###########################################################################
+    # GnuPG:
+    ###########################################################################
+    if [ ${INSTALL_GNUPG} = true ]; then \
+        apt-get -yqq install php${LARADOCK_PHP_VERSION}-gnupg; \
+    fi; \
+    ###########################################################################
+    # SSH2:
+    ###########################################################################
+    if [ ${INSTALL_SSH2} = true ]; then \
+      # Install the PHP SSH2 extension
+      apt-get -yqq install libssh2-1-dev php${LARADOCK_PHP_VERSION}-ssh2; \
+    fi; \
+    ###########################################################################
+    # SOAP:
+    ###########################################################################
+    if [ ${INSTALL_SOAP} = true ]; then \
+      # Install the PHP SOAP extension
+      apt-get -yqq install libxml2-dev php${LARADOCK_PHP_VERSION}-soap; \
+    fi; \
+    ###########################################################################
+    # XSL:
+    ###########################################################################
+    if [ ${INSTALL_XSL} = true ]; then \
+      # Install the PHP XSL extension
+      apt-get -yqq install libxslt-dev php${LARADOCK_PHP_VERSION}-xsl; \
+    fi
 
-###########################################################################
-# SSH2:
-###########################################################################
-
-USER root
-
-ARG INSTALL_SSH2=false
-
-RUN if [ ${INSTALL_SSH2} = true ]; then \
-  # Install the PHP SSH2 extension
-  apt-get -y install libssh2-1-dev php${LARADOCK_PHP_VERSION}-ssh2 \
-;fi
-
-###########################################################################
-# SOAP:
-###########################################################################
-
-USER root
-
-ARG INSTALL_SOAP=false
-
-RUN if [ ${INSTALL_SOAP} = true ]; then \
-  # Install the PHP SOAP extension
-  apt-get -y install libxml2-dev php${LARADOCK_PHP_VERSION}-soap \
-;fi
-
-###########################################################################
-# XSL:
-###########################################################################
-
-USER root
-
-ARG INSTALL_XSL=false
-
-RUN if [ ${INSTALL_XSL} = true ]; then \
-  # Install the PHP XSL extension
-  apt-get -y install libxslt-dev php${LARADOCK_PHP_VERSION}-xsl \
-;fi
-
-
-###########################################################################
-# LDAP:
 ###########################################################################
 
 ARG INSTALL_LDAP=false
-
-RUN if [ ${INSTALL_LDAP} = true ]; then \
-    apt-get install -y libldap2-dev && \
-    apt-get install -y php${LARADOCK_PHP_VERSION}-ldap \
-;fi
-
-###########################################################################
-# SMB:
-###########################################################################
-
 ARG INSTALL_SMB=false
-
-RUN if [ ${INSTALL_SMB} = true ]; then \
-    apt-get install -y smbclient php-smbclient coreutils \
-;fi
-
-###########################################################################
-# IMAP:
-###########################################################################
-
 ARG INSTALL_IMAP=false
-
-RUN if [ ${INSTALL_IMAP} = true ]; then \
-    apt-get install -y php${LARADOCK_PHP_VERSION}-imap \
-;fi
-
-###########################################################################
-# Subversion:
-###########################################################################
-
-USER root
-
 ARG INSTALL_SUBVERSION=false
 
-RUN if [ ${INSTALL_SUBVERSION} = true ]; then \
-    apt-get install -y subversion \
-;fi
-
+RUN set -eux; \
+    ###########################################################################
+    # LDAP:
+    ###########################################################################
+    if [ ${INSTALL_LDAP} = true ]; then \
+        apt-get install -yqq libldap2-dev php${LARADOCK_PHP_VERSION}-ldap; \
+    fi; \
+    ###########################################################################
+    # SMB:
+    ###########################################################################
+    if [ ${INSTALL_SMB} = true ]; then \
+        apt-get install -yqq smbclient php${LARADOCK_PHP_VERSION}-smbclient coreutils; \
+    fi; \
+    ###########################################################################
+    # IMAP:
+    ###########################################################################
+    if [ ${INSTALL_IMAP} = true ]; then \
+        apt-get install -yqq php${LARADOCK_PHP_VERSION}-imap; \
+    fi; \
+    ###########################################################################
+    # Subversion:
+    ###########################################################################
+    if [ ${INSTALL_SUBVERSION} = true ]; then \
+        apt-get install -yqq subversion; \
+    fi
 
 ###########################################################################
 # xDebug:
@@ -350,17 +329,42 @@ USER root
 ARG INSTALL_XDEBUG=false
 
 RUN if [ ${INSTALL_XDEBUG} = true ]; then \
-    # Load the xdebug extension only with phpunit commands
-    apt-get install -y php${LARADOCK_PHP_VERSION}-xdebug && \
-    sed -i 's/^;//g' /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-xdebug.ini \
+  # Install the xdebug extension
+  # https://xdebug.org/docs/compat
+  apt-get install -yqq pkg-config php-xml php${LARADOCK_PHP_VERSION}-xml && \
+  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] || { [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && { [ $(php -r "echo PHP_MINOR_VERSION;") = "4" ] || [ $(php -r "echo PHP_MINOR_VERSION;") = "3" ] ;} ;}; then \
+    pecl install xdebug-3.1.2; \
+  else \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      pecl install xdebug-2.5.5; \
+    else \
+      if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+        pecl install xdebug-2.9.0; \
+      else \
+        pecl install xdebug-2.9.8; \
+      fi \
+    fi \
+  fi && \
+  echo "zend_extension=xdebug.so" >> /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-xdebug.ini \
 ;fi
 
 # ADD for REMOTE debugging
 COPY ./xdebug.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/xdebug.ini
 
-RUN sed -i "s/xdebug.remote_autostart=0/xdebug.remote_autostart=1/" /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/xdebug.ini && \
-    sed -i "s/xdebug.remote_enable=0/xdebug.remote_enable=1/" /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/xdebug.ini && \
-    sed -i "s/xdebug.cli_color=0/xdebug.cli_color=1/" /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/xdebug.ini
+RUN if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+  sed -i "s/xdebug.remote_host=/xdebug.client_host=/" /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/xdebug.ini && \
+  sed -i "s/xdebug.remote_connect_back=0/xdebug.discover_client_host=false/" /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/xdebug.ini && \
+  sed -i "s/xdebug.remote_port=9000/xdebug.client_port=9003/" /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/xdebug.ini && \
+  sed -i "s/xdebug.profiler_enable=0/; xdebug.profiler_enable=0/" /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/xdebug.ini && \
+  sed -i "s/xdebug.profiler_output_dir=/xdebug.output_dir=/" /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/xdebug.ini && \
+  sed -i "s/xdebug.remote_mode=req/; xdebug.remote_mode=req/" /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/xdebug.ini && \
+  sed -i "s/xdebug.remote_autostart=0/xdebug.start_with_request=yes/" /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/xdebug.ini && \
+  sed -i "s/xdebug.remote_enable=0/xdebug.mode=debug/" /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/xdebug.ini \
+;else \
+  sed -i "s/xdebug.remote_autostart=0/xdebug.remote_autostart=1/" /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/xdebug.ini && \
+  sed -i "s/xdebug.remote_enable=0/xdebug.remote_enable=1/" /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/xdebug.ini \
+;fi
+RUN sed -i "s/xdebug.cli_color=0/xdebug.cli_color=1/" /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/xdebug.ini
 
 ###########################################################################
 # pcov:
@@ -440,15 +444,23 @@ ARG INSTALL_MONGO=false
 
 RUN if [ ${INSTALL_MONGO} = true ]; then \
     # Install the mongodb extension
+    apt-get install -yqq pkg-config && \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-      pecl install mongo && \
-      echo "extension=mongo.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/mongo.ini && \
-      ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/mongo.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/30-mongo.ini \
-    ;fi && \
-    pecl install mongodb && \
-    echo "extension=mongodb.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/mongodb.ini && \
-    ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/mongodb.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/30-mongodb.ini \
-;fi
+      pecl install mongo; \
+      echo "extension=mongo.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/mongo.ini; \
+      ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/mongo.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/30-mongo.ini; \
+      php -m | grep -oiE '^mongo$'; \
+    else \
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && { [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ] || [ $(php -r "echo PHP_MINOR_VERSION;") = "1" ] ;}; then \
+        pecl install mongodb-1.9.2; \
+      else \
+        pecl install mongodb; \
+      fi; \
+      echo "extension=mongodb.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/mongodb.ini; \
+      ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/mongodb.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/30-mongodb.ini; \
+      php -m | grep -oiE '^mongodb$'; \
+    fi; \
+fi
 
 ###########################################################################
 # AMQP:
@@ -457,8 +469,12 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
 ARG INSTALL_AMQP=false
 
 RUN if [ ${INSTALL_AMQP} = true ]; then \
-    apt-get install librabbitmq-dev -y && \
-    pecl -q install amqp && \
+    apt-get install -yqq librabbitmq-dev && \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+      printf "\n" | pecl install amqp-1.11.0beta; \
+    else \
+      printf "\n" | pecl install amqp; \
+    fi && \
     echo "extension=amqp.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/amqp.ini && \
     ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/amqp.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/30-amqp.ini \
 ;fi
@@ -470,28 +486,32 @@ RUN if [ ${INSTALL_AMQP} = true ]; then \
 ARG INSTALL_CASSANDRA=false
 
 RUN if [ ${INSTALL_CASSANDRA} = true ]; then \
-    apt-get install libgmp-dev -y && \
-    curl https://downloads.datastax.com/cpp-driver/ubuntu/18.04/dependencies/libuv/v1.28.0/libuv1-dev_1.28.0-1_amd64.deb -o libuv1-dev.deb && \
-    curl https://downloads.datastax.com/cpp-driver/ubuntu/18.04/dependencies/libuv/v1.28.0/libuv1_1.28.0-1_amd64.deb -o libuv1.deb && \
-    curl https://downloads.datastax.com/cpp-driver/ubuntu/18.04/cassandra/v2.12.0/cassandra-cpp-driver-dev_2.12.0-1_amd64.deb -o cassandra-cpp-driver-dev.deb && \
-    curl https://downloads.datastax.com/cpp-driver/ubuntu/18.04/cassandra/v2.12.0/cassandra-cpp-driver_2.12.0-1_amd64.deb -o cassandra-cpp-driver.deb && \
-    dpkg -i libuv1.deb && \
-    dpkg -i libuv1-dev.deb && \
-    dpkg -i cassandra-cpp-driver.deb && \
-    dpkg -i cassandra-cpp-driver-dev.deb && \
-    rm libuv1.deb libuv1-dev.deb cassandra-cpp-driver-dev.deb cassandra-cpp-driver.deb && \
-    cd /usr/src && \
-    git clone https://github.com/datastax/php-driver.git && \
-    cd /usr/src/php-driver/ext && \
-    phpize && \
-    mkdir /usr/src/php-driver/build && \
-    cd /usr/src/php-driver/build && \
-    ../ext/configure > /dev/null && \
-    make clean >/dev/null && \
-    make >/dev/null 2>&1 && \
-    make install && \
-    echo "extension=cassandra.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/cassandra.ini && \
-    ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/cassandra.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/30-cassandra.ini \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+      echo "PHP Driver for Cassandra is not supported for PHP 8.0."; \
+    else \
+      apt-get install libgmp-dev -yqq && \
+      curl https://downloads.datastax.com/cpp-driver/ubuntu/18.04/dependencies/libuv/v1.35.0/libuv1-dev_1.35.0-1_amd64.deb -o libuv1-dev.deb && \
+      curl https://downloads.datastax.com/cpp-driver/ubuntu/18.04/dependencies/libuv/v1.35.0/libuv1_1.35.0-1_amd64.deb -o libuv1.deb && \
+      curl https://downloads.datastax.com/cpp-driver/ubuntu/18.04/cassandra/v2.16.0/cassandra-cpp-driver-dev_2.16.0-1_amd64.deb -o cassandra-cpp-driver-dev.deb && \
+      curl https://downloads.datastax.com/cpp-driver/ubuntu/18.04/cassandra/v2.16.0/cassandra-cpp-driver_2.16.0-1_amd64.deb -o cassandra-cpp-driver.deb && \
+      dpkg -i libuv1.deb && \
+      dpkg -i libuv1-dev.deb && \
+      dpkg -i cassandra-cpp-driver.deb && \
+      dpkg -i cassandra-cpp-driver-dev.deb && \
+      rm libuv1.deb libuv1-dev.deb cassandra-cpp-driver-dev.deb cassandra-cpp-driver.deb && \
+      cd /usr/src && \
+      git clone https://github.com/datastax/php-driver.git && \
+      cd /usr/src/php-driver/ext && \
+      phpize && \
+      mkdir /usr/src/php-driver/build && \
+      cd /usr/src/php-driver/build && \
+      ../ext/configure > /dev/null && \
+      make clean >/dev/null && \
+      make >/dev/null 2>&1 && \
+      make install && \
+      echo "extension=cassandra.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/cassandra.ini && \
+      ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/cassandra.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/30-cassandra.ini; \
+    fi \
 ;fi
 
 ###########################################################################
@@ -503,7 +523,7 @@ ARG INSTALL_GEARMAN=false
 RUN if [ ${INSTALL_GEARMAN} = true ]; then \
     add-apt-repository -y ppa:ondrej/pkg-gearman && \
     apt-get update && \
-    apt-get install php-gearman -y  \
+    apt-get -yqq install php-gearman \
 ;fi
 
 ###########################################################################
@@ -513,8 +533,7 @@ RUN if [ ${INSTALL_GEARMAN} = true ]; then \
 ARG INSTALL_PHPREDIS=false
 
 RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
-    apt-get update -yqq && \
-    apt-get install -yqq php-redis \
+    apt-get install -yqq php${LARADOCK_PHP_VERSION}-redis \
 ;fi
 
 ###########################################################################
@@ -523,21 +542,43 @@ RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
 
 ARG INSTALL_SWOOLE=false
 
-RUN if [ ${INSTALL_SWOOLE} = true ]; then \
-    # Install Php Swoole Extension
-    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-      pecl -q install swoole-2.0.10; \
-    else \
-      if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
-        pecl install swoole-2.2.0; \
+RUN set -eux; \
+    if [ ${INSTALL_SWOOLE} = true ]; then \
+      # Install Php Swoole Extension
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+        echo '' | pecl -q install swoole-2.0.10; \
+      elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+        echo '' | pecl -q install swoole-4.3.5; \
+      elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "1" ]; then \
+        echo '' | pecl -q install swoole-4.5.11; \
       else \
-        pecl install swoole; \
+        echo '' | pecl -q install swoole; \
+      fi; \
+      echo "extension=swoole.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/swoole.ini; \
+      ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/swoole.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-swoole.ini; \
+      php -m | grep -q 'swoole'; \
+    fi
+
+
+
+###########################################################################
+# xlswriter:
+###########################################################################
+
+ARG INSTALL_XLSWRITER=false
+RUN set -eux; \
+    if [ ${INSTALL_XLSWRITER} = true ]; then \
+      # Install Php xlswriter Extension
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") != "5" ]; then \
+        echo '' | pecl -q install xlswriter && \
+        echo "extension=xlswriter.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/xlswriter.ini && \
+        ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/xlswriter.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-xlswriter.ini && \
+        php -m | grep -q 'xlswriter'; \
+      else \
+        echo "PHP Extension for xlswriter is not supported for PHP 5.0"; \
       fi \
-    fi && \
-    echo "extension=swoole.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/swoole.ini && \
-    ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/swoole.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-swoole.ini \
-    && php -m | grep -q 'swoole' \
-;fi
+    ;fi
+
 
 ###########################################################################
 # Taint EXTENSION
@@ -562,8 +603,7 @@ RUN if [ "${INSTALL_TAINT}" = true ]; then \
 ARG INSTALL_LIBPNG=false
 
 RUN if [ ${INSTALL_LIBPNG} = true ]; then \
-    apt-get update && \
-    apt-get install libpng16-16 \
+    apt-get -yqq install libpng16-16 \
 ;fi
 
 ###########################################################################
@@ -573,9 +613,15 @@ RUN if [ ${INSTALL_LIBPNG} = true ]; then \
 ARG INSTALL_INOTIFY=false
 
 RUN if [ ${INSTALL_INOTIFY} = true ]; then \
-    pecl -q install inotify && \
-    echo "extension=inotify.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/inotify.ini && \
-    ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/inotify.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-inotify.ini \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      pecl -q install inotify-0.1.6 && \
+      echo "extension=inotify.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/inotify.ini && \
+      ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/inotify.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-inotify.ini; \
+    else \
+      pecl -q install inotify && \
+      echo "extension=inotify.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/inotify.ini && \
+      ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/inotify.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-inotify.ini \
+    ;fi \
 ;fi
 
 ###########################################################################
@@ -583,7 +629,7 @@ RUN if [ ${INSTALL_INOTIFY} = true ]; then \
 ###########################################################################
 
 ARG INSTALL_AST=false
-ARG AST_VERSION=1.0.3
+ARG AST_VERSION=1.0.10
 ENV AST_VERSION ${AST_VERSION}
 
 RUN if [ ${INSTALL_AST} = true ]; then \
@@ -617,8 +663,7 @@ RUN if [ ${INSTALL_FSWATCH} = true ]; then \
 ARG INSTALL_GRAPHVIZ=false
 
 RUN if [ ${INSTALL_GRAPHVIZ} = true ]; then \
-    apt-get update && \
-    apt-get install -y graphviz \
+    apt-get install -yqq graphviz \
 ;fi
 
 # IonCube Loader
@@ -627,12 +672,16 @@ RUN if [ ${INSTALL_GRAPHVIZ} = true ]; then \
 ARG INSTALL_IONCUBE=false
 
 RUN if [ ${INSTALL_IONCUBE} = true ]; then \
-    # Install the php ioncube loader
-    curl -L -o /tmp/ioncube_loaders_lin_x86-64.tar.gz https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
-    && tar zxpf /tmp/ioncube_loaders_lin_x86-64.tar.gz -C /tmp \
-    && mv /tmp/ioncube/ioncube_loader_lin_${LARADOCK_PHP_VERSION}.so $(php -r "echo ini_get('extension_dir');")/ioncube_loader.so \
-    && echo "zend_extension=ioncube_loader.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/0ioncube.ini \
-    && rm -rf /tmp/ioncube* \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") != "8" ]; then \
+      # Install the php ioncube loader
+      curl -L -o /tmp/ioncube_loaders_lin_x86-64.tar.gz https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
+      && tar zxpf /tmp/ioncube_loaders_lin_x86-64.tar.gz -C /tmp \
+      && mv /tmp/ioncube/ioncube_loader_lin_${LARADOCK_PHP_VERSION}.so $(php -r "echo ini_get('extension_dir');")/ioncube_loader.so \
+      && echo "zend_extension=ioncube_loader.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/ioncube.ini \
+      && ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/ioncube.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/0ioncube.ini \
+      && rm -rf /tmp/ioncube* \
+      && php -m | grep -oiE '^ionCube Loader$' \
+    ;fi \
 ;fi
 
 ###########################################################################
@@ -666,6 +715,14 @@ ARG INSTALL_NPM_VUE_CLI=false
 ARG INSTALL_NPM_ANGULAR_CLI=false
 ARG NPM_REGISTRY
 ENV NPM_REGISTRY ${NPM_REGISTRY}
+ARG NPM_FETCH_RETRIES
+ENV NPM_FETCH_RETRIES ${NPM_FETCH_RETRIES}
+ARG NPM_FETCH_RETRY_FACTOR
+ENV NPM_FETCH_RETRY_FACTOR ${NPM_FETCH_RETRY_FACTOR}
+ARG NPM_FETCH_RETRY_MINTIMEOUT
+ENV NPM_FETCH_RETRY_MINTIMEOUT ${NPM_FETCH_RETRY_MINTIMEOUT}
+ARG NPM_FETCH_RETRY_MAXTIMEOUT
+ENV NPM_FETCH_RETRY_MAXTIMEOUT ${NPM_FETCH_RETRY_MAXTIMEOUT}
 ENV NVM_DIR /home/laradock/.nvm
 ARG NVM_NODEJS_ORG_MIRROR
 ENV NVM_NODEJS_ORG_MIRROR ${NVM_NODEJS_ORG_MIRROR}
@@ -673,11 +730,15 @@ ENV NVM_NODEJS_ORG_MIRROR ${NVM_NODEJS_ORG_MIRROR}
 RUN if [ ${INSTALL_NODE} = true ]; then \
     # Install nvm (A Node Version Manager)
     mkdir -p $NVM_DIR && \
-    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash \
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash \
         && . $NVM_DIR/nvm.sh \
         && nvm install ${NODE_VERSION} \
         && nvm use ${NODE_VERSION} \
         && nvm alias ${NODE_VERSION} \
+        && npm config set fetch-retries ${NPM_FETCH_RETRIES} \
+        && npm config set fetch-retry-factor ${NPM_FETCH_RETRY_FACTOR} \
+        && npm config set fetch-retry-mintimeout ${NPM_FETCH_RETRY_MINTIMEOUT} \
+        && npm config set fetch-retry-maxtimeout ${NPM_FETCH_RETRY_MAXTIMEOUT} \
         && if [ ${NPM_REGISTRY} ]; then \
         npm config set registry ${NPM_REGISTRY} \
         ;fi \
@@ -734,16 +795,25 @@ RUN if [ ${NPM_REGISTRY} ]; then \
     . ~/.bashrc && npm config set registry ${NPM_REGISTRY} \
 ;fi
 
+# Mount .npmrc into home folder
+COPY ./.npmrc /root/.npmrc
+COPY ./.npmrc /home/laradock/.npmrc
+
 
 ###########################################################################
 # PNPM:
 ###########################################################################
 
-USER laradock
+USER root
 
 ARG INSTALL_PNPM=false
+ENV PNPM_HOME="/home/laradock/.local/share/pnpm"
+ENV PATH $PATH:/home/laradock/.local/share/pnpm
 
 RUN if [ ${INSTALL_PNPM} = true ]; then \
+    echo "" >> ~/.bashrc && \
+    echo 'export PNPM_HOME="/home/laradock/.local/share/pnpm"' >> ~/.bashrc && \
+    echo 'export PATH="$PNPM_HOME:$PATH"' >> ~/.bashrc && \
     npx pnpm add -g pnpm \
 ;fi
 
@@ -804,19 +874,23 @@ RUN set -xe; \
     && \
       if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
         ( \
-            cd /tmp/aerospike-client-php/src/aerospike \
-            && phpize \
-            && ./build.sh \
-            && make install \
+          cd /tmp/aerospike-client-php/src/aerospike \
+          && phpize \
+          && ./build.sh \
+          && make install \
         ) \
       else \
-        ( \
-            cd /tmp/aerospike-client-php/src \
-            && phpize \
-            && ./build.sh \
-            && make install \
-        ) \
-      fi \
+        if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
+          ( \
+              cd /tmp/aerospike-client-php/src \
+              && phpize \
+              && ./build.sh \
+              && make install \
+          ) \
+        else \
+          echo "AEROSPIKE does not support PHP 8.0" \
+        ;fi \
+      ;fi \
     && rm /tmp/aerospike-client-php.tar.gz \
     && echo 'extension=aerospike.so' >> /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/aerospike.ini \
     && echo 'aerospike.udf.lua_system_path=/usr/local/aerospike/lua' >> /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/aerospike.ini \
@@ -829,6 +903,7 @@ RUN set -xe; \
 
 USER root
 ARG INSTALL_OCI8=false
+ARG ORACLE_INSTANT_CLIENT_MIRROR=https://github.com/diogomascarenha/oracle-instantclient/raw/master/
 
 ENV LD_LIBRARY_PATH="/opt/oracle/instantclient_12_1"
 ENV OCI_HOME="/opt/oracle/instantclient_12_1"
@@ -842,8 +917,8 @@ RUN if [ ${INSTALL_OCI8} = true ]; then \
   # Install Oracle Instantclient
   && mkdir /opt/oracle \
       && cd /opt/oracle \
-      && wget https://github.com/diogomascarenha/oracle-instantclient/raw/master/instantclient-basic-linux.x64-12.1.0.2.0.zip \
-      && wget https://github.com/diogomascarenha/oracle-instantclient/raw/master/instantclient-sdk-linux.x64-12.1.0.2.0.zip \
+      && wget ${ORACLE_INSTANT_CLIENT_MIRROR}instantclient-basic-linux.x64-12.1.0.2.0.zip \
+      && wget ${ORACLE_INSTANT_CLIENT_MIRROR}instantclient-sdk-linux.x64-12.1.0.2.0.zip \
       && unzip /opt/oracle/instantclient-basic-linux.x64-12.1.0.2.0.zip -d /opt/oracle \
       && unzip /opt/oracle/instantclient-sdk-linux.x64-12.1.0.2.0.zip -d /opt/oracle \
       && ln -s /opt/oracle/instantclient_12_1/libclntsh.so.12.1 /opt/oracle/instantclient_12_1/libclntsh.so \
@@ -856,7 +931,11 @@ RUN if [ ${INSTALL_OCI8} = true ]; then \
           libaio-dev && \
   # Install PHP extensions
   if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-    echo 'instantclient,/opt/oracle/instantclient_12_1/' | pecl install oci8-2.0.10; \
+    echo 'instantclient,/opt/oracle/instantclient_12_1/' | pecl install oci8-2.0.12; \
+  elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
+    echo 'instantclient,/opt/oracle/instantclient_12_1/' | pecl install oci8-2.2.0; \
+  elif [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "80000" ]; then \
+    echo 'instantclient,/opt/oracle/instantclient_12_1/' | pecl install oci8-3.0.1; \
   else \
     echo 'instantclient,/opt/oracle/instantclient_12_1/' | pecl install oci8; \
   fi \
@@ -896,7 +975,7 @@ ARG INSTALL_LARAVEL_ENVOY=false
 
 RUN if [ ${INSTALL_LARAVEL_ENVOY} = true ]; then \
     # Install the Laravel Envoy
-    composer global require "laravel/envoy=~2.0" \
+    composer global require laravel/envoy \
 ;fi
 
 ###########################################################################
@@ -941,13 +1020,13 @@ RUN if [ ${INSTALL_DEPLOYER} = true ]; then \
 ###########################################################################
 # Prestissimo:
 ###########################################################################
-USER laradock
-
 ARG INSTALL_PRESTISSIMO=false
 
 RUN if [ ${INSTALL_PRESTISSIMO} = true ]; then \
-    # Install Prestissimo
-    composer global require "hirak/prestissimo" \
+    if [ $(php -r "echo COMPOSER_VERSION;") = "1" ]; then \
+      # Install Prestissimo
+      composer global require "hirak/prestissimo" \
+    ;fi \
 ;fi
 
 ###########################################################################
@@ -987,33 +1066,37 @@ ARG INSTALL_MSSQL=false
 RUN set -eux; \
   if [ ${INSTALL_MSSQL} = true ]; then \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-      apt-get -y install php5.6-sybase freetds-bin freetds-common libsybdb5 \
-      && php -m | grep -q 'mssql' \
-      && php -m | grep -q 'pdo_dblib' \
+      apt-get install -yqq php5.6-sybase freetds-bin freetds-common libsybdb5 \
+      && php -m | grep -oiE '^mssql$' \
+      && php -m | grep -oiE '^pdo_dblib$' \
     ;else \
       ###########################################################################
       #  The following steps were taken from
       #  https://github.com/Microsoft/msphpsql/wiki/Install-and-configuration
       ###########################################################################
       curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
-      curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
+      curl https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
       apt-get update -yqq && \
-      ACCEPT_EULA=Y apt-get install -y msodbcsql17 mssql-tools unixodbc unixodbc-dev libgss3 odbcinst locales && \
+      ACCEPT_EULA=Y apt-get install -yqq msodbcsql17 mssql-tools unixodbc unixodbc-dev libgss3 odbcinst locales && \
       ln -sfn /opt/mssql-tools/bin/sqlcmd /usr/bin/sqlcmd && \
       ln -sfn /opt/mssql-tools/bin/bcp /usr/bin/bcp && \
       echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
-      locale-gen && \
-      if [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70000" ]; then \
-        pecl install sqlsrv-5.3.0 pdo_sqlsrv-5.3.0 \
+      locale-gen \
+      && if [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70000" ]; then \
+        pecl install pdo_sqlsrv-5.3.0 sqlsrv-5.3.0 \
       ;elif [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70100" ]; then \
-        pecl install sqlsrv-5.6.1 pdo_sqlsrv-5.6.1 \
+        pecl install pdo_sqlsrv-5.6.1 sqlsrv-5.6.1 \
+      ;elif [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70200" ]; then \
+        pecl install pdo_sqlsrv-5.8.1 sqlsrv-5.8.1 \
+      ;elif [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70300" ]; then \
+        pecl install pdo_sqlsrv-5.9.0 sqlsrv-5.9.0 \
       ;else \
-        pecl install sqlsrv pdo_sqlsrv \
+        pecl install pdo_sqlsrv sqlsrv \
       ;fi && \
+      echo "extension=pdo_sqlsrv.so" > /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-pdo_sqlsrv.ini && \
       echo "extension=sqlsrv.so"     > /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-sqlsrv.ini && \
-      echo "extension=pdo_sqlsrv.so" > /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-pdo_sqlsrv.ini \
-      && php -m | grep -q 'sqlsrv' \
-      && php -m | grep -q 'pdo_sqlsrv' \
+      php -m | grep -oiE '^pdo_sqlsrv$' && \
+      php -m | grep -oiE '^sqlsrv$' \
     ;fi \
   ;fi
 
@@ -1059,14 +1142,10 @@ ARG INSTALL_SYMFONY=false
 
 RUN if [ ${INSTALL_SYMFONY} = true ]; then \
   mkdir -p /usr/local/bin \
-  && curl -LsS https://symfony.com/installer -o /usr/local/bin/symfony \
+  && apt-get -y install sudo wget \
+  && wget --quiet https://get.symfony.com/cli/installer -O - | bash \
+  && mv /root/.symfony/bin/symfony /usr/local/bin/symfony \
   && chmod a+x /usr/local/bin/symfony \
-  #  Symfony 3 alias
-  && echo 'alias dev="php bin/console -e=dev"' >> ~/.bashrc \
-  && echo 'alias prod="php bin/console -e=prod"' >> ~/.bashrc \
-  #  Symfony 2 alias
-  #  && echo 'alias dev="php app/console -e=dev"' >> ~/.bashrc \
-  #  && echo 'alias prod="php app/console -e=prod"' >> ~/.bashrc \
 ;fi
 
 ###########################################################################
@@ -1076,7 +1155,10 @@ RUN if [ ${INSTALL_SYMFONY} = true ]; then \
 ARG INSTALL_PYTHON=false
 
 RUN if [ ${INSTALL_PYTHON} = true ]; then \
-  apt-get -y install python python-pip python-dev build-essential  \
+  apt-get -y install python python-dev build-essential  \
+  && curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py  \
+  && python get-pip.py  \
+  && rm get-pip.py  \
   && python -m pip install --upgrade pip  \
   && python -m pip install --upgrade virtualenv \
 ;fi
@@ -1088,7 +1170,10 @@ RUN if [ ${INSTALL_PYTHON} = true ]; then \
 ARG INSTALL_PYTHON3=false
 
 RUN if [ ${INSTALL_PYTHON3} = true ]; then \
-  apt-get -y install python3 python3-pip python3-dev build-essential  \
+  apt-get -y install python3 python3-dev build-essential  \
+  && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py  \
+  && python3 get-pip.py  \
+  && rm get-pip.py  \
   && python3 -m pip install --upgrade --force-reinstall pip  \
   && python3 -m pip install --upgrade virtualenv \
 ;fi
@@ -1131,9 +1216,31 @@ USER laradock
 USER root
 
 ARG INSTALL_IMAGEMAGICK=false
+ARG IMAGEMAGICK_VERSION=latest
+ENV IMAGEMAGICK_VERSION ${IMAGEMAGICK_VERSION}
 
 RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
-    apt-get install -y imagemagick php-imagick \
+    apt-get install -y libmagickwand-dev imagemagick && \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+      apt-get install -y git && \
+      cd /tmp && \
+      if [ ${IMAGEMAGICK_VERSION} = "latest" ]; then \
+        git clone https://github.com/Imagick/imagick; \
+      else \
+        git clone --branch ${IMAGEMAGICK_VERSION} https://github.com/Imagick/imagick; \
+      fi && \
+      cd imagick && \
+      phpize && \
+      ./configure && \
+      make && \
+      make install && \
+      rm -r /tmp/imagick; \
+    else \
+      pecl install imagick; \
+    fi && \
+    echo "extension=imagick.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/imagick.ini && \
+    ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/imagick.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-imagick.ini && \
+    php -m | grep -q 'imagick' \
 ;fi
 
 ###########################################################################
@@ -1145,12 +1252,24 @@ USER root
 ARG INSTALL_TERRAFORM=false
 
 RUN if [ ${INSTALL_TERRAFORM} = true ]; then \
-    apt-get -y install sudo wget unzip \
+    apt-get -yqq install sudo wget unzip \
     && wget https://releases.hashicorp.com/terraform/0.10.6/terraform_0.10.6_linux_amd64.zip \
     && unzip terraform_0.10.6_linux_amd64.zip \
     && mv terraform /usr/local/bin \
     && rm terraform_0.10.6_linux_amd64.zip \
 ;fi
+
+###########################################################################
+# Memcached Dependecies:
+###########################################################################
+
+ARG INSTALL_MEMCACHED=false
+
+RUN if [ ${INSTALL_MEMCACHED} = true ]; then \
+  apt-get -y install php${LARADOCK_PHP_VERSION}-igbinary \
+  && apt-get -y install php${LARADOCK_PHP_VERSION}-memcached \
+;fi
+
 ###########################################################################
 # pgsql client
 ###########################################################################
@@ -1161,7 +1280,7 @@ ARG INSTALL_PG_CLIENT=false
 
 RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
     # Install the pgsql client
-    apt-get install wget \
+    apt-get -yqq install wget \
     && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
     && echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list \
     && apt-get update \
@@ -1203,7 +1322,7 @@ ARG LARADOCK_PHALCON_VERSION
 ENV LARADOCK_PHALCON_VERSION ${LARADOCK_PHALCON_VERSION}
 
 RUN if [ $INSTALL_PHALCON = true ]; then \
-    apt-get update && apt-get install -y unzip libpcre3-dev gcc make re2c git automake autoconf\
+    apt-get update && apt-get install -yqq unzip libpcre3-dev gcc make re2c git automake autoconf\
     && git clone https://github.com/jbboehr/php-psr.git \
     && cd php-psr \
     && phpize \
@@ -1222,87 +1341,101 @@ RUN if [ $INSTALL_PHALCON = true ]; then \
 ;fi
 
 ###########################################################################
-# MySQL Client:
-###########################################################################
-
 USER root
 
 ARG INSTALL_MYSQL_CLIENT=false
-
-RUN if [ ${INSTALL_MYSQL_CLIENT} = true ]; then \
-    apt-get update -yqq && \
-    apt-get -y install mysql-client \
-;fi
-
-###########################################################################
-# ping:
-###########################################################################
-
-USER root
-
 ARG INSTALL_PING=false
-
-RUN if [ ${INSTALL_PING} = true ]; then \
-    apt-get update -yqq && \
-    apt-get -y install inetutils-ping \
-;fi
-
-###########################################################################
-# sshpass:
-###########################################################################
-
-USER root
-
 ARG INSTALL_SSHPASS=false
+ARG INSTALL_DOCKER_CLIENT=false
 
-RUN if [ ${INSTALL_SSHPASS} = true ]; then \
-    apt-get update -yqq && \
-    apt-get -y install sshpass \
-;fi
+RUN set -eux; \
+  ###########################################################################
+  # MySQL Client:
+  ###########################################################################
+  if [ ${INSTALL_MYSQL_CLIENT} = true ]; then \
+    apt-get -yqq install mysql-client; \
+  fi; \
+  ###########################################################################
+  # ping:
+  ###########################################################################
+  if [ ${INSTALL_PING} = true ]; then \
+    apt-get -yqq install inetutils-ping; \
+  fi; \
+  ###########################################################################
+  # sshpass:
+  ###########################################################################
+  if [ ${INSTALL_SSHPASS} = true ]; then \
+    apt-get -yqq install sshpass; \
+  fi; \
+  ###########################################################################
+  # Docker Client:
+  ###########################################################################
+  if [ ${INSTALL_DOCKER_CLIENT} = true ]; then \
+    curl -sS https://download.docker.com/linux/static/stable/x86_64/docker-20.10.3.tgz -o /tmp/docker.tar.gz; \
+    tar -xzf /tmp/docker.tar.gz -C /tmp/; \
+    cp /tmp/docker/docker* /usr/local/bin; \
+    chmod +x /usr/local/bin/docker*; \
+  fi
 
 ###########################################################################
-# YAML: extension for PHP-CLI
-###########################################################################
-
 USER root
 
 ARG INSTALL_YAML=false
-
-RUN if [ ${INSTALL_YAML} = true ]; then \
-    apt-get install libyaml-dev -y ; \
-    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-        pecl install -a yaml-1.3.2; \
-    else \
-        pecl install yaml; \
-    fi && \
-    echo "extension=yaml.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/yaml.ini && \
-    ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/yaml.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/35-yaml.ini \
-;fi
-
-###########################################################################
-# RDKAFKA:
-###########################################################################
-
 ARG INSTALL_RDKAFKA=false
+ARG INSTALL_FFMPEG=false
 
-RUN if [ ${INSTALL_RDKAFKA} = true ]; then \
-    apt-get install -y librdkafka-dev && \
-    pecl install rdkafka && \
-    echo "extension=rdkafka.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/rdkafka.ini && \
-    ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/rdkafka.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-rdkafka.ini \
-    && php -m | grep -q 'rdkafka' \
-;fi
+RUN set -eux; \
+  ###########################################################################
+  # YAML: extension for PHP-CLI
+  ###########################################################################
+  if [ ${INSTALL_YAML} = true ]; then \
+    apt-get install -yqq libyaml-dev; \
+    if   [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+        echo '' | pecl install -a yaml-1.3.2; \
+    elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+        echo '' | pecl install yaml-2.0.4; \
+    else \
+        echo '' | pecl install yaml; \
+    fi; \
+    echo "extension=yaml.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/yaml.ini; \
+    ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/yaml.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/35-yaml.ini; \
+  fi; \
+  ###########################################################################
+  # RDKAFKA:
+  ###########################################################################
+  if [ ${INSTALL_RDKAFKA} = true ]; then \
+    apt-get install -yqq librdkafka-dev; \
+    pecl install rdkafka; \
+    echo "extension=rdkafka.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/rdkafka.ini; \
+    ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/rdkafka.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-rdkafka.ini; \
+    php -m | grep -q 'rdkafka'; \
+  fi; \
+  ###########################################################################
+  # FFMpeg:
+  ###########################################################################
+  if [ ${INSTALL_FFMPEG} = true ]; then \
+    apt-get -yqq install ffmpeg; \
+  fi
 
 ###########################################################################
-# FFMpeg:
+# BBC Audio Waveform Image Generator:
 ###########################################################################
 
 USER root
 
-ARG INSTALL_FFMPEG=false
+ARG INSTALL_AUDIOWAVEFORM=false
 
-RUN if [ ${INSTALL_FFMPEG} = true ]; then \
-  apt-get -y install ffmpeg \
+RUN if [ ${INSTALL_AUDIOWAVEFORM} = true ]; then \
+  apt-get -y install wget make cmake gcc g++ libmad0-dev libid3tag0-dev libsndfile1-dev libgd-dev libboost-filesystem-dev libboost-program-options-dev libboost-regex-dev \
+  && cd /tmp \
+  && git clone https://github.com/bbc/audiowaveform.git \
+  && cd audiowaveform \
+  && git clone --depth=1 https://github.com/google/googletest.git -b release-1.11.0 \
+  && mkdir build \
+  && cd build \
+  && cmake .. \
+  && make \
+  && make install \
 ;fi
 
 #####################################
@@ -1312,21 +1445,23 @@ RUN if [ ${INSTALL_FFMPEG} = true ]; then \
 USER root
 
 ARG INSTALL_WKHTMLTOPDF=false
+ARG WKHTMLTOPDF_VERSION=0.12.6-1
 
 RUN if [ ${INSTALL_WKHTMLTOPDF} = true ]; then \
-   apt-get install -y \
+   ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/) \
+   && apt-get install -y \
    libxrender1 \
    libfontconfig1 \
    libx11-dev \
    libjpeg62 \
    libxtst6 \
-   fontconfig \ 
+   fontconfig \
    libjpeg-turbo8-dev \
    xfonts-base \
    xfonts-75dpi \
    wget \
-   && wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.bionic_amd64.deb \
-   && dpkg -i wkhtmltox_0.12.6-1.bionic_amd64.deb \
+   && wget "https://github.com/wkhtmltopdf/packaging/releases/download/${WKHTMLTOPDF_VERSION}/wkhtmltox_0.12.6-1.bionic_${ARCH}.deb" \
+   && dpkg -i "wkhtmltox_${WKHTMLTOPDF_VERSION}.bionic_${ARCH}.deb" \
    && apt -f install \
 ;fi
 
@@ -1349,7 +1484,7 @@ USER root
 ARG INSTALL_GNU_PARALLEL=false
 
 RUN if [ ${INSTALL_GNU_PARALLEL} = true ]; then \
-  apt-get -y install parallel \
+  apt-get -yqq install parallel \
 ;fi
 
 ###########################################################################
@@ -1373,7 +1508,7 @@ RUN if [ ${INSTALL_GIT_PROMPT} = true ]; then \
 ARG INSTALL_XMLRPC=false
 
 RUN if [ ${INSTALL_XMLRPC} = true ]; then \
-    docker-php-ext-install xmlrpc \
+    apt-get install -yqq php${LARADOCK_PHP_VERSION}-xmlrpc \
 ;fi
 
 ###########################################################################
@@ -1383,7 +1518,7 @@ RUN if [ ${INSTALL_XMLRPC} = true ]; then \
 ARG INSTALL_LNAV=false
 
 RUN if [ ${INSTALL_LNAV} = true ]; then \
-    apt-get install -y lnav \
+    apt-get install -yqq lnav \
 ;fi
 
 ###########################################################################
@@ -1432,7 +1567,7 @@ ARG SHELL_OH_MY_ZSH_ALIASES=false
 USER laradock
 RUN if [ ${SHELL_OH_MY_ZSH} = true ]; then \
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --keep-zshrc" && \
-    sed -i -r 's/^plugins=\(.*?\)$/plugins=(laravel5)/' /home/laradock/.zshrc && \
+    sed -i -r 's/^plugins=\(.*?\)$/plugins=(laravel composer)/' /home/laradock/.zshrc && \
     echo '\n\
 bindkey "^[OB" down-line-or-search\n\
 bindkey "^[OC" forward-char\n\
@@ -1492,6 +1627,153 @@ RUN if [ ${SHELL_OH_MY_ZSH} = true ]; then \
 ;fi
 
 USER root
+
+
+###########################################################################
+# PHP DECIMAL:
+###########################################################################
+
+USER root
+
+ARG INSTALL_PHPDECIMAL=false
+
+RUN if [ ${INSTALL_PHPDECIMAL} = true ]; then \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      echo 'decimal not support PHP 5.6'; \
+    else \
+      apt-get install -yqq libmpdec-dev \
+      && pecl install decimal \
+      && echo "extension=decimal.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/decimal.ini \
+      && ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/decimal.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/30-decimal.ini \
+      && php -m | grep -q 'decimal' \
+    ;fi \
+;fi
+
+###########################################################################
+# zookeeper
+###########################################################################
+ARG INSTALL_ZOOKEEPER=false
+
+RUN set -eux; \
+    if [ ${INSTALL_ZOOKEEPER} = true ]; then \
+    apt install -yqq libzookeeper-mt-dev; \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+      curl -L -o /tmp/php-zookeeper.tar.gz https://github.com/php-zookeeper/php-zookeeper/archive/master.tar.gz; \
+      mkdir -p /tmp/php-zookeeper; \
+      tar -C /tmp/php-zookeeper -zxvf /tmp/php-zookeeper.tar.gz --strip 1; \
+      cd /tmp/php-zookeeper; \
+      phpize && ./configure && make && make install;\
+    else \
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+        pecl install zookeeper-0.5.0; \
+      else \
+        pecl install zookeeper-0.7.2; \
+      fi; \
+    fi; \
+    echo "extension=zookeeper.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/zookeeper.ini; \
+    ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/zookeeper.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/30-zookeeper.ini; \
+    php -m | grep -q 'zookeeper'; \
+    fi
+
+###########################################################################
+# PHP SSDB:
+###########################################################################
+
+USER root
+
+ARG INSTALL_SSDB=false
+
+RUN set -xe; \
+    if [ ${INSTALL_SSDB} = true ] && [ $(php -r "echo PHP_MAJOR_VERSION;") != "8" ]; then \
+    apt-get -y install sudo wget && \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
+      curl -L -o /tmp/ssdb-client-php.tar.gz https://github.com/jonnywang/phpssdb/archive/php7.tar.gz; \
+    else \
+      curl -L -o /tmp/ssdb-client-php.tar.gz https://github.com/jonnywang/phpssdb/archive/master.tar.gz; \
+    fi \
+    && mkdir -p /tmp/ssdb-client-php \
+    && tar -C /tmp/ssdb-client-php -zxvf /tmp/ssdb-client-php.tar.gz --strip 1 \
+    && cd /tmp/ssdb-client-php \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && rm /tmp/ssdb-client-php.tar.gz \
+    && docker-php-ext-enable ssdb \
+;fi
+
+#####################################
+# trader:
+#####################################
+
+USER root
+
+ARG INSTALL_TRADER=false
+
+RUN if [ ${INSTALL_TRADER} = true ]; then \
+    pecl install trader \
+    && echo "extension=trader.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/trader.ini \
+    && ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/trader.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-trader.ini \
+;fi
+
+#
+#--------------------------------------------------------------------------
+# zmq
+#--------------------------------------------------------------------------
+#
+
+USER root
+
+ARG INSTALL_ZMQ=false
+
+RUN if [ ${INSTALL_ZMQ} = true ]; then \
+    apt-get install --yes git libzmq3-dev \
+    && git clone https://github.com/zeromq/php-zmq.git \
+    && cd php-zmq \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && cd .. \
+    && rm -fr php-zmq \
+    && echo "extension=zmq.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/zmq.ini \
+    && ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/zmq.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-zmq.ini \
+;fi
+
+############################################################################
+## Event:
+############################################################################
+USER root
+
+ARG INSTALL_EVENT=false
+
+RUN set -eux; \
+  if [ ${INSTALL_EVENT} = true ]; then \
+      curl -L -o  /tmp/libevent.tar.gz https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz   &&\
+      mkdir -p /tmp/libevent-php &&\
+      tar -C /tmp/libevent-php -zxvf /tmp/libevent.tar.gz --strip 1 &&\
+      cd /tmp/libevent-php &&\
+      ./configure --prefix=/usr/local/libevent-2.1.12  &&\
+      make &&\
+      make install &&\
+      rm /tmp/libevent.tar.gz &&\
+      echo "extension=sockets.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/sockets.ini && \
+      ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/sockets.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-sockets.ini && \
+      curl -L -o /tmp/event.tar.gz http://pecl.php.net/get/event-3.0.6.tgz &&\
+      mkdir -p /tmp/event-php &&\
+      tar -C /tmp/event-php -zxvf /tmp/event.tar.gz --strip 1 &&\
+      cd /tmp/event-php &&\
+      phpize &&\
+      ./configure  --with-event-libevent-dir=/usr/local/libevent-2.1.12/ &&\
+      make &&\
+      make install &&\
+      rm /tmp/event.tar.gz &&\
+      echo "extension=event.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/event.ini && \
+      ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/event.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-event.ini && \
+      php -m  | grep -q 'event' \
+;fi
+
+
 
 #
 #--------------------------------------------------------------------------

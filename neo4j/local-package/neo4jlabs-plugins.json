@@ -1,0 +1,37 @@
+{
+  "apoc": {
+    "versions": "https://neo4j-contrib.github.io/neo4j-apoc-procedures/versions.json",
+    "properties": {
+      "dbms.security.procedures.unrestricted": "apoc.*"
+    }
+  },
+  "streams": {
+    "versions": "https://neo4j-contrib.github.io/neo4j-streams/versions.json",
+    "properties": {}
+  },
+  "graphql": {
+    "versions": "https://neo4j-graphql.github.io/neo4j-graphql/versions.json",
+    "properties": {
+      "dbms.unmanaged_extension_classes": "org.neo4j.graphql=/graphql",
+      "dbms.security.procedures.unrestricted": "graphql.*"
+    }
+  },
+  "graph-algorithms": {
+    "versions": "https://neo4j-contrib.github.io/neo4j-graph-algorithms/versions.json",
+    "properties": {
+      "dbms.security.procedures.unrestricted":"algo.*"
+    }
+  },
+  "n10s": {
+    "versions": "https://neo4j-labs.github.io/neosemantics/versions.json",
+    "properties": {
+      "dbms.security.procedures.unrestricted":"semantics.*"
+    }
+  },  
+  "_testing": {
+    "versions": "http://host.testcontainers.internal:3000/versions.json",
+    "properties": {
+      "dbms.security.procedures.unrestricted": "com.neo4j.docker.plugins.*"
+    }
+  }
+}
