@@ -2258,7 +2258,7 @@ For configuration information, visit the [bash-git-prompt repository](https://gi
 
 <br>
 <a name="Install-Dnsutils"></a>
-## Install Dnsutils extension
+## Install Dnsutils
 
 1 - First install `dnsutils` in the Workspace and the PHP-FPM Containers:
 <br>
