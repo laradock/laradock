@@ -533,7 +533,8 @@ RUN if [ ${INSTALL_GEARMAN} = true ]; then \
 ARG INSTALL_PHPREDIS=false
 
 RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
-    apt-get install -yqq php${LARADOCK_PHP_VERSION}-redis \
+    apt-get update \
+    && apt-get install -yqq php${LARADOCK_PHP_VERSION}-redis \
 ;fi
 
 ###########################################################################

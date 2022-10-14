@@ -737,8 +737,9 @@ RUN set -eux; \
       ###########################################################################
       # Ref from https://github.com/Microsoft/msphpsql/wiki/Dockerfile-for-adding-pdo_sqlsrv-and-sqlsrv-to-official-php-image
       ###########################################################################
-      # Add Microsoft repo for Microsoft ODBC Driver 13 for Linux
-      apt-get install -yqq apt-transport-https gnupg lsb-release \
+      # Add Microsoft repo for Microsoft ODBC Driver 13 for Linux \
+      apt-get update \
+      && apt-get install -yqq apt-transport-https gnupg lsb-release \
       && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
       && curl https://packages.microsoft.com/config/debian/$(lsb_release -rs)/prod.list > /etc/apt/sources.list.d/mssql-release.list \
       && apt-get update -yqq \
@@ -1210,9 +1211,10 @@ RUN set -xe; \
 ###########################################################################
 
 ARG DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL=false
+ARG DOWNGRADE_OPENSSL_TLS_VERSION=1.2
 
 RUN if [ ${DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL} = true ]; then \
-    sed -i 's,^\(MinProtocol[ ]*=\).*,\1'TLSv1.2',g' /etc/ssl/openssl.cnf \
+    sed -i 's,^\(MinProtocol[ ]*=\).*,\1'TLSv${DOWNGRADE_OPENSSL_TLS_VERSION}',g' /etc/ssl/openssl.cnf \
     && \
     sed -i 's,^\(CipherString[ ]*=\).*,\1'DEFAULT@SECLEVEL=1',g' /etc/ssl/openssl.cnf\
 ;fi
