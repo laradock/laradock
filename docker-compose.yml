@@ -545,10 +545,7 @@ services:
         - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
       ports:
         - "${MYSQL_PORT}:3306"
-      expose:
-        - "3306"
-      networks:
-        - backend
+
 
 ### sharding-proxy ###################################################
     sharding-proxy:
