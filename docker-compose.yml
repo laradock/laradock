@@ -74,6 +74,7 @@ services:
           - INSTALL_GMP=${WORKSPACE_INSTALL_GMP}
           - INSTALL_GNUPG=${WORKSPACE_INSTALL_GNUPG}
           - INSTALL_XDEBUG=${WORKSPACE_INSTALL_XDEBUG}
+          - XDEBUG_PORT=${WORKSPACE_XDEBUG_PORT}
           - INSTALL_PCOV=${WORKSPACE_INSTALL_PCOV}
           - INSTALL_PHPDBG=${WORKSPACE_INSTALL_PHPDBG}
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
@@ -218,6 +219,7 @@ services:
           - INSTALL_GMP=${PHP_FPM_INSTALL_GMP}
           - INSTALL_GNUPG=${PHP_FPM_INSTALL_GNUPG}
           - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
+          - XDEBUG_PORT=${PHP_FPM_XDEBUG_PORT}
           - INSTALL_PCOV=${PHP_FPM_INSTALL_PCOV}
           - INSTALL_PHPDBG=${PHP_FPM_INSTALL_PHPDBG}
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
@@ -294,8 +296,6 @@ services:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         - docker-in-docker:/certs/client
-      ports:
-        - "${PHP_FPM_XDEBUG_PORT}:9003"
       expose:
         - "9000"
       extra_hosts:
