@@ -851,25 +851,13 @@ ARG INSTALL_PHALCON=false
 ARG LARADOCK_PHALCON_VERSION
 ENV LARADOCK_PHALCON_VERSION ${LARADOCK_PHALCON_VERSION}
 
-# Copy phalcon configration
-COPY ./phalcon.ini /usr/local/etc/php/conf.d/phalcon.ini.disable
-
 RUN if [ $INSTALL_PHALCON = true ]; then \
-    apt-get install -yqq unzip libpcre3-dev gcc make re2c git automake autoconf\
-    && git clone https://github.com/jbboehr/php-psr.git \
-    && cd php-psr \
-    && phpize \
-    && ./configure \
-    && make \
-    && make test \
-    && make install \
-    && curl -L -o /tmp/cphalcon.zip https://github.com/phalcon/cphalcon/archive/v${LARADOCK_PHALCON_VERSION}.zip \
-    && unzip -d /tmp/ /tmp/cphalcon.zip \
-    && cd /tmp/cphalcon-${LARADOCK_PHALCON_VERSION}/build \
-    && ./install \
-    && mv /usr/local/etc/php/conf.d/phalcon.ini.disable /usr/local/etc/php/conf.d/phalcon.ini \
-    && rm -rf /tmp/cphalcon* \
-;fi
+      apt-get update -yqq \
+      && pecl channel-update pecl.php.net \
+      && apt-get install -yqq libpcre3-dev; \
+      pecl install phalcon-${LARADOCK_PHALCON_VERSION}; \
+      docker-php-ext-enable phalcon \
+  ;fi
 
 ###########################################################################
 # APCU:
