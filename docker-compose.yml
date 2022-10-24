@@ -2076,3 +2076,17 @@ services:
         - ${TARANTOOL_ADMIN_PORT}:80
       networks:
         - backend
+
+  ### onedev ####################################################
+    onedev:
+      image: 1dev/server
+      ports:
+        - "${ONEDEV_HTTP_PORT}:6610"
+        - "${ONEDEV_SSH_PORT}:6611"
+      volumes:
+        - ${DATA_PATH_HOST}/onedev:/opt/onedev
+        - /var/run/docker.sock:/var/run/docker.sock
+      networks:
+        - frontend
+        - backend
+      restart: always
