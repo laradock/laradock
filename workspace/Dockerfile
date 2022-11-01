@@ -1765,7 +1765,17 @@ RUN set -eux; \
       php -m  | grep -q 'event' \
 ;fi
 
+###########################################################################
+# DNS utilities:
+###########################################################################
 
+USER root
+
+ARG INSTALL_DNSUTILS=false
+
+RUN if [ ${INSTALL_DNSUTILS} = true ]; then \
+    apt-get update && apt-get install -y dnsutils \
+;fi
 
 #
 #--------------------------------------------------------------------------
