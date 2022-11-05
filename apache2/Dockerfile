@@ -30,3 +30,12 @@ ENTRYPOINT ["/opt/docker/bin/entrypoint.sh"]
 CMD ["/bin/bash", "/opt/startup.sh"]
 
 EXPOSE 80 443
+
+ARG APACHE_FOR_MAC_M1=false
+
+RUN if [ ${APACHE_FOR_MAC_M1} = true ]; then \
+    # Change application source from deb.debian.org to aliyun source
+    wget -O "/usr/local/bin/go-replace" "https://github.com/webdevops/goreplace/releases/download/1.1.2/gr-arm64-linux" && \
+    chmod +x "/usr/local/bin/go-replace" && \
+    "/usr/local/bin/go-replace" --version \
+;fi

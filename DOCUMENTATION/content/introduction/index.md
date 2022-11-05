@@ -180,6 +180,7 @@ That's it! enjoy :)
          - `SOAP` 
          - `Drush` 
          - `Wordpress CLI`
+         - `dnsutils`
     - Apache ZooKeeper *(Centralized service for distributed systems to a hierarchical key-value store)*
     - Kibana *(Visualize your Elasticsearch data and navigate the Elastic Stack)*
     - Dejavu *(Edit your Elasticsearch data)*
