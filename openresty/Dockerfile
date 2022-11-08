@@ -58,7 +58,7 @@ ARG RESTY_CONFIG_OPTIONS_MORE="\
     --with-http_iconv_module \
     --add-module=/tmp/nginx-ct-master \
     --add-module=/tmp/nginx-dav-ext-module-master \
-    --add-module=/tmp/ngx_brotli \
+    --add-module=/tmp/ngx_brotli-master \
     --add-module=/tmp/ngx_cache_purge-master \
     --add-module=/tmp/ngx_http_substitutions_filter_module-master \
     "
@@ -166,7 +166,7 @@ RUN apk add --no-cache --virtual .build-deps \
     && tar xzf nginx-ct.tar.gz \
     && curl -fSL https://github.com/arut/nginx-dav-ext-module/archive/master.tar.gz -o nginx-dav-ext-module.tar.gz \
     && tar xzf nginx-dav-ext-module.tar.gz \
-    && curl -fSL https://www.downsoft.cn/software/linux/nginx/ngx_brotli.tar.gz -o ngx_brotli.tar.gz \
+    && curl -fSL https://github.com/google/ngx_brotli/archive/master.tar.gz -o ngx_brotli.tar.gz \
     && tar xzf ngx_brotli.tar.gz \
     && curl -fSL https://github.com/yaoweibin/ngx_http_substitutions_filter_module/archive/master.tar.gz -o ngx_http_substitutions_filter_module.tar.gz \
     && tar xzf ngx_http_substitutions_filter_module.tar.gz \
