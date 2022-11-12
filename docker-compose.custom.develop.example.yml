@@ -19,12 +19,13 @@ services:
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         # - ~/.composer:/home/laradock/.composer
-        - ./workspace/crontab/laradock:/etc/cron.d/laradock
+        # - ~/.gitconfig:/etc/gitconfig
+        # - ./workspace/crontab/laradock:/etc/cron.d/laradock
         - /dev/shm:/dev/shm
         - /etc/localtime:/etc/localtime:ro
         - ${SSH_PATH}:/home/laradock/.ssh
-#        - /home/fanswoo/.npm:/home/laradock/.npm
-#        - /home/fanswoo/.npmrc:/home/laradock/.npmrc
+        # - /home/fanswoo/.npm:/home/laradock/.npm
+        # - /home/fanswoo/.npmrc:/home/laradock/.npmrc
       build:
         context: ./workspace
         args:

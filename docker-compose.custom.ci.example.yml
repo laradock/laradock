@@ -23,8 +23,6 @@ services:
         - /dev/shm:/dev/shm
         - /etc/localtime:/etc/localtime:ro
         - ${SSH_PATH}:/home/laradock/.ssh
-#        - /home/fanswoo/.npm:/home/laradock/.npm
-#        - /home/fanswoo/.npmrc:/home/laradock/.npmrc
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       ports:
