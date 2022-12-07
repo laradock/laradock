@@ -1147,7 +1147,7 @@ RUN if [ ${INSTALL_SYMFONY} = true ]; then \
   mkdir -p /usr/local/bin \
   && apt-get -y install sudo wget \
   && wget --quiet https://get.symfony.com/cli/installer -O - | bash \
-  && mv /root/.symfony/bin/symfony /usr/local/bin/symfony \
+  && mv /root/.symfony5/bin/symfony /usr/local/bin/symfony \
   && chmod a+x /usr/local/bin/symfony \
 ;fi
 
