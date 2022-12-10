@@ -5,3 +5,6 @@ services:
     volumes:
       - ${DATA_PATH_HOST}/mailhog/maildir:/maildir
     command: [ "-storage=maildir", "-maildir-path=/maildir" ]
+  postgres:
+    environment:
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --locale=C
