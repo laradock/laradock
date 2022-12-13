@@ -531,7 +531,7 @@ RUN set -eux; \
       make &&\
       make install &&\
       rm /tmp/event.tar.gz &&\
-      docker-php-ext-enable event &&\
+      docker-php-ext-enable --ini-name zz-event.ini event &&\
       php -m  | grep -q 'event' \
 ;fi
 
