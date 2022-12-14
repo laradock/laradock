@@ -222,7 +222,7 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
       pecl install xdebug-3.2.0; \
     else \
       pecl install xdebug-3.1.4; \
-    fi && \
+    fi; \
   else \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
       pecl install xdebug-2.5.5; \
