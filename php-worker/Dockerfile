@@ -39,8 +39,9 @@ RUN apk --update add wget \
 
 RUN pecl channel-update pecl.php.net; \
   docker-php-ext-install mysqli mbstring pdo pdo_mysql xml pcntl; \
-  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "1" ]; then \
-    php -m | grep -q 'tokenizer'; \
+  if [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "80100" ] || \
+     [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "80200" ]; then \
+    php -m | grep -oiE '^tokenizer$'; \
   else \
     docker-php-ext-install tokenizer; \
   fi
@@ -531,7 +532,7 @@ RUN set -eux; \
       make &&\
       make install &&\
       rm /tmp/event.tar.gz &&\
-      docker-php-ext-enable event &&\
+      docker-php-ext-enable --ini-name zz-event.ini event &&\
       php -m  | grep -q 'event' \
 ;fi
 
