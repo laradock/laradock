@@ -32,8 +32,7 @@ RUN apk --update add wget \
   cyrus-sasl-dev \
   libgsasl-dev \
   oniguruma-dev \
-  libressl \
-  libressl-dev \
+  openssl-dev \
   supervisor
 
 
