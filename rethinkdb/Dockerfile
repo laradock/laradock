@@ -7,7 +7,7 @@ VOLUME /data/rethinkdb_data
 #Necessary for the backup rethinkdb
 RUN apt-get -y update \
     && apt-get -y upgrade \
-    && apt-get -y install python-pip \
+    && apt-get -y install python3-pip \
     && pip install rethinkdb \
     && rm -rf /var/lib/apt/lists/*
 
