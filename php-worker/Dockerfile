@@ -32,8 +32,13 @@ RUN apk --update add wget \
   cyrus-sasl-dev \
   libgsasl-dev \
   oniguruma-dev \
-  openssl-dev \
-  supervisor
+  supervisor; \
+  if [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "50600" ] || \
+     [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70000" ]; then \
+    apk --update add libressl libressl-dev; \
+  else \
+    apk --update add openssl-dev; \
+  fi
 
 
 RUN pecl channel-update pecl.php.net; \
