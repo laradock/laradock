@@ -1038,6 +1038,8 @@ services:
         - cluster.name=laradock-cluster
         - node.name=laradock-node
         - bootstrap.memory_lock=true
+        - xpack.security.enabled=false
+        - xpack.security.transport.ssl.enabled=false
         - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
         - cluster.initial_master_nodes=laradock-node
       ulimits:
