@@ -1,4 +1,4 @@
-FROM openjdk:8-jdk
+FROM openjdk:11-jdk
 
 RUN apt-get update && apt-get install -y git curl && rm -rf /var/lib/apt/lists/*
 
@@ -36,11 +36,11 @@ COPY init.groovy /usr/share/jenkins/ref/init.groovy.d/tcp-slave-agent-port.groov
 
 # jenkins version being bundled in this docker image
 ARG JENKINS_VERSION
-ENV JENKINS_VERSION ${JENKINS_VERSION:-2.303.2}
+ENV JENKINS_VERSION ${JENKINS_VERSION:-2.381}
 
 # jenkins.war checksum, download will be validated using it
 # 2.303.2
-ARG JENKINS_SHA=c4b8532e25a33001a3d8883d3cd87a664953ace239b486839b683065817d29cf
+ARG JENKINS_SHA=62ca5dcecbf176452d94d4438488662e223ab9594dccb564f065c63832a47302
 
 
 # Can be used to customize where jenkins.war get downloaded from
