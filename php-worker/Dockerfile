@@ -540,6 +540,17 @@ RUN set -eux; \
       php -m  | grep -q 'event' \
 ;fi
 
+###########################################################################
+# GRPC:
+###########################################################################
+
+ARG INSTALL_GRPC=false
+RUN if [ ${INSTALL_GRPC} = true ]; then \
+    pecl install grpc && \
+    docker-php-ext-enable grpc && \
+    php -m  | grep -q 'grpc' \
+;fi
+
 #
 #--------------------------------------------------------------------------
 # Optional Supervisord Configuration
