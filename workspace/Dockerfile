@@ -981,7 +981,7 @@ ARG INSTALL_LARAVEL_ENVOY=false
 
 RUN if [ ${INSTALL_LARAVEL_ENVOY} = true ]; then \
     # Install the Laravel Envoy
-    composer config --no-plugins allow-plugins.kylekatarnls/update-helper true && \
+    composer global config --no-plugins allow-plugins.kylekatarnls/update-helper true && \
     composer global require laravel/envoy \
 ;fi
 
@@ -1756,7 +1756,7 @@ RUN set -eux; \
       make install &&\
       rm /tmp/libevent.tar.gz &&\
       echo "extension=sockets.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/sockets.ini && \
-      ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/sockets.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-sockets.ini && \
+      ln -sf /etc/php/${LARADOCK_PHP_VERSION}/mods-available/sockets.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-sockets.ini && \
       curl -L -o /tmp/event.tar.gz http://pecl.php.net/get/event-3.0.6.tgz &&\
       mkdir -p /tmp/event-php &&\
       tar -C /tmp/event-php -zxvf /tmp/event.tar.gz --strip 1 &&\
@@ -1767,7 +1767,7 @@ RUN set -eux; \
       make install &&\
       rm /tmp/event.tar.gz &&\
       echo "extension=event.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/event.ini && \
-      ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/event.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-event.ini && \
+      ln -sf /etc/php/${LARADOCK_PHP_VERSION}/mods-available/event.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-event.ini && \
       php -m  | grep -q 'event' \
 ;fi
 
