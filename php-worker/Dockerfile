@@ -508,6 +508,18 @@ RUN set -xe; \
   && docker-php-ext-enable ssdb \
   ;fi
 
+###########################################################################
+# Intl:
+###########################################################################
+
+ARG INSTALL_INTL=false
+
+RUN if [ ${INSTALL_INTL} = true ]; then \
+    apk add icu-dev && \
+    docker-php-ext-configure intl && \
+    docker-php-ext-install intl && \
+    docker-php-ext-enable intl \
+;fi
 
 ############################################################################
 ## Event:
