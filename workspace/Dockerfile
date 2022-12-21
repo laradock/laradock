@@ -1527,6 +1527,7 @@ ARG INSTALL_PROTOC=false
 ARG PROTOC_VERSION
 
 RUN if [ ${INSTALL_PROTOC} = true ]; then \
+  apt-get -yqq install sudo wget unzip && \
   if [ ${PROTOC_VERSION} = "latest" ]; then \
     REAL_PROTOC_VERSION=$(curl -s https://api.github.com/repos/protocolbuffers/protobuf/releases/latest | \
       sed -nr 's/.*"tag_name":\s?"v(.+?)".*/\1/p'); \
@@ -1534,10 +1535,10 @@ RUN if [ ${INSTALL_PROTOC} = true ]; then \
     REAL_PROTOC_VERSION=${PROTOC_VERSION}; \
   fi && \
   PROTOC_ZIP=protoc-${REAL_PROTOC_VERSION}-linux-x86_64.zip; \
-  curl -L -o /tmp/protoc.zip https://github.com/protocolbuffers/protobuf/releases/download/v${REAL_PROTOC_VERSION}/${PROTOC_ZIP} && \
-  unzip -q -o /tmp/protoc.zip -d /usr/local bin/protoc && \
-  unzip -q -o /tmp/protoc.zip -d /usr/local 'include/*' && \
-  rm -f /tmp/protoc.zip && \
+  wget https://github.com/protocolbuffers/protobuf/releases/download/v${REAL_PROTOC_VERSION}/${PROTOC_ZIP} && \
+  unzip -q -o ${PROTOC_ZIP} -d /usr/local bin/protoc && \
+  unzip -q -o ${PROTOC_ZIP} -d /usr/local 'include/*' && \
+  rm -f ${PROTOC_ZIP} && \
   chmod +x /usr/local/bin/protoc && \
   chmod -R +r /usr/local/include/google \
 ;fi
