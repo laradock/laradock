@@ -1339,6 +1339,21 @@ RUN if [ $INSTALL_PHALCON = true ]; then \
   ;fi
 
 ###########################################################################
+# APCU:
+###########################################################################
+
+ARG INSTALL_APCU=false
+
+RUN if [ ${INSTALL_APCU} = true ]; then \
+  apt-get update -yqq \
+  && pecl channel-update pecl.php.net; \
+  pecl install apcu; \
+  echo "extension=apcu.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/apcu.ini; \
+  ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/apcu.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/50-apcu.ini; \
+  php -m | grep -q 'apcu' \
+;fi
+
+###########################################################################
 USER root
 
 ARG INSTALL_MYSQL_CLIENT=false
