@@ -2253,6 +2253,31 @@ For configuration information, visit the [bash-git-prompt repository](https://gi
 <a name="Install-Oh-My-Zsh"></a>
 ## Install Oh My ZSH
 
+
+
+
+<br>
+<a name="Install-Dnsutils"></a>
+## Install Dnsutils
+
+1 - First install `dnsutils` in the Workspace and the PHP-FPM Containers:
+<br>
+a) open the `.env` file
+<br>
+b) search for the `WORKSPACE_INSTALL_DNSUTILS` argument under the Workspace Container
+<br>
+c) set it to `true`
+<br>
+d) search for the `PHP_FPM_INSTALL_DNSUTILS` argument under the PHP-FPM Container
+<br>
+e) set it to `true`
+<br>
+
+2 - Re-build the containers `docker-compose build workspace php-fpm`
+
+
+
+
 > With the Laravel autocomplete plugin.
 
 [Zsh](https://en.wikipedia.org/wiki/Z_shell) is an extended Bourne shell with many improvements, including some features of Bash, ksh, and tcsh.

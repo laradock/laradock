@@ -127,3 +127,21 @@ WORKSPACE_INSTALL_LIBPNG=true
 docker-compose build workspace
 ```
 
+## Apache2 container won't start on mac m1
+
+To fix the problem you can follow those steps
+
+1 - Open the `.env`.
+
+2 - Search for `APACHE_FOR_MAC_M1` or add the key, if missing.
+
+3 - Set the value to true:
+
+```dotenv
+APACHE_FOR_MAC_M1=true
+```
+4 - Finally rebuild the workspace image
+
+```bash
+docker-compose build apache2
+```
