@@ -7,7 +7,7 @@ weight: 2
 ## Requirements
 
 - [Git](https://git-scm.com/downloads)
-- [Docker](https://www.docker.com/products/docker/) [ >= 17.12 ]
+- [Docker](https://www.docker.com/products/docker-desktop/) [ >= 19.03.0 ]
 
 
 
@@ -148,12 +148,12 @@ If you use Chrome 63 or above for development, don't use `.dev`. [Why?](https://
 
 If you are using **Docker Toolbox** (VM), do one of the following:
 
-- Upgrade to Docker [Native](https://www.docker.com/products/docker) for Mac/Windows (Recommended). Check out [Upgrading Laradock](/documentation/#upgrading-laradock)
+- Upgrade to [Docker Desktop](https://www.docker.com/products/docker-desktop/) for Mac/Windows (Recommended). Check out [Upgrading Laradock](/documentation/#upgrading-laradock)
 - Use Laradock v3.\*. Visit the [Laradock-ToolBox](https://github.com/laradock/laradock/tree/LaraDock-ToolBox) branch. *(outdated)*
 
 <br>
 
-We recommend using a Docker version which is newer than 1.13. 
+We recommend using a Docker Engine version which is newer than 19.03.0.
 
 <br>
 
