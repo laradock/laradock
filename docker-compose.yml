@@ -1564,7 +1564,7 @@ services:
       volumes:
         - ${DATA_PATH_HOST}/grafana:/var/lib/grafana
       ports:
-        - "${GRAFANA_PORT}:3000"
+        - "${GRAFANA_PORT}:3535"
       networks:
         - backend
 
