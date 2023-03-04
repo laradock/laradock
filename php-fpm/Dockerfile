@@ -193,6 +193,7 @@ RUN if [ ${INSTALL_PGSQL} = true ]; then \
 
 ARG INSTALL_PG_CLIENT=false
 ARG INSTALL_POSTGIS=false
+ARG PG_CLIENT_VERSION
 
 RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
     apt-get install -yqq gnupg \
@@ -200,7 +201,7 @@ RUN if [ ${INSTALL_PG_CLIENT} = true ]; then \
     && echo "deb http://apt.postgresql.org/pub/repos/apt $VERSION_CODENAME-pgdg main" > /etc/apt/sources.list.d/pgdg.list \
     && curl -sL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
     && apt-get update -yqq \
-    && apt-get install -yqq postgresql-client-12 postgis; \
+    && apt-get install -yqq postgresql-client-${PG_CLIENT_VERSION} postgis; \
     if [ ${INSTALL_POSTGIS} = true ]; then \
       apt-get install -yqq postgis; \
     fi \
