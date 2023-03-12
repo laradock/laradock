@@ -218,7 +218,11 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
   # Install the xdebug extension
   # https://xdebug.org/docs/compat
   if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] || { [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && { [ $(php -r "echo PHP_MINOR_VERSION;") = "4" ] || [ $(php -r "echo PHP_MINOR_VERSION;") = "3" ] ;} ;}; then \
-    pecl install xdebug-3.1.4; \
+    if [ ${LARADOCK_PHP_VERSION} = "8.2" ]; then \
+      pecl install xdebug-3.2.0; \
+    else \
+      pecl install xdebug-3.1.4; \
+    fi; \
   else \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
       pecl install xdebug-2.5.5; \
@@ -1282,7 +1286,7 @@ RUN if [ ${INSTALL_DNSUTILS} = true ]; then \
 # Check PHP version:
 ###########################################################################
 
-RUN set -xe; php -v | head -n 1 | grep -q "PHP ${LARADOCK_PHP_VERSION}."
+RUN set -xe; php -v | grep -q "PHP ${LARADOCK_PHP_VERSION}."
 
 #
 #--------------------------------------------------------------------------

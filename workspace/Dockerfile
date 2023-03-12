@@ -334,7 +334,11 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
   # https://xdebug.org/docs/compat
   apt-get install -yqq pkg-config php-xml php${LARADOCK_PHP_VERSION}-xml && \
   if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] || { [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && { [ $(php -r "echo PHP_MINOR_VERSION;") = "4" ] || [ $(php -r "echo PHP_MINOR_VERSION;") = "3" ] ;} ;}; then \
-    pecl install xdebug-3.1.4; \
+    if [ ${LARADOCK_PHP_VERSION} = "8.2" ]; then \
+      pecl install xdebug-3.2.0; \
+    else \
+      pecl install xdebug-3.1.4; \
+    fi; \
   else \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
       pecl install xdebug-2.5.5; \
@@ -732,7 +736,7 @@ ENV NVM_NODEJS_ORG_MIRROR ${NVM_NODEJS_ORG_MIRROR}
 RUN if [ ${INSTALL_NODE} = true ]; then \
     # Install nvm (A Node Version Manager)
     mkdir -p $NVM_DIR && \
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash \
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash \
         && . $NVM_DIR/nvm.sh \
         && nvm install ${NODE_VERSION} \
         && nvm use ${NODE_VERSION} \
@@ -756,7 +760,6 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
         && if [ ${INSTALL_NPM_ANGULAR_CLI} = true ]; then \
         npm install -g @angular/cli \
         ;fi \
-        && ln -s `npm bin --global` /home/laradock/.node-bin \
 ;fi
 
 # Wouldn't execute when added to the RUN statement in the above block
@@ -775,9 +778,6 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
     echo 'export NVM_DIR="/home/laradock/.nvm"' >> ~/.bashrc && \
     echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm' >> ~/.bashrc \
 ;fi
-
-# Add PATH for node
-ENV PATH $PATH:/home/laradock/.node-bin
 
 # Make it so the node modules can be executed with 'docker-compose exec'
 # We'll create symbolic links into '/usr/local/bin'.
@@ -981,6 +981,7 @@ ARG INSTALL_LARAVEL_ENVOY=false
 
 RUN if [ ${INSTALL_LARAVEL_ENVOY} = true ]; then \
     # Install the Laravel Envoy
+    composer global config --no-plugins allow-plugins.kylekatarnls/update-helper true && \
     composer global require laravel/envoy \
 ;fi
 
@@ -1526,6 +1527,7 @@ ARG INSTALL_PROTOC=false
 ARG PROTOC_VERSION
 
 RUN if [ ${INSTALL_PROTOC} = true ]; then \
+  apt-get -yqq install sudo wget unzip && \
   if [ ${PROTOC_VERSION} = "latest" ]; then \
     REAL_PROTOC_VERSION=$(curl -s https://api.github.com/repos/protocolbuffers/protobuf/releases/latest | \
       sed -nr 's/.*"tag_name":\s?"v(.+?)".*/\1/p'); \
@@ -1533,10 +1535,10 @@ RUN if [ ${INSTALL_PROTOC} = true ]; then \
     REAL_PROTOC_VERSION=${PROTOC_VERSION}; \
   fi && \
   PROTOC_ZIP=protoc-${REAL_PROTOC_VERSION}-linux-x86_64.zip; \
-  curl -L -o /tmp/protoc.zip https://github.com/protocolbuffers/protobuf/releases/download/v${REAL_PROTOC_VERSION}/${PROTOC_ZIP} && \
-  unzip -q -o /tmp/protoc.zip -d /usr/local bin/protoc && \
-  unzip -q -o /tmp/protoc.zip -d /usr/local 'include/*' && \
-  rm -f /tmp/protoc.zip && \
+  wget https://github.com/protocolbuffers/protobuf/releases/download/v${REAL_PROTOC_VERSION}/${PROTOC_ZIP} && \
+  unzip -q -o ${PROTOC_ZIP} -d /usr/local bin/protoc && \
+  unzip -q -o ${PROTOC_ZIP} -d /usr/local 'include/*' && \
+  rm -f ${PROTOC_ZIP} && \
   chmod +x /usr/local/bin/protoc && \
   chmod -R +r /usr/local/include/google \
 ;fi
@@ -1754,8 +1756,10 @@ RUN set -eux; \
       make &&\
       make install &&\
       rm /tmp/libevent.tar.gz &&\
-      echo "extension=sockets.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/sockets.ini && \
-      ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/sockets.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-sockets.ini && \
+      if [ ! -f /etc/php/${LARADOCK_PHP_VERSION}/mods-available/sockets.ini ]; then\
+        echo "extension=sockets.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/sockets.ini; \
+      fi &&\
+      ln -sf /etc/php/${LARADOCK_PHP_VERSION}/mods-available/sockets.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-sockets.ini && \
       curl -L -o /tmp/event.tar.gz http://pecl.php.net/get/event-3.0.6.tgz &&\
       mkdir -p /tmp/event-php &&\
       tar -C /tmp/event-php -zxvf /tmp/event.tar.gz --strip 1 &&\
@@ -1766,7 +1770,7 @@ RUN set -eux; \
       make install &&\
       rm /tmp/event.tar.gz &&\
       echo "extension=event.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/event.ini && \
-      ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/event.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-event.ini && \
+      ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/event.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/30-event.ini && \
       php -m  | grep -q 'event' \
 ;fi
 
