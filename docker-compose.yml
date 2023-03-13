@@ -5,7 +5,6 @@ networks:
     driver: ${NETWORKS_DRIVER}
   backend:
     driver: ${NETWORKS_DRIVER}
-
 volumes:
   mysql:
     driver: ${VOLUMES_DRIVER}
@@ -67,7 +66,6 @@ services:
           - SHELL_OH_MY_ZSH=${SHELL_OH_MY_ZSH}
           - SHELL_OH_MY_ZSH_AUTOSUGESTIONS=${SHELL_OH_MY_ZSH_AUTOSUGESTIONS}
           - SHELL_OH_MY_ZSH_ALIASES=${SHELL_OH_MY_ZSH_ALIASES}
-          - UBUNTU_SOURCE=${UBUNTU_SOURCE}
           - BASE_IMAGE_TAG_PREFIX=${WORKSPACE_BASE_IMAGE_TAG_PREFIX}
           - LARADOCK_PHP_VERSION=${PHP_VERSION}
           - LARADOCK_PHALCON_VERSION=${PHALCON_VERSION}
@@ -76,6 +74,7 @@ services:
           - INSTALL_GMP=${WORKSPACE_INSTALL_GMP}
           - INSTALL_GNUPG=${WORKSPACE_INSTALL_GNUPG}
           - INSTALL_XDEBUG=${WORKSPACE_INSTALL_XDEBUG}
+          - XDEBUG_PORT=${WORKSPACE_XDEBUG_PORT}
           - INSTALL_PCOV=${WORKSPACE_INSTALL_PCOV}
           - INSTALL_PHPDBG=${WORKSPACE_INSTALL_PHPDBG}
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
@@ -88,6 +87,7 @@ services:
           - INSTALL_MONGO=${WORKSPACE_INSTALL_MONGO}
           - INSTALL_AMQP=${WORKSPACE_INSTALL_AMQP}
           - INSTALL_CASSANDRA=${WORKSPACE_INSTALL_CASSANDRA}
+          - INSTALL_ZMQ=${WORKSPACE_INSTALL_ZMQ}
           - INSTALL_GEARMAN=${WORKSPACE_INSTALL_GEARMAN}
           - INSTALL_PHPREDIS=${WORKSPACE_INSTALL_PHPREDIS}
           - INSTALL_MSSQL=${WORKSPACE_INSTALL_MSSQL}
@@ -112,11 +112,12 @@ services:
           - INSTALL_V8JS=${WORKSPACE_INSTALL_V8JS}
           - COMPOSER_GLOBAL_INSTALL=${WORKSPACE_COMPOSER_GLOBAL_INSTALL}
           - COMPOSER_VERSION=${WORKSPACE_COMPOSER_VERSION}
-          - COMPOSER_JSON_AUTH=${WORKSPACE_COMPOSER_JSON_AUTH}
+          - COMPOSER_AUTH_JSON=${WORKSPACE_COMPOSER_AUTH_JSON}
           - COMPOSER_REPO_PACKAGIST=${WORKSPACE_COMPOSER_REPO_PACKAGIST}
           - INSTALL_WORKSPACE_SSH=${WORKSPACE_INSTALL_WORKSPACE_SSH}
           - INSTALL_LARAVEL_ENVOY=${WORKSPACE_INSTALL_LARAVEL_ENVOY}
           - INSTALL_LARAVEL_INSTALLER=${WORKSPACE_INSTALL_LARAVEL_INSTALLER}
+          - INSTALL_XLSWRITER=${WORKSPACE_INSTALL_XLSWRITER}
           - INSTALL_DEPLOYER=${WORKSPACE_INSTALL_DEPLOYER}
           - INSTALL_PRESTISSIMO=${WORKSPACE_INSTALL_PRESTISSIMO}
           - INSTALL_LINUXBREW=${WORKSPACE_INSTALL_LINUXBREW}
@@ -162,14 +163,19 @@ services:
           - INSTALL_FFMPEG=${WORKSPACE_INSTALL_FFMPEG}
           - INSTALL_AUDIOWAVEFORM=${WORKSPACE_INSTALL_AUDIOWAVEFORM}
           - INSTALL_WKHTMLTOPDF=${WORKSPACE_INSTALL_WKHTMLTOPDF}
+          - WKHTMLTOPDF_VERSION=${WORKSPACE_WKHTMLTOPDF_VERSION}
           - INSTALL_GNU_PARALLEL=${WORKSPACE_INSTALL_GNU_PARALLEL}
           - INSTALL_LNAV=${WORKSPACE_INSTALL_LNAV}
           - INSTALL_PROTOC=${WORKSPACE_INSTALL_PROTOC}
           - INSTALL_PHPDECIMAL=${WORKSPACE_INSTALL_PHPDECIMAL}
           - INSTALL_ZOOKEEPER=${WORKSPACE_INSTALL_ZOOKEEPER}
+          - INSTALL_SSDB=${WORKSPACE_INSTALL_SSDB}
+          - INSTALL_TRADER=${WORKSPACE_INSTALL_TRADER}
           - PROTOC_VERSION=${WORKSPACE_PROTOC_VERSION}
           - INSTALL_DOCKER_CLIENT=${WORKSPACE_INSTALL_DOCKER_CLIENT}
           - INSTALL_MEMCACHED=${WORKSPACE_INSTALL_MEMCACHED}
+          - INSTALL_EVENT=${WORKSPACE_INSTALL_EVENT}
+          - INSTALL_DNSUTILS=${WORKSPACE_INSTALL_DNSUTILS}
           - http_proxy
           - https_proxy
           - no_proxy
@@ -186,6 +192,7 @@ services:
         - "${WORKSPACE_VUE_CLI_SERVE_HOST_PORT}:8080"
         - "${WORKSPACE_VUE_CLI_UI_HOST_PORT}:8000"
         - "${WORKSPACE_ANGULAR_CLI_SERVE_HOST_PORT}:4200"
+        - "${WORKSPACE_VITE_PORT}:5173"
       tty: true
       environment:
         - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
@@ -193,6 +200,7 @@ services:
         - DOCKER_TLS_VERIFY=1
         - DOCKER_TLS_CERTDIR=/certs
         - DOCKER_CERT_PATH=/certs/client
+        - CHOKIDAR_USEPOLLING=true
       networks:
         - frontend
         - backend
@@ -213,6 +221,7 @@ services:
           - INSTALL_GMP=${PHP_FPM_INSTALL_GMP}
           - INSTALL_GNUPG=${PHP_FPM_INSTALL_GNUPG}
           - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
+          - XDEBUG_PORT=${PHP_FPM_XDEBUG_PORT}
           - INSTALL_PCOV=${PHP_FPM_INSTALL_PCOV}
           - INSTALL_PHPDBG=${PHP_FPM_INSTALL_PHPDBG}
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
@@ -224,6 +233,7 @@ services:
           - INSTALL_MONGO=${PHP_FPM_INSTALL_MONGO}
           - INSTALL_AMQP=${PHP_FPM_INSTALL_AMQP}
           - INSTALL_CASSANDRA=${PHP_FPM_INSTALL_CASSANDRA}
+          - INSTALL_ZMQ=${PHP_FPM_INSTALL_ZMQ}
           - INSTALL_GEARMAN=${PHP_FPM_INSTALL_GEARMAN}
           - INSTALL_MSSQL=${PHP_FPM_INSTALL_MSSQL}
           - INSTALL_BCMATH=${PHP_FPM_INSTALL_BCMATH}
@@ -246,6 +256,7 @@ services:
           - INSTALL_IMAGE_OPTIMIZERS=${PHP_FPM_INSTALL_IMAGE_OPTIMIZERS}
           - INSTALL_IMAGEMAGICK=${PHP_FPM_INSTALL_IMAGEMAGICK}
           - INSTALL_CALENDAR=${PHP_FPM_INSTALL_CALENDAR}
+          - INSTALL_XLSWRITER=${PHP_FPM_INSTALL_XLSWRITER}
           - INSTALL_FAKETIME=${PHP_FPM_INSTALL_FAKETIME}
           - INSTALL_IONCUBE=${PHP_FPM_INSTALL_IONCUBE}
           - INSTALL_APCU=${PHP_FPM_INSTALL_APCU}
@@ -263,11 +274,16 @@ services:
           - INSTALL_FFMPEG=${PHP_FPM_FFMPEG}
           - INSTALL_AUDIOWAVEFORM=${PHP_FPM_AUDIOWAVEFORM}
           - INSTALL_WKHTMLTOPDF=${PHP_FPM_INSTALL_WKHTMLTOPDF}
+          - WKHTMLTOPDF_VERSION=${WORKSPACE_WKHTMLTOPDF_VERSION}
           - INSTALL_XHPROF=${PHP_FPM_INSTALL_XHPROF}
           - INSTALL_XMLRPC=${PHP_FPM_INSTALL_XMLRPC}
           - INSTALL_PHPDECIMAL=${PHP_FPM_INSTALL_PHPDECIMAL}
           - INSTALL_ZOOKEEPER=${PHP_FPM_INSTALL_ZOOKEEPER}
+          - INSTALL_SSDB=${PHP_FPM_INSTALL_SSDB}
+          - INSTALL_TRADER=${PHP_FPM_INSTALL_TRADER}
+          - INSTALL_EVENT=${PHP_FPM_INSTALL_EVENT}
           - DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL=${PHP_DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL}
+          - DOWNGRADE_OPENSSL_TLS_VERSION=${PHP_DOWNGRADE_OPENSSL_TLS_VERSION}
           - PUID=${PHP_FPM_PUID}
           - PGID=${PHP_FPM_PGID}
           - IMAGEMAGICK_VERSION=${PHP_FPM_IMAGEMAGICK_VERSION}
@@ -276,6 +292,7 @@ services:
           - PHP_FPM_NEW_RELIC_KEY=${PHP_FPM_NEW_RELIC_KEY}
           - PHP_FPM_NEW_RELIC_APP_NAME=${PHP_FPM_NEW_RELIC_APP_NAME}
           - INSTALL_DOCKER_CLIENT=${PHP_FPM_INSTALL_DOCKER_CLIENT}
+          - INSTALL_DNSUTILS=${PHP_FPM_INSTALL_DNSUTILS}
           - http_proxy
           - https_proxy
           - no_proxy
@@ -283,8 +300,6 @@ services:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         - docker-in-docker:/certs/client
-      ports:
-        - "${PHP_FPM_XDEBUG_PORT}:9003"
       expose:
         - "9000"
       extra_hosts:
@@ -308,13 +323,14 @@ services:
         args:
           - CHANGE_SOURCE=${CHANGE_SOURCE}
           - BASE_IMAGE_TAG_PREFIX=${PHP_FPM_BASE_IMAGE_TAG_PREFIX}
-          - LARADOCK_PHP_VERSION=8.2
+          - LARADOCK_PHP_VERSION=${PHP_VERSION}
           - LARADOCK_PHALCON_VERSION=${PHALCON_VERSION}
           - INSTALL_BZ2=${PHP_FPM_INSTALL_BZ2}
           - INSTALL_ENCHANT=${PHP_FPM_INSTALL_ENCHANT}
           - INSTALL_GMP=${PHP_FPM_INSTALL_GMP}
           - INSTALL_GNUPG=${PHP_FPM_INSTALL_GNUPG}
           - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
+          - XDEBUG_PORT=${PHP_FPM_XDEBUG_PORT}
           - INSTALL_PCOV=${PHP_FPM_INSTALL_PCOV}
           - INSTALL_PHPDBG=${PHP_FPM_INSTALL_PHPDBG}
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
@@ -326,6 +342,7 @@ services:
           - INSTALL_MONGO=${PHP_FPM_INSTALL_MONGO}
           - INSTALL_AMQP=${PHP_FPM_INSTALL_AMQP}
           - INSTALL_CASSANDRA=${PHP_FPM_INSTALL_CASSANDRA}
+          - INSTALL_ZMQ=${PHP_FPM_INSTALL_ZMQ}
           - INSTALL_GEARMAN=${PHP_FPM_INSTALL_GEARMAN}
           - INSTALL_MSSQL=${PHP_FPM_INSTALL_MSSQL}
           - INSTALL_BCMATH=${PHP_FPM_INSTALL_BCMATH}
@@ -348,6 +365,7 @@ services:
           - INSTALL_IMAGE_OPTIMIZERS=${PHP_FPM_INSTALL_IMAGE_OPTIMIZERS}
           - INSTALL_IMAGEMAGICK=${PHP_FPM_INSTALL_IMAGEMAGICK}
           - INSTALL_CALENDAR=${PHP_FPM_INSTALL_CALENDAR}
+          - INSTALL_XLSWRITER=${PHP_FPM_INSTALL_XLSWRITER}
           - INSTALL_FAKETIME=${PHP_FPM_INSTALL_FAKETIME}
           - INSTALL_IONCUBE=${PHP_FPM_INSTALL_IONCUBE}
           - INSTALL_APCU=${PHP_FPM_INSTALL_APCU}
@@ -365,11 +383,16 @@ services:
           - INSTALL_FFMPEG=${PHP_FPM_FFMPEG}
           - INSTALL_AUDIOWAVEFORM=${PHP_FPM_AUDIOWAVEFORM}
           - INSTALL_WKHTMLTOPDF=${PHP_FPM_INSTALL_WKHTMLTOPDF}
+          - WKHTMLTOPDF_VERSION=${WORKSPACE_WKHTMLTOPDF_VERSION}
           - INSTALL_XHPROF=${PHP_FPM_INSTALL_XHPROF}
           - INSTALL_XMLRPC=${PHP_FPM_INSTALL_XMLRPC}
           - INSTALL_PHPDECIMAL=${PHP_FPM_INSTALL_PHPDECIMAL}
           - INSTALL_ZOOKEEPER=${PHP_FPM_INSTALL_ZOOKEEPER}
+          - INSTALL_SSDB=${PHP_FPM_INSTALL_SSDB}
+          - INSTALL_TRADER=${PHP_FPM_INSTALL_TRADER}
+          - INSTALL_EVENT=${PHP_FPM_INSTALL_EVENT}
           - DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL=${PHP_DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL}
+          - DOWNGRADE_OPENSSL_TLS_VERSION=${PHP_DOWNGRADE_OPENSSL_TLS_VERSION}
           - PUID=${PHP_FPM_PUID}
           - PGID=${PHP_FPM_PGID}
           - IMAGEMAGICK_VERSION=${PHP_FPM_IMAGEMAGICK_VERSION}
@@ -378,6 +401,7 @@ services:
           - PHP_FPM_NEW_RELIC_KEY=${PHP_FPM_NEW_RELIC_KEY}
           - PHP_FPM_NEW_RELIC_APP_NAME=${PHP_FPM_NEW_RELIC_APP_NAME}
           - INSTALL_DOCKER_CLIENT=${PHP_FPM_INSTALL_DOCKER_CLIENT}
+          - INSTALL_DNSUTILS=${PHP_FPM_INSTALL_DNSUTILS}
           - http_proxy
           - https_proxy
           - no_proxy
@@ -411,13 +435,14 @@ services:
         args:
           - CHANGE_SOURCE=${CHANGE_SOURCE}
           - BASE_IMAGE_TAG_PREFIX=${PHP_FPM_BASE_IMAGE_TAG_PREFIX}
-          - LARADOCK_PHP_VERSION=8.0
+          - LARADOCK_PHP_VERSION=${PHP_VERSION}
           - LARADOCK_PHALCON_VERSION=${PHALCON_VERSION}
           - INSTALL_BZ2=${PHP_FPM_INSTALL_BZ2}
           - INSTALL_ENCHANT=${PHP_FPM_INSTALL_ENCHANT}
           - INSTALL_GMP=${PHP_FPM_INSTALL_GMP}
           - INSTALL_GNUPG=${PHP_FPM_INSTALL_GNUPG}
           - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
+          - XDEBUG_PORT=${PHP_FPM_XDEBUG_PORT}
           - INSTALL_PCOV=${PHP_FPM_INSTALL_PCOV}
           - INSTALL_PHPDBG=${PHP_FPM_INSTALL_PHPDBG}
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
@@ -429,6 +454,7 @@ services:
           - INSTALL_MONGO=${PHP_FPM_INSTALL_MONGO}
           - INSTALL_AMQP=${PHP_FPM_INSTALL_AMQP}
           - INSTALL_CASSANDRA=${PHP_FPM_INSTALL_CASSANDRA}
+          - INSTALL_ZMQ=${PHP_FPM_INSTALL_ZMQ}
           - INSTALL_GEARMAN=${PHP_FPM_INSTALL_GEARMAN}
           - INSTALL_MSSQL=${PHP_FPM_INSTALL_MSSQL}
           - INSTALL_BCMATH=${PHP_FPM_INSTALL_BCMATH}
@@ -451,6 +477,7 @@ services:
           - INSTALL_IMAGE_OPTIMIZERS=${PHP_FPM_INSTALL_IMAGE_OPTIMIZERS}
           - INSTALL_IMAGEMAGICK=${PHP_FPM_INSTALL_IMAGEMAGICK}
           - INSTALL_CALENDAR=${PHP_FPM_INSTALL_CALENDAR}
+          - INSTALL_XLSWRITER=${PHP_FPM_INSTALL_XLSWRITER}
           - INSTALL_FAKETIME=${PHP_FPM_INSTALL_FAKETIME}
           - INSTALL_IONCUBE=${PHP_FPM_INSTALL_IONCUBE}
           - INSTALL_APCU=${PHP_FPM_INSTALL_APCU}
@@ -468,11 +495,16 @@ services:
           - INSTALL_FFMPEG=${PHP_FPM_FFMPEG}
           - INSTALL_AUDIOWAVEFORM=${PHP_FPM_AUDIOWAVEFORM}
           - INSTALL_WKHTMLTOPDF=${PHP_FPM_INSTALL_WKHTMLTOPDF}
+          - WKHTMLTOPDF_VERSION=${WORKSPACE_WKHTMLTOPDF_VERSION}
           - INSTALL_XHPROF=${PHP_FPM_INSTALL_XHPROF}
           - INSTALL_XMLRPC=${PHP_FPM_INSTALL_XMLRPC}
           - INSTALL_PHPDECIMAL=${PHP_FPM_INSTALL_PHPDECIMAL}
           - INSTALL_ZOOKEEPER=${PHP_FPM_INSTALL_ZOOKEEPER}
+          - INSTALL_SSDB=${PHP_FPM_INSTALL_SSDB}
+          - INSTALL_TRADER=${PHP_FPM_INSTALL_TRADER}
+          - INSTALL_EVENT=${PHP_FPM_INSTALL_EVENT}
           - DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL=${PHP_DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL}
+          - DOWNGRADE_OPENSSL_TLS_VERSION=${PHP_DOWNGRADE_OPENSSL_TLS_VERSION}
           - PUID=${PHP_FPM_PUID}
           - PGID=${PHP_FPM_PGID}
           - IMAGEMAGICK_VERSION=${PHP_FPM_IMAGEMAGICK_VERSION}
@@ -481,6 +513,7 @@ services:
           - PHP_FPM_NEW_RELIC_KEY=${PHP_FPM_NEW_RELIC_KEY}
           - PHP_FPM_NEW_RELIC_APP_NAME=${PHP_FPM_NEW_RELIC_APP_NAME}
           - INSTALL_DOCKER_CLIENT=${PHP_FPM_INSTALL_DOCKER_CLIENT}
+          - INSTALL_DNSUTILS=${PHP_FPM_INSTALL_DNSUTILS}
           - http_proxy
           - https_proxy
           - no_proxy
@@ -514,13 +547,14 @@ services:
         args:
           - CHANGE_SOURCE=${CHANGE_SOURCE}
           - BASE_IMAGE_TAG_PREFIX=${PHP_FPM_BASE_IMAGE_TAG_PREFIX}
-          - LARADOCK_PHP_VERSION=7.4
+          - LARADOCK_PHP_VERSION=${PHP_VERSION}
           - LARADOCK_PHALCON_VERSION=${PHALCON_VERSION}
           - INSTALL_BZ2=${PHP_FPM_INSTALL_BZ2}
           - INSTALL_ENCHANT=${PHP_FPM_INSTALL_ENCHANT}
           - INSTALL_GMP=${PHP_FPM_INSTALL_GMP}
           - INSTALL_GNUPG=${PHP_FPM_INSTALL_GNUPG}
           - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
+          - XDEBUG_PORT=${PHP_FPM_XDEBUG_PORT}
           - INSTALL_PCOV=${PHP_FPM_INSTALL_PCOV}
           - INSTALL_PHPDBG=${PHP_FPM_INSTALL_PHPDBG}
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
@@ -532,6 +566,7 @@ services:
           - INSTALL_MONGO=${PHP_FPM_INSTALL_MONGO}
           - INSTALL_AMQP=${PHP_FPM_INSTALL_AMQP}
           - INSTALL_CASSANDRA=${PHP_FPM_INSTALL_CASSANDRA}
+          - INSTALL_ZMQ=${PHP_FPM_INSTALL_ZMQ}
           - INSTALL_GEARMAN=${PHP_FPM_INSTALL_GEARMAN}
           - INSTALL_MSSQL=${PHP_FPM_INSTALL_MSSQL}
           - INSTALL_BCMATH=${PHP_FPM_INSTALL_BCMATH}
@@ -554,6 +589,7 @@ services:
           - INSTALL_IMAGE_OPTIMIZERS=${PHP_FPM_INSTALL_IMAGE_OPTIMIZERS}
           - INSTALL_IMAGEMAGICK=${PHP_FPM_INSTALL_IMAGEMAGICK}
           - INSTALL_CALENDAR=${PHP_FPM_INSTALL_CALENDAR}
+          - INSTALL_XLSWRITER=${PHP_FPM_INSTALL_XLSWRITER}
           - INSTALL_FAKETIME=${PHP_FPM_INSTALL_FAKETIME}
           - INSTALL_IONCUBE=${PHP_FPM_INSTALL_IONCUBE}
           - INSTALL_APCU=${PHP_FPM_INSTALL_APCU}
@@ -571,11 +607,16 @@ services:
           - INSTALL_FFMPEG=${PHP_FPM_FFMPEG}
           - INSTALL_AUDIOWAVEFORM=${PHP_FPM_AUDIOWAVEFORM}
           - INSTALL_WKHTMLTOPDF=${PHP_FPM_INSTALL_WKHTMLTOPDF}
+          - WKHTMLTOPDF_VERSION=${WORKSPACE_WKHTMLTOPDF_VERSION}
           - INSTALL_XHPROF=${PHP_FPM_INSTALL_XHPROF}
           - INSTALL_XMLRPC=${PHP_FPM_INSTALL_XMLRPC}
           - INSTALL_PHPDECIMAL=${PHP_FPM_INSTALL_PHPDECIMAL}
           - INSTALL_ZOOKEEPER=${PHP_FPM_INSTALL_ZOOKEEPER}
+          - INSTALL_SSDB=${PHP_FPM_INSTALL_SSDB}
+          - INSTALL_TRADER=${PHP_FPM_INSTALL_TRADER}
+          - INSTALL_EVENT=${PHP_FPM_INSTALL_EVENT}
           - DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL=${PHP_DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL}
+          - DOWNGRADE_OPENSSL_TLS_VERSION=${PHP_DOWNGRADE_OPENSSL_TLS_VERSION}
           - PUID=${PHP_FPM_PUID}
           - PGID=${PHP_FPM_PGID}
           - IMAGEMAGICK_VERSION=${PHP_FPM_IMAGEMAGICK_VERSION}
@@ -584,6 +625,7 @@ services:
           - PHP_FPM_NEW_RELIC_KEY=${PHP_FPM_NEW_RELIC_KEY}
           - PHP_FPM_NEW_RELIC_APP_NAME=${PHP_FPM_NEW_RELIC_APP_NAME}
           - INSTALL_DOCKER_CLIENT=${PHP_FPM_INSTALL_DOCKER_CLIENT}
+          - INSTALL_DNSUTILS=${PHP_FPM_INSTALL_DNSUTILS}
           - http_proxy
           - https_proxy
           - no_proxy
@@ -617,13 +659,14 @@ services:
         args:
           - CHANGE_SOURCE=${CHANGE_SOURCE}
           - BASE_IMAGE_TAG_PREFIX=${PHP_FPM_BASE_IMAGE_TAG_PREFIX}
-          - LARADOCK_PHP_VERSION=5.6
+          - LARADOCK_PHP_VERSION=${PHP_VERSION}
           - LARADOCK_PHALCON_VERSION=${PHALCON_VERSION}
           - INSTALL_BZ2=${PHP_FPM_INSTALL_BZ2}
           - INSTALL_ENCHANT=${PHP_FPM_INSTALL_ENCHANT}
           - INSTALL_GMP=${PHP_FPM_INSTALL_GMP}
           - INSTALL_GNUPG=${PHP_FPM_INSTALL_GNUPG}
           - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
+          - XDEBUG_PORT=${PHP_FPM_XDEBUG_PORT}
           - INSTALL_PCOV=${PHP_FPM_INSTALL_PCOV}
           - INSTALL_PHPDBG=${PHP_FPM_INSTALL_PHPDBG}
           - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
@@ -635,6 +678,7 @@ services:
           - INSTALL_MONGO=${PHP_FPM_INSTALL_MONGO}
           - INSTALL_AMQP=${PHP_FPM_INSTALL_AMQP}
           - INSTALL_CASSANDRA=${PHP_FPM_INSTALL_CASSANDRA}
+          - INSTALL_ZMQ=${PHP_FPM_INSTALL_ZMQ}
           - INSTALL_GEARMAN=${PHP_FPM_INSTALL_GEARMAN}
           - INSTALL_MSSQL=${PHP_FPM_INSTALL_MSSQL}
           - INSTALL_BCMATH=${PHP_FPM_INSTALL_BCMATH}
@@ -657,6 +701,7 @@ services:
           - INSTALL_IMAGE_OPTIMIZERS=${PHP_FPM_INSTALL_IMAGE_OPTIMIZERS}
           - INSTALL_IMAGEMAGICK=${PHP_FPM_INSTALL_IMAGEMAGICK}
           - INSTALL_CALENDAR=${PHP_FPM_INSTALL_CALENDAR}
+          - INSTALL_XLSWRITER=${PHP_FPM_INSTALL_XLSWRITER}
           - INSTALL_FAKETIME=${PHP_FPM_INSTALL_FAKETIME}
           - INSTALL_IONCUBE=${PHP_FPM_INSTALL_IONCUBE}
           - INSTALL_APCU=${PHP_FPM_INSTALL_APCU}
@@ -674,11 +719,16 @@ services:
           - INSTALL_FFMPEG=${PHP_FPM_FFMPEG}
           - INSTALL_AUDIOWAVEFORM=${PHP_FPM_AUDIOWAVEFORM}
           - INSTALL_WKHTMLTOPDF=${PHP_FPM_INSTALL_WKHTMLTOPDF}
+          - WKHTMLTOPDF_VERSION=${WORKSPACE_WKHTMLTOPDF_VERSION}
           - INSTALL_XHPROF=${PHP_FPM_INSTALL_XHPROF}
           - INSTALL_XMLRPC=${PHP_FPM_INSTALL_XMLRPC}
           - INSTALL_PHPDECIMAL=${PHP_FPM_INSTALL_PHPDECIMAL}
           - INSTALL_ZOOKEEPER=${PHP_FPM_INSTALL_ZOOKEEPER}
+          - INSTALL_SSDB=${PHP_FPM_INSTALL_SSDB}
+          - INSTALL_TRADER=${PHP_FPM_INSTALL_TRADER}
+          - INSTALL_EVENT=${PHP_FPM_INSTALL_EVENT}
           - DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL=${PHP_DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL}
+          - DOWNGRADE_OPENSSL_TLS_VERSION=${PHP_DOWNGRADE_OPENSSL_TLS_VERSION}
           - PUID=${PHP_FPM_PUID}
           - PGID=${PHP_FPM_PGID}
           - IMAGEMAGICK_VERSION=${PHP_FPM_IMAGEMAGICK_VERSION}
@@ -687,6 +737,7 @@ services:
           - PHP_FPM_NEW_RELIC_KEY=${PHP_FPM_NEW_RELIC_KEY}
           - PHP_FPM_NEW_RELIC_APP_NAME=${PHP_FPM_NEW_RELIC_APP_NAME}
           - INSTALL_DOCKER_CLIENT=${PHP_FPM_INSTALL_DOCKER_CLIENT}
+          - INSTALL_DNSUTILS=${PHP_FPM_INSTALL_DNSUTILS}
           - http_proxy
           - https_proxy
           - no_proxy
@@ -727,12 +778,15 @@ services:
           - INSTALL_IMAGEMAGICK=${PHP_WORKER_INSTALL_IMAGEMAGICK}
           - INSTALL_GMP=${PHP_WORKER_INSTALL_GMP}
           - INSTALL_GNUPG=${PHP_WORKER_INSTALL_GNUPG}
+          - INSTALL_LDAP=${PHP_WORKER_INSTALL_LDAP}
           - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL}
           - INSTALL_MONGO=${PHP_WORKER_INSTALL_MONGO}
           - INSTALL_BCMATH=${PHP_WORKER_INSTALL_BCMATH}
           - INSTALL_MEMCACHED=${PHP_WORKER_INSTALL_MEMCACHED}
           - INSTALL_OCI8=${PHP_WORKER_INSTALL_OCI8}
+          - INSTALL_MSSQL=${PHP_WORKER_INSTALL_MSSQL}
           - INSTALL_PHALCON=${PHP_WORKER_INSTALL_PHALCON}
+          - INSTALL_XLSWRITER=${PHP_WORKER_INSTALL_XLSWRITER}
           - INSTALL_SOAP=${PHP_WORKER_INSTALL_SOAP}
           - INSTALL_ZIP_ARCHIVE=${PHP_WORKER_INSTALL_ZIP_ARCHIVE}
           - INSTALL_MYSQL_CLIENT=${PHP_WORKER_INSTALL_MYSQL_CLIENT}
@@ -747,6 +801,9 @@ services:
           - INSTALL_REDIS=${PHP_WORKER_INSTALL_REDIS}
           - INSTALL_IMAP=${PHP_WORKER_INSTALL_IMAP}
           - INSTALL_XMLRPC=${PHP_WORKER_INSTALL_XMLRPC}
+          - INSTALL_SSDB=${PHP_WORKER_INSTALL_SSDB}
+          - INSTALL_EVENT=${PHP_WORKER_INSTALL_EVENT}
+          - INSTALL_INTL=${PHP_WORKER_INSTALL_INTL}
           - PUID=${PHP_WORKER_PUID}
           - PGID=${PHP_WORKER_PGID}
           - IMAGEMAGICK_VERSION=${PHP_WORKER_IMAGEMAGICK_VERSION}
@@ -770,6 +827,7 @@ services:
           - INSTALL_GD=${LARAVEL_HORIZON_INSTALL_GD}
           - INSTALL_GMP=${LARAVEL_HORIZON_INSTALL_GMP}
           - INSTALL_GNUPG=${LARAVEL_HORIZON_INSTALL_GNUPG}
+          - INSTALL_LDAP=${LARAVEL_HORIZON_INSTALL_LDAP}
           - INSTALL_IMAGEMAGICK=${LARAVEL_HORIZON_INSTALL_IMAGEMAGICK}
           - INSTALL_PGSQL=${PHP_FPM_INSTALL_PGSQL}
           - INSTALL_ZIP_ARCHIVE=${LARAVEL_HORIZON_INSTALL_ZIP_ARCHIVE}
@@ -793,6 +851,17 @@ services:
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       networks:
+        - backend
+
+  ### Soketi Server ##############################################
+    soketi:
+      build:
+        context: ./soketi
+      ports:
+        - "${SOKETI_PORT}:6001"
+        - "${SOKETI_METRICS_SERVER_PORT}:9601"
+      networks:
+        - frontend
         - backend
 
 ### NGINX Server #########################################
@@ -825,6 +894,32 @@ services:
         - frontend
         - backend
 
+### OpenResty Server #########################################
+    openresty:
+      build:
+        context: ./openresty
+        args:
+          - CHANGE_SOURCE=${CHANGE_SOURCE}
+          - PHP_UPSTREAM_CONTAINER=${OPENRESTY_PHP_UPSTREAM_CONTAINER}
+          - PHP_UPSTREAM_PORT=${OPENRESTY_PHP_UPSTREAM_PORT}
+          - http_proxy
+          - https_proxy
+          - no_proxy
+      volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+        - ${OPENRESTY_HOST_LOG_PATH}:/var/log/nginx
+        - ${OPENRESTY_SITES_PATH}:/etc/nginx/sites-available
+        - ${OPENRESTY_SSL_PATH}:/etc/nginx/ssl
+      ports:
+        - "${OPENRESTY_HOST_HTTP_PORT}:80"
+        - "${OPENRESTY_HOST_HTTPS_PORT}:443"
+        - "${VARNISH_BACKEND_PORT}:81"
+      depends_on:
+        - php-fpm
+      networks:
+        - frontend
+        - backend
+
 ### Blackfire ########################################
     blackfire:
       image: blackfire/blackfire
@@ -846,6 +941,7 @@ services:
           - PHP_UPSTREAM_TIMEOUT=${APACHE_PHP_UPSTREAM_TIMEOUT}
           - DOCUMENT_ROOT=${APACHE_DOCUMENT_ROOT}
           - APACHE_INSTALL_HTTP2=${APACHE_INSTALL_HTTP2}
+          - APACHE_FOR_MAC_M1=${APACHE_FOR_MAC_M1}
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         - ${APACHE_HOST_LOG_PATH}:/var/log/apache2
@@ -885,9 +981,10 @@ services:
         - ${DATA_PATH_HOST}/minio/config:/root/.minio
       ports:
         - "${MINIO_PORT}:9000"
+        - "${MINIO_CONSOLE_PORT}:9001"
       environment:
-        - MINIO_ACCESS_KEY=access
-        - MINIO_SECRET_KEY=secretkey
+        - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+        - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
       networks:
         - frontend
         - backend
@@ -939,7 +1036,7 @@ services:
         - SA_PASSWORD=${MSSQL_PASSWORD}
         - ACCEPT_EULA=Y
       volumes:
-        - ${DATA_PATH_HOST}/mssql:/var/opt/mssql
+        - mssql:/var/opt/mssql
       ports:
         - "${MSSQL_PORT}:1433"
       networks:
@@ -1004,7 +1101,11 @@ services:
 
 ### PostgreSQL PostGis ###################################
     postgres-postgis:
-      build: ./postgres-postgis
+      build:
+        context: ./postgres-postgis
+        args:
+          - POSTGIS_VERSION=${POSTGIS_VERSION}
+          - INSTALL_PGSQL_HTTP_FOR_POSTGIS13=${POSTGIS_INSTALL_PGSQL_HTTP_FOR_POSTGIS13}
       volumes:
         - ${DATA_PATH_HOST}/postgres:/var/lib/postgresql/data
       ports:
@@ -1029,12 +1130,24 @@ services:
       image: 'neo4j:latest'
       networks:
         - backend
+### Nats ################################################
+    nats:
+      build: ./nats
+      ports:
+        - "${NATS_CLIENT_PORT}:4222"
+        - "${NATS_MONITORING_PORT}:6222"
+        - "${NATS_ROUTE_PORT}:8222"
+      networks:
+        - backend
 
 ### MongoDB ##############################################
     mongo:
       build: ./mongo
       ports:
         - "${MONGODB_PORT}:27017"
+      environment:
+        - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
+        - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
       volumes:
         - ${DATA_PATH_HOST}/mongo:/data/db
         - ${DATA_PATH_HOST}/mongo_config:/data/configdb
@@ -1087,6 +1200,7 @@ services:
       build: ./redis
       volumes:
         - ${DATA_PATH_HOST}/redis:/data
+      command: --requirepass ${REDIS_PASSWORD}
       ports:
         - "${REDIS_PORT}:6379"
       networks:
@@ -1097,6 +1211,15 @@ services:
       build: ./redis-cluster
       ports:
         - "${REDIS_CLUSTER_PORT_RANGE}:7000-7005"
+      networks:
+        - backend
+### SSDB ################################################
+    ssdb:
+      build: ./ssdb
+      volumes:
+        - ${DATA_PATH_HOST}/ssdb:/data
+      ports:
+        - "${SSDB_PORT}:8888"
       networks:
         - backend
 
@@ -1173,13 +1296,13 @@ services:
         - "${RABBITMQ_NODE_HOST_PORT}:5672"
         - "${RABBITMQ_MANAGEMENT_HTTP_HOST_PORT}:15672"
         - "${RABBITMQ_MANAGEMENT_HTTPS_HOST_PORT}:15671"
+        - "${RABBITMQ_WEB_STOMP_HOST_PORT}:15674"
       privileged: true
-      environment:
-        - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
-        - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
       hostname: laradock-rabbitmq
       volumes:
         - ${DATA_PATH_HOST}/rabbitmq:/var/lib/rabbitmq
+        - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+        - ./rabbitmq/management_agent.disable_metrics_collector.conf:/etc/rabbitmq/conf.d/management_agent.disable_metrics_collector.conf
       depends_on:
         - php-fpm
       networks:
@@ -1352,7 +1475,7 @@ services:
     meilisearch:
       image: getmeili/meilisearch:latest
       volumes:
-        - ${DATA_PATH_HOST}/meilisearch:/var/lib/meilisearch
+        - ${DATA_PATH_HOST}/meilisearch:/data.ms
       ports:
         - "${MEILISEARCH_HOST_PORT}:7700"
       networks:
@@ -1371,6 +1494,8 @@ services:
         - cluster.name=laradock-cluster
         - node.name=laradock-node
         - bootstrap.memory_lock=true
+        - xpack.security.enabled=false
+        - xpack.security.transport.ssl.enabled=false
         - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
         - cluster.initial_master_nodes=laradock-node
       ulimits:
@@ -1873,7 +1998,7 @@ services:
 
 ### Docker-in-Docker ################################################
     docker-in-docker:
-      image: docker:19.03-dind
+      image: docker:20.10-dind
       environment:
         DOCKER_TLS_SAN: DNS:docker-in-docker
       privileged: true
@@ -1908,6 +2033,7 @@ services:
         - ADMIN_PASS=${REDIS_WEBUI_PASSWORD}
         - REDIS_1_HOST=${REDIS_WEBUI_CONNECT_HOST}
         - REDIS_1_PORT=${REDIS_WEBUI_CONNECT_PORT}
+        - REDIS_1_AUTH=${REDIS_PASSWORD}
       networks:
         - backend
       ports:
@@ -2367,3 +2493,62 @@ services:
       volumes:
         - ./react:/usr/src/app/react
         - /usr/src/app/react/node_modules
+
+### kafka ####################################################
+    kafka:
+      image: wurstmeister/kafka
+      ports:
+        - "9092:9092"
+      environment:
+        KAFKA_BROKER_ID: 1
+        KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
+        KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://127.0.0.1:9092
+        KAFKA_MESSAGE_MAX_BYTES: 2000000
+        KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      volumes:
+        - ${DATA_PATH_HOST}/kafka:/kafka
+        - /var/run/docker.sock:/var/run/docker.sock
+      networks:
+        - backend
+
+### kafka-manager ###########################################
+    kafka-manager:
+      image: sheepkiller/kafka-manager
+      ports:
+        - 9020:9000
+      environment:
+        ZK_HOSTS: zookeeper:2181
+      networks:
+        - backend
+
+
+### tarantool ###########################################
+    tarantool:
+      build: ./tarantool
+      volumes:
+        - ${DATA_PATH_HOST}/tarantool:/var/lib/tarantool
+        - ./tarantool/lua:/opt/tarantool
+      ports:
+        - ${TARANTOOL_PORT}:3301
+      networks:
+        - backend
+    tarantool-admin:
+      build: ./tarantool-admin
+      ports:
+        - ${TARANTOOL_ADMIN_PORT}:80
+      networks:
+        - backend
+
+  ### onedev ####################################################
+    onedev:
+      image: 1dev/server
+      ports:
+        - "${ONEDEV_HTTP_PORT}:6610"
+        - "${ONEDEV_SSH_PORT}:6611"
+      volumes:
+        - ${DATA_PATH_HOST}/onedev:/opt/onedev
+        - /var/run/docker.sock:/var/run/docker.sock
+      networks:
+        - frontend
+        - backend
+      restart: always

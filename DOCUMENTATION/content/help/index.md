@@ -97,7 +97,7 @@ In China, the origin source of composer and npm is very slow. You can add `WORKS
 
 Example:
 ```bash
-WORKSPACE_NPM_REGISTRY=https://registry.npm.taobao.org
+WORKSPACE_NPM_REGISTRY=https://registry.npmmirror.com
 WORKSPACE_COMPOSER_REPO_PACKAGIST=https://packagist.phpcomposer.com
 ```
 
@@ -127,3 +127,21 @@ WORKSPACE_INSTALL_LIBPNG=true
 docker-compose build workspace
 ```
 
+## Apache2 container won't start on mac m1
+
+To fix the problem you can follow those steps
+
+1 - Open the `.env`.
+
+2 - Search for `APACHE_FOR_MAC_M1` or add the key, if missing.
+
+3 - Set the value to true:
+
+```dotenv
+APACHE_FOR_MAC_M1=true
+```
+4 - Finally rebuild the workspace image
+
+```bash
+docker-compose build apache2
+```
