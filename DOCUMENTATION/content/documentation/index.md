@@ -915,11 +915,7 @@ run from any cli: <br>`curl -X PURGE https://yourwebsite.com/`.
     	// ...
     
     ],
-
-	// ...
-
-],
-```
+    ```
 
 5 - Open your Laravel's `.env` file and update the following variables:
 
@@ -958,7 +954,7 @@ More details about this [here](https://github.com/jenssegers/laravel-mongodb#ins
     docker-compose up -d mariadb phpmyadmin
     ```
     *Note: To use with MariaDB, open `.env` and set `PMA_DB_ENGINE=mysql` to `PMA_DB_ENGINE=mariadb`.*
-2. Open your browser and visit the localhost on port **8080**:  `http://localhost:8080`
+2. Open your browser and visit the localhost on port **8081**:  `http://localhost:8081`, use server: "mysql", user: "default" and password: "secret for the default mysql setup.  
 
 
 
@@ -1467,8 +1463,31 @@ docker-compose up -d mosquitto
 5 - Publish: `mqtt pub -t 'test' -h localhost -p 9001 -C 'ws' -m 'Hello!'`
 
 
+<br>
+<a name="Use-Tarantool"></a>
+## Use Tarantool (+ Admin panel)
 
+1 - Configure Tarantool Port and Tarantool Admin Port using environment variables: `TARANTOOL_PORT` and `TARANTOOL_ADMIN_PORT`. Default ports are 3301 and 8002.
 
+2 - Run the Tarantool and Tarantool Admin tool using `docker-compose up`command:
+
+```bash
+docker-compose up -d tarantool tarantool-admin
+```
+
+3 - You can open admin tool visiting localhost:8002
+
+4 - There you should set `Hostname` with the value `tarantool` 
+
+5 - After that your tarantool data will be available inside admin panel.
+
+6 - Also you can connect to tarantool server in console mode with this command:
+
+```bash
+docker-compose exec tarantool console
+```
+
+7 - There you can operate with tarantool database ([official documentation](https://www.tarantool.io/en/doc/latest/) can be helpful).
 
 
 <br>
@@ -2233,6 +2252,31 @@ For configuration information, visit the [bash-git-prompt repository](https://gi
 <br>
 <a name="Install-Oh-My-Zsh"></a>
 ## Install Oh My ZSH
+
+
+
+
+<br>
+<a name="Install-Dnsutils"></a>
+## Install Dnsutils
+
+1 - First install `dnsutils` in the Workspace and the PHP-FPM Containers:
+<br>
+a) open the `.env` file
+<br>
+b) search for the `WORKSPACE_INSTALL_DNSUTILS` argument under the Workspace Container
+<br>
+c) set it to `true`
+<br>
+d) search for the `PHP_FPM_INSTALL_DNSUTILS` argument under the PHP-FPM Container
+<br>
+e) set it to `true`
+<br>
+
+2 - Re-build the containers `docker-compose build workspace php-fpm`
+
+
+
 
 > With the Laravel autocomplete plugin.
 
