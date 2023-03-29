@@ -283,6 +283,7 @@ services:
           - INSTALL_TRADER=${PHP_FPM_INSTALL_TRADER}
           - INSTALL_EVENT=${PHP_FPM_INSTALL_EVENT}
           - DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL=${PHP_DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL}
+          - DOWNGRADE_OPENSSL_TLS_VERSION=${PHP_DOWNGRADE_OPENSSL_TLS_VERSION}
           - PUID=${PHP_FPM_PUID}
           - PGID=${PHP_FPM_PGID}
           - IMAGEMAGICK_VERSION=${PHP_FPM_IMAGEMAGICK_VERSION}
@@ -355,6 +356,7 @@ services:
           - INSTALL_XMLRPC=${PHP_WORKER_INSTALL_XMLRPC}
           - INSTALL_SSDB=${PHP_WORKER_INSTALL_SSDB}
           - INSTALL_EVENT=${PHP_WORKER_INSTALL_EVENT}
+          - INSTALL_INTL=${PHP_WORKER_INSTALL_INTL}
           - PUID=${PHP_WORKER_PUID}
           - PGID=${PHP_WORKER_PGID}
           - IMAGEMAGICK_VERSION=${PHP_WORKER_IMAGEMAGICK_VERSION}
@@ -1037,6 +1039,8 @@ services:
         - cluster.name=laradock-cluster
         - node.name=laradock-node
         - bootstrap.memory_lock=true
+        - xpack.security.enabled=false
+        - xpack.security.transport.ssl.enabled=false
         - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
         - cluster.initial_master_nodes=laradock-node
       ulimits:
