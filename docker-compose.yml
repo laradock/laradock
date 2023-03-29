@@ -1043,6 +1043,7 @@ services:
         - bootstrap.memory_lock=true
         - xpack.security.enabled=false
         - xpack.security.transport.ssl.enabled=false
+        - indices.id_field_data.enabled=true
         - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
         - cluster.initial_master_nodes=laradock-node
       ulimits:
