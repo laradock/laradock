@@ -12,7 +12,7 @@
     "axios": "^0.21.2",
     "bootstrap": "^4.5.3",
     "jss-rtl": "^0.3.0",
-    "node-sass": "^7.0.0",
+    "node-sass": "^7.0.3",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
