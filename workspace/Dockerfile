@@ -741,6 +741,7 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
         && nvm install ${NODE_VERSION} \
         && nvm use ${NODE_VERSION} \
         && nvm alias ${NODE_VERSION} \
+        && npm cache clear --force \
         && npm config set fetch-retries ${NPM_FETCH_RETRIES} \
         && npm config set fetch-retry-factor ${NPM_FETCH_RETRY_FACTOR} \
         && npm config set fetch-retry-mintimeout ${NPM_FETCH_RETRY_MINTIMEOUT} \
