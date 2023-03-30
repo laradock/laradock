@@ -1351,9 +1351,11 @@ RUN if [ $INSTALL_PHALCON = true ]; then \
 ARG INSTALL_APCU=false
 
 RUN if [ ${INSTALL_APCU} = true ]; then \
-  apt-get update -yqq \
-  && pecl channel-update pecl.php.net; \
-  pecl install apcu; \
+  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+    pecl install apcu-4.0.11; \
+  else \
+    pecl install apcu; \
+  fi && \
   echo "extension=apcu.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/apcu.ini; \
   ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/apcu.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/50-apcu.ini; \
   php -m | grep -q 'apcu' \
