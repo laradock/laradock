@@ -1,5 +1,3 @@
-version: '3.5'
-
 networks:
   frontend:
     driver: ${NETWORKS_DRIVER}
