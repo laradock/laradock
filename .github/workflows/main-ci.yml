@@ -48,10 +48,10 @@ jobs:
           sed -i -- 's/ENCHANT=true/ENCHANT=false/g' .env
           sed -i -- 's/PG_CLIENT=true/PG_CLIENT=false/g' .env
           sed -i -- 's/MSSQL=true/MSSQL=false/g' .env
-          docker-compose build ${{ matrix.service }}
-          docker-compose up -d --no-deps -- ${{ matrix.service }}
-          docker-compose exec -T -- ${{ matrix.service }} php -m
-          docker-compose down
+          docker compose build ${{ matrix.service }}
+          docker compose up -d --no-deps -- ${{ matrix.service }}
+          docker compose exec -T -- ${{ matrix.service }} php -m
+          docker compose down
 
   build-other:
     # Don't trigger on schedule event when in a fork
@@ -68,4 +68,4 @@ jobs:
           cp .env.example .env
           sed -i -- 's/=false/=true/g' .env
           sed -i -- 's/CHANGE_SOURCE=true/CHANGE_SOURCE=false/g' .env
-          docker-compose build ${{ matrix.service }}
+          docker compose build ${{ matrix.service }}
