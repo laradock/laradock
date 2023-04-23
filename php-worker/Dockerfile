@@ -327,6 +327,18 @@ RUN if [ $INSTALL_PHALCON = true ]; then \
       php -m | grep -q 'phalcon' \
     ;fi
 
+# Install APCU ext
+ARG INSTALL_APCU=false
+
+RUN if [ ${INSTALL_APCU} = true ]; then \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+        pecl install -a apcu-4.0.11; \
+    else \
+        pecl install apcu; \
+    fi && \
+    docker-php-ext-enable apcu \
+;fi
+
 ARG INSTALL_GHOSTSCRIPT=false
 RUN if [ $INSTALL_GHOSTSCRIPT = true ]; then \
   apk --update add ghostscript \

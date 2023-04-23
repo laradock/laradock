@@ -7,6 +7,4 @@ RUN curl -L -o /usr/share/logstash/lib/mysql-connector-java-5.1.47.jar https://r
 ADD ./pipeline/ /usr/share/logstash/pipeline/
 ADD ./config/ /usr/share/logstash/config/
 
-RUN logstash-plugin install logstash-input-jdbc
 RUN logstash-plugin install logstash-input-beats
-
