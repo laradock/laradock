@@ -2525,6 +2525,13 @@ docker-compose up ...
 *Note: If you faced any errors, try restarting Docker, and make sure you have no spaces in the `d4m-nfs-mounts.txt` file, and your `/etc/exports` file is clear.*
 
 
+<br>
+<a name="ca-certificates"></a>
+## ca-certificates
+
+To install your own CA certificates, you can add them to the `workspace/ca-certificates` folder.
+This way the certificates will be installed into the system ca store of the workspace container.
+
 
 <br>
 <a name="upgrade-laradock"></a>
