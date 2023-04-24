@@ -2100,3 +2100,57 @@ services:
         - frontend
         - backend
       restart: always
+
+### Sentry ####################################
+
+    sentry:
+      image: sentry:latest
+      depends_on:
+       - redis
+       - postgres
+      links:
+       - redis
+       - postgres
+      ports:
+       - ${SENTRY_PORT}:9000
+      environment:
+       - SENTRY_SECRET_KEY=${SENTRY_SECRET_KEY}
+       - SENTRY_REDIS_HOST=redis
+       - SENTRY_POSTGRES_HOST=postgres
+       - SENTRY_DB_USER=${POSTGRES_USER}
+       - SENTRY_DB_PASSWORD=${POSTGRES_PASSWORD}
+      networks:
+        - backend
+        - frontend
+
+    sentry_celery_beat:
+      image: sentry:latest
+      depends_on:
+       - redis
+       - postgres
+      command: "sentry run cron"
+      environment:
+       - SENTRY_SECRET_KEY=${SENTRY_SECRET_KEY}
+       - SENTRY_REDIS_HOST=redis
+       - SENTRY_POSTGRES_HOST=postgres
+       - SENTRY_DB_USER=${POSTGRES_USER}
+       - SENTRY_DB_PASSWORD=${POSTGRES_PASSWORD}
+      networks:
+        - backend
+        - frontend
+
+    sentry_celery_worker:
+      image: sentry:latest
+      depends_on:
+       - redis
+       - postgres
+      command: "sentry run worker"
+      environment:
+       - SENTRY_SECRET_KEY=${SENTRY_SECRET_KEY}
+       - SENTRY_REDIS_HOST=redis
+       - SENTRY_POSTGRES_HOST=postgres
+       - SENTRY_DB_USER=${POSTGRES_USER}
+       - SENTRY_DB_PASSWORD=${POSTGRES_PASSWORD}
+      networks:
+        - backend
+        - frontend
