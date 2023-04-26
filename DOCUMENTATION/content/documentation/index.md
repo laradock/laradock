@@ -1491,6 +1491,23 @@ docker-compose exec tarantool console
 
 
 <br>
+<a name="use Keycloak"></a>
+## Use Keycloak
+
+1. Run the Keycloak Container (`keycloak`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d keycloak
+```
+
+2. Open your browser and visit the localhost on port 8081:  `http://localhost:8081`
+
+3. Login with the following credentials:
+
+    - Username: `admin`
+    - Password: `secret`
+
+<br>
 <a name="CodeIgniter"></a>
 
 
