@@ -12,7 +12,7 @@
     "axios": "^0.21.2",
     "bootstrap": "^4.5.3",
     "jss-rtl": "^0.3.0",
-    "node-sass": "^7.0.0",
+    "node-sass": "^7.0.3",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
@@ -20,7 +20,7 @@
     "react-intl": "^4.7.6",
     "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1",
+    "react-scripts": "5.0.1",
     "redux": "^4.0.5",
     "redux-saga": "^1.1.3"
   },
