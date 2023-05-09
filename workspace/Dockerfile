@@ -692,7 +692,6 @@ ARG INSTALL_IONCUBE=false
 
 RUN if [ ${INSTALL_IONCUBE} = true ]; then \
     if [ ${LARADOCK_PHP_VERSION} = "8.1" ] \
-      || [ ${LARADOCK_PHP_VERSION} = "8.0" ] \
       || [ ${LARADOCK_PHP_VERSION} = "7.4" ] \
       || [ ${LARADOCK_PHP_VERSION} = "7.3" ] \
       || [ ${LARADOCK_PHP_VERSION} = "7.2" ] \
