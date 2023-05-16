@@ -60,6 +60,7 @@ alias egrep='egrep --color=auto'
 
 alias art="php artisan"
 alias artisan="php artisan"
+alias composer='XDEBUG_MODE=off \composer'
 alias cdump="composer dump-autoload -o"
 alias composer:dump="composer dump-autoload -o"
 alias db:reset="php artisan migrate:reset && php artisan migrate --seed"
