@@ -1290,6 +1290,24 @@ RUN if [ ${INSTALL_DNSUTILS} = true ]; then \
 ;fi
 
 ###########################################################################
+# INSTALL PHP GRPC:
+###########################################################################
+
+USER root
+
+ARG INSTALL_GRPC=false
+
+RUN if [ ${INSTALL_GRPC} = true ]; then \
+    apt-get install -y autoconf zlib1g-dev php-dev php-pear &&\
+    pecl install grpc &&\
+    docker-php-ext-enable grpc &&\
+    php -m | grep -q 'grpc' &&\
+    pecl install protobuf &&\
+    docker-php-ext-enable protobuf &&\
+    php -m | grep -q 'protobuf' \
+;fi
+
+###########################################################################
 # Check PHP version:
 ###########################################################################
 
