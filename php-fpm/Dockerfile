@@ -1298,7 +1298,9 @@ USER root
 ARG INSTALL_GRPC=false
 
 RUN if [ ${INSTALL_GRPC} = true ]; then \
-    apt-get install -y autoconf zlib1g-dev php-dev php-pear &&\
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") < "7" ]; then \
+          echo "PHP Driver for gRPC is not supported for PHP < 7"; \
+    fi &&\
     pecl install grpc &&\
     docker-php-ext-enable grpc &&\
     php -m | grep -q 'grpc' &&\
