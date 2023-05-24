@@ -20,9 +20,16 @@ RUN apk update \
 
 RUN apk add --no-cache curl
 
+# Add a non-root user to prevent files being created with root permissions on host machine.
+ARG PUID=1000
+ENV PUID ${PUID}
+ARG PGID=1000
+ENV PGID ${PGID}
+
+# Add a non-root user to prevent files being created with root permissions on host machine.
 RUN set -x ; \
-    addgroup -g 82 -S www-data ; \
-    adduser -u 82 -D -S -G www-data www-data && exit 0 ; exit 1
+    addgroup -g ${PUID} -S www-data ; \
+    adduser -u ${PUID} -D -S -G www-data www-data && exit 0 ; exit 1
 
 ARG PHP_UPSTREAM_CONTAINER=php-fpm
 ARG PHP_UPSTREAM_PORT=9000
