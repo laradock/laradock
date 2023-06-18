@@ -25,4 +25,7 @@
 #CREATE DATABASE IF NOT EXISTS `dev_db_3` COLLATE 'utf8_general_ci' ;
 #GRANT ALL ON `dev_db_3`.* TO 'default'@'%' ;
 
+CREATE DATABASE IF NOT EXISTS `gokada` COLLATE 'utf8_general_ci' ;
+GRANT ALL ON `gokada`.* TO 'default'@'%' ;
+
 FLUSH PRIVILEGES ;
