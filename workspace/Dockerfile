@@ -199,6 +199,15 @@ COPY ./crontab /etc/cron.d
 RUN chmod -R 644 /etc/cron.d
 
 ###########################################################################
+# Certificate Authorities
+###########################################################################
+
+USER root
+
+COPY ./ca-certificates/* /usr/local/share/ca-certificates/
+RUN update-ca-certificates
+
+###########################################################################
 # Drush:
 ###########################################################################
 
@@ -334,10 +343,10 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
   # https://xdebug.org/docs/compat
   apt-get install -yqq pkg-config php-xml php${LARADOCK_PHP_VERSION}-xml && \
   if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] || { [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && { [ $(php -r "echo PHP_MINOR_VERSION;") = "4" ] || [ $(php -r "echo PHP_MINOR_VERSION;") = "3" ] ;} ;}; then \
-    if [ ${LARADOCK_PHP_VERSION} = "8.2" ]; then \
-      pecl install xdebug-3.2.0; \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+      pecl install xdebug-3.2.1; \
     else \
-      pecl install xdebug-3.1.4; \
+      pecl install xdebug-3.1.6; \
     fi; \
   else \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
@@ -682,7 +691,13 @@ RUN if [ ${INSTALL_GRAPHVIZ} = true ]; then \
 ARG INSTALL_IONCUBE=false
 
 RUN if [ ${INSTALL_IONCUBE} = true ]; then \
-    if [ $(php -r "echo PHP_MAJOR_VERSION;") != "8" ]; then \
+    if [ ${LARADOCK_PHP_VERSION} = "8.1" ] \
+      || [ ${LARADOCK_PHP_VERSION} = "7.4" ] \
+      || [ ${LARADOCK_PHP_VERSION} = "7.3" ] \
+      || [ ${LARADOCK_PHP_VERSION} = "7.2" ] \
+      || [ ${LARADOCK_PHP_VERSION} = "7.1" ] \
+      || [ ${LARADOCK_PHP_VERSION} = "7.0" ] \
+      || [ ${LARADOCK_PHP_VERSION} = "5.6" ]; then \
       # Install the php ioncube loader
       curl -L -o /tmp/ioncube_loaders_lin_x86-64.tar.gz https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
       && tar zxpf /tmp/ioncube_loaders_lin_x86-64.tar.gz -C /tmp \
@@ -1315,6 +1330,7 @@ RUN if [ ${INSTALL_DUSK_DEPS} = true ]; then \
     libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4 xvfb \
     gtk2-engines-pixbuf xfonts-cyrillic xfonts-100dpi xfonts-75dpi \
     xfonts-base xfonts-scalable x11-apps \
+    fonts-ipafont \
   && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
   && dpkg -i --force-depends google-chrome-stable_current_amd64.deb \
   && apt-get -y -f install \

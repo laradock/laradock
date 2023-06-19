@@ -1491,6 +1491,23 @@ docker-compose exec tarantool console
 
 
 <br>
+<a name="use Keycloak"></a>
+## Use Keycloak
+
+1. Run the Keycloak Container (`keycloak`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d keycloak
+```
+
+2. Open your browser and visit the localhost on port 8081:  `http://localhost:8081`
+
+3. Login with the following credentials:
+
+    - Username: `admin`
+    - Password: `secret`
+
+<br>
 <a name="CodeIgniter"></a>
 
 
@@ -2524,6 +2541,13 @@ docker-compose up ...
 
 *Note: If you faced any errors, try restarting Docker, and make sure you have no spaces in the `d4m-nfs-mounts.txt` file, and your `/etc/exports` file is clear.*
 
+
+<br>
+<a name="ca-certificates"></a>
+## ca-certificates
+
+To install your own CA certificates, you can add them to the `workspace/ca-certificates` folder.
+This way the certificates will be installed into the system ca store of the workspace container.
 
 
 <br>

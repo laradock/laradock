@@ -599,7 +599,7 @@ services:
           - no_proxy
           - MARIADB_VERSION=${MARIADB_VERSION}
       volumes:
-        - ${DATA_PATH_HOST}/mariadb:/var/lib/mariadb
+        - ${DATA_PATH_HOST}/mariadb:/var/lib/mysql
         - ${MARIADB_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
       ports:
         - "${MARIADB_PORT}:3306"
@@ -631,6 +631,10 @@ services:
         - GITLAB_POSTGRES_USER=${GITLAB_POSTGRES_USER}
         - GITLAB_POSTGRES_PASSWORD=${GITLAB_POSTGRES_PASSWORD}
         - GITLAB_POSTGRES_DB=${GITLAB_POSTGRES_DB}
+        - KEYCLOAK_POSTGRES_INIT=${KEYCLOAK_POSTGRES_INIT}
+        - KEYCLOAK_POSTGRES_USER=${KEYCLOAK_POSTGRES_USER}
+        - KEYCLOAK_POSTGRES_PASSWORD=${KEYCLOAK_POSTGRES_PASSWORD}
+        - KEYCLOAK_POSTGRES_DB=${KEYCLOAK_POSTGRES_DB}
         - JUPYTERHUB_POSTGRES_INIT=${JUPYTERHUB_POSTGRES_INIT}
         - JUPYTERHUB_POSTGRES_USER=${JUPYTERHUB_POSTGRES_USER}
         - JUPYTERHUB_POSTGRES_PASSWORD=${JUPYTERHUB_POSTGRES_PASSWORD}
@@ -2100,3 +2104,24 @@ services:
         - frontend
         - backend
       restart: always
+  
+  ### keycloak ##################################################
+    keycloak:
+      image: bitnami/keycloak:${KEYCLOAK_VERSION}
+      ports:
+        - "${KEYCLOAK_HTTP_PORT}:${KEYCLOAK_HTTP_PORT}"
+      environment:
+        - KEYCLOAK_HTTP_PORT=${KEYCLOAK_HTTP_PORT}
+        - KEYCLOAK_CREATE_ADMIN_USER=${KEYCLOAK_CREATE_ADMIN_USER}
+        - KEYCLOAK_ADMIN_USER=${KEYCLOAK_ADMIN_USER}
+        - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
+        - KEYCLOAK_DATABASE_HOST=${KEYCLOAK_POSTGRES_HOST}
+        - KEYCLOAK_DATABASE_PORT=${POSTGRES_PORT}
+        - KEYCLOAK_DATABASE_NAME=${KEYCLOAK_POSTGRES_DB}
+        - KEYCLOAK_DATABASE_USER=${KEYCLOAK_POSTGRES_USER}
+        - KEYCLOAK_DATABASE_PASSWORD=${KEYCLOAK_POSTGRES_PASSWORD}
+      depends_on:
+        - postgres
+      networks:
+        - frontend
+        - backend
