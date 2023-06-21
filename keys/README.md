@@ -1,0 +1,4 @@
+- PEM key files are stored in this directory.
+- Files stored in this directory will be moved to `/root/keys/` directory inside the workspace container.
+- DO NOT COMMIT any key files to the repository !!.
+- Envoy can use these keys to access remote servers and deploy.
