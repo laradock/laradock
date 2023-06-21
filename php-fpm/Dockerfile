@@ -1292,6 +1292,26 @@ RUN if [ ${INSTALL_DNSUTILS} = true ]; then \
 ;fi
 
 ###########################################################################
+# INSTALL PHP GRPC:
+###########################################################################
+
+USER root
+
+ARG INSTALL_GRPC=false
+
+RUN if [ ${INSTALL_GRPC} = true ]; then \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") < "7" ]; then \
+          echo "PHP Driver for gRPC is not supported for PHP < 7"; \
+    fi &&\
+    pecl install grpc &&\
+    docker-php-ext-enable grpc &&\
+    php -m | grep -q 'grpc' &&\
+    pecl install protobuf &&\
+    docker-php-ext-enable protobuf &&\
+    php -m | grep -q 'protobuf' \
+;fi
+
+###########################################################################
 # Check PHP version:
 ###########################################################################
 

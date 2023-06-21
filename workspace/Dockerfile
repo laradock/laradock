@@ -1827,6 +1827,26 @@ RUN if [ ${INSTALL_DNSUTILS} = true ]; then \
     apt-get update && apt-get install -y dnsutils \
 ;fi
 
+###########################################################################
+# INSTALL PHP GRPC:
+###########################################################################
+
+USER root
+
+ARG INSTALL_GRPC=false
+
+RUN if [ ${INSTALL_GRPC} = true ]; then \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") < "7" ]; then \
+          echo "PHP Driver for gRPC is not supported for PHP < 7"; \
+    fi &&\
+    pecl install grpc &&\
+    echo "extension=grpc.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/grpc.ini &&\
+    echo "extension=grpc.so" >> /etc/php/${LARADOCK_PHP_VERSION}/cli/php.ini &&\
+    pecl install protobuf &&\
+    echo "extension=protobuf.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/protobuf.ini &&\
+    echo "extension=protobuf.so" >> /etc/php/${LARADOCK_PHP_VERSION}/cli/php.ini \
+;fi
+
 #
 #--------------------------------------------------------------------------
 # Final Touch

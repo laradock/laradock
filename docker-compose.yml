@@ -176,6 +176,7 @@ services:
           - INSTALL_MEMCACHED=${WORKSPACE_INSTALL_MEMCACHED}
           - INSTALL_EVENT=${WORKSPACE_INSTALL_EVENT}
           - INSTALL_DNSUTILS=${WORKSPACE_INSTALL_DNSUTILS}
+          - INSTALL_GRPC=${WORKSPACE_INSTALL_GRPC}
           - http_proxy
           - https_proxy
           - no_proxy
@@ -294,6 +295,7 @@ services:
           - PHP_FPM_NEW_RELIC_APP_NAME=${PHP_FPM_NEW_RELIC_APP_NAME}
           - INSTALL_DOCKER_CLIENT=${PHP_FPM_INSTALL_DOCKER_CLIENT}
           - INSTALL_DNSUTILS=${PHP_FPM_INSTALL_DNSUTILS}
+          - INSTALL_GRPC=${PHP_FPM_INSTALL_GRPC}
           - http_proxy
           - https_proxy
           - no_proxy
@@ -359,6 +361,7 @@ services:
           - INSTALL_SSDB=${PHP_WORKER_INSTALL_SSDB}
           - INSTALL_EVENT=${PHP_WORKER_INSTALL_EVENT}
           - INSTALL_INTL=${PHP_WORKER_INSTALL_INTL}
+          - INSTALL_GRPC=${PHP_WORKER_INSTALL_GRPC}
           - PUID=${PHP_WORKER_PUID}
           - PGID=${PHP_WORKER_PGID}
           - IMAGEMAGICK_VERSION=${PHP_WORKER_IMAGEMAGICK_VERSION}
