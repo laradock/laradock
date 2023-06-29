@@ -1507,6 +1507,29 @@ docker-compose up -d keycloak
     - Username: `admin`
     - Password: `secret`
 
+
+<br>
+<a name="use Mailpit"></a>
+## Use Mailpit
+
+1. Run the Mailpit Container (`mailpit`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d mailpit
+```
+
+2. Open your browser and visit the localhost on port 8125:  `http://localhost:8125`
+3. Setup config in your Laravel project’s .env file
+```text
+MAIL_MAILER=smtp
+MAIL_HOST=mailpit
+MAIL_PORT=1125
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+```
+
+
+
 <br>
 <a name="CodeIgniter"></a>
 
