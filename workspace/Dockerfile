@@ -738,7 +738,7 @@ ARG INSTALL_NPM_GULP=false
 ARG INSTALL_NPM_BOWER=false
 ARG INSTALL_NPM_VUE_CLI=false
 ARG INSTALL_NPM_ANGULAR_CLI=false
-ARG WORKSPACE_INSTALL_NPM_CHECK_UPDATES_CLI=false
+ARG INSTALL_NPM_CHECK_UPDATES_CLI=false
 ARG NPM_REGISTRY
 ENV NPM_REGISTRY ${NPM_REGISTRY}
 ARG NPM_FETCH_RETRIES
@@ -781,7 +781,7 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
         && if [ ${INSTALL_NPM_ANGULAR_CLI} = true ]; then \
         npm install -g @angular/cli \
         ;fi \
-        && if [ ${WORKSPACE_INSTALL_NPM_CHECK_UPDATES_CLI} = true ]; then \
+        && if [ ${INSTALL_NPM_CHECK_UPDATES_CLI} = true ]; then \
         npm install -g npm-check-updates \
         ;fi \
 ;fi
