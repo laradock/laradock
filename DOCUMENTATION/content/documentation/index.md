@@ -1232,15 +1232,16 @@ A package ([Laravel RethinkDB](https://github.com/duxet/laravel-rethinkdb)) is b
 ## Use Minio
 
 1. Configure Minio:
-   - On the workspace container, change `WORKSPACE_INSTALL_MC` to true to get the client
-   - Set `MINIO_ACCESS_KEY` and `MINIO_ACCESS_SECRET` if you wish to set proper keys
+   - You can change some settings in the `.env` file (`MINIO_*`)
+   - You can install Minio Client on the workspace container: `WORKSPACE_INSTALL_MC=true`
+
 2. Run the Minio Container (`minio`) with the `docker-compose up` command. Example:
     ```bash
     docker-compose up -d minio
     ```
 
 3. Open your browser and visit the localhost on port **9000** at the following URL:  `http://localhost:9000`
-4. Create a bucket either through the webui or using the mc client:
+4. Create a bucket either through the webui or using the Minio Client:
     ```bash
     mc mb minio/bucket
     ```
