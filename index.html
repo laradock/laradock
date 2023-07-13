@@ -364,29 +364,24 @@ A package (<a href=https://github.com/duxet/laravel-rethinkdb>Laravel RethinkDB<
     // ...
     
 ],
-</code></pre></li><li><p>Open your Laravel&rsquo;s <code>.env</code> file and update the following variables:</p><ul><li>set the <code>DB_CONNECTION</code> to your <code>rethinkdb</code>.</li><li>set the <code>DB_HOST</code> to <code>rethinkdb</code>.</li><li>set the <code>DB_PORT</code> to <code>28015</code>.</li><li>set the <code>DB_DATABASE</code> to <code>database</code>.</li></ul></li></ol><h4 id=additional-notes-1>Additional Notes</h4><ul><li>You may do backing up of your data using the next reference: <a href=https://www.rethinkdb.com/docs/backup/>backing up your data</a>.</li></ul><p><br><a name=Use-Minio></a></p><h2 id=use-minio>Use Minio</h2><ol><li>Configure Minio:<ul><li>On the workspace container, change <code>INSTALL_MC</code> to true to get the client</li><li>Set <code>MINIO_ACCESS_KEY</code> and <code>MINIO_ACCESS_SECRET</code> if you wish to set proper keys</li></ul></li><li>Run the Minio Container (<code>minio</code>) with the <code>docker-compose up</code> command. Example:
-<code>bash
-docker-compose up -d minio</code></li><li>Open your browser and visit the localhost on port <strong>9000</strong> at the following URL: <code>http://localhost:9000</code></li><li>Create a bucket either through the webui or using the mc client:
-<code>bash
-mc mb minio/bucket</code>
-5 - When configuring your other clients use the following details:
-<code>AWS_URL=http://minio:9000
+</code></pre></li><li><p>Open your Laravel&rsquo;s <code>.env</code> file and update the following variables:</p><ul><li>set the <code>DB_CONNECTION</code> to your <code>rethinkdb</code>.</li><li>set the <code>DB_HOST</code> to <code>rethinkdb</code>.</li><li>set the <code>DB_PORT</code> to <code>28015</code>.</li><li>set the <code>DB_DATABASE</code> to <code>database</code>.</li></ul></li></ol><h4 id=additional-notes-1>Additional Notes</h4><ul><li>You may do backing up of your data using the next reference: <a href=https://www.rethinkdb.com/docs/backup/>backing up your data</a>.</li></ul><p><br><a name=Use-Minio></a></p><h2 id=use-minio>Use Minio</h2><ol><li><p>Configure Minio:</p><ul><li>You can change some settings in the <code>.env</code> file (<code>MINIO_*</code>)</li><li>You can install Minio Client on the workspace container: <code>WORKSPACE_INSTALL_MC=true</code></li></ul></li><li><p>Run the Minio Container (<code>minio</code>) with the <code>docker-compose up</code> command. Example:</p><pre><code class=language-bash>docker-compose up -d minio
+</code></pre></li><li><p>Open your browser and visit the localhost on port <strong>9000</strong> at the following URL: <code>http://localhost:9000</code></p></li><li><p>Create a bucket either through the webui or using the Minio Client:</p><pre><code class=language-bash>mc mb minio/bucket
+</code></pre></li><li><p>When configuring your other clients use the following details:</p><pre><code>AWS_URL=http://minio:9000
 AWS_ACCESS_KEY_ID=access
 AWS_SECRET_ACCESS_KEY=secretkey
 AWS_DEFAULT_REGION=us-east-1
 AWS_BUCKET=test
-AWS_PATH_STYLE=true</code>
-6 - In <code>filesystems.php</code> you shoud use the following details (s3):
-<code>'s3' =&gt; [
-'driver' =&gt; 's3',
-'key' =&gt; env('AWS_ACCESS_KEY_ID'),
-'secret' =&gt; env('AWS_SECRET_ACCESS_KEY'),
-'region' =&gt; env('AWS_DEFAULT_REGION'),
-'bucket' =&gt; env('AWS_BUCKET'),
-'endpoint' =&gt; env('AWS_URL'),
-'use_path_style_endpoint' =&gt; env('AWS_PATH_STYLE', false)
-],</code>
-<code>'AWS_PATH_STYLE'</code> shout set to true only for local purpouse</li></ol><p><br><a name=Use-Thumbor></a></p><h2 id=use-thumbor>Use Thumbor</h2><p>Thumbor is a smart imaging service. It enables on-demand crop, resizing and flipping of images. (<a href=https://github.com/thumbor/thumbor>Thumbor</a>)</p><p>1 - Configure Thumbor:
+AWS_USE_PATH_STYLE_ENDPOINT=true
+</code></pre></li><li><p>In <code>filesystems.php</code> you should use the following details (s3):</p><pre><code class=language-php>'s3' =&gt; [
+    'driver' =&gt; 's3',
+    'key' =&gt; env('AWS_ACCESS_KEY_ID'),
+    'secret' =&gt; env('AWS_SECRET_ACCESS_KEY'),
+    'region' =&gt; env('AWS_DEFAULT_REGION'),
+    'bucket' =&gt; env('AWS_BUCKET'),
+    'endpoint' =&gt; env('AWS_URL'),
+    'use_path_style_endpoint' =&gt; env('AWS_USE_PATH_STYLE_ENDPOINT', false)
+],
+</code></pre></li></ol><p><code>AWS_USE_PATH_STYLE_ENDPOINT</code> should set to true only for local purpose</p><p><br><a name=Use-Thumbor></a></p><h2 id=use-thumbor>Use Thumbor</h2><p>Thumbor is a smart imaging service. It enables on-demand crop, resizing and flipping of images. (<a href=https://github.com/thumbor/thumbor>Thumbor</a>)</p><p>1 - Configure Thumbor:
 - Checkout all the options under the thumbor settings</p><p>2 - Run the Thumbor Container (<code>minio</code>) with the <code>docker-compose up</code> command. Example:</p><pre><code class=language-bash>docker-compose up -d thumbor
 </code></pre><p>3 - Navigate to an example image on <code>http://localhost:8000/unsafe/300x300/i.imgur.com/bvjzPct.jpg</code></p><p>For more documentation on Thumbor visit the <a href=http://thumbor.readthedocs.io/en/latest/index.html>Thumbor documenation</a> page</p><p><br><a name=Use-AWS></a></p><h2 id=use-aws>Use AWS</h2><p>1 - Configure AWS:
 - make sure to add your SSH keys in aws-eb-cli/ssh_keys folder</p><p>2 - Run the Aws Container (<code>aws</code>) with the <code>docker-compose up</code> command. Example:</p><pre><code class=language-bash>docker-compose up -d aws
