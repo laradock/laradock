@@ -1985,7 +1985,19 @@ To install NPM ANGULAR CLI in the Workspace container
 3 - Re-build the container `docker-compose build workspace`
 
 
+<br>
+<a name="Install-npm-check-updates"></a>
+## Install npm-check-updates CLI
 
+To install npm-check-updates CLI [here](https://www.npmjs.com/package/npm-check-updates) in the Workspace container
+
+1 - Open the `.env` file
+
+2 - Make sure Node is also being installed (`WORKSPACE_INSTALL_NODE` set to `true`)
+
+3 - Search for the `WORKSPACE_INSTALL_NPM_CHECK_UPDATES_CLI` argument under the Workspace Container and set it to `true`
+
+4 - Re-build the container `docker-compose build workspace`
 
 
 
