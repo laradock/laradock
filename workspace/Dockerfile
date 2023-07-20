@@ -1482,6 +1482,17 @@ RUN if [ ${INSTALL_AUDIOWAVEFORM} = true ]; then \
 ;fi
 
 #####################################
+# poppler-utils:
+#####################################
+USER root
+
+ARG INSTALL_POPPLER_UTILS=false
+
+RUN if [ ${INSTALL_POPPLER_UTILS} = true ]; then \
+  apt-get -y install poppler-utils \
+;fi
+
+#####################################
 # wkhtmltopdf:
 #####################################
 
