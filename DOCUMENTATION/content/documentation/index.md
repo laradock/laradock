@@ -2001,7 +2001,7 @@ To install npm-check-updates CLI [here](https://www.npmjs.com/package/npm-check-
 
 <br>
 <a name="Install-poppler-utils"></a>
-## Install poppler-utils
+## Install `poppler-utils` (and `antiword` combined)
 
 Poppler is a PDF rendering library based on Xpdf PDF viewer.
 
@@ -2018,6 +2018,8 @@ This package contains command line utilities (based on Poppler) for getting info
 * pdftops -- PDF to PostScript (PS) converter
 * pdftotext -- text extraction
 * pdfunite -- document merging tool
+
+`poppler-utils` is often used by popular PDF/DOC parsing packages in combination with `antiword`, hence both are installed when flags in `.env` are set.
 
 To install `poppler-utils` [(more here)](https://packages.debian.org/sid/poppler-utils) in any of the `workspace/php-fpm/php-worker/laravel-horizon` container
 
