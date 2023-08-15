@@ -664,7 +664,7 @@ services:
       links:
         - postgres
       environment:
-        - POSTGRES_HOST=malekfar-postgres-1
+        - POSTGRES_HOST={POSTGRES_HOST}
         - POSTGRES_DB=${POSTGRES_DB}
         - POSTGRES_USER=${POSTGRES_USER}
         - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
