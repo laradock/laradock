@@ -655,6 +655,22 @@ services:
         - POSTGRES_CONFLUENCE_PASSWORD=${CONFLUENCE_POSTGRES_PASSWORD}
       networks:
         - backend
+### pgbackups PostgreSQL ###########################################
+    pgbackups:
+      image: prodrigestivill/postgres-backup-local
+      restart: always
+      volumes:
+        - ../backup:/backups
+      links:
+        - postgres
+      environment:
+        - POSTGRES_HOST={POSTGRES_HOST}
+        - POSTGRES_DB=${POSTGRES_DB}
+        - POSTGRES_USER=${POSTGRES_USER}
+        - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      networks:
+        - backend
+
 
 ### PostgreSQL PostGis ###################################
     postgres-postgis:
