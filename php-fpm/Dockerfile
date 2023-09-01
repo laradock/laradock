@@ -1069,6 +1069,7 @@ RUN if [ ${INSTALL_WKHTMLTOPDF} = true ]; then \
       libfontconfig1 \
       libx11-dev \
       libjpeg62 \
+      libssl-dev \
       libxtst6 \
       fontconfig \
       libjpeg62-turbo \
