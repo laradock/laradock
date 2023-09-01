@@ -423,8 +423,12 @@ RUN set -eux; \
     if [ ${INSTALL_AMQP} = true ]; then \
       # # Install the amqp extension
       apt-get -yqq install librabbitmq-dev; \
-      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
-        pecl install amqp-1.11.0beta; \
+      if [ ${LARADOCK_PHP_VERSION} = "7.3" ] \
+        || [ ${LARADOCK_PHP_VERSION} = "7.2" ] \
+        || [ ${LARADOCK_PHP_VERSION} = "7.1" ] \
+        || [ ${LARADOCK_PHP_VERSION} = "7.0" ] \
+        || [ ${LARADOCK_PHP_VERSION} = "5.6" ]; then \
+        pecl install amqp-1.11.0; \
       else \
         pecl install amqp; \
       fi; \
