@@ -1069,16 +1069,30 @@ RUN if [ ${INSTALL_WKHTMLTOPDF} = true ]; then \
       libfontconfig1 \
       libx11-dev \
       libjpeg62 \
-      libssl-dev \
       libxtst6 \
       fontconfig \
       libjpeg62-turbo \
       xfonts-base \
       xfonts-75dpi \
       wget \
-    && wget "https://github.com/wkhtmltopdf/packaging/releases/download/${WKHTMLTOPDF_VERSION}/wkhtmltox_${WKHTMLTOPDF_VERSION}.bookworm_${ARCH}.deb" \
-    && dpkg -i "wkhtmltox_${WKHTMLTOPDF_VERSION}.bookworm_${ARCH}.deb" \
-    && apt -f install \
+    # && cat /etc/os-release \
+    && if [ ${LARADOCK_PHP_VERSION} = "5.6" ] || \
+        [ ${LARADOCK_PHP_VERSION} = "7.0" ]; then \
+      wget "https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.stretch_${ARCH}.deb"; \
+      dpkg -i "wkhtmltox_0.12.6-1.stretch_${ARCH}.deb"; \
+    elif [ ${LARADOCK_PHP_VERSION} = "7.1" ] || \
+        [ ${LARADOCK_PHP_VERSION} = "7.2" ] || \
+        [ ${LARADOCK_PHP_VERSION} = "7.3" ] || \
+        [ ${LARADOCK_PHP_VERSION} = "7.4" ]; then \
+      wget "https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.buster_${ARCH}.deb"; \
+      dpkg -i "wkhtmltox_0.12.6-1.buster_${ARCH}.deb"; \
+    elif [ ${LARADOCK_PHP_VERSION} = "8.0" ]; then \
+      wget "https://github.com/wkhtmltopdf/packaging/releases/download/${WKHTMLTOPDF_VERSION}/wkhtmltox_${WKHTMLTOPDF_VERSION}.bullseye_${ARCH}.deb"; \
+      dpkg -i "wkhtmltox_${WKHTMLTOPDF_VERSION}.bullseye_${ARCH}.deb"; \
+    else \
+      wget "https://github.com/wkhtmltopdf/packaging/releases/download/${WKHTMLTOPDF_VERSION}/wkhtmltox_${WKHTMLTOPDF_VERSION}.bookworm_${ARCH}.deb"; \
+      dpkg -i "wkhtmltox_${WKHTMLTOPDF_VERSION}.bookworm_${ARCH}.deb"; \
+    fi \
 ;fi
 
 #####################################
