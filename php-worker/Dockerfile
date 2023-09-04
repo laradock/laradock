@@ -72,11 +72,22 @@ RUN if [ ${INSTALL_BZ2} = true ]; then \
 
 ARG INSTALL_GNUPG=false
 
-RUN set -eux; if [ ${INSTALL_GNUPG} = true ]; then \
-  apk add --no-cache --no-progress --virtual BUILD_DEPS_PHP_GNUPG gpgme-dev; \
-  apk add --no-cache --no-progress gpgme; \
-  pecl install gnupg; \
-  docker-php-ext-enable gnupg; \
+RUN set -eux; \
+  if [ ${INSTALL_GNUPG} = true ]; then \
+    apk add --no-cache --no-progress --virtual BUILD_DEPS_PHP_GNUPG gpgme-dev; \
+    if [ ${LARADOCK_PHP_VERSION} = "7.0" ]; then \
+      wget -O /tmp/gnupg.tgz "https://pecl.php.net/get/gnupg-1.5.1.tgz"; \
+      mkdir -p /tmp/gnupg; \
+      tar -C /tmp/gnupg -zxvf /tmp/gnupg.tgz --strip 1; \
+      cd /tmp/gnupg; \
+      phpize; \
+      ./configure; \
+      make && make install; \
+    else \
+      pecl install gnupg; \
+    fi; \
+    docker-php-ext-enable gnupg; \
+    php -m | grep -oiE '^gnupg$'; \
   fi
 
 #Install LDAP
