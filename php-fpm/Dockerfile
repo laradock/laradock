@@ -1162,15 +1162,24 @@ USER root
 ARG INSTALL_PHPDECIMAL=false
 
 RUN if [ ${INSTALL_PHPDECIMAL} = true ]; then \
-    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-      echo 'decimal not support PHP 5.6'; \
+  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+    echo 'decimal not support PHP 5.6'; \
+  else \
+    if [ ${LARADOCK_PHP_VERSION} = "8.1" ] || \
+        [ ${LARADOCK_PHP_VERSION} = "8.2" ]; then \
+      curl -L -o /tmp/mpdecimal.tar.gz "https://www.bytereef.org/software/mpdecimal/releases/mpdecimal-2.5.1.tar.gz"; \
+      mkdir -p /tmp/mpdecimal; \
+      tar -C /tmp/mpdecimal -zxvf /tmp/mpdecimal.tar.gz --strip 1; \
+      cd /tmp/mpdecimal; \
+      ./configure && make && make install; \
     else \
-      apt-get install -yqq libmpdec-dev \
-      && pecl install decimal \
-      && docker-php-ext-enable decimal \
-      && php -m | grep -q 'decimal' \
-    ;fi \
-;fi
+      apt-get install -yqq libmpdec-dev; \
+    fi; \
+    pecl install decimal; \
+    docker-php-ext-enable decimal; \
+    php -m | grep -oiE '^decimal$'; \
+  fi; \
+fi
 
 ###########################################################################
 # zookeeper
