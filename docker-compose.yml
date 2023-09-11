@@ -1051,6 +1051,8 @@ services:
         - ${DATA_PATH_HOST}/meilisearch:/data.ms
       ports:
         - "${MEILISEARCH_HOST_PORT}:7700"
+      environment:
+        - MEILI_MASTER_KEY=${MEILISEARCH_KEY}
       networks:
         - frontend
         - backend
