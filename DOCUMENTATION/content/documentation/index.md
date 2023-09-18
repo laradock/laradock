@@ -1650,7 +1650,7 @@ Update the locale setting, default is `POSIX`
 <a name="CronJobs"></a>
 ## Adding cron jobs
 
-You can add your cron jobs to `workspace/crontab/root` after the `php artisan` line.
+You can add your cron jobs to `workspace/crontab/laradock` after the `php artisan` line.
 
 ```
 * * * * * laradock /usr/bin/php /var/www/artisan schedule:run >> /dev/null 2>&1
