@@ -4,6 +4,8 @@ type: index
 weight: 6
 ---
 
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/laradock/laradock)
+
 
 ## Have a Question
 
@@ -79,7 +81,7 @@ To update the sidebar or add a new section to it, you can edit this `DOCUMENTATI
 
 * Make sure you follow the same code/comments style.
 
-* Add the environment variables to the `env-example` if you have any.
+* Add the environment variables to the `.env.example` if you have any.
 
 * **MOST IMPORTANTLY** update the `Documentation`, add as much information.
 
@@ -108,7 +110,7 @@ To update the sidebar or add a new section to it, you can edit this `DOCUMENTATI
 
 * Search for the image in the [Docker Hub](https://hub.docker.com/search/) and find the source..
 
-*Most of the image in Laradock are offical images, these projects live in other repositories and maintainer by other organizations.*
+*Most of the image in Laradock are official images, these projects live in other repositories and maintainer by other organizations.*
 
 **Note:** Laradock has two base images for (`Workspace` and `php-fpm`, mainly made to speed up the build time on your machine.
 
