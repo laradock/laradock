@@ -1,7 +1,4 @@
-FROM adminer:4.3.0
-
-# Version 4.3.1 contains PostgreSQL login errors. See docs.
-# See https://sourceforge.net/p/adminer/bugs-and-features/548/
+FROM adminer:4
 
 LABEL maintainer="Patrick Artounian <partounian@gmail.com>"
 
@@ -12,15 +9,19 @@ VOLUME /sessions
 # SQL SERVER:
 #####################################
 USER root
+
 ARG INSTALL_MSSQL=false
 ENV INSTALL_MSSQL ${INSTALL_MSSQL}
+
 RUN if [ ${INSTALL_MSSQL} = true ]; then \
   set -xe \
-  && apk --update add --no-cache --virtual .phpize-deps $PHPIZE_DEPS unixodbc unixodbc-dev \
-  && pecl channel-update pecl.php.net \
-  && pecl install pdo_sqlsrv-4.1.8preview sqlsrv-4.1.8preview \
-  && echo "extension=sqlsrv.so" > /usr/local/etc/php/conf.d/20-sqlsrv.ini \
-  && echo "extension=pdo_sqlsrv.so" > /usr/local/etc/php/conf.d/20-pdo_sqlsrv.ini \
+  && apk update \
+  && apk add --no-cache --virtual .php-build-dependencies unixodbc-dev freetds-dev \
+  && apk add --virtual .php-runtime-dependencies unixodbc freetds \
+  && docker-php-ext-configure pdo_odbc --with-pdo-odbc=unixODBC,/usr \
+  && docker-php-ext-install pdo_odbc pdo_dblib \
+  && apk del .php-build-dependencies \
+  && rm -rf /var/cache/apk/* \
 ;fi
 
 USER adminer

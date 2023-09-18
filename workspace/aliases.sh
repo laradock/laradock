@@ -46,8 +46,8 @@ alias h="history"
 alias j="jobs"
 alias e='exit'
 alias c="clear"
-alias cla="clear && ls -l"
-alias cll="clear && ls -la"
+alias cla="clear && ls -la"
+alias cll="clear && ls -l"
 alias cls="clear && ls"
 alias code="cd /var/www"
 alias ea="vi ~/aliases.sh"
@@ -68,7 +68,7 @@ alias fresh="php artisan migrate:fresh"
 alias migrate="php artisan migrate"
 alias refresh="php artisan migrate:refresh"
 alias rollback="php artisan migrate:rollback"
-alias seed="php artisan:seed"
+alias seed="php artisan db:seed"
 alias serve="php artisan serve --quiet &"
 
 alias phpunit="./vendor/bin/phpunit"
@@ -87,7 +87,6 @@ alias npm-global="npm list -g --depth 0"
 alias ra="reload"
 alias reload="source ~/.aliases && echo \"$COL_GREEN ==> Aliases Reloaded... $COL_RESET \n \""
 alias run="npm run"
-alias tree="xtree"
 
 # Xvfb
 alias xvfb="Xvfb -ac :0 -screen 0 1024x768x16 &"
@@ -107,6 +106,13 @@ alias gd="git --no-pager diff"
 alias git-revert="git reset --hard && git clean -df"
 alias gs="git status"
 alias whoops="git reset --hard && git clean -df"
+alias glog="git log --oneline --decorate --graph"
+alias gloga="git log --oneline --decorate --graph --all"
+alias gsh="git show"
+alias grb="git rebase -i"
+alias gbr="git branch"
+alias gc="git commit"
+alias gck="git checkout"
 
 # Create a new directory and enter it
 function mkd() {
@@ -142,3 +148,14 @@ function fs() {
 		du $arg .[^.]* ./*;
 	fi;
 }
+
+# Add artisan autocomplete
+function _artisan()
+{
+	COMP_WORDBREAKS=${COMP_WORDBREAKS//:}
+	COMMANDS=`php artisan --raw --no-ansi list | sed "s/[[:space:]].*//g"`
+	COMPREPLY=(`compgen -W "$COMMANDS" -- "${COMP_WORDS[COMP_CWORD]}"`)
+	return 0
+}
+complete -F _artisan art
+complete -F _artisan artisan

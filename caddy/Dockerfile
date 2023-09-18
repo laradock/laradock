@@ -1,27 +1,5 @@
-FROM golang:alpine
+FROM caddy:latest
 
-LABEL maintainer="Huadong Zuo <admin@zuohuadong.cn>"
-
-RUN apk add --no-cache \
-    openssh \
-    git \
-    build-base && \
-    go get github.com/abiosoft/caddyplug/caddyplug \
-    && caddyplug install-caddy \
-    apk del build-base
-
-ARG plugins="cors"
-
-## ARG plugins="cors cgi cloudflare azure linode"
-
-RUN caddyplug install ${plugins}
-
-RUN apk add --no-cache inotify-tools \
-    && echo -e "#!/bin/sh\nwhile inotifywait -e modify /etc/caddy; do\n\tpkill caddy\ndone " >> /start.sh \
-    && chmod +x /start.sh
+COPY ./caddy/Caddyfile /etc/caddy/Caddyfile
 
 EXPOSE 80 443
-
-WORKDIR /var/www/public
-
-CMD ["sh","-c","/start.sh & /usr/bin/caddy -conf /etc/caddy/Caddyfile -agree"]
