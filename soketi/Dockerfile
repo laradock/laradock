@@ -1,6 +1,6 @@
-FROM quay.io/soketi/soketi:latest
+FROM quay.io/soketi/soketi:1.4-16-debian
 
-LABEL maintainer="WuweiMing <wwm041544363@gmail.com>"
+LABEL maintainer="Carlos-vargs <cvargaslopez769@gmail.com>"
 
 CMD ["node /app/bin/server.js start"]
 
