@@ -418,6 +418,8 @@ services:
     soketi:
       build:
         context: ./soketi
+      volumes:
+        - ./soketi/config.json:/app/bin/config.json:ro
       ports:
         - "${SOKETI_PORT}:6001"
         - "${SOKETI_METRICS_SERVER_PORT}:9601"
