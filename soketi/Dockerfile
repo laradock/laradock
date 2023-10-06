@@ -1,7 +1,9 @@
-FROM quay.io/soketi/soketi:latest
+FROM quay.io/soketi/soketi:latest-16-debian
 
-LABEL maintainer="WuweiMing <wwm041544363@gmail.com>"
+LABEL maintainer="Er-Niebla <er.niebla@gmail.com>"
 
-CMD ["node /app/bin/server.js start"]
+COPY config.json /app/bin/config.json
+
+CMD ["--config=/app/bin/config.json"]
 
 EXPOSE 6001 9601

@@ -72,11 +72,22 @@ RUN if [ ${INSTALL_BZ2} = true ]; then \
 
 ARG INSTALL_GNUPG=false
 
-RUN set -eux; if [ ${INSTALL_GNUPG} = true ]; then \
-  apk add --no-cache --no-progress --virtual BUILD_DEPS_PHP_GNUPG gpgme-dev; \
-  apk add --no-cache --no-progress gpgme; \
-  pecl install gnupg; \
-  docker-php-ext-enable gnupg; \
+RUN set -eux; \
+  if [ ${INSTALL_GNUPG} = true ]; then \
+    apk add --no-cache --no-progress --virtual BUILD_DEPS_PHP_GNUPG gpgme-dev; \
+    if [ ${LARADOCK_PHP_VERSION} = "7.0" ]; then \
+      wget -O /tmp/gnupg.tgz "https://pecl.php.net/get/gnupg-1.5.1.tgz"; \
+      mkdir -p /tmp/gnupg; \
+      tar -C /tmp/gnupg -zxvf /tmp/gnupg.tgz --strip 1; \
+      cd /tmp/gnupg; \
+      phpize; \
+      ./configure; \
+      make && make install; \
+    else \
+      pecl install gnupg; \
+    fi; \
+    docker-php-ext-enable gnupg; \
+    php -m | grep -oiE '^gnupg$'; \
   fi
 
 #Install LDAP
@@ -263,13 +274,28 @@ RUN if [ ${INSTALL_AUDIOWAVEFORM} = true ]; then \
   && make install \
   ;fi
 
+#####################################
+# poppler-utils:
+#####################################
+USER root
+
+ARG INSTALL_POPPLER_UTILS=false
+
+RUN if [ ${INSTALL_POPPLER_UTILS} = true ]; then \
+  apk add --update --no-cache poppler-utils antiword \
+;fi
+
 # Install AMQP:
 ARG INSTALL_AMQP=false
 
 RUN if [ ${INSTALL_AMQP} = true ]; then \
   docker-php-ext-install sockets; \
   apk --update add -q rabbitmq-c rabbitmq-c-dev && \
-  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+  if [ ${LARADOCK_PHP_VERSION} = "7.3" ] \
+    || [ ${LARADOCK_PHP_VERSION} = "7.2" ] \
+    || [ ${LARADOCK_PHP_VERSION} = "7.1" ] \
+    || [ ${LARADOCK_PHP_VERSION} = "7.0" ] \
+    || [ ${LARADOCK_PHP_VERSION} = "5.6" ]; then \
     printf "\n" | pecl install amqp-1.11.0; \
   else \
     printf "\n" | pecl install amqp; \

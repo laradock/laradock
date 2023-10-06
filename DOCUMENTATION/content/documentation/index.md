@@ -1232,39 +1232,43 @@ A package ([Laravel RethinkDB](https://github.com/duxet/laravel-rethinkdb)) is b
 ## Use Minio
 
 1. Configure Minio:
-   - On the workspace container, change `INSTALL_MC` to true to get the client
-   - Set `MINIO_ACCESS_KEY` and `MINIO_ACCESS_SECRET` if you wish to set proper keys
+   - You can change some settings in the `.env` file (`MINIO_*`)
+   - You can install Minio Client on the workspace container: `WORKSPACE_INSTALL_MC=true`
+
 2. Run the Minio Container (`minio`) with the `docker-compose up` command. Example:
     ```bash
     docker-compose up -d minio
     ```
+
 3. Open your browser and visit the localhost on port **9000** at the following URL:  `http://localhost:9000`
-4. Create a bucket either through the webui or using the mc client:
+4. Create a bucket either through the webui or using the Minio Client:
     ```bash
     mc mb minio/bucket
     ```
-5 - When configuring your other clients use the following details:
-  ```
-  AWS_URL=http://minio:9000
-  AWS_ACCESS_KEY_ID=access
-  AWS_SECRET_ACCESS_KEY=secretkey
-  AWS_DEFAULT_REGION=us-east-1
-  AWS_BUCKET=test
-  AWS_PATH_STYLE=true
-  ```
-6 - In `filesystems.php` you shoud use the following details (s3):
-  ```
-'s3' => [
-            'driver' => 's3',
-            'key' => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'region' => env('AWS_DEFAULT_REGION'),
-            'bucket' => env('AWS_BUCKET'),
-            'endpoint' => env('AWS_URL'),
-            'use_path_style_endpoint' => env('AWS_PATH_STYLE', false)
-        ],
-```
-`'AWS_PATH_STYLE'` shout set to true only for local purpouse 
+5. When configuring your other clients use the following details:
+    ```
+    AWS_URL=http://minio:9000
+    AWS_ACCESS_KEY_ID=access
+    AWS_SECRET_ACCESS_KEY=secretkey
+    AWS_DEFAULT_REGION=us-east-1
+    AWS_BUCKET=test
+    AWS_USE_PATH_STYLE_ENDPOINT=true
+    ```
+
+6. In `filesystems.php` you should use the following details (s3):
+    ```php
+    's3' => [
+        'driver' => 's3',
+        'key' => env('AWS_ACCESS_KEY_ID'),
+        'secret' => env('AWS_SECRET_ACCESS_KEY'),
+        'region' => env('AWS_DEFAULT_REGION'),
+        'bucket' => env('AWS_BUCKET'),
+        'endpoint' => env('AWS_URL'),
+        'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false)
+    ],
+    ```
+   
+`AWS_USE_PATH_STYLE_ENDPOINT` should set to true only for local purpose 
 
 
 
@@ -1507,6 +1511,29 @@ docker-compose up -d keycloak
     - Username: `admin`
     - Password: `secret`
 
+
+<br>
+<a name="use Mailpit"></a>
+## Use Mailpit
+
+1. Run the Mailpit Container (`mailpit`) with the `docker-compose up` command. Example:
+
+```bash
+docker-compose up -d mailpit
+```
+
+2. Open your browser and visit the localhost on port 8125:  `http://localhost:8125`
+3. Setup config in your Laravel project’s .env file
+```text
+MAIL_MAILER=smtp
+MAIL_HOST=mailpit
+MAIL_PORT=1125
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+```
+
+
+
 <br>
 <a name="CodeIgniter"></a>
 
@@ -1623,7 +1650,7 @@ Update the locale setting, default is `POSIX`
 <a name="CronJobs"></a>
 ## Adding cron jobs
 
-You can add your cron jobs to `workspace/crontab/root` after the `php artisan` line.
+You can add your cron jobs to `workspace/crontab/laradock` after the `php artisan` line.
 
 ```
 * * * * * laradock /usr/bin/php /var/www/artisan schedule:run >> /dev/null 2>&1
@@ -1958,6 +1985,55 @@ To install NPM ANGULAR CLI in the Workspace container
 3 - Re-build the container `docker-compose build workspace`
 
 
+<br>
+<a name="Install-npm-check-updates"></a>
+## Install npm-check-updates CLI
+
+To install npm-check-updates CLI [here](https://www.npmjs.com/package/npm-check-updates) in the Workspace container
+
+1 - Open the `.env` file
+
+2 - Make sure Node is also being installed (`WORKSPACE_INSTALL_NODE` set to `true`)
+
+3 - Search for the `WORKSPACE_INSTALL_NPM_CHECK_UPDATES_CLI` argument under the Workspace Container and set it to `true`
+
+4 - Re-build the container `docker-compose build workspace`
+
+<br>
+<a name="Install-poppler-utils"></a>
+## Install `poppler-utils` (and `antiword` combined)
+
+Poppler is a PDF rendering library based on Xpdf PDF viewer.
+
+This package contains command line utilities (based on Poppler) for getting information of PDF documents, convert them to other formats, or manipulate them:
+* pdfdetach -- lists or extracts embedded files (attachments)
+* pdffonts -- font analyzer
+* pdfimages -- image extractor
+* pdfinfo -- document information
+* pdfseparate -- page extraction tool
+* pdfsig -- verifies digital signatures
+* pdftocairo -- PDF to PNG/JPEG/PDF/PS/EPS/SVG converter using Cairo
+* pdftohtml -- PDF to HTML converter
+* pdftoppm -- PDF to PPM/PNG/JPEG image converter
+* pdftops -- PDF to PostScript (PS) converter
+* pdftotext -- text extraction
+* pdfunite -- document merging tool
+
+`poppler-utils` is often used by popular PDF/DOC parsing packages in combination with `antiword`, hence both are installed when flags in `.env` are set.
+
+To install `poppler-utils` [(more here)](https://packages.debian.org/sid/poppler-utils) in any of the `workspace/php-fpm/php-worker/laravel-horizon` container
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_POPPLER_UTILS` argument under the Workspace Container and set it to `true`
+
+3 - Search for the `PHP_FPM_INSTALL_POPPLER_UTILS` argument under the Workspace Container and set it to `true`
+
+4 - Search for the `PHP_WORKER_INSTALL_POPPLER_UTILS` argument under the Workspace Container and set it to `true`
+
+5 - Search for the `LARAVEL_HORIZON_INSTALL_POPPLER_UTILS` argument under the Workspace Container and set it to `true`
+
+6 - Re-build the container `docker-compose build workspace php-fpm php-worker laravel-horizon`
 
 
 
