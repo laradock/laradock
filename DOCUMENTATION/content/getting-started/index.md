@@ -7,7 +7,7 @@ weight: 2
 ## Requirements
 
 - [Git](https://git-scm.com/downloads)
-- [Docker](https://www.docker.com/products/docker/) [ >= 17.12 ]
+- [Docker](https://www.docker.com/products/docker-desktop/) [ >= 19.03.0 ]
 
 
 
@@ -148,12 +148,12 @@ If you use Chrome 63 or above for development, don't use `.dev`. [Why?](https://
 
 If you are using **Docker Toolbox** (VM), do one of the following:
 
-- Upgrade to Docker [Native](https://www.docker.com/products/docker) for Mac/Windows (Recommended). Check out [Upgrading Laradock](/documentation/#upgrading-laradock)
+- Upgrade to [Docker Desktop](https://www.docker.com/products/docker-desktop/) for Mac/Windows (Recommended). Check out [Upgrading Laradock](/documentation/#upgrading-laradock)
 - Use Laradock v3.\*. Visit the [Laradock-ToolBox](https://github.com/laradock/laradock/tree/LaraDock-ToolBox) branch. *(outdated)*
 
 <br>
 
-We recommend using a Docker version which is newer than 1.13. 
+We recommend using a Docker Engine version which is newer than 19.03.0.
 
 <br>
 
@@ -184,7 +184,7 @@ docker-compose up -d nginx mysql
 **Note**: All the web server containers `nginx`, `apache` ..etc depends on `php-fpm`, which means if you run any of them, they will automatically launch the `php-fpm` container for you, so no need to explicitly specify it in the `up` command. If you have to do so, you may need to run them as follows: `docker-compose up -d nginx php-fpm mysql`.
 
 
-You can select your own combination of containers from [this list](http://laradock.io/introduction/#supported-software-images).
+You can select your own combination of containers from [this list](https://laradock.io/introduction/#supported-software-docker-images).
 
 *(Please note that sometimes we forget to update the docs, so check the `docker-compose.yml` file to see an updated list of all available containers).*
 
