@@ -23,7 +23,7 @@ jobs:
         working-directory: ./DOCUMENTATION
     steps:
       - name: Checkout Source Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
