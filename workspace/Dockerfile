@@ -54,6 +54,8 @@ RUN set -xe; \
     groupadd -g ${PGID} laradock && \
     useradd -l -u ${PUID} -g laradock -m laradock -G docker_env && \
     usermod -p "*" laradock -s /bin/bash && \
+    echo 'laradock:laradock' | chpasswd  && \
+    echo 'laradock ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers  && \
     apt-get install -yqq \
       apt-utils \
       #
@@ -1862,21 +1864,6 @@ RUN if [ ${INSTALL_JDK} = true ]; then \
 
 #
 #--------------------------------------------------------------------------
-# Temp multiple php version install //@todo refactor in future versions
-#--------------------------------------------------------------------------
-#
-RUN apt-get update --fix-missing \
-    && apt-get install -y software-properties-common \
-    && rm -rf /var/lib/apt/lists/* \
-    && add-apt-repository ppa:ondrej/php
-
-RUN apt-get install php5.6-fpm php5.6-common php5.6-xmlrpc php5.6-cli php5.6-imap php5.6-opcache php5.6-soap unzip php-pear php5.6-dev php5.6-curl php5.6-gd php5.6-json php5.6-mbstring php5.6-intl php5.6-mysql php5.6-xml php5.6-zip php5.6-mcrypt php5.6-bcmath php5.6-imagick -y
-RUN apt-get install php7.4-fpm php7.4-common php7.4-xmlrpc php7.4-cli php7.4-imap php7.4-opcache php7.4-soap unzip  php-pear php7.4-dev php7.4-curl php7.4-gd php7.4-json php7.4-mbstring php7.4-intl php7.4-mysql php7.4-xml php7.4-zip php7.4-bcmath php7.4-imagick  php7.4-redis php7.4-sqlite3 php7.4-xml php7.4-zmq php7.4-apcu php7.4-cli php7.4-imagick php7.4-mailparse php7.4-pspell php7.4-xsl php7.4-common php7.4-fpm php7.4-imap  php7.4-mbstring php7.4-psr php7.4-tidy php7.4-bcmath php7.4-curl php7.4-gd php7.4-memcached php7.4-opcache php7.4-snmp php7.4-uuid php7.4-yaml php7.4-bz2 php7.4-intl php7.4-pgsql php7.4-soap php7.4-zip -y
-RUN apt-get install php8.0-amqp php8.0-igbinary php8.0-mysql php8.0-redis php8.0-sqlite3 php8.0-xml php8.0-zmq php8.0-apcu php8.0-cli php8.0-imagick php8.0-mailparse php8.0-pspell php8.0-xsl php8.0-common php8.0-fpm php8.0-imap php8.0-mbstring php8.0-tidy php8.0-bcmath php8.0-curl php8.0-gd php8.0-memcached php8.0-opcache php8.0-snmp php8.0-uuid php8.0-yaml php8.0-bz2 php8.0-intl php8.0-pgsql php8.0-soap php8.0-zip php8.0-fpm php8.0-common php8.0-xmlrpc php8.0-cli php8.0-imap php8.0-opcache php8.0-soap unzip php-pear php8.0-dev php8.0-curl php8.0-gd php8.0-mbstring php8.0-intl php8.0-mysql php8.0-xml php8.0-zip php8.0-bcmath php8.0-imagick php8.0-redis php8.0-sqlite3 php8.0-xml php8.0-zmq php8.0-apcu php8.0-cli php8.0-imagick php8.0-mailparse php8.0-pspell php8.0-xsl php8.0-common php8.0-fpm php8.0-imap php8.0-mbstring php8.0-tidy php8.0-bcmath php8.0-curl php8.0-gd php8.0-memcached php8.0-opcache php8.0-snmp php8.0-uuid php8.0-yaml php8.0-bz2 php8.0-intl php8.0-pgsql php8.0-soap php8.0-zip -y
-RUN apt-get install php8.1-amqp php8.1-igbinary php8.1-mysql php8.1-redis php8.1-sqlite3 php8.1-xml php8.1-zmq php8.1-apcu php8.1-cli php8.1-imagick php8.1-mailparse php8.1-pspell php8.1-xsl php8.1-common php8.1-fpm php8.1-imap php8.1-mbstring php8.1-tidy php8.1-bcmath php8.1-curl php8.1-gd php8.1-memcached php8.1-opcache php8.1-snmp php8.1-uuid php8.1-yaml php8.1-bz2 php8.1-intl php8.1-pgsql php8.1-soap php8.1-zip php8.1-fpm php8.1-common php8.1-xmlrpc php8.1-cli php8.1-imap php8.1-opcache php8.1-soap unzip php-pear php8.1-dev php8.1-curl php8.1-gd php8.1-mbstring php8.1-intl php8.1-mysql php8.1-xml php8.1-zip php8.1-bcmath php8.1-imagick php8.1-redis php8.1-sqlite3 php8.1-xml php8.1-zmq php8.1-apcu php8.1-cli php8.1-imagick php8.1-mailparse php8.1-pspell php8.1-xsl php8.1-common php8.1-fpm php8.1-imap php8.1-mbstring php8.1-tidy php8.1-bcmath php8.1-curl php8.1-gd php8.1-memcached php8.1-opcache php8.1-snmp php8.1-uuid php8.1-yaml php8.1-bz2 php8.1-intl php8.1-pgsql php8.1-soap php8.1-zip -y
-RUN apt-get install php8.3-mysql php8.3-sqlite3 php8.3-xml php8.3-cli php8.3-pspell php8.3-xsl php8.3-common php8.3-fpm php8.3-imap php8.3-mbstring php8.3-tidy php8.3-bcmath php8.3-curl php8.3-gd php8.3-opcache php8.3-snmp php8.3-bz2 php8.3-intl php8.3-pgsql php8.3-soap php8.3-zip php8.3-fpm php8.3-common php8.3-cli php8.3-imap php8.3-opcache php8.3-soap unzip php-pear php8.3-dev php8.3-curl php8.3-gd php8.3-mbstring php8.3-intl php8.3-mysql php8.3-xml php8.3-zip php8.3-bcmath php8.3-sqlite3 php8.3-xml php8.3-cli php8.3-pspell php8.3-xsl php8.3-common php8.3-fpm php8.3-imap php8.3-mbstring php8.3-tidy php8.3-bcmath php8.3-curl php8.3-gd php8.3-opcache php8.3-snmp php8.3-bz2 php8.3-intl php8.3-pgsql php8.3-soap php8.3-zip -y
-#
-#--------------------------------------------------------------------------
 # Final Touch
 #--------------------------------------------------------------------------
 #
@@ -1891,10 +1878,210 @@ RUN apt-get clean && \
 # Set default work directory
 WORKDIR /var/www
 
+#
+#--------------------------------------------------------------------------
+# multiple php version install
+#--------------------------------------------------------------------------
+#
+
+USER root
+
+RUN set -eux \
+    # Add the "PHP 8" ppa
+    && apt-get install -y software-properties-common \
+    && add-apt-repository -y ppa:ondrej/php \
+    #
+    #--------------------------------------------------------------------------
+    # Software's Installation
+    #--------------------------------------------------------------------------
+    #
+    && echo 'DPkg::options { "--force-confdef"; };' >> /etc/apt/apt.conf \
+    # Install "PHP Extentions", "libraries", "Software's"
+    && apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y --allow-downgrades --allow-remove-essential \
+        --allow-change-held-packages \
+        php5.6-cli \
+        php5.6-common \
+        php5.6-curl \
+        php5.6-intl \
+        php5.6-json \
+        php5.6-xml \
+        php5.6-mbstring \
+        php5.6-mcrypt \
+        php5.6-mysql \
+        php5.6-pgsql \
+        php5.6-sqlite \
+        php5.6-sqlite3 \
+        php5.6-zip \
+        php5.6-bcmath \
+        php5.6-memcached \
+        php5.6-gd \
+        php5.6-dev \
+        php5.6-xmlrpc  \
+        php5.6-imap \
+        php5.6-opcache \
+        php5.6-soap \
+        php5.6-imagick \
+        php7.4-cli \
+        php7.4-common \
+        php7.4-curl \
+        php7.4-intl \
+        php7.4-json \
+        php7.4-xml \
+        php7.4-mbstring \
+        php7.4-mysql \
+        php7.4-pgsql \
+        php7.4-sqlite \
+        php7.4-sqlite3 \
+        php7.4-zip \
+        php7.4-bcmath \
+        php7.4-memcached \
+        php7.4-gd \
+        php7.4-dev \
+        php7.4-xmlrpc  \
+        php7.4-imap  \
+        php7.4-opcache  \
+        php7.4-soap  \
+        php7.4-imagick  \
+        php7.4-redis  \
+        php7.4-zm \
+        php7.4-apcu  \
+        php7.4-mailparse  \
+        php7.4-pspell \
+        php7.4-xsl \
+        php7.4-psr \
+        php7.4-tidy \
+        php7.4-snmp \
+        php7.4-uuid \
+        php7.4-yaml \
+        php7.4-bz2  \
+        php8.0-cli \
+        php8.0-common \
+        php8.0-curl \
+        php8.0-intl \
+        php8.0-xml \
+        php8.0-mbstring \
+        php8.0-mysql \
+        php8.0-pgsql \
+        php8.0-sqlite \
+        php8.0-sqlite3 \
+        php8.0-zip \
+        php8.0-bcmath \
+        php8.0-memcached \
+        php8.0-gd \
+        php8.0-dev \
+        php8.0-amqp \
+        php8.0-igbinary \
+        php8.0-redis \
+        php8.0-zmq \
+        php8.0-apcu \
+        php8.0-imagick \
+        php8.0-mailparse \
+        php8.0-pspell \
+        php8.0-xsl \
+        php8.0-imap \
+        php8.0-tidy \
+        php8.0-opcache \
+        php8.0-snmp \
+        php8.0-uuid \
+        php8.0-yaml \
+        php8.0-bz2 \
+        php8.0-soap \
+        php8.1-amqp \
+        php8.1-igbinary \
+        php8.1-redis \
+        php8.1-zmq \
+        php8.1-apcu \
+        php8.1-cli \
+        php8.1-imagick \
+        php8.1-mailparse \
+        php8.1-pspell \
+        php8.1-xsl \
+        php8.1-imap \
+        php8.1-tidy \
+        php8.1-opcache \
+        php8.1-snmp \
+        php8.1-uuid \
+        php8.1-yaml \
+        php8.1-bz2 \
+        php8.1-soap \
+        php8.2-cli \
+        php8.2-common \
+        php8.2-curl \
+        php8.2-intl \
+        php8.2-xml \
+        php8.2-mbstring \
+        php8.2-mysql \
+        php8.2-pgsql \
+        php8.2-sqlite \
+        php8.2-sqlite3 \
+        php8.2-zip \
+        php8.2-bcmath \
+        php8.2-memcached \
+        php8.2-gd \
+        php8.2-dev \
+        php8.2-amqp \
+        php8.2-igbinary \
+        php8.2-redis \
+        php8.2-sqlite3 \
+        php8.2-zmq \
+        php8.2-apcu \
+        php8.2-imagick \
+        php8.2-mailparse \
+        php8.2-pspell \
+        php8.2-xsl \
+        php8.2-imap \
+        php8.2-opcache \
+        php8.2-snmp \
+        php8.2-uuid \
+        php8.2-yaml \
+        php8.2-bz2 \
+        php8.2-soap \
+        php8.3-mysql  \
+        php8.3-sqlite3  \
+        php8.3-xml \
+        php8.3-cli \
+        php8.3-pspell  \
+        php8.3-xsl  \
+        php8.3-common  \
+        php8.3-imap  \
+        php8.3-mbstring  \
+        php8.3-tidy  \
+        php8.3-bcmath \
+        php8.3-curl  \
+        php8.3-gd \
+        php8.3-opcache  \
+        php8.3-snmp \
+        php8.3-bz2  \
+        php8.3-intl  \
+        php8.3-pgsql  \
+        php8.3-soap  \
+        php8.3-zip  \
+        php8.3-dev \
+        pkg-config \
+        libcurl4-openssl-dev \
+        libedit-dev \
+        libssl-dev \
+        libxml2-dev \
+        xz-utils \
+        libsqlite3-dev \
+        rsync \
+        sqlite3 \
+        git \
+        curl \
+        vim \
+        nano \
+        tree \
+        unzip  \
+        php-pear  \
+        postgresql-client \
+    && apt-get clean
+
+
 COPY ./phpset.sh /home/laradock/phpset.sh
-RUN apt-update
-RUN apt install sudo -y
-RUN chmod +x /home/laradock/phpset.sh
-RUN chown laradock:laradock /home/laradock/phpset.sh
-RUN echo "laradock ALL=(ALL)  ALL" >> /etc/sudoers
-RUN echo "laradock:laradock"|chpasswd
+
+RUN apt update && \
+    apt install sudo -y && \
+    chmod +x /home/laradock/phpset.sh && \
+    chown laradock:laradock /home/laradock/phpset.sh
