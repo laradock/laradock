@@ -20,7 +20,7 @@ if [ "$action" == 'set' ]
 
     while [ "$phpVersion" == "" ]
     do
-      echo -e $"Please provide php version format 5.6 till 8.2"
+      echo -e $"Please provide php version format 5.6 till 8.3"
       read phpVersion
     done
 
