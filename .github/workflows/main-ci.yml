@@ -22,10 +22,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php_version: [ "5.6", "7.0", "7.1", "7.2", "7.3", "7.4", "8.0", "8.1", "8.2" ]
+        php_version: [ "7.1", "7.2", "7.3", "7.4", "8.0", "8.1", "8.2" ]
         service: [ php-fpm, php-worker, workspace ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Build the Docker image
         env:
           PHP_VERSION: ${{ matrix.php_version }}
@@ -48,10 +48,10 @@ jobs:
           sed -i -- 's/ENCHANT=true/ENCHANT=false/g' .env
           sed -i -- 's/PG_CLIENT=true/PG_CLIENT=false/g' .env
           sed -i -- 's/MSSQL=true/MSSQL=false/g' .env
-          docker-compose build ${{ matrix.service }}
-          docker-compose up -d --no-deps -- ${{ matrix.service }}
-          docker-compose exec -T -- ${{ matrix.service }} php -m
-          docker-compose down
+          docker compose build ${{ matrix.service }}
+          docker compose up -d --no-deps -- ${{ matrix.service }}
+          docker compose exec -T -- ${{ matrix.service }} php -m
+          docker compose down
 
   build-other:
     # Don't trigger on schedule event when in a fork
@@ -62,10 +62,10 @@ jobs:
       matrix:
         service: [ 'nginx', 'redis', 'mysql', 'mariadb', 'percona', 'minio', 'mongo' ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Build the Docker image
         run: |
           cp .env.example .env
           sed -i -- 's/=false/=true/g' .env
           sed -i -- 's/CHANGE_SOURCE=true/CHANGE_SOURCE=false/g' .env
-          docker-compose build ${{ matrix.service }}
+          docker compose build ${{ matrix.service }}
