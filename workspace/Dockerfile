@@ -1893,7 +1893,7 @@ WORKDIR /var/www
 
 COPY ./phpset.sh /home/laradock/phpset.sh
 RUN apt update && \
-    apt install sudo -y &&
+    apt install sudo -y
 
 RUN chmod +x /home/laradock/phpset.sh && \
     chown laradock:laradock /home/laradock/phpset.sh
