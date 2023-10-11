@@ -1892,8 +1892,7 @@ RUN apt-get clean && \
 WORKDIR /var/www
 
 COPY ./phpset.sh /home/laradock/phpset.sh
-
-RUN apt update
+RUN apt-update
 RUN apt install sudo -y
 RUN chmod +x /home/laradock/phpset.sh
 RUN chown laradock:laradock /home/laradock/phpset.sh
