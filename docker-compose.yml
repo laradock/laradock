@@ -211,111 +211,47 @@ services:
 
 ### PHP-FPM ##############################################
     php-fpm:
-      build:
-        context: ./php-fpm
-        args:
-          - CHANGE_SOURCE=${CHANGE_SOURCE}
-          - BASE_IMAGE_TAG_PREFIX=${PHP_FPM_BASE_IMAGE_TAG_PREFIX}
-          - LARADOCK_PHP_VERSION=${PHP_VERSION}
-          - LARADOCK_PHALCON_VERSION=${PHALCON_VERSION}
-          - INSTALL_BZ2=${PHP_FPM_INSTALL_BZ2}
-          - INSTALL_ENCHANT=${PHP_FPM_INSTALL_ENCHANT}
-          - INSTALL_GMP=${PHP_FPM_INSTALL_GMP}
-          - INSTALL_GNUPG=${PHP_FPM_INSTALL_GNUPG}
-          - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
-          - XDEBUG_PORT=${PHP_FPM_XDEBUG_PORT}
-          - INSTALL_PCOV=${PHP_FPM_INSTALL_PCOV}
-          - INSTALL_PHPDBG=${PHP_FPM_INSTALL_PHPDBG}
-          - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
-          - INSTALL_SSH2=${PHP_FPM_INSTALL_SSH2}
-          - INSTALL_SOAP=${PHP_FPM_INSTALL_SOAP}
-          - INSTALL_XSL=${PHP_FPM_INSTALL_XSL}
-          - INSTALL_SMB=${PHP_FPM_INSTALL_SMB}
-          - INSTALL_IMAP=${PHP_FPM_INSTALL_IMAP}
-          - INSTALL_MONGO=${PHP_FPM_INSTALL_MONGO}
-          - INSTALL_AMQP=${PHP_FPM_INSTALL_AMQP}
-          - INSTALL_CASSANDRA=${PHP_FPM_INSTALL_CASSANDRA}
-          - INSTALL_ZMQ=${PHP_FPM_INSTALL_ZMQ}
-          - INSTALL_GEARMAN=${PHP_FPM_INSTALL_GEARMAN}
-          - INSTALL_MSSQL=${PHP_FPM_INSTALL_MSSQL}
-          - INSTALL_BCMATH=${PHP_FPM_INSTALL_BCMATH}
-          - INSTALL_PHPREDIS=${PHP_FPM_INSTALL_PHPREDIS}
-          - INSTALL_MEMCACHED=${PHP_FPM_INSTALL_MEMCACHED}
-          - INSTALL_OPCACHE=${PHP_FPM_INSTALL_OPCACHE}
-          - INSTALL_EXIF=${PHP_FPM_INSTALL_EXIF}
-          - INSTALL_AEROSPIKE=${PHP_FPM_INSTALL_AEROSPIKE}
-          - INSTALL_OCI8=${PHP_FPM_INSTALL_OCI8}
-          - INSTALL_MYSQLI=${PHP_FPM_INSTALL_MYSQLI}
-          - INSTALL_PGSQL=${PHP_FPM_INSTALL_PGSQL}
-          - INSTALL_PG_CLIENT=${PHP_FPM_INSTALL_PG_CLIENT}
-          - PG_CLIENT_VERSION=${POSTGRES_CLIENT_VERSION}
-          - INSTALL_POSTGIS=${PHP_FPM_INSTALL_POSTGIS}
-          - INSTALL_INTL=${PHP_FPM_INSTALL_INTL}
-          - INSTALL_GHOSTSCRIPT=${PHP_FPM_INSTALL_GHOSTSCRIPT}
-          - INSTALL_LDAP=${PHP_FPM_INSTALL_LDAP}
-          - INSTALL_PHALCON=${PHP_FPM_INSTALL_PHALCON}
-          - INSTALL_SWOOLE=${PHP_FPM_INSTALL_SWOOLE}
-          - INSTALL_TAINT=${PHP_FPM_INSTALL_TAINT}
-          - INSTALL_IMAGE_OPTIMIZERS=${PHP_FPM_INSTALL_IMAGE_OPTIMIZERS}
-          - INSTALL_IMAGEMAGICK=${PHP_FPM_INSTALL_IMAGEMAGICK}
-          - INSTALL_CALENDAR=${PHP_FPM_INSTALL_CALENDAR}
-          - INSTALL_XLSWRITER=${PHP_FPM_INSTALL_XLSWRITER}
-          - INSTALL_FAKETIME=${PHP_FPM_INSTALL_FAKETIME}
-          - INSTALL_IONCUBE=${PHP_FPM_INSTALL_IONCUBE}
-          - INSTALL_APCU=${PHP_FPM_INSTALL_APCU}
-          - INSTALL_CACHETOOL=${PHP_FPM_INSTALL_CACHETOOL}
-          - INSTALL_YAML=${PHP_FPM_INSTALL_YAML}
-          - INSTALL_RDKAFKA=${PHP_FPM_INSTALL_RDKAFKA}
-          - INSTALL_GETTEXT=${PHP_FPM_INSTALL_GETTEXT}
-          - INSTALL_ADDITIONAL_LOCALES=${PHP_FPM_INSTALL_ADDITIONAL_LOCALES}
-          - INSTALL_MYSQL_CLIENT=${PHP_FPM_INSTALL_MYSQL_CLIENT}
-          - INSTALL_PING=${PHP_FPM_INSTALL_PING}
-          - INSTALL_SSHPASS=${PHP_FPM_INSTALL_SSHPASS}
-          - INSTALL_MAILPARSE=${PHP_FPM_INSTALL_MAILPARSE}
-          - INSTALL_PCNTL=${PHP_FPM_INSTALL_PCNTL}
-          - ADDITIONAL_LOCALES=${PHP_FPM_ADDITIONAL_LOCALES}
-          - INSTALL_FFMPEG=${PHP_FPM_FFMPEG}
-          - INSTALL_AUDIOWAVEFORM=${PHP_FPM_AUDIOWAVEFORM}
-          - INSTALL_WKHTMLTOPDF=${PHP_FPM_INSTALL_WKHTMLTOPDF}
-          - WKHTMLTOPDF_VERSION=${PHP_FPM_WKHTMLTOPDF_VERSION}
-          - INSTALL_XHPROF=${PHP_FPM_INSTALL_XHPROF}
-          - INSTALL_XMLRPC=${PHP_FPM_INSTALL_XMLRPC}
-          - INSTALL_PHPDECIMAL=${PHP_FPM_INSTALL_PHPDECIMAL}
-          - INSTALL_ZOOKEEPER=${PHP_FPM_INSTALL_ZOOKEEPER}
-          - INSTALL_SSDB=${PHP_FPM_INSTALL_SSDB}
-          - INSTALL_TRADER=${PHP_FPM_INSTALL_TRADER}
-          - INSTALL_EVENT=${PHP_FPM_INSTALL_EVENT}
-          - DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL=${PHP_DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL}
-          - DOWNGRADE_OPENSSL_TLS_VERSION=${PHP_DOWNGRADE_OPENSSL_TLS_VERSION}
-          - PUID=${PHP_FPM_PUID}
-          - PGID=${PHP_FPM_PGID}
-          - IMAGEMAGICK_VERSION=${PHP_FPM_IMAGEMAGICK_VERSION}
-          - LOCALE=${PHP_FPM_DEFAULT_LOCALE}
-          - PHP_FPM_NEW_RELIC=${PHP_FPM_NEW_RELIC}
-          - PHP_FPM_NEW_RELIC_KEY=${PHP_FPM_NEW_RELIC_KEY}
-          - PHP_FPM_NEW_RELIC_APP_NAME=${PHP_FPM_NEW_RELIC_APP_NAME}
-          - INSTALL_DOCKER_CLIENT=${PHP_FPM_INSTALL_DOCKER_CLIENT}
-          - INSTALL_DNSUTILS=${PHP_FPM_INSTALL_DNSUTILS}
-          - INSTALL_POPPLER_UTILS=${PHP_FPM_INSTALL_POPPLER_UTILS}
-          - INSTALL_JDK=${WORKSPACE_INSTALL_JDK}
-          - http_proxy
-          - https_proxy
-          - no_proxy
+      image: devilbox/php-fpm:8.1-slim
       volumes:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         - docker-in-docker:/certs/client
+      ports:
+        - "8100:9000"
       expose:
+        - "8100"
         - "9000"
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       environment:
-        - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
         - DOCKER_HOST=tcp://docker-in-docker:2376
         - DOCKER_TLS_VERIFY=1
         - DOCKER_TLS_CERTDIR=/certs
         - DOCKER_CERT_PATH=/certs/client
-        - FAKETIME=${PHP_FPM_FAKETIME}
+      depends_on:
+        - workspace
+      networks:
+        - backend
+      links:
+        - docker-in-docker
+    php-fpm-8.3:
+      image: devilbox/php-fpm-8.3
+      volumes:
+        - ./php-fpm/php8.3.ini:/usr/local/etc/php/php.ini
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+        - docker-in-docker:/certs/client
+      ports:
+        - "8300:9000"
+      expose:
+        - "8300"
+        - "9000"
+      extra_hosts:
+        - "dockerhost:${DOCKER_HOST_IP}"
+      environment:
+        - DOCKER_HOST=tcp://docker-in-docker:2376
+        - DOCKER_TLS_VERIFY=1
+        - DOCKER_TLS_CERTDIR=/certs
+        - DOCKER_CERT_PATH=/certs/client
       depends_on:
         - workspace
       networks:
@@ -323,95 +259,9 @@ services:
       links:
         - docker-in-docker
     php-fpm-8.2:
-      build:
-        context: ./php-fpm
-        args:
-          - CHANGE_SOURCE=${CHANGE_SOURCE}
-          - BASE_IMAGE_TAG_PREFIX=${PHP_FPM_BASE_IMAGE_TAG_PREFIX}
-          - LARADOCK_PHP_VERSION=${PHP_VERSION}
-          - LARADOCK_PHALCON_VERSION=${PHALCON_VERSION}
-          - INSTALL_BZ2=${PHP_FPM_INSTALL_BZ2}
-          - INSTALL_ENCHANT=${PHP_FPM_INSTALL_ENCHANT}
-          - INSTALL_GMP=${PHP_FPM_INSTALL_GMP}
-          - INSTALL_GNUPG=${PHP_FPM_INSTALL_GNUPG}
-          - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
-          - XDEBUG_PORT=${PHP_FPM_XDEBUG_PORT}
-          - INSTALL_PCOV=${PHP_FPM_INSTALL_PCOV}
-          - INSTALL_PHPDBG=${PHP_FPM_INSTALL_PHPDBG}
-          - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
-          - INSTALL_SSH2=${PHP_FPM_INSTALL_SSH2}
-          - INSTALL_SOAP=${PHP_FPM_INSTALL_SOAP}
-          - INSTALL_XSL=${PHP_FPM_INSTALL_XSL}
-          - INSTALL_SMB=${PHP_FPM_INSTALL_SMB}
-          - INSTALL_IMAP=${PHP_FPM_INSTALL_IMAP}
-          - INSTALL_MONGO=${PHP_FPM_INSTALL_MONGO}
-          - INSTALL_AMQP=${PHP_FPM_INSTALL_AMQP}
-          - INSTALL_CASSANDRA=${PHP_FPM_INSTALL_CASSANDRA}
-          - INSTALL_ZMQ=${PHP_FPM_INSTALL_ZMQ}
-          - INSTALL_GEARMAN=${PHP_FPM_INSTALL_GEARMAN}
-          - INSTALL_MSSQL=${PHP_FPM_INSTALL_MSSQL}
-          - INSTALL_BCMATH=${PHP_FPM_INSTALL_BCMATH}
-          - INSTALL_PHPREDIS=${PHP_FPM_INSTALL_PHPREDIS}
-          - INSTALL_MEMCACHED=${PHP_FPM_INSTALL_MEMCACHED}
-          - INSTALL_OPCACHE=${PHP_FPM_INSTALL_OPCACHE}
-          - INSTALL_EXIF=${PHP_FPM_INSTALL_EXIF}
-          - INSTALL_AEROSPIKE=${PHP_FPM_INSTALL_AEROSPIKE}
-          - INSTALL_OCI8=${PHP_FPM_INSTALL_OCI8}
-          - INSTALL_MYSQLI=${PHP_FPM_INSTALL_MYSQLI}
-          - INSTALL_PGSQL=${PHP_FPM_INSTALL_PGSQL}
-          - INSTALL_PG_CLIENT=${PHP_FPM_INSTALL_PG_CLIENT}
-          - INSTALL_POSTGIS=${PHP_FPM_INSTALL_POSTGIS}
-          - INSTALL_INTL=${PHP_FPM_INSTALL_INTL}
-          - INSTALL_GHOSTSCRIPT=${PHP_FPM_INSTALL_GHOSTSCRIPT}
-          - INSTALL_LDAP=${PHP_FPM_INSTALL_LDAP}
-          - INSTALL_PHALCON=${PHP_FPM_INSTALL_PHALCON}
-          - INSTALL_SWOOLE=${PHP_FPM_INSTALL_SWOOLE}
-          - INSTALL_TAINT=${PHP_FPM_INSTALL_TAINT}
-          - INSTALL_IMAGE_OPTIMIZERS=${PHP_FPM_INSTALL_IMAGE_OPTIMIZERS}
-          - INSTALL_IMAGEMAGICK=${PHP_FPM_INSTALL_IMAGEMAGICK}
-          - INSTALL_CALENDAR=${PHP_FPM_INSTALL_CALENDAR}
-          - INSTALL_XLSWRITER=${PHP_FPM_INSTALL_XLSWRITER}
-          - INSTALL_FAKETIME=${PHP_FPM_INSTALL_FAKETIME}
-          - INSTALL_IONCUBE=${PHP_FPM_INSTALL_IONCUBE}
-          - INSTALL_APCU=${PHP_FPM_INSTALL_APCU}
-          - INSTALL_CACHETOOL=${PHP_FPM_INSTALL_CACHETOOL}
-          - INSTALL_YAML=${PHP_FPM_INSTALL_YAML}
-          - INSTALL_RDKAFKA=${PHP_FPM_INSTALL_RDKAFKA}
-          - INSTALL_GETTEXT=${PHP_FPM_INSTALL_GETTEXT}
-          - INSTALL_ADDITIONAL_LOCALES=${PHP_FPM_INSTALL_ADDITIONAL_LOCALES}
-          - INSTALL_MYSQL_CLIENT=${PHP_FPM_INSTALL_MYSQL_CLIENT}
-          - INSTALL_PING=${PHP_FPM_INSTALL_PING}
-          - INSTALL_SSHPASS=${PHP_FPM_INSTALL_SSHPASS}
-          - INSTALL_MAILPARSE=${PHP_FPM_INSTALL_MAILPARSE}
-          - INSTALL_PCNTL=${PHP_FPM_INSTALL_PCNTL}
-          - ADDITIONAL_LOCALES=${PHP_FPM_ADDITIONAL_LOCALES}
-          - INSTALL_FFMPEG=${PHP_FPM_FFMPEG}
-          - INSTALL_AUDIOWAVEFORM=${PHP_FPM_AUDIOWAVEFORM}
-          - INSTALL_WKHTMLTOPDF=${PHP_FPM_INSTALL_WKHTMLTOPDF}
-          - WKHTMLTOPDF_VERSION=${WORKSPACE_WKHTMLTOPDF_VERSION}
-          - INSTALL_XHPROF=${PHP_FPM_INSTALL_XHPROF}
-          - INSTALL_XMLRPC=${PHP_FPM_INSTALL_XMLRPC}
-          - INSTALL_PHPDECIMAL=${PHP_FPM_INSTALL_PHPDECIMAL}
-          - INSTALL_ZOOKEEPER=${PHP_FPM_INSTALL_ZOOKEEPER}
-          - INSTALL_SSDB=${PHP_FPM_INSTALL_SSDB}
-          - INSTALL_TRADER=${PHP_FPM_INSTALL_TRADER}
-          - INSTALL_EVENT=${PHP_FPM_INSTALL_EVENT}
-          - DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL=${PHP_DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL}
-          - DOWNGRADE_OPENSSL_TLS_VERSION=${PHP_DOWNGRADE_OPENSSL_TLS_VERSION}
-          - PUID=${PHP_FPM_PUID}
-          - PGID=${PHP_FPM_PGID}
-          - IMAGEMAGICK_VERSION=${PHP_FPM_IMAGEMAGICK_VERSION}
-          - LOCALE=${PHP_FPM_DEFAULT_LOCALE}
-          - PHP_FPM_NEW_RELIC=${PHP_FPM_NEW_RELIC}
-          - PHP_FPM_NEW_RELIC_KEY=${PHP_FPM_NEW_RELIC_KEY}
-          - PHP_FPM_NEW_RELIC_APP_NAME=${PHP_FPM_NEW_RELIC_APP_NAME}
-          - INSTALL_DOCKER_CLIENT=${PHP_FPM_INSTALL_DOCKER_CLIENT}
-          - INSTALL_DNSUTILS=${PHP_FPM_INSTALL_DNSUTILS}
-          - http_proxy
-          - https_proxy
-          - no_proxy
+      image: devilbox/php-fpm:8.2-slim
       volumes:
-        - ./php-fpm/php8.1.ini:/usr/local/etc/php/php.ini
+        - ./php-fpm/php8.2.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         - docker-in-docker:/certs/client
       ports:
@@ -422,12 +272,10 @@ services:
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       environment:
-        - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
         - DOCKER_HOST=tcp://docker-in-docker:2376
         - DOCKER_TLS_VERIFY=1
         - DOCKER_TLS_CERTDIR=/certs
         - DOCKER_CERT_PATH=/certs/client
-        - FAKETIME=${PHP_FPM_FAKETIME}
       depends_on:
         - workspace
       networks:
@@ -435,93 +283,7 @@ services:
       links:
         - docker-in-docker
     php-fpm-8.0:
-      build:
-        context: ./php-fpm
-        args:
-          - CHANGE_SOURCE=${CHANGE_SOURCE}
-          - BASE_IMAGE_TAG_PREFIX=${PHP_FPM_BASE_IMAGE_TAG_PREFIX}
-          - LARADOCK_PHP_VERSION=${PHP_VERSION}
-          - LARADOCK_PHALCON_VERSION=${PHALCON_VERSION}
-          - INSTALL_BZ2=${PHP_FPM_INSTALL_BZ2}
-          - INSTALL_ENCHANT=${PHP_FPM_INSTALL_ENCHANT}
-          - INSTALL_GMP=${PHP_FPM_INSTALL_GMP}
-          - INSTALL_GNUPG=${PHP_FPM_INSTALL_GNUPG}
-          - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
-          - XDEBUG_PORT=${PHP_FPM_XDEBUG_PORT}
-          - INSTALL_PCOV=${PHP_FPM_INSTALL_PCOV}
-          - INSTALL_PHPDBG=${PHP_FPM_INSTALL_PHPDBG}
-          - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
-          - INSTALL_SSH2=${PHP_FPM_INSTALL_SSH2}
-          - INSTALL_SOAP=${PHP_FPM_INSTALL_SOAP}
-          - INSTALL_XSL=${PHP_FPM_INSTALL_XSL}
-          - INSTALL_SMB=${PHP_FPM_INSTALL_SMB}
-          - INSTALL_IMAP=${PHP_FPM_INSTALL_IMAP}
-          - INSTALL_MONGO=${PHP_FPM_INSTALL_MONGO}
-          - INSTALL_AMQP=${PHP_FPM_INSTALL_AMQP}
-          - INSTALL_CASSANDRA=${PHP_FPM_INSTALL_CASSANDRA}
-          - INSTALL_ZMQ=${PHP_FPM_INSTALL_ZMQ}
-          - INSTALL_GEARMAN=${PHP_FPM_INSTALL_GEARMAN}
-          - INSTALL_MSSQL=${PHP_FPM_INSTALL_MSSQL}
-          - INSTALL_BCMATH=${PHP_FPM_INSTALL_BCMATH}
-          - INSTALL_PHPREDIS=${PHP_FPM_INSTALL_PHPREDIS}
-          - INSTALL_MEMCACHED=${PHP_FPM_INSTALL_MEMCACHED}
-          - INSTALL_OPCACHE=${PHP_FPM_INSTALL_OPCACHE}
-          - INSTALL_EXIF=${PHP_FPM_INSTALL_EXIF}
-          - INSTALL_AEROSPIKE=${PHP_FPM_INSTALL_AEROSPIKE}
-          - INSTALL_OCI8=${PHP_FPM_INSTALL_OCI8}
-          - INSTALL_MYSQLI=${PHP_FPM_INSTALL_MYSQLI}
-          - INSTALL_PGSQL=${PHP_FPM_INSTALL_PGSQL}
-          - INSTALL_PG_CLIENT=${PHP_FPM_INSTALL_PG_CLIENT}
-          - INSTALL_POSTGIS=${PHP_FPM_INSTALL_POSTGIS}
-          - INSTALL_INTL=${PHP_FPM_INSTALL_INTL}
-          - INSTALL_GHOSTSCRIPT=${PHP_FPM_INSTALL_GHOSTSCRIPT}
-          - INSTALL_LDAP=${PHP_FPM_INSTALL_LDAP}
-          - INSTALL_PHALCON=${PHP_FPM_INSTALL_PHALCON}
-          - INSTALL_SWOOLE=${PHP_FPM_INSTALL_SWOOLE}
-          - INSTALL_TAINT=${PHP_FPM_INSTALL_TAINT}
-          - INSTALL_IMAGE_OPTIMIZERS=${PHP_FPM_INSTALL_IMAGE_OPTIMIZERS}
-          - INSTALL_IMAGEMAGICK=${PHP_FPM_INSTALL_IMAGEMAGICK}
-          - INSTALL_CALENDAR=${PHP_FPM_INSTALL_CALENDAR}
-          - INSTALL_XLSWRITER=${PHP_FPM_INSTALL_XLSWRITER}
-          - INSTALL_FAKETIME=${PHP_FPM_INSTALL_FAKETIME}
-          - INSTALL_IONCUBE=${PHP_FPM_INSTALL_IONCUBE}
-          - INSTALL_APCU=${PHP_FPM_INSTALL_APCU}
-          - INSTALL_CACHETOOL=${PHP_FPM_INSTALL_CACHETOOL}
-          - INSTALL_YAML=${PHP_FPM_INSTALL_YAML}
-          - INSTALL_RDKAFKA=${PHP_FPM_INSTALL_RDKAFKA}
-          - INSTALL_GETTEXT=${PHP_FPM_INSTALL_GETTEXT}
-          - INSTALL_ADDITIONAL_LOCALES=${PHP_FPM_INSTALL_ADDITIONAL_LOCALES}
-          - INSTALL_MYSQL_CLIENT=${PHP_FPM_INSTALL_MYSQL_CLIENT}
-          - INSTALL_PING=${PHP_FPM_INSTALL_PING}
-          - INSTALL_SSHPASS=${PHP_FPM_INSTALL_SSHPASS}
-          - INSTALL_MAILPARSE=${PHP_FPM_INSTALL_MAILPARSE}
-          - INSTALL_PCNTL=${PHP_FPM_INSTALL_PCNTL}
-          - ADDITIONAL_LOCALES=${PHP_FPM_ADDITIONAL_LOCALES}
-          - INSTALL_FFMPEG=${PHP_FPM_FFMPEG}
-          - INSTALL_AUDIOWAVEFORM=${PHP_FPM_AUDIOWAVEFORM}
-          - INSTALL_WKHTMLTOPDF=${PHP_FPM_INSTALL_WKHTMLTOPDF}
-          - WKHTMLTOPDF_VERSION=${WORKSPACE_WKHTMLTOPDF_VERSION}
-          - INSTALL_XHPROF=${PHP_FPM_INSTALL_XHPROF}
-          - INSTALL_XMLRPC=${PHP_FPM_INSTALL_XMLRPC}
-          - INSTALL_PHPDECIMAL=${PHP_FPM_INSTALL_PHPDECIMAL}
-          - INSTALL_ZOOKEEPER=${PHP_FPM_INSTALL_ZOOKEEPER}
-          - INSTALL_SSDB=${PHP_FPM_INSTALL_SSDB}
-          - INSTALL_TRADER=${PHP_FPM_INSTALL_TRADER}
-          - INSTALL_EVENT=${PHP_FPM_INSTALL_EVENT}
-          - DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL=${PHP_DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL}
-          - DOWNGRADE_OPENSSL_TLS_VERSION=${PHP_DOWNGRADE_OPENSSL_TLS_VERSION}
-          - PUID=${PHP_FPM_PUID}
-          - PGID=${PHP_FPM_PGID}
-          - IMAGEMAGICK_VERSION=${PHP_FPM_IMAGEMAGICK_VERSION}
-          - LOCALE=${PHP_FPM_DEFAULT_LOCALE}
-          - PHP_FPM_NEW_RELIC=${PHP_FPM_NEW_RELIC}
-          - PHP_FPM_NEW_RELIC_KEY=${PHP_FPM_NEW_RELIC_KEY}
-          - PHP_FPM_NEW_RELIC_APP_NAME=${PHP_FPM_NEW_RELIC_APP_NAME}
-          - INSTALL_DOCKER_CLIENT=${PHP_FPM_INSTALL_DOCKER_CLIENT}
-          - INSTALL_DNSUTILS=${PHP_FPM_INSTALL_DNSUTILS}
-          - http_proxy
-          - https_proxy
-          - no_proxy
+      image: devilbox/php-fpm:8.0-slim
       volumes:
         - ./php-fpm/php8.0.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
@@ -534,12 +296,10 @@ services:
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       environment:
-        - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
         - DOCKER_HOST=tcp://docker-in-docker:2376
         - DOCKER_TLS_VERIFY=1
         - DOCKER_TLS_CERTDIR=/certs
         - DOCKER_CERT_PATH=/certs/client
-        - FAKETIME=${PHP_FPM_FAKETIME}
       depends_on:
         - workspace
       networks:
@@ -547,93 +307,7 @@ services:
       links:
         - docker-in-docker
     php-fpm-7.4:
-      build:
-        context: ./php-fpm
-        args:
-          - CHANGE_SOURCE=${CHANGE_SOURCE}
-          - BASE_IMAGE_TAG_PREFIX=${PHP_FPM_BASE_IMAGE_TAG_PREFIX}
-          - LARADOCK_PHP_VERSION=${PHP_VERSION}
-          - LARADOCK_PHALCON_VERSION=${PHALCON_VERSION}
-          - INSTALL_BZ2=${PHP_FPM_INSTALL_BZ2}
-          - INSTALL_ENCHANT=${PHP_FPM_INSTALL_ENCHANT}
-          - INSTALL_GMP=${PHP_FPM_INSTALL_GMP}
-          - INSTALL_GNUPG=${PHP_FPM_INSTALL_GNUPG}
-          - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
-          - XDEBUG_PORT=${PHP_FPM_XDEBUG_PORT}
-          - INSTALL_PCOV=${PHP_FPM_INSTALL_PCOV}
-          - INSTALL_PHPDBG=${PHP_FPM_INSTALL_PHPDBG}
-          - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
-          - INSTALL_SSH2=${PHP_FPM_INSTALL_SSH2}
-          - INSTALL_SOAP=${PHP_FPM_INSTALL_SOAP}
-          - INSTALL_XSL=${PHP_FPM_INSTALL_XSL}
-          - INSTALL_SMB=${PHP_FPM_INSTALL_SMB}
-          - INSTALL_IMAP=${PHP_FPM_INSTALL_IMAP}
-          - INSTALL_MONGO=${PHP_FPM_INSTALL_MONGO}
-          - INSTALL_AMQP=${PHP_FPM_INSTALL_AMQP}
-          - INSTALL_CASSANDRA=${PHP_FPM_INSTALL_CASSANDRA}
-          - INSTALL_ZMQ=${PHP_FPM_INSTALL_ZMQ}
-          - INSTALL_GEARMAN=${PHP_FPM_INSTALL_GEARMAN}
-          - INSTALL_MSSQL=${PHP_FPM_INSTALL_MSSQL}
-          - INSTALL_BCMATH=${PHP_FPM_INSTALL_BCMATH}
-          - INSTALL_PHPREDIS=${PHP_FPM_INSTALL_PHPREDIS}
-          - INSTALL_MEMCACHED=${PHP_FPM_INSTALL_MEMCACHED}
-          - INSTALL_OPCACHE=${PHP_FPM_INSTALL_OPCACHE}
-          - INSTALL_EXIF=${PHP_FPM_INSTALL_EXIF}
-          - INSTALL_AEROSPIKE=${PHP_FPM_INSTALL_AEROSPIKE}
-          - INSTALL_OCI8=${PHP_FPM_INSTALL_OCI8}
-          - INSTALL_MYSQLI=${PHP_FPM_INSTALL_MYSQLI}
-          - INSTALL_PGSQL=${PHP_FPM_INSTALL_PGSQL}
-          - INSTALL_PG_CLIENT=${PHP_FPM_INSTALL_PG_CLIENT}
-          - INSTALL_POSTGIS=${PHP_FPM_INSTALL_POSTGIS}
-          - INSTALL_INTL=${PHP_FPM_INSTALL_INTL}
-          - INSTALL_GHOSTSCRIPT=${PHP_FPM_INSTALL_GHOSTSCRIPT}
-          - INSTALL_LDAP=${PHP_FPM_INSTALL_LDAP}
-          - INSTALL_PHALCON=${PHP_FPM_INSTALL_PHALCON}
-          - INSTALL_SWOOLE=${PHP_FPM_INSTALL_SWOOLE}
-          - INSTALL_TAINT=${PHP_FPM_INSTALL_TAINT}
-          - INSTALL_IMAGE_OPTIMIZERS=${PHP_FPM_INSTALL_IMAGE_OPTIMIZERS}
-          - INSTALL_IMAGEMAGICK=${PHP_FPM_INSTALL_IMAGEMAGICK}
-          - INSTALL_CALENDAR=${PHP_FPM_INSTALL_CALENDAR}
-          - INSTALL_XLSWRITER=${PHP_FPM_INSTALL_XLSWRITER}
-          - INSTALL_FAKETIME=${PHP_FPM_INSTALL_FAKETIME}
-          - INSTALL_IONCUBE=${PHP_FPM_INSTALL_IONCUBE}
-          - INSTALL_APCU=${PHP_FPM_INSTALL_APCU}
-          - INSTALL_CACHETOOL=${PHP_FPM_INSTALL_CACHETOOL}
-          - INSTALL_YAML=${PHP_FPM_INSTALL_YAML}
-          - INSTALL_RDKAFKA=${PHP_FPM_INSTALL_RDKAFKA}
-          - INSTALL_GETTEXT=${PHP_FPM_INSTALL_GETTEXT}
-          - INSTALL_ADDITIONAL_LOCALES=${PHP_FPM_INSTALL_ADDITIONAL_LOCALES}
-          - INSTALL_MYSQL_CLIENT=${PHP_FPM_INSTALL_MYSQL_CLIENT}
-          - INSTALL_PING=${PHP_FPM_INSTALL_PING}
-          - INSTALL_SSHPASS=${PHP_FPM_INSTALL_SSHPASS}
-          - INSTALL_MAILPARSE=${PHP_FPM_INSTALL_MAILPARSE}
-          - INSTALL_PCNTL=${PHP_FPM_INSTALL_PCNTL}
-          - ADDITIONAL_LOCALES=${PHP_FPM_ADDITIONAL_LOCALES}
-          - INSTALL_FFMPEG=${PHP_FPM_FFMPEG}
-          - INSTALL_AUDIOWAVEFORM=${PHP_FPM_AUDIOWAVEFORM}
-          - INSTALL_WKHTMLTOPDF=${PHP_FPM_INSTALL_WKHTMLTOPDF}
-          - WKHTMLTOPDF_VERSION=${WORKSPACE_WKHTMLTOPDF_VERSION}
-          - INSTALL_XHPROF=${PHP_FPM_INSTALL_XHPROF}
-          - INSTALL_XMLRPC=${PHP_FPM_INSTALL_XMLRPC}
-          - INSTALL_PHPDECIMAL=${PHP_FPM_INSTALL_PHPDECIMAL}
-          - INSTALL_ZOOKEEPER=${PHP_FPM_INSTALL_ZOOKEEPER}
-          - INSTALL_SSDB=${PHP_FPM_INSTALL_SSDB}
-          - INSTALL_TRADER=${PHP_FPM_INSTALL_TRADER}
-          - INSTALL_EVENT=${PHP_FPM_INSTALL_EVENT}
-          - DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL=${PHP_DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL}
-          - DOWNGRADE_OPENSSL_TLS_VERSION=${PHP_DOWNGRADE_OPENSSL_TLS_VERSION}
-          - PUID=${PHP_FPM_PUID}
-          - PGID=${PHP_FPM_PGID}
-          - IMAGEMAGICK_VERSION=${PHP_FPM_IMAGEMAGICK_VERSION}
-          - LOCALE=${PHP_FPM_DEFAULT_LOCALE}
-          - PHP_FPM_NEW_RELIC=${PHP_FPM_NEW_RELIC}
-          - PHP_FPM_NEW_RELIC_KEY=${PHP_FPM_NEW_RELIC_KEY}
-          - PHP_FPM_NEW_RELIC_APP_NAME=${PHP_FPM_NEW_RELIC_APP_NAME}
-          - INSTALL_DOCKER_CLIENT=${PHP_FPM_INSTALL_DOCKER_CLIENT}
-          - INSTALL_DNSUTILS=${PHP_FPM_INSTALL_DNSUTILS}
-          - http_proxy
-          - https_proxy
-          - no_proxy
+      image: devilbox/php-fpm:7.4-slim
       volumes:
         - ./php-fpm/php7.4.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
@@ -646,12 +320,10 @@ services:
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       environment:
-        - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
         - DOCKER_HOST=tcp://docker-in-docker:2376
         - DOCKER_TLS_VERIFY=1
         - DOCKER_TLS_CERTDIR=/certs
         - DOCKER_CERT_PATH=/certs/client
-        - FAKETIME=${PHP_FPM_FAKETIME}
       depends_on:
         - workspace
       networks:
@@ -659,93 +331,7 @@ services:
       links:
         - docker-in-docker
     php-fpm-5.6:
-      build:
-        context: ./php-fpm
-        args:
-          - CHANGE_SOURCE=${CHANGE_SOURCE}
-          - BASE_IMAGE_TAG_PREFIX=${PHP_FPM_BASE_IMAGE_TAG_PREFIX}
-          - LARADOCK_PHP_VERSION=${PHP_VERSION}
-          - LARADOCK_PHALCON_VERSION=${PHALCON_VERSION}
-          - INSTALL_BZ2=${PHP_FPM_INSTALL_BZ2}
-          - INSTALL_ENCHANT=${PHP_FPM_INSTALL_ENCHANT}
-          - INSTALL_GMP=${PHP_FPM_INSTALL_GMP}
-          - INSTALL_GNUPG=${PHP_FPM_INSTALL_GNUPG}
-          - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
-          - XDEBUG_PORT=${PHP_FPM_XDEBUG_PORT}
-          - INSTALL_PCOV=${PHP_FPM_INSTALL_PCOV}
-          - INSTALL_PHPDBG=${PHP_FPM_INSTALL_PHPDBG}
-          - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
-          - INSTALL_SSH2=${PHP_FPM_INSTALL_SSH2}
-          - INSTALL_SOAP=${PHP_FPM_INSTALL_SOAP}
-          - INSTALL_XSL=${PHP_FPM_INSTALL_XSL}
-          - INSTALL_SMB=${PHP_FPM_INSTALL_SMB}
-          - INSTALL_IMAP=${PHP_FPM_INSTALL_IMAP}
-          - INSTALL_MONGO=${PHP_FPM_INSTALL_MONGO}
-          - INSTALL_AMQP=${PHP_FPM_INSTALL_AMQP}
-          - INSTALL_CASSANDRA=${PHP_FPM_INSTALL_CASSANDRA}
-          - INSTALL_ZMQ=${PHP_FPM_INSTALL_ZMQ}
-          - INSTALL_GEARMAN=${PHP_FPM_INSTALL_GEARMAN}
-          - INSTALL_MSSQL=${PHP_FPM_INSTALL_MSSQL}
-          - INSTALL_BCMATH=${PHP_FPM_INSTALL_BCMATH}
-          - INSTALL_PHPREDIS=${PHP_FPM_INSTALL_PHPREDIS}
-          - INSTALL_MEMCACHED=${PHP_FPM_INSTALL_MEMCACHED}
-          - INSTALL_OPCACHE=${PHP_FPM_INSTALL_OPCACHE}
-          - INSTALL_EXIF=${PHP_FPM_INSTALL_EXIF}
-          - INSTALL_AEROSPIKE=${PHP_FPM_INSTALL_AEROSPIKE}
-          - INSTALL_OCI8=${PHP_FPM_INSTALL_OCI8}
-          - INSTALL_MYSQLI=${PHP_FPM_INSTALL_MYSQLI}
-          - INSTALL_PGSQL=${PHP_FPM_INSTALL_PGSQL}
-          - INSTALL_PG_CLIENT=${PHP_FPM_INSTALL_PG_CLIENT}
-          - INSTALL_POSTGIS=${PHP_FPM_INSTALL_POSTGIS}
-          - INSTALL_INTL=${PHP_FPM_INSTALL_INTL}
-          - INSTALL_GHOSTSCRIPT=${PHP_FPM_INSTALL_GHOSTSCRIPT}
-          - INSTALL_LDAP=${PHP_FPM_INSTALL_LDAP}
-          - INSTALL_PHALCON=${PHP_FPM_INSTALL_PHALCON}
-          - INSTALL_SWOOLE=${PHP_FPM_INSTALL_SWOOLE}
-          - INSTALL_TAINT=${PHP_FPM_INSTALL_TAINT}
-          - INSTALL_IMAGE_OPTIMIZERS=${PHP_FPM_INSTALL_IMAGE_OPTIMIZERS}
-          - INSTALL_IMAGEMAGICK=${PHP_FPM_INSTALL_IMAGEMAGICK}
-          - INSTALL_CALENDAR=${PHP_FPM_INSTALL_CALENDAR}
-          - INSTALL_XLSWRITER=${PHP_FPM_INSTALL_XLSWRITER}
-          - INSTALL_FAKETIME=${PHP_FPM_INSTALL_FAKETIME}
-          - INSTALL_IONCUBE=${PHP_FPM_INSTALL_IONCUBE}
-          - INSTALL_APCU=${PHP_FPM_INSTALL_APCU}
-          - INSTALL_CACHETOOL=${PHP_FPM_INSTALL_CACHETOOL}
-          - INSTALL_YAML=${PHP_FPM_INSTALL_YAML}
-          - INSTALL_RDKAFKA=${PHP_FPM_INSTALL_RDKAFKA}
-          - INSTALL_GETTEXT=${PHP_FPM_INSTALL_GETTEXT}
-          - INSTALL_ADDITIONAL_LOCALES=${PHP_FPM_INSTALL_ADDITIONAL_LOCALES}
-          - INSTALL_MYSQL_CLIENT=${PHP_FPM_INSTALL_MYSQL_CLIENT}
-          - INSTALL_PING=${PHP_FPM_INSTALL_PING}
-          - INSTALL_SSHPASS=${PHP_FPM_INSTALL_SSHPASS}
-          - INSTALL_MAILPARSE=${PHP_FPM_INSTALL_MAILPARSE}
-          - INSTALL_PCNTL=${PHP_FPM_INSTALL_PCNTL}
-          - ADDITIONAL_LOCALES=${PHP_FPM_ADDITIONAL_LOCALES}
-          - INSTALL_FFMPEG=${PHP_FPM_FFMPEG}
-          - INSTALL_AUDIOWAVEFORM=${PHP_FPM_AUDIOWAVEFORM}
-          - INSTALL_WKHTMLTOPDF=${PHP_FPM_INSTALL_WKHTMLTOPDF}
-          - WKHTMLTOPDF_VERSION=${WORKSPACE_WKHTMLTOPDF_VERSION}
-          - INSTALL_XHPROF=${PHP_FPM_INSTALL_XHPROF}
-          - INSTALL_XMLRPC=${PHP_FPM_INSTALL_XMLRPC}
-          - INSTALL_PHPDECIMAL=${PHP_FPM_INSTALL_PHPDECIMAL}
-          - INSTALL_ZOOKEEPER=${PHP_FPM_INSTALL_ZOOKEEPER}
-          - INSTALL_SSDB=${PHP_FPM_INSTALL_SSDB}
-          - INSTALL_TRADER=${PHP_FPM_INSTALL_TRADER}
-          - INSTALL_EVENT=${PHP_FPM_INSTALL_EVENT}
-          - DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL=${PHP_DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL}
-          - DOWNGRADE_OPENSSL_TLS_VERSION=${PHP_DOWNGRADE_OPENSSL_TLS_VERSION}
-          - PUID=${PHP_FPM_PUID}
-          - PGID=${PHP_FPM_PGID}
-          - IMAGEMAGICK_VERSION=${PHP_FPM_IMAGEMAGICK_VERSION}
-          - LOCALE=${PHP_FPM_DEFAULT_LOCALE}
-          - PHP_FPM_NEW_RELIC=${PHP_FPM_NEW_RELIC}
-          - PHP_FPM_NEW_RELIC_KEY=${PHP_FPM_NEW_RELIC_KEY}
-          - PHP_FPM_NEW_RELIC_APP_NAME=${PHP_FPM_NEW_RELIC_APP_NAME}
-          - INSTALL_DOCKER_CLIENT=${PHP_FPM_INSTALL_DOCKER_CLIENT}
-          - INSTALL_DNSUTILS=${PHP_FPM_INSTALL_DNSUTILS}
-          - http_proxy
-          - https_proxy
-          - no_proxy
+      image: devilbox/php-fpm:5.6-slim
       volumes:
         - ./php-fpm/php5.6.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
@@ -758,12 +344,10 @@ services:
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       environment:
-        - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
         - DOCKER_HOST=tcp://docker-in-docker:2376
         - DOCKER_TLS_VERIFY=1
         - DOCKER_TLS_CERTDIR=/certs
         - DOCKER_CERT_PATH=/certs/client
-        - FAKETIME=${PHP_FPM_FAKETIME}
       depends_on:
         - workspace
       networks:
@@ -896,6 +480,7 @@ services:
         - "${VARNISH_BACKEND_PORT}:81"
       depends_on:
         - php-fpm
+        - php-fpm-8.3
         - php-fpm-8.2
         - php-fpm-8.0
         - php-fpm-7.4
@@ -904,7 +489,7 @@ services:
         - frontend
         - backend
       extra_hosts:
-        - "host.docker.internal:host-gateway"  
+        - "host.docker.internal:host-gateway"
 
 ### OpenResty Server #########################################
     openresty:
@@ -928,6 +513,11 @@ services:
         - "${VARNISH_BACKEND_PORT}:81"
       depends_on:
         - php-fpm
+        - php-fpm-8.3
+        - php-fpm-8.2
+        - php-fpm-8.0
+        - php-fpm-7.4
+        - php-fpm-5.6
       networks:
         - frontend
         - backend
@@ -940,6 +530,11 @@ services:
         - BLACKFIRE_SERVER_TOKEN=${BLACKFIRE_SERVER_TOKEN}
       depends_on:
         - php-fpm
+        - php-fpm-8.3
+        - php-fpm-8.2
+        - php-fpm-8.0
+        - php-fpm-7.4
+        - php-fpm-5.6
       networks:
         - backend
 
@@ -964,6 +559,7 @@ services:
         - "${APACHE_HOST_HTTPS_PORT}:443"
       depends_on:
         - php-fpm
+        - php-fpm-8.3
         - php-fpm-8.2
         - php-fpm-8.0
         - php-fpm-7.4
@@ -1293,6 +889,11 @@ services:
         - "${MEMCACHED_HOST_PORT}:11211"
       depends_on:
         - php-fpm
+        - php-fpm-8.3
+        - php-fpm-8.2
+        - php-fpm-8.0
+        - php-fpm-7.4
+        - php-fpm-5.6
       networks:
         - backend
 
@@ -1304,6 +905,11 @@ services:
       privileged: true
       depends_on:
         - php-fpm
+        - php-fpm-8.3
+        - php-fpm-8.2
+        - php-fpm-8.0
+        - php-fpm-7.4
+        - php-fpm-5.6
       networks:
         - backend
 
@@ -1337,6 +943,11 @@ services:
         - ./rabbitmq/management_agent.disable_metrics_collector.conf:/etc/rabbitmq/conf.d/management_agent.disable_metrics_collector.conf
       depends_on:
         - php-fpm
+        - php-fpm-8.3
+        - php-fpm-8.2
+        - php-fpm-8.0
+        - php-fpm-7.4
+        - php-fpm-5.6
       networks:
         - backend
 
@@ -1387,6 +998,11 @@ services:
         - ${DATA_PATH_HOST}/cassandra:/var/lib/cassandra
       depends_on:
         - php-fpm
+        - php-fpm-8.3
+        - php-fpm-8.2
+        - php-fpm-8.0
+        - php-fpm-7.4
+        - php-fpm-5.6
       networks:
         - backend
 
@@ -1420,6 +1036,11 @@ services:
       hostname: laradock-gearman
       depends_on:
         - php-fpm
+        - php-fpm-8.3
+        - php-fpm-8.2
+        - php-fpm-8.0
+        - php-fpm-7.4
+        - php-fpm-5.6
       networks:
         - backend
 
@@ -1446,6 +1067,11 @@ services:
         - "${CADDY_HOST_HTTPS_PORT}:443"
       depends_on:
         - php-fpm
+        - php-fpm-8.3
+        - php-fpm-8.2
+        - php-fpm-8.0
+        - php-fpm-7.4
+        - php-fpm-5.6
       networks:
         - frontend
         - backend
@@ -1483,6 +1109,11 @@ services:
         - "${ADM_PORT}:8080"
       depends_on:
         - php-fpm
+        - php-fpm-8.3
+        - php-fpm-8.2
+        - php-fpm-8.0
+        - php-fpm-7.4
+        - php-fpm-5.6
       networks:
         - frontend
         - backend
@@ -1545,6 +1176,11 @@ services:
         - "${ELASTICSEARCH_HOST_TRANSPORT_PORT}:9300"
       depends_on:
         - php-fpm
+        - php-fpm-8.3
+        - php-fpm-8.2
+        - php-fpm-8.0
+        - php-fpm-7.4
+        - php-fpm-5.6
       networks:
         - frontend
         - backend
@@ -2597,7 +2233,7 @@ services:
         - frontend
         - backend
       restart: always
-  
+
   ### keycloak ##################################################
     keycloak:
       image: bitnami/keycloak:${KEYCLOAK_VERSION}
