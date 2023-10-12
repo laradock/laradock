@@ -496,21 +496,35 @@ ARG INSTALL_MSSQL=false
 
 RUN set -eux; \
   if [ ${INSTALL_MSSQL} = true ]; then \
-  apk add --update gnupg \
+  apk add --update gnupg; \
   ###########################################################################
   # Ref from:
   # - https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-ver15#alpine17
   ###########################################################################
+  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
   # Add Microsoft repo for Microsoft ODBC Driver 17 for Linux
-  # Driver version 17.5 or higher is required for Alpine support.
+  # Driver version 17.10 or higher is required for Alpine support.
   # Download the desired package(s)
-  && curl -O https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/msodbcsql17_17.10.5.1-1_amd64.apk \
+  curl -O https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/msodbcsql17_17.10.5.1-1_amd64.apk \
   # Verify signature, if 'gpg' is missing install it using 'apk add gnupg':
   && curl -O https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/msodbcsql17_17.10.5.1-1_amd64.sig \
   && curl https://packages.microsoft.com/keys/microsoft.asc  | gpg --import - \
   && gpg --verify msodbcsql17_17.10.5.1-1_amd64.sig msodbcsql17_17.10.5.1-1_amd64.apk \
   # Install the package(s)
-  && apk add --allow-untrusted msodbcsql17_17.10.5.1-1_amd64.apk  unixodbc-dev \
+  && apk add --allow-untrusted msodbcsql17_17.10.5.1-1_amd64.apk unixodbc-dev \
+  ;else \
+  # Add Microsoft repo for Microsoft ODBC Driver 18 for Linux
+  # Driver version 18.5 or higher is required for Alpine support.
+  # Download the desired package(s)
+  curl -O https://download.microsoft.com/download/3/5/5/355d7943-a338-41a7-858d-53b259ea33f5/msodbcsql18_18.3.2.1-1_amd64.apk \
+  # Verify signature, if 'gpg' is missing install it using 'apk add gnupg':
+  && curl -O https://download.microsoft.com/download/3/5/5/355d7943-a338-41a7-858d-53b259ea33f5/msodbcsql18_18.3.2.1-1_amd64.sig \
+  && curl https://packages.microsoft.com/keys/microsoft.asc  | gpg --import - \
+  && gpg --verify msodbcsql18_18.3.2.1-1_amd64.sig msodbcsql18_18.3.2.1-1_amd64.apk \
+  # Install the package(s)
+  && apk add --allow-untrusted msodbcsql18_18.3.2.1-1_amd64.apk unixodbc-dev \
+  ;fi \
+  # 
   && if [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70000" ]; then \
     pecl install pdo_sqlsrv-5.3.0 sqlsrv-5.3.0 \
   ;elif [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70100" ]; then \
