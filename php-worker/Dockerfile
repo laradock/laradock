@@ -527,8 +527,8 @@ RUN set -eux; \
   # && echo extension=pdo_sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/10_pdo_sqlsrv.ini
   # && echo extension=sqlsrv.so >> `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/00_sqlsrv.ini
   && docker-php-ext-enable pdo_sqlsrv sqlsrv \
-  && php -m | grep -q 'pdo_sqlsrv' \
-  && php -m | grep -q 'sqlsrv' \
+  && php -m | grep -oiE '^pdo_sqlsrv$' \
+  && php -m | grep -oiE '^sqlsrv$' \
   ;fi
 
 ###########################################################################
