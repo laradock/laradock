@@ -1131,6 +1131,8 @@ RUN set -eux; \
         pecl install pdo_sqlsrv-5.8.1 sqlsrv-5.8.1 \
       ;elif [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70300" ]; then \
         pecl install pdo_sqlsrv-5.9.0 sqlsrv-5.9.0 \
+      ;elif [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70400" ]; then \
+        pecl install pdo_sqlsrv-5.10.1 sqlsrv-5.10.1 \
       ;else \
         pecl install pdo_sqlsrv sqlsrv \
       ;fi && \
