@@ -765,7 +765,7 @@ RUN set -eux; \
       # Add Microsoft repo for Microsoft ODBC Driver 13 for Linux \
       apt-get update \
       && apt-get install -yqq apt-transport-https gnupg lsb-release \
-      && if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+      && if [ ${LARADOCK_PHP_VERSION} = "8.1" ] || [ ${LARADOCK_PHP_VERSION} = "8.2" ]; then \
         curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft-prod.gpg \
       ;else \
         curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
