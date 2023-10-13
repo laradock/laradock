@@ -765,7 +765,11 @@ RUN set -eux; \
       # Add Microsoft repo for Microsoft ODBC Driver 13 for Linux \
       apt-get update \
       && apt-get install -yqq apt-transport-https gnupg lsb-release \
-      && curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft-prod.gpg \
+      && if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+        curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft-prod.gpg \
+      ;else \
+        curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+      ;fi \
       && curl https://packages.microsoft.com/config/debian/$(lsb_release -rs)/prod.list > /etc/apt/sources.list.d/mssql-release.list \
       && apt-get update -yqq \
       && ACCEPT_EULA=Y apt-get install -yqq unixodbc unixodbc-dev libgss3 odbcinst msodbcsql17 locales \
