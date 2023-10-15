@@ -220,7 +220,6 @@ services:
         - "8100:9000"
       expose:
         - "8100"
-        - "9000"
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       environment:
@@ -244,7 +243,6 @@ services:
         - "8300:9000"
       expose:
         - "8300"
-        - "9000"
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       environment:
@@ -268,7 +266,6 @@ services:
         - "8200:9000"
       expose:
         - "8200"
-        - "9000"
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       environment:
@@ -292,7 +289,6 @@ services:
         - "8000:9000"
       expose:
         - "8000"
-        - "9000"
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       environment:
@@ -316,7 +312,6 @@ services:
         - "7400:9000"
       expose:
         - "7400"
-        - "9000"
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       environment:
@@ -340,7 +335,6 @@ services:
         - "5600:9000"
       expose:
         - "5600"
-        - "9000"
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       environment:
@@ -1343,6 +1337,7 @@ services:
         - "${HAPROXY_HOST_HTTP_PORT}:8085"
       volumes:
         - /var/run/docker.sock:/var/run/docker.sock
+        - ${DATA_PATH_HOST}/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
       links:
         - proxy
         - proxy2
@@ -2254,3 +2249,30 @@ services:
       networks:
         - frontend
         - backend
+  ### Speedtest Tracker ##################################################
+    speedtest-tracker:
+      expose:
+        - "8086"
+        - "8643"
+      ports:
+        - '8086:80'
+        - '8643:443'
+      environment:
+        - PUID=1000
+        - PGID=1000
+        - DB_CONNECTION=mysql
+        - DB_HOST=laradock-mysql-1
+        - DB_PORT=3306
+        - DB_DATABASE=${MYSQL_DATABASE}
+        - DB_USERNAME=${MYSQL_USER}
+        - DB_PASSWORD=${MYSQL_PASSWORD}
+      volumes:
+        - ${DATA_PATH_HOST}/speedtest-tracker/config/:/config
+        - ${DATA_PATH_HOST}/speedtest-tracker/ssl/web:/etc/ssl/web
+      image: 'ghcr.io/alexjustesen/speedtest-tracker:latest'
+      restart: unless-stopped
+      networks:
+        - backend
+      depends_on:
+        - workspace
+        - mysql
