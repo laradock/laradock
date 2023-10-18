@@ -1026,8 +1026,8 @@ services:
           - ADMINER_DEFAULT_SERVER=${ADM_DEFAULT_SERVER}
       ports:
         - "${ADM_PORT}:8080"
-      depends_on:
-        - php-fpm
+      # depends_on:
+      #   - php-fpm
       networks:
         - frontend
         - backend
