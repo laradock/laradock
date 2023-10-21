@@ -178,6 +178,7 @@ services:
           - INSTALL_EVENT=${WORKSPACE_INSTALL_EVENT}
           - INSTALL_DNSUTILS=${WORKSPACE_INSTALL_DNSUTILS}
           - INSTALL_POPPLER_UTILS=${WORKSPACE_INSTALL_POPPLER_UTILS}
+          - INSTALL_JDK=${WORKSPACE_INSTALL_JDK}
           - http_proxy
           - https_proxy
           - no_proxy
@@ -338,6 +339,7 @@ services:
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       environment:
+        - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
         - DOCKER_HOST=tcp://docker-in-docker:2376
         - DOCKER_TLS_VERIFY=1
         - DOCKER_TLS_CERTDIR=/certs
