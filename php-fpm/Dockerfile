@@ -1219,19 +1219,19 @@ RUN set -eux; \
 ###########################################################################
 # New Relic for PHP:
 ###########################################################################
-ARG NEW_RELIC=${NEW_RELIC}
-ARG NEW_RELIC_KEY=${NEW_RELIC_KEY}
-ARG NEW_RELIC_APP_NAME=${NEW_RELIC_APP_NAME}
+ARG PHP_FPM_NEW_RELIC=${PHP_FPM_NEW_RELIC}
+ARG PHP_FPM_NEW_RELIC_KEY=${PHP_FPM_NEW_RELIC_KEY}
+ARG PHP_FPM_NEW_RELIC_APP_NAME=${PHP_FPM_NEW_RELIC_APP_NAME}
 
-RUN if [ ${NEW_RELIC} = true ]; then \
-  curl -L http://download.newrelic.com/php_agent/release/newrelic-php5-9.18.1.303-linux.tar.gz | tar -C /tmp -zx && \
+RUN if [ ${PHP_FPM_NEW_RELIC} = true ]; then \
+  curl -L https://download.newrelic.com/php_agent/archive/10.9.0.324/newrelic-php5-10.9.0.324-linux.tar.gz | tar -C /tmp -zx && \
   export NR_INSTALL_USE_CP_NOT_LN=1 && \
   export NR_INSTALL_SILENT=1 && \
   /tmp/newrelic-php5-*/newrelic-install install && \
   rm -rf /tmp/newrelic-php5-* /tmp/nrinstall* && \
   sed -i \
-  -e 's/"REPLACE_WITH_REAL_KEY"/"'${NEW_RELIC_KEY}'"/' \
-  -e 's/newrelic.appname = "PHP Application"/newrelic.appname = "'${NEW_RELIC_APP_NAME}'"/' \
+  -e 's/"REPLACE_WITH_REAL_KEY"/"'${PHP_FPM_NEW_RELIC_KEY}'"/' \
+  -e 's/newrelic.appname = "PHP Application"/newrelic.appname = "'${PHP_FPM_NEW_RELIC_APP_NAME}'"/' \
   -e 's/;newrelic.daemon.app_connect_timeout =.*/newrelic.daemon.app_connect_timeout=15s/' \
   -e 's/;newrelic.daemon.start_timeout =.*/newrelic.daemon.start_timeout=5s/' \
   /usr/local/etc/php/conf.d/newrelic.ini \
