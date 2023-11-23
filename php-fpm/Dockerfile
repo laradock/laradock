@@ -220,7 +220,7 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
   # https://xdebug.org/docs/compat
   if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] || { [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && { [ $(php -r "echo PHP_MINOR_VERSION;") = "4" ] || [ $(php -r "echo PHP_MINOR_VERSION;") = "3" ] ;} ;}; then \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
-      pecl install xdebug-3.2.1; \
+      pecl install xdebug-3.2.2; \
     else \
       pecl install xdebug-3.1.6; \
     fi; \
@@ -765,7 +765,7 @@ RUN set -eux; \
       # Add Microsoft repo for Microsoft ODBC Driver 13 for Linux \
       apt-get update \
       && apt-get install -yqq apt-transport-https gnupg lsb-release \
-      && if [ ${LARADOCK_PHP_VERSION} = "8.1" ] || [ ${LARADOCK_PHP_VERSION} = "8.2" ]; then \
+      && if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] && [ ${LARADOCK_PHP_VERSION} != "8.0" ]; then \
         curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft-prod.gpg \
       ;else \
         curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
@@ -1175,8 +1175,8 @@ RUN if [ ${INSTALL_PHPDECIMAL} = true ]; then \
   if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
     echo 'decimal not support PHP 5.6'; \
   else \
-    if [ ${LARADOCK_PHP_VERSION} = "8.1" ] || \
-        [ ${LARADOCK_PHP_VERSION} = "8.2" ]; then \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] && \
+        [ ${LARADOCK_PHP_VERSION} != "8.0" ]; then \
       curl -L -o /tmp/mpdecimal.tar.gz "https://www.bytereef.org/software/mpdecimal/releases/mpdecimal-2.5.1.tar.gz"; \
       mkdir -p /tmp/mpdecimal; \
       tar -C /tmp/mpdecimal -zxvf /tmp/mpdecimal.tar.gz --strip 1; \

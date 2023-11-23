@@ -345,7 +345,7 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
   apt-get install -yqq pkg-config php-xml php${LARADOCK_PHP_VERSION}-xml && \
   if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] || { [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && { [ $(php -r "echo PHP_MINOR_VERSION;") = "4" ] || [ $(php -r "echo PHP_MINOR_VERSION;") = "3" ] ;} ;}; then \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
-      pecl install xdebug-3.2.1; \
+      pecl install xdebug-3.2.2; \
     else \
       pecl install xdebug-3.1.6; \
     fi; \
