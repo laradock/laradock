@@ -164,7 +164,7 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
       docker-php-ext-enable mongo; \
       php -m | grep -oiE '^mongo$'; \
     else \
-      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && { [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ] || [ $(php -r "echo PHP_MINOR_VERSION;") = "1" ] ;}; then \
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && { [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ] || [ $(php -r "echo PHP_MINOR_VERSION;") = "1" ] || [ $(php -r "echo PHP_MINOR_VERSION;") = "2" ] ;}; then \
         pecl install mongodb-1.9.2; \
       else \
         pecl install mongodb; \
