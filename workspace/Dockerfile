@@ -729,7 +729,7 @@ ARG INSTALL_DRUPAL_CONSOLE=false
 
 RUN if [ ${INSTALL_DRUPAL_CONSOLE} = true ]; then \
     apt-get -y install mysql-client && \
-    curl https://drupalconsole.com/installer -L -o drupal.phar && \
+    curl https://github.com/hechoendrupal/drupal-console-launcher/releases/download/1.9.7/drupal.phar -L -o drupal.phar && \
     mv drupal.phar /usr/local/bin/drupal && \
     chmod +x /usr/local/bin/drupal \
 ;fi
