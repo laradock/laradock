@@ -1227,8 +1227,8 @@ ARG NEW_RELIC=${NEW_RELIC}
 ARG NEW_RELIC_KEY=${NEW_RELIC_KEY}
 ARG NEW_RELIC_APP_NAME=${NEW_RELIC_APP_NAME}
 
-RUN if [ ${NEW_RELIC} = true ]; then \
-  curl -L http://download.newrelic.com/php_agent/archive/10.13.0.2/newrelic-php5-10.13.0.2-linux.tar.gz | tar -C /tmp -zx && \
+RUN if [ ${NEW_RELIC} = true ] && [ ${LARADOCK_PHP_VERSION} != "8.3" ]; then \
+  curl -L http://download.newrelic.com/php_agent/archive/10.14.0.3/newrelic-php5-10.14.0.3-linux.tar.gz | tar -C /tmp -zx && \
   export NR_INSTALL_USE_CP_NOT_LN=1 && \
   export NR_INSTALL_SILENT=1 && \
   /tmp/newrelic-php5-*/newrelic-install install && \
