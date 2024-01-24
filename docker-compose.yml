@@ -427,6 +427,23 @@ services:
       networks:
         - frontend
         - backend
+        
+### Centrifugo Server ########################################
+    centrifugo:
+      build:
+        context: ./centrifugo
+      volumes:
+        - ./centrifugo/config.json:/centrifugo/config.json:ro
+      command: centrifugo -c config.json
+      ports:
+        - "${CENTRIFUGO_PORT}:8000"
+      ulimits:
+        nofile:
+          soft: 65535
+          hard: 65535
+      networks:
+        - frontend
+        - backend
 
 ### NGINX Server #########################################
     nginx:
