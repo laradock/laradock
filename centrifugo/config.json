@@ -1,7 +1,17 @@
 {
+  "debug": false,
+  "presence": true,
   "admin": true,
   "admin_password": "password",
   "admin_secret": "secret",
-  "token_hmac_secret_key": "my_secret",
-  "api_key": "my_api_key"
+  "client_insecure": false,
+  "allow_anonymous_connect_without_token": false,
+  "token_hmac_secret_key": "app-id",
+  "api_key": "app-key",
+  "engine": "memory",
+  "allowed_origins": [
+    "*"
+  ],
+  "namespaces": [
+  ]
 }

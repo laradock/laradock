@@ -432,6 +432,8 @@ services:
     centrifugo:
       build:
         context: ./centrifugo
+        args:
+          - BASE_IMAGE_TAG_PREFIX=${CENTRIFUGO_BASE_IMAGE_TAG_PREFIX}
       volumes:
         - ./centrifugo/config.json:/centrifugo/config.json:ro
       command: centrifugo -c config.json
