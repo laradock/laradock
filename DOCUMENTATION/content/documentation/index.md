@@ -382,6 +382,41 @@ WORKSPACE_INSTALL_PHPDBG=true
 PHP_FPM_INSTALL_PHPDBG=true
 ```
 
+<br>
+<a name="Install-github-copilot-cli"></a>
+## Install Github Copilot Cli
+### Note: You must have Github Copilot access to use this feature.
+Install `gh-cli` in the Workspace Container:
+
+<br>
+1 - Open the `.env`.
+
+2 - Search for `WORKSPACE_INSTALL_GITHUB_CLI`.
+
+3 - Set value to `true`
+
+```dotenv
+WORKSPACE_INSTALL_GITHUB_CLI=true
+```
+4 - Re-build the containers `docker compose build workspace`
+
+5 - start your container `docker compose up -d workspace // ..and all your other containers`
+
+6 - Enter the Workspace container:
+```bash
+docker-compose exec workspace bash
+```
+
+7 - Authenticate with your github account and follow the instructions::
+```bash
+gh auth login
+```
+
+8 - Install the copilot cli:
+```bash
+ gh extension install github/gh-copilot
+```
+
 
 
 
