@@ -1,4 +1,6 @@
-FROM quay.io/soketi/soketi:latest-16-debian
+ARG NODE_VERSION=16-debian
+ARG BASE_IMAGE_TAG_PREFIX=latest
+FROM quay.io/soketi/soketi:${BASE_IMAGE_TAG_PREFIX}-${NODE_VERSION}
 
 LABEL maintainer="Er-Niebla <er.niebla@gmail.com>"
 
