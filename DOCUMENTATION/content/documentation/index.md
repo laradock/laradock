@@ -2096,7 +2096,7 @@ To install BBC Audio Waveform Image Generator in the Workspace container
 <a name="Install-wkhtmltopdf"></a>
 ## Install wkhtmltopdf
 
-[wkhtmltopdf](https://wkhtmltopdf.org/) is a utility for outputting a PDF from HTML
+[wkhtmltopdf](https://wkhtmltopdf.org/) is a utility for outputting a PDF from HTML, but with limited support for modern CSS.
 
 To install wkhtmltopdf in the Workspace container
 
@@ -2108,6 +2108,24 @@ To install wkhtmltopdf in the Workspace container
 
 **PS** Don't forget to install the binary in the `php-fpm` container too by applying the same steps above to its container, otherwise the you'll get an error when running the `wkhtmltopdf` binary.
 
+
+<br>
+<a name="Install-puppeteer"></a>
+## Install Puppeteer (for Browsershot)
+
+[Browsershot](https://spatie.be/docs/browsershot/v2/introduction) is a utility for outputting a PDF from HTML, using Puppeteer to control a headless version of Google Chrome (hence it fully supports modern CSS).
+
+To install Puppeteer (required for Browsershot) in the Workspace and PHP-FPM containers
+
+1 - Open the `.env` file
+
+2 - Search for the `WORKSPACE_INSTALL_PUPPETEER` and `PHP_FPM_INSTALL_PUPPETEER` arguments under their respective Container sections and set them to `true`
+
+3 - Re-build the containers `docker-compose build workspace php-fpm`
+
+You can now [install Browsershot](https://spatie.be/docs/browsershot/v2/installation-setup) in your application via `composer install spatie/browsershot`
+
+**NB:** you will also need to [disable sandboxing](https://spatie.be/docs/browsershot/v2/miscellaneous-options/disable-sandboxing) to get it to work without error.
 
 
 <br>
