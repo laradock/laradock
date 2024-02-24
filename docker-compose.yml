@@ -235,7 +235,7 @@ services:
       links:
         - docker-in-docker
     php-fpm-8.3:
-      image: devilbox/php-fpm-8.3
+      image: laradock/php-fpm:master-8.3
       volumes:
         - ./php-fpm/php8.3.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
