@@ -179,6 +179,7 @@ services:
           - INSTALL_DNSUTILS=${WORKSPACE_INSTALL_DNSUTILS}
           - INSTALL_POPPLER_UTILS=${WORKSPACE_INSTALL_POPPLER_UTILS}
           - INSTALL_JDK=${WORKSPACE_INSTALL_JDK}
+          - INSTALL_GITHUB_CLI=${WORKSPACE_INSTALL_GITHUB_CLI}
           - http_proxy
           - https_proxy
           - no_proxy
