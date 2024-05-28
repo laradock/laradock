@@ -18,8 +18,8 @@ RUN chmod 0444 /etc/mysql/conf.d/my.cnf
 RUN version_gt() { \
   test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1"; \
   }; \
-  mysql_version_trimmed=$(echo "$MYSQL_VERSION" | grep -oE '^[0-9]+\.[0-9]+'); \
-  if version_gt "$mysql_version_trimmed" "8.3"; then \
+  MYSQL_VERSION=$(mysqld --version | grep -o -E "[0-9]+\.[0-9]+\.[0-9]+"); \
+  if version_gt "$MYSQL_VERSION" "8.3"; then \
   echo 'mysql_native_password=on' >> /etc/mysql/conf.d/my.cnf ; \
   else \
   echo 'default-authentication-plugin=mysql_native_password' >> /etc/mysql/conf.d/my.cnf ; \
