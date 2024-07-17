@@ -581,7 +581,7 @@ RUN set -eux; \
       elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
         echo '' | pecl -q install swoole-4.8.12; \
       elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
-        echo '' | pecl -q install swoole-5.1.3; \
+        echo '' | pecl -q install swoole-5.1.2; \
       else \
         echo '' | pecl -q install swoole; \
       fi; \
