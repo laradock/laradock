@@ -392,6 +392,8 @@ services:
         - ./php-worker/supervisord.d:/etc/supervisord.d
       depends_on:
         - workspace
+      environment:
+          - TZ=${WORKSPACE_TIMEZONE}
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       networks:
