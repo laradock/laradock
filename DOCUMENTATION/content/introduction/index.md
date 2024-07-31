@@ -137,10 +137,10 @@ That's it! enjoy :)
     - Amazon Simple Queue Service
 
 - **Mail Servers:**
-    - Mailu 
     - MailCatcher
     - Mailhog 
     - MailDev
+    - Mailpit
 
 - **Log Management:**
     - GrayLog 
