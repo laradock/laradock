@@ -2652,6 +2652,22 @@ docker-compose up ...
 
 *Note: If you faced any errors, try restarting Docker, and make sure you have no spaces in the `d4m-nfs-mounts.txt` file, and your `/etc/exports` file is clear.*
 
+<br>
+<a name="certbot"></a>
+## certbot
+
+To start using certbot, you can add or edit the variables `CERTBOT_CN` and `CERTBOT_EMAIL` in your `.env` file.
+If you'd like renewals to happen via `nginx` be sure to `docker compose up -d nginx` as well.
+Otherwise, it is advised to use DNS Renewals. `(certbot dns-challenge)`
+To auto renew your certificates, you can add a cron job to your host machine.
+eg: add the following to your `cron.weekly`
+```bash
+cd <path-to-your-laradock-install> \
+&& docker compose --env-file=.env up certbot 2>&1 | grep -q 'Keeping the existing certificate' \
+|| docker compose exec -T nginx nginx -s reload
+```
+
+Certs can be found in: `${DATA_PATH_HOST}/certbot/certs/`
 
 <br>
 <a name="ca-certificates"></a>
