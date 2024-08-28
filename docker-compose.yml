@@ -243,6 +243,31 @@ services:
         - backend
       links:
         - docker-in-docker
+    php-fpm-8.4:
+      image: php:8.4-fpm
+      volumes:
+        - ./php-fpm/php8.4.ini:/usr/local/etc/php/php.ini
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+        - docker-in-docker:/certs/client
+      ports:
+        - "8400:9000"
+      expose:
+        - "8400"
+      extra_hosts:
+        - "dockerhost:${DOCKER_HOST_IP}"
+      environment:
+        - DOCKER_HOST=tcp://docker-in-docker:2376
+        - DOCKER_TLS_VERIFY=1
+        - DOCKER_TLS_CERTDIR=/certs
+        - DOCKER_CERT_PATH=/certs/client
+        - FAKETIME=${PHP_FPM_FAKETIME}
+        - TZ=${WORKSPACE_TIMEZONE}
+      depends_on:
+        - workspace
+      networks:
+        - backend
+      links:
+        - docker-in-docker
     php-fpm-8.3:
       image: laradock/php-fpm:latest-8.3
       volumes:
@@ -517,6 +542,7 @@ services:
         - php-fpm-8.0
         - php-fpm-7.4
         - php-fpm-5.6
+        - php-fpm-8.4
       networks:
         - frontend
         - backend
@@ -660,18 +686,18 @@ services:
       build:
         context: ./mysql
         args:
-          - MYSQL_VERSION=${MYSQL_VERSION}
+          - MYSQL_VERSION=${MYSQL_DEVELOPMENT_VERSION}
       environment:
-        - MYSQL_DATABASE=${MYSQL_DATABASE}
-        - MYSQL_USER=${MYSQL_USER}
-        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+        - MYSQL_DATABASE=${MYSQL_DEVELOPMENT_DATABASE}
+        - MYSQL_USER=${MYSQL_DEVELOPMENT_USER}
+        - MYSQL_PASSWORD=${MYSQL_DEVELOPMENT_PASSWORD}
+        - MYSQL_ROOT_PASSWORD=${MYSQL_DEVELOPMENT_ROOT_PASSWORD}
         - TZ=${WORKSPACE_TIMEZONE}
       volumes:
         - ${DATA_PATH_HOST}/mysql_development:/var/lib/mysql
-        - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+        - ${MYSQL_DEVELOPMENT_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
       ports:
-        - "${MYSQL_PORT}:3306"
+        - "${MYSQL_DEVELOPMENT_PORT}:3306"
       networks:
         - backend
 
@@ -681,18 +707,18 @@ services:
       build:
         context: ./mysql
         args:
-          - MYSQL_VERSION=${MYSQL_VERSION}
+          - MYSQL_VERSION=${MYSQL_STAGING_VERSION}
       environment:
-        - MYSQL_DATABASE=${MYSQL_DATABASE}
-        - MYSQL_USER=${MYSQL_USER}
-        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+        - MYSQL_DATABASE=${MYSQL_STAGING_DATABASE}
+        - MYSQL_USER=${MYSQL_STAGING_USER}
+        - MYSQL_PASSWORD=${MYSQL_STAGING_PASSWORD}
+        - MYSQL_ROOT_PASSWORD=${MYSQL_STAGING_ROOT_PASSWORD}
         - TZ=${WORKSPACE_TIMEZONE}
       volumes:
         - ${DATA_PATH_HOST}/mysql_staging:/var/lib/mysql
-        - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+        - ${MYSQL_STAGING_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
       ports:
-        - "${MYSQL_PORT}:3306"
+        - "${MYSQL_STAGING_PORT}:3306"
       networks:
         - backend
 
@@ -1695,7 +1721,7 @@ services:
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       ports:
-        - 9010:9000
+        - "9010:9000"
       networks:
         - backend
 
@@ -2327,7 +2353,7 @@ services:
     kafka-manager:
       image: sheepkiller/kafka-manager
       ports:
-        - 9020:9000
+        - "9020:9000"
       environment:
         ZK_HOSTS: zookeeper:2181
       networks:
