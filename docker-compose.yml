@@ -373,7 +373,7 @@ services:
         - docker-in-docker
     php-fpm-5.6:
       restart: always
-      image: devilbox/php-fpm:latest-5.6
+      image: devilbox/php-fpm:5.6-slim
       volumes:
         - ./php-fpm/php5.6.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
