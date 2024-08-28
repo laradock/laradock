@@ -243,31 +243,6 @@ services:
         - backend
       links:
         - docker-in-docker
-    php-fpm-8.4:
-      image: php:8.4-fpm
-      volumes:
-        - ./php-fpm/php8.4.ini:/usr/local/etc/php/php.ini
-        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
-        - docker-in-docker:/certs/client
-      ports:
-        - "8400:9000"
-      expose:
-        - "8400"
-      extra_hosts:
-        - "dockerhost:${DOCKER_HOST_IP}"
-      environment:
-        - DOCKER_HOST=tcp://docker-in-docker:2376
-        - DOCKER_TLS_VERIFY=1
-        - DOCKER_TLS_CERTDIR=/certs
-        - DOCKER_CERT_PATH=/certs/client
-        - FAKETIME=${PHP_FPM_FAKETIME}
-        - TZ=${WORKSPACE_TIMEZONE}
-      depends_on:
-        - workspace
-      networks:
-        - backend
-      links:
-        - docker-in-docker
     php-fpm-8.3:
       image: laradock/php-fpm:latest-8.3
       volumes:
@@ -542,7 +517,6 @@ services:
         - php-fpm-8.0
         - php-fpm-7.4
         - php-fpm-5.6
-        - php-fpm-8.4
       networks:
         - frontend
         - backend
