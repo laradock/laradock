@@ -219,7 +219,7 @@ services:
 ### PHP-FPM ##############################################
     php-fpm:
       restart: always
-      image: devilbox/php-fpm:8.1-slim
+      image: devilbox/php-fpm:latest-8.1
       volumes:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
@@ -270,7 +270,7 @@ services:
         - docker-in-docker
     php-fpm-8.2:
       restart: always
-      image: devilbox/php-fpm:8.2-slim
+      image: devilbox/php-fpm:latest-8.2
       volumes:
         - ./php-fpm/php8.2.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
@@ -296,7 +296,7 @@ services:
         - docker-in-docker
     php-fpm-8.0:
       restart: always
-      image: devilbox/php-fpm:8.0-slim
+      image: devilbox/php-fpm:latest-8.0
       volumes:
         - ./php-fpm/php8.0.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
@@ -322,7 +322,7 @@ services:
         - docker-in-docker
     php-fpm-7.4:
       restart: always
-      image: devilbox/php-fpm:7.4-slim
+      image: devilbox/php-fpm:latest-7.4
       volumes:
         - ./php-fpm/php7.4.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
@@ -348,7 +348,7 @@ services:
         - docker-in-docker
     php-fpm-5.6:
       restart: always
-      image: devilbox/php-fpm:5.6-slim
+      image: devilbox/php-fpm:latest-5.6
       volumes:
         - ./php-fpm/php5.6.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
