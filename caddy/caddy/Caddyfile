@@ -4,6 +4,6 @@ laradock.test {
     php_fastcgi php-fpm:9000
     file_server
 
-    encode gzip
+    encode zstd gzip
     tls internal
 }

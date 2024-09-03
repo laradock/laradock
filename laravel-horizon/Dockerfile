@@ -42,8 +42,8 @@ RUN apk --update add wget \
 
 RUN pecl channel-update pecl.php.net; \
   docker-php-ext-install mysqli mbstring pdo pdo_mysql xml pcntl; \
-  if [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "80100" ] || \
-     [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "80200" ]; then \
+  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] && \
+     [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") != "80000" ]; then \
     php -m | grep -oiE '^tokenizer$'; \
   else \
     docker-php-ext-install tokenizer; \
@@ -210,6 +210,16 @@ RUN if [ ${INSTALL_AUDIOWAVEFORM} = true ]; then \
    && make install \
 ;fi
 
+#####################################
+# poppler-utils:
+#####################################
+USER root
+
+ARG INSTALL_POPPLER_UTILS=false
+
+RUN if [ ${INSTALL_POPPLER_UTILS} = true ]; then \
+  apk add --update --no-cache poppler-utils antiword \
+;fi
 
 # Install Cassandra drivers:
 ARG INSTALL_CASSANDRA=false

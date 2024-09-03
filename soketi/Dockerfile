@@ -1,7 +1,11 @@
-FROM quay.io/soketi/soketi:latest
+ARG NODE_VERSION=16-debian
+ARG BASE_IMAGE_TAG_PREFIX=latest
+FROM quay.io/soketi/soketi:${BASE_IMAGE_TAG_PREFIX}-${NODE_VERSION}
 
-LABEL maintainer="WuweiMing <wwm041544363@gmail.com>"
+LABEL maintainer="Er-Niebla <er.niebla@gmail.com>"
 
-CMD ["node /app/bin/server.js start"]
+COPY config.json /app/bin/config.json
+
+CMD ["--config=/app/bin/config.json"]
 
 EXPOSE 6001 9601
