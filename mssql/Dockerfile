@@ -1,9 +1,9 @@
-FROM mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+FROM mcr.microsoft.com/mssql/server:2019-latest
 
 ENV MSSQL_PID=Express
 ENV MSSQL_DATABASE=$MSSQL_DATABASE
 ENV ACCEPT_EULA=Y
-ENV SA_PASSWORD=$MSSQL_PASSWORD
+ENV MSSQL_SA_PASSWORD=$MSSQL_PASSWORD
 
 VOLUME /var/opt/mssql
 
