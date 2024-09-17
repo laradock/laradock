@@ -470,6 +470,7 @@ services:
         - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
         - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
         - ${NGINX_SSL_PATH}:/etc/nginx/ssl
+        - ./certbot/letsencrypt/:/var/www/letsencrypt
       ports:
         - "${NGINX_HOST_HTTP_PORT}:80"
         - "${NGINX_HOST_HTTPS_PORT}:443"
@@ -1207,7 +1208,7 @@ services:
       build:
         context: ./certbot
       volumes:
-        - ./data/certbot/certs/:/var/certs
+        - ${DATA_PATH_HOST}/certbot/certs/:/var/certs
         - ./certbot/letsencrypt/:/var/www/letsencrypt
       environment:
         - CN="fake.domain.com"
