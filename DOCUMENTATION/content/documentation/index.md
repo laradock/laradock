@@ -959,16 +959,16 @@ run from any cli: <br>`curl -X PURGE https://yourwebsite.com/`.
 - set the `DB_DATABASE` to `database`.
 
 
-6 - Finally make sure you have the `jenssegers/mongodb` package installed via Composer and its Service Provider is added.
+6 - Finally make sure you have the `mongodb/laravel-mongodb` package installed via Composer.
 
 ```bash
-composer require jenssegers/mongodb
+composer require mongodb/laravel-mongodb
 ```
-More details about this [here](https://github.com/jenssegers/laravel-mongodb#installation).
+More details about this [here](https://www.mongodb.com/docs/drivers/php/laravel-mongodb/current/quick-start/download-and-install/).
 
 7 - Test it:
 
-- First, let your Models extend from the Mongo Eloquent Model. Check the [documentation](https://github.com/jenssegers/laravel-mongodb#eloquent).
+- First, let your Models extend from the Mongo Eloquent Model. Check the [documentation](https://www.mongodb.com/docs/drivers/php/laravel-mongodb/current/eloquent-models/model-class).
 - Enter the Workspace Container.
 - Migrate the Database `php artisan migrate`.
 
