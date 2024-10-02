@@ -959,7 +959,7 @@ run from any cli: <br>`curl -X PURGE https://yourwebsite.com/`.
 - set the `DB_DATABASE` to `database`.
 
 
-6 - Finally make sure you have the `mongodb/laravel-mongodb` package installed via Composer and its Service Provider is added.
+6 - Finally make sure you have the `mongodb/laravel-mongodb` package installed via Composer.
 
 ```bash
 composer require mongodb/laravel-mongodb
