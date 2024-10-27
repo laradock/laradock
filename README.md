@@ -29,18 +29,13 @@
 </p>
 
 
-## Join Us
-
-[![Gitter](https://badges.gitter.im/Laradock/laradock.svg)](https://gitter.im/Laradock/laradock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-
-[![Gitpod](https://img.shields.io/badge/Gitpod-ready--to--code-blue)](https://gitpod.io/#https://github.com/laradock/laradock)
-
 ---
 
 
 ## Awesome People
 
-Laradock is an MIT-licensed open source project with its ongoing development made possible entirely by the support of all these smart and generous people, from code contributors to financial contributors. 💜
+Laradock is an MIT-licensed open source project with its ongoing development made possible entirely by the support of you and all these awesome people. 💜
+
 
 
 ### Project Maintainers
@@ -161,175 +156,49 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
   </tbody>
 </table>
 
+
 ### Code Contributors
 
-[![Laradock Contributors][contributors-src]][contributors-href]
+[![Laradock Contributors](https://opencollective.com/laradock/contributors.svg?width=890&button=false&isActive=true)](https://github.com/laradock/laradock/graphs/contributors)
 
-### Financial Contributors
+### Financial Contributors (Backers)
 
-[![Open Collective backers][backers-src]][backers-href]
+[![Open Collective backers](https://opencollective.com/laradock/tiers/awesome-backers.svg?width=800&avatarHeight=65&button=false&isActive=true)](https://opencollective.com/laradock#contributors)
 
-You can support us using any of the methods below:
 
-<b>1:</b> [Open Collective](https://opencollective.com/laradock)
-<br>
-<b>2:</b> [Paypal](https://paypal.me/mzmmzz)
-<br>
-<b>3:</b> [Github Sponsors](https://github.com/sponsors/Mahmoudz)
-<br>
-<b>4:</b> [Patreon](https://www.patreon.com/zalt)
-
----
 
 
 ## Sponsors
 
 Sponsoring is an act of giving in a different fashion. 🌱
 
+### Diamond Sponsors
+
+<p align="left">
+  <a href="https://smart.sista.ai/?utm_source=docs_laradock&utm_medium=sponsor&utm_campaign=github_readme_page" target="_blank">
+    <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/sista-ai-icon.png" height="165px" alt="Sista AI - Plug-and-Play AI Assistant. (www.sista.ai)" style="margin-right: 4em;">
+  </a>
+  <a href="http://apiato.io/" target="_blank">
+    <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/apiato.png" height="165px" alt="Apiato - Build PHP API's faster!">
+  </a>
+</p>
+
 
 ### Gold Sponsors
 
-<p align="center">
-
-<a href="https://sista.ai/"                           target="_blank"   style="margin-right: 4em"><img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/sista-ai-icon.png"        height="75px"    alt="Sista AI - Unlock Your Full Potential With a Personal AI Coach. (www.sista.ai)"></a>
-<a href="http://apiato.io/"                           target="_blank"   style="margin-right: 4em"><img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/apiato.png"               height="75px"    alt="Apiato - Build PHP API's faster!"></a>
-<!-- <a href="https://kasynohex.com/"                      target="_blank"   style="margin-right: 4em"><img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/PLD.png"                  height="75px"    alt="KasynoHEX.com Polska"></a> -->
-<!-- <a href="https://onlinecasinohex.ca/online-casinos/"  target="_blank"   style="margin-right: 4em"><img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/CA.png"                   height="75px"    alt="Online casino list in Canada by OnlineCasinoHEX.ca"></a> -->
-<!-- <a href="https://aussiecasinohex.com/online-pokies/"  target="_blank"   style="margin-right: 4em"><img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/AU.png"                   height="75px"    alt="Online pokies by AussieCasinoHEX.com"></a> -->
-<!-- <a href="https://www.bestonlinecasino.com/"           target="_blank"   style="margin-right: 4em"><img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/bestonlinecasino.jpg"     height="75px"    alt="We thank bestonlinecasino.com for their support"></a> -->
-<!-- <a href="https://casinopilotti.com/"                  target="_blank"   style="margin-right: 4em"><img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/casinopilotti.png"        height="75px"    alt="CasinoPilotti"></a> -->
-
-
-<a href="https://opencollective.com/laradock/tiers/gold-sponsors/0/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/0/avatar.svg?button=false&isActive=true" height="75px"></a>
-<a href="https://opencollective.com/laradock/tiers/gold-sponsors/1/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/1/avatar.svg?button=false&isActive=true" height="75px"></a>
-<a href="https://opencollective.com/laradock/tiers/gold-sponsors/2/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/2/avatar.svg?button=false&isActive=true" height="75px"></a>
-<a href="https://opencollective.com/laradock/tiers/gold-sponsors/3/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/3/avatar.svg?button=false&isActive=true" height="75px"></a>
-<a href="https://opencollective.com/laradock/tiers/gold-sponsors/4/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/4/avatar.svg?button=false&isActive=true" height="75px"></a>
-<a href="https://opencollective.com/laradock/tiers/gold-sponsors/5/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/5/avatar.svg?button=false&isActive=true" height="75px"></a>
-<a href="https://opencollective.com/laradock/tiers/gold-sponsors/6/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/6/avatar.svg?button=false&isActive=true" height="75px"></a>
-<a href="https://opencollective.com/laradock/tiers/gold-sponsors/7/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/7/avatar.svg?button=false&isActive=true" height="75px"></a>
-<a href="https://opencollective.com/laradock/tiers/gold-sponsors/8/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/8/avatar.svg?button=false&isActive=true" height="75px"></a>
-<a href="https://opencollective.com/laradock/tiers/gold-sponsors/9/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/9/avatar.svg?button=false&isActive=true" height="75px"></a>
-
-<a href="https://opencollective.com/laradock/tiers/gold-sponsors/10/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/10/avatar.svg?button=false&isActive=true" height="75px"></a>
-<a href="https://opencollective.com/laradock/tiers/gold-sponsors/11/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/11/avatar.svg?button=false&isActive=true" height="75px"></a>
-<a href="https://opencollective.com/laradock/tiers/gold-sponsors/12/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/12/avatar.svg?button=false&isActive=true" height="75px"></a>
-<a href="https://opencollective.com/laradock/tiers/gold-sponsors/13/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/13/avatar.svg?button=false&isActive=true" height="75px"></a>
-<a href="https://opencollective.com/laradock/tiers/gold-sponsors/14/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/14/avatar.svg?button=false&isActive=true" height="75px"></a>
-<a href="https://opencollective.com/laradock/tiers/gold-sponsors/15/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/15/avatar.svg?button=false&isActive=true" height="75px"></a>
-
-</p>
+![Gold Sponsors](https://opencollective.com/laradock/tiers/gold-sponsors.svg?avatarHeight=120&width=800&format=svg&button=false&background=%231B1B1D)
 
 ### Silver Sponsors
 
-<p align="center">
-
-<!-- <a href="https://veepn.com/vpn-apps/vpn-for-chrome/"  target="_blank"   style="margin-right: 4em"><img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/VeePN.png"                height="65px"    alt="VeePN Chrome extension"></a> -->
-
-
-<a href="https://opencollective.com/laradock/tiers/silver-sponsors/0/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/silver-sponsors/0/avatar.svg?button=false&isActive=true" height="65px"></a>
-<a href="https://opencollective.com/laradock/tiers/silver-sponsors/1/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/silver-sponsors/1/avatar.svg?button=false&isActive=true" height="65px"></a>
-<a href="https://opencollective.com/laradock/tiers/silver-sponsors/2/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/silver-sponsors/2/avatar.svg?button=false&isActive=true" height="65px"></a>
-<a href="https://opencollective.com/laradock/tiers/silver-sponsors/3/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/silver-sponsors/3/avatar.svg?button=false&isActive=true" height="65px"></a>
-<a href="https://opencollective.com/laradock/tiers/silver-sponsors/4/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/silver-sponsors/4/avatar.svg?button=false&isActive=true" height="65px"></a>
-<a href="https://opencollective.com/laradock/tiers/silver-sponsors/5/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/silver-sponsors/5/avatar.svg?button=false&isActive=true" height="65px"></a>
-<a href="https://opencollective.com/laradock/tiers/silver-sponsors/6/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/silver-sponsors/6/avatar.svg?button=false&isActive=true" height="65px"></a>
-<a href="https://opencollective.com/laradock/tiers/silver-sponsors/7/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/silver-sponsors/7/avatar.svg?button=false&isActive=true" height="65px"></a>
-<a href="https://opencollective.com/laradock/tiers/silver-sponsors/8/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/silver-sponsors/8/avatar.svg?button=false&isActive=true" height="65px"></a>
-<a href="https://opencollective.com/laradock/tiers/silver-sponsors/9/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/silver-sponsors/9/avatar.svg?button=false&isActive=true" height="65px"></a>
-
-<a href="https://opencollective.com/laradock/tiers/silver-sponsors/10/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/silver-sponsors/10/avatar.svg?button=false&isActive=true" height="65px"></a>
-<a href="https://opencollective.com/laradock/tiers/silver-sponsors/11/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/silver-sponsors/11/avatar.svg?button=false&isActive=true" height="65px"></a>
-<a href="https://opencollective.com/laradock/tiers/silver-sponsors/12/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/silver-sponsors/12/avatar.svg?button=false&isActive=true" height="65px"></a>
-<a href="https://opencollective.com/laradock/tiers/silver-sponsors/13/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/silver-sponsors/13/avatar.svg?button=false&isActive=true" height="65px"></a>
-<a href="https://opencollective.com/laradock/tiers/silver-sponsors/14/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/silver-sponsors/14/avatar.svg?button=false&isActive=true" height="65px"></a>
-<a href="https://opencollective.com/laradock/tiers/silver-sponsors/15/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/silver-sponsors/15/avatar.svg?button=false&isActive=true" height="65px"></a>
-<a href="https://opencollective.com/laradock/tiers/silver-sponsors/16/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/silver-sponsors/16/avatar.svg?button=false&isActive=true" height="65px"></a>
-<a href="https://opencollective.com/laradock/tiers/silver-sponsors/17/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/silver-sponsors/17/avatar.svg?button=false&isActive=true" height="65px"></a>
-<a href="https://opencollective.com/laradock/tiers/silver-sponsors/18/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/silver-sponsors/18/avatar.svg?button=false&isActive=true" height="65px"></a>
-<a href="https://opencollective.com/laradock/tiers/silver-sponsors/19/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/silver-sponsors/19/avatar.svg?button=false&isActive=true" height="65px"></a>
-
-<a href="https://opencollective.com/laradock/tiers/silver-sponsors/20/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/silver-sponsors/20/avatar.svg?button=false&isActive=true" height="65px"></a>
-<a href="https://opencollective.com/laradock/tiers/silver-sponsors/21/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/silver-sponsors/21/avatar.svg?button=false&isActive=true" height="65px"></a>
-<a href="https://opencollective.com/laradock/tiers/silver-sponsors/22/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/silver-sponsors/22/avatar.svg?button=false&isActive=true" height="65px"></a>
-<a href="https://opencollective.com/laradock/tiers/silver-sponsors/23/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/silver-sponsors/23/avatar.svg?button=false&isActive=true" height="65px"></a>
-<a href="https://opencollective.com/laradock/tiers/silver-sponsors/24/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/silver-sponsors/24/avatar.svg?button=false&isActive=true" height="65px"></a>
-<a href="https://opencollective.com/laradock/tiers/silver-sponsors/25/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/silver-sponsors/25/avatar.svg?button=false&isActive=true" height="65px"></a>
-
-</p>
+![Silver Sponsors](https://opencollective.com/laradock/tiers/silver-sponsors.svg?avatarHeight=90&width=800&format=svg&button=false&background=%231B1B1D)
 
 ### Bronze Sponsors
 
-<p align="center">
+![Bronze Sponsors](https://opencollective.com/laradock/tiers/bronze-sponsors.svg?avatarHeight=65&width=800&format=svg&button=false&background=%231B1B1D)
 
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/0/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/0/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/1/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/1/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/2/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/2/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/3/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/3/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/4/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/4/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/5/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/5/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/6/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/6/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/7/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/7/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/8/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/8/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/9/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/9/avatar.svg?button=false&isActive=true" height="55px"></a>
 
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/10/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/10/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/11/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/11/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/12/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/12/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/13/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/13/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/14/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/14/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/15/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/15/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/16/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/16/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/17/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/17/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/18/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/18/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/19/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/19/avatar.svg?button=false&isActive=true" height="55px"></a>
 
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/20/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/20/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/21/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/21/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/22/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/22/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/23/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/23/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/24/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/24/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/25/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/25/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/26/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/26/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/27/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/27/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/28/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/28/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/29/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/29/avatar.svg?button=false&isActive=true" height="55px"></a>
-
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/30/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/30/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/31/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/31/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/32/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/32/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/33/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/33/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/34/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/34/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/35/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/35/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/36/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/36/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/37/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/37/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/38/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/38/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/39/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/39/avatar.svg?button=false&isActive=true" height="55px"></a>
-
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/40/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/40/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/41/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/41/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/42/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/42/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/43/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/43/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/44/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/44/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/45/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/45/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/46/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/46/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/47/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/47/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/48/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/48/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/49/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/49/avatar.svg?button=false&isActive=true" height="55px"></a>
-
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/50/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/50/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/51/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/51/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/52/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/52/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/53/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/53/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/54/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/54/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/55/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/55/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/56/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/56/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/57/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/57/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/58/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/58/avatar.svg?button=false&isActive=true" height="55px"></a>
-<a href="https://opencollective.com/laradock/tiers/bronze-sponsors/59/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/bronze-sponsors/59/avatar.svg?button=false&isActive=true" height="55px"></a>
-
-</p>
-
+### Supports Us
 
 You can sponsor us using any of the methods below:
 
@@ -339,23 +208,10 @@ You can sponsor us using any of the methods below:
 
 *Sponsors logos are displayed on the [github repository](https://github.com/laradock/laradock/) page and the [documentation website](http://laradock.io/) home page.*
 
+## Translations
+
+- [中文文档 (Chinese)](./README-zh.md)
+
 ## License
 
 [MIT](https://github.com/laradock/laradock/blob/master/LICENSE) © Mahmoud Zalt
-
-
-[comment]: # (Open Collective Tiers)
-
-[contributors-src]: https://opencollective.com/laradock/contributors.svg?width=890&button=false&isActive=true
-[contributors-href]: https://github.com/laradock/laradock/graphs/contributors
-[backers-src]: https://opencollective.com/laradock/tiers/awesome-backers.svg?width=890&button=false&isActive=true
-[backers-href]: https://opencollective.com/laradock#contributors
-
-[gold-sponsors-src]: https://opencollective.com/laradock/tiers/gold-sponsors.svg?avatarHeight=80&width=890&button=false&isActive=true
-[gold-sponsors-href]: https://opencollective.com/laradock#contributors
-[silver-sponsors-src]: https://opencollective.com/laradock/tiers/silver-sponsors.svg?avatarHeight=64&width=890&button=false&isActive=true
-[silver-sponsors-href]: https://opencollective.com/laradock#contributors
-[bronze-sponsors-src]: https://opencollective.com/laradock/tiers/bronze-sponsors.svg?avatarHeight=48&width=890&button=false&isActive=true
-[bronze-sponsors-href]: https://opencollective.com/laradock#contributors
-
-
