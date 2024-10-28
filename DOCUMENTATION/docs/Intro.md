@@ -41,7 +41,7 @@ We offer a range of popular, pre-configured services that provide a ready-to-use
 > To run a chosen container from the list below, run `docker-compose up -d {container-name}`. 
 > The container name `{container-name}` is the same as its folder name. Example to run the "PHP FPM" container, use the name "php-fpm".
 
-| Category                  | Services                                                                 |
+| Category                  | Services (Containers)                                                                 |
 |---------------------------|--------------------------------------------------------------------------|
 | **Web Servers**           | NGINX, Apache2, Caddy                                                    |
 | **Load Balancers**        | HAProxy, Traefik                                                         |
@@ -283,7 +283,7 @@ Sponsoring is an act of giving in a different fashion. 🌱
 
 <!-- Listing Contributors Refference: https://docs.opencollective.com/help/collectives/collective-settings/data-export#contributor-image -->
 
-### Dimand Sponsors
+### Diamond Sponsors
 
 <a href="https://smart.sista.ai/?utm_source=docs_laradock&utm_medium=sponsor&utm_campaign=landing_page_content" target="_blank" style={{ marginRight: '4em' }}>
   <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/sista-ai-icon.png" height="165px" alt="Sista AI - Plug-and-Play AI Assistant. (www.sista.ai)" />

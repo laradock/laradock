@@ -7,7 +7,7 @@ const AiAssistant = () => {
   const history = useHistory();
 
   const navigateToPage = ({ page }) => {
-    history.push(`/Porto/${page}`);
+    history.push(`/${page}`);
   };
 
   const navigateToExternalUrl = ({ url }) => {
@@ -56,41 +56,13 @@ const AiAssistant = () => {
                 description: "The page to navigate to.",
                 enum: [
                   "/?page=home",
-                  "docs/Intro/?page=get_started",
+                  "docs/intro/",
 
-                  "docs/category/layers",
-                  "docs/Layers/Layers Overview",
-                  "docs/Layers/Containers Layer",
-                  "docs/Layers/Ship Layer",
-
-                  "docs/category/components",
-                  "docs/Components/Components Overview",
-                  "docs/category/main-components?page=main_components",
-                  "docs/Components/Main Components Principles/Routes",
-                  "docs/Components/Main Components Principles/Requests",
-                  "docs/Components/Main Components Principles/Controllers",
-                  "docs/Components/Main Components Principles/Actions",
-                  "docs/Components/Main Components Principles/Tasks",
-                  "docs/Components/Main Components Principles/Models",
-                  "docs/Components/Main Components Principles/Views",
-                  "docs/Components/Main Components Principles/Transformers",
-                  "docs/Components/Main Components Principles/Exceptions",
-                  "docs/Components/Main Components Principles/Sub-Actions",
-                  "docs/Components/Optional Components",
-
-                  "docs/Basics/Components Interaction",
-                  "docs/Basics/Containers Dependencies",
-                  "docs/Basics/Data Flow",
-
-                  "docs/category/features",
-                  "docs/Features/AI%20Driven Development",
-                  "docs/Features/Monolithic to Microservices",
-
-                  "docs/Quality Attributes",
-                  "docs/Implementations",
-                  "docs/Feedback",
-                  "docs/Author",
-                  "docs/Donations",
+                  "docs/getting-started",
+                  "docs/usage",
+                  "docs/help",
+                  "docs/related-projects",
+                  "docs/contributing",
                 ],
               },
             },
@@ -108,7 +80,7 @@ const AiAssistant = () => {
               url: {
                 type: "string",
                 description:
-                  "The URL to navigate to. For 'Github' go to 'https://github.com/Mahmoudz/Porto'. For 'Sista' go to 'https://smart.sista.ai/?utm_source=docs_porto&utm_medium=ai_assistant&utm_campaign=user_request_for_navigation'.",
+                  "The URL to navigate to. For 'Github' go to 'https://github.com/laradock/laradock'. For 'Sista' go to 'https://smart.sista.ai/?utm_source=docs_laradock&utm_medium=ai_assistant&utm_campaign=user_request_for_navigation'.",
               },
             },
             required: ["url"],

@@ -5,7 +5,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'Laradock',
   tagline: 'Full PHP development environment on Docker.',
-  favicon: 'img/porto-favicon.png',
+  favicon: 'laradock.ico',
 
   // Set the production url of your site here
   url: 'https://laradock.io/',
@@ -31,9 +31,10 @@ const config: Config = {
 
   presets: [
     [
-      'classic',
+      '@docusaurus/preset-classic',
       {
         docs: {
+          id: 'default',
           sidebarPath: './sidebars.ts',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
@@ -50,17 +51,21 @@ const config: Config = {
         theme: {
           customCss: './src/css/custom.css',
         },
+        gtag: {
+          trackingID: 'G-CVZBKZ36Y5', // Update with your Google Analytics ID
+          anonymizeIP: true,
+        },
       } satisfies Preset.Options,
     ],
   ],
 
   themeConfig: {
-    image: '/Porto/img/laradock/laradock-logo.jpg',
+    image: '/img/laradock/laradock-logo.jpg',
     navbar: {
       title: 'Laradock',
       logo: {
         alt: 'Laradock Logo',
-        src: '/Porto/img/laradock/laradock-icon.png',
+        src: '/img/laradock/laradock-icon.png',
       },
       items: [
         // {

@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-   <a href="http://laradock.io/contributing"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" alt="contributions welcome"></a>
+   <a href="https://laradock.io/contributing"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" alt="contributions welcome"></a>
    <a href="https://github.com/laradock/laradock/network"><img src="https://img.shields.io/github/forks/laradock/laradock.svg" alt="GitHub forks"></a>
    <a href="https://github.com/laradock/laradock/issues"><img src="https://img.shields.io/github/issues/laradock/laradock.svg" alt="GitHub issues"></a>
    <a href="https://github.com/laradock/laradock/stargazers"><a href="#backers" alt="sponsors on Open Collective"><img src="https://opencollective.com/laradock/backers/badge.svg" /></a> <a href="#sponsors" alt="Sponsors on Open Collective"><img src="https://opencollective.com/laradock/sponsors/badge.svg" /></a> <img src="https://img.shields.io/github/stars/laradock/laradock.svg" alt="GitHub stars"></a>
@@ -14,7 +14,7 @@
 <p align="center"><b>Full PHP development environment based on Docker.</b></p>
 
 <p align="center">
-    <a href="http://zalt.me"><img src="http://forthebadge.com/images/badges/built-by-developers.svg" alt="forthebadge" width="180"></a>
+    <a href="https://zalt.me"><img src="http://forthebadge.com/images/badges/built-by-developers.svg" alt="forthebadge" width="180"></a>
 </p>
 
 <br>
@@ -23,7 +23,7 @@
 <h4 align="center" style="color:#7d58c2">Use Docker First - Learn About It Later!</h4>
 
 <p align="center">
-	<a href="http://laradock.io">
+	<a href="https://laradock.io">
 	   <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/documentation-button.png" width="300px" alt="Laradock Documentation"/>
 	</a>
 </p>
@@ -206,7 +206,7 @@ You can sponsor us using any of the methods below:
 <br>
 <b>2:</b> Email us at <a href = "mailto: support@laradock.io">support@laradock.io</a>.
 
-*Sponsors logos are displayed on the [github repository](https://github.com/laradock/laradock/) page and the [documentation website](http://laradock.io/) home page.*
+*Sponsors logos are displayed on the [github repository](https://github.com/laradock/laradock/) page and the [documentation website](https://laradock.io/) home page.*
 
 ## Translations
 

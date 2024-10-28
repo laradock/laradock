@@ -1,7 +1,6 @@
 ---
 sidebar_position: 2
 title: Getting Started
-
 ---
 
 ## Requirements
@@ -38,7 +37,7 @@ git submodule add https://github.com/Laradock/laradock.git
 
 Note: If you are not using Git yet for your project, you can use `git clone` instead of `git submodule `.
 
-*To keep track of your Laradock changes, between your projects and also keep Laradock updated [check these docs](/documentation/#track-your-laradock-changes)*
+*To keep track of your Laradock changes, between your projects and also keep Laradock updated [check these docs](/docs/usage#track-your-laradock-changes)*
 
 
 2 - Make sure your folder structure should look like this:
@@ -148,7 +147,7 @@ If you use Chrome 63 or above for development, don't use `.dev`. [Why?](https://
 
 If you are using **Docker Toolbox** (VM), do one of the following:
 
-- Upgrade to [Docker Desktop](https://www.docker.com/products/docker-desktop/) for Mac/Windows (Recommended). Check out [Upgrading Laradock](/documentation/#upgrading-laradock)
+- Upgrade to [Docker Desktop](https://www.docker.com/products/docker-desktop/) for Mac/Windows (Recommended). Check out [Upgrading Laradock](/docs/usage/#upgrading-laradock)
 - Use Laradock v3.\*. Visit the [Laradock-ToolBox](https://github.com/laradock/laradock/tree/LaraDock-ToolBox) branch. *(outdated)*
 
 <br/>
@@ -157,7 +156,7 @@ We recommend using a Docker Engine version which is newer than 19.03.0.
 
 <br/>
 
->**Warning:** If you used an older version of Laradock it's highly recommended to rebuild the containers you need to use [see how you rebuild a container](/documentation/#Build-Re-build-Containers) in order to prevent as much errors as possible.
+>**Warning:** If you used an older version of Laradock it's highly recommended to rebuild the containers you need to use [see how you rebuild a container](/docs/usage/#Build-Re-build-Containers) in order to prevent as much errors as possible.
 
 <br/>
 
