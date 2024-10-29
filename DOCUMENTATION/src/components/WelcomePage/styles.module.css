@@ -1,0 +1,22 @@
+.welcome {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  background-image: url("/img/laradock/laradock-abstract.jpg");
+  background-size: 100%;
+  /* background-position: center 40%; */
+  color: white;
+  text-align: center;
+}
+.welcome h1 {
+  font-size: 3.5rem;
+  color: #242526;
+  font-weight: 800;
+  text-shadow: 2px 4px 8px rgba(255, 255, 255, 0.8);
+  margin: 0;
+  padding: 0 20px;
+  letter-spacing: 2px;
+  line-height: 1.1;
+  transition: transform 0.3s ease-in-out;
+}
