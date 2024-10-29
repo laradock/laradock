@@ -1,0 +1,2 @@
+#!/bin/bash
+eval "nginx -cmd=\"nginx -t && nginx -s reload\""

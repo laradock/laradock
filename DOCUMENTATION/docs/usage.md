@@ -2654,6 +2654,125 @@ This way the certificates will be installed into the system ca store of the work
 
 
 <br/>
+<a name="convenience-scripts"></a>
+## convenience scripts
+To use the laradock convenience scripts, simply put `/path/to/laradock/bin` into your $PATH variable. 
+
+When you use bash, add the folowing to your `~/.bashrc`:
+```bash
+export PATH=$PATH:/path/to/laradock/bin
+```
+
+### Container Access
+The folowing commands can be used, to access a started docker container:
+
+#### workspace
+This command starts a shell in the workspace container in the current directory (or executes a command).
+
+usage:
+```bash
+workspace [--user=<user>] [--shell=<shell>] [--command=<command>] [working_directory]
+```
+##### --user
+The user to use in the container (like docker exec --user).
+Default: laradock
+
+##### --shell
+The shell use in the container.
+Default: bash
+
+##### --command
+The command to execute in the container.
+Default: opens shell
+
+##### working_dir
+The Working dir to cd into in the container.
+Default: Guessed based on host pwd, or APP_CODE_PATH_CONTAINER when guess fails.
+
+#### nginx
+This command starts a shell in the nginx container in the current directory (or executes a command).
+
+usage:
+```bash
+nginx [--user=<user>] [--shell=<shell>] [--command=<command>] [working_directory]
+```
+##### --user
+The user to use in the container (like docker exec --user).
+Default: root
+
+##### --shell
+The shell use in the container.
+Default: bash
+
+##### --command
+The command to execute in the container.
+Default: opens shell
+
+##### working_dir
+The Working dir to cd into in the container.
+Default: /root
+
+#### laradock
+Starts a shell in a given container (or executed a command)
+
+usage:
+```bash
+laradock --user=<user> --shell=<shell> --command=<command> --container=<container> [working_directory]
+```
+##### --user
+The user to use in the container (like docker exec --user).
+Default: no default - failes when not given
+
+##### --shell
+The shell use in the container.
+Default: no defualt - failes when not given
+
+##### --command
+The command to execute in the container.
+Default: no default - failes when not given
+
+##### --container
+The name of the container. (As set in docker-compose.yml)
+DEfault: no default - failes when not given
+
+##### working_dir
+The Working dir to cd into in the container.
+Default: Default working directory of the container
+
+### Convinience scripts
+#### php
+Executes php with the given arguments in the workspce container.
+
+All given arguments will be passed through to php.
+
+Example:
+```bash
+php artisan tinker
+```
+
+#### composer
+Executes composer with the given arguments in the workspce container.
+
+All given arguments will be passed through to composer.
+
+Example:
+```bash
+composer install
+```
+### npm
+Executes npm with the given arguments in the workspce container.
+
+All given arguments will be passed through to npm.
+
+Example:
+```bash
+npm install
+```
+
+#### nginx-reload
+Tests and reloads nginx config in the nginx container.
+
+<br/>
 <a name="upgrade-laradock"></a>
 ## Upgrade Laradock
 
