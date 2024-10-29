@@ -2652,7 +2652,7 @@ docker-compose up ...
 To install your own CA certificates, you can add them to the `workspace/ca-certificates` folder.
 This way the certificates will be installed into the system ca store of the workspace container.
 
-<br>
+<br/>
 <a name="convenience-scripts"></a>
 ## convenience scripts
 To use the laradock convenience scripts, simply put `/path/to/laradock/bin` into your $PATH variable. 
