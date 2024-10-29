@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-   <a href="http://laradock.io/contributing"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" alt="contributions welcome"></a>
+   <a href="https://laradock.io/contributing"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" alt="contributions welcome"></a>
    <a href="https://github.com/laradock/laradock/network"><img src="https://img.shields.io/github/forks/laradock/laradock.svg" alt="GitHub forks"></a>
    <a href="https://github.com/laradock/laradock/issues"><img src="https://img.shields.io/github/issues/laradock/laradock.svg" alt="GitHub issues"></a>
    <a href="https://github.com/laradock/laradock/stargazers"><a href="#backers" alt="sponsors on Open Collective"><img src="https://opencollective.com/laradock/backers/badge.svg" /></a> <a href="#sponsors" alt="Sponsors on Open Collective"><img src="https://opencollective.com/laradock/sponsors/badge.svg" /></a> <img src="https://img.shields.io/github/stars/laradock/laradock.svg" alt="GitHub stars"></a>
@@ -14,7 +14,7 @@
 <p align="center"><b>Full PHP development environment based on Docker.</b></p>
 
 <p align="center">
-    <a href="http://zalt.me"><img src="http://forthebadge.com/images/badges/built-by-developers.svg" alt="forthebadge" width="180"></a>
+    <a href="https://zalt.me"><img src="http://forthebadge.com/images/badges/built-by-developers.svg" alt="forthebadge" width="180"></a>
 </p>
 
 <br>
@@ -23,7 +23,7 @@
 <h4 align="center" style="color:#7d58c2">Use Docker First - Learn About It Later!</h4>
 
 <p align="center">
-	<a href="http://laradock.io">
+	<a href="https://laradock.io">
 	   <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/documentation-button.png" width="300px" alt="Laradock Documentation"/>
 	</a>
 </p>
@@ -175,18 +175,34 @@ Sponsoring is an act of giving in a different fashion. 🌱
 ### Diamond Sponsors
 
 <p align="left">
-  <a href="https://smart.sista.ai/?utm_source=docs_laradock&utm_medium=sponsor&utm_campaign=github_readme_page" target="_blank">
-    <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/sista-ai-icon.png" height="165px" alt="Sista AI - Plug-and-Play AI Assistant. (www.sista.ai)" style="margin-right: 4em;">
-  </a>
-  <a href="http://apiato.io/" target="_blank">
-    <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/apiato.png" height="165px" alt="Apiato - Build PHP API's faster!">
-  </a>
+  <a href="https://smart.sista.ai/?utm_source=docs_laradock&utm_medium=sponsor&utm_campaign=github_readme_page" target="_blank"><img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/sista-ai-icon.png" height="165px" alt="Sista AI - Plug-and-Play AI Assistant." style="margin-right: 4em;"></a><a href="http://apiato.io/" target="_blank"><img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/apiato.png" height="165px" alt="Apiato - A powerful PHP framework for building scalable, enterprise-grade APIs!"></a>
 </p>
 
 
 ### Gold Sponsors
 
-![Gold Sponsors](https://opencollective.com/laradock/tiers/gold-sponsors.svg?avatarHeight=120&width=800&format=svg&button=false&background=%231B1B1D)
+<div style="display: flex; flex-wrap: wrap; gap: 25px; justify-content: left; align-items: left;">
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/0/website" target="_blank" rel="sponsored"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/0/avatar.svg?avatarHeight=100" height="115" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/1/website" target="_blank" rel="sponsored"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/1/avatar.svg?avatarHeight=100" height="115" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/2/website" target="_blank" rel="sponsored"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/2/avatar.svg?avatarHeight=100" height="115" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/3/website" target="_blank" rel="sponsored"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/3/avatar.svg?avatarHeight=100" height="115" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/4/website" target="_blank" rel="sponsored"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/4/avatar.svg?avatarHeight=100" height="115" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/5/website" target="_blank" rel="sponsored"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/5/avatar.svg?avatarHeight=100" height="115" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/6/website" target="_blank" rel="sponsored"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/6/avatar.svg?avatarHeight=100" height="115" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/7/website" target="_blank" rel="sponsored"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/7/avatar.svg?avatarHeight=100" height="115" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/8/website" target="_blank" rel="sponsored"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/8/avatar.svg?avatarHeight=100" height="115" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/9/website" target="_blank" rel="sponsored"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/9/avatar.svg?avatarHeight=100" height="115" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/10/website" target="_blank" rel="sponsored"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/10/avatar.svg?avatarHeight=100" height="115" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/11/website" target="_blank" rel="sponsored"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/11/avatar.svg?avatarHeight=100" height="115" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/12/website" target="_blank" rel="sponsored"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/12/avatar.svg?avatarHeight=100" height="115" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/13/website" target="_blank" rel="sponsored"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/13/avatar.svg?avatarHeight=100" height="115" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/14/website" target="_blank" rel="sponsored"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/14/avatar.svg?avatarHeight=100" height="115" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/15/website" target="_blank" rel="sponsored"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/15/avatar.svg?avatarHeight=100" height="115" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/16/website" target="_blank" rel="sponsored"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/16/avatar.svg?avatarHeight=100" height="115" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/17/website" target="_blank" rel="sponsored"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/17/avatar.svg?avatarHeight=100" height="115" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/18/website" target="_blank" rel="sponsored"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/18/avatar.svg?avatarHeight=100" height="115" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/19/website" target="_blank" rel="sponsored"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/19/avatar.svg?avatarHeight=100" height="115" /></a>
+</div>
 
 ### Silver Sponsors
 
@@ -197,21 +213,10 @@ Sponsoring is an act of giving in a different fashion. 🌱
 ![Bronze Sponsors](https://opencollective.com/laradock/tiers/bronze-sponsors.svg?avatarHeight=65&width=800&format=svg&button=false&background=%231B1B1D)
 
 
-
-### Supports Us
-
-You can sponsor us using any of the methods below:
-
-<b>1:</b> Sponsor via [Open Collective](https://opencollective.com/laradock/).
-<br>
-<b>2:</b> Email us at <a href = "mailto: support@laradock.io">support@laradock.io</a>.
-
-*Sponsors logos are displayed on the [github repository](https://github.com/laradock/laradock/) page and the [documentation website](http://laradock.io/) home page.*
-
 ## Translations
 
 - [中文文档 (Chinese)](./README-zh.md)
 
 ## License
 
-[MIT](https://github.com/laradock/laradock/blob/master/LICENSE) © Mahmoud Zalt
+[MIT](https://github.com/laradock/laradock/blob/master/LICENSE) © [Mahmoud Zalt](https://zalt.me/)

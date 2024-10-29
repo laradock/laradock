@@ -2,17 +2,15 @@ import clsx from "clsx";
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
-import HomepageFeatures from "@site/src/components/HomepageFeatures";
 import Heading from "@theme/Heading";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import styles from "./index.module.css";
-import VideoPage from "../components/VideoPage";
 import WelcomePage from "../components/WelcomePage";
 import SponsorsPage from "../components/SponsorsPage";
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
-  const headerImage = useBaseUrl("/Porto/img/laradock/laradock-icon.png");
+  const headerImage = useBaseUrl("/img/laradock/laradock-icon.png");
 
   return (
     <header

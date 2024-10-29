@@ -35,37 +35,28 @@ You can request a new feature by submitting an [Issue](https://github.com/larado
 
 
 
-
 ## Update the Documentation (Site)
 
-Laradock uses [Hugo](https://gohugo.io/) as website generator tool, with the [Material Docs theme](http://themes.gohugo.io/theme/material-docs/). You might need to check their docs quickly.
+Laradock uses [Docusaurus](https://docusaurus.io/) as its documentation site generator.
 
-Go the `DOCUMENTATION/content` and search for the markdown file you want to edit
+Navigate to the `DOCUMENTATION/docs` directory to locate and edit the Markdown files for each section of the documentation.
 
-Note: Every folder represents a section in the sidebar "Menu". And every page and sidebar has a `weight` number to show it's position in the site.
+**Note:** Each folder under `docs` represents a section in the sidebar menu, with a `sidebar_position` field in the frontmatter of each file that determines its order.
 
-To update the sidebar or add a new section to it, you can edit this `DOCUMENTATION/config.toml` toml file.
+> The documentation site is auto-generated and deployed to the `gh-pages` branch by GitHub Actions when changes are pushed to the `master` branch.
 
-> The site will be auto-generated in the `docs/` folder by [Travis CI](https://travis-ci.org/laradock/laradock/).
+### Host the Documentation Locally
 
+1. Make your changes are made in the `DOCUMENTATION/docs` directory (if you changed anything).
+2. Navigate to `DOCUMENTATION/`.
+3. Run the following command to start a local Docusaurus server:
+   ```
+    npm run start
+   ```
+4. Visit [http://localhost:3000/](http://localhost:3000/) to view the documentation site locally.
 
+This setup will allow you to preview your changes in real time.
 
-### Host the documentation locally
-
-**Option 1: Use Hugo Docker Image:**
-
-1. Update the `DOCUMENTATION/content`.
-2. Go to `DOCUMENTATION/`.
-3. Run `docker run --rm -it -v $PWD:/src -p 1313:1313 -u hugo jguyomard/hugo-builder hugo server -w --bind=0.0.0.0`
-4. Visit [http://localhost:1313/](http://localhost:1313/)
-
-**Option 2: Install Hugo Locally:**
-
-1. Install [Hugo](https://gohugo.io/) on your machine.
-2. Update the `DOCUMENTATION/content`.
-3. Delete the `/docs` folder from the root.
-4. Go to `DOCUMENTATION/`.
-5. Run the `hugo` command to generate the HTML docs inside a new `/docs` folder.
 
 
 ## Support new Software (Add new Container)

@@ -11,7 +11,7 @@ type SponsorItem = {
 const SponsorList: SponsorItem[] = [
   {
     link: "https://smart.sista.ai/?utm_source=docs_laradock&utm_medium=sponsor&utm_campaign=landing_page_welcome",
-    imageUrl: "/Porto/img/sponsors/sista-ai-logo.png",
+    imageUrl: "/img/sponsors/sista-ai-logo.png",
     description: (
       <>
         <b>Make Your Apps Smarter with a Plug-and-Play AI Voice Assistant.</b>

@@ -2445,13 +2445,6 @@ Laradock provides aliases through the `aliases.sh` file located in the `laradock
 
 3 - Rebuild and enjoy aliases
 
-<br/>
-<a name="phpstorm-debugging"></a>
-## PHPStorm Debugging Guide
-Remote debug Laravel web and phpunit tests.
-
-[**Debugging Guide Here**](/guides/#PHPStorm-Debugging)
-
 
 
 <br/>

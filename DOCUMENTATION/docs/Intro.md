@@ -41,7 +41,9 @@ We offer a range of popular, pre-configured services that provide a ready-to-use
 > To run a chosen container from the list below, run `docker-compose up -d {container-name}`. 
 > The container name `{container-name}` is the same as its folder name. Example to run the "PHP FPM" container, use the name "php-fpm".
 
-| Category                  | Services                                                                 |
+
+
+| Category                  | Services (Containers)                                                                 |
 |---------------------------|--------------------------------------------------------------------------|
 | **Web Servers**           | NGINX, Apache2, Caddy                                                    |
 | **Load Balancers**        | HAProxy, Traefik                                                         |
@@ -67,6 +69,7 @@ We offer a range of popular, pre-configured services that provide a ready-to-use
 | **Testing**               | Selenium                                                                 |
 | **IDEs**                  | ICE Coder, Theia, Web IDE                                                |
 | (**Laradock Workspace**)    | PHP CLI, Composer, Git, Vim, xDebug, Linuxbrew, Node, V8JS, Gulp, SQLite, Laravel Envoy, Deployer, Yarn, SOAP, Drush, Wordpress CLI, dnsutils |
+
 
 
 You can choose, which tools to install in your workspace container and other containers, from the `.env` file.
@@ -150,35 +153,35 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
   <tbody>
     <tr>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/mahmoudz.png?s=150" />
+            <img width="115" height="115" src="https://github.com/mahmoudz.png?s=150" />
             <br/>
             <strong>Mahmoud Zalt</strong>
             <br/>
             <a href="https://github.com/Mahmoudz">@mahmoudz</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/appleboy.png?s=150" />
+            <img width="115" height="115" src="https://github.com/appleboy.png?s=150" />
             <br/>
             <strong>Bo-Yi Wu</strong>
             <br/>
             <a href="https://github.com/appleboy">@appleboy</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/philtrep.png?s=150" />
+            <img width="115" height="115" src="https://github.com/philtrep.png?s=150" />
             <br/>
             <strong>Philippe Trépanier</strong>
             <br/>
             <a href="https://github.com/philtrep">@philtrep</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/mikeerickson.png?s=150" />
+            <img width="115" height="115" src="https://github.com/mikeerickson.png?s=150" />
             <br/>
             <strong>Mike Erickson</strong>
             <br/>
             <a href="https://github.com/mikeerickson">@mikeerickson</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/zeroc0d3.png?s=150" />
+            <img width="115" height="115" src="https://github.com/zeroc0d3.png?s=150" />
             <br/>
             <strong>Dwi Fahni Denni</strong>
             <br/>
@@ -187,35 +190,35 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
      </tr>
      <tr>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/thorerik.png?s=150" />
+            <img width="115" height="115" src="https://github.com/thorerik.png?s=150" />
             <br/>
             <strong>Thor Erik</strong>
             <br/>
             <a href="https://github.com/thorerik">@thorerik</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/winfried-van-loon.png?s=150" />
+            <img width="115" height="115" src="https://github.com/winfried-van-loon.png?s=150" />
             <br/>
             <strong>Winfried van Loon</strong>
             <br/>
             <a href="https://github.com/winfried-van-loon">@winfried-van-loon</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/sixlive.png?s=150" />
+            <img width="115" height="115" src="https://github.com/sixlive.png?s=150" />
             <br/>
             <strong>TJ Miller</strong>
             <br/>
             <a href="https://github.com/sixlive">@sixlive</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/bestlong.png?s=150" />
+            <img width="115" height="115" src="https://github.com/bestlong.png?s=150" />
             <br/>
             <strong>Yu-Lung Shao (Allen)</strong>
             <br/>
             <a href="https://github.com/bestlong">@bestlong</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/urukalo.png?s=150" />
+            <img width="115" height="115" src="https://github.com/urukalo.png?s=150" />
             <br/>
             <strong>Milan Urukalo</strong>
             <br/>
@@ -224,35 +227,35 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
      </tr>
      <tr>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/vwchu.png?s=150" />
+            <img width="115" height="115" src="https://github.com/vwchu.png?s=150" />
             <br/>
             <strong>Vince Chu</strong>
             <br/>
             <a href="https://github.com/vwchu">@vwchu</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/zuohuadong.png?s=150" />
+            <img width="115" height="115" src="https://github.com/zuohuadong.png?s=150" />
             <br/>
             <strong>Huadong Zuo</strong>
             <br/>
             <a href="https://github.com/zuohuadong">@zuohuadong</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/lanphan.png?s=150" />
+            <img width="115" height="115" src="https://github.com/lanphan.png?s=150" />
             <br/>
             <strong>Lan Phan</strong>
             <br/>
             <a href="https://github.com/lanphan">@lanphan</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/ahkui.png?s=150" />
+            <img width="115" height="115" src="https://github.com/ahkui.png?s=150" />
             <br/>
             <strong>Ahkui</strong>
             <br/>
             <a href="https://github.com/ahkui">@ahkui</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/join-us.png" />
+            <img width="115" height="115" src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/join-us.png" />
             <br/>
             <strong>< Join Us ></strong>
             <br/>
@@ -270,7 +273,7 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
 
 ### Financial Contributors (Backers)
 
-[![Open Collective backers](https://opencollective.com/laradock/tiers/awesome-backers.svg?width=800&avatarHeight=65&button=false&isActive=true)](https://opencollective.com/laradock#contributors)
+[![Open Collective backers](https://opencollective.com/laradock/tiers/awesome-backers.svg?width=800&avatarHeight=55&button=false&isActive=true)](https://opencollective.com/laradock#contributors)
 
 
 ---
@@ -279,33 +282,125 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
 
 ## Sponsors
 
-Sponsoring is an act of giving in a different fashion. 🌱
-
 <!-- Listing Contributors Refference: https://docs.opencollective.com/help/collectives/collective-settings/data-export#contributor-image -->
 
-### Dimand Sponsors
 
-<a href="https://smart.sista.ai/?utm_source=docs_laradock&utm_medium=sponsor&utm_campaign=landing_page_content" target="_blank" style={{ marginRight: '4em' }}>
-  <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/sista-ai-icon.png" height="165px" alt="Sista AI - Plug-and-Play AI Assistant. (www.sista.ai)" />
-</a>
 
-<a href="http://apiato.io/" target="_blank" style={{ marginRight: '4em' }}>
-  <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/apiato.png" height="165px" alt="Apiato - Build PHP API's faster!" />
-</a>
+### Diamond Sponsors
+
+<div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'left', alignItems: 'left' }}>
+  <a href="https://smart.sista.ai/?utm_source=docs_laradock&utm_medium=sponsor&utm_campaign=landing_page_content" target="_blank">
+    <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/sista-ai-icon.png" height="165px" alt="Sista AI - Plug-and-Play AI Assistant." />
+  </a>
+
+  <a href="http://apiato.io/" target="_blank" style={{ marginRight: '10px' }}>
+    <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/apiato.png" height="135px" alt="Apiato - A powerful PHP framework for building scalable, enterprise-grade APIs!" />
+  </a>
+</div>
+
 
 ### Gold Sponsors
 
-  <iframe 
+  <!-- The embedded iframes sets rel="nofollow sponsored" on sponsor links by default, 
+  which prevents SEO benefits from being passed to sponsor sites. to remove the nofollow for Gold sponors only, we'll be using custom links instead. -->
+  
+  <!-- <iframe 
     src="https://opencollective.com/laradock/tiers/gold-sponsors.svg?avatarHeight=120&width=800&format=svg&button=false&background=#1B1B1D" 
     width="800"
     height="200"
     style={{ border: 'none', backgroundColor: '#1B1B1D' }}>
-  </iframe>
+  </iframe> -->
+
+
+<div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'left', alignItems: 'left' }}>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/0/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/0/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/1/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/1/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/2/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/2/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/3/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/3/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/4/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/4/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/5/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/5/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+<a href="https://opencollective.com/laradock/tiers/gold-sponsors/6/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/6/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/7/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/7/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/8/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/8/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/9/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/9/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/10/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/10/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/11/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/11/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/12/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/12/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/13/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/13/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/14/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/14/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/15/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/15/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/16/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/16/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/17/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/17/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/18/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/18/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/19/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/19/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+</div>
+
 
 ### Silver Sponsors
 
   <iframe 
-    src="https://opencollective.com/laradock/tiers/silver-sponsors.svg?avatarHeight=90&width=800&format=svg&button=false&background=#1B1B1D" 
+    src="https://opencollective.com/laradock/tiers/silver-sponsors.svg?avatarHeight=90&width=800&format=svg&button=false&background=#1B1B1D&isActive=true" 
     width="800"
     height="200"
     style={{ border: 'none', backgroundColor: '#1B1B1D' }}>
@@ -314,25 +409,30 @@ Sponsoring is an act of giving in a different fashion. 🌱
 ### Bronze Sponsors
 
   <iframe 
-    src="https://opencollective.com/laradock/tiers/bronze-sponsors.svg?avatarHeight=65&width=800&format=svg&button=false&background=#1B1B1D" 
+    src="https://opencollective.com/laradock/tiers/bronze-sponsors.svg?avatarHeight=55&width=800&format=svg&button=false&background=#1B1B1D&isActive=true" 
     width="800"
     height="300"
     style={{ border: 'none', backgroundColor: '#1B1B1D' }}>
   </iframe>
 
 
-### Supports Us
 
+### Sponsorship Support 
+
+Sponsoring is an act of giving in a unique way. 🌱  
 You can support us using any of the methods below:
 
-<b>1:</b> [Open Collective](https://opencollective.com/laradock) (For Sponsorships checkout Open Collective, or emails us at support@apiato.io)
+**1:** [Open Collective](https://opencollective.com/laradock)  
+*Available for all tiers:* Gold, Silver, Bronze, and Backers (Financial Contributors). **Preferred method.**
 
-<b>2:</b> [Github Sponsors](https://github.com/sponsors/Mahmoudz)
+**2:** [Email](mailto:support@laradock.io)  
+*Available for Diamond sponsors only.*
 
-
+**3:** [GitHub Sponsors](https://github.com/sponsors/Mahmoudz)  
+*Supports the creator of the project directly:* Ideal for personal support of the project creator.
 
 ## License
 
-[MIT](https://github.com/laradock/laradock/blob/master/LICENSE) © Mahmoud Zalt
+[MIT](https://github.com/laradock/laradock/blob/master/LICENSE) © [Mahmoud Zalt](https://zalt.me/)
 
 
