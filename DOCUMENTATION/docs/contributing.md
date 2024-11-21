@@ -5,12 +5,9 @@ title: Contributions
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/laradock/laradock)
 
-
 ## Have a Question
 
 If you have questions about how to use Laradock, please direct your questions to the discussion on [Gitter](https://gitter.im/Laradock/laradock). If you believe your question could help others, then consider opening an [Issue](https://github.com/laradock/laradock/issues) (it will be labeled as `Question`) And you can still seek help on Gitter for it.
-
-
 
 ## Found an Issue
 
@@ -28,12 +25,9 @@ If your issue appears to be a bug, and hasn't been reported, then open a new iss
 *This helps us maximize the effort we can spend fixing issues and adding new
 features, by not reporting duplicate issues.*
 
-
-
 ## Want a Feature
+
 You can request a new feature by submitting an [Issue](https://github.com/laradock/laradock/issues) (it will be labeled as `Feature Suggestion`). If you would like to implement a new feature then consider submitting a Pull Request yourself.
-
-
 
 ## Update the Documentation (Site)
 
@@ -50,14 +44,14 @@ Navigate to the `DOCUMENTATION/docs` directory to locate and edit the Markdown f
 1. Make your changes are made in the `DOCUMENTATION/docs` directory (if you changed anything).
 2. Navigate to `DOCUMENTATION/`.
 3. Run the following command to start a local Docusaurus server:
-   ```
+
+   ```sh
     npm run start
    ```
+
 4. Visit [http://localhost:3000/](http://localhost:3000/) to view the documentation site locally.
 
 This setup will allow you to preview your changes in real time.
-
-
 
 ## Support new Software (Add new Container)
 
@@ -77,8 +71,6 @@ This setup will allow you to preview your changes in real time.
 
 * Submit a Pull Request, to the `master` branch.
 
-
-
 ## Edit supported Software (Edit a Container)
 
 * Fork the repo and clone the code.
@@ -90,9 +82,6 @@ This setup will allow you to preview your changes in real time.
 * Make sure to update the `Documentation` in case you made any changes.
 
 * Submit a Pull Request, to the `master` branch.
-
-
-
 
 ## Edit Base Image
 
@@ -110,17 +99,7 @@ This setup will allow you to preview your changes in real time.
 
 **Note:** after the base image is updated, every dockerfile that uses that image, needs to update his base image tag to get the updated code.
 
-
-
-
-
-
-
-
 <br/>
-
-
-
 
 ## Submit Pull Request Instructions
 
@@ -128,16 +107,16 @@ This setup will allow you to preview your changes in real time.
 
 Always Test everything and make sure its working:
 
-- Pull the latest updates (or fork of you don’t have permission)
-- Before editing anything:
-    - Test building the container (docker-compose build --no-cache container-name) build with no cache first.
-    - Test running the container with some other containers in real app and see of everything is working fine.
-- Now edit the container (edit section by section and test rebuilding the container after every edited section)
-    - Testing building the container (docker-compose build container-name) with no errors.
-    - Test it in a real App if possible.
-
+* Pull the latest updates (or fork of you don’t have permission)
+* Before editing anything:
+  * Test building the container (docker-compose build --no-cache container-name) build with no cache first.
+  * Test running the container with some other containers in real app and see of everything is working fine.
+* Now edit the container (edit section by section and test rebuilding the container after every edited section)
+  * Testing building the container (docker-compose build container-name) with no errors.
+  * Test it in a real App if possible.
 
 ### 2. Submitting a PR
+
 Consider the following guidelines:
 
 * Search [GitHub](https://github.com/laradock/laradock/pulls) for an open or closed Pull Request that relates to your submission. You don't want to duplicate efforts.
@@ -147,6 +126,7 @@ Consider the following guidelines:
      ```shell
      git checkout -b my-fix-branch master
      ```
+
 * Commit your changes using a descriptive commit message.
 
 * Push your branch to GitHub:
@@ -169,7 +149,6 @@ git push origin my-fix-branch -f
 ```
 
 *WARNING. Squashing or reverting commits and forced push thereafter may remove GitHub comments on code that were previously made by you and others in your commits.*
-
 
 ### 3. After your PR is merged
 
@@ -198,10 +177,6 @@ After your pull request is merged, you can safely delete your branch and pull th
     ```shell
     git pull --ff upstream master
     ```
-
-
-
-
 
 <br/>
 ## Happy Coding :)

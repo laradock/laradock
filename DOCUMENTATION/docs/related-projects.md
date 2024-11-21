@@ -25,9 +25,6 @@ title: Related Projects
 * [Laradock Sample](https://github.com/tadaken3/laradock-sample): Install Laravel with Laradock. (by [Tadaken3](https://github.com/tadaken3))
 * [Stylemix's Laradock](https://github.com/stylemix/laradock): Alternate laradock for multiproject purpose. (by [Stylemix LLC](https://github.com/stylemix))
 
-
-
-
 ## Inspired by Laradock
 
 * [Dockery](https://github.com/taufek/dockery): Laradock for Ruby. (by [Taufek Johar](https://github.com/Taufek))
@@ -40,10 +37,6 @@ title: Related Projects
 * [Docker Codeigniter](https://github.com/sebastianlzy/docker-codeigniter): Laradock for Codeigniter. (by [Sebastian](https://github.com/sebastianlzy))
 * [Klaradock](https://github.com/poyhsiao/Klaradock): A customized Laradock. (by [Kim Hsiao](https://github.com/poyhsiao))
 * [Laravel Boilerplate](https://github.com/casivaagustin/laravel-boilerplate): A boilerplate with support for JWT. (by [Casiva Agustin](https://github.com/casivaagustin))
-
-
-
-
 
 <br/><br/>
 
