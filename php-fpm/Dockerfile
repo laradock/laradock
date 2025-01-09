@@ -306,7 +306,7 @@ RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
     # Install Php Redis Extension
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
       pecl install -o -f redis-4.3.0; \
-    elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && { [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ] || [ $(php -r "echo PHP_MINOR_VERSION;") = "1" ] ;}; then \
+    elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && { [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ] || [ $(php -r "echo PHP_MINOR_VERSION;") = "1" ] || [ $(php -r "echo PHP_MINOR_VERSION;") = "2" ] ;}; then \
       pecl install -o -f redis-5.3.7; \
     else \
       pecl install -o -f redis; \
