@@ -622,6 +622,16 @@ RUN set -eux; \
       php -m  | grep -q 'event' \
 ;fi
 
+###########################################################################
+# GraphViz extension
+###########################################################################
+
+ARG INSTALL_GRAPHVIZ=false
+
+RUN if [ ${INSTALL_GRAPHVIZ} = true ]; then \
+    apk add --update --no-cache graphviz \
+;fi
+
 #
 #--------------------------------------------------------------------------
 # Optional Supervisord Configuration
