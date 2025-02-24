@@ -586,10 +586,11 @@ RUN set -eux; \
         echo '' | pecl -q install swoole-4.5.11; \
       elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
         echo '' | pecl -q install swoole-4.8.12; \
-      elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+      elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
         echo '' | pecl -q install swoole-5.1.2; \
       else \
-        echo '' | pecl -q install swoole; \
+        apt-get install -yqq libbrotli-dev && \
+        echo '' | pecl -q  install swoole; \
       fi; \
       echo "extension=swoole.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/swoole.ini; \
       ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/swoole.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-swoole.ini; \
