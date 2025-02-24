@@ -315,7 +315,13 @@ RUN set -eux; \
     # SMB:
     ###########################################################################
     if [ ${INSTALL_SMB} = true ]; then \
-        apt-get install -yqq smbclient php${LARADOCK_PHP_VERSION}-smbclient coreutils; \
+        apt-get install -yqq smbclient libsmbclient-dev php${LARADOCK_PHP_VERSION}-smbclient coreutils && \
+        if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+            pecl install smbclient; \
+        else \
+            pecl install smbclient-1.1.2; \
+        fi && \
+        echo "extension=smbclient.so" >> /etc/php/${LARADOCK_PHP_VERSION}/cli/php.ini; \
     fi; \
     ###########################################################################
     # IMAP:
@@ -847,7 +853,7 @@ RUN if [ ${INSTALL_PNPM} = true ]; then \
     echo "" >> ~/.bashrc && \
     echo 'export PNPM_HOME="/home/laradock/.local/share/pnpm"' >> ~/.bashrc && \
     echo 'export PATH="$PNPM_HOME:$PATH"' >> ~/.bashrc && \
-    npx pnpm add -g pnpm \
+    npm install -g pnpm \
 ;fi
 
 

@@ -851,7 +851,11 @@ ARG INSTALL_SMB=false
 
 RUN if [ ${INSTALL_SMB} = true ]; then \
     apt-get install -yqq smbclient libsmbclient-dev coreutils && \
-    pecl install smbclient && \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+        pecl install smbclient; \
+    else \
+        pecl install smbclient-1.1.2; \
+    fi && \
     docker-php-ext-enable smbclient \
 ;fi
 
