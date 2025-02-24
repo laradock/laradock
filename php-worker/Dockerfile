@@ -244,6 +244,7 @@ RUN set -eux; \
 ARG INSTALL_MYSQL_CLIENT=false
 RUN if [ ${INSTALL_MYSQL_CLIENT} = true ]; then \
   apk --update add mysql-client \
+  mariadb-connector-c \
   ;fi
 
 # Install FFMPEG:
