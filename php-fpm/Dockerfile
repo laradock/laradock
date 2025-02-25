@@ -333,6 +333,8 @@ RUN set -eux; \
         pecl install swoole-4.5.11; \
       elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
         pecl install swoole-4.8.12; \
+      elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+        pecl install swoole-5.1.2; \
       else \
         pecl install swoole; \
       fi; \
@@ -851,7 +853,11 @@ ARG INSTALL_SMB=false
 
 RUN if [ ${INSTALL_SMB} = true ]; then \
     apt-get install -yqq smbclient libsmbclient-dev coreutils && \
-    pecl install smbclient && \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+        pecl install smbclient; \
+    else \
+        pecl install smbclient-1.1.2; \
+    fi && \
     docker-php-ext-enable smbclient \
 ;fi
 
