@@ -133,6 +133,7 @@ const config: Config = {
       defaultMode: 'dark',
     },
   } satisfies Preset.ThemeConfig,
+  plugins: [require.resolve("docusaurus-lunr-search")],
 };
 
 export default config;
