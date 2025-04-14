@@ -8,7 +8,6 @@ title: Help
 
 Open an [issue](https://github.com/laradock/laradock/issues) on Github (will be labeled as Question) and discuss it with people on [Gitter](https://gitter.im/Laradock/laradock).
 
-
 Optionally: Join the chat room on [Gitter](https://gitter.im/Laradock/laradock) and get support from the community.
 
 [![Gitter](https://badges.gitter.im/Laradock/laradock.svg)](https://gitter.im/Laradock/laradock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
@@ -19,7 +18,6 @@ Optionally: Join the chat room on [Gitter](https://gitter.im/Laradock/laradock) 
 
 *Here's a list of the common problems you might face, and the possible solutions.*
 
-
 <br/>
 ## I see a blank (white) page instead of the Laravel 'Welcome' page!
 
@@ -29,30 +27,15 @@ Run the following command from the Laravel root directory:
 sudo chmod -R 777 storage bootstrap/cache
 ```
 
-
-
-
-
-
 <br/>
 ## I see "Welcome to nginx" instead of the Laravel App!
 
 Use `http://127.0.0.1` instead of `http://localhost` in your browser.
 
-
-
-
-
-
 <br/>
 ## I see an error message containing (address already in use) or (port is already allocated)
 
 Make sure the ports for the services that you are trying to run (22, 80, 443, 3306, etc.) are not being used already by other programs on the host, such as a built in `apache`/`httpd` service or other development tools you have installed.
-
-
-
-
-
 
 <br/>
 ## I get NGINX error 404 Not Found on Windows.
@@ -62,21 +45,11 @@ Make sure the ports for the services that you are trying to run (22, 80, 443, 33
 3. Enter your windows username and password.
 4. Go to the `reset` tab and click restart docker.
 
-
-
-
-
-
 <br/>
 ## The time in my services does not match the current time
 
 1. Make sure you've [changed the timezone](#Change-the-timezone).
 2. Stop and rebuild the containers (`docker-compose up -d --build <services>`)
-
-
-
-
-
 
 <br/>
 ## I get MySQL connection refused
@@ -98,6 +71,7 @@ As stated on [#749](https://github.com/laradock/laradock/issues/749#issuecomment
 In China, the origin source of composer and npm is very slow. You can add `WORKSPACE_NPM_REGISTRY` and `WORKSPACE_COMPOSER_REPO_PACKAGIST` config in `.env` to use your custom source.
 
 Example:
+
 ```bash
 WORKSPACE_NPM_REGISTRY=https://registry.npmmirror.com
 WORKSPACE_COMPOSER_REPO_PACKAGIST=https://packagist.phpcomposer.com
@@ -142,6 +116,7 @@ To fix the problem you can follow those steps
 ```dotenv
 APACHE_FOR_MAC_M1=true
 ```
+
 4 - Finally rebuild the workspace image
 
 ```bash
