@@ -3,6 +3,9 @@ networks:
     driver: ${NETWORKS_DRIVER}
   backend:
     driver: ${NETWORKS_DRIVER}
+  integration:
+    external:
+      true
 volumes:
   mysql:
     driver: ${VOLUMES_DRIVER}
@@ -1269,6 +1272,68 @@ services:
         - /dev/shm:/dev/shm
       networks:
         - frontend
+
+### Selenoid ###############################################
+    selenoid:
+      restart: always
+      build:
+        context: ./selenoid
+        args:
+          - VERSION=${SELENOID_VERSION}
+      ports:
+        - "${SELENOID_PORT}:4444"
+      volumes:
+        - ./selenoid/browsers.json:/etc/selenoid/browsers.json:ro
+        - ${DATA_PATH_HOST}/selenoid/videos:/opt/selenoid/video
+        - ${DATA_PATH_HOST}/selenoid/logs:/opt/selenoid/logs
+        - "/var/run/docker.sock:/var/run/docker.sock"
+      environment:
+        - OVERRIDE_VIDEO_OUTPUT_DIR=${DATA_PATH_HOST}/selenoid/videos
+      networks:
+        - frontend
+        - backend
+        - integration
+      command: >
+        -limit ${SELENOID_LIMIT}
+        -conf /etc/selenoid/browsers.json
+        -container-network ${SELENOID_NETWORK_TO_BE_USED_FOR_CONTAINERS}
+        -video-output-dir /opt/selenoid/video
+        -log-output-dir /opt/selenoid/logs
+        -service-startup-timeout ${SELENOID_SERVICE_STARTUP_TIMEOUT}
+        -session-attempt-timeout ${SELENOID_NEW_SESSION_ATTEMPT_TIMEOUT}
+        -session-delete-timeout ${SELENOID_SESSION_DELETE_TIMEOUT}
+        -timeout ${SELENOID_SESSION_IDLE_TIMEOUT}
+        -retry-count ${SELENOID_NEW_SESSION_ATTEMPTS_RETRY_COUNT}
+        -mem ${SELENOID_CONTAINERS_MEMORY_LIMIT}
+        -max-timeout ${SELENOID_MAXIMUM_VALID_SESSION_IDLE_TIMEOUT}
+        -save-all-logs
+        -enable-file-upload
+        -capture-driver-logs
+        -disable-privileged
+        -disable-queue
+
+### Selenoid UI ###############################################
+    selenoid-ui:
+      restart: always
+      build:
+        context: ./selenoid-ui
+        args:
+          - VERSION=${SELENOID_UI_VERSION}
+      ports:
+        - "${SELENOID_UI_PORT}:8080"
+      depends_on:
+        - selenoid
+      volumes:
+        - ${DATA_PATH_HOST}/selenoid/videos:/opt/selenoid/video:ro
+      networks:
+        - frontend
+        - backend
+        - integration
+      command: >
+        -allowed-origin ${SELENOID_UI_ALLOWED_ORIGIN}
+        -period ${SELENOID_UI_DATA_REFRESH_PERIOD}
+        -selenoid-uri http://selenoid:${SELENOID_PORT}
+        -timeout ${SELENOID_UI_RESPONSE_TIMEOUT}
 
 ### Varnish ##########################################
     proxy:
