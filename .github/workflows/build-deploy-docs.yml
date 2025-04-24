@@ -23,21 +23,22 @@ jobs:
         working-directory: ./DOCUMENTATION
     steps:
       - name: Checkout Source Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          hugo-version: '0.55.0'
-        env:
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+          node-version: '18'
 
-      - name: Build Hugo Site
-        run: hugo --minify
+      - name: Install DocuSource Dependencies
+        run: npm install
 
-      - name: Deploy Hugo Site to Github Pages
+      - name: Build DocuSource Site
+        run: npm run build
+
+      - name: Deploy DocuSource Site to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: ./docs
+          publish_dir: ./DOCUMENTATION/build
