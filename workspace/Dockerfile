@@ -53,12 +53,12 @@ ENV WORKSPACE_ALLOW_RELEASE_INFO_CHANGE ${WORKSPACE_ALLOW_RELEASE_INFO_CHANGE}
 
 # always run apt update when start and after add new source list, then clean up at end.
 RUN set -xe; \
-    if [ "${WORKSPACE_ALLOW_RELEASE_INFO_CHANGE}" = "true" ]; then \
+    if [ ${WORKSPACE_ALLOW_RELEASE_INFO_CHANGE} = true ]; then \
       APT_GET_UPDATE_OPTIONS="--allow-releaseinfo-change"; \
     else \
       APT_GET_UPDATE_OPTIONS=""; \
     fi; \
-    apt-get update -yqq $APT_GET_UPDATE_OPTIONS && \
+    apt-get update -yqq ${APT_GET_UPDATE_OPTIONS} && \
     pecl channel-update pecl.php.net && \
     groupadd -g ${PGID} laradock && \
     useradd -l -u ${PUID} -g laradock -m laradock -G docker_env && \
