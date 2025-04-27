@@ -47,6 +47,20 @@ ENV PUID ${PUID}
 ARG PGID=1000
 ENV PGID ${PGID}
 
+###########################################################################
+# Accept APT repository release info changes (optional):
+###########################################################################
+
+# Allow APT to accept 'Label' and 'Suite' changes from repositories (e.g., PPAs).
+# This helps prevent build failures when repository metadata is updated.
+# Controlled via WORKSPACE_ALLOW_RELEASE_INFO_CHANGE env variable (default: false).
+ARG WORKSPACE_ALLOW_RELEASE_INFO_CHANGE
+
+RUN set -xe; \
+  if [ "${WORKSPACE_ALLOW_RELEASE_INFO_CHANGE}" = "true" ]; then \
+    echo 'Acquire::AllowReleaseInfoChange::Suite "true"; Acquire::AllowReleaseInfoChange::Label "true";' > /etc/apt/apt.conf.d/99allow-releaseinfo-change; \
+  fi
+
 # always run apt update when start and after add new source list, then clean up at end.
 RUN set -xe; \
     apt-get update -yqq && \
