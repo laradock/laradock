@@ -15,7 +15,7 @@ jobs:
       contents: write # to push pages branch (peaceiris/actions-gh-pages)
 
     if: github.repository == 'laradock/laradock'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
     defaults:

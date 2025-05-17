@@ -1,14 +1,13 @@
 import React from "react";
 import OriginalLayout from "@theme-original/Layout";
-import AiAssistant from "../components/AiAssistant";
-import { AiAssistantProvider } from "@sista/ai-assistant-react";
+import { AiAssistantProvider, AiAssistantButton } from "@sista/ai-assistant-react";
 const config = require("../config");
 
 const Layout = (props) => {
   return (
     <OriginalLayout {...props}>
       {props.children}
-      <AiAssistant />
+      <AiAssistantButton />
     </OriginalLayout>
   );
 };
