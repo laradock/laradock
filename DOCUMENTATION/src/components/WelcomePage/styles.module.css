@@ -8,15 +8,38 @@
   /* background-position: center 40%; */
   color: white;
   text-align: center;
+  position: relative;
 }
 .welcome h1 {
-  font-size: 3.5rem;
-  color: #242526;
-  font-weight: 800;
-  text-shadow: 2px 4px 8px rgba(255, 255, 255, 0.8);
+  font-size: 3.7rem;
+  color: #fff;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  font-weight: 900;
+  text-shadow: 0 6px 32px rgba(204, 30, 69, 0.5),
+    0 1.5px 0 rgb(125, 87, 194, 0.5);
   margin: 0;
   padding: 0 20px;
-  letter-spacing: 2px;
-  line-height: 1.1;
+  letter-spacing: 2.5px;
+  line-height: 1.08;
   transition: transform 0.3s ease-in-out;
+}
+[data-theme="dark"] .welcome h1 {
+  color: var(--ifm-color-primary);
+}
+.heroContent {
+  position: relative;
+  z-index: 2;
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 1;
+  pointer-events: none;
+}
+[data-theme="dark"] .overlay {
+  background: rgba(0, 0, 0, 0.5);
 }
