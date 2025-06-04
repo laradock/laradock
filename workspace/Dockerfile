@@ -51,8 +51,13 @@ ENV PGID ${PGID}
 RUN set -xe; \
     apt-get update -yqq && \
     pecl channel-update pecl.php.net && \
-    groupadd -g ${PGID} laradock && \
-    useradd -l -u ${PUID} -g laradock -m laradock -G docker_env && \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] && [ $(php -r "echo PHP_MINOR_VERSION;") != "0" ]; then \
+      groupmod --new-name laradock ubuntu; \
+      usermod --login laradock ubuntu --move-home --home /home/laradock; \
+    else \
+      groupadd -g ${PGID} laradock; \
+      useradd -l -u ${PUID} -g laradock -m laradock -G docker_env; \
+    fi; \
     usermod -p "*" laradock -s /bin/bash && \
     apt-get install -yqq \
       apt-utils \
