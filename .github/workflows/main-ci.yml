@@ -42,6 +42,7 @@ jobs:
           sed -i -- 's/RDKAFKA=true/RDKAFKA=false/g' .env
           sed -i -- 's/MAILPARSE=true/MAILPARSE=false/g' .env
           sed -i -- 's/OCI8=true/OCI8=false/g' .env
+          sed -i -- 's/PYTHON=true/PYTHON=false/g' .env
           sed -i -- 's/V8JS=true/V8JS=false/g' .env
           sed -i -- 's/AUDIOWAVEFORM=true/AUDIOWAVEFORM=false/g' .env
           sed -i -- 's/SSDB=true/SSDB=false/g' .env
