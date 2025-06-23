@@ -120,7 +120,11 @@ RUN set -eux; \
   if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
   cd /tmp && \
   if [ ${IMAGEMAGICK_VERSION} = "latest" ]; then \
-  git clone https://github.com/Imagick/imagick; \
+    if [ ${LARADOCK_PHP_VERSION} = "8.4" ]; then \
+      git clone --branch develop https://github.com/Imagick/imagick; \
+    else \
+      git clone https://github.com/Imagick/imagick; \
+    fi; \
   else \
   git clone --branch ${IMAGEMAGICK_VERSION} https://github.com/Imagick/imagick; \
   fi && \
@@ -164,14 +168,22 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
       docker-php-ext-enable mongo; \
       php -m | grep -oiE '^mongo$'; \
     else \
-      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") != "4" ]; then \
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
         if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ] || [ $(php -r "echo PHP_MINOR_VERSION;") = "1" ]; then \
           pecl install mongodb-1.9.2; \
         else \
-          pecl install mongodb-1.16.2; \
+          if [ $(php -r "echo PHP_MINOR_VERSION;") = "4" ]; then \
+            pecl install mongodb-1.20.1; \
+          else \
+            pecl install mongodb-1.16.2; \
+          fi; \
         fi; \
       else \
-        pecl install mongodb; \
+        if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+            pecl install mongodb-1.20.1; \
+        else \
+            pecl install mongodb; \
+        fi; \
       fi; \
       docker-php-ext-enable mongodb; \
       php -m | grep -oiE '^mongodb$'; \
@@ -244,6 +256,7 @@ RUN set -eux; \
 ARG INSTALL_MYSQL_CLIENT=false
 RUN if [ ${INSTALL_MYSQL_CLIENT} = true ]; then \
   apk --update add mysql-client \
+  mariadb-connector-c \
   ;fi
 
 # Install FFMPEG:
@@ -348,11 +361,11 @@ ARG INSTALL_PHALCON=false
 ARG LARADOCK_PHALCON_VERSION
 ENV LARADOCK_PHALCON_VERSION ${LARADOCK_PHALCON_VERSION}
 
-RUN if [ $INSTALL_PHALCON = true ]; then \
-      apt-get update -yqq \
+RUN if [ "$INSTALL_PHALCON" = true ]; then \
+      apk update \
       && pecl channel-update pecl.php.net \
-      && apt-get install -yqq libpcre3-dev; \
-      pecl install phalcon-${LARADOCK_PHALCON_VERSION}; \
+      && apk add --no-cache libpcre32 \
+      && pecl install phalcon-${LARADOCK_PHALCON_VERSION}; \
       docker-php-ext-enable phalcon; \
       php -m | grep -q 'phalcon' \
     ;fi
@@ -380,6 +393,10 @@ RUN if [ ${INSTALL_REDIS} = true ]; then \
   # Install Redis Extension
   if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
   printf "\n" | pecl install -o -f redis-4.3.0; \
+  elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && { [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ] || [ $(php -r "echo PHP_MINOR_VERSION;") = "1" ] ;}; then \
+  printf "\n" | pecl install -o -f redis-5.3.7; \
+  elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && { [ $(php -r "echo PHP_MINOR_VERSION;") = "2" ] || [ $(php -r "echo PHP_MINOR_VERSION;") = "3" ] ;}; then \
+  printf "\n" | pecl install -o -f redis-6.0.2; \
   else \
   printf "\n" | pecl install -o -f redis; \
   fi; \
@@ -404,6 +421,8 @@ RUN set -eux; \
       pecl install swoole-4.5.11; \
     elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
       pecl install swoole-4.8.12; \
+    elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+      pecl install swoole-5.1.2; \
     else \
       pecl install swoole; \
     fi; \
@@ -649,6 +668,17 @@ ENTRYPOINT ["/usr/bin/supervisord", "-n", "-c",  "/etc/supervisord.conf"]
 # Check PHP version
 #--------------------------------------------------------------------------
 #
+
+###########################################################################
+# Set Timezone
+###########################################################################
+
+ARG TZ=UTC
+ENV TZ ${TZ}
+
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+###########################################################################
 
 RUN php -v | head -n 1 | grep -q "PHP ${PHP_VERSION}."
 

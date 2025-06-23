@@ -51,8 +51,13 @@ ENV PGID ${PGID}
 RUN set -xe; \
   apt-get update -yqq && \
   pecl channel-update pecl.php.net && \
-  groupadd -g ${PGID} laradock && \
-  useradd -l -u ${PUID} -g laradock -m laradock -G docker_env && \
+  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] && [ $(php -r "echo PHP_MINOR_VERSION;") != "0" ]; then \
+  groupmod --new-name laradock ubuntu; \
+  usermod --login laradock ubuntu --move-home --home /home/laradock; \
+  else \
+  groupadd -g ${PGID} laradock; \
+  useradd -l -u ${PUID} -g laradock -m laradock -G docker_env; \
+  fi; \
   usermod -p "*" laradock -s /bin/bash && \
   apt-get install -yqq \
   apt-utils \
@@ -73,6 +78,7 @@ RUN set -xe; \
   # nasm
   nasm && \
   php -m | grep -q 'zip'
+>>>>>>> 2216b15a11acba5932c41d7c0748f13daa365ed6
 
 #
 #--------------------------------------------------------------------------
@@ -305,10 +311,11 @@ ARG INSTALL_IMAP=false
 ARG INSTALL_SUBVERSION=false
 
 RUN set -eux; \
-  ###########################################################################
-  # LDAP:
-  ###########################################################################
-  if [ ${INSTALL_LDAP} = true ]; then \
+  <<<<<<< HEAD
+###########################################################################
+# LDAP:
+###########################################################################
+if [ ${INSTALL_LDAP} = true ]; then \
   apt-get install -yqq libldap2-dev php${LARADOCK_PHP_VERSION}-ldap; \
   fi; \
   ###########################################################################
@@ -329,6 +336,38 @@ RUN set -eux; \
   if [ ${INSTALL_SUBVERSION} = true ]; then \
   apt-get install -yqq subversion; \
   fi
+=======
+###########################################################################
+# LDAP:
+###########################################################################
+if [ ${INSTALL_LDAP} = true ]; then \
+  apt-get install -yqq libldap2-dev php${LARADOCK_PHP_VERSION}-ldap; \
+  fi; \
+  ###########################################################################
+  # SMB:
+  ###########################################################################
+  if [ ${INSTALL_SMB} = true ]; then \
+  apt-get install -yqq smbclient libsmbclient-dev php${LARADOCK_PHP_VERSION}-smbclient coreutils && \
+  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+  pecl install smbclient; \
+  else \
+  pecl install smbclient-1.1.2; \
+  fi && \
+  echo "extension=smbclient.so" >> /etc/php/${LARADOCK_PHP_VERSION}/cli/php.ini; \
+  fi; \
+  ###########################################################################
+  # IMAP:
+  ###########################################################################
+  if [ ${INSTALL_IMAP} = true ]; then \
+  apt-get install -yqq php${LARADOCK_PHP_VERSION}-imap; \
+  fi; \
+  ###########################################################################
+  # Subversion:
+  ###########################################################################
+  if [ ${INSTALL_SUBVERSION} = true ]; then \
+  apt-get install -yqq subversion; \
+  fi
+>>>>>>> 2216b15a11acba5932c41d7c0748f13daa365ed6
 
 ###########################################################################
 # xDebug:
@@ -344,9 +383,17 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
   # https://xdebug.org/docs/compat
   apt-get install -yqq pkg-config php-xml php${LARADOCK_PHP_VERSION}-xml && \
   if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] || { [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && { [ $(php -r "echo PHP_MINOR_VERSION;") = "4" ] || [ $(php -r "echo PHP_MINOR_VERSION;") = "3" ] ;} ;}; then \
-  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+  <<<<<<< HEAD
+if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
   pecl install xdebug-3.3.0; \
+  =======
+if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+  pecl install xdebug-3.4.1; \
   else \
+  pecl install xdebug-3.1.6; \
+  fi; \
+  >>>>>>> 2216b15a11acba5932c41d7c0748f13daa365ed6
+else \
   pecl install xdebug-3.1.6; \
   fi; \
   else \
@@ -456,8 +503,9 @@ RUN if [ ${INSTALL_WORKSPACE_SSH} = true ]; then \
 ARG INSTALL_MONGO=false
 
 RUN if [ ${INSTALL_MONGO} = true ]; then \
-  # Install the mongodb extension
-  apt-get install -yqq pkg-config && \
+  <<<<<<< HEAD
+# Install the mongodb extension
+apt-get install -yqq pkg-config && \
   if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
   pecl install mongo; \
   echo "extension=mongo.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/mongo.ini; \
@@ -478,6 +526,38 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
   php -m | grep -oiE '^mongodb$'; \
   fi; \
   fi
+=======
+# Install the mongodb extension
+apt-get install -yqq pkg-config && \
+  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+  pecl install mongo; \
+  echo "extension=mongo.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/mongo.ini; \
+  ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/mongo.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/30-mongo.ini; \
+  php -m | grep -oiE '^mongo$'; \
+  else \
+  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
+  if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ] || [ $(php -r "echo PHP_MINOR_VERSION;") = "1" ]; then \
+  pecl install mongodb-1.9.2; \
+  else \
+  if [ $(php -r "echo PHP_MINOR_VERSION;") = "4" ]; then \
+  pecl install mongodb-1.20.1; \
+  else \
+  pecl install mongodb-1.16.2; \
+  fi; \
+  fi; \
+  else \
+  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+  pecl install mongodb-1.20.1; \
+  else \
+  pecl install mongodb; \
+  fi; \
+  fi; \
+  echo "extension=mongodb.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/mongodb.ini; \
+  ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/mongodb.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/30-mongodb.ini; \
+  php -m | grep -oiE '^mongodb$'; \
+  fi; \
+  fi
+>>>>>>> 2216b15a11acba5932c41d7c0748f13daa365ed6
 
 ###########################################################################
 # AMQP:
@@ -570,7 +650,8 @@ RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
 ARG INSTALL_SWOOLE=false
 
 RUN set -eux; \
-  if [ ${INSTALL_SWOOLE} = true ]; then \
+  <<<<<<< HEAD
+if [ ${INSTALL_SWOOLE} = true ]; then \
   # Install Php Swoole Extension
   if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
   echo '' | pecl -q install swoole-2.0.10; \
@@ -587,6 +668,28 @@ RUN set -eux; \
   ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/swoole.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-swoole.ini; \
   php -m | grep -q 'swoole'; \
   fi
+=======
+if [ ${INSTALL_SWOOLE} = true ]; then \
+  # Install Php Swoole Extension
+  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+  echo '' | pecl -q install swoole-2.0.10; \
+  elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+  echo '' | pecl -q install swoole-4.3.5; \
+  elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "1" ]; then \
+  echo '' | pecl -q install swoole-4.5.11; \
+  elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
+  echo '' | pecl -q install swoole-4.8.12; \
+  elif [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
+  echo '' | pecl -q install swoole-5.1.2; \
+  else \
+  apt-get install -yqq libbrotli-dev && \
+  echo '' | pecl -q  install swoole; \
+  fi; \
+  echo "extension=swoole.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/swoole.ini; \
+  ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/swoole.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-swoole.ini; \
+  php -m | grep -q 'swoole'; \
+  fi
+>>>>>>> 2216b15a11acba5932c41d7c0748f13daa365ed6
 
 
 
@@ -701,7 +804,8 @@ RUN if [ ${INSTALL_GRAPHVIZ} = true ]; then \
 ARG INSTALL_IONCUBE=false
 
 RUN if [ ${INSTALL_IONCUBE} = true ]; then \
-  if [ ${LARADOCK_PHP_VERSION} = "8.1" ] \
+  <<<<<<< HEAD
+if [ ${LARADOCK_PHP_VERSION} = "8.1" ] \
   || [ ${LARADOCK_PHP_VERSION} = "7.4" ] \
   || [ ${LARADOCK_PHP_VERSION} = "7.3" ] \
   || [ ${LARADOCK_PHP_VERSION} = "7.2" ] \
@@ -718,6 +822,20 @@ RUN if [ ${INSTALL_IONCUBE} = true ]; then \
   && php -m | grep -oiE '^ionCube Loader$' \
   ;fi \
   ;fi
+=======
+if [ ${LARADOCK_PHP_VERSION} != "8.4" ] \
+  && [ ${LARADOCK_PHP_VERSION} != "8.0" ]; then \
+  # Install the php ioncube loader
+  curl -L -o /tmp/ioncube_loaders_lin_x86-64.tar.gz https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
+  && tar zxpf /tmp/ioncube_loaders_lin_x86-64.tar.gz -C /tmp \
+  && mv /tmp/ioncube/ioncube_loader_lin_${LARADOCK_PHP_VERSION}.so $(php -r "echo ini_get('extension_dir');")/ioncube_loader.so \
+  && echo "zend_extension=ioncube_loader.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/ioncube.ini \
+  && ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/ioncube.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/0ioncube.ini \
+  && rm -rf /tmp/ioncube* \
+  && php -m | grep -oiE '^ionCube Loader$' \
+  ;fi \
+  ;fi
+>>>>>>> 2216b15a11acba5932c41d7c0748f13daa365ed6
 
 ###########################################################################
 # Drupal Console:
@@ -764,8 +882,9 @@ ARG NVM_NODEJS_ORG_MIRROR
 ENV NVM_NODEJS_ORG_MIRROR ${NVM_NODEJS_ORG_MIRROR}
 
 RUN if [ ${INSTALL_NODE} = true ]; then \
-  # Install nvm (A Node Version Manager)
-  mkdir -p $NVM_DIR && \
+  <<<<<<< HEAD
+# Install nvm (A Node Version Manager)
+mkdir -p $NVM_DIR && \
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash \
   && . $NVM_DIR/nvm.sh \
   && nvm install ${NODE_VERSION} \
@@ -795,6 +914,39 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
   npm install -g npm-check-updates \
   ;fi \
   ;fi
+=======
+# Install nvm (A Node Version Manager)
+mkdir -p $NVM_DIR && \
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash \
+  && . $NVM_DIR/nvm.sh \
+  && nvm install ${NODE_VERSION} \
+  && nvm use ${NODE_VERSION} \
+  && nvm alias ${NODE_VERSION} \
+  && npm cache clear --force \
+  && npm config set fetch-retries ${NPM_FETCH_RETRIES} \
+  && npm config set fetch-retry-factor ${NPM_FETCH_RETRY_FACTOR} \
+  && npm config set fetch-retry-mintimeout ${NPM_FETCH_RETRY_MINTIMEOUT} \
+  && npm config set fetch-retry-maxtimeout ${NPM_FETCH_RETRY_MAXTIMEOUT} \
+  && if [ ${NPM_REGISTRY} ]; then \
+  npm config set registry ${NPM_REGISTRY} \
+  ;fi \
+  && if [ ${INSTALL_NPM_GULP} = true ]; then \
+  npm install -g gulp \
+  ;fi \
+  && if [ ${INSTALL_NPM_BOWER} = true ]; then \
+  npm install -g bower \
+  ;fi \
+  && if [ ${INSTALL_NPM_VUE_CLI} = true ]; then \
+  npm install -g @vue/cli \
+  ;fi \
+  && if [ ${INSTALL_NPM_ANGULAR_CLI} = true ]; then \
+  npm install -g @angular/cli \
+  ;fi \
+  && if [ ${INSTALL_NPM_CHECK_UPDATES_CLI} = true ]; then \
+  npm install -g npm-check-updates \
+  ;fi \
+  ;fi
+>>>>>>> 2216b15a11acba5932c41d7c0748f13daa365ed6
 
 # Wouldn't execute when added to the RUN statement in the above block
 # Source NVM when loading bash since ~/.profile isn't loaded on non-login shell
@@ -847,11 +999,19 @@ ENV PNPM_HOME="/home/laradock/.local/share/pnpm"
 ENV PATH $PATH:/home/laradock/.local/share/pnpm
 
 RUN if [ ${INSTALL_PNPM} = true ]; then \
-  echo "" >> ~/.bashrc && \
+  <<<<<<< HEAD
+echo "" >> ~/.bashrc && \
   echo 'export PNPM_HOME="/home/laradock/.local/share/pnpm"' >> ~/.bashrc && \
   echo 'export PATH="$PNPM_HOME:$PATH"' >> ~/.bashrc && \
   npx pnpm add -g pnpm \
   ;fi
+=======
+echo "" >> ~/.bashrc && \
+  echo 'export PNPM_HOME="/home/laradock/.local/share/pnpm"' >> ~/.bashrc && \
+  echo 'export PATH="$PNPM_HOME:$PATH"' >> ~/.bashrc && \
+  npm install -g pnpm \
+  ;fi
+>>>>>>> 2216b15a11acba5932c41d7c0748f13daa365ed6
 
 
 ###########################################################################
@@ -1267,7 +1427,8 @@ ARG IMAGEMAGICK_VERSION=latest
 ENV IMAGEMAGICK_VERSION ${IMAGEMAGICK_VERSION}
 
 RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
-  apt-get install -y libmagickwand-dev imagemagick && \
+  <<<<<<< HEAD
+apt-get install -y libmagickwand-dev imagemagick && \
   if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
   apt-get install -y git && \
   cd /tmp && \
@@ -1289,6 +1450,34 @@ RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
   ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/imagick.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-imagick.ini && \
   php -m | grep -q 'imagick' \
   ;fi
+=======
+apt-get install -y libmagickwand-dev imagemagick && \
+  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
+  apt-get install -y git && \
+  cd /tmp && \
+  if [ ${IMAGEMAGICK_VERSION} = "latest" ]; then \
+  if [ ${LARADOCK_PHP_VERSION} = "8.4" ]; then \
+  git clone --branch develop https://github.com/Imagick/imagick; \
+  else \
+  git clone https://github.com/Imagick/imagick; \
+  fi; \
+  else \
+  git clone --branch ${IMAGEMAGICK_VERSION} https://github.com/Imagick/imagick; \
+  fi && \
+  cd imagick && \
+  phpize && \
+  ./configure && \
+  make && \
+  make install && \
+  rm -r /tmp/imagick; \
+  else \
+  pecl install imagick; \
+  fi && \
+  echo "extension=imagick.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/imagick.ini && \
+  ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/imagick.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/20-imagick.ini && \
+  php -m | grep -q 'imagick' \
+  ;fi
+>>>>>>> 2216b15a11acba5932c41d7c0748f13daa365ed6
 
 ###########################################################################
 # Terraform:
@@ -1513,10 +1702,11 @@ RUN if [ ${INSTALL_POPPLER_UTILS} = true ]; then \
 USER root
 
 ARG INSTALL_WKHTMLTOPDF=false
-ARG WKHTMLTOPDF_VERSION=0.12.6-1
+ARG WKHTMLTOPDF_VERSION=0.12.6.1-3
 
 RUN if [ ${INSTALL_WKHTMLTOPDF} = true ]; then \
-  ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/) \
+  <<<<<<< HEAD
+ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/) \
   && apt-get install -y \
   libxrender1 \
   libfontconfig1 \
@@ -1532,6 +1722,24 @@ RUN if [ ${INSTALL_WKHTMLTOPDF} = true ]; then \
   && dpkg -i "wkhtmltox_${WKHTMLTOPDF_VERSION}.focal_${ARCH}.deb" \
   && apt -f install \
   ;fi
+=======
+ARCH=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/amd64/) \
+  && apt-get install -y \
+  libxrender1 \
+  libfontconfig1 \
+  libx11-dev \
+  libjpeg62 \
+  libxtst6 \
+  fontconfig \
+  libjpeg-turbo8-dev \
+  xfonts-base \
+  xfonts-75dpi \
+  wget \
+  && wget "https://github.com/wkhtmltopdf/packaging/releases/download/${WKHTMLTOPDF_VERSION}/wkhtmltox_${WKHTMLTOPDF_VERSION}.jammy_${ARCH}.deb" \
+  && dpkg -i "wkhtmltox_${WKHTMLTOPDF_VERSION}.jammy_${ARCH}.deb" \
+  && apt -f install \
+  ;fi
+>>>>>>> 2216b15a11acba5932c41d7c0748f13daa365ed6
 
 ###########################################################################
 # Mailparse extension:
@@ -1867,6 +2075,21 @@ RUN if [ ${INSTALL_JDK} = true ]; then \
   && apt-get install -y default-jdk ca-certificates-java \
   && update-ca-certificates -f \
   ;fi
+
+###########################################################################
+# Github CLI:
+###########################################################################
+
+ARG INSTALL_GITHUB_CLI=false
+
+RUN if [ ${INSTALL_GITHUB_CLI} = true ]; then \
+  curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+  && chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+  && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+  && apt update \
+  && apt install gh -y \
+  ;fi
+
 
 #
 #--------------------------------------------------------------------------

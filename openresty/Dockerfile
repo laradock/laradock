@@ -168,6 +168,8 @@ RUN apk add --no-cache --virtual .build-deps \
     && tar xzf nginx-dav-ext-module.tar.gz \
     && curl -fSL https://github.com/google/ngx_brotli/archive/master.tar.gz -o ngx_brotli.tar.gz \
     && tar xzf ngx_brotli.tar.gz \
+    && curl -fSL https://github.com/google/brotli/archive/refs/tags/v1.1.0.tar.gz -o ngx_brotli_deps.tar.gz \
+    && tar xzf ngx_brotli_deps.tar.gz -C ngx_brotli-master/deps/brotli --strip-components=1  \
     && curl -fSL https://github.com/yaoweibin/ngx_http_substitutions_filter_module/archive/master.tar.gz -o ngx_http_substitutions_filter_module.tar.gz \
     && tar xzf ngx_http_substitutions_filter_module.tar.gz \
     && curl -fSL https://github.com/FRiCKLE/ngx_cache_purge/archive/master.tar.gz -o ngx_cache_purge.tar.gz \
