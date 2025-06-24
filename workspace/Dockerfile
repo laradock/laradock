@@ -61,23 +61,12 @@ RUN set -xe; \
   usermod -p "*" laradock -s /bin/bash && \
   apt-get install -yqq \
   apt-utils \
-  #
-  #--------------------------------------------------------------------------
-  # Mandatory Software's Installation
-  #--------------------------------------------------------------------------
-  #
-  # Mandatory Software's such as ("php-cli", "git", "vim", ....) are
-  # installed on the base image 'laradock/workspace' image. If you want
-  # to add more Software's or remove existing one, you need to edit the
-  # base image (https://github.com/Laradock/workspace).
-  #
-  # next lines are here because there is no auto build on dockerhub see https://github.com/laradock/laradock/pull/1903#issuecomment-463142846
   libzip-dev zip unzip \
-  # Install the zip extension
-  php${LARADOCK_PHP_VERSION}-zip \
-  # nasm
   nasm && \
+  docker-php-ext-configure zip && \
+  docker-php-ext-install zip && \
   php -m | grep -q 'zip'
+
 
 #
 #--------------------------------------------------------------------------
