@@ -1903,6 +1903,18 @@ RUN if [ ${INSTALL_GITHUB_CLI} = true ]; then \
     && apt install gh -y \
 ;fi
 
+###########################################################################
+# Legacy Openssl Config:
+###########################################################################
+ARG LEGACY_OPENSSL=false
+
+RUN if [ ${LEGACY_OPENSSL} = true ]; then \
+  if openssl version | grep -q "OpenSSL 3"; then \
+    sed -i 's/# providers = provider_sect/providers = provider_sect/g' /etc/ssl/openssl.cnf && \
+    sed -i '$a[provider_sect]\ndefault=default_sect\nlegacy=legacy_sect\n' /etc/ssl/openssl.cnf && \
+    sed -i '$a[default_sect]\nactivate=1\n[legacy_sect]\nactivate=1\n' /etc/ssl/openssl.cnf \
+  ;fi \
+;fi
 
 #
 #--------------------------------------------------------------------------
