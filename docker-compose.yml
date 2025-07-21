@@ -52,6 +52,8 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   react:
     driver: ${VOLUMES_DRIVER}
+  rustfs:
+    driver: ${VOLUMES_DRIVER}
 
 services:
 
@@ -2243,6 +2245,22 @@ services:
         - KEYCLOAK_DATABASE_PASSWORD=${KEYCLOAK_POSTGRES_PASSWORD}
       depends_on:
         - postgres
+      networks:
+        - frontend
+        - backend
+
+  ### rustfs ###################################################
+    rustfs:
+      build: ./rustfs
+      restart: always
+      environment:
+        - RUSTFS_ACCESS_KEY=${RUSTFS_ACCESS_KEY}
+        - RUSTFS_SECRET_KEY=${RUSTFS_SECRET_KEY}
+      volumes:
+        - ${DATA_PATH_HOST}/rustfs/data:/data
+      ports:
+        - "${RUSTFS_PORT}:9000"
+        - "${RUSTFS_CONSOLE_PORT}:9001"
       networks:
         - frontend
         - backend
