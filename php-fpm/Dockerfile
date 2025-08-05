@@ -72,6 +72,15 @@ RUN set -xe; \
 # Example:
 #   - INSTALL_SOAP=true
 #
+###############################################################################
+# sockets:
+###############################################################################
+ARG INSTALL_SOCKETS=false
+
+RUN if [ ${INSTALL_SOCKETS} = true ]; then \
+    # Install the sockets extension
+    docker-php-ext-install sockets \
+;fi
 
 ###########################################################################
 # BZ2:
