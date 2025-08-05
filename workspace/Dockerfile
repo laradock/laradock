@@ -47,9 +47,18 @@ ENV PUID ${PUID}
 ARG PGID=1000
 ENV PGID ${PGID}
 
+# Set apt-get options:
+ARG WORKSPACE_ALLOW_RELEASE_INFO_CHANGE=false
+ENV WORKSPACE_ALLOW_RELEASE_INFO_CHANGE ${WORKSPACE_ALLOW_RELEASE_INFO_CHANGE}
+
 # always run apt update when start and after add new source list, then clean up at end.
 RUN set -xe; \
-    apt-get update -yqq && \
+    if [ ${WORKSPACE_ALLOW_RELEASE_INFO_CHANGE} = true ]; then \
+      APT_GET_UPDATE_OPTIONS="--allow-releaseinfo-change"; \
+    else \
+      APT_GET_UPDATE_OPTIONS=""; \
+    fi; \
+    apt-get update -yqq ${APT_GET_UPDATE_OPTIONS} && \
     pecl channel-update pecl.php.net && \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] && [ $(php -r "echo PHP_MINOR_VERSION;") != "0" ]; then \
       groupmod --new-name laradock ubuntu; \
@@ -115,14 +124,14 @@ RUN sed -i 's/\r//' /root/aliases.sh && \
     echo "" >> ~/.bashrc && \
     echo "# Load Custom Aliases" >> ~/.bashrc && \
     echo "source ~/aliases.sh" >> ~/.bashrc && \
-	  echo "" >> ~/.bashrc
+    echo "" >> ~/.bashrc
 
 USER laradock
 
 RUN echo "" >> ~/.bashrc && \
     echo "# Load Custom Aliases" >> ~/.bashrc && \
     echo "source ~/aliases.sh" >> ~/.bashrc && \
-	  echo "" >> ~/.bashrc
+    echo "" >> ~/.bashrc
 
 ###########################################################################
 # Composer:
@@ -1048,7 +1057,7 @@ ARG INSTALL_LARAVEL_INSTALLER=false
 
 RUN if [ ${INSTALL_LARAVEL_INSTALLER} = true ]; then \
     # Install the Laravel Installer
-	composer global require "laravel/installer" \
+  composer global require "laravel/installer" \
 ;fi
 
 USER root
@@ -1704,7 +1713,7 @@ RUN if [ ${SHELL_OH_MY_ZSH} = true ]; then \
     echo "" >> ~/.zshrc && \
     echo "# Load Custom Aliases" >> ~/.zshrc && \
     echo "source ~/aliases.sh" >> ~/.zshrc && \
-	  echo "" >> ~/.zshrc \
+    echo "" >> ~/.zshrc \
 ;fi
 
 USER laradock
@@ -1713,7 +1722,7 @@ RUN if [ ${SHELL_OH_MY_ZSH} = true ]; then \
     echo "" >> ~/.zshrc && \
     echo "# Load Custom Aliases" >> ~/.zshrc && \
     echo "source ~/aliases.sh" >> ~/.zshrc && \
-	  echo "" >> ~/.zshrc \
+    echo "" >> ~/.zshrc \
 ;fi
 
 USER root
