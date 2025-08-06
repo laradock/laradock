@@ -1,0 +1,50 @@
+{
+  "chrome": {
+    "default": "latest",
+    "versions": {
+      "latest": {
+        "image": "selenoid/chrome:latest",
+        "port": "4444",
+        "path": "/",
+        "hosts": [
+          "my-system.test:172.17.0.1"
+        ],
+        "dnsServers": [
+          "1.1.1.1",
+          "1.0.0.1"
+        ],
+        "tmpfs": {
+          "/tmp": "size=1024m",
+          "/var": "size=512m"
+        },
+        "shmSize": 100000000000,
+        "cpu": "2.00",
+        "mem": "2048m"
+      }
+    }
+  },
+  "opera": {
+    "default": "latest",
+    "versions": {
+      "latest": {
+        "image": "selenoid/opera:latest",
+        "port": "4444",
+        "path": "/",
+        "hosts": [
+          "my-system.test:172.17.0.1"
+        ],
+        "dnsServers": [
+          "1.1.1.1",
+          "1.0.0.1"
+        ],
+        "tmpfs": {
+          "/tmp": "size=1024m",
+          "/var": "size=512m"
+        },
+        "shmSize": 100000000000,
+        "cpu": "2.00",
+        "mem": "2048m"
+      }
+    }
+  }
+}
