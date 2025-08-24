@@ -49,7 +49,7 @@ We offer a range of popular, pre-configured services that provide a ready-to-use
 | **Load Balancers**        | HAProxy, Traefik                                                         |
 | **PHP Compilers**         | PHP FPM, HHVM                                                            |
 | **Database Management Systems** | MySQL, PostgreSQL (PostGIS), MariaDB, Percona, MSSQL, MongoDB, Neo4j, CouchDB, RethinkDB, Cassandra |
-| **Database Management Tools** | PhpMyAdmin, Adminer, PgAdmin, MongoDB Web UI                         |
+| **Database Management Tools** | PhpMyAdmin, Adminer, PgAdmin, MongoDB Web UI, Mongo Express          |
 | **Cache Engines**         | Redis, Redis Web UI, Redis Cluster, Memcached, Aerospike, Varnish        |
 | **Message Brokers**       | RabbitMQ, RabbitMQ Admin Console, Beanstalkd, Beanstalkd Admin Console, Eclipse Mosquitto, Gearman |
 | **Log Management**        | GrayLog, Kibana, LogStash                                                |
