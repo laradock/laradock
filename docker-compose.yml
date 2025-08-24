@@ -1731,6 +1731,28 @@ services:
       depends_on:
         - mongo
 
+### Mongo Express #################################################
+    mongo-express:
+      restart: always
+      build:
+        context: ./mongo-express
+        args:
+          - ME_VERSION=${ME_VERSION}
+          - ME_CONFIG_MONGODB_SERVER=${ME_CONFIG_MONGODB_SERVER}
+          - ME_CONFIG_MONGODB_PORT=${ME_CONFIG_MONGODB_PORT}
+          - ME_CONFIG_BASICAUTH_USERNAME=${ME_CONFIG_BASICAUTH_USERNAME}
+          - ME_CONFIG_BASICAUTH_PASSWORD=${ME_CONFIG_BASICAUTH_PASSWORD}
+          - ME_CONFIG_MONGODB_ENABLE_ADMIN=${ME_CONFIG_MONGODB_ENABLE_ADMIN}
+          - ME_CONFIG_MONGODB_AUTH_DATABASE=${ME_CONFIG_MONGODB_AUTH_DATABASE}
+          - ME_CONFIG_MONGODB_AUTH_USERNAME=${ME_CONFIG_MONGODB_AUTH_USERNAME}
+          - ME_CONFIG_MONGODB_AUTH_PASSWORD=${ME_CONFIG_MONGODB_AUTH_PASSWORD}
+      ports:
+        - "${ME_PORT}:8081"
+      depends_on:
+        - mongo
+      networks:
+        - backend
+
 ### Metabase #################################################
     metabase:
       restart: always
