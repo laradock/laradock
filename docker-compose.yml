@@ -1668,7 +1668,7 @@ services:
 ### Docker-in-Docker ################################################
     docker-in-docker:
       restart: always
-      image: docker:20.10-dind
+      image: docker:28-dind
       environment:
         DOCKER_TLS_SAN: DNS:docker-in-docker
       privileged: true
