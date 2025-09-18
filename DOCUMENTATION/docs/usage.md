@@ -1569,6 +1569,48 @@ MAIL_PASSWORD=null
 
 
 <br/>
+<a name="Use-Certbot"></a>
+## Use Certbot (Let's Encrypt SSL)
+
+1. **Set the following configuration variables**:
+   
+   - `CERTBOT_ENVIRONMENT` → `local`, `staging`, or `production`
+   - `CERTBOT_CN` → Domains to request certificates for, comma-separated.  
+     Example: `example.com,www.example.com,*.example.com`
+   - `CERTBOT_EMAIL` → Email address used to request the certificate
+   - `USE_CLOUDFLARE_CHALLENGE` → If `false`, the webroot HTTP challenge will be used
+   - `CLOUDFLARE_API_TOKEN` → Required if you want to use the Cloudflare DNS challenge
+
+2. **Start the Certbot container**:
+```bash
+docker-compose up -d certbot
+```
+
+Check logs for any errors:
+```bash
+docker-compose logs certbot
+```
+
+3. **Include the certificates in your Nginx configuration file**:
+    - `ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem`
+    - `ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem`
+
+4. **Reload Nginx** to apply the certificates:
+```bash
+docker exec nginx nginx -s reload
+```
+
+<br/>
+
+### Notes
+- If `CERTBOT_ENVIRONMENT=local`, a **self-signed certificate** will be generated.  
+- `CERTBOT_CN` domains accept wildcard entries (e.g., `*.example.com`) **only if** `USE_CLOUDFLARE_CHALLENGE=true`.  
+- All certificates are stored in `/etc/letsencrypt/live/example.com/`, and the Nginx container must have access to this directory.  
+- Certificates are automatically renewed every **60 days**.  
+
+
+
+<br/>
 <a name="CodeIgniter"></a>
 
 

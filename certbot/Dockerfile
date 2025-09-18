@@ -1,10 +1,14 @@
-FROM phusion/baseimage:bionic-1.0.0
+FROM certbot/dns-cloudflare
 
-LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
+LABEL maintainer="Alaa Alghazouli <alaa.alghazouli.90@gmail.com>"
 
-COPY run-certbot.sh /root/certbot/run-certbot.sh
+COPY cloudflare.ini.template /root/cloudflare.ini.template
+COPY run-certbot.sh /root/run-certbot.sh
+COPY copy-certs.sh /root/copy-certs.sh
 
-RUN apt-get update
-RUN apt-get install -y letsencrypt
+RUN apk update && \
+    apk add --no-cache bash curl tzdata bind-tools gettext docker-cli && \
+    chmod 600 /root/cloudflare.ini.template && \
+    chmod +x /root/run-certbot.sh /root/copy-certs.sh
 
-ENTRYPOINT bash -c "bash /root/certbot/run-certbot.sh && sleep infinity"
+ENTRYPOINT ["/root/run-certbot.sh"]
