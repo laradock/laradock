@@ -23,8 +23,8 @@ jobs:
             cd /home/laradock
             git pull origin production
             cd /home/laradock
-            docker compose --env-file .env.production -f docker-compose.production.yml down
-            docker compose --env-file .env.production -f docker-compose.production.yml up -d --build
+            docker compose -f docker-compose.production.yml down
+            docker compose -f docker-compose.production.yml up -d --build
             docker system prune -af --volumes
             docker network prune -f
             docker volume prune -f
