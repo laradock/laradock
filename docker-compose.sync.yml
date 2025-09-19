@@ -1,6 +1,0 @@
-services:
-
-volumes:
-  applications-sync:
-    external:
-      name: "applications-docker-sync"

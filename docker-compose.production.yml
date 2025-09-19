@@ -1,0 +1,649 @@
+### BUILD ### docker compose build workspace php-fpm php-worker nginx mysql redis phpmyadmin certbot portainer netdata mailu
+### UP ### docker compose up -d workspace php-fpm php-worker nginx mysql redis phpmyadmin certbot portainer netdata mailu
+
+networks:
+  frontend:
+    driver: ${NETWORKS_DRIVER}
+  backend:
+    driver: ${NETWORKS_DRIVER}
+volumes:
+  mysql:
+    driver: ${VOLUMES_DRIVER}
+  redis:
+    driver: ${VOLUMES_DRIVER}
+  phpmyadmin:
+    driver: ${VOLUMES_DRIVER}
+
+services:
+
+### Workspace Utilities ##################################
+    workspace:
+      restart: always
+      build:
+        context: ./workspace
+        args:
+          - CHANGE_SOURCE=${CHANGE_SOURCE}
+          - SHELL_OH_MY_ZSH=${SHELL_OH_MY_ZSH}
+          - SHELL_OH_MY_ZSH_AUTOSUGESTIONS=${SHELL_OH_MY_ZSH_AUTOSUGESTIONS}
+          - SHELL_OH_MY_ZSH_ALIASES=${SHELL_OH_MY_ZSH_ALIASES}
+          - BASE_IMAGE_TAG_PREFIX=${WORKSPACE_BASE_IMAGE_TAG_PREFIX}
+          - LARADOCK_PHP_VERSION=${PHP_VERSION}
+          - LARADOCK_PHALCON_VERSION=${PHALCON_VERSION}
+          - INSTALL_SUBVERSION=${WORKSPACE_INSTALL_SUBVERSION}
+          - INSTALL_BZ2=${WORKSPACE_INSTALL_BZ2}
+          - INSTALL_GMP=${WORKSPACE_INSTALL_GMP}
+          - INSTALL_GNUPG=${WORKSPACE_INSTALL_GNUPG}
+          - INSTALL_XDEBUG=${WORKSPACE_INSTALL_XDEBUG}
+          - XDEBUG_PORT=${WORKSPACE_XDEBUG_PORT}
+          - INSTALL_PCOV=${WORKSPACE_INSTALL_PCOV}
+          - INSTALL_PHPDBG=${WORKSPACE_INSTALL_PHPDBG}
+          - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
+          - INSTALL_SSH2=${WORKSPACE_INSTALL_SSH2}
+          - INSTALL_SOAP=${WORKSPACE_INSTALL_SOAP}
+          - INSTALL_XSL=${WORKSPACE_INSTALL_XSL}
+          - INSTALL_LDAP=${WORKSPACE_INSTALL_LDAP}
+          - INSTALL_SMB=${WORKSPACE_INSTALL_SMB}
+          - INSTALL_IMAP=${WORKSPACE_INSTALL_IMAP}
+          - INSTALL_MONGO=${WORKSPACE_INSTALL_MONGO}
+          - INSTALL_AMQP=${WORKSPACE_INSTALL_AMQP}
+          - INSTALL_CASSANDRA=${WORKSPACE_INSTALL_CASSANDRA}
+          - INSTALL_ZMQ=${WORKSPACE_INSTALL_ZMQ}
+          - INSTALL_GEARMAN=${WORKSPACE_INSTALL_GEARMAN}
+          - INSTALL_PHPREDIS=${WORKSPACE_INSTALL_PHPREDIS}
+          - INSTALL_MSSQL=${WORKSPACE_INSTALL_MSSQL}
+          - NVM_NODEJS_ORG_MIRROR=${WORKSPACE_NVM_NODEJS_ORG_MIRROR}
+          - INSTALL_NODE=${WORKSPACE_INSTALL_NODE}
+          - NPM_REGISTRY=${WORKSPACE_NPM_REGISTRY}
+          - NPM_FETCH_RETRIES=${WORKSPACE_NPM_FETCH_RETRIES}
+          - NPM_FETCH_RETRY_FACTOR=${WORKSPACE_NPM_FETCH_RETRY_FACTOR}
+          - NPM_FETCH_RETRY_MINTIMEOUT=${WORKSPACE_NPM_FETCH_RETRY_MINTIMEOUT}
+          - NPM_FETCH_RETRY_MAXTIMEOUT=${WORKSPACE_NPM_FETCH_RETRY_MAXTIMEOUT}
+          - INSTALL_PNPM=${WORKSPACE_INSTALL_PNPM}
+          - INSTALL_YARN=${WORKSPACE_INSTALL_YARN}
+          - INSTALL_NPM_GULP=${WORKSPACE_INSTALL_NPM_GULP}
+          - INSTALL_NPM_BOWER=${WORKSPACE_INSTALL_NPM_BOWER}
+          - INSTALL_NPM_VUE_CLI=${WORKSPACE_INSTALL_NPM_VUE_CLI}
+          - INSTALL_NPM_ANGULAR_CLI=${WORKSPACE_INSTALL_NPM_ANGULAR_CLI}
+          - INSTALL_NPM_CHECK_UPDATES_CLI=${WORKSPACE_INSTALL_NPM_CHECK_UPDATES_CLI}
+          - INSTALL_DRUSH=${WORKSPACE_INSTALL_DRUSH}
+          - INSTALL_WP_CLI=${WORKSPACE_INSTALL_WP_CLI}
+          - INSTALL_DRUPAL_CONSOLE=${WORKSPACE_INSTALL_DRUPAL_CONSOLE}
+          - INSTALL_AEROSPIKE=${WORKSPACE_INSTALL_AEROSPIKE}
+          - INSTALL_OCI8=${WORKSPACE_INSTALL_OCI8}
+          - INSTALL_V8JS=${WORKSPACE_INSTALL_V8JS}
+          - COMPOSER_GLOBAL_INSTALL=${WORKSPACE_COMPOSER_GLOBAL_INSTALL}
+          - WORKSPACE_ALLOW_RELEASE_INFO_CHANGE=${WORKSPACE_ALLOW_RELEASE_INFO_CHANGE}
+          - COMPOSER_VERSION=${WORKSPACE_COMPOSER_VERSION}
+          - COMPOSER_AUTH_JSON=${WORKSPACE_COMPOSER_AUTH_JSON}
+          - COMPOSER_REPO_PACKAGIST=${WORKSPACE_COMPOSER_REPO_PACKAGIST}
+          - INSTALL_WORKSPACE_SSH=${WORKSPACE_INSTALL_WORKSPACE_SSH}
+          - INSTALL_LARAVEL_ENVOY=${WORKSPACE_INSTALL_LARAVEL_ENVOY}
+          - INSTALL_LARAVEL_INSTALLER=${WORKSPACE_INSTALL_LARAVEL_INSTALLER}
+          - INSTALL_XLSWRITER=${WORKSPACE_INSTALL_XLSWRITER}
+          - INSTALL_DEPLOYER=${WORKSPACE_INSTALL_DEPLOYER}
+          - INSTALL_PRESTISSIMO=${WORKSPACE_INSTALL_PRESTISSIMO}
+          - INSTALL_LINUXBREW=${WORKSPACE_INSTALL_LINUXBREW}
+          - INSTALL_MC=${WORKSPACE_INSTALL_MC}
+          - INSTALL_SYMFONY=${WORKSPACE_INSTALL_SYMFONY}
+          - INSTALL_PYTHON=${WORKSPACE_INSTALL_PYTHON}
+          - INSTALL_PYTHON3=${WORKSPACE_INSTALL_PYTHON3}
+          - INSTALL_IMAGE_OPTIMIZERS=${WORKSPACE_INSTALL_IMAGE_OPTIMIZERS}
+          - INSTALL_IMAGEMAGICK=${WORKSPACE_INSTALL_IMAGEMAGICK}
+          - INSTALL_TERRAFORM=${WORKSPACE_INSTALL_TERRAFORM}
+          - INSTALL_DUSK_DEPS=${WORKSPACE_INSTALL_DUSK_DEPS}
+          - INSTALL_PG_CLIENT=${WORKSPACE_INSTALL_PG_CLIENT}
+          - PG_CLIENT_VERSION=${POSTGRES_CLIENT_VERSION}
+          - INSTALL_PHALCON=${WORKSPACE_INSTALL_PHALCON}
+          - INSTALL_SWOOLE=${WORKSPACE_INSTALL_SWOOLE}
+          - INSTALL_TAINT=${WORKSPACE_INSTALL_TAINT}
+          - INSTALL_LIBPNG=${WORKSPACE_INSTALL_LIBPNG}
+          - INSTALL_GRAPHVIZ=${WORKSPACE_INSTALL_GRAPHVIZ}
+          - INSTALL_IONCUBE=${WORKSPACE_INSTALL_IONCUBE}
+          - INSTALL_APCU=${WORKSPACE_INSTALL_APCU}
+          - INSTALL_MYSQL_CLIENT=${WORKSPACE_INSTALL_MYSQL_CLIENT}
+          - INSTALL_PING=${WORKSPACE_INSTALL_PING}
+          - INSTALL_SSHPASS=${WORKSPACE_INSTALL_SSHPASS}
+          - INSTALL_INOTIFY=${WORKSPACE_INSTALL_INOTIFY}
+          - INSTALL_FSWATCH=${WORKSPACE_INSTALL_FSWATCH}
+          - INSTALL_AST=${WORKSPACE_INSTALL_AST}
+          - INSTALL_YAML=${WORKSPACE_INSTALL_YAML}
+          - INSTALL_RDKAFKA=${WORKSPACE_INSTALL_RDKAFKA}
+          - INSTALL_MAILPARSE=${WORKSPACE_INSTALL_MAILPARSE}
+          - INSTALL_GIT_PROMPT=${WORKSPACE_INSTALL_GIT_PROMPT}
+          - INSTALL_XMLRPC=${WORKSPACE_INSTALL_XMLRPC}
+          - PUID=${WORKSPACE_PUID}
+          - PGID=${WORKSPACE_PGID}
+          - CHROME_DRIVER_VERSION=${WORKSPACE_CHROME_DRIVER_VERSION}
+          - NODE_VERSION=${WORKSPACE_NODE_VERSION}
+          - YARN_VERSION=${WORKSPACE_YARN_VERSION}
+          - DRUSH_VERSION=${WORKSPACE_DRUSH_VERSION}
+          - AST_VERSION=${WORKSPACE_AST_VERSION}
+          - IMAGEMAGICK_VERSION=${WORKSPACE_IMAGEMAGICK_VERSION}
+          - TZ=${WORKSPACE_TIMEZONE}
+          - BLACKFIRE_CLIENT_ID=${BLACKFIRE_CLIENT_ID}
+          - BLACKFIRE_CLIENT_TOKEN=${BLACKFIRE_CLIENT_TOKEN}
+          - INSTALL_POWERLINE=${WORKSPACE_INSTALL_POWERLINE}
+          - INSTALL_SUPERVISOR=${WORKSPACE_INSTALL_SUPERVISOR}
+          - INSTALL_FFMPEG=${WORKSPACE_INSTALL_FFMPEG}
+          - INSTALL_AUDIOWAVEFORM=${WORKSPACE_INSTALL_AUDIOWAVEFORM}
+          - INSTALL_WKHTMLTOPDF=${WORKSPACE_INSTALL_WKHTMLTOPDF}
+          - WKHTMLTOPDF_VERSION=${WORKSPACE_WKHTMLTOPDF_VERSION}
+          - INSTALL_GNU_PARALLEL=${WORKSPACE_INSTALL_GNU_PARALLEL}
+          - INSTALL_LNAV=${WORKSPACE_INSTALL_LNAV}
+          - INSTALL_PROTOC=${WORKSPACE_INSTALL_PROTOC}
+          - INSTALL_PHPDECIMAL=${WORKSPACE_INSTALL_PHPDECIMAL}
+          - INSTALL_ZOOKEEPER=${WORKSPACE_INSTALL_ZOOKEEPER}
+          - INSTALL_SSDB=${WORKSPACE_INSTALL_SSDB}
+          - INSTALL_TRADER=${WORKSPACE_INSTALL_TRADER}
+          - PROTOC_VERSION=${WORKSPACE_PROTOC_VERSION}
+          - INSTALL_DOCKER_CLIENT=${WORKSPACE_INSTALL_DOCKER_CLIENT}
+          - INSTALL_MEMCACHED=${WORKSPACE_INSTALL_MEMCACHED}
+          - INSTALL_EVENT=${WORKSPACE_INSTALL_EVENT}
+          - INSTALL_DNSUTILS=${WORKSPACE_INSTALL_DNSUTILS}
+          - INSTALL_POPPLER_UTILS=${WORKSPACE_INSTALL_POPPLER_UTILS}
+          - INSTALL_JDK=${WORKSPACE_INSTALL_JDK}
+          - INSTALL_GITHUB_CLI=${WORKSPACE_INSTALL_GITHUB_CLI}
+          - ORACLE_INSTANT_CLIENT_MIRROR=${ORACLE_INSTANT_CLIENT_MIRROR}
+          - ORACLE_INSTANT_CLIENT_ARCH=${ORACLE_INSTANT_CLIENT_ARCH}
+          - ORACLE_INSTANT_CLIENT_MAJOR=${ORACLE_INSTANT_CLIENT_MAJOR}
+          - ORACLE_INSTANT_CLIENT_MINOR=${ORACLE_INSTANT_CLIENT_MINOR}
+          - http_proxy
+          - https_proxy
+          - no_proxy
+      volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+        - ./php-worker/supervisord.d:/etc/supervisord.d
+      extra_hosts:
+        - "dockerhost:${DOCKER_HOST_IP}"
+      ports:
+        - "${WORKSPACE_SSH_PORT}:22"
+        - "${WORKSPACE_BROWSERSYNC_HOST_PORT}:3000"
+        - "${WORKSPACE_BROWSERSYNC_UI_HOST_PORT}:3001"
+        - "${WORKSPACE_VUE_CLI_SERVE_HOST_PORT}:8080"
+        - "${WORKSPACE_VUE_CLI_UI_HOST_PORT}:8000"
+        - "${WORKSPACE_ANGULAR_CLI_SERVE_HOST_PORT}:4200"
+        - "${WORKSPACE_VITE_PORT}:5173"
+      tty: true
+      environment:
+        - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
+        - DOCKER_TLS_VERIFY=1
+        - DOCKER_TLS_CERTDIR=/certs
+        - DOCKER_CERT_PATH=/certs/client
+        - CHOKIDAR_USEPOLLING=true
+      networks:
+        - frontend
+        - backend
+
+### PHP-FPM ##############################################
+    php-fpm:
+      restart: always
+      build:
+        context: ./php-fpm
+        args:
+          - CHANGE_SOURCE=${CHANGE_SOURCE}
+          - BASE_IMAGE_TAG_PREFIX=${PHP_FPM_BASE_IMAGE_TAG_PREFIX}
+          - LARADOCK_PHP_VERSION=${PHP_VERSION}
+          - LARADOCK_PHALCON_VERSION=${PHALCON_VERSION}
+          - INSTALL_BZ2=${PHP_FPM_INSTALL_BZ2}
+          - INSTALL_ENCHANT=${PHP_FPM_INSTALL_ENCHANT}
+          - INSTALL_GMP=${PHP_FPM_INSTALL_GMP}
+          - INSTALL_GNUPG=${PHP_FPM_INSTALL_GNUPG}
+          - INSTALL_XDEBUG=${PHP_FPM_INSTALL_XDEBUG}
+          - XDEBUG_PORT=${PHP_FPM_XDEBUG_PORT}
+          - INSTALL_PCOV=${PHP_FPM_INSTALL_PCOV}
+          - INSTALL_PHPDBG=${PHP_FPM_INSTALL_PHPDBG}
+          - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
+          - INSTALL_SSH2=${PHP_FPM_INSTALL_SSH2}
+          - INSTALL_SOAP=${PHP_FPM_INSTALL_SOAP}
+          - INSTALL_XSL=${PHP_FPM_INSTALL_XSL}
+          - INSTALL_SMB=${PHP_FPM_INSTALL_SMB}
+          - INSTALL_IMAP=${PHP_FPM_INSTALL_IMAP}
+          - INSTALL_MONGO=${PHP_FPM_INSTALL_MONGO}
+          - INSTALL_AMQP=${PHP_FPM_INSTALL_AMQP}
+          - INSTALL_CASSANDRA=${PHP_FPM_INSTALL_CASSANDRA}
+          - INSTALL_ZMQ=${PHP_FPM_INSTALL_ZMQ}
+          - INSTALL_GEARMAN=${PHP_FPM_INSTALL_GEARMAN}
+          - INSTALL_MSSQL=${PHP_FPM_INSTALL_MSSQL}
+          - INSTALL_BCMATH=${PHP_FPM_INSTALL_BCMATH}
+          - INSTALL_PHPREDIS=${PHP_FPM_INSTALL_PHPREDIS}
+          - INSTALL_MEMCACHED=${PHP_FPM_INSTALL_MEMCACHED}
+          - INSTALL_OPCACHE=${PHP_FPM_INSTALL_OPCACHE}
+          - INSTALL_EXIF=${PHP_FPM_INSTALL_EXIF}
+          - INSTALL_AEROSPIKE=${PHP_FPM_INSTALL_AEROSPIKE}
+          - INSTALL_OCI8=${PHP_FPM_INSTALL_OCI8}
+          - INSTALL_MYSQLI=${PHP_FPM_INSTALL_MYSQLI}
+          - INSTALL_PGSQL=${PHP_FPM_INSTALL_PGSQL}
+          - INSTALL_PG_CLIENT=${PHP_FPM_INSTALL_PG_CLIENT}
+          - PG_CLIENT_VERSION=${POSTGRES_CLIENT_VERSION}
+          - INSTALL_POSTGIS=${PHP_FPM_INSTALL_POSTGIS}
+          - INSTALL_INTL=${PHP_FPM_INSTALL_INTL}
+          - INSTALL_GHOSTSCRIPT=${PHP_FPM_INSTALL_GHOSTSCRIPT}
+          - INSTALL_LDAP=${PHP_FPM_INSTALL_LDAP}
+          - INSTALL_PHALCON=${PHP_FPM_INSTALL_PHALCON}
+          - INSTALL_SWOOLE=${PHP_FPM_INSTALL_SWOOLE}
+          - INSTALL_TAINT=${PHP_FPM_INSTALL_TAINT}
+          - INSTALL_IMAGE_OPTIMIZERS=${PHP_FPM_INSTALL_IMAGE_OPTIMIZERS}
+          - INSTALL_IMAGEMAGICK=${PHP_FPM_INSTALL_IMAGEMAGICK}
+          - INSTALL_CALENDAR=${PHP_FPM_INSTALL_CALENDAR}
+          - INSTALL_XLSWRITER=${PHP_FPM_INSTALL_XLSWRITER}
+          - INSTALL_FAKETIME=${PHP_FPM_INSTALL_FAKETIME}
+          - INSTALL_IONCUBE=${PHP_FPM_INSTALL_IONCUBE}
+          - INSTALL_APCU=${PHP_FPM_INSTALL_APCU}
+          - INSTALL_CACHETOOL=${PHP_FPM_INSTALL_CACHETOOL}
+          - INSTALL_YAML=${PHP_FPM_INSTALL_YAML}
+          - INSTALL_RDKAFKA=${PHP_FPM_INSTALL_RDKAFKA}
+          - INSTALL_GETTEXT=${PHP_FPM_INSTALL_GETTEXT}
+          - INSTALL_ADDITIONAL_LOCALES=${PHP_FPM_INSTALL_ADDITIONAL_LOCALES}
+          - INSTALL_MYSQL_CLIENT=${PHP_FPM_INSTALL_MYSQL_CLIENT}
+          - INSTALL_PING=${PHP_FPM_INSTALL_PING}
+          - INSTALL_SSHPASS=${PHP_FPM_INSTALL_SSHPASS}
+          - INSTALL_MAILPARSE=${PHP_FPM_INSTALL_MAILPARSE}
+          - INSTALL_PCNTL=${PHP_FPM_INSTALL_PCNTL}
+          - ADDITIONAL_LOCALES=${PHP_FPM_ADDITIONAL_LOCALES}
+          - INSTALL_FFMPEG=${PHP_FPM_FFMPEG}
+          - INSTALL_AUDIOWAVEFORM=${PHP_FPM_AUDIOWAVEFORM}
+          - INSTALL_WKHTMLTOPDF=${PHP_FPM_INSTALL_WKHTMLTOPDF}
+          - WKHTMLTOPDF_VERSION=${PHP_FPM_WKHTMLTOPDF_VERSION}
+          - INSTALL_XHPROF=${PHP_FPM_INSTALL_XHPROF}
+          - INSTALL_XMLRPC=${PHP_FPM_INSTALL_XMLRPC}
+          - INSTALL_PHPDECIMAL=${PHP_FPM_INSTALL_PHPDECIMAL}
+          - INSTALL_ZOOKEEPER=${PHP_FPM_INSTALL_ZOOKEEPER}
+          - INSTALL_SSDB=${PHP_FPM_INSTALL_SSDB}
+          - INSTALL_TRADER=${PHP_FPM_INSTALL_TRADER}
+          - INSTALL_EVENT=${PHP_FPM_INSTALL_EVENT}
+          - LEGACY_OPENSSL=${PHP_LEGACY_OPENSSL}
+          - DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL=${PHP_DOWNGRADE_OPENSSL_TLS_AND_SECLEVEL}
+          - DOWNGRADE_OPENSSL_TLS_VERSION=${PHP_DOWNGRADE_OPENSSL_TLS_VERSION}
+          - PUID=${PHP_FPM_PUID}
+          - PGID=${PHP_FPM_PGID}
+          - IMAGEMAGICK_VERSION=${PHP_FPM_IMAGEMAGICK_VERSION}
+          - LOCALE=${PHP_FPM_DEFAULT_LOCALE}
+          - NEW_RELIC=${PHP_FPM_NEW_RELIC}
+          - NEW_RELIC_KEY=${PHP_FPM_NEW_RELIC_KEY}
+          - NEW_RELIC_APP_NAME=${PHP_FPM_NEW_RELIC_APP_NAME}
+          - INSTALL_DOCKER_CLIENT=${PHP_FPM_INSTALL_DOCKER_CLIENT}
+          - INSTALL_DNSUTILS=${PHP_FPM_INSTALL_DNSUTILS}
+          - INSTALL_POPPLER_UTILS=${PHP_FPM_INSTALL_POPPLER_UTILS}
+          - ORACLE_INSTANT_CLIENT_MIRROR=${ORACLE_INSTANT_CLIENT_MIRROR}
+          - ORACLE_INSTANT_CLIENT_ARCH=${ORACLE_INSTANT_CLIENT_ARCH}
+          - ORACLE_INSTANT_CLIENT_MAJOR=${ORACLE_INSTANT_CLIENT_MAJOR}
+          - ORACLE_INSTANT_CLIENT_MINOR=${ORACLE_INSTANT_CLIENT_MINOR}
+          - http_proxy
+          - https_proxy
+          - no_proxy
+      volumes:
+        - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+      expose:
+        - "9000"
+      extra_hosts:
+        - "dockerhost:${DOCKER_HOST_IP}"
+      environment:
+        - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
+        - DOCKER_TLS_VERIFY=1
+        - DOCKER_TLS_CERTDIR=/certs
+        - DOCKER_CERT_PATH=/certs/client
+        - FAKETIME=${PHP_FPM_FAKETIME}
+        - TZ=${WORKSPACE_TIMEZONE}
+
+      depends_on:
+        - workspace
+      networks:
+        - backend
+
+### PHP Worker ############################################
+    php-worker:
+      restart: always
+      build:
+        context: ./php-worker
+        args:
+          - CHANGE_SOURCE=${CHANGE_SOURCE}
+          - LARADOCK_PHP_VERSION=${PHP_VERSION}
+          - PHALCON_VERSION=${PHALCON_VERSION}
+          - LARADOCK_PHALCON_VERSION=${PHALCON_VERSION}
+          - INSTALL_BZ2=${PHP_WORKER_INSTALL_BZ2}
+          - INSTALL_GD=${PHP_WORKER_INSTALL_GD}
+          - INSTALL_IMAGEMAGICK=${PHP_WORKER_INSTALL_IMAGEMAGICK}
+          - INSTALL_GMP=${PHP_WORKER_INSTALL_GMP}
+          - INSTALL_GNUPG=${PHP_WORKER_INSTALL_GNUPG}
+          - INSTALL_LDAP=${PHP_WORKER_INSTALL_LDAP}
+          - INSTALL_PGSQL=${PHP_WORKER_INSTALL_PGSQL}
+          - INSTALL_MONGO=${PHP_WORKER_INSTALL_MONGO}
+          - INSTALL_BCMATH=${PHP_WORKER_INSTALL_BCMATH}
+          - INSTALL_MEMCACHED=${PHP_WORKER_INSTALL_MEMCACHED}
+          - INSTALL_OCI8=${PHP_WORKER_INSTALL_OCI8}
+          - INSTALL_MSSQL=${PHP_WORKER_INSTALL_MSSQL}
+          - INSTALL_PHALCON=${PHP_WORKER_INSTALL_PHALCON}
+          - INSTALL_APCU=${PHP_WORKER_INSTALL_APCU}
+          - INSTALL_XLSWRITER=${PHP_WORKER_INSTALL_XLSWRITER}
+          - INSTALL_SOAP=${PHP_WORKER_INSTALL_SOAP}
+          - INSTALL_ZIP_ARCHIVE=${PHP_WORKER_INSTALL_ZIP_ARCHIVE}
+          - INSTALL_MYSQL_CLIENT=${PHP_WORKER_INSTALL_MYSQL_CLIENT}
+          - INSTALL_AMQP=${PHP_WORKER_INSTALL_AMQP}
+          - INSTALL_CASSANDRA=${PHP_WORKER_INSTALL_CASSANDRA}
+          - INSTALL_GEARMAN=${PHP_WORKER_INSTALL_GEARMAN}
+          - INSTALL_GHOSTSCRIPT=${PHP_WORKER_INSTALL_GHOSTSCRIPT}
+          - INSTALL_SWOOLE=${PHP_WORKER_INSTALL_SWOOLE}
+          - INSTALL_TAINT=${PHP_WORKER_INSTALL_TAINT}
+          - INSTALL_FFMPEG=${PHP_WORKER_INSTALL_FFMPEG}
+          - INSTALL_AUDIOWAVEFORM=${PHP_WORKER_INSTALL_AUDIOWAVEFORM}
+          - INSTALL_REDIS=${PHP_WORKER_INSTALL_REDIS}
+          - INSTALL_IMAP=${PHP_WORKER_INSTALL_IMAP}
+          - INSTALL_XMLRPC=${PHP_WORKER_INSTALL_XMLRPC}
+          - INSTALL_SSDB=${PHP_WORKER_INSTALL_SSDB}
+          - INSTALL_EVENT=${PHP_WORKER_INSTALL_EVENT}
+          - INSTALL_INTL=${PHP_WORKER_INSTALL_INTL}
+          - INSTALL_POPPLER_UTILS=${PHP_WORKER_INSTALL_POPPLER_UTILS}
+          - PUID=${PHP_WORKER_PUID}
+          - PGID=${PHP_WORKER_PGID}
+          - IMAGEMAGICK_VERSION=${PHP_WORKER_IMAGEMAGICK_VERSION}
+          - ORACLE_INSTANT_CLIENT_MIRROR=${ORACLE_INSTANT_CLIENT_MIRROR}
+          - ORACLE_INSTANT_CLIENT_ARCH=${ORACLE_INSTANT_CLIENT_ARCH}
+          - ORACLE_INSTANT_CLIENT_MAJOR=${ORACLE_INSTANT_CLIENT_MAJOR}
+          - ORACLE_INSTANT_CLIENT_MINOR=${ORACLE_INSTANT_CLIENT_MINOR}
+      volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+        - ./php-worker/supervisord.d:/etc/supervisord.d
+      depends_on:
+        - workspace
+      environment:
+          - TZ=${WORKSPACE_TIMEZONE}
+      extra_hosts:
+        - "dockerhost:${DOCKER_HOST_IP}"
+      networks:
+        - backend
+
+### NGINX Server #########################################
+    nginx:
+      restart: always
+      build:
+        context: ./nginx
+        args:
+          - CHANGE_SOURCE=${CHANGE_SOURCE}
+          - PHP_UPSTREAM_CONTAINER=${NGINX_PHP_UPSTREAM_CONTAINER}
+          - PHP_UPSTREAM_PORT=${NGINX_PHP_UPSTREAM_PORT}
+          - http_proxy
+          - https_proxy
+          - no_proxy
+      volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+        - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
+        - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
+        - ${NGINX_SSL_PATH}:/etc/nginx/ssl
+        - ${DATA_PATH_HOST}/certbot/conf:/etc/letsencrypt:ro
+        - ${DATA_PATH_HOST}/certbot/www:/var/www/letsencrypt
+        - ${DATA_PATH_HOST}/certbot/certs:/var/certs:ro
+      ports:
+        - "${NGINX_HOST_HTTP_PORT}:80"
+        - "${NGINX_HOST_HTTPS_PORT}:443"
+        - "${VARNISH_BACKEND_PORT}:81"
+      depends_on:
+        - php-fpm
+      networks:
+        - frontend
+        - backend
+      extra_hosts:
+        - "host.docker.internal:host-gateway"  
+
+### MySQL ################################################
+    mysql:
+      restart: always
+      build:
+        context: ./mysql
+        args:
+          - MYSQL_VERSION=${MYSQL_VERSION}
+      environment:
+        - MYSQL_DATABASE=${MYSQL_DATABASE}
+        - MYSQL_USER=${MYSQL_USER}
+        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+        - TZ=${WORKSPACE_TIMEZONE}
+      volumes:
+        - ${DATA_PATH_HOST}/mysql:/var/lib/mysql
+        - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+      networks:
+        - backend
+
+### Redis ################################################
+    redis:
+      restart: always
+      build: ./redis
+      volumes:
+        - ${DATA_PATH_HOST}/redis:/data
+      command: --requirepass ${REDIS_PASSWORD}
+      ports:
+        - "${REDIS_PORT}:6379"
+      networks:
+        - backend
+
+### phpMyAdmin ###########################################
+    phpmyadmin:
+      restart: always
+      build: ./phpmyadmin
+      environment:
+        - PMA_ARBITRARY=1
+        - MYSQL_USER=${PMA_USER}
+        - MYSQL_PASSWORD=${PMA_PASSWORD}
+        - MYSQL_ROOT_PASSWORD=${PMA_ROOT_PASSWORD}
+        - MAX_EXECUTION_TIME=${PMA_MAX_EXECUTION_TIME}
+        - MEMORY_LIMIT=${PMA_MEMORY_LIMIT}
+        - UPLOAD_LIMIT=${PMA_UPLOAD_LIMIT}
+      ports:
+        - "${PMA_PORT}:80"
+      depends_on:
+        - "${PMA_DB_ENGINE}"
+      networks:
+        - frontend
+        - backend
+
+### Certbot #########################################
+    certbot:
+      build:
+        context: ./certbot
+      volumes:
+        - ${DATA_PATH_HOST}/certbot/conf:/etc/letsencrypt
+        - ${DATA_PATH_HOST}/certbot/www:/var/www/letsencrypt
+        - ${DATA_PATH_HOST}/certbot/cloudflare:/root/.secrets/certbot
+        - /var/run/docker.sock:/var/run/docker.sock
+      environment:
+        - CERTBOT_ENVIRONMENT=${CERTBOT_ENVIRONMENT}
+        - CERTBOT_CN=${CERTBOT_CN}
+        - CERTBOT_EMAIL=${CERTBOT_EMAIL}
+        - USE_CLOUDFLARE_CHALLENGE=${USE_CLOUDFLARE_CHALLENGE}
+        - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
+      networks:
+        - frontend
+      restart: unless-stopped
+
+### Portainer ################################################
+    portainer:
+      restart: always
+      build:
+        context: ./portainer
+      volumes:
+        - ${DATA_PATH_HOST}/portainer_data:/data
+        - /var/run/docker.sock:/var/run/docker.sock
+      extra_hosts:
+        - "dockerhost:${DOCKER_HOST_IP}"
+      ports:
+        - 9010:9000
+      networks:
+        - backend
+
+### NetData ################################################
+    netdata:
+      restart: always
+      image: netdata/netdata:latest
+      cap_add:
+        - SYS_PTRACE
+      volumes:
+        - /proc:/host/proc:ro
+        - /sys:/host/sys:ro
+        - /var/run/docker.sock:/var/run/docker.sock:ro
+      ports:
+        - "${NETDATA_PORT}:19999"
+      networks:
+        - backend
+
+### MAILU ################################################
+    mailu:
+      image: mailu/admin:${MAILU_VERSION}
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/data:/data"
+        - "${DATA_PATH_HOST}/mailu/dkim:/dkim"
+        - "${DATA_PATH_HOST}/mailu/webmail:/webmail"
+        - /var/run/docker.sock:/var/run/docker.sock:ro
+      depends_on:
+        - mailu-front
+        - mailu-imap
+        - mailu-smtp
+        - mailu-antispam
+        - mailu-antivirus
+        - mailu-webdav
+        - mailu-admin
+        - mailu-webmail
+        - mailu-fetchmail
+      command: ["sh", "-c", "echo ${MAILU_INIT_ADMIN_USERNAME}@${MAILU_DOMAIN} ${MAILU_INIT_ADMIN_PASSWORD} ;python manage.py advertise ; python manage.py db upgrade ; python manage.py admin ${MAILU_INIT_ADMIN_USERNAME} ${MAILU_DOMAIN} ${MAILU_INIT_ADMIN_PASSWORD} || true;sed -i -- \"s/= Off/= On/g\" /webmail/_data_/_default_/configs/config.ini || true;if grep -Fq \"registration_link_url\" /webmail/_data_/_default_/configs/config.ini;then echo Already set!;else echo \"\" >> /webmail/_data_/_default_/configs/config.ini; echo \"[login]\" >> /webmail/_data_/_default_/configs/config.ini;echo \"registration_link_url = '${MAILU_WEBSITE}${MAILU_WEB_ADMIN}/ui/user/signup'\" >> /webmail/_data_/_default_/configs/config.ini;fi"]
+      networks:
+        - backend
+    mailu-front:
+      image: mailu/nginx:${MAILU_VERSION}
+      environment:
+        - ADMIN=${MAILU_ADMIN}
+        - WEB_ADMIN=${MAILU_WEB_ADMIN}
+        - WEB_WEBMAIL=${MAILU_WEB_WEBMAIL}
+        - WEBDAV=${MAILU_WEBDAV}
+        - HOSTNAMES=${MAILU_HOSTNAMES}
+        - TLS_FLAVOR=${MAILU_TLS_FLAVOR}
+        - MESSAGE_SIZE_LIMIT=${MAILU_MESSAGE_SIZE_LIMIT}
+      ports:
+        - "${MAILU_HTTP_PORT}:80"
+        - "${MAILU_HTTPS_PORT}:443"
+        - "110:110"
+        - "143:143"
+        - "993:993"
+        - "995:995"
+        - "25:25"
+        - "465:465"
+        - "587:587"
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/certs:/certs"
+      networks:
+        backend:
+          aliases:
+            - front
+    mailu-imap:
+      image: mailu/dovecot:${MAILU_VERSION}
+      environment:
+        - DOMAIN=${MAILU_DOMAIN}
+        - HOSTNAMES=${MAILU_HOSTNAMES}
+        - POSTMASTER=${MAILU_POSTMASTER}
+        - WEBMAIL=${MAILU_WEBMAIL}
+        - RECIPIENT_DELIMITER=${MAILU_RECIPIENT_DELIMITER}
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/data:/data"
+        - "${DATA_PATH_HOST}/mailu/mail:/mail"
+        - "${DATA_PATH_HOST}/mailu/overrides:/overrides"
+      depends_on:
+        - mailu-front
+      networks:
+        backend:
+          aliases:
+            - imap
+    mailu-smtp:
+      image: mailu/postfix:${MAILU_VERSION}
+      environment:
+        - DOMAIN=${MAILU_DOMAIN}
+        - HOSTNAMES=${MAILU_HOSTNAMES}
+        - RELAYHOST=${MAILU_RELAYHOST}
+        - RELAYNETS=${MAILU_RELAYNETS}
+        - RECIPIENT_DELIMITER=${MAILU_RECIPIENT_DELIMITER}
+        - MESSAGE_SIZE_LIMIT=${MAILU_MESSAGE_SIZE_LIMIT}
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/data:/data"
+        - "${DATA_PATH_HOST}/mailu/overrides:/overrides"
+      depends_on:
+        - mailu-front
+      networks:
+        backend:
+          aliases:
+            - smtp
+    mailu-antispam:
+      image: mailu/rspamd:${MAILU_VERSION}
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/filter:/var/lib/rspamd"
+        - "${DATA_PATH_HOST}/mailu/dkim:/dkim"
+        - "${DATA_PATH_HOST}/mailu/overrides/rspamd:/etc/rspamd/override.d"
+      depends_on:
+        - mailu-front
+      networks:
+        backend:
+          aliases:
+            - antispam
+    mailu-antivirus:
+      image: mailu/clamav:${MAILU_VERSION}
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/filter:/data"
+      networks:
+        backend:
+          aliases:
+            - antivirus
+    mailu-webdav:
+      image: mailu/${MAILU_WEBDAV}:${MAILU_VERSION}
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/dav:/data"
+      networks:
+        backend:
+          aliases:
+            - webdav
+    mailu-admin:
+      image: mailu/admin:${MAILU_VERSION}
+      environment:
+        - DOMAIN=${MAILU_DOMAIN}
+        - HOSTNAMES=${MAILU_HOSTNAMES}
+        - POSTMASTER=${MAILU_POSTMASTER}
+        - SECRET_KEY=${MAILU_SECRET_KEY}
+        - AUTH_RATELIMIT=${MAILU_AUTH_RATELIMIT}
+        - TLS_FLAVOR=${MAILU_TLS_FLAVOR}
+        - DISABLE_STATISTICS=${MAILU_DISABLE_STATISTICS}
+        - DMARC_RUA=${MAILU_DMARC_RUA}
+        - DMARC_RUF=${MAILU_DMARC_RUF}
+        - WELCOME=${MAILU_WELCOME}
+        - WELCOME_SUBJECT=${MAILU_WELCOME_SUBJECT}
+        - WELCOME_BODY=${MAILU_WELCOME_BODY}
+        - WEB_ADMIN=${MAILU_WEB_ADMIN}
+        - WEB_WEBMAIL=${MAILU_WEB_WEBMAIL}
+        - WEBSITE=${MAILU_WEBSITE}
+        - WEBMAIL=${MAILU_WEBMAIL}
+        - SITENAME=${MAILU_SITENAME}
+        - PASSWORD_SCHEME=${MAILU_PASSWORD_SCHEME}
+        - RECAPTCHA_PUBLIC_KEY=${MAILU_RECAPTCHA_PUBLIC_KEY}
+        - RECAPTCHA_PRIVATE_KEY=${MAILU_RECAPTCHA_PRIVATE_KEY}
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/data:/data"
+        - "${DATA_PATH_HOST}/mailu/dkim:/dkim"
+        - /var/run/docker.sock:/var/run/docker.sock:ro
+      depends_on:
+        - redis
+      networks:
+        backend:
+          aliases:
+            - admin
+    mailu-webmail:
+      image: "mailu/${MAILU_WEBMAIL}:${MAILU_VERSION}"
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/webmail:/data"
+      networks:
+        backend:
+          aliases:
+            - webmail
+    mailu-fetchmail:
+      image: mailu/fetchmail:${MAILU_VERSION}
+      environment:
+        - FETCHMAIL_DELAY=${MAILU_FETCHMAIL_DELAY}
+      volumes:
+        - "${DATA_PATH_HOST}/mailu/data:/data"
+      networks:
+        backend:
+          aliases:
+            - fetchmail
