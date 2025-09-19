@@ -1,6 +1,10 @@
-### BUILD ### docker compose build workspace php-fpm php-worker nginx mysql redis phpmyadmin certbot portainer netdata mailu
-### UP ### docker compose up -d workspace php-fpm php-worker nginx mysql redis phpmyadmin certbot portainer netdata mailu
-
+### BUILD ### docker compose --env-file .env.production -f docker-compose.production.yml build workspace php-fpm php-worker nginx mysql redis phpmyadmin certbot portainer netdata mailu
+### UP ### docker compose --env-file .env.production -f docker-compose.production.yml up -d workspace php-fpm php-worker nginx mysql redis phpmyadmin certbot portainer netdata mailu
+### STOP ### docker compose --env-file .env.production -f docker-compose.production.yml stop
+### RESTART ### docker compose --env-file .env.production -f docker-compose.production.yml restart
+### DOWN ### docker compose --env-file .env.production -f docker-compose.production.yml down -v
+### LOGS ### docker compose --env-file .env.production -f docker-compose.production.yml
+### PS ### docker compose --env-file .env.production -f docker-compose.production.yml ps
 networks:
   frontend:
     driver: ${NETWORKS_DRIVER}
