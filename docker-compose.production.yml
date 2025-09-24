@@ -11,7 +11,9 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   redis:
     driver: ${VOLUMES_DRIVER}
-  phpmyadmin:
+  docker-in-docker:
+    driver: ${VOLUMES_DRIVER}
+  adminer:
     driver: ${VOLUMES_DRIVER}
 
 x-workspace-base: &workspace-base
@@ -302,8 +304,8 @@ services:
         - FAKETIME=${PHP_FPM_FAKETIME}
         - TZ=${WORKSPACE_TIMEZONE}
 
-      depends_on:
-        - workspace
+      # depends_on:
+      #   - workspace
       networks:
         - backend
 
@@ -360,8 +362,8 @@ services:
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         - ./php-worker/supervisord.d:/etc/supervisord.d
-      depends_on:
-        - workspace
+      # depends_on:
+      #   - workspace
       environment:
           - TZ=${WORKSPACE_TIMEZONE}
       extra_hosts:
