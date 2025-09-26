@@ -171,27 +171,6 @@ services:
         - frontend
         - backend
 
-### WordPress #########################################
-    wordpress-vlad:
-      image: wordpress:5-fpm
-      restart: unless-stopped
-      container_name: vlad
-      volumes:
-        - ../vlad:/var/www/html
-        - ../vlad/config/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
-        # - /path/to/repo/myTheme/:/var/www/html/wp-content/themes/myTheme
-      environment:
-        - WORDPRESS_DB_HOST=mysql
-        - WORDPRESS_DB_USER=${MYSQL_USER}
-        - WORDPRESS_DB_PASSWORD=${MYSQL_PASSWORD}
-        - WORDPRESS_DB_NAME=vlad
-        - WORDPRESS_DEBUG=true
-      networks:
-        - backend
-        - frontend
-      depends_on:
-        - mysql
-
 ### PHP-FPM ##############################################
     php-fpm:
       restart: always
