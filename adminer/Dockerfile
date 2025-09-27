@@ -24,6 +24,9 @@ RUN if [ ${INSTALL_MSSQL} = true ]; then \
   && rm -rf /var/cache/apk/* \
 ;fi
 
+# Copy Hydra-Dark-Theme to Adminer themes directory
+COPY themes/Hydra-Dark-Theme.css /var/www/html/Hydra-Dark-Theme.css
+
 USER adminer
 
 # We expose Adminer on port 8080 (Adminer's default)
