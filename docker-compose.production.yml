@@ -1,5 +1,5 @@
-### BUILD ### docker compose -f docker-compose.production.yml build workspace-volna workspace-alaa wordpress-vlad php-fpm php-worker nginx mysql redis adminer certbot portainer
-### UP ### docker compose -f docker-compose.production.yml up -d workspace-volna workspace-alaa wordpress-vlad php-fpm php-worker nginx mysql redis adminer certbot portainer
+### BUILD ### docker compose -f docker-compose.production.yml build workspace php-fpm php-worker nginx mysql redis adminer certbot portainer
+### UP ### docker compose -f docker-compose.production.yml up -d workspace php-fpm php-worker nginx mysql redis adminer certbot portainer
 
 networks:
   frontend:
