@@ -474,3 +474,21 @@ services:
         - 2375
       networks:
         - backend
+
+### Rclone #########################################
+    rclone:
+      image: rclone/rclone:latest
+      container_name: rclone
+      restart: always
+      command: >
+        sync /data remote:volna-backup
+        --progress
+        --drive-chunk-size=64M
+        --create-empty-src-dirs
+      environment:
+        - TZ=${WORKSPACE_TIMEZONE}
+      volumes:
+        - ${DATA_PATH_HOST}:/data
+        - ~/.config/rclone/rclone.conf:/config/rclone/rclone.conf:ro
+      networks:
+        - backend
