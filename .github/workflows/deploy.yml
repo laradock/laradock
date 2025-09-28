@@ -11,7 +11,7 @@ jobs:
     environment: Volna-Server
     steps:
       # Set up SSH agent and pull the latest changes from production branch
-      - name: Set up SSH
+      - name: Deploy to Production Server
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.HOST }}
@@ -20,9 +20,8 @@ jobs:
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            cd /home/laradock
+            cd /home/${{ secrets.PROJECT_NAME }}
             git pull origin production
-            cd /home/laradock
             docker compose -f docker-compose.production.yml down
             docker compose -f docker-compose.production.yml up -d --build
             docker system prune -af --volumes
