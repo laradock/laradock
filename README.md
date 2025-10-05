@@ -30,7 +30,14 @@
 
 
 ---
+## Docker Compose Compatibility
 
+Laradock relies on Docker Compose for managing services. With v1 deprecated, modern setups (e.g., Docker 28+) use v2 via `docker compose`, but legacy scripts require `docker-compose`.
+
+To enable both `docker-compose` and `docker compose` system-wide across all OSes (Linux, macOS, Windows/WSL2), Docker versions, terminals, and shells (interactive/non-interactive), using existing v1 or v2, with backup for corrupted files, run:
+
+```bash
+sudo sh -c 'if command -v docker-compose >/dev/null 2>&1 && ! docker-compose --version >/dev/null 2>&1; then mv /usr/local/bin/docker-compose /usr/local/bin/docker-compose.bak && echo "Backed up corrupted docker-compose to .bak"; fi && if ! command -v docker-compose >/dev/null 2>&1 && command -v docker >/dev/null 2>&1 && docker compose version >/dev/null 2>&1; then ln -sf $(find /usr/local/lib/docker/cli-plugins /usr/lib/docker/cli-plugins ~/.docker/cli-plugins -name docker-compose 2>/dev/null | head -n 1 || which docker) /usr/local/bin/docker-compose; elif command -v docker-compose >/dev/null 2>&1 && docker-compose --version >/dev/null 2>&1 && ! command -v docker >/dev/null 2>&1; then ln -sf $(which docker-compose) /usr/local/bin/docker; else echo "No Docker Compose installed. Please install Docker Compose: https://docs.docker.com/compose/install/"; fi'
 
 ## Awesome People
 
