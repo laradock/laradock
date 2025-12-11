@@ -1330,10 +1330,10 @@ ARG INSTALL_TERRAFORM=false
 
 RUN if [ ${INSTALL_TERRAFORM} = true ]; then \
     apt-get -yqq install sudo wget unzip \
-    && wget https://releases.hashicorp.com/terraform/0.10.6/terraform_0.10.6_linux_amd64.zip \
-    && unzip terraform_0.10.6_linux_amd64.zip \
+    && wget https://releases.hashicorp.com/terraform/1.13.3/terraform_1.13.3_linux_amd64.zip \
+    && unzip terraform_1.13.3_linux_amd64.zip \
     && mv terraform /usr/local/bin \
-    && rm terraform_0.10.6_linux_amd64.zip \
+    && rm terraform_1.13.3_linux_amd64.zip \
 ;fi
 
 ###########################################################################
