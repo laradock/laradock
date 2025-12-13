@@ -10,10 +10,13 @@ title: Introduction
 We offer a range of popular, pre-configured services that provide a ready-to-use PHP development environment in seconds.
 
 ---
-### Use Docker First - Learn About It Later!
+
+### Use Docker First - Learn About It Later
+
 ---
 
 <a name="features"></a>
+
 ## Features
 
 - **Seamless PHP Version Switching**: Effortlessly switch between PHP versions (8.1, 8.0, 7.4, 7.3, 7.2, 7.1, 5.6...).
@@ -30,18 +33,15 @@ We offer a range of popular, pre-configured services that provide a ready-to-use
 - **Full Transparency**: Everything is visible and editable, giving you full control over your environment.
 - **Fast Builds**: Enjoy quick image builds to get your environment up and running in no time.
 
-
-
 <a name="Supported-Containers"></a>
+
 ## Supported Services
 
 > Laradock, adheres to the 'separation of concerns' principle, thus it runs each software on its own Docker Container.
 > You can turn On/Off as many instances as you want without worrying about the configurations.
 
-> To run a chosen container from the list below, run `docker-compose up -d {container-name}`. 
+> To run a chosen container from the list below, run `docker-compose up -d {container-name}`.
 > The container name `{container-name}` is the same as its folder name. Example to run the "PHP FPM" container, use the name "php-fpm".
-
-
 
 | Category                  | Services (Containers)                                                                 |
 |---------------------------|--------------------------------------------------------------------------|
@@ -70,19 +70,11 @@ We offer a range of popular, pre-configured services that provide a ready-to-use
 | **IDEs**                  | ICE Coder, Theia, Web IDE                                                |
 | (**Laradock Workspace**)    | PHP CLI, Composer, Git, Vim, xDebug, Linuxbrew, Node, V8JS, Gulp, SQLite, Laravel Envoy, Deployer, Yarn, SOAP, Drush, Wordpress CLI, dnsutils |
 
-
-
 You can choose, which tools to install in your workspace container and other containers, from the `.env` file.
-
 
 *If you modify `docker-compose.yml`, `.env` or any `dockerfile` file, you must re-build your containers, to see those effects in the running instance.*
 
-
-
 > If you can't find your Software in the list, build it yourself and submit it. Contributions are welcomed :)
-
-
-
 
 ## Quick Overview
 
@@ -120,18 +112,7 @@ QUEUE_HOST=beanstalkd
 That's it! enjoy :)
 ```
 
-
-
 ---
-
-
-
-
-
-
-
-
-
 
 <!-- ## Join Us
 
@@ -141,11 +122,9 @@ That's it! enjoy :)
 
 <!-- --- -->
 
-
 ## Awesome People
 
 Laradock is an MIT-licensed open source project with its ongoing development made possible entirely by the support of you and all these awesome people. 💜
-
 
 ### Project Maintainers
 
@@ -265,8 +244,6 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
   </tbody>
 </table>
 
-
-
 ### Code Contributors
 
 [![Laradock Contributors](https://opencollective.com/laradock/contributors.svg?width=890&button=false&isActive=true)](https://github.com/laradock/laradock/graphs/contributors)
@@ -275,16 +252,11 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
 
 [![Open Collective backers](https://opencollective.com/laradock/tiers/awesome-backers.svg?width=800&avatarHeight=55&button=false&isActive=true)](https://opencollective.com/laradock#contributors)
 
-
 ---
-
-
 
 ## Sponsors
 
 <!-- Listing Contributors Refference: https://docs.opencollective.com/help/collectives/collective-settings/data-export#contributor-image -->
-
-
 
 ### Diamond Sponsors
 
@@ -298,7 +270,6 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
   </a>
 </div>
 
-
 ### Gold Sponsors
 
   <!-- The embedded iframes sets rel="nofollow sponsored" on sponsor links by default, 
@@ -310,7 +281,6 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
     height="200"
     style={{ border: 'none', backgroundColor: '#1B1B1D' }}>
   </iframe> -->
-
 
 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'left', alignItems: 'left' }}>
 
@@ -396,11 +366,10 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
 
 </div>
 
-
 ### Silver Sponsors
 
-  <iframe 
-    src="https://opencollective.com/laradock/tiers/silver-sponsors.svg?avatarHeight=90&width=800&format=svg&button=false&background=#1B1B1D&isActive=true" 
+  <iframe
+    src="https://opencollective.com/laradock/tiers/silver-sponsors.svg?avatarHeight=90&width=800&format=svg&button=false&background=#1B1B1D&isActive=true"
     width="800"
     height="200"
     style={{ border: 'none', backgroundColor: '#1B1B1D' }}>
@@ -408,16 +377,14 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
 
 ### Bronze Sponsors
 
-  <iframe 
-    src="https://opencollective.com/laradock/tiers/bronze-sponsors.svg?avatarHeight=55&width=800&format=svg&button=false&background=#1B1B1D&isActive=true" 
+  <iframe
+    src="https://opencollective.com/laradock/tiers/bronze-sponsors.svg?avatarHeight=55&width=800&format=svg&button=false&background=#1B1B1D&isActive=true"
     width="800"
     height="300"
     style={{ border: 'none', backgroundColor: '#1B1B1D' }}>
   </iframe>
 
-
-
-### Sponsorship Support 
+### Sponsorship Support
 
 Sponsoring is an act of giving in a unique way. 🌱  
 You can support us using any of the methods below:
@@ -434,5 +401,3 @@ You can support us using any of the methods below:
 ## License
 
 [MIT](https://github.com/laradock/laradock/blob/master/LICENSE) © [Mahmoud Zalt](https://zalt.me/)
-
-
