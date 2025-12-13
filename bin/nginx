@@ -1,0 +1,9 @@
+#!/bin/bash
+LD_USER=root
+LD_SHELL=bash
+LD_CONTAINER_CWD=""
+LD_COMMAND=""
+
+source $(dirname "$0")/util/parseArguments.sh
+
+eval "laradock --user=\"$LD_USER\" --command=\"$LD_COMMAND\" --shell=\"$LD_SHELL\" --container=nginx $LD_CONTAINER_CWD"
