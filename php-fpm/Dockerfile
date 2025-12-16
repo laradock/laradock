@@ -220,7 +220,7 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; then \
   # https://xdebug.org/docs/compat
   if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] || { [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ] && { [ $(php -r "echo PHP_MINOR_VERSION;") = "4" ] || [ $(php -r "echo PHP_MINOR_VERSION;") = "3" ] ;} ;}; then \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
-      pecl install xdebug-3.4.1; \
+      pecl install xdebug-3.5.0; \
     else \
       pecl install xdebug-3.1.6; \
     fi; \
@@ -679,7 +679,7 @@ RUN if [ ${INSTALL_OCI8} = true ]; then \
 ARG INSTALL_IONCUBE=false
 
 RUN if [ ${INSTALL_IONCUBE} = true ]; then \
-    if [ ${LARADOCK_PHP_VERSION} != "8.4" ] \
+    if [ ${LARADOCK_PHP_VERSION} != "8.5" ] \
       && [ ${LARADOCK_PHP_VERSION} != "8.0" ]; then \
       # Install the php ioncube loader
       curl -L -o /tmp/ioncube_loaders_lin_x86-64.tar.gz https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
@@ -836,11 +836,7 @@ RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
       cd /tmp && \
       if [ ${IMAGEMAGICK_VERSION} = "latest" ]; then \
-        if [ ${LARADOCK_PHP_VERSION} = "8.4" ]; then \
-          git clone --branch develop https://github.com/Imagick/imagick; \
-        else \
-          git clone https://github.com/Imagick/imagick; \
-        fi; \
+        git clone https://github.com/Imagick/imagick; \
       else \
         git clone --branch ${IMAGEMAGICK_VERSION} https://github.com/Imagick/imagick; \
       fi && \
