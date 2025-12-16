@@ -467,7 +467,9 @@ RUN if [ ${INSTALL_TAINT} = true ]; then \
 
 ARG INSTALL_IMAP=false
 
-RUN if [ ${INSTALL_IMAP} = true ]; then \
+RUN if [ ${INSTALL_IMAP} = true ] \
+  && [ "$LARADOCK_PHP_VERSION" != "8.4" ] \
+  && [ "$LARADOCK_PHP_VERSION" != "8.5" ]; then \
   apk add --update imap-dev && \
   docker-php-ext-configure imap --with-imap --with-imap-ssl && \
   docker-php-ext-install imap \
