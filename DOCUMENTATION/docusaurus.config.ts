@@ -4,7 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Laradock',
-  tagline: 'Full PHP development environment on Docker.',
+  tagline: 'A Docker setup that lets you run a full PHP development environment in seconds.',
   favicon: 'laradock.ico',
 
   // Set the production url of your site here
@@ -123,7 +123,7 @@ const config: Config = {
         //   ],
         // },
       ],
-      copyright: `Copyright © 2016 - ${new Date().getFullYear()} - Laradock - By <a href="https://zalt.me" target="_blank" rel="noopener noreferrer">Mahmoud Zalt</a>.`,
+      copyright: `Copyright © 2015 - ${new Date().getFullYear()} - Laradock - By <a href="https://zalt.me" target="_blank" rel="noopener noreferrer">Mahmoud Zalt</a>.`,
     },
     prism: {
       theme: prismThemes.github,
