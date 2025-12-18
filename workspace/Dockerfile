@@ -689,18 +689,16 @@ RUN if [ ${INSTALL_INOTIFY} = true ]; then \
 ###########################################################################
 
 ARG INSTALL_AST=false
-ARG AST_VERSION=1.0.10
-ENV AST_VERSION ${AST_VERSION}
 
 RUN if [ ${INSTALL_AST} = true ]; then \
-    # AST extension requires PHP 7.0.0 or newer
-    if [ $(php -r "echo PHP_MAJOR_VERSION;") != "5" ]; then \
-        # Install AST extension
-        printf "\n" | pecl -q install ast-${AST_VERSION} && \
-        echo "extension=ast.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/ast.ini && \
-        phpenmod -v ${LARADOCK_PHP_VERSION} -s cli ast \
-    ;fi \
-;fi
+    if [ "$(php -r 'echo PHP_VERSION_ID;')" -le 70100 ]; then \
+        printf "\n" | pecl -q install ast-1.0.16; \
+    else \
+        printf "\n" | pecl -q install ast; \
+    fi; \
+    echo "extension=ast.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/ast.ini; \
+    phpenmod -v ${LARADOCK_PHP_VERSION} -s cli ast; \
+fi
 
 ###########################################################################
 # fswatch
