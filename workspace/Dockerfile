@@ -1373,7 +1373,7 @@ ARG INSTALL_DUSK_DEPS=false
 
 RUN if [ ${INSTALL_DUSK_DEPS} = true ]; then \
   apt-get -y install zip wget unzip xdg-utils \
-    libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4 xvfb \
+    libxpm4 libxrender1 libgtk2.0-0 libnss3 xvfb \
     gtk2-engines-pixbuf xfonts-cyrillic xfonts-100dpi xfonts-75dpi \
     xfonts-base xfonts-scalable x11-apps \
     fonts-ipafont \
