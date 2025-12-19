@@ -33,6 +33,14 @@ RUN if [ ${CHANGE_SOURCE} = true ]; then \
     sed -i 's/security-cdn.debian.org/mirrors.tuna.tsinghua.edu.cn/' /etc/apt/sources.list \
 ;fi
 
+RUN if [ "$LARADOCK_PHP_VERSION" = "7.1" ] || [ ${LARADOCK_PHP_VERSION} = "7.2" ]; then \
+    sed -i \
+      -e 's|deb.debian.org|archive.debian.org|g' \
+      -e 's|security.debian.org|archive.debian.org|g' \
+      -e '/buster-updates/d' \
+      /etc/apt/sources.list; \
+fi
+
 # always run apt update when start and after add new source list, then clean up at end.
 RUN set -xe; \
     apt-get update -yqq && \
