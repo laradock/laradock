@@ -1245,10 +1245,10 @@ ARG INSTALL_PYTHON3=false
 RUN if [ ${INSTALL_PYTHON3} = true ]; then \
   apt-get -y install python3 python3-dev build-essential  \
   && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py  \
-  && python3 get-pip.py  \
+  && python3 get-pip.py --break-system-packages \
   && rm get-pip.py  \
-  && python3 -m pip install --upgrade --force-reinstall pip  \
-  && python3 -m pip install --upgrade virtualenv \
+  && python3 -m pip install --upgrade --force-reinstall pip --break-system-packages \
+  && python3 -m pip install --upgrade virtualenv --break-system-packages \
 ;fi
 
 ###########################################################################
