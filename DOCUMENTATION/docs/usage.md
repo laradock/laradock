@@ -1207,11 +1207,77 @@ docker-compose up -d meilisearch
 <br/>
 <a name="Use-Selenium"></a>
 ## Use Selenium
+
 1. Run the Selenium Container (`selenium`) with the `docker-compose up` command. Example:
    ```bash
    docker-compose up -d selenium
    ```
 2. Open your browser and visit the localhost on port **4444** at the following URL:  `http://localhost:4444/wd/hub`
+
+
+
+
+
+
+<br/>
+<a name="Use-Selenoid"></a>
+## Use Selenoid
+
+1. Create a network with the command:
+   ```bash
+   docker network create integration
+   ```
+2. Download the images:
+   ```bash
+   docker pull selenoid/video-recorder:latest-release
+   docker pull selenoid/chrome:latest
+   ```
+   Note: Download all images that you define in the `laradock/selenoid/browsers.json` file.
+
+
+3. Run the Selenoid Container (`selenoid`) with the `docker-compose up` command. Example:
+   ```bash
+   docker-compose up -d selenoid
+   ```
+4. Open your browser and visit the localhost on port **4444** at the following URL:  `http://localhost:4444/wd/hub`.
+5. If you need to map a path to Selenium session containers, such as the download directory that
+   will be used by the browser, do this through the `laradock selenoid browsers.json` file. Example:
+    ```json
+   "chrome": {
+      ...
+      "versions": {
+         "latest": {
+         ...
+            "volumes":[
+               "/home/my-user/.laradock/data/selenoid/downloads:/home/selenium/Downloads"
+            ]
+         }
+        ...
+   ```
+   Note: Ensure that the `Host Path` of the volumes is with the appropriate permission so that the `Container Path`
+   can be correctly accessed in the `Solenoid session`.
+
+6. [Selenoid - Official documentation](https://aerokube.com/selenoid/latest).
+
+
+
+
+
+
+<br/>
+<a name="Use-Selenoid-UI"></a>
+## Use Selenoid UI
+
+1. Optionally, it is possible to create Selenium instances from Selenoid with the Selenoid UI Container (selenoid-ui).
+   ```bash
+   docker-compose up -d selenoid selenoid-ui
+   ```
+2. Open your browser and visit the localhost on port **8080** at the following URL: `http://localhost:8080`.
+3. The Selenoid UI interface allows you to view created containers and access them through VNC directly from the browser,
+view the videos resulting from the recording of Selenium sessions if enabled in the
+construction of the Selenium session container through selenoid, VNC is enabled by default but it is possible to disable
+during the construction of the Selenium session.
+4. [Selenoid UI - Official documentation](https://aerokube.com/selenoid-ui/latest).
 
 
 
