@@ -1142,7 +1142,7 @@ RUN set -eux; \
       #  https://github.com/Microsoft/msphpsql/wiki/Install-and-configuration
       ###########################################################################
       curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
-      curl https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
+      curl https://packages.microsoft.com/config/ubuntu/$( [ "$(lsb_release -rs)" = "24.04" ] && echo 22.04 || lsb_release -rs )/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
       apt-get update -yqq && \
       ACCEPT_EULA=Y apt-get install -yqq msodbcsql18 mssql-tools18 unixodbc unixodbc-dev libgss3 odbcinst locales && \
       ln -sfn /opt/mssql-tools/bin/sqlcmd /usr/bin/sqlcmd && \
@@ -1161,6 +1161,8 @@ RUN set -eux; \
         pecl install pdo_sqlsrv-5.10.1 sqlsrv-5.10.1 \
       ;elif [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "80000" ]; then \
         pecl install pdo_sqlsrv-5.11.1 sqlsrv-5.11.1 \
+      ;elif [ $(php -r "echo PHP_MAJOR_VERSION;") = 8 ] && [ $(php -r "echo PHP_MINOR_VERSION;") -le 3 ]; then \
+        pecl install pdo_sqlsrv-5.12.0 sqlsrv-5.12.0 \
       ;else \
         pecl install pdo_sqlsrv sqlsrv \
       ;fi && \
@@ -1243,10 +1245,10 @@ ARG INSTALL_PYTHON3=false
 RUN if [ ${INSTALL_PYTHON3} = true ]; then \
   apt-get -y install python3 python3-dev build-essential  \
   && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py  \
-  && python3 get-pip.py  \
+  && python3 get-pip.py --break-system-packages \
   && rm get-pip.py  \
-  && python3 -m pip install --upgrade --force-reinstall pip  \
-  && python3 -m pip install --upgrade virtualenv \
+  && python3 -m pip install --upgrade --force-reinstall pip --break-system-packages \
+  && python3 -m pip install --upgrade virtualenv --break-system-packages \
 ;fi
 
 ###########################################################################
@@ -1371,7 +1373,7 @@ ARG INSTALL_DUSK_DEPS=false
 
 RUN if [ ${INSTALL_DUSK_DEPS} = true ]; then \
   apt-get -y install zip wget unzip xdg-utils \
-    libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4 xvfb \
+    libxpm4 libxrender1 libgtk2.0-0 libnss3 xvfb \
     gtk2-engines-pixbuf xfonts-cyrillic xfonts-100dpi xfonts-75dpi \
     xfonts-base xfonts-scalable x11-apps \
     fonts-ipafont \
