@@ -1242,7 +1242,7 @@ services:
       restart: always
       build: ./maildev
       ports:
-        - "${MAILDEV_HTTP_PORT}:80"
+        - "${MAILDEV_HTTP_PORT}:1080"
         - "${MAILDEV_SMTP_PORT}:25"
       networks:
         - frontend
