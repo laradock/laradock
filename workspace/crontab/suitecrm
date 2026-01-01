@@ -1,0 +1,1 @@
+* * * * * laradock cd /var/www/crm; php -f cron.php > /dev/null 2>&1
