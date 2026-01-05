@@ -156,7 +156,6 @@ services:
           - NODE_VERSION=${WORKSPACE_NODE_VERSION}
           - YARN_VERSION=${WORKSPACE_YARN_VERSION}
           - DRUSH_VERSION=${WORKSPACE_DRUSH_VERSION}
-          - AST_VERSION=${WORKSPACE_AST_VERSION}
           - IMAGEMAGICK_VERSION=${WORKSPACE_IMAGEMAGICK_VERSION}
           - TZ=${WORKSPACE_TIMEZONE}
           - BLACKFIRE_CLIENT_ID=${BLACKFIRE_CLIENT_ID}
@@ -1668,7 +1667,7 @@ services:
 ### Docker-in-Docker ################################################
     docker-in-docker:
       restart: always
-      image: docker:20.10-dind
+      image: docker:29-dind
       environment:
         DOCKER_TLS_SAN: DNS:docker-in-docker
       privileged: true
