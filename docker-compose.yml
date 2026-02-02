@@ -1107,6 +1107,10 @@ services:
         - frontend
         - backend
 
+### Net-Tools #######################################
+    net-tools:
+        build: ./net-tools
+
 ### MeiliSearch ##########################################
     meilisearch:
       image: getmeili/meilisearch:latest
