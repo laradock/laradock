@@ -620,16 +620,16 @@ services:
 
 ### MSSQL ################################################
     mssql:
-      restart: always
       build:
         context: ./mssql
+      user: root
       environment:
         - MSSQL_PID=Express
         - MSSQL_DATABASE=${MSSQL_DATABASE}
         - SA_PASSWORD=${MSSQL_PASSWORD}
         - ACCEPT_EULA=Y
       volumes:
-        - mssql:/var/opt/mssql
+        - mssql:/var/opt/mssql/data
       ports:
         - "${MSSQL_PORT}:1433"
       networks:
