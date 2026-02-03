@@ -597,8 +597,28 @@ services:
         - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
       ports:
         - "${MYSQL_PORT}:3306"
+
+
+### sharding-proxy ###################################################
+    sharding-proxy:
+      build:
+        context: ./sharding-proxy
+        args:
+          - SHARDING_PROXY_PORT=${SHARDING_PROXY_PORT}
+      volumes:
+        - ./sharding-proxy/conf/:/opt/shardingsphere-proxy/conf
+        - ./sharding-proxy/ext-lib/:/opt/shardingsphere-proxy/ext-lib
+      ports:
+        - "${SHARDING_PROXY_PORT}:${SHARDING_PROXY_PORT}"
+      expose:
+        - "${SHARDING_PROXY_PORT}"
+      extra_hosts:
+        - "dockerhost:${DOCKER_HOST_IP}"
       networks:
         - backend
+      links:
+        - docker-in-docker
+
 
 ### Percona ################################################
     percona:
