@@ -2088,11 +2088,11 @@ services:
         context: ./sonarqube
       hostname: "${SONARQUBE_HOSTNAME}"
       volumes:
-        - ${DATA_PATH_HOST}/sonarqube/conf:/opt/sonarqube/conf
-        - ${DATA_PATH_HOST}/sonarqube/data:/opt/sonarqube/data
-        - ${DATA_PATH_HOST}/sonarqube/logs:/opt/sonarqube/logs
-        - ${DATA_PATH_HOST}/sonarqube/extensions:/opt/sonarqube/extensions
-        - ${DATA_PATH_HOST}/sonarqube/plugins:/opt/sonarqube/lib/bundled-plugins
+        - sonarqube:/opt/sonarqube/conf
+        - sonarqube:/opt/sonarqube/data
+        - sonarqube:/opt/sonarqube/logs
+        - sonarqube:/opt/sonarqube/extensions
+        - sonarqube:/opt/sonarqube/lib/bundled-plugins
       ports:
         - ${SONARQUBE_PORT}:9000
       depends_on:
