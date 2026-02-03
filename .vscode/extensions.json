@@ -1,6 +1,8 @@
 {
     "recommendations": [
         "editorconfig.editorconfig",
-        "mikestead.dotenv"
+        "mikestead.dotenv",
+        "davidanson.vscode-markdownlint",
+        "unifiedjs.vscode-mdx",
     ]
 }
