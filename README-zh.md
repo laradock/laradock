@@ -69,17 +69,20 @@ git clone https://github.com/laradock/laradock.git
 ```
 
 2. 进入 Laradock 目录
- ```bash
+```bash
+## A. 一键全自动修改（下面的无需手动修改）
+bash china.sh
+## B. 手动修改
 cp .env.example .env
 ```
-如果你在中国内地，可以修改一些配置来进行镜像加速，不过build时还是会请求GitHub来下载一些文件，此时需要保证你的计算机能连上GitHub   
-(1）配置DockerHub镜像加速，[链接](https://www.runoob.com/docker/docker-mirror-acceleration.html)   
+如果你在中国内地，可以修改一些配置来进行镜像加速，不过build时还是会请求GitHub来下载一些文件，此时需要保证你的计算机能连上GitHub
+(1）配置DockerHub镜像加速，[链接](https://www.runoob.com/docker/docker-mirror-acceleration.html)
 (2) 修改.env
 ```
 # Windows 设置
 COMPOSE_PATH_SEPARATOR=;
 DOCKER_SYNC_STRATEGY=unison
-# 开启ubuntu国内源
+# 开启ubuntu国内源
 CHANGE_SOURCE=true
 # composer镜像源
 WORKSPACE_COMPOSER_REPO_PACKAGIST=https://mirrors.aliyun.com/composer/
@@ -196,7 +199,7 @@ Homestead 是一个工具,为你控制虚拟机(使用 Homestead 特殊命令)�
 <a name="Requirements"></a>
 ## 依赖
 
-- [Git](https://git-scm.com/downloads)       
+- [Git](https://git-scm.com/downloads)
 - [Docker](https://www.docker.com/products/docker-desktop/)
 
 <a name="Installation"></a>
