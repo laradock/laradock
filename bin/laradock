@@ -1,0 +1,29 @@
+#!/bin/bash
+source $(dirname "$0")/util/getConfig.sh
+source $(dirname "$0")/util/parseArguments.sh
+
+usage() {
+    echo "usage: laradock --user=<username> --container=<container name> --shell=<shell> [working directory]"
+}
+
+if [ -z "$LD_USER" ]; then
+    echo "missing argument: --user"
+    usage
+    exit 1
+elif [ -z "$LD_CONTAINER" ]; then
+    echo "missing argument: --container"
+    usage
+    exit 1
+elif [ -z "$LD_SHELL" ]; then
+    echo "missing argument: --shell"
+    usage
+    exit 1
+fi
+
+getContainerComposeFile compose_file
+
+if [ -n "$LD_COMMAND" ]; then
+  docker compose -f $compose_file exec --user=$LD_USER $LD_CONTAINER $LD_SHELL -c 'cd '$LD_CONTAINER_CWD" && $LD_COMMAND"
+else
+  docker compose -f $compose_file exec --user=$LD_USER $LD_CONTAINER $LD_SHELL -c 'cd '$LD_CONTAINER_CWD" && $LD_SHELL"
+fi
