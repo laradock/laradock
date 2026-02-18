@@ -2376,34 +2376,58 @@ A bash prompt that displays information about the current git repository. In par
 **Note** You can configure bash-git-prompt by editing the `workspace/gitprompt.sh` file and re-building the workspace container.
 For configuration information, visit the [bash-git-prompt repository](https://github.com/magicmonty/bash-git-prompt).
 
-<br/>
-<a name="Install-Oh-My-Zsh"></a>
-## Install Oh My ZSH
-
-
-
 
 <br/>
 <a name="Install-Dnsutils"></a>
 ## Install Dnsutils
 
 1 - First install `dnsutils` in the Workspace and the PHP-FPM Containers:
-<br/>
+
 a) open the `.env` file
-<br/>
+
 b) search for the `WORKSPACE_INSTALL_DNSUTILS` argument under the Workspace Container
-<br/>
+
 c) set it to `true`
-<br/>
+
 d) search for the `PHP_FPM_INSTALL_DNSUTILS` argument under the PHP-FPM Container
-<br/>
+
 e) set it to `true`
-<br/>
+
 
 2 - Re-build the containers `docker-compose build workspace php-fpm`
 
 
+<br/>
+<a name="Install-GRAPHVIZ"></a>
+## Install GRAPHVIZ
 
+To install [GRAPHVIZ](https://graphviz.org/)
+
+First, open the `.env` file
+
+> For the workspace container :
+
+- Search for the `WORKSPACE_INSTALL_GRAPHVIZ` argument under the Workspace Container and set it to `true`
+
+- Re-build the container `docker-compose build workspace`
+
+> For the php-fpm container (probably what you're looking for) :
+
+- Search for the `PHP_FPM_INSTALL_GRAPHVIZ` argument under the PHP-Fpm Container and set it to `true`
+
+- Re-build the container `docker-compose build php-fpm`
+
+> For the php-worker container :
+
+- Search for the `PHP_WORKER_INSTALL_GRAPHVIZ` argument under the PHP-Worker Container and set it to `true`
+
+- Re-build the container `docker-compose build php-worker`
+
+
+
+<br/>
+<a name="Install-Oh-My-Zsh"></a>
+## Install Oh My ZSH
 
 > With the Laravel autocomplete plugin.
 
