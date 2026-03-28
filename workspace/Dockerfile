@@ -60,7 +60,7 @@ RUN set -xe; \
     fi; \
     apt-get update -yqq ${APT_GET_UPDATE_OPTIONS} && \
     pecl channel-update pecl.php.net && \
-    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] && [ $(php -r "echo PHP_MINOR_VERSION;") != "0" ]; then \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] && [ $(php -r "echo PHP_MINOR_VERSION;") != "0" ] && [ "${PUID}" = "1000" ]; then \
       groupmod --new-name laradock ubuntu; \
       usermod --login laradock ubuntu --move-home --home /home/laradock; \
     else \
