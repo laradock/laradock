@@ -5,15 +5,10 @@ title: Introduction
 
 ![Docker Image](/img/laradock/laradock-logo.jpg)
 
-<b>Laradock</b> is a full PHP development environment for Docker.
+**Laradock** is a full PHP development environment for Docker. Spin up a ready-to-use stack in seconds, with popular pre-configured services.
 
-We offer a range of popular, pre-configured services that provide a ready-to-use PHP development environment in seconds.
+> **Use Docker first. Learn about it later.**
 
----
-### Use Docker First - Learn About It Later!
----
-
-<a name="features"></a>
 ## Features
 
 - **Seamless PHP Version Switching**: Effortlessly switch between PHP versions (8.1, 8.0, 7.4, 7.3, 7.2, 7.1, 5.6...).
@@ -32,11 +27,10 @@ We offer a range of popular, pre-configured services that provide a ready-to-use
 
 
 
-<a name="Supported-Containers"></a>
 ## Supported Services
 
-> Laradock, adheres to the 'separation of concerns' principle, thus it runs each software on its own Docker Container.
-> You can turn On/Off as many instances as you want without worrying about the configurations.
+> Laradock adheres to the 'separation of concerns' principle, so it runs each software in its own Docker container.
+> You can turn instances on or off as needed without worrying about configuration.
 
 > To run a chosen container from the list below, run `docker-compose up -d {container-name}`. 
 > The container name `{container-name}` is the same as its folder name. Example to run the "PHP FPM" container, use the name "php-fpm".
@@ -84,9 +78,9 @@ You can choose, which tools to install in your workspace container and other con
 
 
 
-## Quick Overview
+## Quick Start
 
-Let's see how easy it is to setup our demo stack `PHP`, `NGINX`, `MySQL`, `Redis` and `Composer`:
+Set up a demo stack with `PHP`, `NGINX`, `MySQL`, `Redis` and `Composer`:
 
 1 - Clone Laradock inside your PHP project:
 
@@ -116,9 +110,7 @@ QUEUE_HOST=beanstalkd
 
 5 - Open your browser and visit localhost: `http://localhost`.
 
-```shell
-That's it! enjoy :)
-```
+Done.
 
 
 

@@ -763,7 +763,7 @@ docker-compose up -d netdata
 
 Note: to add user go to `http://localhost:8090/securityRealm/addUser` and to restart it from the web app visit `http://localhost:8090/restart`.
 
-You may wanna change the default security configuration, so go to `http://localhost:8090/configureSecurity/` under Authorization and choosing "Anyone can do anything" or "Project-based Matrix Authorization Strategy" or anything else.
+You may want to change the default security configuration. Go to `http://localhost:8090/configureSecurity/` and under Authorization choose "Anyone can do anything", "Project-based Matrix Authorization Strategy", or another option.
 
 
 
@@ -2102,7 +2102,7 @@ To install FFMPEG in the Workspace container
 
 4 - If you use the `php-worker` container too, please follow the same steps above especially if you have conversions that have been queued.
 
-**PS** Don't forget to install the binary in the `php-fpm` container too by applying the same steps above to its container, otherwise you'll get an error when running the `php-ffmpeg` binary.
+**Note:** also install the binary in the `php-fpm` container by applying the same steps; otherwise you'll get an error when running the `php-ffmpeg` binary.
 
 
 <br/>
@@ -2123,7 +2123,7 @@ To install BBC Audio Waveform Image Generator in the Workspace container
 
 4 - If you use the `php-worker` or `laravel-horizon` container too, please follow the same steps above especially if you have processing that have been queued.
 
-**PS** Don't forget to install the binary in the `php-fpm` container too by applying the same steps above to its container, otherwise you'll get an error when running the `audiowaveform` binary.
+**Note:** also install the binary in the `php-fpm` container by applying the same steps; otherwise you'll get an error when running the `audiowaveform` binary.
 
 
 <br/>
@@ -2140,7 +2140,7 @@ To install wkhtmltopdf in the Workspace container
 
 3 - Re-build the container `docker-compose build workspace`
 
-**PS** Don't forget to install the binary in the `php-fpm` container too by applying the same steps above to its container, otherwise the you'll get an error when running the `wkhtmltopdf` binary.
+**Note:** also install the binary in the `php-fpm` container by applying the same steps; otherwise you'll get an error when running the `wkhtmltopdf` binary.
 
 
 

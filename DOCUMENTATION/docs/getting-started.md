@@ -49,7 +49,7 @@ Note: If you are not using Git yet for your project, you can use `git clone` ins
 *   laradock-b
 ```
 
-*(It's important to rename the laradock folders to unique name in each project, if you want to run laradock per project).*
+*(If you want to run Laradock per project, rename the `laradock` folder to a unique name in each project.)*
 
 3 - Go to the [Usage](#Usage) section.
 
