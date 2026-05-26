@@ -61,8 +61,8 @@ RUN set -xe; \
     apt-get update -yqq ${APT_GET_UPDATE_OPTIONS} && \
     pecl channel-update pecl.php.net && \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] && [ $(php -r "echo PHP_MINOR_VERSION;") != "0" ]; then \
-      groupmod --new-name laradock ubuntu; \
-      usermod --login laradock ubuntu --move-home --home /home/laradock; \
+      groupmod --new-name laradock -g ${PGID} ubuntu; \
+      usermod --login laradock -u ${PUID} --move-home --home /home/laradock ubuntu; \
     else \
       groupadd -g ${PGID} laradock; \
       useradd -l -u ${PUID} -g laradock -m laradock -G docker_env; \
