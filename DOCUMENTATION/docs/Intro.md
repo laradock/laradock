@@ -5,6 +5,10 @@ title: Introduction
 
 ![Docker Image](/img/laradock/laradock-logo.jpg)
 
+:::note Project Status
+Laradock is in **low-activity maintenance mode**. Issues are triaged and security patches still land, but new features are limited. If you depend on it in production, pin your version.
+:::
+
 <b>Laradock</b> is a full PHP development environment for Docker.
 
 We offer a range of popular, pre-configured services that provide a ready-to-use PHP development environment in seconds.
@@ -289,8 +293,8 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
 ### Diamond Sponsors
 
 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'left', alignItems: 'left' }}>
-  <a href="https://smart.sista.ai/?utm_source=docs_laradock&utm_medium=sponsor&utm_campaign=landing_page_content" target="_blank">
-    <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/sista-ai-icon.png" height="165px" alt="Sista AI - Plug-and-Play AI Assistant." />
+  <a href="https://sistava.com/?utm_source=docs_laradock&utm_medium=sponsor&utm_campaign=landing_page_content" target="_blank">
+    <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/sista-ai-icon.png" height="165px" alt="Sistava - Hire AI Employees to Run Your Business." />
   </a>
 
   <a href="http://apiato.io/" target="_blank" style={{ marginRight: '10px' }}>
@@ -399,12 +403,18 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
 
 ### Silver Sponsors
 
+<div style={{ display: 'flex', flexWrap: 'nowrap', gap: '15px', justifyContent: 'left', alignItems: 'center' }}>
+  <a href="https://sista.ai/?utm_source=docs_laradock&utm_medium=sponsor&utm_campaign=landing_page_content" target="_blank" style={{ flexShrink: 0 }}>
+    <img src="/img/sponsors/sista-ai-icon-gradient-purple-orange.png" height="90px" alt="Sista AI - AI Workforce platform." />
+  </a>
+
   <iframe 
-    src="https://opencollective.com/laradock/tiers/silver-sponsors.svg?avatarHeight=90&width=800&format=svg&button=false&background=#1B1B1D&isActive=true" 
-    width="800"
-    height="200"
+    src="https://opencollective.com/laradock/tiers/silver-sponsors.svg?avatarHeight=90&width=700&format=svg&button=false&background=#1B1B1D&isActive=true" 
+    width="700"
+    height="110"
     style={{ border: 'none', backgroundColor: '#1B1B1D' }}>
   </iframe>
+</div>
 
 ### Bronze Sponsors
 

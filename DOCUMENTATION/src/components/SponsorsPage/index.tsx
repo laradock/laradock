@@ -10,11 +10,11 @@ type SponsorItem = {
 
 const SponsorList: SponsorItem[] = [
   {
-    link: "https://smart.sista.ai/?utm_source=laradock&utm_medium=sponsor_banner&utm_campaign=landing_page",
-    imageUrl: "/img/sponsors/sista-ai-logo.png",
+    link: "https://sistava.com/?utm_source=laradock&utm_medium=sponsor_banner&utm_campaign=landing_page",
+    imageUrl: "/img/sponsors/sistava-logo.png",
     description: (
       <>
-        <b>Plug-and-Play <a href="https://smart.sista.ai/?utm_source=laradock&utm_medium=sponsor_banner&utm_campaign=landing_page" target="_blank" style={{ color: '#8098f8' }}>AI Agents</a> for Apps & Websites</b>
+        <b>Hire <a href="https://sistava.com/?utm_source=laradock&utm_medium=sponsor_banner&utm_campaign=landing_page" target="_blank" style={{ color: '#8098f8' }}>AI Employees</a> to Run Your Business</b>
       </>
     ),
   },
