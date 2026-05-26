@@ -13,7 +13,7 @@
 ### if your $DATA_PATH_HOST/mariadb is exists and you do not want to delete it, you can run by manual execution:
 ###
 ###     docker-compose exec mariadb bash
-###     mysql -u root -p < /docker-entrypoint-initdb.d/createdb.sql
+###     mariadb -u root -p < /docker-entrypoint-initdb.d/createdb.sql
 ###
 
 #CREATE DATABASE IF NOT EXISTS `dev_db_1` COLLATE 'utf8_general_ci' ;
