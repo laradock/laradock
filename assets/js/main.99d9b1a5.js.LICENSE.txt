@@ -1,6 +1,19 @@
 /* NProgress, (c) 2013, 2014 Rico Sta. Cruz - http://ricostacruz.com/nprogress
  * @license MIT */
 
+/*! Bundled license information:
+
+prismjs/prism.js:
+  (**
+   * Prism: Lightweight, robust, elegant syntax highlighting
+   *
+   * @license MIT <https://opensource.org/licenses/MIT>
+   * @author Lea Verou <https://lea.verou.me>
+   * @namespace
+   * @public
+   *)
+*/
+
 /**
  * @license React
  * react-dom.production.min.js
