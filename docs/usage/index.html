@@ -7,8 +7,8 @@
 <link rel="preconnect" href="https://www.googletagmanager.com">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-CVZBKZ36Y5"></script>
 <script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-CVZBKZ36Y5",{anonymize_ip:!0})</script><link rel="stylesheet" href="/assets/css/styles.92256786.css">
-<script src="/assets/js/runtime~main.4f8c583f.js" defer="defer"></script>
-<script src="/assets/js/main.99d9b1a5.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.b35df0ad.js" defer="defer"></script>
+<script src="/assets/js/main.e8cae30c.js" defer="defer"></script>
 </head>
 <body>
 <svg style="display: none;"><defs>
@@ -418,7 +418,7 @@ This way is suggested when you don&#x27;t want to start workspace in production 
 </li>
 </ol>
 <p>Note: to add user go to <code>http://localhost:8090/securityRealm/addUser</code> and to restart it from the web app visit <code>http://localhost:8090/restart</code>.</p>
-<p>You may wanna change the default security configuration, so go to <code>http://localhost:8090/configureSecurity/</code> under Authorization and choosing &quot;Anyone can do anything&quot; or &quot;Project-based Matrix Authorization Strategy&quot; or anything else.</p>
+<p>You may want to change the default security configuration. Go to <code>http://localhost:8090/configureSecurity/</code> and under Authorization choose &quot;Anyone can do anything&quot;, &quot;Project-based Matrix Authorization Strategy&quot;, or another option.</p>
 <br>
 <a name="Use-Redis"></a>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="use-redis">Use Redis<a href="#use-redis" class="hash-link" aria-label="Direct link to Use Redis" title="Direct link to Use Redis" translate="no">​</a></h2>
@@ -1146,7 +1146,7 @@ More info here: <a href="https://pnpm.js.org/en/motivation" target="_blank" rel=
 <p>2 - Search for the <code>WORKSPACE_INSTALL_FFMPEG</code> argument under the Workspace Container and set it to <code>true</code></p>
 <p>3 - Re-build the container <code>docker-compose build workspace</code></p>
 <p>4 - If you use the <code>php-worker</code> container too, please follow the same steps above especially if you have conversions that have been queued.</p>
-<p><strong>PS</strong> Don&#x27;t forget to install the binary in the <code>php-fpm</code> container too by applying the same steps above to its container, otherwise you&#x27;ll get an error when running the <code>php-ffmpeg</code> binary.</p>
+<p><strong>Note:</strong> also install the binary in the <code>php-fpm</code> container by applying the same steps; otherwise you&#x27;ll get an error when running the <code>php-ffmpeg</code> binary.</p>
 <br>
 <a name="Install-audiowaveform"></a>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="install-bbc-audio-waveform-image-generator">Install BBC Audio Waveform Image Generator<a href="#install-bbc-audio-waveform-image-generator" class="hash-link" aria-label="Direct link to Install BBC Audio Waveform Image Generator" title="Direct link to Install BBC Audio Waveform Image Generator" translate="no">​</a></h2>
@@ -1158,7 +1158,7 @@ Waveform data files are saved in either binary format (.dat) or JSON (.json).</p
 <p>2 - Search for the <code>WORKSPACE_INSTALL_AUDIOWAVEFORM</code> argument under the Workspace Container and set it to <code>true</code></p>
 <p>3 - Re-build the container <code>docker-compose build workspace</code></p>
 <p>4 - If you use the <code>php-worker</code> or <code>laravel-horizon</code> container too, please follow the same steps above especially if you have processing that have been queued.</p>
-<p><strong>PS</strong> Don&#x27;t forget to install the binary in the <code>php-fpm</code> container too by applying the same steps above to its container, otherwise you&#x27;ll get an error when running the <code>audiowaveform</code> binary.</p>
+<p><strong>Note:</strong> also install the binary in the <code>php-fpm</code> container by applying the same steps; otherwise you&#x27;ll get an error when running the <code>audiowaveform</code> binary.</p>
 <br>
 <a name="Install-wkhtmltopdf"></a>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="install-wkhtmltopdf">Install wkhtmltopdf<a href="#install-wkhtmltopdf" class="hash-link" aria-label="Direct link to Install wkhtmltopdf" title="Direct link to Install wkhtmltopdf" translate="no">​</a></h2>
@@ -1167,7 +1167,7 @@ Waveform data files are saved in either binary format (.dat) or JSON (.json).</p
 <p>1 - Open the <code>.env</code> file</p>
 <p>2 - Search for the <code>WORKSPACE_INSTALL_WKHTMLTOPDF</code> argument under the Workspace Container and set it to <code>true</code></p>
 <p>3 - Re-build the container <code>docker-compose build workspace</code></p>
-<p><strong>PS</strong> Don&#x27;t forget to install the binary in the <code>php-fpm</code> container too by applying the same steps above to its container, otherwise the you&#x27;ll get an error when running the <code>wkhtmltopdf</code> binary.</p>
+<p><strong>Note:</strong> also install the binary in the <code>php-fpm</code> container by applying the same steps; otherwise you&#x27;ll get an error when running the <code>wkhtmltopdf</code> binary.</p>
 <br>
 <a name="Install-GNU-Parallel"></a>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="install-gnu-parallel">Install GNU Parallel<a href="#install-gnu-parallel" class="hash-link" aria-label="Direct link to Install GNU Parallel" title="Direct link to Install GNU Parallel" translate="no">​</a></h2>
