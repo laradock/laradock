@@ -3,6 +3,8 @@ sidebar_position: 3
 title: Usage
 ---
 
+Once Laradock is installed, you interact with it through a handful of Docker and Docker Compose commands. This page collects the most common day-to-day operations: starting and stopping containers, entering them, viewing logs, switching PHP versions, and more. Use it as a quick reference while you work.
+
 
 
 

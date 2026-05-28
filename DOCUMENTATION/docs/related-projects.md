@@ -3,6 +3,7 @@ sidebar_position: 50
 title: Related Projects
 ---
 
+Laradock has inspired a rich ecosystem of community-built tools that extend or simplify how you work with it. The projects below, ranging from GUIs and CLIs to Kubernetes playbooks, are built and maintained by the community. Explore them to find helpers that fit your workflow.
 
 ![Docker Image](/img/laradock/laradock-abstract.jpg)
 

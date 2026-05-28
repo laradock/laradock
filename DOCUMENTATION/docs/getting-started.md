@@ -3,6 +3,8 @@ sidebar_position: 2
 title: Getting Started
 ---
 
+This guide walks you through setting up Laradock for your project, from the prerequisites to a fully running environment. Whether you are starting a brand-new app or adding Docker to an existing one, the steps below have you covered. Pick the installation path that matches your setup and you will have a complete local stack running in minutes.
+
 ## Requirements
 
 - [Git](https://git-scm.com/downloads)

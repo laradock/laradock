@@ -7,6 +7,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 import styles from "./index.module.css";
 import WelcomePage from "../components/WelcomePage";
 import SponsorsPage from "../components/SponsorsPage";
+import CodeBlock from "@theme/CodeBlock";
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
@@ -51,6 +52,26 @@ export default function Home(): JSX.Element {
         <WelcomePage />
         
         
+        <section style={{ padding: "3rem 1rem", maxWidth: "760px", margin: "0 auto" }}>
+          <Heading as="h2" style={{ textAlign: "center" }}>
+            Up and Running in Seconds
+          </Heading>
+          <p style={{ textAlign: "center", opacity: 0.8 }}>
+            Clone, configure, and launch a full PHP stack with three commands.
+          </p>
+          <CodeBlock language="bash">{`git clone https://github.com/laradock/laradock.git
+cp .env.example .env
+docker-compose up -d nginx mysql phpmyadmin redis workspace`}</CodeBlock>
+          <p style={{ textAlign: "center", opacity: 0.8 }}>
+            Then open <code>http://localhost</code>. That's it.
+          </p>
+          <div style={{ textAlign: "center", marginTop: "1.5rem" }}>
+            <Link className="button button--primary button--lg" to="/docs/Intro">
+              Get Started
+            </Link>
+          </div>
+        </section>
+
         <SponsorsPage />
       </main>
     </Layout>

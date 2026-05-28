@@ -20,17 +20,32 @@
 <br>
 <br>
 
-<h4 align="center" style="color:#7d58c2">Use Docker First - Learn About It Later!</h4>
+<h2 align="center" style="color:#7d58c2">Use Docker First - Learn About It Later!</h2>
+
+## Overview
+
+Laradock is a full PHP development environment for Docker. It ships pre-configured, ready-to-use containers for everything a PHP application needs (Nginx, PHP-FPM, MySQL, PostgreSQL, Redis, and many more), so you can launch a complete local stack in seconds without any manual setup.
+
+It works with any PHP project (Laravel, Symfony, WordPress, or plain PHP) and behaves the same on Linux, macOS, and Windows.
+
+### Key Features
+
+- **Pre-configured stack:** 60+ ready-to-use containers (Nginx, Apache, PHP-FPM, MySQL, PostgreSQL, MongoDB, Redis, Beanstalkd, and more).
+- **Easy version switching:** change PHP, database, or service versions in one place.
+- **Project-agnostic:** works with Laravel, Symfony, WordPress, or vanilla PHP.
+- **Cross-platform:** the same environment on Linux, macOS, and Windows.
+- **Modular:** run only the containers you need, in any combination.
+- **Beginner-friendly:** clone, copy the env file, and run `docker compose up`.
+
+<br>
 
 <p align="center">
-	<a href="https://laradock.io">
-	   <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/documentation-button.png" width="300px" alt="Laradock Documentation"/>
-	</a>
+  <a href="https://laradock.io">
+     <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/documentation-button.png" width="300px" alt="Laradock Documentation"/>
+  </a>
 </p>
 
-
 ---
-
 
 ## Awesome People
 
@@ -163,7 +178,7 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
 
 ### Financial Contributors (Backers)
 
-[![Open Collective backers](https://opencollective.com/laradock/tiers/awesome-backers.svg?width=800&avatarHeight=65&button=false&isActive=true)](https://opencollective.com/laradock#contributors)
+[![Open Collective backers](https://opencollective.com/laradock/tiers/awesome-backers.svg?width=800&avatarHeight=65&button=false&isActive=false)](https://opencollective.com/laradock#contributors)
 
 
 
@@ -175,7 +190,7 @@ Sponsoring is an act of giving in a different fashion. 🌱
 ### Diamond Sponsors
 
 <p align="left">
-  <a href="https://smart.sista.ai/?utm_source=docs_laradock&utm_medium=sponsor&utm_campaign=github_readme_page" target="_blank"><img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/sista-ai-icon.png" height="165px" alt="Sista AI - Plug-and-Play AI Assistant." style="margin-right: 4em;"></a><a href="http://apiato.io/" target="_blank"><img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/apiato.png" height="165px" alt="Apiato - A powerful PHP framework for building scalable, enterprise-grade APIs!"></a>
+  <a href="https://sistava.com/?utm_source=docs_laradock&utm_medium=sponsor&utm_campaign=github_readme_page" target="_blank"><img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/sista-ai-icon.png" height="165px" alt="Sistava - Hire AI Employees to Run Your Business." style="margin-right: 4em;"></a><a href="http://apiato.io/" target="_blank"><img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/apiato.png" height="135px" alt="Apiato - A powerful PHP framework for building scalable, enterprise-grade APIs!"></a>
 </p>
 
 
@@ -206,6 +221,10 @@ Sponsoring is an act of giving in a different fashion. 🌱
 
 ### Silver Sponsors
 
+<p align="left">
+  <a href="https://sista.ai/?utm_source=docs_laradock&utm_medium=sponsor&utm_campaign=github_readme_page" target="_blank"><img src="https://raw.githubusercontent.com/laradock/laradock/master/DOCUMENTATION/static/img/sponsors/sista-ai-icon-gradient-purple-orange.png" height="90px" alt="Sista AI - AI Workforce platform."></a>
+</p>
+
 ![Silver Sponsors](https://opencollective.com/laradock/tiers/silver-sponsors.svg?avatarHeight=90&width=800&format=svg&button=false&background=%231B1B1D)
 
 ### Bronze Sponsors
@@ -220,3 +239,4 @@ Sponsoring is an act of giving in a different fashion. 🌱
 ## License
 
 [MIT](https://github.com/laradock/laradock/blob/master/LICENSE) © [Mahmoud Zalt](https://zalt.me/)
+

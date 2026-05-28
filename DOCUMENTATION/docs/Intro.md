@@ -7,6 +7,10 @@ title: Introduction
 
 **Laradock** is a full PHP development environment for Docker. Spin up a ready-to-use stack in seconds, with popular pre-configured services.
 
+Think of it as "Docker for PHP developers": instead of installing and configuring Nginx, databases, caches, and queues by hand, you get them all as ready-made containers you can switch on and off per project. It works with any PHP project (Laravel, Symfony, WordPress, or plain PHP) and behaves the same on Linux, macOS, and Windows, so your whole team shares one identical setup.
+
+Laradock is free, open-source, and battle-tested by thousands of developers, with 12k+ GitHub stars and an active community behind it.
+
 > **Use Docker first. Learn about it later.**
 
 ## Features
@@ -39,18 +43,18 @@ title: Introduction
 
 | Category                  | Services (Containers)                                                                 |
 |---------------------------|--------------------------------------------------------------------------|
-| **Web Servers**           | NGINX, Apache2, Caddy                                                    |
+| **Web Servers**           | NGINX, Apache2, Caddy, OpenResty                                                    |
 | **Load Balancers**        | HAProxy, Traefik                                                         |
 | **PHP Compilers**         | PHP FPM, HHVM                                                            |
-| **Database Management Systems** | MySQL, PostgreSQL (PostGIS), MariaDB, Percona, MSSQL, MongoDB, Neo4j, CouchDB, RethinkDB, Cassandra |
-| **Database Management Tools** | PhpMyAdmin, Adminer, PgAdmin, MongoDB Web UI                         |
-| **Cache Engines**         | Redis, Redis Web UI, Redis Cluster, Memcached, Aerospike, Varnish        |
-| **Message Brokers**       | RabbitMQ, RabbitMQ Admin Console, Beanstalkd, Beanstalkd Admin Console, Eclipse Mosquitto, Gearman |
+| **Database Management Systems** | MySQL, PostgreSQL (PostGIS), MariaDB, Percona, MSSQL, MongoDB, Neo4j, CouchDB, RethinkDB, Cassandra, ClickHouse, Tarantool |
+| **Database Management Tools** | PhpMyAdmin, Adminer, PgAdmin, MongoDB Web UI, Tarantool Admin                         |
+| **Cache Engines**         | Redis, Redis Web UI, Redis Cluster, Memcached, Aerospike, Varnish, SSDB        |
+| **Message Brokers**       | RabbitMQ, RabbitMQ Admin Console, Beanstalkd, Beanstalkd Admin Console, Eclipse Mosquitto, Gearman, NATS |
 | **Log Management**        | GrayLog, Kibana, LogStash                                                |
 | **Search Engines**        | ElasticSearch, Apache Solr, Manticore Search, Dejavu                     |
 | **PHP Extensions**        | Swoole, Blackfire, Phalcon, PHP Worker, Laravel Horizon                  |
-| **Mail Servers**          | Mailu, MailCatcher, Mailhog, MailDev                                     |
-| **Real-time Communication** | Laravel Echo, Mercure                                                  |
+| **Mail Servers**          | Mailu, MailCatcher, Mailhog, MailDev, Mailpit                                     |
+| **Real-time Communication** | Laravel Echo, Mercure, Soketi                                                  |
 | **Monitoring**            | Grafana, NetData                                                         |
 | **Coordination Services** | Apache ZooKeeper                                                         |
 | **Container Management**  | Portainer, Docker Registry, Docker Web UI                                |
@@ -61,7 +65,9 @@ title: Introduction
 | **Security Tools**        | Certbot                                                                  |
 | **Object Storage**        | Minio                                                                    |
 | **Testing**               | Selenium                                                                 |
-| **IDEs**                  | ICE Coder, Theia, Web IDE                                                |
+| **IDEs**                  | Codiad, ICE Coder, Theia, Web IDE                                                |
+| **API Documentation**     | Swagger UI, Swagger Editor                                              |
+| **Frontend Tooling**      | React                                                                    |
 | (**Laradock Workspace**)    | PHP CLI, Composer, Git, Vim, xDebug, Linuxbrew, Node, V8JS, Gulp, SQLite, Laravel Envoy, Deployer, Yarn, SOAP, Drush, Wordpress CLI, dnsutils |
 
 
@@ -111,6 +117,11 @@ QUEUE_HOST=beanstalkd
 5 - Open your browser and visit localhost: `http://localhost`.
 
 Done.
+
+<div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', margin: '1.5rem 0' }}>
+  <a className="button button--primary button--lg" href="/docs/getting-started">Full Getting Started Guide</a>
+  <a className="button button--secondary button--lg" href="/docs/usage">Usage and Commands</a>
+</div>
 
 
 
@@ -423,10 +434,7 @@ You can support us using any of the methods below:
 **1:** [Open Collective](https://opencollective.com/laradock)  
 *Available for all tiers:* Gold, Silver, Bronze, and Backers (Financial Contributors). **Preferred method.**
 
-**2:** [Email](mailto:support@laradock.io)  
-*Available for Diamond sponsors only.*
-
-**3:** [GitHub Sponsors](https://github.com/sponsors/Mahmoudz)  
+**2:** [GitHub Sponsors](https://github.com/sponsors/Mahmoudz)  
 *Supports the creator of the project directly:* Ideal for personal support of the project creator.
 
 ## License
