@@ -49,7 +49,9 @@ jobs:
           sed -i -- 's/SSDB=true/SSDB=false/g' .env
           sed -i -- 's/ENCHANT=true/ENCHANT=false/g' .env
           sed -i -- 's/PG_CLIENT=true/PG_CLIENT=false/g' .env
-          # sed -i -- 's/MSSQL=true/MSSQL=false/g' .env
+          sed -i -- 's/MSSQL=true/MSSQL=false/g' .env
+          sed -i -- 's/SWOOLE=true/SWOOLE=false/g' .env
+          sed -i -- 's/PHPDECIMAL=true/PHPDECIMAL=false/g' .env
           docker buildx bake ${{ matrix.service }} --progress=plain --set *.output=type=cacheonly
 
   build-other:
