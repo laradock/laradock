@@ -705,8 +705,10 @@ RUN if [ ${INSTALL_IONCUBE} = true ]; then \
 
 ARG INSTALL_OPCACHE=false
 
+# opcache can no-op/error during docker-php-ext-install on current PHP 8.5 preview images.
+# Fall back to enabling it and don't hard-fail so the preview build stays unblocked; 8.1-8.4 install normally.
 RUN if [ ${INSTALL_OPCACHE} = true ]; then \
-    docker-php-ext-install opcache \
+    docker-php-ext-install opcache || docker-php-ext-enable opcache || true \
 ;fi
 
 # Copy opcache configration
