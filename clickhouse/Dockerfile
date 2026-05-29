@@ -1,32 +1,43 @@
 FROM ubuntu:20.04
 
-ARG CLICKHOUSE_VERSION=22.2.2.1
-ARG CLICKHOUSE_GOSU_VERSION=1.14
+ARG CLICKHOUSE_VERSION=25.12.4.35
+ARG CLICKHOUSE_GOSU_VERSION=1.19
 
-RUN apt-get update \
-    && apt-get install --yes --no-install-recommends \
-        apt-transport-https \
-        dirmngr \
-        gnupg \
+# Установка зависимостей
+RUN apt-get update && apt-get install -y \
+    apt-transport-https \
+    dirmngr \
+    ca-certificates \
+    curl \
+    gnupg \
     && mkdir -p /etc/apt/sources.list.d \
-    && apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4 \
-    && echo "deb http://repo.yandex.ru/clickhouse/deb/stable/ main/" > /etc/apt/sources.list.d/clickhouse.list \
-    && apt-get update \
-    && env DEBIAN_FRONTEND=noninteractive \
-        apt-get install --allow-unauthenticated --yes --no-install-recommends \
-            clickhouse-common-static=$CLICKHOUSE_VERSION \
-            clickhouse-client=$CLICKHOUSE_VERSION \
-            clickhouse-server=$CLICKHOUSE_VERSION \
-            locales \
-            tzdata \
-            wget \
-    && rm -rf \
-        /var/lib/apt/lists/* \
-        /var/cache/debconf \
-        /tmp/* \
+    && mkdir -p /usr/share/keyrings
+
+# 1. Добавление официального GPG ключа (вместо старого ключа Яндекса)
+RUN curl -fsSL 'https://packages.clickhouse.com/rpm/lts/repodata/repomd.xml.key' \
+    | gpg --dearmor -o /usr/share/keyrings/clickhouse-keyring.gpg
+
+# 2. Подключение нового официального репозитория packages.clickhouse.com
+RUN echo "deb [signed-by=/usr/share/keyrings/clickhouse-keyring.gpg] https://packages.clickhouse.com/deb stable main" \
+    | tee /etc/apt/sources.list.d/clickhouse.list
+
+# 3. Установка сервера и клиента
+RUN apt-get update && env DEBIAN_FRONTEND=noninteractive  \
+    apt-get install -y \
+    clickhouse-common-static=$CLICKHOUSE_VERSION \
+    clickhouse-server=$CLICKHOUSE_VERSION \
+    clickhouse-client=$CLICKHOUSE_VERSION \
+    locales \
+    tzdata \
+    wget \
+    && rm -rf /var/lib/apt/lists \
+    /var/cache/debconf \
+    /tmp/* \
     && apt-get clean
 
+
 ADD https://github.com/tianon/gosu/releases/download/$CLICKHOUSE_GOSU_VERSION/gosu-amd64 /bin/gosu
+
 
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
@@ -43,11 +54,12 @@ RUN chmod +x \
     /entrypoint.sh \
     /bin/gosu
 
+
 EXPOSE 9000 8123 9009
 VOLUME /var/lib/clickhouse
 
 ENV CLICKHOUSE_CONFIG /etc/clickhouse-server/config.xml
-ENV CLICKHOUSE_USER ${CLICKHOUSE_USER}
+ENV CLICKHOUSE_USER  ${CLICKHOUSE_USER}
 ENV CLICKHOUSE_PASSWORD ${CLICKHOUSE_PASSWORD}
 
 ENTRYPOINT ["/entrypoint.sh"]
