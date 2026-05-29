@@ -1,7 +1,703 @@
+# Laradock , Full Documentation
+
+> A full PHP development environment for Docker. All documentation pages concatenated for AI agents. Source: https://github.com/laradock/laradock
+
+
+================================================================
+# Introduction
+Source: https://laradock.io/docs/Intro
+================================================================
+
+
+![Docker Image](/img/laradock/laradock-logo.jpg)
+
+**Laradock** is a full PHP development environment for Docker. Spin up a ready-to-use stack in seconds, with popular pre-configured services.
+
+Think of it as "Docker for PHP developers": instead of installing and configuring Nginx, databases, caches, and queues by hand, you get them all as ready-made containers you can switch on and off per project. It works with any PHP project (Laravel, Symfony, WordPress, or plain PHP) and behaves the same on Linux, macOS, and Windows, so your whole team shares one identical setup.
+
+Laradock is free, open-source, and battle-tested by thousands of developers, with 12k+ GitHub stars and an active community behind it.
+
+> **Use Docker first. Learn about it later.**
+
+## Features
+
+- **Seamless PHP Version Switching**: Effortlessly switch between PHP versions (8.1, 8.0, 7.4, 7.3, 7.2, 7.1, 5.6...).
+- **Flexible Database Choices**: Pick your preferred database engine, whether it's MySQL, Postgres, MariaDB, and more.
+- **Customizable Stacks**: Run your own stack with services like Memcached, HHVM, RabbitMQ, and more.
+- **Isolated Containers**: Each software runs in its own container, ensuring clean separation and easy management.
+- **Simple Customization**: Easily tweak any container by editing its `Dockerfile`.
+- **Trusted Base Images**: All images extend from official base images, ensuring reliability and security.
+- **Pre-configured Web Servers**: Ready-to-use NGINX setup to host your code right from the root directory.
+- **Project Flexibility**: Use Laradock per project or a single Laradock setup for all your projects.
+- **Environment Variable Management**: Easily install or remove software in containers using environment variables.
+- **Clean Dockerfiles**: Well-structured and easy-to-understand Dockerfiles (`Dockerfile`).
+- **Latest Docker Compose**: Always up-to-date with the latest version of the Docker Compose file (`docker-compose`).
+- **Full Transparency**: Everything is visible and editable, giving you full control over your environment.
+- **Fast Builds**: Enjoy quick image builds to get your environment up and running in no time.
+
+
+
+## Supported Services
+
+> Laradock adheres to the 'separation of concerns' principle, so it runs each software in its own Docker container.
+> You can turn instances on or off as needed without worrying about configuration.
+
+> To run a chosen container from the list below, run `docker-compose up -d {container-name}`. 
+> The container name `{container-name}` is the same as its folder name. Example to run the "PHP FPM" container, use the name "php-fpm".
+
+
+
+| Category                  | Services (Containers)                                                                 |
+|---------------------------|--------------------------------------------------------------------------|
+| **Web Servers**           | NGINX, Apache2, Caddy, OpenResty                                                    |
+| **Load Balancers**        | HAProxy, Traefik                                                         |
+| **PHP Compilers**         | PHP FPM, HHVM                                                            |
+| **Database Management Systems** | MySQL, PostgreSQL (PostGIS), MariaDB, Percona, MSSQL, MongoDB, Neo4j, CouchDB, RethinkDB, Cassandra, ClickHouse, Tarantool |
+| **Database Management Tools** | PhpMyAdmin, Adminer, PgAdmin, MongoDB Web UI, Tarantool Admin                         |
+| **Cache Engines**         | Redis, Redis Web UI, Redis Cluster, Memcached, Aerospike, Varnish, SSDB        |
+| **Message Brokers**       | RabbitMQ, RabbitMQ Admin Console, Beanstalkd, Beanstalkd Admin Console, Eclipse Mosquitto, Gearman, NATS |
+| **Log Management**        | GrayLog, Kibana, LogStash                                                |
+| **Search Engines**        | ElasticSearch, Apache Solr, Manticore Search, Dejavu                     |
+| **PHP Extensions**        | Swoole, Blackfire, Phalcon, PHP Worker, Laravel Horizon                  |
+| **Mail Servers**          | Mailu, MailCatcher, Mailhog, MailDev, Mailpit                                     |
+| **Real-time Communication** | Laravel Echo, Mercure, Soketi                                                  |
+| **Monitoring**            | Grafana, NetData                                                         |
+| **Coordination Services** | Apache ZooKeeper                                                         |
+| **Container Management**  | Portainer, Docker Registry, Docker Web UI                                |
+| **CI/CD Tools**           | Jenkins, SonarQube, Gitlab                                               |
+| **Cloud Tools**           | AWS EB CLI, Amazon Simple Queue Service                                  |
+| **Image Processing**      | Thumbor                                                                  |
+| **Interactive Computing** | IPython, Jupyter Hub                                                     |
+| **Security Tools**        | Certbot                                                                  |
+| **Object Storage**        | Minio                                                                    |
+| **Testing**               | Selenium                                                                 |
+| **IDEs**                  | Codiad, ICE Coder, Theia, Web IDE                                                |
+| **API Documentation**     | Swagger UI, Swagger Editor                                              |
+| **Frontend Tooling**      | React                                                                    |
+| (**Laradock Workspace**)    | PHP CLI, Composer, Git, Vim, xDebug, Linuxbrew, Node, V8JS, Gulp, SQLite, Laravel Envoy, Deployer, Yarn, SOAP, Drush, Wordpress CLI, dnsutils |
+
+
+
+You can choose, which tools to install in your workspace container and other containers, from the `.env` file.
+
+
+*If you modify `docker-compose.yml`, `.env` or any `dockerfile` file, you must re-build your containers, to see those effects in the running instance.*
+
+
+
+> If you can't find your Software in the list, build it yourself and submit it. Contributions are welcomed :)
+
+
+
+
+## Quick Start
+
+Set up a demo stack with `PHP`, `NGINX`, `MySQL`, `Redis` and `Composer`:
+
+1 - Clone Laradock inside your PHP project:
+
+```shell
+git clone https://github.com/Laradock/laradock.git
+```
+
+2 - Enter the laradock folder and rename `.env.example` to `.env`.
+
+```shell
+cp .env.example .env
+```
+
+3 - Run your containers:
+
+```shell
+docker-compose up -d nginx mysql phpmyadmin redis workspace 
+```
+
+4 - Open your project's `.env` file and set the following:
+
+```shell
+DB_HOST=mysql
+REDIS_HOST=redis
+QUEUE_HOST=beanstalkd
+```
+
+5 - Open your browser and visit localhost: `http://localhost`.
+
+Done.
+
+<div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', margin: '1.5rem 0' }}>
+  <a className="button button--primary button--lg" href="/docs/getting-started">Full Getting Started Guide</a>
+  <a className="button button--secondary button--lg" href="/docs/usage">Usage and Commands</a>
+</div>
+
+
+
 ---
-sidebar_position: 3
-title: Usage
+
+
+
+
+
+
+
+
+
+
+<!-- ## Join Us
+
+[![Gitter](https://badges.gitter.im/Laradock/laradock.svg)](https://gitter.im/Laradock/laradock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
+[![Gitpod](https://img.shields.io/badge/Gitpod-ready--to--code-blue)](https://gitpod.io/#https://github.com/laradock/laradock) -->
+
+<!-- --- -->
+
+
+## Awesome People
+
+Laradock is an MIT-licensed open source project with its ongoing development made possible entirely by the support of you and all these awesome people. 💜
+
+
+### Project Maintainers
+
+<table>
+  <tbody>
+    <tr>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/mahmoudz.png?s=150" />
+            <br/>
+            <strong>Mahmoud Zalt</strong>
+            <br/>
+            <a href="https://github.com/Mahmoudz">@mahmoudz</a>
+        </td>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/appleboy.png?s=150" />
+            <br/>
+            <strong>Bo-Yi Wu</strong>
+            <br/>
+            <a href="https://github.com/appleboy">@appleboy</a>
+        </td>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/philtrep.png?s=150" />
+            <br/>
+            <strong>Philippe Trépanier</strong>
+            <br/>
+            <a href="https://github.com/philtrep">@philtrep</a>
+        </td>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/mikeerickson.png?s=150" />
+            <br/>
+            <strong>Mike Erickson</strong>
+            <br/>
+            <a href="https://github.com/mikeerickson">@mikeerickson</a>
+        </td>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/zeroc0d3.png?s=150" />
+            <br/>
+            <strong>Dwi Fahni Denni</strong>
+            <br/>
+            <a href="https://github.com/zeroc0d3">@zeroc0d3</a>
+        </td>
+     </tr>
+     <tr>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/thorerik.png?s=150" />
+            <br/>
+            <strong>Thor Erik</strong>
+            <br/>
+            <a href="https://github.com/thorerik">@thorerik</a>
+        </td>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/winfried-van-loon.png?s=150" />
+            <br/>
+            <strong>Winfried van Loon</strong>
+            <br/>
+            <a href="https://github.com/winfried-van-loon">@winfried-van-loon</a>
+        </td>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/sixlive.png?s=150" />
+            <br/>
+            <strong>TJ Miller</strong>
+            <br/>
+            <a href="https://github.com/sixlive">@sixlive</a>
+        </td>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/bestlong.png?s=150" />
+            <br/>
+            <strong>Yu-Lung Shao (Allen)</strong>
+            <br/>
+            <a href="https://github.com/bestlong">@bestlong</a>
+        </td>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/urukalo.png?s=150" />
+            <br/>
+            <strong>Milan Urukalo</strong>
+            <br/>
+            <a href="https://github.com/urukalo">@urukalo</a>
+        </td>
+     </tr>
+     <tr>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/vwchu.png?s=150" />
+            <br/>
+            <strong>Vince Chu</strong>
+            <br/>
+            <a href="https://github.com/vwchu">@vwchu</a>
+        </td>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/zuohuadong.png?s=150" />
+            <br/>
+            <strong>Huadong Zuo</strong>
+            <br/>
+            <a href="https://github.com/zuohuadong">@zuohuadong</a>
+        </td>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/lanphan.png?s=150" />
+            <br/>
+            <strong>Lan Phan</strong>
+            <br/>
+            <a href="https://github.com/lanphan">@lanphan</a>
+        </td>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/ahkui.png?s=150" />
+            <br/>
+            <strong>Ahkui</strong>
+            <br/>
+            <a href="https://github.com/ahkui">@ahkui</a>
+        </td>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/join-us.png" />
+            <br/>
+            <strong>< Join Us ></strong>
+            <br/>
+            <a href="https://github.com/laradock">@laradock</a>
+        </td>
+     </tr>
+  </tbody>
+</table>
+
+
+
+### Code Contributors
+
+[![Laradock Contributors](https://opencollective.com/laradock/contributors.svg?width=890&button=false&isActive=true)](https://github.com/laradock/laradock/graphs/contributors)
+
+### Financial Contributors (Backers)
+
+[![Open Collective backers](https://opencollective.com/laradock/tiers/awesome-backers.svg?width=800&avatarHeight=55&button=false&isActive=true)](https://opencollective.com/laradock#contributors)
+
+
 ---
+
+
+
+## Sponsors
+
+<!-- Listing Contributors Refference: https://docs.opencollective.com/help/collectives/collective-settings/data-export#contributor-image -->
+
+
+
+### Diamond Sponsors
+
+<div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'left', alignItems: 'left' }}>
+  <a href="https://sistava.com/?utm_source=docs_laradock&utm_medium=sponsor&utm_campaign=landing_page_content" target="_blank">
+    <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/sista-ai-icon.png" height="165px" alt="Sistava - Hire AI Employees to Run Your Business." />
+  </a>
+
+  <a href="http://apiato.io/" target="_blank" style={{ marginRight: '10px' }}>
+    <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/apiato.png" height="135px" alt="Apiato - A powerful PHP framework for building scalable, enterprise-grade APIs!" />
+  </a>
+</div>
+
+
+### Gold Sponsors
+
+  <!-- The embedded iframes sets rel="nofollow sponsored" on sponsor links by default, 
+  which prevents SEO benefits from being passed to sponsor sites. to remove the nofollow for Gold sponors only, we'll be using custom links instead. -->
+  
+  <!-- <iframe 
+    src="https://opencollective.com/laradock/tiers/gold-sponsors.svg?avatarHeight=120&width=800&format=svg&button=false&background=#1B1B1D" 
+    width="800"
+    height="200"
+    style={{ border: 'none', backgroundColor: '#1B1B1D' }}>
+  </iframe> -->
+
+
+<div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'left', alignItems: 'left' }}>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/0/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/0/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/1/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/1/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/2/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/2/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/3/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/3/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/4/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/4/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/5/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/5/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+<a href="https://opencollective.com/laradock/tiers/gold-sponsors/6/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/6/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/7/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/7/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/8/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/8/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/9/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/9/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/10/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/10/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/11/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/11/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/12/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/12/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/13/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/13/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/14/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/14/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/15/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/15/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/16/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/16/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/17/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/17/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/18/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/18/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/19/website" target="_blank" rel="sponsored">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/19/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  </a>
+
+</div>
+
+
+### Silver Sponsors
+
+<div style={{ display: 'flex', flexWrap: 'nowrap', gap: '15px', justifyContent: 'left', alignItems: 'center' }}>
+  <a href="https://sista.ai/?utm_source=docs_laradock&utm_medium=sponsor&utm_campaign=landing_page_content" target="_blank" style={{ flexShrink: 0 }}>
+    <img src="/img/sponsors/sista-ai-icon-gradient-purple-orange.png" height="90px" alt="Sista AI - AI Workforce platform." />
+  </a>
+
+  <iframe 
+    src="https://opencollective.com/laradock/tiers/silver-sponsors.svg?avatarHeight=90&width=700&format=svg&button=false&background=#1B1B1D&isActive=true" 
+    width="700"
+    height="110"
+    style={{ border: 'none', backgroundColor: '#1B1B1D' }}>
+  </iframe>
+</div>
+
+### Bronze Sponsors
+
+  <iframe 
+    src="https://opencollective.com/laradock/tiers/bronze-sponsors.svg?avatarHeight=55&width=800&format=svg&button=false&background=#1B1B1D&isActive=true" 
+    width="800"
+    height="300"
+    style={{ border: 'none', backgroundColor: '#1B1B1D' }}>
+  </iframe>
+
+
+
+### Sponsorship Support 
+
+Sponsoring is an act of giving in a unique way. 🌱  
+You can support us using any of the methods below:
+
+**1:** [Open Collective](https://opencollective.com/laradock)  
+*Available for all tiers:* Gold, Silver, Bronze, and Backers (Financial Contributors). **Preferred method.**
+
+**2:** [GitHub Sponsors](https://github.com/sponsors/Mahmoudz)  
+*Supports the creator of the project directly:* Ideal for personal support of the project creator.
+
+## License
+
+[MIT](https://github.com/laradock/laradock/blob/master/LICENSE) © [Mahmoud Zalt](https://zalt.me/)
+
+
+
+
+
+================================================================
+# Getting Started
+Source: https://laradock.io/docs/getting-started
+================================================================
+
+
+This guide walks you through setting up Laradock for your project, from the prerequisites to a fully running environment. Whether you are starting a brand-new app or adding Docker to an existing one, the steps below have you covered. Pick the installation path that matches your setup and you will have a complete local stack running in minutes.
+
+## Requirements
+
+- [Git](https://git-scm.com/downloads)
+- [Docker](https://www.docker.com/products/docker-desktop/) [ >= 19.03.0 ]
+
+
+
+
+## Installation
+
+Choose the setup the best suits your needs.
+
+- [A) Setup for Single Project](#A)
+	- [A.1) Already have a PHP project](#A1)
+ 	- [A.2) Don't have a PHP project yet](#A2)
+- [B) Setup for Multiple Projects](#B)
+
+
+<a name="A"></a>
+### A) Setup for Single Project
+> (Follow these steps if you want a separate Docker environment for each project)
+
+
+<a name="A1"></a>
+### A.1) Already have a PHP project:
+
+1 - Clone laradock on your project root directory:
+
+```bash
+git submodule add https://github.com/Laradock/laradock.git
+```
+
+Note: If you are not using Git yet for your project, you can use `git clone` instead of `git submodule `.
+
+*To keep track of your Laradock changes, between your projects and also keep Laradock updated [check these docs](/docs/usage#track-your-laradock-changes)*
+
+
+2 - Make sure your folder structure should look like this:
+
+```
+* project-a
+*   laradock-a
+* project-b
+*   laradock-b
+```
+
+*(If you want to run Laradock per project, rename the `laradock` folder to a unique name in each project.)*
+
+3 - Go to the [Usage](#Usage) section.
+
+<a name="A2"></a>
+### A.2) Don't have a PHP project yet:
+
+1 - Clone this repository anywhere on your machine:
+
+```bash
+git clone https://github.com/laradock/laradock.git
+```
+
+Your folder structure should look like this:
+
+```
+* laradock
+* project-z
+```
+
+2 - Edit your web server sites configuration.
+
+We'll need to do step 1 of the [Usage](#Usage) section now to make this happen.
+
+```
+cp .env.example .env
+```
+
+At the top, change the `APP_CODE_PATH_HOST` variable to your project path.
+
+```
+APP_CODE_PATH_HOST=../project-z/
+```
+
+Make sure to replace `project-z` with your project folder name.
+
+3 - Go to the [Usage](#Usage) section.
+
+
+<a name="B"></a>
+### B) Setup for Multiple Projects:
+> (Follow these steps if you want a single Docker environment for all your projects)
+
+1 - Clone this repository anywhere on your machine (similar to [Steps A.2. from above](#A2)):
+
+```bash
+git clone https://github.com/laradock/laradock.git
+```
+
+Your folder structure should look like this:
+
+```
+* laradock
+* project-1
+* project-2
+```
+
+Make sure the `APP_CODE_PATH_HOST` variable points to parent directory.
+
+```
+APP_CODE_PATH_HOST=../
+```
+
+2 - Go to your web server and create config files to point to different project directory when visiting different domains:
+
+For **Nginx** go to `nginx/sites`, for **Apache2** `apache2/sites`. 
+
+Laradock by default includes some sample files for you to copy `app.conf.example`, `laravel.conf.example` and `symfony.conf.example`.
+
+3 - change the default names `*.conf`:
+
+You can rename the config files, project folders and domains as you like, just make sure the `root` in the config files, is pointing to the correct project folder name.
+
+4 - Add the domains to the **hosts** files.
+
+```
+127.0.0.1  project-1.test
+127.0.0.1  project-2.test
+...
+```
+
+If you use Chrome 63 or above for development, don't use `.dev`. [Why?](https://laravel-news.com/chrome-63-now-forces-dev-domains-https). Instead use `.localhost`, `.invalid`, `.test`, or `.example`.
+
+4 - Go to the [Usage](#Usage) section.
+
+
+
+
+
+
+
+<a name="Usage"></a>
+## Usage
+
+**Read Before starting:**
+
+If you are using **Docker Toolbox** (VM), do one of the following:
+
+- Upgrade to [Docker Desktop](https://www.docker.com/products/docker-desktop/) for Mac/Windows (Recommended). Check out [Upgrading Laradock](/docs/usage/#upgrading-laradock)
+- Use Laradock v3.\*. Visit the [Laradock-ToolBox](https://github.com/laradock/laradock/tree/LaraDock-ToolBox) branch. *(outdated)*
+
+<br/>
+
+We recommend using a Docker Engine version which is newer than 19.03.0.
+
+<br/>
+
+>**Warning:** If you used an older version of Laradock it's highly recommended to rebuild the containers you need to use [see how you rebuild a container](/docs/usage/#Build-Re-build-Containers) in order to prevent as much errors as possible.
+
+<br/>
+
+1 - Enter the laradock folder and copy `.env.example` to `.env`
+
+```shell
+cp .env.example .env
+```
+
+You can edit the `.env` file to choose which software's you want to be installed in your environment. You can always refer to the `docker-compose.yml` file to see how those variables are being used.
+
+Depending on the host's operating system you may need to change the value given to `COMPOSE_FILE`. When you are running Laradock on Mac OS the correct file separator to use is `:`. When running Laradock from a Windows environment multiple files must be separated with `;`.
+
+By default the containers that will be created have the current directory name as suffix (e.g. `laradock_workspace_1`). This can cause mixture of data inside the container volumes if you use laradock in multiple projects. In this case, either read the guide for [multiple projects](#B) or change the variable `COMPOSE_PROJECT_NAME` to something unique like your project name.
+
+2 - Build the environment and run it using `docker-compose`
+
+In this example we'll see how to run NGINX (web server) and MySQL (database engine) to host a PHP Web Scripts:
+
+```bash
+docker-compose up -d nginx mysql
+```
+
+**Note**: All the web server containers `nginx`, `apache` ..etc depends on `php-fpm`, which means if you run any of them, they will automatically launch the `php-fpm` container for you, so no need to explicitly specify it in the `up` command. If you have to do so, you may need to run them as follows: `docker-compose up -d nginx php-fpm mysql`.
+
+
+You can select your own combination of containers from [this list](https://laradock.io/introduction/#supported-software-docker-images).
+
+*(Please note that sometimes we forget to update the docs, so check the `docker-compose.yml` file to see an updated list of all available containers).*
+
+
+<br/>
+3 - Enter the Workspace container, to execute commands like (Artisan, Composer, PHPUnit, Gulp, ...)
+
+```bash
+docker-compose exec workspace bash
+```
+
+*Alternatively, for Windows PowerShell users: execute the following command to enter any running container:*
+
+```bash
+docker exec -it {workspace-container-id} bash
+```
+
+**Note:** You can add `--user=laradock` to have files created as your host's user. Example: 
+
+```shell
+docker-compose exec --user=laradock workspace bash
+```
+
+*You can change the PUID (User id) and PGID (group id) variables from the `.env` file)*
+
+<br/>
+4 - Update your project configuration to use the database host
+
+Open your PHP project's `.env` file or whichever configuration file you are reading from, and set the database host `DB_HOST` to `mysql`:
+
+```env
+DB_HOST=mysql
+```
+
+You need to use the Laradock's default DB credentials which can be found in the `.env` file (ex: `MYSQL_USER=`). 
+Or you can change them and rebuild the container.  
+
+*If you want to install Laravel as PHP project, see [How to Install Laravel in a Docker Container](#Install-Laravel).*
+
+<br/>
+5 - Open your browser and visit your localhost address. 
+
+Make sure you add use the right port number as provided by your running server.
+
+[http://localhost](http://localhost)
+
+If you followed the multiple projects setup, you can visit `http://project-1.test/` and `http://project-2.test/`.
+
+
+
+ 
+
+
+================================================================
+# Usage
+Source: https://laradock.io/docs/usage
+================================================================
+
 
 Once Laradock is installed, you interact with it through a handful of Docker and Docker Compose commands. This page collects the most common day-to-day operations: starting and stopping containers, entering them, viewing logs, switching PHP versions, and more. Use it as a quick reference while you work.
 
@@ -143,7 +839,7 @@ More info on Containers rebuilding [here](#Build-Re-build-Containers).
 
 <br/>
 <a name="Build-Re-build-Containers"></a>
-## Build or Rebuild Containers
+## Build/Re-build Containers
 
 If you do any change to any `Dockerfile` make sure you run this command, for the changes to take effect:
 
@@ -225,7 +921,7 @@ docker build --no-cache {container-name}
 <br/>
 
 <a name="Change-the-PHP-FPM-Version"></a>
-## Change the PHP-FPM Version
+## Change the (PHP-FPM) Version
 
 By default, the latest stable PHP version is configured to run.
 
@@ -324,7 +1020,7 @@ PHP_FPM_INSTALL_XDEBUG=true
 
 <br/>
 <a name="Control-xDebug"></a>
-## Start or Stop xDebug
+## Start/Stop xDebug:
 
 By installing xDebug, you are enabling it to run on startup by default.
 
@@ -385,7 +1081,7 @@ PHP_FPM_INSTALL_PHPDBG=true
 
 <br/>
 <a name="Install-github-copilot-cli"></a>
-## Install GitHub Copilot CLI
+## Install Github Copilot Cli
 ### Note: You must have Github Copilot access to use this feature.
 Install `gh-cli` in the Workspace Container:
 
@@ -2693,3 +3389,419 @@ Moving from Docker Toolbox (VirtualBox) to Docker Native (for Mac/Windows). Requ
 **Note:** If you face any problem with the last step above: rebuild all your containers
 `docker-compose build --no-cache`
 "Warning Containers Data might be lost!"
+
+
+================================================================
+# Help
+Source: https://laradock.io/docs/help
+================================================================
+
+
+<a name="Get Help"></a>
+# Get Help
+
+Open an [issue](https://github.com/laradock/laradock/issues) on Github (will be labeled as Question) and discuss it with people on [Gitter](https://gitter.im/Laradock/laradock).
+
+
+Optionally: Join the chat room on [Gitter](https://gitter.im/Laradock/laradock) and get support from the community.
+
+[![Gitter](https://badges.gitter.im/Laradock/laradock.svg)](https://gitter.im/Laradock/laradock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
+<br/>
+<a name="Common-Problems"></a>
+# Common Problems
+
+*Here's a list of the common problems you might face, and the possible solutions.*
+
+
+<br/>
+## I see a blank (white) page instead of the Laravel 'Welcome' page!
+
+Run the following command from the Laravel root directory:
+
+```bash
+sudo chmod -R 777 storage bootstrap/cache
+```
+
+
+
+
+
+
+<br/>
+## I see "Welcome to nginx" instead of the Laravel App!
+
+Use `http://127.0.0.1` instead of `http://localhost` in your browser.
+
+
+
+
+
+
+<br/>
+## I see an error message containing (address already in use) or (port is already allocated)
+
+Make sure the ports for the services that you are trying to run (22, 80, 443, 3306, etc.) are not being used already by other programs on the host, such as a built in `apache`/`httpd` service or other development tools you have installed.
+
+
+
+
+
+
+<br/>
+## I get NGINX error 404 Not Found on Windows.
+
+1. Go to docker Settings on your Windows machine.
+2. Click on the `Shared Drives` tab and check the drive that contains your project files.
+3. Enter your windows username and password.
+4. Go to the `reset` tab and click restart docker.
+
+
+
+
+
+
+<br/>
+## The time in my services does not match the current time
+
+1. Make sure you've [changed the timezone](#Change-the-timezone).
+2. Stop and rebuild the containers (`docker-compose up -d --build <services>`)
+
+
+
+
+
+
+<br/>
+## I get MySQL connection refused
+
+This error sometimes happens because your Laravel application isn't running on the container localhost IP (Which is 127.0.0.1). Steps to fix it:
+
+* Option A
+  1. Check your running Laravel application IP by dumping `Request::ip()` variable using `dd(Request::ip())` anywhere on your application. The result is the IP of your Laravel container.
+  2. Change the `DB_HOST` variable on env with the IP that you received from previous step.
+* Option B
+   1. Change the `DB_HOST` value to the same name as the MySQL docker container. The Laradock docker-compose file currently has this as `mysql`
+
+## I get stuck when building nginx on (fetch mirrors.aliyun.com/alpine/v3.5/main/x86_64/APKINDEX.tar.gz)
+
+As stated on [#749](https://github.com/laradock/laradock/issues/749#issuecomment-419652646), Already fixed，just set `CHANGE_SOURCE` to false.
+
+## Custom composer repo packagist url and npm registry url
+
+In China, the origin source of composer and npm is very slow. You can add `WORKSPACE_NPM_REGISTRY` and `WORKSPACE_COMPOSER_REPO_PACKAGIST` config in `.env` to use your custom source.
+
+Example:
+```bash
+WORKSPACE_NPM_REGISTRY=https://registry.npmmirror.com
+WORKSPACE_COMPOSER_REPO_PACKAGIST=https://packagist.phpcomposer.com
+```
+
+<br/>
+
+## I got (Module build failed: Error: write EPIPE) while compiling react application
+
+When you run `npm build` or `yarn dev` building a react application using webpack with elixir you may receive an `Error: write EPIPE` while processing .jpg images.
+
+This is caused of an outdated library for processing **.jpg files** in ubuntu 16.04.
+
+To fix the problem you can follow those steps
+
+1 - Open the `.env`.
+
+2 - Search for `WORKSPACE_INSTALL_LIBPNG` or add the key, if missing.
+
+3 - Set the value to true:
+
+```dotenv
+WORKSPACE_INSTALL_LIBPNG=true
+```
+
+4 - Finally rebuild the workspace image
+
+```bash
+docker-compose build workspace
+```
+
+## Apache2 container won't start on mac m1
+
+To fix the problem you can follow those steps
+
+1 - Open the `.env`.
+
+2 - Search for `APACHE_FOR_MAC_M1` or add the key, if missing.
+
+3 - Set the value to true:
+
+```dotenv
+APACHE_FOR_MAC_M1=true
+```
+4 - Finally rebuild the workspace image
+
+```bash
+docker-compose build apache2
+```
+
+
+================================================================
+# Related Projects
+Source: https://laradock.io/docs/related-projects
+================================================================
+
+
+Laradock has inspired a rich ecosystem of community-built tools that extend or simplify how you work with it. The projects below, ranging from GUIs and CLIs to Kubernetes playbooks, are built and maintained by the community. Explore them to find helpers that fit your workflow.
+
+![Docker Image](/img/laradock/laradock-abstract.jpg)
+
+## Laradock Related Projects
+
+* [Docker Stacks](https://github.com/sfx101/docker-stacks): A GUI for managing Laradock. (by [Subhadip Naskar](https://github.com/sfx101))
+* [Laradock CLI](https://github.com/lorinlee/laradock-cli): A CLI for managing Laradock. (by [Lorin Lee](https://github.com/lorinlee))
+* [Laradock CLI](https://github.com/loonpwn/laradock-cli): A CLI for managing Laradock. (by [Harlan Wilton](https://github.com/loonpwn))
+* [Ansible Laradock Kubernetes](https://github.com/sifat-rahim/ansible-laradock-kubernetes): Ansible playbook to setup docker containers for Laravel apps using Laradock. (by [Sifat Rahim](https://github.com/sifat-rahim))
+* [Monitor Laradock](https://github.com/zeroc0d3/monitor-laradock): Laradock Monitoring Tools (using Grafana). (by [Dwi Fahni Denni](https://github.com/zeroc0d3))
+* [Laradock Manager](https://github.com/Lyimmi/laradock-manager): A simple app for managing Laradock containers. Made with wails.app (go & vue.js & vuetify). (by [Zámbó Levente](https://github.com/Lyimmi))
+* [Laradock Env](https://github.com/bagart/laradock_env): A wrapper with commands for managing Laradock. (by [BAG Art](https://github.com/bagart))
+* [Lara Query](https://github.com/TanisukeGoro/laraQuery): Easy Laradock CLI. (by [Okita kamegoro](https://github.com/TanisukeGoro))
+* [Laradock CLI](https://github.com/tonysm/laradock-cli): Laradock CLI helper. (by [Tony Messias](https://github.com/Tonysm))
+* [Laradock Lite](https://github.com/yangliuyu/laradock-lite): A Docker based laravel development environment with minimal dependencies. (by [Liu Yang](https://github.com/yangliuyu))
+* [Laradock Makefile](https://github.com/bazavlukd/laradock-makefile): Makefile with some useful commands for Laradock. (by [Dmitry Bazavluk](https://github.com/bazavlukd))
+* [Laradock Build](https://github.com/dockerframework/laradock-build): Docker builder & running script for Laradock. (by [Docker Framework](https://github.com/dockerframework))
+* [Laravel Laradock PHPStorm](https://github.com/LarryEitel/laravel-laradock-phpstorm): Guide for configuring PHPStorm for remote debugging with Laravel & Laradock. (by [Larry Eitel](https://github.com/LarryEitel))
+* [Laradock Crudbooster](https://github.com/nutellinoit/laradock-crudbooster): Docker compose & Kubernetes solution to build apps with crudbooster & Laradock. (by [Samuele Chiocca](https://github.com/nutellinoit))
+* [Laradock Sample](https://github.com/tadaken3/laradock-sample): Install Laravel with Laradock. (by [Tadaken3](https://github.com/tadaken3))
+* [Stylemix's Laradock](https://github.com/stylemix/laradock): Alternate laradock for multiproject purpose. (by [Stylemix LLC](https://github.com/stylemix))
+
+
+
+
+## Inspired by Laradock
+
+* [Dockery](https://github.com/taufek/dockery): Laradock for Ruby. (by [Taufek Johar](https://github.com/Taufek))
+* [RubyDev Dock](https://github.com/scudelletti/rubydev-dock): Laradock for Ruby. (by [Diogo Scudelletti](https://github.com/scudelletti))
+* [NoDock](https://github.com/Osedea/nodock): Laradock for NodeJS. (by [Osedea](https://github.com/Osedea))
+* [Laradock Multi](https://github.com/bagart/laradock-multi): Laradock for PHP & NodeJS. (by [BAG Art](https://github.com/bagart))
+* [Wordpress Laradock](https://github.com/shov/wordpress-laradock): Laradock for Wordpress. (by [Alexandr Shevchenko](https://github.com/shov))
+* [Yii2 Laradock](https://github.com/ydatech/yii2-laradock): Laradock for Yii2. (by [Yuda Sukmana](https://github.com/ydatech))
+* [MageDock](https://github.com/ojhaujjwal/magedock): Laradock for Magento. (by [Ujjwal Ojha](https://github.com/ojhaujjwal))
+* [Docker Codeigniter](https://github.com/sebastianlzy/docker-codeigniter): Laradock for Codeigniter. (by [Sebastian](https://github.com/sebastianlzy))
+* [Klaradock](https://github.com/poyhsiao/Klaradock): A customized Laradock. (by [Kim Hsiao](https://github.com/poyhsiao))
+* [Laravel Boilerplate](https://github.com/casivaagustin/laravel-boilerplate): A boilerplate with support for JWT. (by [Casiva Agustin](https://github.com/casivaagustin))
+
+
+
+
+
+<br/><br/>
+
+> Feel free to submit a PR for listing your project here.
+
+
+================================================================
+# Contributions
+Source: https://laradock.io/docs/contributing
+================================================================
+
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/laradock/laradock)
+
+
+## Have a Question
+
+If you have questions about how to use Laradock, please direct your questions to the discussion on [Gitter](https://gitter.im/Laradock/laradock). If you believe your question could help others, then consider opening an [Issue](https://github.com/laradock/laradock/issues) (it will be labeled as `Question`) And you can still seek help on Gitter for it.
+
+
+
+## Found an Issue
+
+If you have an issue or you found a typo in the documentation, you can help us by
+opening an [Issue](https://github.com/laradock/laradock/issues).
+
+**Steps to do before opening an Issue:**
+
+1. Before you submit your issue search the archive, maybe your question was already answered couple hours ago (search in the closed Issues as well).
+
+2. Decide if the Issue belongs to this project or to [Docker](https://github.com/docker) itself! or even the tool you are using such as Nginx or MongoDB...
+
+If your issue appears to be a bug, and hasn't been reported, then open a new issue.
+
+*This helps us maximize the effort we can spend fixing issues and adding new
+features, by not reporting duplicate issues.*
+
+
+
+## Want a Feature
+You can request a new feature by submitting an [Issue](https://github.com/laradock/laradock/issues) (it will be labeled as `Feature Suggestion`). If you would like to implement a new feature then consider submitting a Pull Request yourself.
+
+
+
+## Update the Documentation (Site)
+
+Laradock uses [Docusaurus](https://docusaurus.io/) as its documentation site generator.
+
+Navigate to the `DOCUMENTATION/docs` directory to locate and edit the Markdown files for each section of the documentation.
+
+**Note:** Each folder under `docs` represents a section in the sidebar menu, with a `sidebar_position` field in the frontmatter of each file that determines its order.
+
+> The documentation site is auto-generated and deployed to the `gh-pages` branch by GitHub Actions when changes are pushed to the `master` branch.
+
+### Host the Documentation Locally
+
+1. Make your changes are made in the `DOCUMENTATION/docs` directory (if you changed anything).
+2. Navigate to `DOCUMENTATION/`.
+3. Run the following command to start a local Docusaurus server:
+   ```
+    npm run start
+   ```
+4. Visit [http://localhost:3000/](http://localhost:3000/) to view the documentation site locally.
+
+This setup will allow you to preview your changes in real time.
+
+
+
+## Support new Software (Add new Container)
+
+* Fork the repo and clone the code.
+
+* Create folder as the software name (example: `mysql` - `nginx`).
+
+* Add your `Dockerfile` in the folder "you may add additional files as well".
+
+* Add the software to the `docker-compose.yml` file.
+
+* Make sure you follow the same code/comments style.
+
+* Add the environment variables to the `.env.example` if you have any.
+
+* **MOST IMPORTANTLY** update the `Documentation`, add as much information.
+
+* Submit a Pull Request, to the `master` branch.
+
+
+
+## Edit supported Software (Edit a Container)
+
+* Fork the repo and clone the code.
+
+* Open the software (container) folder (example: `mysql` - `nginx`).
+
+* Edit the files.
+
+* Make sure to update the `Documentation` in case you made any changes.
+
+* Submit a Pull Request, to the `master` branch.
+
+
+
+
+## Edit Base Image
+
+* Open any dockerfile, copy the base image name (example: `FROM phusion/baseimage:latest`).
+
+* Search for the image in the [Docker Hub](https://hub.docker.com/search/) and find the source..
+
+*Most of the image in Laradock are official images, these projects live in other repositories and maintainer by other organizations.*
+
+**Note:** Laradock has two base images for (`Workspace` and `php-fpm`, mainly made to speed up the build time on your machine.
+
+* Find the dockerfiles, edit them and submit a Pull Request.
+
+* When updating a Laradock base image (`Workspace` or `php-fpm`), ask a project maintainer "Admin" to build a new image after your PR is merged.
+
+**Note:** after the base image is updated, every dockerfile that uses that image, needs to update his base image tag to get the updated code.
+
+
+
+
+
+
+
+
+<br/>
+
+
+
+
+## Submit Pull Request Instructions
+
+### 1. Before Submitting a Pull Request (PR)
+
+Always Test everything and make sure its working:
+
+- Pull the latest updates (or fork of you don’t have permission)
+- Before editing anything:
+    - Test building the container (docker-compose build --no-cache container-name) build with no cache first.
+    - Test running the container with some other containers in real app and see of everything is working fine.
+- Now edit the container (edit section by section and test rebuilding the container after every edited section)
+    - Testing building the container (docker-compose build container-name) with no errors.
+    - Test it in a real App if possible.
+
+
+### 2. Submitting a PR
+Consider the following guidelines:
+
+* Search [GitHub](https://github.com/laradock/laradock/pulls) for an open or closed Pull Request that relates to your submission. You don't want to duplicate efforts.
+
+* Make your changes in a new git branch:
+
+     ```shell
+     git checkout -b my-fix-branch master
+     ```
+* Commit your changes using a descriptive commit message.
+
+* Push your branch to GitHub:
+
+    ```shell
+    git push origin my-fix-branch
+    ```
+
+* In GitHub, send a pull request to `laradock:master`.
+* If we suggest changes then:
+  * Make the required updates.
+  * Commit your changes to your branch (e.g. `my-fix-branch`).
+  * Push the changes to your GitHub repository (this will update your Pull Request).
+
+> If the PR gets too outdated we may ask you to rebase and force push to update the PR:
+
+```shell
+git rebase master -i
+git push origin my-fix-branch -f
+```
+
+*WARNING. Squashing or reverting commits and forced push thereafter may remove GitHub comments on code that were previously made by you and others in your commits.*
+
+
+### 3. After your PR is merged
+
+After your pull request is merged, you can safely delete your branch and pull the changes from the main (upstream) repository:
+
+* Delete the remote branch on GitHub either through the GitHub web UI or your local shell as follows:
+
+    ```shell
+    git push origin --delete my-fix-branch
+    ```
+
+* Check out the master branch:
+
+    ```shell
+    git checkout master -f
+    ```
+
+* Delete the local branch:
+
+    ```shell
+    git branch -D my-fix-branch
+    ```
+
+* Update your master with the latest upstream version:
+
+    ```shell
+    git pull --ff upstream master
+    ```
+
+
+
+
+
+<br/>
+## Happy Coding :)

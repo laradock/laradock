@@ -70,10 +70,14 @@ const config: Config = {
         src: '/img/laradock/laradock-icon.png',
       },
       items: [
+        { type: 'doc', docId: 'Intro', label: 'Docs', position: 'right' },
+        { type: 'doc', docId: 'getting-started', label: 'Getting Started', position: 'right' },
+        { type: 'doc', docId: 'usage', label: 'Usage', position: 'right' },
         {
           href: 'https://github.com/laradock/laradock',
-          label: 'GitHub',
           position: 'right',
+          className: 'header-github-link',
+          'aria-label': 'GitHub repository',
         },
       ],
     },

@@ -3,13 +3,13 @@ sidebar_position: 1
 title: Introduction
 ---
 
-![Docker Image](/img/laradock/laradock-logo.jpg)
-
 **Laradock** is a full PHP development environment for Docker. Spin up a ready-to-use stack in seconds, with popular pre-configured services.
 
-Think of it as "Docker for PHP developers": instead of installing and configuring Nginx, databases, caches, and queues by hand, you get them all as ready-made containers you can switch on and off per project. It works with any PHP project (Laravel, Symfony, WordPress, or plain PHP) and behaves the same on Linux, macOS, and Windows, so your whole team shares one identical setup.
+![Laradock](/img/laradock/laradock-logo.png)
 
-Laradock is free, open-source, and battle-tested by thousands of developers, with 12k+ GitHub stars and an active community behind it.
+Instead of installing and configuring Nginx, databases, caches, and queues by hand, you get them all as ready-made containers you can switch on and off per project. It works with any PHP project (Laravel, Symfony, WordPress, or plain PHP) and behaves the same on Linux, macOS, and Windows, so your whole team shares one identical setup.
+
+Laradock is free, open-source under the MIT license, and has been battle-tested in real-world PHP projects since 2015.
 
 > **Use Docker first. Learn about it later.**
 

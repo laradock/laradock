@@ -1,8 +1,11 @@
 .sponsors {
   display: flex;
   align-items: center;
-  padding: 2rem 0;
+  padding: 3.5rem 0;
   width: 100%;
+  background-color: #16101f;
+  background-image: radial-gradient(rgba(249, 174, 26, 0.07) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 .sponsorImg {

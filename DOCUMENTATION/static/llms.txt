@@ -1,0 +1,22 @@
+# Laradock
+
+> A full PHP development environment for Docker. Spin up a ready-to-use stack in seconds, with 70+ pre-configured services (Nginx, PHP, MySQL, Redis, and more). Works with any PHP project (Laravel, Symfony, WordPress, or plain PHP) on Linux, macOS, and Windows.
+
+Motto: "Use Docker first. Learn about it later." Free, open-source (MIT), 12k+ GitHub stars, maintained since 2015.
+
+## Docs
+
+- [Introduction](https://laradock.io/docs/Intro): What Laradock is, key features, the full list of supported services/containers by category, quick start, maintainers, sponsors.
+- [Getting Started](https://laradock.io/docs/getting-started): Requirements (Git, Docker) and installation paths (new project, existing project, single vs multiple projects).
+- [Usage](https://laradock.io/docs/usage): Day-to-day commands and recipes , running/entering containers, editing configs, switching PHP versions, xDebug, queues, scheduler, production, and per-service how-tos.
+- [Help](https://laradock.io/docs/help): Where to get help and support.
+- [Related Projects](https://laradock.io/docs/related-projects): Community-built tools that extend Laradock.
+- [Contributions](https://laradock.io/docs/contributing): How to contribute.
+
+## Full text
+
+- [llms-full.txt](https://laradock.io/llms-full.txt): Every documentation page concatenated into a single plain-markdown file, for one-fetch reading by AI agents.
+
+## Source
+
+- [GitHub repository](https://github.com/laradock/laradock)
