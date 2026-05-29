@@ -19,12 +19,10 @@ jobs:
     # Don't trigger on schedule event when in a fork
     if: github.event_name != 'schedule' || (github.event_name == 'schedule' && github.repository == 'laradock/laradock')
     runs-on: ubuntu-latest
-    # 8.5 is a preview release; build it for early visibility but don't fail the pipeline on it.
-    continue-on-error: ${{ matrix.php_version == '8.5' }}
     strategy:
       fail-fast: false
       matrix:
-        php_version: [ "8.1", "8.2", "8.3", "8.4", "8.5" ]
+        php_version: [ "8.1", "8.2", "8.3", "8.4" ]
         service: [ php-fpm, php-worker, workspace ]
     steps:
       - uses: actions/checkout@v6
