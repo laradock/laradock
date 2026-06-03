@@ -1,0 +1,38 @@
+# https://laradock.io robots.txt
+# Open docs: every crawler welcome, including AI/LLM crawlers (GEO).
+
+User-agent: *
+Allow: /
+
+# Explicitly welcome AI answer engines so Laradock can be cited.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://laradock.io/sitemap.xml
