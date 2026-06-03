@@ -1,6 +1,14 @@
 ---
 sidebar_position: 1
 title: Introduction
+description: Laradock is a full PHP development environment for Docker. Spin up a ready-to-use stack in seconds with 70+ pre-configured services for Laravel, Symfony, WordPress, or plain PHP.
+keywords:
+  - laradock
+  - docker php
+  - php development environment
+  - laravel docker
+  - docker compose php
+  - laradock services
 ---
 
 **Laradock** is a full PHP development environment for Docker. Spin up a ready-to-use stack in seconds, with popular pre-configured services.
@@ -276,7 +284,7 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
 
 ### Financial Contributors (Backers)
 
-[![Open Collective backers](https://opencollective.com/laradock/tiers/awesome-backers.svg?width=800&avatarHeight=55&button=false&isActive=true)](https://opencollective.com/laradock#contributors)
+[![Open Collective backers](https://opencollective.com/laradock/tiers/awesome-backers.svg?width=800&avatarHeight=55&button=false&isActive=false)](https://opencollective.com/laradock#contributors)
 
 
 ---
@@ -304,8 +312,11 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
 
 ### Gold Sponsors
 
-  <!-- The embedded iframes sets rel="nofollow sponsored" on sponsor links by default, 
-  which prevents SEO benefits from being passed to sponsor sites. to remove the nofollow for Gold sponors only, we'll be using custom links instead. -->
+  <!-- Gold sponsors get a true dofollow link (no rel attribute) so they receive
+  ranking authority — the premium they pay for. We use custom per-slot links + the
+  avatar.png endpoint (the .svg endpoint is broken upstream, emits data:false MIME).
+  Silver/Bronze stay nofollow via the aggregate iframe. Logos auto-populate from
+  Open Collective on payment — no deploy needed. -->
   
   <!-- <iframe 
     src="https://opencollective.com/laradock/tiers/gold-sponsors.svg?avatarHeight=120&width=800&format=svg&button=false&background=#1B1B1D" 
@@ -317,84 +328,84 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
 
 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'left', alignItems: 'left' }}>
 
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/0/website" target="_blank" rel="sponsored">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/0/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/0/website" target="_blank">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/0/avatar.png?isActive=true&avatarHeight=100" height="115" />
   </a>
 
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/1/website" target="_blank" rel="sponsored">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/1/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/1/website" target="_blank">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/1/avatar.png?isActive=true&avatarHeight=100" height="115" />
   </a>
 
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/2/website" target="_blank" rel="sponsored">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/2/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/2/website" target="_blank">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/2/avatar.png?isActive=true&avatarHeight=100" height="115" />
   </a>
 
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/3/website" target="_blank" rel="sponsored">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/3/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/3/website" target="_blank">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/3/avatar.png?isActive=true&avatarHeight=100" height="115" />
   </a>
 
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/4/website" target="_blank" rel="sponsored">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/4/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/4/website" target="_blank">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/4/avatar.png?isActive=true&avatarHeight=100" height="115" />
   </a>
 
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/5/website" target="_blank" rel="sponsored">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/5/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/5/website" target="_blank">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/5/avatar.png?isActive=true&avatarHeight=100" height="115" />
   </a>
 
-<a href="https://opencollective.com/laradock/tiers/gold-sponsors/6/website" target="_blank" rel="sponsored">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/6/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+<a href="https://opencollective.com/laradock/tiers/gold-sponsors/6/website" target="_blank">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/6/avatar.png?isActive=true&avatarHeight=100" height="115" />
   </a>
 
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/7/website" target="_blank" rel="sponsored">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/7/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/7/website" target="_blank">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/7/avatar.png?isActive=true&avatarHeight=100" height="115" />
   </a>
 
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/8/website" target="_blank" rel="sponsored">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/8/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/8/website" target="_blank">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/8/avatar.png?isActive=true&avatarHeight=100" height="115" />
   </a>
 
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/9/website" target="_blank" rel="sponsored">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/9/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/9/website" target="_blank">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/9/avatar.png?isActive=true&avatarHeight=100" height="115" />
   </a>
 
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/10/website" target="_blank" rel="sponsored">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/10/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/10/website" target="_blank">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/10/avatar.png?isActive=true&avatarHeight=100" height="115" />
   </a>
 
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/11/website" target="_blank" rel="sponsored">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/11/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/11/website" target="_blank">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/11/avatar.png?isActive=true&avatarHeight=100" height="115" />
   </a>
 
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/12/website" target="_blank" rel="sponsored">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/12/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/12/website" target="_blank">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/12/avatar.png?isActive=true&avatarHeight=100" height="115" />
   </a>
 
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/13/website" target="_blank" rel="sponsored">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/13/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/13/website" target="_blank">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/13/avatar.png?isActive=true&avatarHeight=100" height="115" />
   </a>
 
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/14/website" target="_blank" rel="sponsored">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/14/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/14/website" target="_blank">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/14/avatar.png?isActive=true&avatarHeight=100" height="115" />
   </a>
 
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/15/website" target="_blank" rel="sponsored">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/15/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/15/website" target="_blank">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/15/avatar.png?isActive=true&avatarHeight=100" height="115" />
   </a>
 
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/16/website" target="_blank" rel="sponsored">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/16/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/16/website" target="_blank">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/16/avatar.png?isActive=true&avatarHeight=100" height="115" />
   </a>
 
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/17/website" target="_blank" rel="sponsored">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/17/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/17/website" target="_blank">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/17/avatar.png?isActive=true&avatarHeight=100" height="115" />
   </a>
 
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/18/website" target="_blank" rel="sponsored">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/18/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/18/website" target="_blank">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/18/avatar.png?isActive=true&avatarHeight=100" height="115" />
   </a>
 
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/19/website" target="_blank" rel="sponsored">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/19/avatar.svg?button=false&isActive=true&avatarHeight=100" height="115" />
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/19/website" target="_blank">
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/19/avatar.png?isActive=true&avatarHeight=100" height="115" />
   </a>
 
 </div>
@@ -408,7 +419,7 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
   </a>
 
   <iframe 
-    src="https://opencollective.com/laradock/tiers/silver-sponsors.svg?avatarHeight=90&width=700&format=svg&button=false&background=#1B1B1D&isActive=true" 
+    src="https://opencollective.com/laradock/tiers/silver-sponsors.svg?avatarHeight=90&width=700&format=svg&button=false&background=%231B1B1D&isActive=true" 
     width="700"
     height="110"
     style={{ border: 'none', backgroundColor: '#1B1B1D' }}>
@@ -418,7 +429,7 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
 ### Bronze Sponsors
 
   <iframe 
-    src="https://opencollective.com/laradock/tiers/bronze-sponsors.svg?avatarHeight=55&width=800&format=svg&button=false&background=#1B1B1D&isActive=true" 
+    src="https://opencollective.com/laradock/tiers/bronze-sponsors.svg?avatarHeight=55&width=800&format=svg&button=false&background=%231B1B1D&isActive=true" 
     width="800"
     height="300"
     style={{ border: 'none', backgroundColor: '#1B1B1D' }}>

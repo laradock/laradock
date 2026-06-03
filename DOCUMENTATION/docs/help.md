@@ -1,6 +1,13 @@
 ---
 sidebar_position: 4
 title: Help
+description: Get help with Laradock and fix common problems, blank Laravel page, nginx welcome screen, port already in use, MySQL connection refused, timezone, and Windows 404 errors.
+keywords:
+  - laradock help
+  - laradock troubleshooting
+  - laradock common problems
+  - mysql connection refused laradock
+  - laradock port already in use
 ---
 
 <a name="Get Help"></a>

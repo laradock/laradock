@@ -1,6 +1,12 @@
 ---
 sidebar_position: 100
 title: Contributions
+description: How to contribute to Laradock, ask questions, report issues, edit the docs, and submit pull requests to the open-source Dockerized PHP development environment.
+keywords:
+  - contribute to laradock
+  - laradock pull request
+  - laradock open source
+  - laradock issues
 ---
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/laradock/laradock)

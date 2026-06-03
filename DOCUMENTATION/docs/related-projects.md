@@ -1,6 +1,13 @@
 ---
 sidebar_position: 50
 title: Related Projects
+description: Community-built tools that extend Laradock, GUIs, CLIs, Kubernetes playbooks, and monitoring helpers that simplify how you manage your Dockerized PHP environment.
+keywords:
+  - laradock tools
+  - laradock cli
+  - laradock gui
+  - laradock kubernetes
+  - laradock ecosystem
 ---
 
 Laradock has inspired a rich ecosystem of community-built tools that extend or simplify how you work with it. The projects below, ranging from GUIs and CLIs to Kubernetes playbooks, are built and maintained by the community. Explore them to find helpers that fit your workflow.
