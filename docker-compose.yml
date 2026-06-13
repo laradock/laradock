@@ -50,8 +50,6 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   docker-in-docker:
     driver: ${VOLUMES_DRIVER}
-  react:
-    driver: ${VOLUMES_DRIVER}
 
 services:
 
