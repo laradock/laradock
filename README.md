@@ -26,13 +26,24 @@
 
 Laradock is a full PHP development environment for Docker. It ships pre-configured, ready-to-use containers for everything a PHP application needs (Nginx, PHP-FPM, MySQL, PostgreSQL, Redis, and many more), so you can launch a complete local stack in seconds without any manual setup.
 
-It works with any PHP project (Laravel, Symfony, WordPress, or plain PHP) and behaves the same on Linux, macOS, and Windows.
+It works with **any PHP project** and behaves the same on Linux, macOS, and Windows.
+
+### Works With
+
+Laradock provides the PHP runtime, web server, databases, and background services your app needs, so it runs virtually any PHP framework, CMS, or e-commerce platform:
+
+- **Frameworks:** Laravel, Symfony, CodeIgniter, Yii, Laminas (Zend Framework), CakePHP, Phalcon, Slim, Lumen, FuelPHP
+- **CMS:** WordPress, Drupal, Joomla, October CMS, Statamic, Craft CMS, TYPO3, Concrete CMS, Grav
+- **E-commerce:** Magento, WooCommerce, PrestaShop, OpenCart, Sylius, Bagisto
+- **Apps:** Moodle, MediaWiki, phpBB, Matomo
+
+…or plain, framework-free PHP.
 
 ### Key Features
 
-- **Pre-configured stack:** 60+ ready-to-use containers (Nginx, Apache, PHP-FPM, MySQL, PostgreSQL, MongoDB, Redis, Beanstalkd, and more).
-- **Easy version switching:** change PHP, database, or service versions in one place.
-- **Project-agnostic:** works with Laravel, Symfony, WordPress, or vanilla PHP.
+- **Pre-configured stack:** 70+ ready-to-use containers (Nginx, Apache, Caddy, PHP-FPM, MySQL, PostgreSQL, MariaDB, MongoDB, Redis, Memcached, Elasticsearch, RabbitMQ, Beanstalkd, and more).
+- **Easy version switching:** change PHP (5.6–8.5), database, or service versions in one place.
+- **Project-agnostic:** works with Laravel, Symfony, WordPress, Drupal, Magento, or vanilla PHP.
 - **Cross-platform:** the same environment on Linux, macOS, and Windows.
 - **Modular:** run only the containers you need, in any combination.
 - **Beginner-friendly:** clone, copy the env file, and run `docker compose up`.

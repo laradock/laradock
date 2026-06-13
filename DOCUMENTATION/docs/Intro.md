@@ -37,6 +37,19 @@ Laradock is free, open-source under the MIT license, and has been battle-tested 
 
 
 
+## Works With
+
+Laradock provides the PHP runtime, web server, databases, and background services your app needs, so it runs virtually any PHP framework, CMS, or e-commerce platform, right down to plain framework-free PHP.
+
+| Type | Projects |
+|------|----------|
+| **Frameworks**  | Laravel, Symfony, CodeIgniter, Yii, Laminas (Zend Framework), CakePHP, Phalcon, Slim, Lumen, FuelPHP |
+| **CMS**         | WordPress, Drupal, Joomla, October CMS, Statamic, Craft CMS, TYPO3, Concrete CMS, Grav |
+| **E-commerce**  | Magento, WooCommerce, PrestaShop, OpenCart, Sylius, Bagisto |
+| **Apps**        | Moodle, MediaWiki, phpBB, Matomo |
+
+
+
 ## Quick Start
 
 Set up a demo stack with `PHP`, `NGINX`, `MySQL`, `Redis` and `Composer`:
