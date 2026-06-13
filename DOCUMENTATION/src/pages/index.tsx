@@ -143,7 +143,7 @@ export default function Home(): JSX.Element {
                       <span className={styles.prompt}>$</span>git clone https://github.com/laradock/laradock.git
                     </div>
                     <div>
-                      <span className={styles.prompt}>$</span>docker-compose up -d nginx mysql redis
+                      <span className={styles.prompt}>$</span>docker-compose up -d workspace nginx mysql redis
                     </div>
                   </div>
                 </div>

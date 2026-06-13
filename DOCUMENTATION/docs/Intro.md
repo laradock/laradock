@@ -23,19 +23,58 @@ Laradock is free, open-source under the MIT license, and has been battle-tested 
 
 ## Features
 
-- **Seamless PHP Version Switching**: Effortlessly switch between PHP versions (8.1, 8.0, 7.4, 7.3, 7.2, 7.1, 5.6...).
-- **Flexible Database Choices**: Pick your preferred database engine, whether it's MySQL, Postgres, MariaDB, and more.
-- **Customizable Stacks**: Run your own stack with services like Memcached, HHVM, RabbitMQ, and more.
-- **Isolated Containers**: Each software runs in its own container, ensuring clean separation and easy management.
-- **Simple Customization**: Easily tweak any container by editing its `Dockerfile`.
-- **Trusted Base Images**: All images extend from official base images, ensuring reliability and security.
-- **Pre-configured Web Servers**: Ready-to-use NGINX setup to host your code right from the root directory.
-- **Project Flexibility**: Use Laradock per project or a single Laradock setup for all your projects.
-- **Environment Variable Management**: Easily install or remove software in containers using environment variables.
-- **Clean Dockerfiles**: Well-structured and easy-to-understand Dockerfiles (`Dockerfile`).
-- **Latest Docker Compose**: Always up-to-date with the latest version of the Docker Compose file (`docker-compose`).
-- **Full Transparency**: Everything is visible and editable, giving you full control over your environment.
-- **Fast Builds**: Enjoy quick image builds to get your environment up and running in no time.
+- **Any PHP Version**: Run any version from 5.6 to 8.5. Set `PHP_VERSION` in `.env`, rebuild, and you're on it.
+- **70+ Ready-made Services**: Databases, caches, queues, search engines, and more, all pre-configured and waiting.
+- **Pick Your Database**: MySQL, PostgreSQL, MariaDB, MongoDB, Redis, and many others, ready to switch on.
+- **Toggle Services On Demand**: Start only what a project needs with `docker-compose up`, and stop them just as easily.
+- **One Environment Everywhere**: Identical setup on Linux, macOS, and Windows, so your team shares the same stack.
+- **A Container Per Service**: Every service is isolated, so nothing conflicts and each piece is easy to manage.
+- **Configure From One File**: Add or drop software for any container by flipping variables in `.env`.
+- **Official Base Images**: Every image builds on a trusted upstream source for reliability and security.
+- **Web Server Ready**: NGINX, Apache, and Caddy come pre-configured to serve your code out of the box.
+- **One or Many Projects**: Run a dedicated Laradock per project, or share a single setup across all of them.
+- **Yours to Edit**: Every `Dockerfile` and config is plain, readable, and open for you to change.
+
+
+
+## Quick Start
+
+Set up a demo stack with `PHP`, `NGINX`, `MySQL`, `Redis` and `Composer`:
+
+1 - Clone Laradock inside your PHP project:
+
+```shell
+git clone https://github.com/Laradock/laradock.git
+```
+
+2 - Enter the laradock folder and rename `.env.example` to `.env`.
+
+```shell
+cp .env.example .env
+```
+
+3 - Run your containers:
+
+```shell
+docker-compose up -d workspace nginx mysql redis
+```
+
+4 - Open your project's `.env` file and set the following:
+
+```shell
+DB_HOST=mysql
+REDIS_HOST=redis
+QUEUE_HOST=beanstalkd
+```
+
+5 - Open your browser and visit localhost: `http://localhost`.
+
+Done.
+
+<div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', margin: '1.5rem 0' }}>
+  <a className="button button--primary button--lg" href="/docs/getting-started">Full Getting Started Guide</a>
+  <a className="button button--secondary button--lg" href="/docs/usage">Usage and Commands</a>
+</div>
 
 
 
@@ -51,6 +90,7 @@ Laradock is free, open-source under the MIT license, and has been battle-tested 
 
 | Category                  | Services (Containers)                                                                 |
 |---------------------------|--------------------------------------------------------------------------|
+| (**Laradock Workspace**)    | PHP CLI, Composer, Git, Vim, xDebug, Linuxbrew, Node, V8JS, Gulp, SQLite, Laravel Envoy, Deployer, Yarn, SOAP, Drush, Wordpress CLI, dnsutils |
 | **Web Servers**           | NGINX, Apache2, Caddy, OpenResty                                                    |
 | **Load Balancers**        | HAProxy, Traefik                                                         |
 | **PHP Compilers**         | PHP FPM, HHVM                                                            |
@@ -76,7 +116,6 @@ Laradock is free, open-source under the MIT license, and has been battle-tested 
 | **IDEs**                  | Codiad, ICE Coder, Theia, Web IDE                                                |
 | **API Documentation**     | Swagger UI, Swagger Editor                                              |
 | **Frontend Tooling**      | React                                                                    |
-| (**Laradock Workspace**)    | PHP CLI, Composer, Git, Vim, xDebug, Linuxbrew, Node, V8JS, Gulp, SQLite, Laravel Envoy, Deployer, Yarn, SOAP, Drush, Wordpress CLI, dnsutils |
 
 
 
@@ -88,48 +127,6 @@ You can choose, which tools to install in your workspace container and other con
 
 
 > If you can't find your Software in the list, build it yourself and submit it. Contributions are welcomed :)
-
-
-
-
-## Quick Start
-
-Set up a demo stack with `PHP`, `NGINX`, `MySQL`, `Redis` and `Composer`:
-
-1 - Clone Laradock inside your PHP project:
-
-```shell
-git clone https://github.com/Laradock/laradock.git
-```
-
-2 - Enter the laradock folder and rename `.env.example` to `.env`.
-
-```shell
-cp .env.example .env
-```
-
-3 - Run your containers:
-
-```shell
-docker-compose up -d nginx mysql phpmyadmin redis workspace 
-```
-
-4 - Open your project's `.env` file and set the following:
-
-```shell
-DB_HOST=mysql
-REDIS_HOST=redis
-QUEUE_HOST=beanstalkd
-```
-
-5 - Open your browser and visit localhost: `http://localhost`.
-
-Done.
-
-<div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', margin: '1.5rem 0' }}>
-  <a className="button button--primary button--lg" href="/docs/getting-started">Full Getting Started Guide</a>
-  <a className="button button--secondary button--lg" href="/docs/usage">Usage and Commands</a>
-</div>
 
 
 
