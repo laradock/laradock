@@ -23,6 +23,7 @@ RUN apk --update add wget \
   curl \
   git \
   build-base \
+  linux-headers \
   libmcrypt-dev \
   libxml2-dev \
   pcre-dev \
