@@ -1,0 +1,25 @@
+version: 2
+
+updates:
+  # Keep the GitHub Actions used in workflows up to date (low-noise, grouped).
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      github-actions:
+        patterns:
+          - '*'
+
+  # Documentation site (Docusaurus) dependencies. Grouped + capped so it never
+  # floods the backlog; security updates are delivered regardless of this config.
+  - package-ecosystem: npm
+    directory: /DOCUMENTATION
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      docs-dependencies:
+        update-types:
+          - minor
+          - patch
