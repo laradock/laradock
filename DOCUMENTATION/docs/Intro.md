@@ -26,7 +26,7 @@ Laradock is free, open-source under the MIT license, and has been battle-tested 
 - **Any PHP Version**: Run any version from 5.6 to 8.5. Set `PHP_VERSION` in `.env`, rebuild, and you're on it.
 - **70+ Ready-made Services**: Databases, caches, queues, search engines, and more, all pre-configured and waiting.
 - **Pick Your Database**: MySQL, PostgreSQL, MariaDB, MongoDB, Redis, and many others, ready to switch on.
-- **Toggle Services On Demand**: Start only what a project needs with `docker-compose up`, and stop them just as easily.
+- **Toggle Services On Demand**: Start only what a project needs with `docker-compose up`, and stop them easily.
 - **One Environment Everywhere**: Identical setup on Linux, macOS, and Windows, so your team shares the same stack.
 - **A Container Per Service**: Every service is isolated, so nothing conflicts and each piece is easy to manage.
 - **Configure From One File**: Add or drop software for any container by flipping variables in `.env`.
@@ -90,14 +90,14 @@ Done.
 
 | Category                  | Services (Containers)                                                                 |
 |---------------------------|--------------------------------------------------------------------------|
-| (**Laradock Workspace**)    | PHP CLI, Composer, Git, Vim, xDebug, Linuxbrew, Node, V8JS, Gulp, SQLite, Laravel Envoy, Deployer, Yarn, SOAP, Drush, Wordpress CLI, dnsutils |
-| **Web Servers**           | NGINX, Apache2, Caddy, OpenResty                                                    |
+| (**Laradock Workspace**)    | PHP CLI, Composer, Git, Vim, xDebug, Linuxbrew, Node, V8JS, Gulp, SQLite, Laravel Envoy, Deployer, Yarn, SOAP, Drush, Wordpress CLI, dnsutils, Terraform, ImageMagick, Drupal Console, Protoc, JDK, Docker Client |
+| **Web Servers**           | NGINX, Apache2, Caddy, OpenResty, Tomcat                                            |
 | **Load Balancers**        | HAProxy, Traefik                                                         |
 | **PHP Compilers**         | PHP FPM, HHVM                                                            |
 | **Database Management Systems** | MySQL, PostgreSQL (PostGIS), MariaDB, Percona, MSSQL, MongoDB, Neo4j, CouchDB, RethinkDB, Cassandra, ClickHouse, Tarantool |
-| **Database Management Tools** | PhpMyAdmin, Adminer, PgAdmin, MongoDB Web UI, Tarantool Admin                         |
+| **Database Management Tools** | PhpMyAdmin, Adminer, PgAdmin, MongoDB Web UI, Tarantool Admin, pgbackups (PostgreSQL) |
 | **Cache Engines**         | Redis, Redis Web UI, Redis Cluster, Memcached, Aerospike, Varnish, SSDB        |
-| **Message Brokers**       | RabbitMQ, RabbitMQ Admin Console, Beanstalkd, Beanstalkd Admin Console, Eclipse Mosquitto, Gearman, NATS |
+| **Message Brokers**       | RabbitMQ, RabbitMQ Admin Console, Beanstalkd, Beanstalkd Admin Console, Eclipse Mosquitto, Gearman, NATS, Apache Kafka, Kafka Manager |
 | **Log Management**        | GrayLog, Kibana, LogStash                                                |
 | **Search Engines**        | ElasticSearch, Apache Solr, Manticore Search, Dejavu                     |
 | **PHP Extensions**        | Swoole, Blackfire, Phalcon, PHP Worker, Laravel Horizon                  |
@@ -106,7 +106,7 @@ Done.
 | **Monitoring**            | Grafana, NetData                                                         |
 | **Coordination Services** | Apache ZooKeeper                                                         |
 | **Container Management**  | Portainer, Docker Registry, Docker Web UI                                |
-| **CI/CD Tools**           | Jenkins, SonarQube, Gitlab                                               |
+| **CI/CD Tools**           | Jenkins, SonarQube, Gitlab, OneDev                                       |
 | **Cloud Tools**           | AWS EB CLI, Amazon Simple Queue Service                                  |
 | **Image Processing**      | Thumbor                                                                  |
 | **Interactive Computing** | IPython, Jupyter Hub                                                     |

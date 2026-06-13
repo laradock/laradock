@@ -528,6 +528,22 @@ If you also need MySQL access from your host, change the internal port in `docke
 
 
 
+<a name="Backup-Postgres"></a>
+### Back up PostgreSQL (pgbackups)
+
+> Scheduled, automatic PostgreSQL backups via [postgres-backup-local](https://github.com/prodrigestivill/docker-postgres-backup-local).
+
+1. Make sure the `postgres` container is running.
+2. Start the backup container:
+   ```bash
+   docker-compose up -d pgbackups
+   ```
+
+Backups are written to the `../backup` folder on your host. The service reuses your Postgres container's `POSTGRES_DB`, `POSTGRES_USER`, and `POSTGRES_PASSWORD`; adjust the schedule and retention in the `pgbackups` block of `docker-compose.yml`.
+
+
+
+
 <a name="Laravel"></a>
 ## Laravel
 
@@ -1244,6 +1260,26 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
    ```
 
 
+<a name="Use-Kafka"></a>
+### Apache Kafka
+
+> A distributed event-streaming platform. Kafka needs the `zookeeper` container running.
+
+1. Start ZooKeeper and Kafka together:
+   ```bash
+   docker-compose up -d zookeeper kafka
+   ```
+2. The broker listens on port `9092`.
+
+To manage Kafka from a web UI, also start Kafka Manager:
+
+```bash
+docker-compose up -d kafka-manager
+```
+
+Open [http://localhost:9020](http://localhost:9020) and add a cluster pointing at the ZooKeeper host `zookeeper:2181`.
+
+
 <a name="Use-Mailu"></a>
 ### Mailu
 
@@ -1431,6 +1467,20 @@ See the [Tarantool documentation](https://www.tarantool.io/en/doc/latest/).
   ```
 
 
+<a name="Use-OneDev"></a>
+### OneDev
+
+> A self-hosted Git server with built-in CI/CD pipelines and issue tracking.
+
+1. Start the container:
+   ```bash
+   docker-compose up -d onedev
+   ```
+2. Open [http://localhost:6610](http://localhost:6610) and complete the setup wizard.
+
+Git over SSH is available on port `6611`. Change either port with `ONEDEV_HTTP_PORT` and `ONEDEV_SSH_PORT` in `.env`.
+
+
 <a name="Use-Portainer"></a>
 ### Portainer
 
@@ -1562,6 +1612,20 @@ See [Running Metabase on Docker](https://www.metabase.com/docs/latest/installati
    docker-compose up -d selenium
    ```
 2. Open [http://localhost:4444/wd/hub](http://localhost:4444/wd/hub).
+
+
+<a name="Use-Tomcat"></a>
+### Tomcat
+
+> Apache Tomcat for running Java web applications (WAR files).
+
+1. Start the container:
+   ```bash
+   docker-compose up -d tomcat
+   ```
+2. Open [http://localhost:8080](http://localhost:8080).
+
+Drop `.war` files into `${DATA_PATH_HOST}/tomcat/webapps` to deploy them. Set the version with `TOMCAT_VERSION` and the host port with `TOMCAT_HOST_HTTP_PORT` in `.env`.
 
 
 <a name="Use-Traefik"></a>
