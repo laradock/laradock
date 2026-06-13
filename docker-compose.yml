@@ -2152,23 +2152,6 @@ services:
         - ${DATA_PATH_HOST}/tomcat/logs:/usr/local/tomcat/logs
       # restart: always
 
-### react #####################################################
-    react:
-      build:
-        context: ./react
-      ports:
-        - "3000:3000"
-      container_name: react
-      stdin_open: true
-      environment:
-        - CHOKIDAR_USEPOLLING=true
-      networks:
-          - frontend
-          - backend
-      volumes:
-        - ./react:/usr/src/app/react
-        - /usr/src/app/react/node_modules
-
 ### kafka ####################################################
     kafka:
       image: wurstmeister/kafka
