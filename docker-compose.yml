@@ -1729,18 +1729,6 @@ services:
       networks:
         - backend
 
-### Weaver (Athena PDF) #################################################
-    weaver:
-      image: arachnysdocker/athenapdf-service
-      ports:
-        - "8080:8080"
-      env_file:
-        - ./weaver/conf/sample.env
-      networks:
-        - backend
-      depends_on:
-        - workspace
-
 ### IDE-THEIA ################################################
     ide-theia:
       build:
@@ -1749,52 +1737,6 @@ services:
         - ${APP_CODE_PATH_HOST}:/home/project
       ports:
         - "${IDE_THEIA_PORT}:3000"
-      networks:
-        - backend
-
-### IDE-WEBIDE ################################################
-    ide-webide:
-      build:
-        context: ./ide-webide
-      volumes:
-        - ${DATA_PATH_HOST}/ide/webide/ide.db:/root/.coding-ide/ide.db
-      ports:
-        - "${IDE_WEBIDE_PORT}:8080"
-      networks:
-        - backend
-
-### IDE-CODIAD ################################################
-    ide-codiad:
-      build:
-        context: ./ide-codiad
-      environment:
-        - APP_CODE_PATH_CONTAINER=${APP_CODE_PATH_CONTAINER}
-        - TZ=${WORKSPACE_TIMEZONE}
-        - PGID=1000
-        - PUID=1000
-      volumes:
-        - /etc/localtime:/etc/localtime:ro
-        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
-        - ${DATA_PATH_HOST}/ide/codiad:/config
-      ports:
-        - "${IDE_CODIAD_PORT}:80"
-      networks:
-        - backend
-
-### IDE-ICECODER ################################################
-    ide-icecoder:
-      build:
-        context: ./ide-icecoder
-      environment:
-        - DOCUMENT_ROOT=${APP_CODE_PATH_CONTAINER}
-        - TZ=${WORKSPACE_TIMEZONE}
-        - PGID=1000
-        - PUID=1000
-      volumes:
-        - /etc/localtime:/etc/localtime:ro
-        - ${APP_CODE_PATH_HOST}:/home/laradock/ICEcoder/dev
-      ports:
-        - "${IDE_ICECODER_PORT}:8080"
       networks:
         - backend
 
@@ -1808,24 +1750,6 @@ services:
       ports:
         - "${DOCKER_REGISTRY_PORT}:5000"
       networks:
-        - backend
-
-### DOCKER-WEB-UI ################################################
-    docker-web-ui:
-      build:
-        context: ./docker-web-ui
-      environment:
-        - TZ=${WORKSPACE_TIMEZONE}
-        - ENV_DOCKER_REGISTRY_HOST=${DOCKER_WEBUI_REGISTRY_HOST}
-        - ENV_DOCKER_REGISTRY_PORT=${DOCKER_WEBUI_REGISTRY_PORT}
-        - ENV_DOCKER_REGISTRY_USE_SSL=${DOCKER_REGISTRY_USE_SSL}
-        - ENV_MODE_BROWSE_ONLY=${DOCKER_REGISTRY_BROWSE_ONLY}
-      volumes:
-        - /etc/localtime:/etc/localtime:ro
-      ports:
-        - "${DOCKER_WEBUI_PORT}:80"
-      networks:
-        - frontend
         - backend
 
 ### MAILU ################################################
