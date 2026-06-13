@@ -548,20 +548,6 @@ services:
         - frontend
         - backend
 
-### HHVM #################################################
-    hhvm:
-      restart: always
-      build: ./hhvm
-      volumes:
-        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
-      expose:
-        - "9000"
-      depends_on:
-        - workspace
-      networks:
-        - frontend
-        - backend
-
 ### Minio ################################################
     minio:
       restart: always
