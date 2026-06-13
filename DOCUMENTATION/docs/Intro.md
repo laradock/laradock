@@ -115,7 +115,6 @@ Done.
 | **Testing**               | Selenium                                                                 |
 | **IDEs**                  | Codiad, ICE Coder, Theia, Web IDE                                                |
 | **API Documentation**     | Swagger UI, Swagger Editor                                              |
-| **Frontend Tooling**      | React                                                                    |
 
 
 
