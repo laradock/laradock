@@ -7,8 +7,8 @@ VOLUME /data/rethinkdb_data
 #Necessary for the backup rethinkdb
 RUN apt-get -y update \
     && apt-get -y upgrade \
-    && apt-get -y install python-pip \
-    && pip install rethinkdb \
+    && apt-get -y install python3-pip \
+    && pip3 install --break-system-packages rethinkdb \
     && rm -rf /var/lib/apt/lists/*
 
 RUN cp /etc/rethinkdb/default.conf.sample /etc/rethinkdb/instances.d/instance1.conf
