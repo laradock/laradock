@@ -37,6 +37,27 @@ Laradock is free, open-source under the MIT license, and has been battle-tested 
 
 
 
+## The Workspace
+
+**Run every command your project needs, and install nothing on your machine.** Beyond the preconfigured stack, the Workspace container is Laradock's standout feature: a ready-to-use shell with PHP CLI, Composer, Git, Node, Yarn, PHPUnit, and dozens of dev tools already installed and waiting.
+
+Enter it and work from inside:
+
+```bash
+docker-compose exec workspace bash
+```
+
+From there `artisan`, `composer`, `phpunit`, `npm`, and `git` all just work, with nothing installed on your host: no PHP, no Composer, no Node, no version conflicts. Stop the project and **zero traces are left on your device.**
+
+That makes Laradock great for:
+
+- **Running legacy projects** on older PHP (5.6, 7.x) without changing your system's PHP version.
+- **Spinning up any existing project in seconds**, with no local setup and no "works on my machine."
+- **Juggling multiple projects** that each need a different PHP or database version, fully isolated.
+- **Keeping your machine clean**, so your host never gets polluted with language runtimes or CLIs.
+
+
+
 ## Works With
 
 Laradock provides the PHP runtime, web server, databases, and background services your app needs, so it runs virtually any PHP framework, CMS, or e-commerce platform, right down to plain framework-free PHP.

@@ -48,6 +48,25 @@ Laradock provides the PHP runtime, web server, databases, and background service
 - **Modular:** run only the containers you need, in any combination.
 - **Beginner-friendly:** clone, copy the env file, and run `docker compose up`.
 
+### The Workspace: Run Everything, Install Nothing
+
+**Run every command your project needs, and install nothing on your machine.** Beyond the preconfigured stack, the Workspace container is Laradock's standout feature: a ready-to-use shell with PHP CLI, Composer, Git, Node, Yarn, PHPUnit, and dozens of dev tools already installed and waiting.
+
+Enter it and work from inside:
+
+```bash
+docker-compose exec workspace bash
+```
+
+From there `artisan`, `composer`, `phpunit`, `npm`, and `git` all just work, with nothing installed on your host: no PHP, no Composer, no Node, no version conflicts. Stop the project and **zero traces are left on your device.**
+
+That makes Laradock great for:
+
+- **Running legacy projects** on older PHP (5.6, 7.x) without changing your system's PHP version.
+- **Spinning up any existing project in seconds**, with no local setup and no "works on my machine."
+- **Juggling multiple projects** that each need a different PHP or database version, fully isolated.
+- **Keeping your machine clean**, so your host never gets polluted with language runtimes or CLIs.
+
 <br>
 
 <p align="center">
