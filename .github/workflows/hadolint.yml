@@ -1,0 +1,31 @@
+name: Lint Dockerfiles
+
+# Lints all ~78 Dockerfiles with hadolint. Only hard errors fail the build,
+# so it catches real mistakes without drowning in style nits on legacy files.
+# Version-pinning rules are ignored because laradock intentionally floats them.
+
+on:
+  pull_request:
+    paths:
+      - '**/Dockerfile'
+      - '.github/workflows/hadolint.yml'
+  push:
+    branches: [ master ]
+    paths:
+      - '**/Dockerfile'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  hadolint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Run hadolint on all Dockerfiles
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          recursive: true
+          failure-threshold: error
+          ignore: DL3008,DL3018,DL3013,DL3016
