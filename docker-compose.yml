@@ -336,7 +336,7 @@ services:
       links:
         - docker-in-docker
 
-### PHP Worker ############################################
+### PHP Worker ###########################################
     php-worker:
       restart: always
       build:
@@ -398,7 +398,7 @@ services:
         - "dockerhost:${DOCKER_HOST_IP}"
       networks:
         - backend
-### Laravel Horizon ############################################
+### Laravel Horizon ######################################
     laravel-horizon:
       restart: always
       build:
@@ -437,7 +437,7 @@ services:
       networks:
         - backend
 
-  ### Soketi Server ##############################################
+### Soketi Server ########################################
     soketi:
       build:
         context: ./soketi
@@ -482,7 +482,7 @@ services:
       extra_hosts:
         - "host.docker.internal:host-gateway"  
 
-### OpenResty Server #########################################
+### OpenResty Server #####################################
     openresty:
       restart: always
       build:
@@ -509,7 +509,7 @@ services:
         - frontend
         - backend
 
-### Blackfire ########################################
+### Blackfire ############################################
     blackfire:
       image: blackfire/blackfire
       environment:
@@ -584,7 +584,7 @@ services:
       networks:
         - backend
 
-### Percona ################################################
+### Percona ##############################################
     percona:
       restart: always
       build:
@@ -681,7 +681,7 @@ services:
         - POSTGRES_CONFLUENCE_PASSWORD=${CONFLUENCE_POSTGRES_PASSWORD}
       networks:
         - backend
-### pgbackups PostgreSQL ###########################################
+### pgbackups PostgreSQL #################################
     pgbackups:
       image: prodrigestivill/postgres-backup-local
       restart: always
@@ -731,7 +731,7 @@ services:
       image: 'neo4j:latest'
       networks:
         - backend
-### Nats ################################################
+### NATS #################################################
     nats:
       build: ./nats
       ports:
@@ -756,7 +756,7 @@ services:
       networks:
         - backend
 
-### RethinkDB ##############################################
+### RethinkDB ############################################
     rethinkdb:
       restart: always
       build: ./rethinkdb
@@ -767,7 +767,7 @@ services:
       networks:
         - backend
 
-  ### ClickHouse #############################################
+### ClickHouse ###########################################
     clickhouse:
       build:
         context: ./clickhouse
@@ -798,7 +798,7 @@ services:
 #        - frontend
         - backend
 
-  ### Redis ################################################
+### Redis ################################################
     redis:
       restart: always
       build: ./redis
@@ -810,7 +810,7 @@ services:
       networks:
         - backend
 
-### Redis Cluster ##########################################
+### Redis Cluster ########################################
     redis-cluster:
       restart: always
       build: ./redis-cluster
@@ -818,7 +818,7 @@ services:
         - "${REDIS_CLUSTER_PORT_RANGE}:7000-7005"
       networks:
         - backend
-### SSDB ################################################
+### SSDB #################################################
     ssdb:
       restart: always
       build: ./ssdb
@@ -829,7 +829,7 @@ services:
       networks:
         - backend
 
-### ZooKeeper #########################################
+### ZooKeeper ############################################
     zookeeper:
       restart: always
       build: ./zookeeper
@@ -841,7 +841,7 @@ services:
       networks:
         - backend
 
-### Aerospike ##########################################
+### Aerospike ############################################
     aerospike:
       restart: always
       build: ./aerospike
@@ -885,7 +885,7 @@ services:
       networks:
         - backend
 
-### SQS #############################################
+### SQS ##################################################
     sqs:
       restart: always
       build: ./sqs
@@ -920,7 +920,7 @@ services:
       networks:
         - backend
 
-### Mercure #############################################
+### Mercure ##############################################
     mercure:
       restart: always
       build: ./mercure
@@ -972,7 +972,7 @@ services:
       networks:
         - backend
 
-### Gearman ############################################
+### Gearman ##############################################
     gearman:
       restart: always
       build: ./gearman
@@ -1055,7 +1055,7 @@ services:
         - frontend
         - backend
 
-### Adminer ###########################################
+### Adminer ##############################################
     adminer:
       restart: always
       build:
@@ -1138,7 +1138,7 @@ services:
         - frontend
         - backend
 
-### Logstash ##############################################
+### Logstash #############################################
     logstash:
       restart: always
       build:
@@ -1160,7 +1160,7 @@ services:
       depends_on:
         - elasticsearch
 
-### Kibana ##############################################
+### Kibana ###############################################
     kibana:
       restart: always
       build:
@@ -1175,7 +1175,7 @@ services:
         - frontend
         - backend
 
-### Dejavu ##############################################
+### Dejavu ###############################################
     dejavu:
       restart: always
       build:
@@ -1188,7 +1188,7 @@ services:
         - frontend
         - backend
 
-### Certbot #########################################
+### Certbot ##############################################
     certbot:
       build:
         context: ./certbot
@@ -1201,7 +1201,7 @@ services:
       networks:
         - frontend
 
-### MailCatcher ################################################
+### MailCatcher ##########################################
     mailcatcher:
       restart: always
       build: ./mailcatcher
@@ -1212,7 +1212,7 @@ services:
         - frontend
         - backend
 
-### Mailhog ################################################
+### Mailhog ##############################################
     mailhog:
       restart: always
       build: ./mailhog
@@ -1245,7 +1245,7 @@ services:
         - frontend
         - backend
 
-### Selenium ###############################################
+### Selenium #############################################
     selenium:
       restart: always
       build: ./selenium
@@ -1256,7 +1256,7 @@ services:
       networks:
         - frontend
 
-### Varnish ##########################################
+### Varnish ##############################################
     proxy:
       restart: always
       container_name: proxy
@@ -1298,7 +1298,7 @@ services:
       networks:
         - frontend
 
-### HAProxy ####################################
+### HAProxy ##############################################
     haproxy:
       restart: always
       build: ./haproxy
@@ -1310,7 +1310,7 @@ services:
         - proxy
         - proxy2
 
-### Jenkins ###################################################
+### Jenkins ##############################################
     jenkins:
       restart: always
       build: ./jenkins
@@ -1327,7 +1327,7 @@ services:
         - frontend
         - backend
 
-### Grafana ################################################
+### Grafana ##############################################
     grafana:
       restart: always
       build:
@@ -1339,7 +1339,7 @@ services:
       networks:
         - backend
 
-### Graylog #######################################
+### Graylog ##############################################
     graylog:
       restart: always
       build: ./graylog
@@ -1370,7 +1370,7 @@ services:
       networks:
         - backend
 
-### Laravel Echo Server #######################################
+### Laravel Echo Server ##################################
     laravel-echo-server:
       restart: always
       build:
@@ -1387,7 +1387,7 @@ services:
         - frontend
         - backend
 
-### Solr ################################################
+### Solr #################################################
     solr:
       restart: always
       build:
@@ -1403,7 +1403,7 @@ services:
       networks:
         - backend
 
-### Thumbor #########################################
+### Thumbor ##############################################
     thumbor:
       restart: always
       build: ./thumbor
@@ -1520,7 +1520,7 @@ services:
         - frontend
         - backend
 
-### AWS EB-CLI ################################################
+### AWS EB-CLI ###########################################
     aws:
       restart: always
       build:
@@ -1531,7 +1531,7 @@ services:
         - workspace
       tty: true
 
-### Portainer ################################################
+### Portainer ############################################
     portainer:
       restart: always
       build:
@@ -1546,7 +1546,7 @@ services:
       networks:
         - backend
 
-### Gitlab ################################################
+### Gitlab ###############################################
     gitlab:
       build:
         context: ./gitlab
@@ -1593,7 +1593,7 @@ services:
         - /var/run/docker.sock:/var/run/docker.sock:rw
       restart: always
 
-### JupyterHub #########################################
+### JupyterHub ###########################################
     jupyterhub:
       restart: always
       build:
@@ -1629,7 +1629,7 @@ services:
         dockerfile: Dockerfile.user
       command: ["sh", "-c", "echo \"build only\""]
 
-### IPython #########################################
+### IPython ##############################################
     ipython-controller:
       restart: always
       build:
@@ -1650,7 +1650,7 @@ services:
       extra_hosts:
         - "laradock-ipython:${LARADOCK_IPYTHON_CONTROLLER_IP}"
 
-### Docker-in-Docker ################################################
+### Docker-in-Docker #####################################
     docker-in-docker:
       restart: always
       image: docker:29-dind
@@ -1665,7 +1665,7 @@ services:
       networks:
         - backend
 
-### NetData ################################################
+### NetData ##############################################
     netdata:
       restart: always
       image: netdata/netdata:latest
@@ -1680,7 +1680,7 @@ services:
       networks:
         - backend
 
-### REDISWEBUI ################################################
+### Redis WebUI ##########################################
     redis-webui:
       restart: always
       build:
@@ -1698,7 +1698,7 @@ services:
       depends_on:
         - redis
 
-### MongoWebUI ################################################
+### Mongo WebUI ##########################################
     mongo-webui:
       restart: always
       build:
@@ -1716,7 +1716,7 @@ services:
       depends_on:
         - mongo
 
-### Metabase #################################################
+### Metabase #############################################
     metabase:
       restart: always
       image: metabase/metabase:latest
@@ -1729,7 +1729,7 @@ services:
       networks:
         - backend
 
-### IDE-THEIA ################################################
+### IDE Theia ############################################
     ide-theia:
       build:
         context: ./ide-theia
@@ -1740,7 +1740,7 @@ services:
       networks:
         - backend
 
-### DOCKER-REGISTRY ################################################
+### Docker Registry ######################################
     docker-registry:
       build:
         context: ./docker-registry
@@ -1752,7 +1752,7 @@ services:
       networks:
         - backend
 
-### MAILU ################################################
+### Mailu ################################################
     mailu:
       image: mailu/admin:${MAILU_VERSION}
       volumes:
@@ -1915,7 +1915,7 @@ services:
           aliases:
             - fetchmail
 
-### TRAEFIK #########################################
+### Traefik ##############################################
     traefik:
       build:
         context: ./traefik
@@ -1952,7 +1952,7 @@ services:
         - "traefik.http.middlewares.access-auth.basicauth.realm=Login Required"
         - "traefik.http.middlewares.access-auth.basicauth.users=${TRAEFIK_DASHBOARD_USER}"
 
-### MOSQUITTO Broker #########################################
+### Mosquitto Broker #####################################
     mosquitto:
       build:
         context: ./mosquitto
@@ -1964,7 +1964,7 @@ services:
         - frontend
         - backend
 
-### COUCHDB ###################################################
+### CouchDB ##############################################
     couchdb:
       build:
         context: ./couchdb
@@ -1975,7 +1975,7 @@ services:
       networks:
         - backend
 
-### Manticore Search ###########################################
+### Manticore Search #####################################
     manticore:
       build:
         context: ./manticore
@@ -1990,7 +1990,7 @@ services:
       networks:
         - backend
 
-### SONARQUBE ################################################
+### SonarQube ############################################
     sonarqube:
       build:
         context: ./sonarqube
@@ -2013,7 +2013,7 @@ services:
         - backend
         - frontend
 
-### CONFLUENCE ################################################
+### Confluence ###########################################
     confluence:
       container_name: Confluence
       image: atlassian/confluence-server:${CONFLUENCE_VERSION}
@@ -2028,7 +2028,7 @@ services:
       volumes:
         - ${DATA_PATH_HOST}/Confluence:/var/atlassian/application-data
 
-### SWAGGER EDITOR ############################################
+### Swagger Editor #######################################
     swagger-editor:
       build: ./swagger-editor
       ports:
@@ -2036,7 +2036,7 @@ services:
       networks:
         - backend
 
-### SWAGGER UI ################################################
+### Swagger UI ###########################################
     swagger-ui:
       build: ./swagger-ui
       environment:
@@ -2046,7 +2046,7 @@ services:
       networks:
         - backend
 
-### tomcat ####################################################
+### Tomcat ###############################################
     tomcat:
       container_name: tomcat
       image: tomcat:${TOMCAT_VERSION}
@@ -2060,7 +2060,7 @@ services:
         - ${DATA_PATH_HOST}/tomcat/logs:/usr/local/tomcat/logs
       # restart: always
 
-### kafka ####################################################
+### Kafka ################################################
     kafka:
       image: wurstmeister/kafka
       ports:
@@ -2077,7 +2077,7 @@ services:
       networks:
         - backend
 
-### kafka-manager ###########################################
+### Kafka Manager ########################################
     kafka-manager:
       image: sheepkiller/kafka-manager
       ports:
@@ -2088,7 +2088,7 @@ services:
         - backend
 
 
-### tarantool ###########################################
+### Tarantool ############################################
     tarantool:
       build: ./tarantool
       volumes:
@@ -2105,7 +2105,7 @@ services:
       networks:
         - backend
 
-  ### onedev ####################################################
+### OneDev ###############################################
     onedev:
       image: 1dev/server
       ports:
@@ -2119,7 +2119,7 @@ services:
         - backend
       restart: always
   
-  ### keycloak ##################################################
+### Keycloak #############################################
     keycloak:
       image: bitnami/keycloak:${KEYCLOAK_VERSION}
       ports:
