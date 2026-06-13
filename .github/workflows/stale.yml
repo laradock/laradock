@@ -1,0 +1,47 @@
+name: Mark stale issues and pull requests
+
+# Replaces the deprecated Probot "stale" app (the old .github/stale.yml never ran,
+# which is why the backlog accumulated). Uses the maintained actions/stale.
+
+on:
+  schedule:
+    - cron: '0 1 * * *' # daily at 01:00 UTC
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  stale:
+    if: github.repository == 'laradock/laradock'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v9
+        with:
+          days-before-stale: 90
+          days-before-close: 21
+          stale-issue-label: 'Stale'
+          stale-pr-label: 'Stale'
+          exempt-issue-labels: 'Type: Feature Request,pinned,security,keep'
+          exempt-pr-labels: 'pinned,security,keep'
+          exempt-all-milestones: true
+          exempt-draft-pr: true
+          ascending: true
+          operations-per-run: 200
+          stale-issue-message: >
+            Hi 👋 this issue has been automatically marked as `stale` 📌 because it
+            has not had recent activity 😴. It will be closed if no further activity
+            occurs. Thank you for your contributions ❤️.
+          close-issue-message: >
+            Hi again 👋 this issue has been automatically `closed` 🔒 because it had
+            no activity during the `stale` period. We really appreciate your
+            contributions and look forward to more in the future 🎈.
+          stale-pr-message: >
+            Hi 👋 this pull request has been automatically marked as `stale` 📌
+            because it has not had recent activity 😴. A rebase or a comment will
+            keep it open; otherwise it will be closed. Thank you for your work ❤️.
+          close-pr-message: >
+            Hi again 👋 this pull request has been automatically `closed` 🔒 because
+            it had no activity during the `stale` period. Please reopen with a rebase
+            if it is still relevant — contributions are always welcome 🎈.
