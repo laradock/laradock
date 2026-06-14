@@ -28,6 +28,40 @@ Laradock is a full PHP development environment for Docker. It ships pre-configur
 
 It works with **any PHP project** and behaves the same on Linux, macOS, and Windows.
 
+### Quick Start
+
+Set up a demo stack with `PHP`, `NGINX`, `MySQL`, `Redis` and `Composer`:
+
+1 - Clone Laradock inside your PHP project:
+
+```shell
+git clone https://github.com/Laradock/laradock.git
+```
+
+2 - Enter the laradock folder and rename `.env.example` to `.env`.
+
+```shell
+cp .env.example .env
+```
+
+3 - Run your containers:
+
+```shell
+docker-compose up -d workspace nginx mysql redis
+```
+
+4 - Open your project's `.env` file and set the following:
+
+```shell
+DB_HOST=mysql
+REDIS_HOST=redis
+QUEUE_HOST=beanstalkd
+```
+
+5 - Open your browser and visit localhost: `http://localhost`.
+
+Done.
+
 ### Works With
 
 Laradock provides the PHP runtime, web server, databases, and background services your app needs, so it runs virtually any PHP framework, CMS, or e-commerce platform:
