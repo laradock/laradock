@@ -6,17 +6,18 @@ ARG CLICKHOUSE_GOSU_VERSION=1.14
 RUN apt-get update \
     && apt-get install --yes --no-install-recommends \
         apt-transport-https \
+        ca-certificates \
         dirmngr \
         gnupg \
     && mkdir -p /etc/apt/sources.list.d \
-    && apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4 \
-    && echo "deb http://repo.yandex.ru/clickhouse/deb/stable/ main/" > /etc/apt/sources.list.d/clickhouse.list \
+    && apt-key adv --keyserver keyserver.ubuntu.com --recv 8919F6BD2B48D754 \
+    && echo "deb https://packages.clickhouse.com/deb stable main" > /etc/apt/sources.list.d/clickhouse.list \
     && apt-get update \
     && env DEBIAN_FRONTEND=noninteractive \
         apt-get install --allow-unauthenticated --yes --no-install-recommends \
-            clickhouse-common-static=$CLICKHOUSE_VERSION \
-            clickhouse-client=$CLICKHOUSE_VERSION \
-            clickhouse-server=$CLICKHOUSE_VERSION \
+            clickhouse-common-static \
+            clickhouse-client \
+            clickhouse-server \
             locales \
             tzdata \
             wget \
