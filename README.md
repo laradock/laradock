@@ -42,30 +42,31 @@ Laradock provides the PHP runtime, web server, databases, and background service
 ### Key Features
 
 - **Pre-configured stack:** 70+ ready-to-use containers (Nginx, Apache, Caddy, PHP-FPM, MySQL, PostgreSQL, MariaDB, MongoDB, Redis, Memcached, Elasticsearch, RabbitMQ, Beanstalkd, and more).
+- **All-in-one dev shell:** run Artisan, Composer, Node, and every CLI your project needs inside the ready-made `workspace` container, with nothing installed on your host.
 - **Easy version switching:** change PHP (5.6–8.5), database, or service versions in one place.
 - **Project-agnostic:** works with Laravel, Symfony, WordPress, Drupal, Magento, or vanilla PHP.
 - **Cross-platform:** the same environment on Linux, macOS, and Windows.
 - **Modular:** run only the containers you need, in any combination.
 - **Beginner-friendly:** clone, copy the env file, and run `docker compose up`.
 
-### The Workspace: Run Everything, Install Nothing
+### The Workspace: Your All-in-One Dev Shell
 
-**Run every command your project needs, and install nothing on your machine.** Beyond the preconfigured stack, the Workspace container is Laradock's standout feature: a ready-to-use shell with PHP CLI, Composer, Git, Node, Yarn, PHPUnit, and dozens of dev tools already installed and waiting.
+A command line preloaded with PHP, Composer, Node, Git, and dozens of dev tools, so you run every command your project needs *inside* it and install nothing on your own machine.
 
-Enter it and work from inside:
+Enter it and work from there:
 
 ```bash
 docker-compose exec workspace bash
 ```
 
-From there `artisan`, `composer`, `phpunit`, `npm`, and `git` all just work, with nothing installed on your host: no PHP, no Composer, no Node, no version conflicts. Stop the project and **zero traces are left on your device.**
+`artisan`, `composer`, `phpunit`, `npm`, and `git` all just work, with nothing installed on your host: no PHP, no Composer, no Node, no version conflicts. Stop the project and **zero traces are left on your device.**
 
-That makes Laradock great for:
+Why it's a big deal:
 
-- **Running legacy projects** on older PHP (5.6, 7.x) without changing your system's PHP version.
-- **Spinning up any existing project in seconds**, with no local setup and no "works on my machine."
-- **Juggling multiple projects** that each need a different PHP or database version, fully isolated.
-- **Keeping your machine clean**, so your host never gets polluted with language runtimes or CLIs.
+- **Start in seconds.** Every tool is already installed and configured, so there's nothing to set up; clone a project and get to work.
+- **Keep your machine spotless.** Run everything inside the container; your host never gets PHP, Composer, Node, or any CLI, and nothing is left behind when you're done.
+- **Isolate every project.** Each one runs on its own PHP and database versions with no conflicts between them.
+- **Revive old projects.** Run legacy apps on older PHP (5.6, 7.x) without touching your system's PHP version.
 
 <br>
 
