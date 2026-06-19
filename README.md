@@ -248,6 +248,12 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
 
 
 
+## Contact
+
+Have a question, found a problem, or need something? **mahmoud@zalt.me**
+
+For security vulnerabilities, see [SECURITY.md](SECURITY.md).
+
 ## Sponsors
 
 Sponsoring is an act of giving in a different fashion. 🌱

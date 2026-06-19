@@ -14,7 +14,9 @@ keywords:
 
 ## Have a Question
 
-If you have questions about how to use Laradock, please direct your questions to the discussion on [Gitter](https://gitter.im/Laradock/laradock). If you believe your question could help others, then consider opening an [Issue](https://github.com/laradock/laradock/issues) (it will be labeled as `Question`) And you can still seek help on Gitter for it.
+Have a question, found a problem, or need something? **mahmoud@zalt.me**
+
+Or open an [Issue](https://github.com/laradock/laradock/issues) on GitHub (it will be labeled as `Question`) so others can benefit from the answer.
 
 
 
