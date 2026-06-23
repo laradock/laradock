@@ -25,8 +25,8 @@ jobs:
         php_version: [ "8.1", "8.2", "8.3", "8.4" ]
         service: [ php-fpm, php-worker, workspace ]
     steps:
-      - uses: actions/checkout@v6
-      - uses: docker/setup-buildx-action@v3
+      - uses: actions/checkout@v7
+      - uses: docker/setup-buildx-action@v4
       - name: Build the Docker image
         env:
           PHP_VERSION: ${{ matrix.php_version }}
@@ -64,8 +64,8 @@ jobs:
       matrix:
         service: [ 'nginx', 'redis', 'mysql', 'mariadb', 'percona', 'minio', 'mongo' ]
     steps:
-      - uses: actions/checkout@v6
-      - uses: docker/setup-buildx-action@v3
+      - uses: actions/checkout@v7
+      - uses: docker/setup-buildx-action@v4
       - name: Build the Docker image
         run: |
           cp .env.example .env
