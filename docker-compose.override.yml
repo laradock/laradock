@@ -1,0 +1,12 @@
+services:
+  # Ensure Nginx starts only when both PHP backends are available.
+  nginx:
+    depends_on:
+      - php-fpm
+      - php-fpm-sigv
+
+  # Keep parity in case OpenResty is used instead of Nginx.
+  openresty:
+    depends_on:
+      - php-fpm
+      - php-fpm-sigv
