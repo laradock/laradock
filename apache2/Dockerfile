@@ -23,7 +23,7 @@ WORKDIR /var/www/
 
 COPY vhost.conf /etc/apache2/sites-enabled/vhost.conf
 
-ADD ./startup.sh /opt/startup.sh
+COPY ./startup.sh /opt/startup.sh
 
 ENTRYPOINT ["/opt/docker/bin/entrypoint.sh"]
 

@@ -1630,6 +1630,8 @@ RUN if [ ${INSTALL_PROTOC} = true ]; then \
   else \
     REAL_PROTOC_VERSION=${PROTOC_VERSION}; \
   fi && \
+  # Fall back to a pinned version when the GitHub API is rate-limited; an empty result otherwise builds a 404 URL \
+  REAL_PROTOC_VERSION=${REAL_PROTOC_VERSION:-35.1} && \
   PROTOC_ZIP=protoc-${REAL_PROTOC_VERSION}-linux-x86_64.zip; \
   wget https://github.com/protocolbuffers/protobuf/releases/download/v${REAL_PROTOC_VERSION}/${PROTOC_ZIP} && \
   unzip -q -o ${PROTOC_ZIP} -d /usr/local bin/protoc && \

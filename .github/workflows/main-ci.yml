@@ -53,6 +53,7 @@ jobs:
           sed -i -- 's/SWOOLE=true/SWOOLE=false/g' .env
           sed -i -- 's/PHPDECIMAL=true/PHPDECIMAL=false/g' .env
           sed -i -- 's/IMAP=true/IMAP=false/g' .env
+          sed -i -- 's/NEW_RELIC=true/NEW_RELIC=false/g' .env
           docker buildx bake ${{ matrix.service }} --progress=plain --set *.output=type=cacheonly
 
   build-other:
