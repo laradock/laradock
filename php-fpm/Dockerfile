@@ -1255,7 +1255,7 @@ ARG NEW_RELIC=${NEW_RELIC}
 ARG NEW_RELIC_KEY=${NEW_RELIC_KEY}
 ARG NEW_RELIC_APP_NAME=${NEW_RELIC_APP_NAME}
 
-RUN if [ ${NEW_RELIC} = true ] ]; then \
+RUN if [ ${NEW_RELIC} = true ]; then \
   curl -L http://download.newrelic.com/php_agent/archive/10.15.0.4/newrelic-php5-10.15.0.4-linux.tar.gz | tar -C /tmp -zx && \
   export NR_INSTALL_USE_CP_NOT_LN=1 && \
   export NR_INSTALL_SILENT=1 && \
