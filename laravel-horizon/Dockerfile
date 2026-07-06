@@ -79,6 +79,17 @@ RUN set -eux; if [ ${INSTALL_GNUPG} = true ]; then \
       docker-php-ext-enable gnupg; \
     fi
 
+# Install Intl:
+
+ARG INSTALL_INTL=false
+
+RUN if [ ${INSTALL_INTL} = true ]; then \
+    apk add icu-dev && \
+    docker-php-ext-configure intl && \
+    docker-php-ext-install intl && \
+    docker-php-ext-enable intl \
+;fi
+
 #Install LDAP
 ARG INSTALL_LDAP=false;
 RUN set -eux; if [ ${INSTALL_LDAP} = true ]; then \
