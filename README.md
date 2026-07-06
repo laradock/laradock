@@ -14,6 +14,10 @@
 <p align="center"><b>Full PHP development environment based on Docker.</b></p>
 
 <p align="center">
+  🌐 <b>Languages:</b> <b>English</b> · <a href="./README-zh.md">简体中文</a> · <a href="./README-ar.md">العربية</a> · <a href="./README-es.md">Español</a>
+</p>
+
+<p align="center">
     <a href="https://zalt.me"><img src="http://forthebadge.com/images/badges/built-by-developers.svg" alt="forthebadge" width="180"></a>
 </p>
 
@@ -302,10 +306,6 @@ Sponsoring is an act of giving in a different fashion. 🌱
 
 ![Bronze Sponsors](https://opencollective.com/laradock/tiers/bronze-sponsors.svg?avatarHeight=65&width=800&format=svg&button=false&background=%231B1B1D&isActive=false)
 
-
-## Translations
-
-- [中文文档 (Chinese)](./README-zh.md)
 
 ## License
 
