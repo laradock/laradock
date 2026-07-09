@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+FROM mcr.microsoft.com/mssql/server:2022-latest
 
 ENV MSSQL_PID=Express
 ENV MSSQL_DATABASE=$MSSQL_DATABASE
