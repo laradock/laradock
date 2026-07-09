@@ -50,6 +50,8 @@ git clone https://github.com/Laradock/laradock.git
 cp .env.example .env
 ```
 
+Your `.env` holds the shared settings. Every service ships pre-configured with its own settings in its folder (`mysql/defaults.env`, `nginx/defaults.env`, ...); to change any value, add that line to your `.env`, it always wins.
+
 3 - Run your containers:
 
 ```shell

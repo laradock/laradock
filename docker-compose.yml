@@ -79,211 +79,305 @@ volumes:
 include:
   - path: adminer/compose.yml
     project_directory: .
+    env_file: adminer/defaults.env
   - path: aerospike/compose.yml
     project_directory: .
+    env_file: aerospike/defaults.env
   - path: apache2/compose.yml
     project_directory: .
+    env_file: apache2/defaults.env
   - path: arangodb/compose.yml
     project_directory: .
+    env_file: arangodb/defaults.env
   - path: aws-eb-cli/compose.yml
     project_directory: .
   - path: beanstalkd/compose.yml
     project_directory: .
+    env_file: beanstalkd/defaults.env
   - path: beanstalkd-console/compose.yml
     project_directory: .
+    env_file: beanstalkd-console/defaults.env
   - path: blackfire/compose.yml
     project_directory: .
+    env_file: blackfire/defaults.env
   - path: caddy/compose.yml
     project_directory: .
+    env_file: caddy/defaults.env
   - path: cassandra/compose.yml
     project_directory: .
+    env_file: cassandra/defaults.env
   - path: certbot/compose.yml
     project_directory: .
   - path: chroma/compose.yml
     project_directory: .
+    env_file: chroma/defaults.env
   - path: clickhouse/compose.yml
     project_directory: .
+    env_file: clickhouse/defaults.env
   - path: confluence/compose.yml
     project_directory: .
+    env_file: confluence/defaults.env
   - path: couchdb/compose.yml
     project_directory: .
+    env_file: couchdb/defaults.env
   - path: dejavu/compose.yml
     project_directory: .
+    env_file: dejavu/defaults.env
   - path: docker-in-docker/compose.yml
     project_directory: .
   - path: docker-registry/compose.yml
     project_directory: .
+    env_file: docker-registry/defaults.env
   - path: dragonfly/compose.yml
     project_directory: .
+    env_file: dragonfly/defaults.env
   - path: elasticsearch/compose.yml
     project_directory: .
+    env_file: elasticsearch/defaults.env
   - path: flowise/compose.yml
     project_directory: .
+    env_file: flowise/defaults.env
   - path: frankenphp/compose.yml
     project_directory: .
+    env_file: frankenphp/defaults.env
   - path: gearman/compose.yml
     project_directory: .
+    env_file: gearman/defaults.env
   - path: gitlab/compose.yml
     project_directory: .
+    env_file: gitlab/defaults.env
   - path: gitlab-runner/compose.yml
     project_directory: .
+    env_file: gitlab-runner/defaults.env
   - path: grafana/compose.yml
     project_directory: .
+    env_file: grafana/defaults.env
   - path: graylog/compose.yml
     project_directory: .
+    env_file: graylog/defaults.env
   - path: haproxy/compose.yml
     project_directory: .
+    env_file: haproxy/defaults.env
   - path: ide-theia/compose.yml
     project_directory: .
+    env_file: ide-theia/defaults.env
   - path: influxdb/compose.yml
     project_directory: .
+    env_file: influxdb/defaults.env
   - path: jenkins/compose.yml
     project_directory: .
+    env_file: jenkins/defaults.env
   - path: kafka/compose.yml
     project_directory: .
   - path: kafka-manager/compose.yml
     project_directory: .
   - path: keycloak/compose.yml
     project_directory: .
+    env_file: keycloak/defaults.env
   - path: kibana/compose.yml
     project_directory: .
+    env_file: kibana/defaults.env
   - path: laravel-echo-server/compose.yml
     project_directory: .
+    env_file: laravel-echo-server/defaults.env
   - path: laravel-horizon/compose.yml
     project_directory: .
+    env_file: laravel-horizon/defaults.env
   - path: laravel-reverb/compose.yml
     project_directory: .
+    env_file: laravel-reverb/defaults.env
   - path: litellm/compose.yml
     project_directory: .
+    env_file: litellm/defaults.env
   - path: localai/compose.yml
     project_directory: .
+    env_file: localai/defaults.env
   - path: logstash/compose.yml
     project_directory: .
   - path: mailcatcher/compose.yml
     project_directory: .
   - path: maildev/compose.yml
     project_directory: .
+    env_file: maildev/defaults.env
   - path: mailhog/compose.yml
     project_directory: .
   - path: mailpit/compose.yml
     project_directory: .
+    env_file: mailpit/defaults.env
   - path: mailu/compose.yml
     project_directory: .
+    env_file: mailu/defaults.env
   - path: manticore/compose.yml
     project_directory: .
+    env_file: manticore/defaults.env
   - path: mariadb/compose.yml
     project_directory: .
+    env_file: mariadb/defaults.env
   - path: meilisearch/compose.yml
     project_directory: .
+    env_file: meilisearch/defaults.env
   - path: memcached/compose.yml
     project_directory: .
+    env_file: memcached/defaults.env
   - path: mercure/compose.yml
     project_directory: .
+    env_file: mercure/defaults.env
   - path: metabase/compose.yml
     project_directory: .
+    env_file: metabase/defaults.env
   - path: minio/compose.yml
     project_directory: .
+    env_file: minio/defaults.env
   - path: mongo/compose.yml
     project_directory: .
+    env_file: mongo/defaults.env
   - path: mongo-webui/compose.yml
     project_directory: .
+    env_file: mongo-webui/defaults.env
   - path: mosquitto/compose.yml
     project_directory: .
+    env_file: mosquitto/defaults.env
   - path: mssql/compose.yml
     project_directory: .
+    env_file: mssql/defaults.env
   - path: mysql/compose.yml
     project_directory: .
+    env_file: mysql/defaults.env
   - path: n8n/compose.yml
     project_directory: .
+    env_file: n8n/defaults.env
   - path: nats/compose.yml
     project_directory: .
+    env_file: nats/defaults.env
   - path: neo4j/compose.yml
     project_directory: .
   - path: netdata/compose.yml
     project_directory: .
+    env_file: netdata/defaults.env
   - path: nginx/compose.yml
     project_directory: .
+    env_file: nginx/defaults.env
   - path: ollama/compose.yml
     project_directory: .
+    env_file: ollama/defaults.env
   - path: onedev/compose.yml
     project_directory: .
+    env_file: onedev/defaults.env
   - path: openresty/compose.yml
     project_directory: .
+    env_file: openresty/defaults.env
   - path: opensearch/compose.yml
     project_directory: .
+    env_file: opensearch/defaults.env
   - path: percona/compose.yml
     project_directory: .
+    env_file: percona/defaults.env
   - path: pgadmin/compose.yml
     project_directory: .
+    env_file: pgadmin/defaults.env
   - path: pgbackups/compose.yml
     project_directory: .
   - path: pgvector/compose.yml
     project_directory: .
+    env_file: pgvector/defaults.env
   - path: php-fpm/compose.yml
     project_directory: .
+    env_file: php-fpm/defaults.env
   - path: php-worker/compose.yml
     project_directory: .
+    env_file: php-worker/defaults.env
   - path: phpmyadmin/compose.yml
     project_directory: .
+    env_file: phpmyadmin/defaults.env
   - path: portainer/compose.yml
     project_directory: .
   - path: postgres/compose.yml
     project_directory: .
+    env_file: postgres/defaults.env
   - path: postgres-postgis/compose.yml
     project_directory: .
+    env_file: postgres-postgis/defaults.env
   - path: prometheus/compose.yml
     project_directory: .
+    env_file: prometheus/defaults.env
   - path: qdrant/compose.yml
     project_directory: .
+    env_file: qdrant/defaults.env
   - path: rabbitmq/compose.yml
     project_directory: .
+    env_file: rabbitmq/defaults.env
   - path: redis/compose.yml
     project_directory: .
+    env_file: redis/defaults.env
   - path: redis-cluster/compose.yml
     project_directory: .
+    env_file: redis-cluster/defaults.env
   - path: redis-webui/compose.yml
     project_directory: .
+    env_file: redis-webui/defaults.env
   - path: rethinkdb/compose.yml
     project_directory: .
+    env_file: rethinkdb/defaults.env
   - path: roadrunner/compose.yml
     project_directory: .
+    env_file: roadrunner/defaults.env
   - path: selenium/compose.yml
     project_directory: .
+    env_file: selenium/defaults.env
   - path: soketi/compose.yml
     project_directory: .
+    env_file: soketi/defaults.env
   - path: solr/compose.yml
     project_directory: .
+    env_file: solr/defaults.env
   - path: sonarqube/compose.yml
     project_directory: .
+    env_file: sonarqube/defaults.env
   - path: sqs/compose.yml
     project_directory: .
+    env_file: sqs/defaults.env
   - path: ssdb/compose.yml
     project_directory: .
+    env_file: ssdb/defaults.env
   - path: surrealdb/compose.yml
     project_directory: .
+    env_file: surrealdb/defaults.env
   - path: swagger-editor/compose.yml
     project_directory: .
+    env_file: swagger-editor/defaults.env
   - path: swagger-ui/compose.yml
     project_directory: .
+    env_file: swagger-ui/defaults.env
   - path: tarantool/compose.yml
     project_directory: .
+    env_file: tarantool/defaults.env
   - path: tarantool-admin/compose.yml
     project_directory: .
+    env_file: tarantool-admin/defaults.env
   - path: thumbor/compose.yml
     project_directory: .
+    env_file: thumbor/defaults.env
   - path: tomcat/compose.yml
     project_directory: .
+    env_file: tomcat/defaults.env
   - path: traefik/compose.yml
     project_directory: .
+    env_file: traefik/defaults.env
   - path: typesense/compose.yml
     project_directory: .
+    env_file: typesense/defaults.env
   - path: valkey/compose.yml
     project_directory: .
+    env_file: valkey/defaults.env
   - path: varnish/compose.yml
     project_directory: .
+    env_file: varnish/defaults.env
   - path: weaviate/compose.yml
     project_directory: .
+    env_file: weaviate/defaults.env
   - path: workspace/compose.yml
     project_directory: .
+    env_file: workspace/defaults.env
   - path: zookeeper/compose.yml
     project_directory: .
+    env_file: zookeeper/defaults.env

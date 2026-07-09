@@ -75,11 +75,11 @@ This setup will allow you to preview your changes in real time.
 
 * Add your `Dockerfile` in the folder "you may add additional files as well".
 
-* Add the software to the `docker-compose.yml` file.
+* Add the container definition as `compose.yml` inside your folder, and register it with an `include` entry in the root `docker-compose.yml`.
 
 * Make sure you follow the same code/comments style.
 
-* Add the environment variables to the `.env.example` if you have any.
+* Add the environment variables, pre-filled with working defaults, as `defaults.env` inside your folder (only truly shared variables belong in `.env.example`).
 
 * **MOST IMPORTANTLY** update the `Documentation`, add as much information.
 

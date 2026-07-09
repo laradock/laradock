@@ -175,7 +175,15 @@ We recommend using a Docker Engine version which is newer than 19.03.0.
 cp .env.example .env
 ```
 
-You can edit the `.env` file to choose which software you want installed in your environment. You can always refer to the `docker-compose.yml` file to see how those variables are being used.
+**How Laradock configuration works:**
+
+- Your `.env` (the file you just copied) holds the **shared settings**: paths, PHP version, project name.
+- Each service keeps its **own settings** pre-filled in its folder: `mysql/defaults.env`, `nginx/defaults.env`, and so on. You never need to copy or edit those files, they work out of the box.
+- To change **any** setting, shared or per-service, add that line to your `.env` with your value. **Your `.env` always wins over every `defaults.env`.** For example, to run MySQL on another port, add `MYSQL_PORT=3307` to your `.env`.
+- To discover what a service lets you configure, just open its folder's `defaults.env`, it's a short, readable list.
+- **Upgrading from an older Laradock?** Your existing full `.env` keeps working exactly as before, no changes needed.
+
+Each service's container definition also lives in its folder (`mysql/compose.yml`, ...), pulled together by the root `docker-compose.yml`. This requires Docker Compose v2.20 or newer.
 
 Depending on the host's operating system you may need to change the value given to `COMPOSE_FILE`. When you are running Laradock on Mac OS the correct file separator to use is `:`. When running Laradock from a Windows environment multiple files must be separated with `;`.
 
@@ -216,7 +224,7 @@ docker exec -it {workspace-container-id} bash
 docker-compose exec --user=laradock workspace bash
 ```
 
-*You can change the PUID (User id) and PGID (group id) variables from the `.env` file)*
+*You can change the PUID (User id) and PGID (group id) by adding `WORKSPACE_PUID` / `WORKSPACE_PGID` to your `.env` (defaults are in `workspace/defaults.env`)*
 
 > **Where do I run `artisan`, `composer`, `npm`?** Inside the workspace container, not on your machine. The Laravel and PHP docs assume these tools are installed on your host, but with Laradock they live in the workspace. So either enter it once with `docker-compose exec workspace bash` and run commands from there, or prefix a single command: `docker-compose exec workspace php artisan migrate`.
 
@@ -229,8 +237,8 @@ Open your PHP project's `.env` file or whichever configuration file you are read
 DB_HOST=mysql
 ```
 
-You need to use Laradock's default DB credentials, which can be found in the `.env` file (ex: `MYSQL_USER=`). 
-Or you can change them and rebuild the container.  
+You need to use Laradock's default DB credentials, which can be found in `mysql/defaults.env` (ex: `MYSQL_USER=`). 
+Or you can override them in your `.env` and rebuild the container.  
 
 *If you want to install Laravel as your PHP project, see [How to Install Laravel in a Docker Container](/docs/usage/#install-laravel).*
 

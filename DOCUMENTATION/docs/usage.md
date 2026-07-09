@@ -13,7 +13,7 @@ keywords:
 
 Once Laradock is installed, you drive it with a handful of Docker and Docker Compose commands. This page is the day-to-day reference: running and entering containers, switching versions, enabling services, installing tools, and preparing for production.
 
-> **The golden rule:** whenever you change the `.env` file, `docker-compose.yml`, or any `Dockerfile`, rebuild the affected container for the change to take effect:
+> **The golden rule:** whenever you change the `.env` file, a service's `compose.yml` or `defaults.env`, or any `Dockerfile`, rebuild the affected container for the change to take effect:
 > ```bash
 > docker-compose build {container-name}
 > ```
@@ -130,9 +130,9 @@ docker-compose build --no-cache {container-name}
 <a name="Edit-Container"></a>
 ### Edit a container's Compose config
 
-Open `docker-compose.yml` and change whatever you need.
+Everything about a service lives in its folder: its container definition in `<service>/compose.yml` and its settings in `<service>/defaults.env`. For plain value changes (ports, versions, credentials), don't edit files at all, just override the variable in your `.env`. Edit `<service>/compose.yml` only for structural changes.
 
-*Change the MySQL database name:*
+*Change the MySQL database name (in `mysql/compose.yml`):*
 
 ```yml
     environment:
@@ -140,12 +140,10 @@ Open `docker-compose.yml` and change whatever you need.
     ...
 ```
 
-*Map Redis to a different host port (`1111`):*
+*Map Redis to a different host port (`1111`), no file editing needed, just add to your `.env`:*
 
-```yml
-    ports:
-        - "1111:6379"
-    ...
+```env
+REDIS_PORT=1111
 ```
 
 
@@ -163,7 +161,7 @@ Open `docker-compose.yml` and change whatever you need.
 <a name="Add-Docker-Images"></a>
 ### Add more services
 
-To add a new service (software), edit `docker-compose.yml` and add your container definition. You'll want to be familiar with the [Docker Compose file syntax](https://docs.docker.com/compose/compose-file/).
+To add a new service (software), create a folder for it containing a `compose.yml` with your container definition (plus a `defaults.env` for its settings, if any), then register it in the root `docker-compose.yml` by adding an `include` entry like the existing ones. You'll want to be familiar with the [Docker Compose file syntax](https://docs.docker.com/compose/compose-file/).
 
 
 
@@ -208,9 +206,9 @@ The PHP-CLI lives in the Workspace container and is used only for Artisan and Co
 <a name="Install-PHP-Extensions"></a>
 ### Install PHP extensions
 
-PHP extensions are toggled per container in `.env`. Each container has its own section — `PHP_FPM`, `WORKSPACE`, and `PHP_WORKER` — with a matching flag for every extension.
+PHP extensions are toggled per container. Each PHP container lists a flag for every extension in its `defaults.env`: `php-fpm/defaults.env`, `workspace/defaults.env`, and `php-worker/defaults.env`.
 
-1. In `.env`, find the extension's flag under the relevant container's section and set it to `true`.
+1. Find the extension's flag in the relevant container's `defaults.env`, then set it to `true` in your `.env` (e.g. `PHP_FPM_INSTALL_GMP=true`).
 2. Rebuild that container with `--no-cache`:
    ```bash
    docker-compose build --no-cache {container-name}
