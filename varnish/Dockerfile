@@ -1,4 +1,8 @@
-FROM varnish:6.3
+FROM varnish:7.6
+
+# Varnish 7 runs as the varnish user by default; laradock's start.sh rewrites
+# the VCL in place and needs root (matching the previous varnish:6.3 behaviour).
+USER root
 
 # Set Environment Variables
 ENV DEBIAN_FRONTEND noninteractive
