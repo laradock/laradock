@@ -95,7 +95,7 @@ Laradock provides the PHP runtime, web server, databases, and background service
 
 Laradock runs each service in its own container, which you turn on or off as needed. To start one, run `docker-compose up -d {container-name}` (the container name matches its folder name, e.g. `php-fpm`).
 
-<!-- SYNC: keep this table in sync with the "Supported Services" table in /DOCUMENTATION/docs/Intro.md -->
+<!-- SYNC: one of THREE places listing Laradock services. Keep in sync with the other table (README.md / DOCUMENTATION/docs/Intro.md) AND the homepage list in DOCUMENTATION/src/pages/index.tsx. Add a service = update all three. -->
 | Category                  | Services (Containers)                                                                 |
 |---------------------------|--------------------------------------------------------------------------|
 | (**Laradock Workspace**)    | PHP CLI, Composer, Git, Vim, xDebug, Linuxbrew, Node, V8JS, Gulp, SQLite, Laravel Envoy, Deployer, Yarn, SOAP, Drush, Wordpress CLI, dnsutils, Terraform, ImageMagick, Drupal Console, Protoc, JDK, Docker Client |
