@@ -1304,6 +1304,151 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 4. Your app is served on host port `8090` (configurable via `ROADRUNNER_HTTP_PORT`).
 
 
+<a name="Use-Ollama"></a>
+### Ollama
+
+[Ollama](https://ollama.com) runs open LLMs locally and exposes an OpenAI-compatible HTTP API, giving PHP apps local inference with no external calls or per-token cost. Point Prism, Neuron AI, LLPhant, or openai-php at it, and pair it with `pgvector` for fully local RAG.
+
+1. Start the container:
+   ```bash
+   docker-compose up -d ollama
+   ```
+2. API on `http://localhost:11434` from the host, `http://ollama:11434` from other containers (OpenAI-compatible base `http://ollama:11434/v1`). Pull a model: `docker-compose exec ollama ollama pull llama3.2`.
+
+
+<a name="Use-LocalAI"></a>
+### LocalAI
+
+[LocalAI](https://localai.io) is a free, self-hosted drop-in replacement for the OpenAI REST API (LLMs, embeddings, image gen) on your own hardware.
+
+1. Start the container:
+   ```bash
+   docker-compose up -d localai
+   ```
+2. API on `http://localhost:8088` (readiness `/readyz`, models `/v1/models`). Models persist in the `localai` volume at `/models`; from your app use `http://localai:8080/v1`.
+
+
+<a name="Use-LiteLLM"></a>
+### LiteLLM
+
+[LiteLLM](https://litellm.ai) is an LLM proxy/gateway exposing one OpenAI-compatible endpoint that routes to any provider, the backbone of agentic apps needing a unified API and key management.
+
+1. Edit `litellm/config.yaml` to add your models/providers (a commented Ollama example is included).
+2. Start the container:
+   ```bash
+   docker-compose up -d litellm
+   ```
+3. Proxy on `http://localhost:4000` (health `/health/liveliness`). Auth with `LITELLM_MASTER_KEY` (default `sk-laradock`).
+
+
+<a name="Use-n8n"></a>
+### n8n
+
+[n8n](https://n8n.io) is a workflow-automation platform with first-class AI/agent nodes. Build agentic flows visually and call your app's webhooks.
+
+1. Start the container:
+   ```bash
+   docker-compose up -d n8n
+   ```
+2. Editor at `http://localhost:5678` (health `/healthz`). Workflows persist in the `n8n` volume.
+
+
+<a name="Use-Flowise"></a>
+### Flowise
+
+[Flowise](https://flowiseai.com) is a visual, low-code builder for LLM apps and AI agents. Prototype agent/RAG flows and call them from Laravel over HTTP.
+
+1. Start the container:
+   ```bash
+   docker-compose up -d flowise
+   ```
+2. Builder at `http://localhost:3020` (health `/api/v1/ping` returns `pong`).
+
+
+<a name="Use-Qdrant"></a>
+### Qdrant
+
+[Qdrant](https://qdrant.tech) is a high-performance vector database for storing and querying embeddings (semantic search, RAG) over a REST API.
+
+1. Start the container:
+   ```bash
+   docker-compose up -d qdrant
+   ```
+2. REST on `http://localhost:6333` (health `/healthz`, dashboard `/dashboard`), gRPC on `6334`.
+
+
+<a name="Use-Weaviate"></a>
+### Weaviate
+
+[Weaviate](https://weaviate.io) is an open-source vector database with REST and GraphQL APIs, used for embeddings and RAG from PHP over HTTP.
+
+1. Start the container:
+   ```bash
+   docker-compose up -d weaviate
+   ```
+2. Reachable at `http://localhost:8085` (REST under `/v1`, readiness `/v1/.well-known/ready`). Anonymous access is on by default.
+
+
+<a name="Use-Chroma"></a>
+### Chroma
+
+[Chroma](https://www.trychroma.com) is a lightweight open-source vector database with a simple HTTP API, handy for semantic-search / RAG prototypes.
+
+1. Start the container:
+   ```bash
+   docker-compose up -d chroma
+   ```
+2. API on `http://localhost:8001` (heartbeat `/api/v2/heartbeat`). Data persists in the `chroma` volume at `/data`.
+
+
+<a name="Use-ArangoDB"></a>
+### ArangoDB
+
+[ArangoDB](https://arangodb.com) is a multi-model database (document + graph + key/value) with the AQL query language, a graph option beyond Neo4j.
+
+1. Start the container:
+   ```bash
+   docker-compose up -d arangodb
+   ```
+2. Web UI and API on `http://localhost:8529` (version `/_api/version`). Root password set by `ARANGODB_ROOT_PASSWORD` (default `secret`).
+
+
+<a name="Use-SurrealDB"></a>
+### SurrealDB
+
+[SurrealDB](https://surrealdb.com) is a multi-model database (document, graph, relational) with a SQL-like language and REST/WebSocket API.
+
+1. Start the container:
+   ```bash
+   docker-compose up -d surrealdb
+   ```
+2. API on `http://localhost:8010` (health `/health`). Credentials `SURREALDB_USER` / `SURREALDB_PASSWORD` (default `root` / `secret`); data persists in the `surrealdb` volume.
+
+
+<a name="Use-InfluxDB"></a>
+### InfluxDB
+
+[InfluxDB](https://www.influxdata.com) is an open-source time-series database for high-volume metrics, events, and IoT/analytics data, chart it with Grafana.
+
+1. Start the container:
+   ```bash
+   docker-compose up -d influxdb
+   ```
+2. UI and API on `http://localhost:8086` (health `/health`). First-run credentials from `.env` (`INFLUXDB_INIT_*`): user `laradock`, org `laradock`, bucket `default`.
+
+
+<a name="Use-Prometheus"></a>
+### Prometheus
+
+[Prometheus](https://prometheus.io) is the standard metrics and monitoring system with a time-series DB and PromQL, the usual data source for Laradock's Grafana.
+
+1. Start the container:
+   ```bash
+   docker-compose up -d prometheus
+   ```
+2. Web UI on `http://localhost:9091` (health `/-/healthy`). Edit `prometheus/prometheus.yml` to add scrape targets, then restart.
+
+
 <a name="Use-Beanstalkd"></a>
 ### Beanstalkd
 

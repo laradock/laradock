@@ -104,10 +104,15 @@ Laradock runs each service in its own container, which you turn on or off as nee
 | **Message Brokers**       | RabbitMQ, RabbitMQ Admin Console, Beanstalkd, Beanstalkd Admin Console, Eclipse Mosquitto, Gearman, NATS, Apache Kafka, Kafka Manager |
 | **Log Management**        | GrayLog, Kibana, LogStash                                                |
 | **Search Engines**        | ElasticSearch, Apache Solr, Manticore Search, Typesense, Dejavu          |
+| **Vector Databases**      | pgvector, Qdrant, Weaviate, Chroma                                       |
+| **Graph / Multi-model Databases** | Neo4j, ArangoDB, SurrealDB                                       |
+| **Time-series Databases** | InfluxDB                                                                 |
+| **AI / LLM**              | Ollama, LocalAI, LiteLLM                                                 |
+| **Agentic / Automation**  | n8n, Flowise                                                             |
 | **PHP Extensions**        | Swoole, Blackfire, Phalcon, PHP Worker, Laravel Horizon                  |
 | **Mail Servers**          | Mailu, MailCatcher, Mailhog, MailDev, Mailpit                                     |
 | **Real-time Communication** | Laravel Echo, Laravel Reverb, Mercure, Soketi                                        |
-| **Monitoring**            | Grafana, NetData                                                         |
+| **Monitoring**            | Grafana, NetData, Prometheus                                            |
 | **Coordination Services** | Apache ZooKeeper                                                         |
 | **Container Management**  | Portainer, Docker Registry, Docker Web UI                                |
 | **CI/CD Tools**           | Jenkins, SonarQube, Gitlab, OneDev                                       |
