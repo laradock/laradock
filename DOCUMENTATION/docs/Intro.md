@@ -29,6 +29,7 @@ Laradock is free, open-source under the MIT license, and has been battle-tested 
 - **70+ Ready-made Services**: Databases, caches, queues, search engines, and more, all pre-configured and waiting.
 - **All-in-One Dev Shell**: Run Artisan, Composer, Node, and every CLI your project needs inside the ready-made `workspace` container, with nothing installed on your host.
 - **Pick Your Database**: MySQL, PostgreSQL, MariaDB, MongoDB, Redis, and many others, ready to switch on.
+- **Local AI, Built In**: Run LLMs and vector search on your own machine with Ollama, LocalAI, LiteLLM, pgvector, Qdrant, Weaviate, and Chroma. Build AI and RAG features with no API keys and no cloud bills.
 - **Toggle Services On Demand**: Start only what a project needs with `docker compose up`, and stop them easily.
 - **One Environment Everywhere**: Identical setup on Linux, macOS, and Windows, so your team shares the same stack.
 - **A Container Per Service**: Every service is isolated, so nothing conflicts and each piece is easy to manage.
