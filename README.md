@@ -150,6 +150,8 @@ docker-compose exec workspace bash
 
 `artisan`, `composer`, `phpunit`, `npm`, and `git` all just work, with nothing installed on your host: no PHP, no Composer, no Node, no version conflicts. Stop the project and **zero traces are left on your device.**
 
+> Built from two prebuilt base images, each in its own repo: [`laradock/workspace`](https://github.com/laradock/workspace) (this dev shell) and [`laradock/php-fpm`](https://github.com/laradock/php-fpm) (the PHP runtime).
+
 Why it's a big deal:
 
 - **Start in seconds.** Every tool is already installed and configured, so there's nothing to set up; clone a project and get to work.

@@ -1,0 +1,77 @@
+name: "Bug report"
+description: "Report a general issue, encountered while using Laradock."
+labels: ["Type: Bug"]
+body:
+  - type: textarea
+    attributes:
+      label: Description
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Expected Behavior
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: Laradock commit
+      description: Output of `git rev-parse HEAD`
+      placeholder: e.g. a1b2c3d4e5f6...
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Docker version
+      description: Output of `docker version`
+      render: Text
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Docker Compose version
+      description: Output of `docker compose version` (or `docker-compose version`)
+      render: Text
+    validations:
+      required: true
+
+  - type: dropdown
+    attributes:
+      label: Host OS
+      options:
+        - macOS
+        - Windows
+        - Linux
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: OS version / distro
+      description: e.g. macOS 14.5, Windows 11 23H2, Ubuntu 22.04
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      description: How can we reproduce the issue?
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Stacktrace & additional info
+      render: Shell
+    validations:
+      required: false

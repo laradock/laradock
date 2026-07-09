@@ -19,6 +19,8 @@ Laradock is a full PHP development environment for Docker. Each service is a sel
 - Each service extends an official base image; keep Dockerfiles clean and minimal.
 - After editing a `compose.yml`, `.env`, or any `Dockerfile`, rebuild: `docker compose build <container>`.
 - Adding a service = new folder + `Dockerfile` + `compose.yml` + `defaults.env` (pre-filled, working values) + an `include` entry in the root `docker-compose.yml`. Only truly shared variables go in `.env.example`.
+- Before opening a PR, run what CI runs: `shellcheck` (severity `error`) on any `*.sh` you touched, `hadolint` (failure-threshold `error`, ignoring `DL3008,DL3018,DL3013,DL3016`) on any `Dockerfile` you touched.
+- Disclose AI assistance in the PR template's AI Disclosure checkbox, not just "used AI" but confirm you actually reviewed and tested the result.
 
 ## Docs
 

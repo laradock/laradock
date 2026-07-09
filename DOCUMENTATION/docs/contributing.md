@@ -110,7 +110,12 @@ This setup will allow you to preview your changes in real time.
 
 *Most of the images in Laradock are official images; these projects live in other repositories and are maintained by other organizations.*
 
-**Note:** Laradock has two base images (`Workspace` and `php-fpm`), mainly made to speed up the build time on your machine.
+**Note:** Laradock has two base images, mainly made to speed up the build time on your machine. Each lives in its own repository:
+
+* [`laradock/workspace`](https://github.com/laradock/workspace), the all-in-one dev shell.
+* [`laradock/php-fpm`](https://github.com/laradock/php-fpm), the PHP runtime.
+
+See each repo's `AGENTS.md` for how it builds.
 
 * Find the dockerfiles, edit them and submit a Pull Request.
 
