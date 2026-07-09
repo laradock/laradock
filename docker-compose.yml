@@ -14,6 +14,8 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   memcached:
     driver: ${VOLUMES_DRIVER}
+  flowise:
+    driver: ${VOLUMES_DRIVER}
   redis:
     driver: ${VOLUMES_DRIVER}
   neo4j:
@@ -824,6 +826,18 @@ services:
       ports:
         - "${SSDB_PORT}:8888"
       networks:
+        - backend
+
+### Flowise ##############################################
+    flowise:
+      restart: always
+      image: flowiseai/flowise:${FLOWISE_VERSION}
+      volumes:
+        - flowise:/root/.flowise
+      ports:
+        - "${FLOWISE_HOST_PORT}:3000"
+      networks:
+        - frontend
         - backend
 
 ### ZooKeeper ############################################
