@@ -61,6 +61,8 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   graylog:
     driver: ${VOLUMES_DRIVER}
+  prometheus:
+    driver: ${VOLUMES_DRIVER}
   docker-in-docker:
     driver: ${VOLUMES_DRIVER}
 
@@ -1193,6 +1195,19 @@ services:
         - "${ADM_PORT}:8080"
       # depends_on:
       #   - php-fpm
+      networks:
+        - frontend
+        - backend
+
+### Prometheus ###########################################
+    prometheus:
+      restart: always
+      image: prom/prometheus:${PROMETHEUS_VERSION}
+      volumes:
+        - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+        - prometheus:/prometheus
+      ports:
+        - "${PROMETHEUS_HOST_PORT}:9090"
       networks:
         - frontend
         - backend
