@@ -8,6 +8,8 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   percona:
     driver: ${VOLUMES_DRIVER}
+  localai:
+    driver: ${VOLUMES_DRIVER}
   mssql:
     driver: ${VOLUMES_DRIVER}
   postgres:
@@ -811,6 +813,17 @@ services:
         - ${DATA_PATH_HOST}/mongo:/data/db
         - ${DATA_PATH_HOST}/mongo_config:/data/configdb
       networks:
+        - backend
+
+### LocalAI ##############################################
+    localai:
+      image: localai/localai:${LOCALAI_VERSION}
+      volumes:
+        - localai:/models
+      ports:
+        - "${LOCALAI_HOST_PORT}:8080"
+      networks:
+        - frontend
         - backend
 
 ### RethinkDB ############################################
