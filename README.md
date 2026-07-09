@@ -85,6 +85,7 @@ Laradock provides the PHP runtime, web server, databases, and background service
 
 - **Pre-configured stack:** 70+ ready-to-use containers (Nginx, Apache, Caddy, PHP-FPM, MySQL, PostgreSQL, MariaDB, MongoDB, Redis, Memcached, Elasticsearch, RabbitMQ, Beanstalkd, and more).
 - **All-in-one dev shell:** run Artisan, Composer, Node, and every CLI your project needs inside the ready-made `workspace` container, with nothing installed on your host.
+- **Local AI, built in:** run LLMs and vector search on your own machine (Ollama, LocalAI, LiteLLM, pgvector, Qdrant, Weaviate, Chroma) for AI/RAG features with no API keys or cloud bills.
 - **Easy version switching:** change PHP (5.6–8.5), database, or service versions in one place.
 - **Project-agnostic:** works with Laravel, Symfony, WordPress, Drupal, Magento, or vanilla PHP.
 - **Cross-platform:** the same environment on Linux, macOS, and Windows.
