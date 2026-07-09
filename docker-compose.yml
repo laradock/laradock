@@ -913,6 +913,16 @@ services:
       networks:
         - backend
 
+### Valkey ##############################################
+    valkey:
+      image: valkey/valkey:${VALKEY_VERSION}
+      volumes:
+        - ${DATA_PATH_HOST}/valkey:/data
+      ports:
+        - "${VALKEY_PORT}:6379"
+      networks:
+        - backend
+
 ### Redis Cluster ########################################
     redis-cluster:
       restart: always
@@ -933,6 +943,18 @@ services:
         - N8N_SECURE_COOKIE=false
       networks:
         - frontend
+        - backend
+
+### Dragonfly ###########################################
+    dragonfly:
+      image: docker.dragonflydb.io/dragonflydb/dragonfly:${DRAGONFLY_VERSION}
+      ulimits:
+        memlock: -1
+      volumes:
+        - ${DATA_PATH_HOST}/dragonfly:/data
+      ports:
+        - "${DRAGONFLY_PORT}:6379"
+      networks:
         - backend
 
 ### SSDB #################################################
@@ -1346,6 +1368,30 @@ services:
         - TYPESENSE_DATA_DIR=/data
         - TYPESENSE_API_KEY=${TYPESENSE_API_KEY}
         - TYPESENSE_ENABLE_CORS=${TYPESENSE_ENABLE_CORS}
+      networks:
+        - frontend
+        - backend
+
+### OpenSearch ##########################################
+    opensearch:
+      image: opensearchproject/opensearch:${OPENSEARCH_VERSION}
+      environment:
+        - discovery.type=single-node
+        - DISABLE_SECURITY_PLUGIN=true
+        - bootstrap.memory_lock=true
+        - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+      ulimits:
+        memlock:
+          soft: -1
+          hard: -1
+        nofile:
+          soft: 65536
+          hard: 65536
+      volumes:
+        - ${DATA_PATH_HOST}/opensearch:/usr/share/opensearch/data
+      ports:
+        - "${OPENSEARCH_HOST_PORT}:9200"
+        - "${OPENSEARCH_MONITORING_PORT}:9600"
       networks:
         - frontend
         - backend
