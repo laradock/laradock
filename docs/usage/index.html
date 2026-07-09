@@ -13,7 +13,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Laradock","alternateName":"Laradock for Docker","url":"https://laradock.io","sameAs":["https://www.wikidata.org/wiki/Q140002860","https://github.com/laradock/laradock"],"applicationCategory":"DeveloperApplication","applicationSubCategory":"PHP Development Environment","operatingSystem":"Linux, macOS, Windows","softwareRequirements":"Docker","license":"https://opensource.org/licenses/MIT","datePublished":"2015-01-01","isAccessibleForFree":true,"keywords":"Docker, PHP, Laravel, development environment, Docker Compose, Nginx, MySQL, Redis","image":"https://laradock.io/img/laradock/laradock-logo.jpg","downloadUrl":"https://github.com/laradock/laradock","softwareHelp":"https://laradock.io/docs/Intro","description":"A Docker setup that lets you run a full PHP development environment in seconds.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Person","name":"Mahmoud Zalt","url":"https://zalt.me","sameAs":["https://www.wikidata.org/wiki/Q140002792"]}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Laradock","url":"https://laradock.io","description":"Official documentation for Laradock, a full PHP development environment for Docker.","inLanguage":"en","publisher":{"@type":"Person","name":"Mahmoud Zalt","url":"https://zalt.me","sameAs":["https://www.wikidata.org/wiki/Q140002792"]}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"I see a blank (white) page instead of the Laravel 'Welcome' page","acceptedAnswer":{"@type":"Answer","text":"Run \"sudo chmod -R 777 storage bootstrap/cache\" from the Laravel root directory."}},{"@type":"Question","name":"I see \"Welcome to nginx\" instead of the Laravel App","acceptedAnswer":{"@type":"Answer","text":"Use http://127.0.0.1 instead of http://localhost in your browser."}},{"@type":"Question","name":"I see an error containing \"address already in use\" or \"port is already allocated\"","acceptedAnswer":{"@type":"Answer","text":"Make sure the ports for the services you are running (22, 80, 443, 3306, etc.) are not already used by other programs on the host, such as a built-in apache/httpd service or other development tools."}},{"@type":"Question","name":"I get MySQL connection refused","acceptedAnswer":{"@type":"Answer","text":"Set DB_HOST in your .env to the MySQL container name (the Laradock docker-compose file uses \"mysql\"), or to the IP of your Laravel container."}},{"@type":"Question","name":"Does Laradock work with frameworks other than Laravel?","acceptedAnswer":{"@type":"Answer","text":"Yes. Laradock works with any PHP project, including Laravel, Symfony, WordPress, or plain PHP, and behaves the same on Linux, macOS, and Windows."}}]}</script><link rel="stylesheet" href="/assets/css/styles.791544ca.css">
-<script src="/assets/js/runtime~main.74c9f97b.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.25b06439.js" defer="defer"></script>
 <script src="/assets/js/main.592a2e11.js" defer="defer"></script>
 </head>
 <body>
@@ -1461,71 +1461,12 @@
 </blockquote>
 <a name="Speed-MacOS"></a>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="improve-speed-on-macos">Improve speed on macOS<a href="#improve-speed-on-macos" class="hash-link" aria-label="Direct link to Improve speed on macOS" title="Direct link to Improve speed on macOS" translate="no">​</a></h3>
-<p>Sharing code into containers via osxfs is slower than on Linux, which can hurt on larger projects (<a href="https://github.com/docker/for-mac/issues/77" target="_blank" rel="noopener noreferrer" class="">background</a>). Modern Docker Desktop&#x27;s VirtioFS reduces this a lot; if you still need more, the workarounds below help.</p>
-<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="workaround-a-dinghy">Workaround A: Dinghy<a href="#workaround-a-dinghy" class="hash-link" aria-label="Direct link to Workaround A: Dinghy" title="Direct link to Workaround A: Dinghy" translate="no">​</a></h4>
-<p><a href="https://github.com/codekitchen/dinghy" target="_blank" rel="noopener noreferrer" class="">Dinghy</a> creates its own VM via docker-machine without touching your existing docker-machine VMs.</p>
-<ol>
-<li class=""><code>brew tap codekitchen/dinghy</code></li>
-<li class=""><code>brew install dinghy</code></li>
-<li class=""><code>dinghy create --provider virtualbox</code> (VirtualBox required; other providers are supported)</li>
-<li class="">Copy the env variables it prints into your shell profile so Docker uses the VM&#x27;s server.</li>
-<li class=""><code>docker-compose up ...</code></li>
-</ol>
-<a name="Docker-Sync"></a>
-<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="workaround-b-d4m-nfs">Workaround B: d4m-nfs<a href="#workaround-b-d4m-nfs" class="hash-link" aria-label="Direct link to Workaround B: d4m-nfs" title="Direct link to Workaround B: d4m-nfs" translate="no">​</a></h4>
-<p>You can use d4m-nfs either through Laradock&#x27;s built-in integration or as a standalone tool.</p>
-<p><strong>B.1 — Built-in docker-sync integration</strong></p>
-<p>docker-sync runs an intermediate container holding a copy of your app files that the other containers read quickly, while a host process continuously syncs changes into it. It&#x27;s preconfigured for macOS and works on Windows by changing <code>DOCKER_SYNC_STRATEGY</code>.</p>
-<p>Laradock ships <code>sync.sh</code> to install, run, and stop docker-sync (you may need <code>chmod 755 sync.sh</code>).</p>
-<ol>
-<li class="">Configure Laradock as usual and confirm your sites work.</li>
-<li class="">Set <code>DOCKER_SYNC_STRATEGY</code> in <code>.env</code> (see the <a href="https://github.com/EugenMayer/docker-sync/wiki/8.-Strategies" target="_blank" rel="noopener noreferrer" class="">syncing strategies</a>):<!-- -->
-<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#F8F8F2"><span class="token plain"># osx: &#x27;native_osx&#x27; (default)</span><br></div><div class="token-line" style="color:#F8F8F2"><span class="token plain"># windows: &#x27;unison&#x27;</span><br></div><div class="token-line" style="color:#F8F8F2"><span class="token plain"># linux: docker-sync not required</span><br></div><div class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#F8F8F2"><span class="token plain">DOCKER_SYNC_STRATEGY=native_osx</span><br></div></code></pre></div></div>
-</li>
-<li class="">Set <code>APP_CODE_CONTAINER_FLAG=:nocopy</code> in <code>.env</code>.</li>
-<li class="">Install the docker-sync gem on the host:<!-- -->
-<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#F8F8F2"><span class="token plain">./sync.sh install</span><br></div></code></pre></div></div>
-</li>
-<li class="">Start docker-sync and the environment, naming the services you want (as with <code>docker-compose up</code>):<!-- -->
-<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#F8F8F2"><span class="token plain">./sync.sh up nginx mysql</span><br></div></code></pre></div></div>
-<blockquote>
-<p>The first run copies all files into the intermediate container, which can take 15+ minutes.</p>
-</blockquote>
-</li>
-<li class="">Stop everything:<!-- -->
-<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#F8F8F2"><span class="token plain">./sync.sh down</span><br></div></code></pre></div></div>
-</li>
-</ol>
-<p><em>Optional aliases</em> — add to <code>~/.bash_profile</code> to avoid retyping:</p>
-<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#F8F8F2"><span class="token plain">alias devup=&quot;cd /PATH_TO_LARADOCK/laradock; ./sync.sh up nginx mysql&quot; #add your services</span><br></div><div class="token-line" style="color:#F8F8F2"><span class="token plain">alias devbash=&quot;cd /PATH_TO_LARADOCK/laradock; ./sync.sh bash&quot;</span><br></div><div class="token-line" style="color:#F8F8F2"><span class="token plain">alias devdown=&quot;cd /PATH_TO_LARADOCK/laradock; ./sync.sh down&quot;</span><br></div></code></pre></div></div>
-<p><em>Additional commands:</em></p>
-<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#F8F8F2"><span class="token plain">./sync.sh bash    # open bash on the workspace container</span><br></div><div class="token-line" style="color:#F8F8F2"><span class="token plain">./sync.sh sync    # manually trigger a sync</span><br></div><div class="token-line" style="color:#F8F8F2"><span class="token plain">./sync.sh clean   # remove the docker-sync container (host files untouched)</span><br></div></code></pre></div></div>
-<p><em>Notes:</em></p>
-<ul>
-<li class="">You can run Laradock with or without docker-sync using the same <code>.env</code> and <code>docker-compose.yml</code> — the config is overridden automatically when docker-sync is used.</li>
-<li class="">If a container can&#x27;t access the synced files, set a user with UID 1000 in its Dockerfile (the UID nginx and php-fpm use). Changing permissions to 777 works but isn&#x27;t recommended.</li>
-</ul>
-<p>See the <a href="https://github.com/EugenMayer/docker-sync/wiki" target="_blank" rel="noopener noreferrer" class="">docker-sync documentation</a>.</p>
-<p><strong>B.2 — Standalone d4m-nfs tool</strong></p>
-<p><a href="https://github.com/IFSight/d4m-nfs" target="_blank" rel="noopener noreferrer" class="">d4m-nfs</a> mounts an NFS volume instead of osxfs.</p>
-<ol>
-<li class="">In Docker&#x27;s <strong>File Sharing</strong> preferences, remove everything except <code>/tmp</code>.</li>
-<li class="">Restart Docker.</li>
-<li class="">Clone d4m-nfs into your home directory:<!-- -->
-<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#F8F8F2"><span class="token plain">git clone https://github.com/IFSight/d4m-nfs ~/d4m-nfs</span><br></div></code></pre></div></div>
-</li>
-<li class="">Create <code>~/d4m-nfs/etc/d4m-nfs-mounts.txt</code> with:<!-- -->
-<div class="language-txt codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-txt codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#F8F8F2"><span class="token plain">/Users:/Users</span><br></div></code></pre></div></div>
-</li>
-<li class="">Make sure <code>/etc/exports</code> exists and is empty (watch for collisions from Vagrant or a previous run).</li>
-<li class="">Run the script (may need sudo):<!-- -->
-<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#F8F8F2"><span class="token plain">~/d4m-nfs/d4m-nfs.sh</span><br></div></code></pre></div></div>
-</li>
-<li class="">Start your containers: <code>docker-compose up ...</code></li>
-</ol>
-<blockquote>
-<p>If you hit errors, restart Docker, ensure there are no spaces in <code>d4m-nfs-mounts.txt</code>, and confirm <code>/etc/exports</code> is clear.</p>
-</blockquote>
+<p>Sharing your code from macOS into containers is slower than on Linux because every file read crosses the host/VM boundary. Recent Docker Desktop fixes most of this on its own, so the steps below go from &quot;do this first&quot; to &quot;only if you still need it.&quot;</p>
+<p><strong>1. Enable VirtioFS (fixes most cases).</strong> In Docker Desktop, open <strong>Settings → General → Choose file sharing implementation for your containers</strong> and pick <strong>VirtioFS</strong>, then <strong>Apply &amp; Restart</strong>. It is the default on recent Docker Desktop and is dramatically faster than the older osxfs / gRPC FUSE backends. For most projects this alone is enough.</p>
+<p><strong>2. Tune the mount flag.</strong> Laradock mounts your code using the <code>APP_CODE_CONTAINER_FLAG</code> value in your <code>.env</code> (default <code>:cached</code>). Keep <code>:cached</code> for most apps. If your app writes heavily to the mounted volume, <code>:delegated</code> can be faster, at the cost of the container&#x27;s view lagging the host by a moment:</p>
+<div class="language-dotenv codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-dotenv codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#F8F8F2"><span class="token plain">APP_CODE_CONTAINER_FLAG=:delegated</span><br></div></code></pre></div></div>
+<p><strong>3. Keep large directories out of the bind mount.</strong> The real cost is bind-mounting tens of thousands of files. Directories your host doesn&#x27;t need to read, such as <code>vendor/</code> and <code>node_modules/</code>, are best kept in a Docker volume instead of the host mount so they never cross the file-sharing boundary.</p>
+<p><strong>4. Still too slow? Use Mutagen.</strong> For very large codebases, <a href="https://mutagen.io" target="_blank" rel="noopener noreferrer" class="">Mutagen</a> syncs your files into a native container volume in the background, giving near-Linux speed. It is the maintained successor to the old <code>docker-sync</code> approach.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="maintenance">Maintenance<a href="#maintenance" class="hash-link" aria-label="Direct link to Maintenance" title="Direct link to Maintenance" translate="no">​</a></h2>
 <a name="keep-tracking-Laradock"></a>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="track-your-laradock-changes">Track your Laradock changes<a href="#track-your-laradock-changes" class="hash-link" aria-label="Direct link to Track your Laradock changes" title="Direct link to Track your Laradock changes" translate="no">​</a></h3>
