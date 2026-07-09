@@ -25,6 +25,7 @@ const ICONS: Record<string, JSX.Element> = {
   gui: svg(<><rect x="3" y="4" width="18" height="16" rx="1.5" /><path d="M3 9h18M9 9v11" /></>),
   cache: svg(<path d="M13 2 4.5 13H11l-1 9 9-12h-6.5L13 2Z" />),
   search: svg(<><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></>),
+  ai: svg(<path d="M12 3l1.7 4.1L18 9l-4.3 1.9L12 15l-1.7-4.1L6 9l4.3-1.9L12 3Z" />),
   queue: svg(<path d="M3 12h5l1.5 3h5L16 12h5M5 12V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v6" />),
   realtime: svg(<><path d="M4.9 11a7 7 0 0 1 14.2 0M8 12.5a3.5 3.5 0 0 1 8 0" /><circle cx="12" cy="16" r="1.2" /></>),
   monitor: svg(<><path d="M4 4v16h16" /><path d="M7 14l4-4 3 3 5-6" /></>),
@@ -44,27 +45,31 @@ const BENEFITS: { icon: string; title: string; text: string }[] = [
   { icon: "cross", title: "Same on every OS", text: "An identical environment on Linux, macOS, and Windows, so your whole team builds on the exact same stack." },
 ];
 
+// SYNC: this service list is one of THREE places that list Laradock services.
+// Keep it in sync with the "Supported Services" tables in DOCUMENTATION/docs/Intro.md
+// and README.md. Adding a service = update all three.
 type Card = { type: string; icon: string; items: string[] };
 // Stacked top -> bottom as the layers of a running app: edge -> app -> data -> async/observability -> infra -> tooling.
 const LAYERS: Card[][] = [
   [
-    { type: "Web & Proxy", icon: "web", items: ["Nginx", "Apache", "Caddy", "OpenResty", "HAProxy", "Traefik"] },
+    { type: "Web & Proxy", icon: "web", items: ["Nginx", "Apache", "Caddy", "OpenResty", "FrankenPHP", "HAProxy", "Traefik"] },
   ],
   [
-    { type: "PHP Runtime", icon: "php", items: ["PHP-FPM", "HHVM", "Swoole", "PHP Worker", "Horizon"] },
-    { type: "Realtime", icon: "realtime", items: ["Laravel Echo", "Mercure", "Soketi"] },
+    { type: "PHP Runtime", icon: "php", items: ["PHP-FPM", "HHVM", "RoadRunner", "Swoole", "PHP Worker", "Horizon"] },
+    { type: "Realtime", icon: "realtime", items: ["Laravel Reverb", "Laravel Echo", "Mercure", "Soketi"] },
   ],
   [
-    { type: "Databases", icon: "db", items: ["MySQL", "PostgreSQL", "MariaDB", "Percona", "MSSQL", "MongoDB", "Neo4j", "CouchDB", "RethinkDB", "Cassandra", "ClickHouse", "Tarantool"] },
+    { type: "Databases", icon: "db", items: ["MySQL", "PostgreSQL", "pgvector", "MariaDB", "Percona", "MSSQL", "MongoDB", "Neo4j", "ArangoDB", "SurrealDB", "CouchDB", "RethinkDB", "Cassandra", "ClickHouse", "InfluxDB", "Tarantool"] },
+    { type: "AI & Agents", icon: "ai", items: ["Ollama", "LocalAI", "LiteLLM", "Qdrant", "Weaviate", "Chroma", "n8n", "Flowise"] },
   ],
   [
-    { type: "Cache & Memory", icon: "cache", items: ["Redis", "Redis Cluster", "Memcached", "Aerospike", "Varnish", "SSDB"] },
-    { type: "Search", icon: "search", items: ["Elasticsearch", "Solr", "Manticore", "Dejavu"] },
+    { type: "Cache & Memory", icon: "cache", items: ["Redis", "Redis Cluster", "Valkey", "Dragonfly", "Memcached", "Aerospike", "Varnish", "SSDB"] },
+    { type: "Search", icon: "search", items: ["Elasticsearch", "OpenSearch", "Solr", "Manticore", "Typesense", "Dejavu"] },
     { type: "Database GUIs", icon: "gui", items: ["PhpMyAdmin", "Adminer", "PgAdmin", "Mongo UI", "Tarantool Admin"] },
   ],
   [
     { type: "Queues & Messaging", icon: "queue", items: ["RabbitMQ", "Beanstalkd", "NATS", "Gearman", "Mosquitto"] },
-    { type: "Monitoring & Logs", icon: "monitor", items: ["Grafana", "NetData", "Kibana", "Logstash", "Graylog"] },
+    { type: "Monitoring & Logs", icon: "monitor", items: ["Grafana", "Prometheus", "NetData", "Kibana", "Logstash", "Graylog"] },
   ],
   [
     { type: "Containers & Cloud", icon: "cloud", items: ["Portainer", "Docker Registry", "Docker Web UI", "MinIO", "AWS EB", "AWS SQS"] },
