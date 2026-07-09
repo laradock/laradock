@@ -40,6 +40,8 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   rethinkdb:
     driver: ${VOLUMES_DRIVER}
+  arangodb:
+    driver: ${VOLUMES_DRIVER}
   phpmyadmin:
     driver: ${VOLUMES_DRIVER}
   adminer:
@@ -1123,6 +1125,19 @@ services:
       depends_on:
         - php-fpm
       networks:
+        - backend
+
+### ArangoDB ############################################
+    arangodb:
+      image: arangodb:${ARANGODB_VERSION}
+      environment:
+        - ARANGO_ROOT_PASSWORD=${ARANGODB_ROOT_PASSWORD}
+      volumes:
+        - arangodb:/var/lib/arangodb3
+      ports:
+        - "${ARANGODB_PORT}:8529"
+      networks:
+        - frontend
         - backend
 
 ### Gearman ##############################################
