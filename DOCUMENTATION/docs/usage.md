@@ -1222,6 +1222,24 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 **Master key** — `masterkey`.
 
 
+<a name="Use-FrankenPHP"></a>
+### FrankenPHP
+
+[FrankenPHP](https://frankenphp.dev) is a modern Caddy-based PHP application server and the recommended runtime for [Laravel Octane](https://laravel.com/docs/octane). It serves your app (mounted at `/app`, Laravel docroot `/app/public`) with automatic HTTPS, HTTP/3 and a worker mode.
+
+1. Configure it in your `.env` (defaults shown):
+   ```dotenv
+   FRANKENPHP_VERSION=1-php8
+   FRANKENPHP_HTTP_PORT=8000
+   FRANKENPHP_HTTPS_PORT=8443
+   ```
+2. Start the container:
+   ```bash
+   docker-compose up -d frankenphp
+   ```
+3. Your app is served on [https://localhost:8443](https://localhost:8443) (HTTP on `8000` auto-redirects to HTTPS). Add PHP extensions by editing `frankenphp/Dockerfile` (`install-php-extensions ...`). For Octane worker mode, follow the [Octane + FrankenPHP docs](https://laravel.com/docs/octane#frankenphp).
+
+
 <a name="Use-Beanstalkd"></a>
 ### Beanstalkd
 
