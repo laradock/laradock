@@ -6,6 +6,8 @@ networks:
 volumes:
   mysql:
     driver: ${VOLUMES_DRIVER}
+  ollama:
+    driver: ${VOLUMES_DRIVER}
   percona:
     driver: ${VOLUMES_DRIVER}
   localai:
@@ -798,6 +800,17 @@ services:
         - "${NATS_MONITORING_PORT}:6222"
         - "${NATS_ROUTE_PORT}:8222"
       networks:
+        - backend
+
+### Ollama ###############################################
+    ollama:
+      image: ollama/ollama:${OLLAMA_VERSION}
+      volumes:
+        - ollama:/root/.ollama
+      ports:
+        - "${OLLAMA_HOST_PORT}:11434"
+      networks:
+        - frontend
         - backend
 
 ### MongoDB ##############################################
