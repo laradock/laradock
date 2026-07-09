@@ -1,4 +1,4 @@
-FROM percona:5.7
+FROM percona:8.0
 
 LABEL maintainer="DTUNES <diegotdai@gmai.com>"
 
