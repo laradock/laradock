@@ -183,7 +183,36 @@ cp .env.example .env
 - To discover what a service lets you configure, just open its folder's `defaults.env`, it's a short, readable list.
 - **Upgrading from an older Laradock?** Your existing full `.env` keeps working exactly as before, no changes needed.
 
-Each service's container definition also lives in its folder (`mysql/compose.yml`, ...), pulled together by the root `docker-compose.yml`. This requires Docker Compose v2.20 or newer.
+**How the repository is organized:**
+
+One folder per service, and everything about a service lives in its folder:
+
+```
+laradock/
+├── docker-compose.yml      # the service catalog: shared networks/volumes + include list
+├── .env.example            # shared settings template (copy to .env)
+├── mysql/
+│   ├── compose.yml         # mysql's container definition
+│   ├── defaults.env        # mysql's settings, pre-filled
+│   └── Dockerfile          # mysql's image
+├── nginx/
+│   ├── compose.yml
+│   ├── defaults.env
+│   ├── Dockerfile
+│   └── sites/              # your site configs
+└── ...                     # ~100 more services, same pattern
+```
+
+So when you want to:
+
+| You want to... | Edit... |
+|---|---|
+| Change any setting (port, version, password, flag) | your `.env` (add one line, it wins) |
+| See what a service lets you configure | `<service>/defaults.env` (read-only for you) |
+| Change a container's structure (mounts, links, ...) | `<service>/compose.yml` |
+| Change how an image is built | `<service>/Dockerfile`, then rebuild |
+
+The root `docker-compose.yml` pulls every service in via Compose `include`, which requires Docker Compose v2.20 or newer.
 
 By default the containers that will be created have the current directory name as suffix (e.g. `laradock_workspace_1`). This can cause mixture of data inside the container volumes if you use laradock in multiple projects. In this case, either read the guide for [multiple projects](#b-setup-for-multiple-projects) or change the variable `COMPOSE_PROJECT_NAME` to something unique like your project name.
 

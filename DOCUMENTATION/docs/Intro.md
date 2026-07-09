@@ -109,6 +109,8 @@ QUEUE_HOST=beanstalkd
 
 Done.
 
+> **How it's organized:** one folder per service; each holds that service's `compose.yml` (container definition), `defaults.env` (pre-filled settings), and `Dockerfile`. Change any setting by adding one line to your `.env`, it always wins. Full map in [Getting Started](/docs/getting-started).
+
 <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', margin: '1.5rem 0' }}>
   <a className="button button--primary button--lg" href="/docs/getting-started">Full Getting Started Guide</a>
   <a className="button button--secondary button--lg" href="/docs/usage">Usage and Commands</a>
