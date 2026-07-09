@@ -1,0 +1,15 @@
+services:
+
+    netdata:
+      restart: always
+      image: netdata/netdata:latest
+      cap_add:
+        - SYS_PTRACE
+      volumes:
+        - /proc:/host/proc:ro
+        - /sys:/host/sys:ro
+        - /var/run/docker.sock:/var/run/docker.sock:ro
+      ports:
+        - "${NETDATA_PORT}:19999"
+      networks:
+        - backend

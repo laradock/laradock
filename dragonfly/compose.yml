@@ -1,0 +1,12 @@
+services:
+
+    dragonfly:
+      image: docker.dragonflydb.io/dragonflydb/dragonfly:${DRAGONFLY_VERSION}
+      ulimits:
+        memlock: -1
+      volumes:
+        - ${DATA_PATH_HOST}/dragonfly:/data
+      ports:
+        - "${DRAGONFLY_PORT}:6379"
+      networks:
+        - backend

@@ -1,0 +1,10 @@
+services:
+
+    kafka-manager:
+      image: sheepkiller/kafka-manager
+      ports:
+        - 9020:9000
+      environment:
+        ZK_HOSTS: zookeeper:2181
+      networks:
+        - backend

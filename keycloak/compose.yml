@@ -1,0 +1,21 @@
+services:
+
+    keycloak:
+      image: bitnami/keycloak:${KEYCLOAK_VERSION}
+      ports:
+        - "${KEYCLOAK_HTTP_PORT}:${KEYCLOAK_HTTP_PORT}"
+      environment:
+        - KEYCLOAK_HTTP_PORT=${KEYCLOAK_HTTP_PORT}
+        - KEYCLOAK_CREATE_ADMIN_USER=${KEYCLOAK_CREATE_ADMIN_USER}
+        - KEYCLOAK_ADMIN_USER=${KEYCLOAK_ADMIN_USER}
+        - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
+        - KEYCLOAK_DATABASE_HOST=${KEYCLOAK_POSTGRES_HOST}
+        - KEYCLOAK_DATABASE_PORT=${POSTGRES_PORT}
+        - KEYCLOAK_DATABASE_NAME=${KEYCLOAK_POSTGRES_DB}
+        - KEYCLOAK_DATABASE_USER=${KEYCLOAK_POSTGRES_USER}
+        - KEYCLOAK_DATABASE_PASSWORD=${KEYCLOAK_POSTGRES_PASSWORD}
+      depends_on:
+        - postgres
+      networks:
+        - frontend
+        - backend

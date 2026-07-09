@@ -1,0 +1,33 @@
+services:
+
+    cassandra:
+      restart: always
+      build: ./cassandra
+      ports:
+        - "${CASSANDRA_TRANSPORT_PORT_NUMBER}:7000"
+        - "${CASSANDRA_JMX_PORT_NUMBER}:7199"
+        - "${CASSANDRA_CQL_PORT_NUMBER}:9042"
+      privileged: true
+      environment:
+        - CASSANDRA_VERSION=${CASSANDRA_VERSION}
+        - CASSANDRA_TRANSPORT_PORT_NUMBER=${CASSANDRA_TRANSPORT_PORT_NUMBER}
+        - CASSANDRA_JMX_PORT_NUMBER=${CASSANDRA_JMX_PORT_NUMBER}
+        - CASSANDRA_CQL_PORT_NUMBER=${CASSANDRA_CQL_PORT_NUMBER}
+        - CASSANDRA_USER=${CASSANDRA_USER}
+        - CASSANDRA_PASSWORD_SEEDER=${CASSANDRA_PASSWORD_SEEDER}
+        - CASSANDRA_PASSWORD=${CASSANDRA_PASSWORD}
+        - CASSANDRA_NUM_TOKENS=${CASSANDRA_NUM_TOKENS}
+        - CASSANDRA_HOST=${CASSANDRA_HOST}
+        - CASSANDRA_CLUSTER_NAME=${CASSANDRA_CLUSTER_NAME}
+        - CASSANDRA_SEEDS=${CASSANDRA_SEEDS}
+        - CASSANDRA_ENDPOINT_SNITCH=${CASSANDRA_ENDPOINT_SNITCH}
+        - CASSANDRA_ENABLE_RPC=${CASSANDRA_ENABLE_RPC}
+        - CASSANDRA_DATACENTER=${CASSANDRA_DATACENTER}
+        - CASSANDRA_RACK=${CASSANDRA_RACK}
+      hostname: laradock-cassandra
+      volumes:
+        - ${DATA_PATH_HOST}/cassandra:/var/lib/cassandra
+      depends_on:
+        - php-fpm
+      networks:
+        - backend

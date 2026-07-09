@@ -1,0 +1,14 @@
+services:
+
+    surrealdb:
+      image: surrealdb/surrealdb:${SURREALDB_VERSION}
+      # Run as root so the server can create its RocksDB store in the named volume.
+      user: root
+      command: start --user ${SURREALDB_USER} --pass ${SURREALDB_PASSWORD} --bind 0.0.0.0:8000 rocksdb:/data/database.db
+      volumes:
+        - surrealdb:/data
+      ports:
+        - "${SURREALDB_PORT}:8000"
+      networks:
+        - frontend
+        - backend

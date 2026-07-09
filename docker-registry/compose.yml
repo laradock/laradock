@@ -1,0 +1,12 @@
+services:
+
+    docker-registry:
+      build:
+        context: ./docker-registry
+      volumes:
+        - /etc/localtime:/etc/localtime:ro
+        - ${DATA_PATH_HOST}/docker-registry:/var/lib/registry
+      ports:
+        - "${DOCKER_REGISTRY_PORT}:5000"
+      networks:
+        - backend

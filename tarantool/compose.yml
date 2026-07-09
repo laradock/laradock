@@ -1,0 +1,11 @@
+services:
+
+    tarantool:
+      build: ./tarantool
+      volumes:
+        - ${DATA_PATH_HOST}/tarantool:/var/lib/tarantool
+        - ./tarantool/lua:/opt/tarantool
+      ports:
+        - ${TARANTOOL_PORT}:3301
+      networks:
+        - backend

@@ -1,0 +1,19 @@
+services:
+
+    weaviate:
+      image: cr.weaviate.io/semitechnologies/weaviate:${WEAVIATE_VERSION}
+      command: --host 0.0.0.0 --port 8080 --scheme http
+      volumes:
+        - weaviate:/var/lib/weaviate
+      ports:
+        - "${WEAVIATE_HOST_PORT}:8080"
+      environment:
+        - PERSISTENCE_DATA_PATH=/var/lib/weaviate
+        - DEFAULT_VECTORIZER_MODULE=none
+        - ENABLE_MODULES=
+        - AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED=true
+        - QUERY_DEFAULTS_LIMIT=25
+        - CLUSTER_HOSTNAME=node1
+      networks:
+        - frontend
+        - backend

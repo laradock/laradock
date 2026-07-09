@@ -1,0 +1,24 @@
+services:
+
+    opensearch:
+      image: opensearchproject/opensearch:${OPENSEARCH_VERSION}
+      environment:
+        - discovery.type=single-node
+        - DISABLE_SECURITY_PLUGIN=true
+        - bootstrap.memory_lock=true
+        - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+      ulimits:
+        memlock:
+          soft: -1
+          hard: -1
+        nofile:
+          soft: 65536
+          hard: 65536
+      volumes:
+        - ${DATA_PATH_HOST}/opensearch:/usr/share/opensearch/data
+      ports:
+        - "${OPENSEARCH_HOST_PORT}:9200"
+        - "${OPENSEARCH_MONITORING_PORT}:9600"
+      networks:
+        - frontend
+        - backend

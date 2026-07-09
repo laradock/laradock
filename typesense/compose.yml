@@ -1,0 +1,15 @@
+services:
+
+    typesense:
+      image: typesense/typesense:${TYPESENSE_VERSION}
+      volumes:
+        - ${DATA_PATH_HOST}/typesense:/data
+      ports:
+        - "${TYPESENSE_HOST_PORT}:8108"
+      environment:
+        - TYPESENSE_DATA_DIR=/data
+        - TYPESENSE_API_KEY=${TYPESENSE_API_KEY}
+        - TYPESENSE_ENABLE_CORS=${TYPESENSE_ENABLE_CORS}
+      networks:
+        - frontend
+        - backend

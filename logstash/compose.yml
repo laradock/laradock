@@ -1,0 +1,22 @@
+services:
+
+    logstash:
+      restart: always
+      build:
+        context: ./logstash
+        args:
+          - ELK_VERSION=${ELK_VERSION}
+      volumes:
+        - './logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml'
+        - './logstash/pipeline:/usr/share/logstash/pipeline'
+      ports:
+        - '5001:5001'
+      environment:
+        LS_JAVA_OPTS: '-Xmx1g -Xms1g'
+      env_file:
+        - .env
+      networks:
+        - frontend
+        - backend
+      depends_on:
+        - elasticsearch

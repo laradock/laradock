@@ -1,0 +1,20 @@
+services:
+
+    influxdb:
+      build:
+        context: ./influxdb
+        args:
+          - INFLUXDB_VERSION=${INFLUXDB_VERSION}
+      volumes:
+        - influxdb:/var/lib/influxdb2
+      ports:
+        - "${INFLUXDB_HOST_PORT}:8086"
+      environment:
+        - DOCKER_INFLUXDB_INIT_MODE=setup
+        - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUXDB_INIT_USERNAME}
+        - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUXDB_INIT_PASSWORD}
+        - DOCKER_INFLUXDB_INIT_ORG=${INFLUXDB_INIT_ORG}
+        - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUXDB_INIT_BUCKET}
+      networks:
+        - frontend
+        - backend

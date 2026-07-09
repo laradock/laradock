@@ -1,0 +1,11 @@
+services:
+
+    localai:
+      image: localai/localai:${LOCALAI_VERSION}
+      volumes:
+        - localai:/models
+      ports:
+        - "${LOCALAI_HOST_PORT}:8080"
+      networks:
+        - frontend
+        - backend

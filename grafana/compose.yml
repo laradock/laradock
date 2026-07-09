@@ -1,0 +1,12 @@
+services:
+
+    grafana:
+      restart: always
+      build:
+        context: ./grafana
+      volumes:
+        - ${DATA_PATH_HOST}/grafana:/var/lib/grafana
+      ports:
+        - "${GRAFANA_PORT}:3000"
+      networks:
+        - backend

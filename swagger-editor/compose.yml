@@ -1,0 +1,8 @@
+services:
+
+    swagger-editor:
+      build: ./swagger-editor
+      ports:
+        - ${SWAGGER_EDITOR_PORT}:8080
+      networks:
+        - backend

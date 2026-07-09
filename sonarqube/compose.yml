@@ -1,0 +1,23 @@
+services:
+
+    sonarqube:
+      build:
+        context: ./sonarqube
+      hostname: "${SONARQUBE_HOSTNAME}"
+      volumes:
+        - ${DATA_PATH_HOST}/sonarqube/conf:/opt/sonarqube/conf
+        - ${DATA_PATH_HOST}/sonarqube/data:/opt/sonarqube/data
+        - ${DATA_PATH_HOST}/sonarqube/logs:/opt/sonarqube/logs
+        - ${DATA_PATH_HOST}/sonarqube/extensions:/opt/sonarqube/extensions
+        - ${DATA_PATH_HOST}/sonarqube/plugins:/opt/sonarqube/lib/bundled-plugins
+      ports:
+        - ${SONARQUBE_PORT}:9000
+      depends_on:
+        - postgres
+      environment:
+        - sonar.jdbc.username=${SONARQUBE_POSTGRES_USER}
+        - sonar.jdbc.password=${SONARQUBE_POSTGRES_PASSWORD}
+        - sonar.jdbc.url=jdbc:postgresql://${SONARQUBE_POSTGRES_HOST}:5432/${SONARQUBE_POSTGRES_DB}
+      networks:
+        - backend
+        - frontend

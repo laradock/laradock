@@ -1,0 +1,14 @@
+services:
+
+    tomcat:
+      container_name: tomcat
+      image: tomcat:${TOMCAT_VERSION}
+      ports:
+        - "${TOMCAT_HOST_HTTP_PORT}:8080"
+      networks:
+        - frontend
+        - backend
+      volumes:
+        - ${DATA_PATH_HOST}/tomcat/webapps:/usr/local/tomcat/webapps
+        - ${DATA_PATH_HOST}/tomcat/logs:/usr/local/tomcat/logs
+      # restart: always

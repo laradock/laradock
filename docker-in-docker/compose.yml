@@ -1,0 +1,15 @@
+services:
+
+    docker-in-docker:
+      restart: always
+      image: docker:29-dind
+      environment:
+        DOCKER_TLS_SAN: DNS:docker-in-docker
+      privileged: true
+      volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+        - docker-in-docker:/certs/client
+      expose:
+        - 2375
+      networks:
+        - backend

@@ -1,0 +1,10 @@
+services:
+
+    nats:
+      build: ./nats
+      ports:
+        - "${NATS_CLIENT_PORT}:4222"
+        - "${NATS_MONITORING_PORT}:6222"
+        - "${NATS_ROUTE_PORT}:8222"
+      networks:
+        - backend

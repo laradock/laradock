@@ -1,0 +1,12 @@
+services:
+
+    mosquitto:
+      build:
+        context: ./mosquitto
+      volumes:
+        - ${DATA_PATH_HOST}/mosquitto/data:/mosquitto/data
+      ports:
+        - "${MOSQUITTO_PORT}:9001"
+      networks:
+        - frontend
+        - backend

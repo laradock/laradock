@@ -1,0 +1,12 @@
+services:
+
+    flowise:
+      restart: always
+      image: flowiseai/flowise:${FLOWISE_VERSION}
+      volumes:
+        - flowise:/root/.flowise
+      ports:
+        - "${FLOWISE_HOST_PORT}:3000"
+      networks:
+        - frontend
+        - backend

@@ -1,0 +1,10 @@
+services:
+
+    swagger-ui:
+      build: ./swagger-ui
+      environment:
+        - API_URL=${SWAGGER_API_URL}
+      ports:
+        - ${SWAGGER_UI_PORT}:8080
+      networks:
+        - backend

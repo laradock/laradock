@@ -1,0 +1,12 @@
+services:
+
+    redis:
+      restart: always
+      build: ./redis
+      volumes:
+        - ${DATA_PATH_HOST}/redis:/data
+      command: --requirepass ${REDIS_PASSWORD}
+      ports:
+        - "${REDIS_PORT}:6379"
+      networks:
+        - backend

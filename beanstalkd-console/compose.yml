@@ -1,0 +1,11 @@
+services:
+
+    beanstalkd-console:
+      restart: always
+      build: ./beanstalkd-console
+      ports:
+        - "${BEANSTALKD_CONSOLE_HOST_PORT}:2080"
+      depends_on:
+        - beanstalkd
+      networks:
+        - backend

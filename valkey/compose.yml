@@ -1,0 +1,10 @@
+services:
+
+    valkey:
+      image: valkey/valkey:${VALKEY_VERSION}
+      volumes:
+        - ${DATA_PATH_HOST}/valkey:/data
+      ports:
+        - "${VALKEY_PORT}:6379"
+      networks:
+        - backend

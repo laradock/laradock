@@ -1,0 +1,13 @@
+services:
+
+    metabase:
+      restart: always
+      image: metabase/metabase:latest
+      environment:
+        - MB_DB_FILE=/metabase-data/${METABASE_DB_FILE}
+      ports:
+        - ${METABASE_PORT}:3000
+      volumes:
+        - ${DATA_PATH_HOST}/metabase-data:/metabase-data
+      networks:
+        - backend

@@ -1,0 +1,11 @@
+services:
+
+    ssdb:
+      restart: always
+      build: ./ssdb
+      volumes:
+        - ${DATA_PATH_HOST}/ssdb:/data
+      ports:
+        - "${SSDB_PORT}:8888"
+      networks:
+        - backend

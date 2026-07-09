@@ -1,0 +1,42 @@
+services:
+
+    proxy:
+      restart: always
+      container_name: proxy
+      build: ./varnish
+      expose:
+        - ${VARNISH_PORT}
+      environment:
+        - VARNISH_CONFIG=${VARNISH_CONFIG}
+        - CACHE_SIZE=${VARNISH_PROXY1_CACHE_SIZE}
+        - VARNISHD_PARAMS=${VARNISHD_PARAMS}
+        - VARNISH_PORT=${VARNISH_PORT}
+        - BACKEND_HOST=${VARNISH_PROXY1_BACKEND_HOST}
+        - BACKEND_PORT=${VARNISH_BACKEND_PORT}
+        - VARNISH_SERVER=${VARNISH_PROXY1_SERVER}
+      ports:
+        - "${VARNISH_PORT}:${VARNISH_PORT}"
+      links:
+        - workspace
+      networks:
+        - frontend
+
+    proxy2:
+      container_name: proxy2
+      build: ./varnish
+      expose:
+        - ${VARNISH_PORT}
+      environment:
+        - VARNISH_CONFIG=${VARNISH_CONFIG}
+        - CACHE_SIZE=${VARNISH_PROXY2_CACHE_SIZE}
+        - VARNISHD_PARAMS=${VARNISHD_PARAMS}
+        - VARNISH_PORT=${VARNISH_PORT}
+        - BACKEND_HOST=${VARNISH_PROXY2_BACKEND_HOST}
+        - BACKEND_PORT=${VARNISH_BACKEND_PORT}
+        - VARNISH_SERVER=${VARNISH_PROXY2_SERVER}
+      ports:
+        - "${VARNISH_PORT}:${VARNISH_PORT}"
+      links:
+        - workspace
+      networks:
+        - frontend

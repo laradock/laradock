@@ -1,0 +1,12 @@
+services:
+
+    frankenphp:
+      build:
+        context: ./frankenphp
+        args:
+          - FRANKENPHP_VERSION=${FRANKENPHP_VERSION}
+      volumes:
+        - ${APP_CODE_PATH_HOST}:/app${APP_CODE_CONTAINER_FLAG}
+      ports:
+        - "${FRANKENPHP_HTTP_PORT}:80"
+        - "${FRANKENPHP_HTTPS_PORT}:443"

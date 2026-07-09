@@ -1,0 +1,11 @@
+services:
+
+    chroma:
+      image: chromadb/chroma:${CHROMA_VERSION}
+      volumes:
+        - chroma:/data
+      ports:
+        - "${CHROMA_HOST_PORT}:8000"
+      networks:
+        - frontend
+        - backend

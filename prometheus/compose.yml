@@ -1,0 +1,13 @@
+services:
+
+    prometheus:
+      restart: always
+      image: prom/prometheus:${PROMETHEUS_VERSION}
+      volumes:
+        - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+        - prometheus:/prometheus
+      ports:
+        - "${PROMETHEUS_HOST_PORT}:9090"
+      networks:
+        - frontend
+        - backend
