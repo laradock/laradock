@@ -392,6 +392,8 @@ The [Decimal extension](https://php-decimal.io) adds correctly-rounded, arbitrar
 
 Switch database versions, manage access, and connect the document stores.
 
+**Connecting from your host:** inside Laradock, your app reaches a database by its container name (`DB_HOST=mysql`, `postgres`, `mongo`, ...). From your own machine, use a GUI like TablePlus on `localhost` with the default port: MySQL/MariaDB `3306`, PostgreSQL `5432`, MongoDB `27017`. Ports are set per database in `.env` (e.g. `MYSQL_PORT`, `POSTGRES_PORT`).
+
 <a name="Change-the-MySQL-Version"></a>
 ### Change the MySQL version
 
@@ -1060,6 +1062,8 @@ Each service runs in its own container. Start the ones you need with `docker-com
    ```php
    \Cache::store('redis')->put('Laradock', 'Awesome', 10);
    ```
+
+**Connect from your host:** `localhost:6379` (use a GUI like TablePlus or RedisInsight).
 
 
 <a name="Use-Redis-Cluster"></a>

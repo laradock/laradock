@@ -218,6 +218,8 @@ docker-compose exec --user=laradock workspace bash
 
 *You can change the PUID (User id) and PGID (group id) variables from the `.env` file)*
 
+> **Where do I run `artisan`, `composer`, `npm`?** Inside the workspace container, not on your machine. The Laravel and PHP docs assume these tools are installed on your host, but with Laradock they live in the workspace. So either enter it once with `docker-compose exec workspace bash` and run commands from there, or prefix a single command: `docker-compose exec workspace php artisan migrate`.
+
 <br/>
 4 - Update your project configuration to use the database host
 
