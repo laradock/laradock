@@ -1,4 +1,4 @@
-FROM traefik:v2.2
+FROM traefik:v3.7
 
 LABEL maintainer="Luis Coutinho <luis@luiscoutinho.pt>"
 
