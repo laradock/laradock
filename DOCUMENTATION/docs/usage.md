@@ -1258,6 +1258,18 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
    docker-compose up -d pgvector
    ```
 3. Connect on host port `5433`. The `vector` extension is enabled automatically in `PGVECTOR_DB` on first init (see `pgvector/docker-entrypoint-initdb.d/init.sql`).
+<a name="Use-Laravel-Reverb"></a>
+### Laravel Reverb
+
+[Laravel Reverb](https://reverb.laravel.com) is Laravel's first-party WebSocket server (a modern replacement for the legacy `laravel-echo-server` / Soketi). This container runs `php artisan reverb:start` against your mounted application code.
+
+1. Install Reverb in your Laravel app (once): `php artisan install:broadcasting` and set `BROADCAST_CONNECTION=reverb` in your app `.env`.
+2. Point Reverb at `0.0.0.0` in your app `.env` so it is reachable from the host: `REVERB_HOST=0.0.0.0`, `REVERB_PORT=8080`.
+3. Start the container:
+   ```bash
+   docker-compose up -d laravel-reverb
+   ```
+4. The WebSocket server is available on host port `8080` (configurable via `LARAVEL_REVERB_PORT`).
 
 
 <a name="Use-Beanstalkd"></a>

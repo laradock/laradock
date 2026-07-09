@@ -1418,6 +1418,24 @@ services:
         - frontend
         - backend
 
+### Laravel Reverb #######################################
+    laravel-reverb:
+      restart: always
+      build:
+        context: ./laravel-reverb
+        args:
+          - CHANGE_SOURCE=${CHANGE_SOURCE}
+          - LARADOCK_PHP_VERSION=${PHP_VERSION}
+      volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+      ports:
+        - "${LARAVEL_REVERB_PORT}:8080"
+      depends_on:
+        - redis
+      networks:
+        - frontend
+        - backend
+
 ### Solr #################################################
     solr:
       restart: always
