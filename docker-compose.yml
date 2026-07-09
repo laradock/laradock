@@ -24,6 +24,8 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   minio:
     driver: ${VOLUMES_DRIVER}
+  chroma:
+    driver: ${VOLUMES_DRIVER}
   rethinkdb:
     driver: ${VOLUMES_DRIVER}
   phpmyadmin:
@@ -868,6 +870,17 @@ services:
       depends_on:
         - php-fpm
       networks:
+        - backend
+
+### Chroma ###############################################
+    chroma:
+      image: chromadb/chroma:${CHROMA_VERSION}
+      volumes:
+        - chroma:/data
+      ports:
+        - "${CHROMA_HOST_PORT}:8000"
+      networks:
+        - frontend
         - backend
 
 ### Beanstalkd ###########################################
