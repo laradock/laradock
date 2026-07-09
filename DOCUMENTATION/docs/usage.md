@@ -1222,6 +1222,26 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 **Master key** — `masterkey`.
 
 
+<a name="Use-Typesense"></a>
+### Typesense
+
+[Typesense](https://typesense.org) is a fast, typo-tolerant open-source search engine and a drop-in [Laravel Scout](https://laravel.com/docs/scout) driver.
+
+1. Configure it in your `.env` (defaults shown):
+   ```dotenv
+   TYPESENSE_VERSION=30.2
+   TYPESENSE_HOST_PORT=8108
+   TYPESENSE_API_KEY=typesense
+   ```
+2. Start the container:
+   ```bash
+   docker-compose up -d typesense
+   ```
+3. The API is available at [http://localhost:8108](http://localhost:8108); health check: `curl http://localhost:8108/health`.
+
+**API key** — `typesense` (change `TYPESENSE_API_KEY` for anything beyond local dev).
+
+
 <a name="Use-Beanstalkd"></a>
 ### Beanstalkd
 
