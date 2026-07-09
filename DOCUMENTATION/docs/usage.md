@@ -450,7 +450,7 @@ Set your port in `mysql/my.cnf` (here `1234`):
 port=1234
 ```
 
-If you also need MySQL access from your host, change the internal port in `docker-compose.yml` accordingly (`"3306:3306"` → `"3306:1234"`).
+If you also need MySQL access from your host, change the internal port in `mysql/compose.yml` accordingly (`"3306:3306"` → `"3306:1234"`).
 
 
 <a name="Use-Mongo"></a>
@@ -539,7 +539,7 @@ If you also need MySQL access from your host, change the internal port in `docke
    docker-compose up -d pgbackups
    ```
 
-Backups are written to the `../backup` folder on your host. The service reuses your Postgres container's `POSTGRES_DB`, `POSTGRES_USER`, and `POSTGRES_PASSWORD`; adjust the schedule and retention in the `pgbackups` block of `docker-compose.yml`.
+Backups are written to the `../backup` folder on your host. The service reuses your Postgres container's `POSTGRES_DB`, `POSTGRES_USER`, and `POSTGRES_PASSWORD`; adjust the schedule and retention in `pgbackups/compose.yml`.
 
 
 
@@ -1100,7 +1100,7 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
    VARNISH_PROXY1_BACKEND_HOST=replace_with_your_domain.name
    VARNISH_PROXY1_SERVER=SERVER1
    ```
-3. Add a matching section to `docker-compose.yml`:
+3. Add a matching section to `varnish/compose.yml`:
    ```yml
    custom_proxy_name:
          container_name: custom_proxy_name
@@ -1671,7 +1671,7 @@ See the [Tarantool documentation](https://www.tarantool.io/en/doc/latest/).
    GITLAB_RUNNER_REGISTRATION_TOKEN=<value-from-step-1>
    GITLAB_CI_SERVER_URL=http://gitlab
    ```
-3. Add runner settings to `docker-compose.yml`:
+3. Add runner settings to `gitlab-runner/compose.yml`:
    ```yml
    gitlab-runner:
      environment: # used during `gitlab-runner register`
@@ -1893,7 +1893,7 @@ Drop `.war` files into `${DATA_PATH_HOST}/tomcat/webapps` to deploy them. Set th
 Traefik is a reverse proxy that terminates TLS and routes to your containers via labels. To use it, don't expose each container's ports — define Traefik labels instead.
 
 1. In `.env`, set `ACME_DOMAIN` to your domain and `ACME_EMAIL` to your email.
-2. Update `docker-compose.yml` so the routed container uses labels rather than published ports. For example, NGINX becomes:
+2. Update the routed container's `compose.yml` (e.g. `nginx/compose.yml`) to use labels rather than published ports. For example, NGINX becomes:
    ```bash
    nginx:
      build:
@@ -2028,15 +2028,12 @@ Workspace access, host-specific tuning, and scheduling.
 <a name="Workspace-ssh"></a>
 ### Access the workspace over SSH
 
-Reach the Workspace at `localhost:2222` by setting `INSTALL_WORKSPACE_SSH` to `true`.
+Reach the Workspace at `localhost:2222` by setting `WORKSPACE_INSTALL_WORKSPACE_SSH=true` in your `.env` and rebuilding the workspace.
 
-To change the forwarded port, edit `docker-compose.yml`:
+To change the forwarded port, add it to your `.env` (the default lives in `workspace/defaults.env`):
 
-```yml
-    workspace:
-        ports:
-            - "2222:22" # edit this line
-    ...
+```env
+WORKSPACE_SSH_PORT=2222
 ```
 
 Then connect:
@@ -2056,15 +2053,10 @@ ssh -o PasswordAuthentication=no    \
 <a name="Change-the-timezone"></a>
 ### Change the timezone
 
-Set the `TZ` build argument for the `workspace` container in `docker-compose.yml` to any value from the [TZ database](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). For example, New York:
+Set `WORKSPACE_TIMEZONE` in your `.env` to any value from the [TZ database](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones), then rebuild. For example, New York:
 
-```yml
-    workspace:
-        build:
-            context: ./workspace
-            args:
-                - TZ=America/New_York
-    ...
+```env
+WORKSPACE_TIMEZONE=America/New_York
 ```
 
 We also recommend [setting the timezone in Laravel](http://www.camroncade.com/managing-timezones-with-laravel/).
