@@ -12,6 +12,8 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   postgres:
     driver: ${VOLUMES_DRIVER}
+  n8n:
+    driver: ${VOLUMES_DRIVER}
   memcached:
     driver: ${VOLUMES_DRIVER}
   redis:
@@ -863,6 +865,20 @@ services:
         - "${REDIS_CLUSTER_PORT_RANGE}:7000-7005"
       networks:
         - backend
+
+### n8n ##################################################
+    n8n:
+      image: n8nio/n8n:${N8N_VERSION}
+      volumes:
+        - n8n:/home/node/.n8n
+      ports:
+        - "${N8N_HOST_PORT}:5678"
+      environment:
+        - N8N_SECURE_COOKIE=false
+      networks:
+        - frontend
+        - backend
+
 ### SSDB #################################################
     ssdb:
       restart: always
