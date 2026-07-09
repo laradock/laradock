@@ -764,6 +764,20 @@ services:
       networks:
         - backend
 
+### LiteLLM ##############################################
+    litellm:
+      image: ghcr.io/berriai/litellm:${LITELLM_VERSION}
+      command: ["--config", "/app/config.yaml", "--port", "4000"]
+      volumes:
+        - ./litellm/config.yaml:/app/config.yaml
+      environment:
+        - LITELLM_MASTER_KEY=${LITELLM_MASTER_KEY}
+      ports:
+        - "${LITELLM_HOST_PORT}:4000"
+      networks:
+        - frontend
+        - backend
+
 ### ClickHouse ###########################################
     clickhouse:
       build:
