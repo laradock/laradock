@@ -32,6 +32,8 @@ Laradock is a full PHP development environment for Docker. It ships pre-configur
 
 It works with **any PHP project** and behaves the same on Linux, macOS, and Windows.
 
+Environment setup is where PHP projects lose their first day. Laradock gives it back: one clone, one command, a full stack running.
+
 ### Quick Start
 
 Set up a demo stack with `PHP`, `NGINX`, `MySQL`, `Redis` and `Composer`:

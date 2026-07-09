@@ -15,6 +15,8 @@ keywords:
 
 ![Laradock](/img/laradock/laradock-logo.png)
 
+Standing up a PHP stack by hand burns hours: matching versions, wiring databases and queues, chasing "works on my machine." Laradock hands you the whole environment ready to run, so you skip the setup and get straight to code.
+
 Instead of installing and configuring Nginx, databases, caches, and queues by hand, you get them all as ready-made containers you can switch on and off per project. It works with any PHP project (Laravel, Symfony, WordPress, or plain PHP) and behaves the same on Linux, macOS, and Windows, so your whole team shares one identical setup.
 
 Laradock is free, open-source under the MIT license, and has been battle-tested in real-world PHP projects since 2015.
