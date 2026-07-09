@@ -1286,6 +1286,22 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
    docker-compose up -d frankenphp
    ```
 3. Your app is served on [https://localhost:8443](https://localhost:8443) (HTTP on `8000` auto-redirects to HTTPS). Add PHP extensions by editing `frankenphp/Dockerfile` (`install-php-extensions ...`). For Octane worker mode, follow the [Octane + FrankenPHP docs](https://laravel.com/docs/octane#frankenphp).
+<a name="Use-RoadRunner"></a>
+### RoadRunner
+
+[RoadRunner](https://roadrunner.dev) is a high-performance Go-based PHP application server and a [Laravel Octane](https://laravel.com/docs/octane) driver. This container ships the `rr` binary on top of a PHP-CLI image and serves your mounted app via its `.rr.yaml`.
+
+1. In your Laravel app install Octane with the RoadRunner driver: `composer require laravel/octane spiral/roadrunner-cli` then `php artisan octane:install --server=roadrunner` (generates `.rr.yaml`). Set the HTTP address to `0.0.0.0:8080` in `.rr.yaml`.
+2. Configure it in your `.env` (defaults shown):
+   ```dotenv
+   ROADRUNNER_VERSION=2025.1.15
+   ROADRUNNER_HTTP_PORT=8090
+   ```
+3. Start the container:
+   ```bash
+   docker-compose up -d roadrunner
+   ```
+4. Your app is served on host port `8090` (configurable via `ROADRUNNER_HTTP_PORT`).
 
 
 <a name="Use-Beanstalkd"></a>
