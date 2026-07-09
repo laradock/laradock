@@ -4,76 +4,33 @@ networks:
   backend:
     driver: ${NETWORKS_DRIVER}
 volumes:
-  mysql:
+  arangodb:
     driver: ${VOLUMES_DRIVER}
-  ollama:
+  chroma:
     driver: ${VOLUMES_DRIVER}
-  percona:
+  docker-in-docker:
+    driver: ${VOLUMES_DRIVER}
+  elasticsearch:
+    driver: ${VOLUMES_DRIVER}
+  flowise:
+    driver: ${VOLUMES_DRIVER}
+  influxdb:
     driver: ${VOLUMES_DRIVER}
   localai:
     driver: ${VOLUMES_DRIVER}
   mssql:
     driver: ${VOLUMES_DRIVER}
-  postgres:
-    driver: ${VOLUMES_DRIVER}
   n8n:
     driver: ${VOLUMES_DRIVER}
-  memcached:
-    driver: ${VOLUMES_DRIVER}
-  flowise:
-    driver: ${VOLUMES_DRIVER}
-  redis:
-    driver: ${VOLUMES_DRIVER}
-  neo4j:
-    driver: ${VOLUMES_DRIVER}
-  qdrant:
-    driver: ${VOLUMES_DRIVER}
-  mariadb:
-    driver: ${VOLUMES_DRIVER}
-  weaviate:
-    driver: ${VOLUMES_DRIVER}
-  mongo:
-    driver: ${VOLUMES_DRIVER}
-  minio:
-    driver: ${VOLUMES_DRIVER}
-  chroma:
-    driver: ${VOLUMES_DRIVER}
-  rethinkdb:
-    driver: ${VOLUMES_DRIVER}
-  arangodb:
-    driver: ${VOLUMES_DRIVER}
-  phpmyadmin:
-    driver: ${VOLUMES_DRIVER}
-  adminer:
-    driver: ${VOLUMES_DRIVER}
-  aerospike:
-    driver: ${VOLUMES_DRIVER}
-  surrealdb:
-    driver: ${VOLUMES_DRIVER}
-  caddy:
-    driver: ${VOLUMES_DRIVER}
-  meilisearch:
-    driver: ${VOLUMES_DRIVER}
-  typesense:
-  pgvector:
-    driver: ${VOLUMES_DRIVER}
-  elasticsearch:
-    driver: ${VOLUMES_DRIVER}
-  mosquitto:
-    driver: ${VOLUMES_DRIVER}
-  confluence:
-    driver: ${VOLUMES_DRIVER}
-  sonarqube:
-    driver: ${VOLUMES_DRIVER}
-  cassandra:
-    driver: ${VOLUMES_DRIVER}
-  influxdb:
-    driver: ${VOLUMES_DRIVER}
-  graylog:
+  ollama:
     driver: ${VOLUMES_DRIVER}
   prometheus:
     driver: ${VOLUMES_DRIVER}
-  docker-in-docker:
+  qdrant:
+    driver: ${VOLUMES_DRIVER}
+  surrealdb:
+    driver: ${VOLUMES_DRIVER}
+  weaviate:
     driver: ${VOLUMES_DRIVER}
 
 include:

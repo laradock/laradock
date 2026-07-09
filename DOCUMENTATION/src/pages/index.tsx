@@ -55,7 +55,7 @@ const LAYERS: Card[][] = [
     { type: "Web & Proxy", icon: "web", items: ["Nginx", "Apache", "Caddy", "OpenResty", "FrankenPHP", "HAProxy", "Traefik"] },
   ],
   [
-    { type: "PHP Runtime", icon: "php", items: ["PHP-FPM", "HHVM", "RoadRunner", "Swoole", "PHP Worker", "Horizon"] },
+    { type: "PHP Runtime", icon: "php", items: ["PHP-FPM", "RoadRunner", "Swoole", "PHP Worker", "Horizon"] },
     { type: "Realtime", icon: "realtime", items: ["Laravel Reverb", "Laravel Echo", "Mercure", "Soketi"] },
   ],
   [
@@ -77,7 +77,7 @@ const LAYERS: Card[][] = [
   ],
   [
     { type: "Mail", icon: "mail", items: ["Mailpit", "MailHog", "MailCatcher", "MailDev", "Mailu"] },
-    { type: "Dev Tools & IDEs", icon: "ide", items: ["Codiad", "Theia", "Web IDE", "Selenium", "Swagger UI", "Jupyter", "Xdebug"] },
+    { type: "Dev Tools & IDEs", icon: "ide", items: ["Theia", "Selenium", "Swagger UI", "Xdebug"] },
     { type: "Security & Extras", icon: "security", items: ["Certbot", "Thumbor", "ZooKeeper", "React"] },
   ],
 ];

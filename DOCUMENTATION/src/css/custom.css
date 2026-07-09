@@ -39,6 +39,109 @@
   border-image: linear-gradient(90deg, #ce2047, #f9ae1a, #7d57c2) 1;
 }
 
+/* ------------------------------------------------------------------ *
+ * Docs readability: stronger hierarchy + clear separation between
+ * blocks so long troubleshooting/Q&A pages are scannable.
+ * ------------------------------------------------------------------ */
+.markdown {
+  line-height: 1.7;
+}
+
+/* Distinct treatment per level so you can tell where you are at a glance:
+ *   h1 = page title  (largest, default text)
+ *   h2 = section     (brand-coloured + divider rule)
+ *   h3 = sub-topic   (neutral text + accent bar)
+ *   h4 = detail      (uppercase label, muted)
+ */
+
+/* Page title (h1): biggest, default colour, own breathing room. */
+.markdown > h1:first-child {
+  font-size: 2.6rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Major section headings (h2): brand colour + divider rule under them. */
+.markdown h2 {
+  font-size: 1.9rem;
+  margin-top: 3rem;
+  padding-bottom: 0.4rem;
+  color: var(--ifm-color-primary);
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+}
+
+/* Sub-headings (h3): each starts a problem/topic block.
+   Neutral text + accent bar makes every block visually "begin". */
+.markdown h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin-top: 2.75rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--ifm-color-primary);
+}
+
+/* Detail headings (h4): small muted label, clearly the lowest rung. */
+.markdown h4 {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ifm-color-emphasis-600);
+}
+
+/* Lift code blocks off the page background with a defined edge. */
+.markdown div[class*='codeBlockContainer'] {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: var(--ifm-code-border-radius, 8px);
+}
+
+/* Inline code reads as a chip, not just recoloured text. */
+.markdown p code,
+.markdown li code {
+  border: 1px solid var(--ifm-color-emphasis-200);
+}
+
+/* Blockquote notes render as a soft callout, not a bare left rule. */
+.markdown blockquote {
+  border-left: 4px solid var(--ifm-color-primary);
+  border-radius: 0 6px 6px 0;
+  background: var(--ifm-color-emphasis-100);
+  padding: 0.75rem 1rem;
+}
+
+/* Anchored headings clear the sticky navbar when jumped to from the TOC. */
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4 {
+  scroll-margin-top: calc(var(--ifm-navbar-height) + 1rem);
+}
+
+/* Content links are underlined, not colour-only (WCAG). */
+.markdown a:not(.card) {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+/* Tables: header band + zebra rows so config-heavy pages stay readable. */
+.markdown table {
+  display: table;
+  width: 100%;
+}
+.markdown table thead {
+  background: var(--ifm-color-emphasis-100);
+}
+.markdown table th {
+  font-weight: 700;
+}
+.markdown table tr:nth-child(even) {
+  background: var(--ifm-color-emphasis-100);
+}
+
+/* A touch more room between list items on dense pages. */
+.markdown li + li {
+  margin-top: 0.35rem;
+}
+
 /* GitHub mark icon in the navbar (replaces the plain "GitHub" text link) */
 .header-github-link {
   display: flex;

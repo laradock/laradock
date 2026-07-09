@@ -24,10 +24,10 @@ This guide walks you through setting up Laradock for your project, from the prer
 
 Choose the setup that best suits your needs.
 
-- [A) Setup for Single Project](#A)
-	- [A.1) Already have a PHP project](#A1)
- 	- [A.2) Don't have a PHP project yet](#A2)
-- [B) Setup for Multiple Projects](#B)
+- [A) Setup for Single Project](#a-setup-for-single-project)
+	- [A.1) Already have a PHP project](#a1-already-have-a-php-project)
+ 	- [A.2) Don't have a PHP project yet](#a2-dont-have-a-php-project-yet)
+- [B) Setup for Multiple Projects](#b-setup-for-multiple-projects)
 
 
 <a name="A"></a>
@@ -60,7 +60,7 @@ Note: If you are not using Git yet for your project, you can use `git clone` ins
 
 *(If you want to run Laradock per project, rename the `laradock` folder to a unique name in each project.)*
 
-3 - Go to the [Usage](#Usage) section.
+3 - Go to the [Usage](#usage) section.
 
 <a name="A2"></a>
 ### A.2) Don't have a PHP project yet:
@@ -80,7 +80,7 @@ Your folder structure should look like this:
 
 2 - Edit your web server sites configuration.
 
-We'll need to do step 1 of the [Usage](#Usage) section now to make this happen.
+We'll need to do step 1 of the [Usage](#usage) section now to make this happen.
 
 ```
 cp .env.example .env
@@ -94,14 +94,14 @@ APP_CODE_PATH_HOST=../project-z/
 
 Make sure to replace `project-z` with your project folder name.
 
-3 - Go to the [Usage](#Usage) section.
+3 - Go to the [Usage](#usage) section.
 
 
 <a name="B"></a>
 ### B) Setup for Multiple Projects:
 > (Follow these steps if you want a single Docker environment for all your projects)
 
-1 - Clone this repository anywhere on your machine (similar to [Steps A.2. from above](#A2)):
+1 - Clone this repository anywhere on your machine (similar to [Steps A.2. from above](#a2-dont-have-a-php-project-yet)):
 
 ```bash
 git clone https://github.com/laradock/laradock.git
@@ -141,7 +141,7 @@ You can rename the config files, project folders and domains as you like, just m
 
 If you use Chrome 63 or above for development, don't use `.dev`. [Why?](https://laravel-news.com/chrome-63-now-forces-dev-domains-https). Instead use `.localhost`, `.invalid`, `.test`, or `.example`.
 
-5 - Go to the [Usage](#Usage) section.
+5 - Go to the [Usage](#usage) section.
 
 
 
@@ -165,7 +165,7 @@ We recommend using a Docker Engine version which is newer than 19.03.0.
 
 <br/>
 
->**Warning:** If you used an older version of Laradock it's highly recommended to rebuild the containers you need to use [see how you rebuild a container](/docs/usage/#Build-Re-build-Containers) in order to prevent as much errors as possible.
+>**Warning:** If you used an older version of Laradock it's highly recommended to rebuild the containers you need to use [see how you rebuild a container](/docs/usage/#build-or-rebuild-containers) in order to prevent as much errors as possible.
 
 <br/>
 
@@ -185,24 +185,22 @@ cp .env.example .env
 
 Each service's container definition also lives in its folder (`mysql/compose.yml`, ...), pulled together by the root `docker-compose.yml`. This requires Docker Compose v2.20 or newer.
 
-Depending on the host's operating system you may need to change the value given to `COMPOSE_FILE`. When you are running Laradock on Mac OS the correct file separator to use is `:`. When running Laradock from a Windows environment multiple files must be separated with `;`.
+By default the containers that will be created have the current directory name as suffix (e.g. `laradock_workspace_1`). This can cause mixture of data inside the container volumes if you use laradock in multiple projects. In this case, either read the guide for [multiple projects](#b-setup-for-multiple-projects) or change the variable `COMPOSE_PROJECT_NAME` to something unique like your project name.
 
-By default the containers that will be created have the current directory name as suffix (e.g. `laradock_workspace_1`). This can cause mixture of data inside the container volumes if you use laradock in multiple projects. In this case, either read the guide for [multiple projects](#B) or change the variable `COMPOSE_PROJECT_NAME` to something unique like your project name.
-
-2 - Build the environment and run it using `docker-compose`
+2 - Build the environment and run it using Docker Compose (v2.20 or newer is required)
 
 In this example we'll see how to run NGINX (web server) and MySQL (database engine) to host PHP web scripts:
 
 ```bash
-docker-compose up -d nginx mysql
+docker compose up -d nginx mysql
 ```
 
-**Note**: All the web server containers (`nginx`, `apache`, etc.) depend on `php-fpm`, which means if you run any of them, they will automatically launch the `php-fpm` container for you, so there's no need to explicitly specify it in the `up` command. If you have to do so, you may need to run them as follows: `docker-compose up -d nginx php-fpm mysql`.
+**Note**: All the web server containers (`nginx`, `apache`, etc.) depend on `php-fpm`, which means if you run any of them, they will automatically launch the `php-fpm` container for you, so there's no need to explicitly specify it in the `up` command. If you have to do so, you may need to run them as follows: `docker compose up -d nginx php-fpm mysql`.
 
 
 You can select your own combination of containers from [this list](/docs/Intro#supported-services).
 
-*(Please note that sometimes we forget to update the docs, so check the `docker-compose.yml` file to see an updated list of all available containers).*
+*(Every top-level folder in the repo is a runnable container; the folder list is always the up-to-date list of available services.)*
 
 
 <br/>

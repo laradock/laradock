@@ -15,6 +15,17 @@ permissions:
   contents: read # to fetch code (actions/checkout)
 
 jobs:
+  compose-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Validate the full compose configuration (include + env_file wiring)
+        run: |
+          set -eux
+          docker compose version
+          cp .env.example .env
+          docker compose config -q
+
   build-php:
     # Don't trigger on schedule event when in a fork
     if: github.event_name != 'schedule' || (github.event_name == 'schedule' && github.repository == 'laradock/laradock')
@@ -33,6 +44,8 @@ jobs:
         run: |
           set -eux
           cp .env.example .env
+          # bake reads only the root .env, not the per-service defaults.env
+          cat ${{ matrix.service }}/defaults.env >> .env
           sed -i -- 's/=false/=true/g' .env
           sed -i -- 's/CHANGE_SOURCE=true/CHANGE_SOURCE=false/g' .env
           sed -i -- 's/PHPDBG=true/PHPDBG=false/g' .env
@@ -70,6 +83,8 @@ jobs:
       - name: Build the Docker image
         run: |
           cp .env.example .env
+          # bake reads only the root .env, not the per-service defaults.env
+          cat ${{ matrix.service }}/defaults.env >> .env
           sed -i -- 's/=false/=true/g' .env
           sed -i -- 's/CHANGE_SOURCE=true/CHANGE_SOURCE=false/g' .env
           docker buildx bake ${{ matrix.service }} --progress=plain --set *.output=type=cacheonly

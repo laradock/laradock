@@ -58,7 +58,7 @@ cp .env.example .env
 3 - 运行容器：
 
 ```shell
-docker-compose up -d workspace nginx mysql redis
+docker compose up -d workspace nginx mysql redis
 ```
 
 4 - 打开你项目的 `.env` 文件，设置以下内容：
@@ -80,7 +80,7 @@ QUEUE_HOST=beanstalkd
 `nginx`、`apache2`、`caddy`、`php-fpm`、`mysql`、`postgres`、`mariadb`、`mongo`、`redis`、`memcached`、`rabbitmq`、`beanstalkd`、`workspace` 等等。
 
 ```shell
-docker-compose up -d workspace apache2 postgres redis
+docker compose up -d workspace apache2 postgres redis
 ```
 
 ### 常用命令

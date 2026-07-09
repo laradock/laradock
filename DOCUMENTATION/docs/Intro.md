@@ -29,7 +29,7 @@ Laradock is free, open-source under the MIT license, and has been battle-tested 
 - **70+ Ready-made Services**: Databases, caches, queues, search engines, and more, all pre-configured and waiting.
 - **All-in-One Dev Shell**: Run Artisan, Composer, Node, and every CLI your project needs inside the ready-made `workspace` container, with nothing installed on your host.
 - **Pick Your Database**: MySQL, PostgreSQL, MariaDB, MongoDB, Redis, and many others, ready to switch on.
-- **Toggle Services On Demand**: Start only what a project needs with `docker-compose up`, and stop them easily.
+- **Toggle Services On Demand**: Start only what a project needs with `docker compose up`, and stop them easily.
 - **One Environment Everywhere**: Identical setup on Linux, macOS, and Windows, so your team shares the same stack.
 - **A Container Per Service**: Every service is isolated, so nothing conflicts and each piece is easy to manage.
 - **Configure From One File**: every service ships pre-configured (`<service>/defaults.env`); override any setting by adding one line to your `.env`, it always wins.
@@ -90,10 +90,10 @@ git clone https://github.com/Laradock/laradock.git
 cp .env.example .env
 ```
 
-3 - Run your containers:
+3 - Run your containers (requires Docker Compose v2.20+):
 
 ```shell
-docker-compose up -d workspace nginx mysql redis
+docker compose up -d workspace nginx mysql redis
 ```
 
 4 - Open your project's `.env` file and set the following:
@@ -120,7 +120,7 @@ Done.
 > Laradock adheres to the 'separation of concerns' principle, so it runs each software in its own Docker container.
 > You can turn instances on or off as needed without worrying about configuration.
 
-> To run a chosen container from the list below, run `docker-compose up -d {container-name}`. 
+> To run a chosen container from the list below, run `docker compose up -d {container-name}`. 
 > The container name `{container-name}` is the same as its folder name. Example to run the "PHP FPM" container, use the name "php-fpm".
 
 
@@ -131,13 +131,13 @@ Done.
 | (**Laradock Workspace**)    | PHP CLI, Composer, Git, Vim, xDebug, Linuxbrew, Node, V8JS, Gulp, SQLite, Laravel Envoy, Deployer, Yarn, SOAP, Drush, Wordpress CLI, dnsutils, Terraform, ImageMagick, Drupal Console, Protoc, JDK, Docker Client |
 | **Web Servers**           | NGINX, Apache2, Caddy, OpenResty, Tomcat, FrankenPHP                                |
 | **Load Balancers**        | HAProxy, Traefik                                                         |
-| **PHP Compilers**         | PHP FPM, HHVM, RoadRunner                                                |
+| **PHP Compilers**         | PHP FPM, RoadRunner                                                |
 | **Database Management Systems** | MySQL, PostgreSQL (PostGIS), pgvector, MariaDB, Percona, MSSQL, MongoDB, Neo4j, CouchDB, RethinkDB, Cassandra, ClickHouse, Tarantool |
 | **Database Management Tools** | PhpMyAdmin, Adminer, PgAdmin, MongoDB Web UI, Tarantool Admin, pgbackups (PostgreSQL) |
-| **Cache Engines**         | Redis, Redis Web UI, Redis Cluster, Memcached, Aerospike, Varnish, SSDB        |
+| **Cache Engines**         | Redis, Redis Web UI, Redis Cluster, Valkey, Dragonfly, Memcached, Aerospike, Varnish, SSDB        |
 | **Message Brokers**       | RabbitMQ, RabbitMQ Admin Console, Beanstalkd, Beanstalkd Admin Console, Eclipse Mosquitto, Gearman, NATS, Apache Kafka, Kafka Manager |
 | **Log Management**        | GrayLog, Kibana, LogStash                                                |
-| **Search Engines**        | ElasticSearch, Apache Solr, Manticore Search, Typesense, Dejavu          |
+| **Search Engines**        | ElasticSearch, OpenSearch, Apache Solr, Manticore Search, Typesense, Dejavu          |
 | **Vector Databases**      | pgvector, Qdrant, Weaviate, Chroma                                       |
 | **Graph / Multi-model Databases** | Neo4j, ArangoDB, SurrealDB                                       |
 | **Time-series Databases** | InfluxDB                                                                 |
@@ -152,11 +152,10 @@ Done.
 | **CI/CD Tools**           | Jenkins, SonarQube, Gitlab, OneDev                                       |
 | **Cloud Tools**           | AWS EB CLI, Amazon Simple Queue Service                                  |
 | **Image Processing**      | Thumbor                                                                  |
-| **Interactive Computing** | IPython, Jupyter Hub                                                     |
 | **Security Tools**        | Certbot                                                                  |
 | **Object Storage**        | Minio                                                                    |
 | **Testing**               | Selenium                                                                 |
-| **IDEs**                  | Codiad, ICE Coder, Theia, Web IDE                                                |
+| **IDEs**                  | Theia                                                |
 | **API Documentation**     | Swagger UI, Swagger Editor                                              |
 
 

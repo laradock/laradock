@@ -60,7 +60,7 @@ cp .env.example .env
 3 - شغّل الحاويات:
 
 ```shell
-docker-compose up -d workspace nginx mysql redis
+docker compose up -d workspace nginx mysql redis
 ```
 
 4 - افتح ملف `.env` الخاص بمشروعك واضبط ما يلي:
@@ -82,7 +82,7 @@ QUEUE_HOST=beanstalkd
 `nginx`، `apache2`، `caddy`، `php-fpm`، `mysql`، `postgres`، `mariadb`، `mongo`، `redis`، `memcached`، `rabbitmq`، `beanstalkd`، `workspace`، والمزيد.
 
 ```shell
-docker-compose up -d workspace apache2 postgres redis
+docker compose up -d workspace apache2 postgres redis
 ```
 
 ### أوامر أساسية

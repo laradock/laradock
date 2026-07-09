@@ -661,13 +661,7 @@ Recipes for non-Laravel PHP projects.
 <a name="Install-CodeIgniter"></a>
 ### Install CodeIgniter
 
-To run CodeIgniter 3 on Laradock:
-
-1. In `docker-compose.yml`, change `CODEIGNITER=false` to `CODEIGNITER=true`.
-2. Rebuild PHP-FPM:
-   ```bash
-   docker-compose build php-fpm
-   ```
+CodeIgniter is plain PHP, so it needs no special flag: point your web server's site config at the project's `public` (CodeIgniter 4) or root (CodeIgniter 3) folder, exactly like the general PHP setup in [Getting Started](/docs/getting-started).
 
 
 <a name="Magento-2-authentication-credentials"></a>

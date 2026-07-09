@@ -58,7 +58,7 @@ cp .env.example .env
 3 - Ejecuta los contenedores:
 
 ```shell
-docker-compose up -d workspace nginx mysql redis
+docker compose up -d workspace nginx mysql redis
 ```
 
 4 - Abre el archivo `.env` de tu proyecto y configura lo siguiente:
@@ -80,7 +80,7 @@ El inicio rápido de arriba ejecuta una combinación fija. Puedes cambiarla por 
 `nginx`, `apache2`, `caddy`, `php-fpm`, `mysql`, `postgres`, `mariadb`, `mongo`, `redis`, `memcached`, `rabbitmq`, `beanstalkd`, `workspace`, y más.
 
 ```shell
-docker-compose up -d workspace apache2 postgres redis
+docker compose up -d workspace apache2 postgres redis
 ```
 
 ### Comandos básicos

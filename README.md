@@ -52,10 +52,10 @@ cp .env.example .env
 
 Your `.env` holds the shared settings. Every service ships pre-configured with its own settings in its folder (`mysql/defaults.env`, `nginx/defaults.env`, ...); to change any value, add that line to your `.env`, it always wins.
 
-3 - Run your containers:
+3 - Run your containers (requires Docker Compose v2.20+):
 
 ```shell
-docker-compose up -d workspace nginx mysql redis
+docker compose up -d workspace nginx mysql redis
 ```
 
 4 - Open your project's `.env` file and set the following:
@@ -93,7 +93,7 @@ Laradock provides the PHP runtime, web server, databases, and background service
 
 ### Supported Services
 
-Laradock runs each service in its own container, which you turn on or off as needed. To start one, run `docker-compose up -d {container-name}` (the container name matches its folder name, e.g. `php-fpm`).
+Laradock runs each service in its own container, which you turn on or off as needed. To start one, run `docker compose up -d {container-name}` (the container name matches its folder name, e.g. `php-fpm`).
 
 <!-- SYNC: one of THREE places listing Laradock services. Keep in sync with the other table (README.md / DOCUMENTATION/docs/Intro.md) AND the homepage list in DOCUMENTATION/src/pages/index.tsx. Add a service = update all three. -->
 | Category                  | Services (Containers)                                                                 |
@@ -101,7 +101,7 @@ Laradock runs each service in its own container, which you turn on or off as nee
 | (**Laradock Workspace**)    | PHP CLI, Composer, Git, Vim, xDebug, Linuxbrew, Node, V8JS, Gulp, SQLite, Laravel Envoy, Deployer, Yarn, SOAP, Drush, Wordpress CLI, dnsutils, Terraform, ImageMagick, Drupal Console, Protoc, JDK, Docker Client |
 | **Web Servers**           | NGINX, Apache2, Caddy, OpenResty, Tomcat, FrankenPHP                                |
 | **Load Balancers**        | HAProxy, Traefik                                                         |
-| **PHP Compilers**         | PHP FPM, HHVM, RoadRunner                                                |
+| **PHP Compilers**         | PHP FPM, RoadRunner                                                |
 | **Database Management Systems** | MySQL, PostgreSQL (PostGIS), pgvector, MariaDB, Percona, MSSQL, MongoDB, Neo4j, CouchDB, RethinkDB, Cassandra, ClickHouse, Tarantool |
 | **Database Management Tools** | PhpMyAdmin, Adminer, PgAdmin, MongoDB Web UI, Tarantool Admin, pgbackups (PostgreSQL) |
 | **Cache Engines**         | Redis, Redis Web UI, Redis Cluster, Valkey, Dragonfly, Memcached, Aerospike, Varnish, SSDB        |
@@ -122,11 +122,10 @@ Laradock runs each service in its own container, which you turn on or off as nee
 | **CI/CD Tools**           | Jenkins, SonarQube, Gitlab, OneDev                                       |
 | **Cloud Tools**           | AWS EB CLI, Amazon Simple Queue Service                                  |
 | **Image Processing**      | Thumbor                                                                  |
-| **Interactive Computing** | IPython, Jupyter Hub                                                     |
 | **Security Tools**        | Certbot                                                                  |
 | **Object Storage**        | Minio                                                                    |
 | **Testing**               | Selenium                                                                 |
-| **IDEs**                  | Codiad, ICE Coder, Theia, Web IDE                                                |
+| **IDEs**                  | Theia                                                |
 | **API Documentation**     | Swagger UI, Swagger Editor                                              |
 
 See the [full service list and usage docs](https://laradock.io/docs/Intro#supported-services).
