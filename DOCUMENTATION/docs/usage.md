@@ -2111,98 +2111,19 @@ Add your cron jobs to `workspace/crontab/laradock`, after the `php artisan` line
 <a name="Speed-MacOS"></a>
 ### Improve speed on macOS
 
-Sharing code into containers via osxfs is slower than on Linux, which can hurt on larger projects ([background](https://github.com/docker/for-mac/issues/77)). Modern Docker Desktop's VirtioFS reduces this a lot; if you still need more, the workarounds below help.
+Sharing your code from macOS into containers is slower than on Linux because every file read crosses the host/VM boundary. Recent Docker Desktop fixes most of this on its own, so the steps below go from "do this first" to "only if you still need it."
 
-#### Workaround A: Dinghy
+**1. Enable VirtioFS (fixes most cases).** In Docker Desktop, open **Settings → General → Choose file sharing implementation for your containers** and pick **VirtioFS**, then **Apply & Restart**. It is the default on recent Docker Desktop and is dramatically faster than the older osxfs / gRPC FUSE backends. For most projects this alone is enough.
 
-[Dinghy](https://github.com/codekitchen/dinghy) creates its own VM via docker-machine without touching your existing docker-machine VMs.
+**2. Tune the mount flag.** Laradock mounts your code using the `APP_CODE_CONTAINER_FLAG` value in your `.env` (default `:cached`). Keep `:cached` for most apps. If your app writes heavily to the mounted volume, `:delegated` can be faster, at the cost of the container's view lagging the host by a moment:
 
-1. `brew tap codekitchen/dinghy`
-2. `brew install dinghy`
-3. `dinghy create --provider virtualbox` (VirtualBox required; other providers are supported)
-4. Copy the env variables it prints into your shell profile so Docker uses the VM's server.
-5. `docker-compose up ...`
-
-<a name="Docker-Sync"></a>
-#### Workaround B: d4m-nfs
-
-You can use d4m-nfs either through Laradock's built-in integration or as a standalone tool.
-
-**B.1 — Built-in docker-sync integration**
-
-docker-sync runs an intermediate container holding a copy of your app files that the other containers read quickly, while a host process continuously syncs changes into it. It's preconfigured for macOS and works on Windows by changing `DOCKER_SYNC_STRATEGY`.
-
-Laradock ships `sync.sh` to install, run, and stop docker-sync (you may need `chmod 755 sync.sh`).
-
-1. Configure Laradock as usual and confirm your sites work.
-2. Set `DOCKER_SYNC_STRATEGY` in `.env` (see the [syncing strategies](https://github.com/EugenMayer/docker-sync/wiki/8.-Strategies)):
-   ```
-   # osx: 'native_osx' (default)
-   # windows: 'unison'
-   # linux: docker-sync not required
-
-   DOCKER_SYNC_STRATEGY=native_osx
-   ```
-3. Set `APP_CODE_CONTAINER_FLAG=:nocopy` in `.env`.
-4. Install the docker-sync gem on the host:
-   ```bash
-   ./sync.sh install
-   ```
-5. Start docker-sync and the environment, naming the services you want (as with `docker-compose up`):
-   ```bash
-   ./sync.sh up nginx mysql
-   ```
-   > The first run copies all files into the intermediate container, which can take 15+ minutes.
-6. Stop everything:
-   ```bash
-   ./sync.sh down
-   ```
-
-*Optional aliases* — add to `~/.bash_profile` to avoid retyping:
-
-```bash
-alias devup="cd /PATH_TO_LARADOCK/laradock; ./sync.sh up nginx mysql" #add your services
-alias devbash="cd /PATH_TO_LARADOCK/laradock; ./sync.sh bash"
-alias devdown="cd /PATH_TO_LARADOCK/laradock; ./sync.sh down"
+```dotenv
+APP_CODE_CONTAINER_FLAG=:delegated
 ```
 
-*Additional commands:*
+**3. Keep large directories out of the bind mount.** The real cost is bind-mounting tens of thousands of files. Directories your host doesn't need to read, such as `vendor/` and `node_modules/`, are best kept in a Docker volume instead of the host mount so they never cross the file-sharing boundary.
 
-```bash
-./sync.sh bash    # open bash on the workspace container
-./sync.sh sync    # manually trigger a sync
-./sync.sh clean   # remove the docker-sync container (host files untouched)
-```
-
-*Notes:*
-
-- You can run Laradock with or without docker-sync using the same `.env` and `docker-compose.yml` — the config is overridden automatically when docker-sync is used.
-- If a container can't access the synced files, set a user with UID 1000 in its Dockerfile (the UID nginx and php-fpm use). Changing permissions to 777 works but isn't recommended.
-
-See the [docker-sync documentation](https://github.com/EugenMayer/docker-sync/wiki).
-
-**B.2 — Standalone d4m-nfs tool**
-
-[d4m-nfs](https://github.com/IFSight/d4m-nfs) mounts an NFS volume instead of osxfs.
-
-1. In Docker's **File Sharing** preferences, remove everything except `/tmp`.
-2. Restart Docker.
-3. Clone d4m-nfs into your home directory:
-   ```bash
-   git clone https://github.com/IFSight/d4m-nfs ~/d4m-nfs
-   ```
-4. Create `~/d4m-nfs/etc/d4m-nfs-mounts.txt` with:
-   ```txt
-   /Users:/Users
-   ```
-5. Make sure `/etc/exports` exists and is empty (watch for collisions from Vagrant or a previous run).
-6. Run the script (may need sudo):
-   ```bash
-   ~/d4m-nfs/d4m-nfs.sh
-   ```
-7. Start your containers: `docker-compose up ...`
-
-> If you hit errors, restart Docker, ensure there are no spaces in `d4m-nfs-mounts.txt`, and confirm `/etc/exports` is clear.
+**4. Still too slow? Use Mutagen.** For very large codebases, [Mutagen](https://mutagen.io) syncs your files into a native container volume in the background, giving near-Linux speed. It is the maintained successor to the old `docker-sync` approach.
 
 
 
