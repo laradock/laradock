@@ -87,6 +87,41 @@ Laradock provides the PHP runtime, web server, databases, and background service
 - **Modular:** run only the containers you need, in any combination.
 - **Beginner-friendly:** clone, copy the env file, and run `docker compose up`.
 
+### Supported Services
+
+Laradock runs each service in its own container, which you turn on or off as needed. To start one, run `docker-compose up -d {container-name}` (the container name matches its folder name, e.g. `php-fpm`).
+
+<!-- SYNC: keep this table in sync with the "Supported Services" table in /DOCUMENTATION/docs/Intro.md -->
+| Category                  | Services (Containers)                                                                 |
+|---------------------------|--------------------------------------------------------------------------|
+| (**Laradock Workspace**)    | PHP CLI, Composer, Git, Vim, xDebug, Linuxbrew, Node, V8JS, Gulp, SQLite, Laravel Envoy, Deployer, Yarn, SOAP, Drush, Wordpress CLI, dnsutils, Terraform, ImageMagick, Drupal Console, Protoc, JDK, Docker Client |
+| **Web Servers**           | NGINX, Apache2, Caddy, OpenResty, Tomcat, FrankenPHP                                |
+| **Load Balancers**        | HAProxy, Traefik                                                         |
+| **PHP Compilers**         | PHP FPM, HHVM, RoadRunner                                                |
+| **Database Management Systems** | MySQL, PostgreSQL (PostGIS), pgvector, MariaDB, Percona, MSSQL, MongoDB, Neo4j, CouchDB, RethinkDB, Cassandra, ClickHouse, Tarantool |
+| **Database Management Tools** | PhpMyAdmin, Adminer, PgAdmin, MongoDB Web UI, Tarantool Admin, pgbackups (PostgreSQL) |
+| **Cache Engines**         | Redis, Redis Web UI, Redis Cluster, Memcached, Aerospike, Varnish, SSDB        |
+| **Message Brokers**       | RabbitMQ, RabbitMQ Admin Console, Beanstalkd, Beanstalkd Admin Console, Eclipse Mosquitto, Gearman, NATS, Apache Kafka, Kafka Manager |
+| **Log Management**        | GrayLog, Kibana, LogStash                                                |
+| **Search Engines**        | ElasticSearch, Apache Solr, Manticore Search, Typesense, Dejavu          |
+| **PHP Extensions**        | Swoole, Blackfire, Phalcon, PHP Worker, Laravel Horizon                  |
+| **Mail Servers**          | Mailu, MailCatcher, Mailhog, MailDev, Mailpit                                     |
+| **Real-time Communication** | Laravel Echo, Laravel Reverb, Mercure, Soketi                                        |
+| **Monitoring**            | Grafana, NetData                                                         |
+| **Coordination Services** | Apache ZooKeeper                                                         |
+| **Container Management**  | Portainer, Docker Registry, Docker Web UI                                |
+| **CI/CD Tools**           | Jenkins, SonarQube, Gitlab, OneDev                                       |
+| **Cloud Tools**           | AWS EB CLI, Amazon Simple Queue Service                                  |
+| **Image Processing**      | Thumbor                                                                  |
+| **Interactive Computing** | IPython, Jupyter Hub                                                     |
+| **Security Tools**        | Certbot                                                                  |
+| **Object Storage**        | Minio                                                                    |
+| **Testing**               | Selenium                                                                 |
+| **IDEs**                  | Codiad, ICE Coder, Theia, Web IDE                                                |
+| **API Documentation**     | Swagger UI, Swagger Editor                                              |
+
+See the [full service list and usage docs](https://laradock.io/docs/Intro#supported-services).
+
 ### The Workspace: Your All-in-One Dev Shell
 
 A command line preloaded with PHP, Composer, Node, Git, and dozens of dev tools, so you run every command your project needs *inside* it and install nothing on your own machine.
