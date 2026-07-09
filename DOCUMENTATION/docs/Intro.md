@@ -123,21 +123,22 @@ Done.
 
 
 
+<!-- SYNC: keep this table in sync with the "Supported Services" table in /README.md -->
 | Category                  | Services (Containers)                                                                 |
 |---------------------------|--------------------------------------------------------------------------|
 | (**Laradock Workspace**)    | PHP CLI, Composer, Git, Vim, xDebug, Linuxbrew, Node, V8JS, Gulp, SQLite, Laravel Envoy, Deployer, Yarn, SOAP, Drush, Wordpress CLI, dnsutils, Terraform, ImageMagick, Drupal Console, Protoc, JDK, Docker Client |
-| **Web Servers**           | NGINX, Apache2, Caddy, OpenResty, Tomcat                                            |
+| **Web Servers**           | NGINX, Apache2, Caddy, OpenResty, Tomcat, FrankenPHP                                |
 | **Load Balancers**        | HAProxy, Traefik                                                         |
-| **PHP Compilers**         | PHP FPM, HHVM                                                            |
-| **Database Management Systems** | MySQL, PostgreSQL (PostGIS), MariaDB, Percona, MSSQL, MongoDB, Neo4j, CouchDB, RethinkDB, Cassandra, ClickHouse, Tarantool |
+| **PHP Compilers**         | PHP FPM, HHVM, RoadRunner                                                |
+| **Database Management Systems** | MySQL, PostgreSQL (PostGIS), pgvector, MariaDB, Percona, MSSQL, MongoDB, Neo4j, CouchDB, RethinkDB, Cassandra, ClickHouse, Tarantool |
 | **Database Management Tools** | PhpMyAdmin, Adminer, PgAdmin, MongoDB Web UI, Tarantool Admin, pgbackups (PostgreSQL) |
 | **Cache Engines**         | Redis, Redis Web UI, Redis Cluster, Memcached, Aerospike, Varnish, SSDB        |
 | **Message Brokers**       | RabbitMQ, RabbitMQ Admin Console, Beanstalkd, Beanstalkd Admin Console, Eclipse Mosquitto, Gearman, NATS, Apache Kafka, Kafka Manager |
 | **Log Management**        | GrayLog, Kibana, LogStash                                                |
-| **Search Engines**        | ElasticSearch, Apache Solr, Manticore Search, Dejavu                     |
+| **Search Engines**        | ElasticSearch, Apache Solr, Manticore Search, Typesense, Dejavu          |
 | **PHP Extensions**        | Swoole, Blackfire, Phalcon, PHP Worker, Laravel Horizon                  |
 | **Mail Servers**          | Mailu, MailCatcher, Mailhog, MailDev, Mailpit                                     |
-| **Real-time Communication** | Laravel Echo, Mercure, Soketi                                                  |
+| **Real-time Communication** | Laravel Echo, Laravel Reverb, Mercure, Soketi                                        |
 | **Monitoring**            | Grafana, NetData                                                         |
 | **Coordination Services** | Apache ZooKeeper                                                         |
 | **Container Management**  | Portainer, Docker Registry, Docker Web UI                                |
