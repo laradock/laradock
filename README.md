@@ -100,10 +100,10 @@ Laradock runs each service in its own container, which you turn on or off as nee
 | **PHP Compilers**         | PHP FPM, HHVM, RoadRunner                                                |
 | **Database Management Systems** | MySQL, PostgreSQL (PostGIS), pgvector, MariaDB, Percona, MSSQL, MongoDB, Neo4j, CouchDB, RethinkDB, Cassandra, ClickHouse, Tarantool |
 | **Database Management Tools** | PhpMyAdmin, Adminer, PgAdmin, MongoDB Web UI, Tarantool Admin, pgbackups (PostgreSQL) |
-| **Cache Engines**         | Redis, Redis Web UI, Redis Cluster, Memcached, Aerospike, Varnish, SSDB        |
+| **Cache Engines**         | Redis, Redis Web UI, Redis Cluster, Valkey, Dragonfly, Memcached, Aerospike, Varnish, SSDB        |
 | **Message Brokers**       | RabbitMQ, RabbitMQ Admin Console, Beanstalkd, Beanstalkd Admin Console, Eclipse Mosquitto, Gearman, NATS, Apache Kafka, Kafka Manager |
 | **Log Management**        | GrayLog, Kibana, LogStash                                                |
-| **Search Engines**        | ElasticSearch, Apache Solr, Manticore Search, Typesense, Dejavu          |
+| **Search Engines**        | ElasticSearch, OpenSearch, Apache Solr, Manticore Search, Typesense, Dejavu          |
 | **Vector Databases**      | pgvector, Qdrant, Weaviate, Chroma                                       |
 | **Graph / Multi-model Databases** | Neo4j, ArangoDB, SurrealDB                                       |
 | **Time-series Databases** | InfluxDB                                                                 |

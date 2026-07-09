@@ -1449,6 +1449,42 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 2. Web UI on `http://localhost:9091` (health `/-/healthy`). Edit `prometheus/prometheus.yml` to add scrape targets, then restart.
 
 
+<a name="Use-Valkey"></a>
+### Valkey
+
+[Valkey](https://valkey.io) is the community fork of Redis (created after the 2024 licence change) and is fully Redis-compatible. Point any Redis client at it.
+
+1. Start the container:
+   ```bash
+   docker-compose up -d valkey
+   ```
+2. Reachable on `${VALKEY_PORT}` (default `6380`) from the host, `valkey:6379` from other containers.
+
+
+<a name="Use-Dragonfly"></a>
+### Dragonfly
+
+[Dragonfly](https://www.dragonflydb.io) is a modern, high-throughput in-memory store that is wire-compatible with Redis and Memcached.
+
+1. Start the container:
+   ```bash
+   docker-compose up -d dragonfly
+   ```
+2. Reachable on `${DRAGONFLY_PORT}` (default `6381`) from the host, `dragonfly:6379` from other containers. Uses any Redis client.
+
+
+<a name="Use-OpenSearch"></a>
+### OpenSearch
+
+[OpenSearch](https://opensearch.org) is the Apache-2.0 open-source fork of Elasticsearch (search + analytics). This dev setup runs a single node with the security plugin disabled.
+
+1. Start the container:
+   ```bash
+   docker-compose up -d opensearch
+   ```
+2. REST API on `http://localhost:9202` (`OPENSEARCH_HOST_PORT`); `curl http://localhost:9202` returns the version. From other containers use `http://opensearch:9200`.
+
+
 <a name="Use-Beanstalkd"></a>
 ### Beanstalkd
 
