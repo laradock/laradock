@@ -1,0 +1,13 @@
+# Minimal Prometheus configuration for Laradock.
+# Prometheus scrapes itself so you have data to explore out of the box.
+# Add more scrape jobs (php-fpm exporter, node-exporter, mysqld-exporter, etc.)
+# under scrape_configs as your stack grows.
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
