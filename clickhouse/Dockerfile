@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 
-ARG CLICKHOUSE_VERSION=22.2.2.1
-ARG CLICKHOUSE_GOSU_VERSION=1.14
+ARG CLICKHOUSE_VERSION=25.8.2.29
+ARG CLICKHOUSE_GOSU_VERSION=1.17
 
 RUN apt-get update \
     && apt-get install --yes --no-install-recommends \
