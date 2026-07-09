@@ -1,0 +1,17 @@
+# Minimal LiteLLM proxy config. Add your own providers/models here.
+# Docs: https://docs.litellm.ai/docs/proxy/configs
+model_list:
+  # Example: route "local-llama" to the laradock Ollama service.
+  # Uncomment and adjust once Ollama has a model pulled.
+  # - model_name: local-llama
+  #   litellm_params:
+  #     model: ollama/llama3.2
+  #     api_base: http://ollama:11434
+  - model_name: mock-gpt
+    litellm_params:
+      model: openai/mock-gpt
+      api_base: http://localhost:4000
+      api_key: sk-mock
+
+litellm_settings:
+  drop_params: true
