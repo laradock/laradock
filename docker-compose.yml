@@ -22,6 +22,8 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   neo4j:
     driver: ${VOLUMES_DRIVER}
+  qdrant:
+    driver: ${VOLUMES_DRIVER}
   mariadb:
     driver: ${VOLUMES_DRIVER}
   weaviate:
@@ -918,6 +920,18 @@ services:
       ports:
         - "${ZOOKEEPER_PORT}:2181"
       networks:
+        - backend
+
+### Qdrant ###############################################
+    qdrant:
+      image: qdrant/qdrant:${QDRANT_VERSION}
+      volumes:
+        - qdrant:/qdrant/storage
+      ports:
+        - "${QDRANT_HOST_PORT}:6333"
+        - "${QDRANT_GRPC_PORT}:6334"
+      networks:
+        - frontend
         - backend
 
 ### Aerospike ############################################
