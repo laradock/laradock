@@ -1222,6 +1222,26 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 **Master key** — `masterkey`.
 
 
+<a name="Use-pgvector"></a>
+### pgvector (PostgreSQL + vectors)
+
+[pgvector](https://github.com/pgvector/pgvector) is the PostgreSQL extension for vector similarity search, commonly used for AI/RAG features. This service runs a Postgres image with pgvector preinstalled, on its own port and data folder so it can run alongside the regular `postgres` service.
+
+1. Configure it in your `.env` (defaults shown):
+   ```dotenv
+   PGVECTOR_VERSION=pg17
+   PGVECTOR_PORT=5433
+   PGVECTOR_DB=default
+   PGVECTOR_USER=default
+   PGVECTOR_PASSWORD=secret
+   ```
+2. Start the container:
+   ```bash
+   docker-compose up -d pgvector
+   ```
+3. Connect on host port `5433`. The `vector` extension is enabled automatically in `PGVECTOR_DB` on first init (see `pgvector/docker-entrypoint-initdb.d/init.sql`).
+
+
 <a name="Use-Beanstalkd"></a>
 ### Beanstalkd
 

@@ -36,6 +36,8 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   meilisearch:
     driver: ${VOLUMES_DRIVER}
+  pgvector:
+    driver: ${VOLUMES_DRIVER}
   elasticsearch:
     driver: ${VOLUMES_DRIVER}
   mosquitto:
@@ -678,6 +680,22 @@ services:
         - POSTGRES_CONFLUENCE_PASSWORD=${CONFLUENCE_POSTGRES_PASSWORD}
       networks:
         - backend
+
+### pgvector (PostgreSQL + vector) #######################
+    pgvector:
+      image: pgvector/pgvector:${PGVECTOR_VERSION}
+      volumes:
+        - ${DATA_PATH_HOST}/pgvector:/var/lib/postgresql/data
+        - ${PGVECTOR_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+      ports:
+        - "${PGVECTOR_PORT}:5432"
+      environment:
+        - POSTGRES_DB=${PGVECTOR_DB}
+        - POSTGRES_USER=${PGVECTOR_USER}
+        - POSTGRES_PASSWORD=${PGVECTOR_PASSWORD}
+      networks:
+        - backend
+
 ### pgbackups PostgreSQL #################################
     pgbackups:
       image: prodrigestivill/postgres-backup-local
