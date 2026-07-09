@@ -398,6 +398,24 @@ services:
         - "dockerhost:${DOCKER_HOST_IP}"
       networks:
         - backend
+
+### RoadRunner ###########################################
+    roadrunner:
+      build:
+        context: ./roadrunner
+        args:
+          - CHANGE_SOURCE=${CHANGE_SOURCE}
+          - LARADOCK_PHP_VERSION=${PHP_VERSION}
+          - ROADRUNNER_VERSION=${ROADRUNNER_VERSION}
+      volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+      ports:
+        - "${ROADRUNNER_HTTP_PORT}:8080"
+      extra_hosts:
+        - "dockerhost:${DOCKER_HOST_IP}"
+      networks:
+        - frontend
+        - backend
 ### Laravel Horizon ######################################
     laravel-horizon:
       restart: always
