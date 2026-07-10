@@ -5,6 +5,7 @@ services:
       build:
         context: ./openresty
         args:
+          - OPENRESTY_VERSION=${OPENRESTY_VERSION}
           - CHANGE_SOURCE=${CHANGE_SOURCE}
           - PHP_UPSTREAM_CONTAINER=${OPENRESTY_PHP_UPSTREAM_CONTAINER}
           - PHP_UPSTREAM_PORT=${OPENRESTY_PHP_UPSTREAM_PORT}

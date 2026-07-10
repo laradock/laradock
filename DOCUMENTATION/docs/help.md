@@ -13,6 +13,10 @@ keywords:
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+Something not working right? You're not the first to hit it, most Laradock setups run into the same handful of snags: a blank Laravel page, a port already taken, MySQL refusing to connect. Below are the common problems and their fixes, organized by symptom and OS. Find the one that matches what you're seeing and work through it step by step.
+
+![Docker Image](/img/laradock/laradock-abstract-thinner.jpg)
+
 ## Get Help
 
 - Open an [issue](https://github.com/laradock/laradock/issues) on GitHub (it will be labeled as a Question).

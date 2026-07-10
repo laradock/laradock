@@ -262,6 +262,7 @@ Gitter's done. Our community of 2,000+ active members has a new home on [GitHub 
 
 <!-- --- -->
 
+None of this happens on its own. Behind every container, every fix, and every new service added is someone who cared enough to give their time. Meet the people who make Laradock possible.
 
 ## Awesome People
 

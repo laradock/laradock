@@ -8,6 +8,10 @@ keywords:
   - laradock help
 ---
 
+Welcome to the Laradock community. Whether you're stuck on a setup, curious how others run their stack, or want to help shape what's next, you're in the right place. Here's where the conversation happens today, and other ways to reach the maintainers directly.
+
+![Docker Image](/img/laradock/laradock-abstract-thinner.jpg)
+
 ## Where the community lives
 
 Gitter's done. Our community of 2,000+ active members has a new home on **[GitHub Discussions](https://github.com/laradock/laradock/discussions)**.
@@ -32,4 +36,4 @@ For years Laradock ran its community chat on Gitter, growing to 2,000+ active me
 
 - [Contributing](/docs/contributing)
 - [Help & Troubleshooting](/docs/help)
-- [Related Projects](/docs/related-projects)
+- [Laradock Ecosystem](/docs/related-projects)

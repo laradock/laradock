@@ -9,6 +9,10 @@ keywords:
   - laradock issues
 ---
 
+Welcome, Laradock is entirely community-driven, and that means it runs on people like you. Maybe you found a bug, want a new container supported, or you're ready to submit your first pull request, whatever brought you here, this page walks through how to do it well. Pick the section below that matches what you're trying to do.
+
+![Docker Image](/img/laradock/laradock-abstract-thin.jpg)
+
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/laradock/laradock)
 
 
