@@ -19,16 +19,16 @@ const ORDER = [
   'Intro',
   'getting-started',
   'usage',
-  'comparison',
-  'laradock-vs-ddev',
-  'laradock-vs-laravel-sail',
-  'laradock-vs-laravel-herd',
-  'laradock-vs-xampp',
-  'laradock-vs-homestead',
-  'laradock-vs-lando',
-  'laradock-vs-devcontainers',
-  'laradock-vs-docker-compose',
-  'laradock-vs-manual-install',
+  'laradock-vs-others/comparison',
+  'laradock-vs-others/laradock-vs-ddev',
+  'laradock-vs-others/laradock-vs-laravel-sail',
+  'laradock-vs-others/laradock-vs-laravel-herd',
+  'laradock-vs-others/laradock-vs-xampp',
+  'laradock-vs-others/laradock-vs-homestead',
+  'laradock-vs-others/laradock-vs-lando',
+  'laradock-vs-others/laradock-vs-devcontainers',
+  'laradock-vs-others/laradock-vs-docker-compose',
+  'laradock-vs-others/laradock-vs-manual-install',
   'help',
   'related-projects',
   'contributing',
@@ -41,6 +41,14 @@ const HEADER = `# Laradock
 Motto: "Use Docker first. Learn about it later." Free, open-source (MIT), 12k+ GitHub stars, maintained since 2015.
 Created and maintained by Mahmoud Zalt (https://zalt.me).
 `;
+
+function walk(dir) {
+  return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) return walk(full);
+    return entry.name.endsWith('.md') ? [path.relative(DOCS_DIR, full)] : [];
+  });
+}
 
 function parseDoc(filename) {
   const raw = fs.readFileSync(path.join(DOCS_DIR, filename), 'utf8');
@@ -68,12 +76,12 @@ function parseDoc(filename) {
   };
 }
 
-const files = fs.readdirSync(DOCS_DIR).filter((f) => f.endsWith('.md'));
+const files = walk(DOCS_DIR);
 const known = ORDER.filter((id) => files.includes(`${id}.md`));
 const unknown = files.map((f) => f.replace(/\.md$/, '')).filter((id) => !ORDER.includes(id));
 const docs = [...known, ...unknown].map((id) => parseDoc(`${id}.md`));
 
-const isComparison = (d) => d.id === 'comparison' || d.id.startsWith('laradock-vs-');
+const isComparison = (d) => d.id.startsWith('laradock-vs-others/');
 const section = (title, items) =>
   `## ${title}\n\n${items.map((d) => `- [${d.title}](${d.url}): ${d.description}`).join('\n')}\n`;
 

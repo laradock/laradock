@@ -62,39 +62,66 @@ const BENEFITS: { icon: string; title: string; text: string }[] = [
 ];
 
 // SYNC: this service list is one of THREE places that list Laradock services.
-// Keep it in sync with the "Supported Services" tables in DOCUMENTATION/docs/Intro.md
-// and README.md. Adding a service = update all three.
+// Category names and items must match the "Supported Services" tables in
+// DOCUMENTATION/docs/Intro.md and README.md exactly (same category names, same
+// members). Adding a service = update all three. Rows below are a purely visual
+// grouping (edge -> app -> data -> async/observability -> infra -> tooling); they
+// carry no meaning beyond layout, so it's fine to reflow them.
 type Card = { type: string; icon: string; items: string[] };
-// Stacked top -> bottom as the layers of a running app: edge -> app -> data -> async/observability -> infra -> tooling.
 const LAYERS: Card[][] = [
   [
-    { type: "Web & Proxy", icon: "web", items: ["Nginx", "Apache", "Caddy", "OpenResty", "FrankenPHP", "HAProxy", "Traefik"] },
+    { type: "Web Servers", icon: "web", items: ["NGINX", "Apache2", "Caddy", "OpenResty", "Tomcat", "FrankenPHP"] },
+    { type: "Load Balancers", icon: "web", items: ["HAProxy", "Traefik"] },
   ],
   [
-    { type: "PHP Runtime", icon: "php", items: ["PHP-FPM", "RoadRunner", "Swoole", "PHP Worker", "Horizon"] },
-    { type: "Realtime", icon: "realtime", items: ["Laravel Reverb", "Laravel Echo", "Mercure", "Soketi"] },
+    { type: "PHP Compilers", icon: "php", items: ["PHP FPM", "RoadRunner"] },
+    { type: "PHP Extensions", icon: "php", items: ["Swoole", "Blackfire", "Phalcon", "PHP Worker", "Laravel Horizon"] },
+    { type: "Real-time Communication", icon: "realtime", items: ["Laravel Echo", "Laravel Reverb", "Mercure", "Soketi"] },
   ],
   [
-    { type: "Databases", icon: "db", items: ["MySQL", "PostgreSQL", "pgvector", "MariaDB", "Percona", "MSSQL", "MongoDB", "Neo4j", "ArangoDB", "SurrealDB", "CouchDB", "RethinkDB", "Cassandra", "ClickHouse", "InfluxDB", "Tarantool"] },
-    { type: "AI & Agents", icon: "ai", items: ["Ollama", "LocalAI", "LiteLLM", "Qdrant", "Weaviate", "Chroma", "n8n", "Flowise"] },
+    { type: "Database Management Systems", icon: "db", items: ["MySQL", "PostgreSQL", "PostGIS", "pgvector", "MariaDB", "Percona", "MSSQL", "MongoDB", "Neo4j", "CouchDB", "RethinkDB", "Cassandra", "ClickHouse", "Tarantool"] },
+    { type: "Database Management Tools", icon: "gui", items: ["PhpMyAdmin", "Adminer", "PgAdmin", "MongoDB Web UI", "Tarantool Admin", "pgbackups"] },
   ],
   [
-    { type: "Cache & Memory", icon: "cache", items: ["Redis", "Redis Cluster", "Valkey", "Dragonfly", "Memcached", "Aerospike", "Varnish", "SSDB"] },
-    { type: "Search", icon: "search", items: ["Elasticsearch", "OpenSearch", "Solr", "Manticore", "Typesense", "Dejavu"] },
-    { type: "Database GUIs", icon: "gui", items: ["PhpMyAdmin", "Adminer", "PgAdmin", "Mongo UI", "Tarantool Admin"] },
+    { type: "Vector Databases", icon: "ai", items: ["pgvector", "Qdrant", "Weaviate", "Chroma"] },
+    { type: "Graph / Multi-model Databases", icon: "db", items: ["Neo4j", "ArangoDB", "SurrealDB"] },
+    { type: "Time-series Databases", icon: "db", items: ["InfluxDB"] },
   ],
   [
-    { type: "Queues & Messaging", icon: "queue", items: ["RabbitMQ", "Beanstalkd", "NATS", "Gearman", "Mosquitto"] },
-    { type: "Monitoring & Logs", icon: "monitor", items: ["Grafana", "Prometheus", "NetData", "Kibana", "Logstash", "Graylog"] },
+    { type: "Cache Engines", icon: "cache", items: ["Redis", "Redis Web UI", "Redis Cluster", "Valkey", "Dragonfly", "Memcached", "Aerospike", "Varnish", "SSDB"] },
+    { type: "Search Engines", icon: "search", items: ["ElasticSearch", "OpenSearch", "Apache Solr", "Manticore Search", "Typesense", "Meilisearch", "Dejavu"] },
   ],
   [
-    { type: "Containers & Cloud", icon: "cloud", items: ["Portainer", "Docker Registry", "Docker Web UI", "MinIO", "AWS EB", "AWS SQS"] },
-    { type: "DevOps & CI", icon: "devops", items: ["Jenkins", "GitLab", "SonarQube"] },
+    { type: "AI / LLM", icon: "ai", items: ["Ollama", "LocalAI", "LiteLLM"] },
+    { type: "Agentic / Automation", icon: "ai", items: ["n8n", "Flowise"] },
   ],
   [
-    { type: "Mail", icon: "mail", items: ["Mailpit", "MailHog", "MailCatcher", "MailDev", "Mailu"] },
-    { type: "Dev Tools & IDEs", icon: "ide", items: ["Theia", "Selenium", "Swagger UI", "Xdebug"] },
-    { type: "Security & Extras", icon: "security", items: ["Certbot", "Thumbor", "ZooKeeper", "React"] },
+    { type: "Message Brokers", icon: "queue", items: ["RabbitMQ", "RabbitMQ Admin Console", "Beanstalkd", "Beanstalkd Admin Console", "Eclipse Mosquitto", "Gearman", "NATS", "Apache Kafka", "Kafka Manager"] },
+    { type: "Coordination Services", icon: "devops", items: ["Apache ZooKeeper"] },
+  ],
+  [
+    { type: "Log Management", icon: "monitor", items: ["GrayLog", "Kibana", "LogStash"] },
+    { type: "Monitoring", icon: "monitor", items: ["Grafana", "NetData", "Prometheus"] },
+    { type: "Analytics / BI", icon: "monitor", items: ["Metabase"] },
+  ],
+  [
+    { type: "Container Management", icon: "cloud", items: ["Portainer", "Docker Registry"] },
+    { type: "Cloud Tools", icon: "cloud", items: ["AWS EB CLI", "Amazon Simple Queue Service"] },
+    { type: "Object Storage", icon: "cloud", items: ["Minio"] },
+  ],
+  [
+    { type: "CI/CD Tools", icon: "devops", items: ["Jenkins", "SonarQube", "Gitlab", "GitLab Runner", "OneDev"] },
+    { type: "Security & Identity Tools", icon: "security", items: ["Certbot", "Keycloak"] },
+  ],
+  [
+    { type: "Mail Servers", icon: "mail", items: ["Mailu", "MailCatcher", "Mailhog", "MailDev", "Mailpit"] },
+    { type: "Testing", icon: "ide", items: ["Selenium"] },
+    { type: "IDEs", icon: "ide", items: ["Theia"] },
+  ],
+  [
+    { type: "API Documentation", icon: "gui", items: ["Swagger UI", "Swagger Editor"] },
+    { type: "Image Processing", icon: "gui", items: ["Thumbor"] },
+    { type: "Collaboration", icon: "mail", items: ["Confluence"] },
   ],
 ];
 
@@ -164,7 +191,10 @@ export default function Home(): ReactNode {
                       <span className={styles.prompt}>$</span>git clone https://github.com/laradock/laradock.git
                     </div>
                     <div>
-                      <span className={styles.prompt}>$</span>docker compose up -d workspace nginx mysql redis
+                      <span className={styles.prompt}>$</span>cd laradock
+                    </div>
+                    <div>
+                      <span className={styles.prompt}>$</span>./laradock setup
                     </div>
                   </div>
                 </div>
