@@ -22,6 +22,22 @@ This guide walks you through setting up Laradock for your project, from the prer
 
 ## Installation
 
+There are two ways to set up, both use the exact same files and you can switch any time:
+
+- **Fastest, the [Laradock CLI](/docs/cli):** a zero-install script shipped in the repo. Clone it, then run one command:
+
+  ```bash
+  git clone https://github.com/laradock/laradock.git
+  cd laradock
+  ./laradock up
+  ```
+
+  On the first run, `up` walks you through setup (detects your framework, lets you pick your project, PHP version, and services, all pre-answered), points your app's `.env` at the services, and starts your stack. After that, `./laradock up` just starts. It prints every real `docker compose` command it runs, so nothing is hidden. Full reference: [The Laradock CLI](/docs/cli).
+
+- **Manual, full control:** edit `.env` yourself and run plain `docker compose`. The rest of this page covers that path in detail.
+
+### Manual setup
+
 Choose the setup that best suits your needs.
 
 - [A) Setup for Single Project](#a-setup-for-single-project)
@@ -46,7 +62,7 @@ git submodule add https://github.com/Laradock/laradock.git
 
 Note: If you are not using Git yet for your project, you can use `git clone` instead of `git submodule`.
 
-*To keep track of your Laradock changes, between your projects and also keep Laradock updated [check these docs](/docs/usage#track-your-laradock-changes)*
+*To keep track of your Laradock changes, between your projects and also keep Laradock updated [check these docs](/docs/maintenance#track-your-laradock-changes)*
 
 
 2 - Make sure your folder structure looks like this:
@@ -156,20 +172,20 @@ If you use Chrome 63 or above for development, don't use `.dev`. [Why?](https://
 
 If you are using **Docker Toolbox** (VM), do one of the following:
 
-- Upgrade to [Docker Desktop](https://www.docker.com/products/docker-desktop/) for Mac/Windows (Recommended). Check out [Upgrading Laradock](/docs/usage/#upgrade-laradock)
+- Upgrade to [Docker Desktop](https://www.docker.com/products/docker-desktop/) for Mac/Windows (Recommended). Check out [Upgrading Laradock](/docs/maintenance#upgrade-laradock)
 - Use Laradock v3.\*. Visit the [Laradock-ToolBox](https://github.com/laradock/laradock/tree/LaraDock-ToolBox) branch. *(outdated)*
 
 We recommend using a Docker Engine version which is newer than 19.03.0.
 
 :::warning
-If you used an older version of Laradock it's highly recommended to rebuild the containers you need to use [see how you rebuild a container](/docs/usage/#build-or-rebuild-containers) in order to prevent as much errors as possible.
+If you used an older version of Laradock it's highly recommended to rebuild the containers you need to use [see how you rebuild a container](/docs/containers#build-or-rebuild-containers) in order to prevent as much errors as possible.
 :::
 
 ### Two ways to set up
 
 Laradock gives you two equal ways to work; both use the exact same files, and you can switch any time:
 
-- **Convenient (recommended to start):** the [Laradock CLI](/docs/cli), a zero-install script shipped in the repo. `./laradock setup` detects your framework, asks a handful of pre-answered questions, writes your `.env`, and can point your app's `.env` at the services. Then `./laradock up` and you are running. It prints every real `docker compose` command it executes, so nothing is hidden.
+- **Convenient (recommended to start):** the [Laradock CLI](/docs/cli), a zero-install script shipped in the repo. Just `./laradock up`: on the first run it walks you through setup (detects your framework, asks a handful of pre-answered questions, writes your `.env`, and can point your app's `.env` at the services), then starts. After that, `./laradock up` just starts. It prints every real `docker compose` command it executes, so nothing is hidden.
 - **Full control:** do it manually, as described below. You edit `.env` yourself and run plain `docker compose` commands. Best when you want to own every detail.
 
 | | Convenient | Full control |
@@ -287,7 +303,7 @@ DB_HOST=mysql
 You need to use Laradock's default DB credentials, which can be found in `mysql/defaults.env` (ex: `MYSQL_USER=`). 
 Or you can override them in your `.env` and rebuild the container.  
 
-*If you want to install Laravel as your PHP project, see [How to Install Laravel in a Docker Container](/docs/usage/#install-laravel).*
+*If you want to install Laravel as your PHP project, see [How to Install Laravel in a Docker Container](/docs/laravel-on-docker).*
 
 5 - Open your browser and visit your localhost address. 
 

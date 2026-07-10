@@ -2,48 +2,65 @@
 sidebar_position: 3
 slug: /cli
 title: The Laradock CLI
-description: The optional Laradock CLI. One command setup wizard, start your stack, enter the workspace, diagnose problems. A thin, transparent layer over plain Docker Compose with zero installation.
+description: The Laradock CLI is the easy, plain-English way to run your PHP stack, no Docker commands or flags to learn. Set up, start, stop, and manage everything with one simple command.
 keywords:
   - laradock cli
   - laradock setup
   - laravel docker cli
-  - docker compose wrapper
+  - easy docker php
   - php development environment cli
 ---
 
-The Laradock CLI is a single script that ships **inside the repo**: nothing to install, nothing to update separately. It removes the first-five-minutes friction and stays out of your way afterwards.
+# The Laradock CLI
+
+The Laradock CLI is the **easy, fast way to get your whole PHP environment running**, without touching Docker or learning any of its commands and flags.
+
+You clone Laradock, run one command, answer a couple of simple questions, and your stack (web server, PHP, database, and anything else you need) is up and ready. From then on you manage everything in plain English: `start`, `stop`, `restart`, `logs`. That's it. No `docker`, no `-d`, no `-f`, nothing to memorize.
+
+For most people, this is all you'll ever need.
+
+## Get started in one command
 
 ```bash
 git clone https://github.com/laradock/laradock.git
 cd laradock
-./laradock setup     # interactive wizard, all defaults pre-selected
-./laradock up        # start your stack
-./laradock workspace # the Laradock Workspace: php, composer, node, git
+./laradock start
 ```
 
-**The contract:** the CLI is optional sugar, not a new layer of magic.
+The first time, `start` walks you through a quick setup (it even detects your project and pre-fills every answer, so you can just press Enter), then launches your stack. After that, `./laradock start` simply starts what you chose. Open `http://localhost` and you're running.
 
-- It keeps **no state** and generates **no hidden files**; its only output is the same `.env` you would write by hand.
-- Every command **prints the real `docker compose` command** before running it, so you always know what is happening and you learn Docker as you go.
-- Any command it doesn't recognize is **passed straight to `docker compose`**: `./laradock logs -f nginx`, `./laradock ps`, `./laradock down` all just work.
-- Plain `docker compose` remains a first-class way to use Laradock, forever. See [Two ways to use Laradock](#two-ways-to-use-laradock) below.
+## The commands you'll actually use
 
-## Commands
+Everything is a normal English word. `[services]` is optional, name one or more (like `mysql` or `nginx mysql`), or leave it off to act on your whole stack.
 
 | Command | What it does |
 |---|---|
-| `./laradock setup` | Interactive wizard: detects your framework, lets you pick your project and services from the full catalog, writes `.env`, optionally points your app's `.env` at the services. |
-| `./laradock up [services]` | Starts your chosen services (stored as `LARADOCK_SERVICES` in `.env`), or exactly the ones you name. Ends with the info block. |
-| `./laradock workspace` | Enters the Laradock Workspace (dev shell with php, composer, node, git) as the `laradock` user (`--root` for root). Offers to start it if stopped. |
-| `./laradock info` | Shows running services, URLs, host ports, and database credentials. |
-| `./laradock doctor` | Diagnoses the usual suspects: Docker running, Compose version, missing `.env`, port conflicts, shared data paths. |
-| `./laradock <anything>` | Passed through to `docker compose <anything>`, unchanged. |
+| `./laradock start [services]` | Start your stack (or just the services you name). First run: sets you up first. |
+| `./laradock stop [services]` | Stop it. Your data is kept. |
+| `./laradock restart [services]` | Restart it. |
+| `./laradock remove [services]` | Delete the containers. Your data on disk is kept. |
+| `./laradock rebuild [services]` | Apply a version or config change you made. |
+| `./laradock logs [services]` | Show recent logs (handy when something misbehaves). |
+| `./laradock enter <service>` | Open a terminal inside a container, e.g. `./laradock enter mysql`. |
+| `./laradock workspace` | Open the dev shell: `php`, `composer`, `node`, `git`, all preinstalled. |
+| `./laradock info` | What's running: URLs, ports, and passwords. |
+| `./laradock doctor` | Check for common problems and tell you how to fix them. |
+| `./laradock setup` | Re-run the setup questions any time. |
 
-Flags: `--yes` (`-y`) accepts every default, for CI and scripts. `NO_COLOR` is honored. Windows: run it from WSL or Git Bash (the same environments Docker Desktop uses).
+Flags: `--yes` (`-y`) accepts every default (handy for scripts/CI). `NO_COLOR` is honored. On Windows, run it from WSL or Git Bash (the same environments Docker Desktop uses).
 
 ## The setup wizard
 
-Every question is pre-answered with a sensible default; pressing Enter through all of them gives you a working stack. It detects your framework (Laravel via `artisan`, WordPress via `wp-settings.php`, Symfony, Drupal) and pre-selects it. Every question first PRINTS the full catalog (all options, grouped, in columns so you see everything that's supported at a glance), then gives you a dropdown below it to pick from (arrows to move, type to filter, enter to select). The flow: project (the whole 110-item catalog), then PHP; then the essentials as their own dropdowns (web server, database, cache - each listing every option plus a 'none' choice); then an optional multi-select to add any of the ~90 other services (search, queues, AI, mail, monitoring, admin tools, ...); then a review screen where you can change any answer before anything is written. Pure bash, no dependencies, identical on every machine.
+Setup asks a few simple questions, and **every one is pre-answered with a sensible default**, so pressing Enter straight through gives you a working stack. Each question also shows a short plain-English note explaining what it is and why the default is a safe choice.
+
+It first detects your project (Laravel, WordPress, Symfony, Drupal, or plain PHP) and pre-selects it. For each question it prints the full list of what's available (grouped, so you can see everything at a glance), then gives you a dropdown to pick from: arrow keys to move, type to filter, Enter to choose. The order:
+
+1. **Project** (search the full 100+ catalog),
+2. **PHP version**,
+3. **PHP runtime** (defaults to `php-fpm`, the standard choice),
+4. **Web server**, **Database**, **Cache** (each with a "none" option),
+5. **Extra services** (optional, add any of the ~90 others: search, queues, AI, mail, monitoring, admin tools),
+6. a **review screen** where you can change any answer before anything is saved.
 
 ```
   Laradock setup
@@ -51,37 +68,30 @@ Every question is pre-answered with a sensible default; pressing Enter through a
   ✓ Docker running · Compose v2.39 (needs 2.20+)
   ✓ Detected: laravel  (at ../)
 
-  Which project?  (type to filter — 100+ supported, grouped by type)
-  search: shop
-  E-commerce
-    → prestashop
-      shopware
-  PHP version    [8.4]
-  Web server     [nginx]      (arrow keys or j/k)
-  Database       [mysql]
-  Cache          [redis]
-  Extras         [ ] phpmyadmin  [ ] mailpit  ...   (space toggles)
-  Project name   [my-app]
-  App path       [../]
-
   Review your choices:
-    1) Project type   laravel
+    1) Project        laravel
     2) PHP version    8.4
-    ...
-  Enter = apply · 1-8 = change that answer · q = quit
+    3) PHP runtime    php-fpm
+    4) Web server     nginx
+    5) Database       mysql
+    6) Cache          redis
+    7) Extra services (none)
+    8) Project name   my-app
+    9) App path       ../
+  Enter = apply · 1-9 = change that answer · q = quit
 ```
 
-Nothing is written until you confirm the review screen. When it finishes, it offers to point your app's `.env` at the services and to **start your stack right there**, so a first run can be just `./laradock setup`.
+Nothing is written until you confirm. When it finishes, it offers to point your app at the services and to **start your stack right there**, so a first run really can be just `./laradock start`.
 
 What it writes into `.env` (and nothing else):
 
 - `COMPOSE_PROJECT_NAME` and `DATA_PATH_HOST`, **unique per project**, so running several Laradock projects on one machine never mixes containers or database files.
-- `PHP_VERSION`, `APP_CODE_PATH_HOST`, and `LARADOCK_SERVICES` (your default service set for `./laradock up`).
+- `PHP_VERSION`, `APP_CODE_PATH_HOST`, and `LARADOCK_SERVICES` (your default service set for `./laradock start`).
 - Everything else keeps its shipped default from each service's [`defaults.env`](/docs/getting-started#how-laradock-configuration-works).
 
 ### Pointing your app at the services
 
-The most common first-run failure in any Docker setup is the app's own `.env` still saying `DB_HOST=127.0.0.1`. The wizard offers to fix that: it shows you the exact changes first, backs up your file to `.env.bak.laradock`, and tags every line it writes with `# set by laradock`:
+The most common first-run snag in any Docker setup is your app's own `.env` still saying `DB_HOST=127.0.0.1`. The wizard offers to fix that: it shows you the exact changes first, backs up your file to `.env.bak.laradock`, and tags every line it writes with `# set by laradock`:
 
 ```
   Point your app's .env at these services?
@@ -91,24 +101,27 @@ The most common first-run failure in any Docker setup is the app's own `.env` st
   Apply (original backed up to .env.bak.laradock)? [Y/n]
 ```
 
-If you later edit a tagged line yourself, the wizard **never touches it again**; your value wins permanently. Decline the prompt and nothing in your app is ever modified.
+If you later edit a tagged line yourself, the wizard **never touches it again**, your value wins permanently. Decline the prompt and nothing in your app is ever modified.
 
-## Day-2: changing things
+## Changing things later
 
-- **Change any setting:** add or edit the line in `.env` (it beats every default), then rebuild if it is a build-time setting: `./laradock build php-fpm`. Or simply re-run `./laradock setup`; it reads your current values as the new defaults.
-- **Add a service later:** `./laradock up mailpit` (100+ available; the folder name is the service name).
-- **See what's running and how to connect:** `./laradock info`.
+- **Change a setting:** edit the line in `.env` (it beats every default), then `./laradock rebuild <service>` if it's a build-time setting. Or just re-run `./laradock setup`, it reads your current values as the new defaults.
+- **Add a service:** `./laradock start mailpit` (100+ available; the folder name is the service name).
+- **See how to connect:** `./laradock info`.
 - **Something's wrong:** `./laradock doctor`, then `./laradock logs <service>`.
 
-## Two ways to use Laradock
+## Advanced: nothing is hidden
 
-Both are first-class, both use the exact same files, and you can switch between them any time (even mid-project):
+The CLI is **not** a black box or a new system to learn. It's a small, readable bash script sitting in the repo root that just runs the same Docker commands you could run yourself, and it's optional. Two things are worth knowing once you're comfortable:
 
-| | **Convenient: the CLI** | **Full control: plain Docker Compose** |
+- **It's a friendly wrapper, not a replacement.** Every command it runs is plain `docker compose` under the hood, and it prints that real command before running it, so you can see (and learn) exactly what's happening. Anything it doesn't recognize is passed straight through: `./laradock ps`, `./laradock config`, `./laradock down` all just work.
+- **You never lose full control.** The only file it writes is the same `.env` you'd write by hand. The moment you need advanced customization, you can drop down to plain `docker compose` and the raw config files, everything is yours to inspect and edit.
+
+That's why, throughout these docs, most tasks show **two ways** to do them: the easy CLI command first, and the manual `docker compose` equivalent right below it. Use whichever you like, they do the exact same thing, and you can mix and switch any time.
+
+| | **Easy: the CLI** | **Full control: Docker Compose** |
 |---|---|---|
-| Setup | `./laradock setup` | `cp .env.example .env`, edit as needed |
-| Start | `./laradock up` | `docker compose up -d nginx mysql redis workspace` |
-| Enter workspace | `./laradock workspace` | `docker compose exec workspace bash` |
-| Best for | Getting productive in 2 minutes | Knowing and owning every detail |
-
-The CLI is a few hundred lines of readable bash sitting in the repo root; open it and see exactly what it does. That transparency is the point: unlike other tools' wrappers, there is nothing underneath except the Docker Compose files you already have full access to.
+| Set up | `./laradock setup` | `cp .env.example .env`, edit as needed |
+| Start | `./laradock start` | `docker compose up -d nginx mysql redis workspace` |
+| Enter the dev shell | `./laradock workspace` | `docker compose exec workspace bash` |
+| Best for | Getting productive in 2 minutes | Owning every detail |

@@ -52,23 +52,15 @@ git clone https://github.com/Laradock/laradock.git
 cd laradock
 ```
 
-3 - Run the setup wizard:
-
-```shell
-./laradock setup
-```
-
-It detects your framework, then lets you pick your project from one searchable list of 100+ frameworks, CMSs, e-commerce platforms and apps grouped by type (just type its name to filter), your PHP version, and your stack (web server, database, cache). Every answer is pre-selected, so you can press Enter through it, it can point your app's `.env` at the services for you, and when it's done **it offers to start your stack right away**, so this one command can be all you need. Steps 4 and 5 are the same commands to use later.
-
-4 - Start your stack:
+3 - Start your stack:
 
 ```shell
 ./laradock up
 ```
 
-Starts the services you chose and prints their URLs and credentials.
+The first time, `up` runs the setup wizard for you: it detects your framework, then lets you pick your project from one searchable list of 100+ frameworks, CMSs, e-commerce platforms and apps grouped by type (just type its name to filter), your PHP version, and your stack (web server, database, cache). Every answer is pre-selected, so you can press Enter through it, and it can point your app's `.env` at the services for you. Then it starts. After that, `./laradock up` just starts what you chose and prints their URLs and credentials. Re-run the wizard anytime with `./laradock setup`.
 
-5 - Enter the Laradock Workspace (a dev shell with `php`, `composer`, `node`, and `git` inside):
+4 - Enter the Laradock Workspace (a dev shell with `php`, `composer`, `node`, and `git` inside):
 
 ```shell
 ./laradock workspace

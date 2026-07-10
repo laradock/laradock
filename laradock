@@ -2,8 +2,10 @@
 #
 # Laradock CLI — optional convenience layer over plain Docker Compose.
 #
-#   ./laradock setup     interactive wizard, writes .env only
-#   ./laradock up        start your services (from LARADOCK_SERVICES in .env)
+#   ./laradock start     start your services (first run: walks you through setup)
+#   ./laradock stop      stop them (data kept) · restart · remove · rebuild · logs
+#   ./laradock enter <s> open a terminal inside a container (e.g. mysql)
+#   ./laradock setup     re-run the interactive wizard, writes .env only
 #   ./laradock workspace enter the Laradock Workspace (dev shell)
 #   ./laradock info      show running services, URLs, credentials
 #   ./laradock doctor    diagnose common problems
@@ -172,10 +174,10 @@ cmd_setup() {
   case "$name_def" in ''|laradock) name_def=$parent_name ;; esac
 
   # answers (globals so ask_* helpers can re-ask any single one)
-  W_CAT='' W_TYPE='' W_PHP='' W_WS='' W_DB='' W_CACHE='' W_EXTRAS='' W_NAME='' W_PATH=''
+  W_CAT='' W_TYPE='' W_PHP='' W_RUNTIME='' W_WS='' W_DB='' W_CACHE='' W_EXTRAS='' W_NAME='' W_PATH=''
 
   say ""
-  ask_type;  ask_php;  ask_ws;  ask_db;  ask_cache;  ask_extras;  ask_name;  ask_path
+  ask_type;  ask_php;  ask_runtime;  ask_ws;  ask_db;  ask_cache;  ask_extras;  ask_name;  ask_path
 
   # -- review screen: change anything before applying
   if [ "$ASSUME_YES" != 1 ] && is_tty; then
@@ -184,18 +186,19 @@ cmd_setup() {
       bold "  Review your choices:"
       say "    1) Project        $W_TYPE"
       say "    2) PHP version    $W_PHP"
-      say "    3) Web server     $W_WS"
-      say "    4) Database       $W_DB"
-      say "    5) Cache          $W_CACHE"
-      say "    6) Extra services ${W_EXTRAS:-(none)}"
-      say "    7) Project name   $W_NAME"
-      say "    8) App path       $W_PATH"
-      printf '  %sEnter = apply · 1-8 = change that answer · q = quit%s ' "$C_CYAN" "$C_RESET"
+      say "    3) PHP runtime    $W_RUNTIME"
+      say "    4) Web server     $W_WS"
+      say "    5) Database       $W_DB"
+      say "    6) Cache          $W_CACHE"
+      say "    7) Extra services ${W_EXTRAS:-(none)}"
+      say "    8) Project name   $W_NAME"
+      say "    9) App path       $W_PATH"
+      printf '  %sEnter = apply · 1-9 = change that answer · q = quit%s ' "$C_CYAN" "$C_RESET"
       IFS= read -r _r || _r=''
       case "$_r" in
         '') break ;;
-        1) ask_type ;;  2) ask_php ;;  3) ask_ws ;;  4) ask_db ;;
-        5) ask_cache ;; 6) ask_extras ;; 7) ask_name ;; 8) ask_path ;;
+        1) ask_type ;;  2) ask_php ;;  3) ask_runtime ;;  4) ask_ws ;;  5) ask_db ;;
+        6) ask_cache ;; 7) ask_extras ;; 8) ask_name ;; 9) ask_path ;;
         q|Q) say "  nothing written."; exit 0 ;;
       esac
     done
@@ -203,6 +206,8 @@ cmd_setup() {
 
   local services=""
   [ "$W_WS" != none ] && services="$W_WS"
+  # the chosen PHP runtime serves your code behind the web server (php-fpm by default)
+  [ -n "$W_RUNTIME" ] && services="$services $W_RUNTIME"
   [ "$W_DB" != none ] && services="$services $W_DB"
   [ "$W_CACHE" != none ] && services="$services $W_CACHE"
   [ -n "$W_EXTRAS" ] && services="$services $W_EXTRAS"
@@ -226,6 +231,10 @@ cmd_setup() {
 
   # -- offer to patch the app's .env
   patch_app_env "$W_PATH" "$W_DB" "$W_CACHE" "$W_EXTRAS"
+
+  # When bootstrapped from `up`, skip both the start-offer and the epilogue below;
+  # the caller starts the stack itself (avoids a double `up`).
+  [ "${SKIP_START_OFFER:-0}" = 1 ] && return
 
   # -- offer to start the stack right now (interactive only; --yes writes config and stops)
   if [ "$ASSUME_YES" != 1 ] && is_tty; then
@@ -294,7 +303,7 @@ service_groups() {
   cat <<'GROUPS'
 Web servers|nginx apache2 caddy openresty frankenphp tomcat
 Load balancers|haproxy traefik
-PHP runtime & workers|php-fpm php-worker roadrunner laravel-horizon blackfire
+PHP workers & tools|php-worker laravel-horizon blackfire
 Databases|mysql mariadb percona postgres postgres-postgis pgvector mssql mongo neo4j couchdb rethinkdb cassandra clickhouse tarantool arangodb surrealdb
 Database tools|phpmyadmin adminer pgadmin mongo-webui tarantool-admin pgbackups
 Cache|redis redis-webui redis-cluster valkey dragonfly memcached aerospike varnish ssdb
@@ -315,7 +324,8 @@ service_other() {  # folders not categorized above and not workspace
   local _cat _s
   _cat=" $(service_groups | sed 's/^[^|]*|//' | tr '\n' ' ') "
   for _s in $(known_services); do
-    [ "$_s" = workspace ] && continue
+    # workspace is auto-added; php-fpm/roadrunner are the PHP-runtime question, not extras
+    case "$_s" in workspace|php-fpm|roadrunner) continue ;; esac
     case "$_cat" in *" $_s "*) : ;; *) printf '%s ' "$_s" ;; esac
   done
 }
@@ -338,11 +348,12 @@ print_cols() {
 }
 
 # --- interactive grouped menu (single or multi select, type-to-filter) -------
-# imenu MODE VAR PROMPT ROWSFN PRESET
+# imenu MODE VAR PROMPT ROWSFN PRESET HELP
 #   MODE=one|multi · ROWSFN echoes "H|Header" and "I|value" lines (grouped, ordered)
 #   PRESET: one -> default value to highlight · multi -> space-separated preselected
+#   HELP: one plain-English line shown under the prompt (what this is / why the default is fine)
 imenu() {
-  local _mode=$1 _var=$2 _prompt=$3 _rowsfn=$4 _preset=$5
+  local _mode=$1 _var=$2 _prompt=$3 _rowsfn=$4 _preset=$5 _help=${6:-}
   local _ak=() _av=() _k _v
   while IFS='|' read -r _k _v; do _ak[${#_ak[@]}]=$_k; _av[${#_av[@]}]=$_v; done < <($_rowsfn)
   local _na=${#_ak[@]}
@@ -357,6 +368,7 @@ imenu() {
   # show the FULL catalog first (everything available), then the dropdown below
   say ""
   bold "  $_prompt"
+  [ -n "$_help" ] && say "  ${C_DIM}${_help}${C_RESET}"
   local _ci _cbuf=""
   for _ci in $(seq 0 $((_na - 1))); do
     if [ "${_ak[$_ci]}" = H ]; then
@@ -453,6 +465,7 @@ project_rows() {
 }
 flat_rows() { local _x; for _x in $1; do printf 'I|%s\n' "$_x"; done; }
 php_rows()   { flat_rows "8.5 8.4 8.3 8.2 8.1 8.0 7.4 7.3 7.2 7.1 7.0 5.6"; }
+runtime_rows() { flat_rows "php-fpm roadrunner"; }
 ws_rows()    { flat_rows "nginx apache2 caddy openresty frankenphp tomcat none"; }
 db_rows()    { flat_rows "mysql postgres mariadb mongo mssql percona pgvector postgres-postgis neo4j couchdb rethinkdb cassandra clickhouse tarantool arangodb surrealdb none"; }
 cache_rows() { flat_rows "redis valkey dragonfly memcached aerospike varnish ssdb none"; }
@@ -467,15 +480,25 @@ extra_service_rows() {  # every non-essential service, grouped (web/db/cache han
 }
 
 # --- single-question helpers (each re-askable from the review screen) --------
-ask_type()   { imenu one W_TYPE "Which project are you setting up?" project_rows "${W_TYPE:-$fw_item_def}"; W_CAT=$(category_of "$W_TYPE"); }
-ask_php()    { imenu one W_PHP "PHP version" php_rows "${W_PHP:-$(default_of PHP_VERSION 8.4)}"; }
-ask_ws()     { imenu one W_WS "Web server" ws_rows "${W_WS:-$(ws_default_for "$W_CAT" "$W_TYPE")}"; }
-ask_db()     {
+# Each passes a short plain-English HELP line so a first-timer knows what they're
+# choosing and why the pre-selected default is a safe bet.
+ask_type()    { imenu one W_TYPE "Which project are you setting up?" project_rows "${W_TYPE:-$fw_item_def}" \
+  "The app you'll run. Just type to filter (e.g. \"word\" -> wordpress). Detected picks are pre-selected."; W_CAT=$(category_of "$W_TYPE"); }
+ask_php()     { imenu one W_PHP "PHP language version" php_rows "${W_PHP:-$(default_of PHP_VERSION 8.4)}" \
+  "The version of PHP your code runs on. Newer = faster; 8.4 is the current default and works for most apps."; }
+ask_runtime() { imenu one W_RUNTIME "PHP runtime" runtime_rows "${W_RUNTIME:-php-fpm}" \
+  "How PHP is served behind your web server. php-fpm is the standard choice; leave it unless you know you need RoadRunner."; }
+ask_ws()      { imenu one W_WS "Web server" ws_rows "${W_WS:-$(ws_default_for "$W_CAT" "$W_TYPE")}" \
+  "Serves your site over http and hands PHP to the runtime. nginx is the common default; pick \"none\" for CLI-only."; }
+ask_db()      {
   local _d=${W_DB:-mysql}; [ -z "$W_DB" ] && [ "$W_TYPE" = symfony ] && _d=postgres
-  imenu one W_DB "Database" db_rows "$_d"
+  imenu one W_DB "Database" db_rows "$_d" \
+    "Where your app stores its data (users, posts, orders). mysql is the safe default; \"none\" if your app has no database."
 }
-ask_cache()  { imenu one W_CACHE "Cache" cache_rows "${W_CACHE:-redis}"; }
-ask_extras() { imenu multi W_EXTRAS "Additional services (optional - space to toggle, enter to skip)" extra_service_rows "$W_EXTRAS"; }
+ask_cache()   { imenu one W_CACHE "Cache" cache_rows "${W_CACHE:-redis}" \
+  "In-memory store for sessions, queues and speed. redis is the standard pick; \"none\" if you don't need one yet."; }
+ask_extras()  { imenu multi W_EXTRAS "Additional services (optional - space to toggle, enter to skip)" extra_service_rows "$W_EXTRAS" \
+  "Everything else Laradock offers (mail, search, queues, tools). Leave empty to start lean; you can add any later with ./laradock up <name>."; }
 ask_name()   { ask W_NAME "Project name" "${W_NAME:-$name_def}"; }
 ask_path()   { ask W_PATH "App path" "${W_PATH:-$app_path}"; }
 
@@ -548,11 +571,21 @@ patch_app_env() {
 cmd_up() {
   require_laradock_dir
   check_docker
-  [ -f .env ] || die "no .env found. Run: ./laradock setup   (or: cp .env.example .env)"
   local services=("$@")
+  # Explicit services on the command line (`up nginx mysql`) skip the setup check.
   if [ ${#services[@]} -eq 0 ]; then
-    local s; s=$(env_get LARADOCK_SERVICES | tr -d '"')
-    [ -n "$s" ] || die "no services given and no LARADOCK_SERVICES in .env. Run ./laradock setup, or: ./laradock up nginx mysql"
+    # No setup yet = no .env, or an .env the wizard never wrote LARADOCK_SERVICES into.
+    local s=""
+    [ -f .env ] && s=$(env_get LARADOCK_SERVICES | tr -d '"')
+    if [ -z "$s" ]; then
+      if is_tty && confirm "No setup found. Run ./laradock setup now?" y; then
+        SKIP_START_OFFER=1; cmd_setup; unset SKIP_START_OFFER   # we start below, don't double-start
+        s=$(env_get LARADOCK_SERVICES | tr -d '"')
+        [ -n "$s" ] || exit 0   # setup declined to write / user quit
+      else
+        die "no setup yet. Run: ./laradock setup   (or pass services: ./laradock up nginx mysql)"
+      fi
+    fi
     # shellcheck disable=SC2206
     services=($s)
   fi
@@ -624,6 +657,21 @@ cmd_workspace() {
   [ "${1:-}" = "--root" ] || user_flag=(-u laradock)
   printf '  %s%s docker compose exec %s workspace bash%s\n' "$C_DIM" "$ARROW" "${user_flag[*]:-}" "$C_RESET"
   exec docker compose exec "${user_flag[@]}" workspace bash
+}
+
+# -------------------------------------------------------------- cmd: enter
+# Open a terminal inside any container without the user knowing `exec`/`bash`.
+cmd_enter() {
+  require_laradock_dir
+  check_docker
+  local svc=${1:-}
+  [ -n "$svc" ] || die "which service? e.g. ./laradock enter mysql"
+  if ! docker compose ps --services --status running 2>/dev/null | grep -qx "$svc"; then
+    if confirm "$svc is not running. Start it?" Y; then run up -d "$svc" || exit $?; else exit 1; fi
+  fi
+  printf '  %s%s docker compose exec %s bash%s\n' "$C_DIM" "$ARROW" "$svc" "$C_RESET"
+  # prefer bash, fall back to sh for slim images (mysql, redis, ...)
+  exec docker compose exec "$svc" sh -c 'command -v bash >/dev/null 2>&1 && exec bash || exec sh'
 }
 
 # ------------------------------------------------------------- cmd: doctor
@@ -722,24 +770,37 @@ cmd=${1:-help}
 
 case "$cmd" in
   setup)   cmd_setup "$@" ;;
-  up)      cmd_up "$@" ;;
+  up|start) cmd_up "$@" ;;
+  # plain-English verbs so non-technical users never meet a docker flag
+  stop)    require_laradock_dir; run stop "$@" ;;
+  restart) require_laradock_dir; run restart "$@" ;;
+  remove|delete) require_laradock_dir; run rm -sf "$@" ;;   # stop + remove; no scary -f to type
+  logs)    require_laradock_dir; run logs "${@:---tail=100}" ;;
+  rebuild) require_laradock_dir; run build "$@" ;;
+  enter)   cmd_enter "$@" ;;
   workspace|ws|shell) cmd_workspace "$@" ;;
   info|status) cmd_info "$@" ;;
   doctor)  cmd_doctor "$@" ;;
   version|--version|-v) say "laradock cli $VERSION" ;;
   help|--help|-h)
     bold ""
-    bold "  Laradock CLI — thin, transparent layer over docker compose"
+    bold "  Laradock CLI — plain-English commands for your Docker stack"
     say  ""
-    say  "    ./laradock setup            interactive wizard (writes .env only)"
-    say  "    ./laradock up [services]    start your stack (default: LARADOCK_SERVICES from .env)"
-    say  "    ./laradock workspace [--root]  enter the Laradock Workspace (php, composer, node, git)"
-    say  "    ./laradock info             running services, URLs, credentials"
-    say  "    ./laradock doctor           diagnose common problems"
-    say  "    ./laradock <anything else>  passed straight to: docker compose <...>"
+    say  "    ./laradock setup              set up your project (asks a few simple questions)"
+    say  "    ./laradock start [services]  start your stack (or just the services you name)"
+    say  "    ./laradock stop  [services]  stop them (your data is kept)"
+    say  "    ./laradock restart [services]  restart them"
+    say  "    ./laradock remove  [services]  delete the containers (data on disk is kept)"
+    say  "    ./laradock rebuild [services]  apply a version/config change"
+    say  "    ./laradock logs  [services]  show recent logs"
+    say  "    ./laradock enter <service>   open a terminal inside a container (e.g. mysql)"
+    say  "    ./laradock workspace [--root]  the dev shell (php, composer, node, git)"
+    say  "    ./laradock info              what's running: URLs, ports, passwords"
+    say  "    ./laradock doctor            check for common problems"
     say  ""
+    say  "    ${C_DIM}Advanced: anything else is passed straight to docker compose"
+    say  "    (./laradock ps, ./laradock config ...). Plain docker compose works too.${C_RESET}"
     say  "    Flags: --yes (-y) accept all defaults (CI-friendly). NO_COLOR honored."
-    say  "    Plain docker compose always works too — this tool is optional sugar."
     say  ""
     ;;
   *)
