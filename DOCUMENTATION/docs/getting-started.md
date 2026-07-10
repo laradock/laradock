@@ -216,6 +216,12 @@ The root `docker-compose.yml` pulls every service in via Compose `include`, whic
 
 By default the containers that will be created have the current directory name as suffix (e.g. `laradock_workspace_1`). This can cause mixture of data inside the container volumes if you use laradock in multiple projects. In this case, either read the guide for [multiple projects](#b-setup-for-multiple-projects) or change the variable `COMPOSE_PROJECT_NAME` to something unique like your project name.
 
+> **Running more than one Laradock on the same machine?** Set BOTH of these per project in your `.env`, or your projects will share the same databases on disk:
+> ```env
+> COMPOSE_PROJECT_NAME=myproject        # separates the containers
+> DATA_PATH_HOST=~/.laradock/data-myproject   # separates the stored data
+> ```
+
 2 - Build the environment and run it using Docker Compose (v2.20 or newer is required)
 
 In this example we'll see how to run NGINX (web server) and MySQL (database engine) to host PHP web scripts:
