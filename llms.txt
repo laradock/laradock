@@ -9,12 +9,121 @@ Created and maintained by Mahmoud Zalt (https://zalt.me).
 
 - [Introduction](https://laradock.io/docs/Intro): Laradock is a full PHP development environment for Docker. Spin up a ready-to-use stack in seconds with 100+ pre-configured services for Laravel, Symfony, WordPress, or plain PHP.
 - [Getting Started](https://laradock.io/docs/getting-started): Install Laradock and get a full Dockerized PHP stack running in minutes. Step-by-step setup for new and existing projects, single or multiple apps, on Linux, macOS, and Windows.
-- [Usage](https://laradock.io/docs/usage): Day-to-day Laradock commands and recipes. Run and enter containers, switch PHP and database versions, set up Xdebug, queues, the scheduler, services like Redis and ElasticSearch, workspace tooling, and production prep.
 - [Help](https://laradock.io/docs/help): Get help with Laradock and fix common problems, blank Laravel page, nginx welcome screen, port already in use, MySQL connection refused, timezone, and Windows 404 errors.
 - [Related Projects](https://laradock.io/docs/related-projects): Community-built tools that extend Laradock, GUIs, CLIs, Kubernetes playbooks, and monitoring helpers that simplify how you manage your Dockerized PHP environment.
 - [Contributions](https://laradock.io/docs/contributing): How to contribute to Laradock, ask questions, report issues, edit the docs, and submit pull requests to the open-source Dockerized PHP development environment.
-- [The Laradock CLI](https://laradock.io/docs/cli): The optional Laradock CLI. One command setup wizard, start your stack, enter the workspace, diagnose problems. A thin, transparent layer over plain Docker Compose with zero installation.
+- [The Laradock CLI](https://laradock.io/docs/cli): The Laradock CLI is the easy, plain-English way to run your PHP stack, no Docker commands or flags to learn. Set up, start, stop, and manage everything with one simple command.
 - [Community](https://laradock.io/docs/community): Where the Laradock community lives. Gitter's done, our community of 2,000+ active members has a new home on GitHub Discussions.
+- [Managing Containers](https://laradock.io/docs/containers): The core Docker Compose commands for running Laradock day to day: list, enter, stop, delete, and rebuild containers, view logs, edit a service's config, and add new services.
+- [Environment & Platform](https://laradock.io/docs/environment): Workspace access, host-specific tuning, and scheduling. SSH into the workspace, change the timezone, add PHP-FPM locales, add cron jobs, and speed up file sharing on macOS.
+- [Maintenance & Upgrades](https://laradock.io/docs/maintenance): Keep your Laradock customizations under version control while still pulling upstream updates, and how to upgrade an older Laradock (Docker Toolbox, v3) to the current version.
+- [Networking & Domains](https://laradock.io/docs/networking): Point a real domain at your Laradock stack instead of the Docker IP, and install your own CA certificates into the workspace container.
+- [Production & Deployment](https://laradock.io/docs/production): Prepare a Laradock stack for production with a dedicated Compose file that avoids exposing database ports, plus how to authenticate Docker against Google Cloud.
+- [Chroma](https://laradock.io/docs/services/chroma): Run Chroma in Laradock, a lightweight open-source vector database with a simple HTTP API for semantic search and RAG.
+- [Flowise](https://laradock.io/docs/services/flowise): Run Flowise in Laradock, a visual, low-code builder for LLM apps and AI agents.
+- [LiteLLM](https://laradock.io/docs/services/litellm): Run LiteLLM in Laradock, an LLM proxy/gateway exposing one OpenAI-compatible endpoint that routes to any provider.
+- [LocalAI](https://laradock.io/docs/services/localai): Run LocalAI in Laradock, a free, self-hosted drop-in replacement for the OpenAI REST API on your own hardware.
+- [n8n](https://laradock.io/docs/services/n8n): Run n8n in Laradock, a workflow-automation platform with first-class AI/agent nodes for building agentic flows visually.
+- [Ollama](https://laradock.io/docs/services/ollama): Run Ollama in Laradock for local LLM inference with an OpenAI-compatible API, no external calls or per-token cost.
+- [Qdrant](https://laradock.io/docs/services/qdrant): Run Qdrant in Laradock, a high-performance vector database for storing and querying embeddings over a REST or gRPC API.
+- [Weaviate](https://laradock.io/docs/services/weaviate): Run Weaviate in Laradock, an open-source vector database with REST and GraphQL APIs for embeddings and RAG.
+- [Aerospike](https://laradock.io/docs/services/aerospike): Run Aerospike in Laradock. Start and stop the container, configure ports and storage, and connect the PHP extension to the server.
+- [Beanstalkd Console](https://laradock.io/docs/services/beanstalkd-console): Run the Beanstalkd Console web UI in Laradock to inspect tubes, jobs, and workers on your Beanstalkd server.
+- [Beanstalkd](https://laradock.io/docs/services/beanstalkd): Run Beanstalkd in Laradock. Start and stop the container, configure the port, wire it up as a Laravel queue driver, and manage jobs from the web console.
+- [Dragonfly](https://laradock.io/docs/services/dragonfly): Run Dragonfly in Laradock, a modern multi-threaded in-memory store compatible with Redis and Memcached. Start and stop the container, configure the version and port, and connect any Redis client.
+- [Gearman](https://laradock.io/docs/services/gearman): Run Gearman in Laradock. Start and stop the container, configure the port, persistent queue, threading, and MySQL-backed persistence.
+- [Kafka Manager](https://laradock.io/docs/services/kafka-manager): Run Kafka Manager in Laradock, a web UI for managing Kafka clusters. Start the container and connect it to ZooKeeper and Kafka.
+- [Apache Kafka](https://laradock.io/docs/services/kafka): Run Apache Kafka in Laradock. Start it alongside ZooKeeper, configure broker settings, and manage the cluster from a web UI.
+- [Laravel Echo Server](https://laradock.io/docs/services/laravel-echo-server): Run the legacy Node.js Laravel Echo Server in Laradock for Pusher-protocol WebSocket broadcasting, backed by Redis.
+- [Laravel Horizon](https://laradock.io/docs/services/laravel-horizon): Run Laravel Horizon in Laradock as a dedicated worker container that supervises your Redis queue workers against your mounted application code.
+- [Laravel Reverb](https://laradock.io/docs/services/laravel-reverb): Run Laravel Reverb in Laradock, Laravel's own first-party WebSocket server for broadcasting, against your mounted application code.
+- [Memcached](https://laradock.io/docs/services/memcached): Run Memcached in Laravel via Laradock. Start and stop the container, configure the port, and use it as a Laravel cache driver.
+- [Mercure](https://laradock.io/docs/services/mercure): Run a Mercure hub in Laradock for real-time updates over Server-Sent Events, popular in the Symfony and API Platform ecosystem.
+- [Mosquitto](https://laradock.io/docs/services/mosquitto): Run the Eclipse Mosquitto MQTT broker in Laradock. Start and stop the container, configure the port, and connect with an MQTT client over WebSockets.
+- [NATS](https://laradock.io/docs/services/nats): Run the NATS messaging server in Laradock. Start and stop the container, configure client/monitoring/route ports, and connect from your app.
+- [RabbitMQ](https://laradock.io/docs/services/rabbitmq): Run RabbitMQ in Laradock. Start and stop the container, configure ports and credentials, and reach the management UI and Web STOMP.
+- [Redis Cluster](https://laradock.io/docs/services/redis-cluster): Run a Redis Cluster in Laradock. Start and stop the container, configure the cluster port range, and wire it up as a Laravel Redis cluster connection.
+- [Redis WebUI](https://laradock.io/docs/services/redis-webui): Run Redis WebUI in Laradock, a browser-based admin panel for browsing and editing Redis keys. Start and stop the container, configure credentials and connection, and log in.
+- [Redis](https://laradock.io/docs/services/redis): Run Redis in Laradock. Start and stop the container, configure the port and password, wire it up as your Laravel cache/session/queue driver, and connect from your host.
+- [Soketi](https://laradock.io/docs/services/soketi): Run Soketi in Laradock, a Pusher-protocol-compatible WebSockets server for Laravel Echo and broadcasting, without a Pusher account.
+- [SQS (local emulator)](https://laradock.io/docs/services/sqs): Run a local AWS SQS-compatible queue in Laradock using alpine-sqs (ElasticMQ), so you can develop against SQS without a real AWS account.
+- [Tarantool Admin](https://laradock.io/docs/services/tarantool-admin): Run the Tarantool Admin web UI in Laradock. Start and stop the container, configure the port, and connect it to the Tarantool service.
+- [Tarantool](https://laradock.io/docs/services/tarantool): Run Tarantool in Laradock. Start and stop the container, configure the port, use the interactive console, and pair it with the Tarantool admin web UI.
+- [Valkey](https://laradock.io/docs/services/valkey): Run Valkey in Laradock, the open-source Redis fork. Start and stop the container, configure the version and port, and connect any Redis client.
+- [ZooKeeper](https://laradock.io/docs/services/zookeeper): Run Apache ZooKeeper in Laradock as a coordination service for Kafka. Start and stop the container and configure its port.
+- [Adminer](https://laradock.io/docs/services/adminer): Run Adminer in Laradock, a single-file GUI for MySQL, MariaDB, PostgreSQL, SQLite, and more. Start the container, log in, load plugins, and fix common issues.
+- [ArangoDB](https://laradock.io/docs/services/arangodb): Run ArangoDB in Laradock. Start and stop the container, configure the root password and port, open the web UI, and fix common issues.
+- [Cassandra](https://laradock.io/docs/services/cassandra): Run Apache Cassandra in Laradock. Start and stop the container, configure cluster/auth settings, and connect with cqlsh.
+- [ClickHouse](https://laradock.io/docs/services/clickhouse): Run ClickHouse in Laradock. Start and stop the container, configure ports and credentials, connect over HTTP or the native client, and fix common issues.
+- [CouchDB](https://laradock.io/docs/services/couchdb): Run Apache CouchDB in Laradock. Start and stop the container, configure the port, and access Fauxton or the HTTP API.
+- [Manticore Search](https://laradock.io/docs/services/manticore): Run Manticore Search in Laradock. Start and stop the container, configure ports, query over SphinxQL or HTTP, and fix common issues.
+- [MariaDB](https://laradock.io/docs/services/mariadb): Run MariaDB in Laradock. Start and stop the container, configure version/port/credentials, create multiple databases, and connect from your host.
+- [Mongo WebUI](https://laradock.io/docs/services/mongo-webui): Run a browser-based MongoDB admin UI in Laradock. Start the container, point it at your Mongo instance, and browse collections from the browser.
+- [MongoDB](https://laradock.io/docs/services/mongo): Run MongoDB in Laradock. Start the container, wire it up to Laravel via the mongodb/laravel-mongodb package, and connect from your host.
+- [SQL Server (MSSQL)](https://laradock.io/docs/services/mssql): Run Microsoft SQL Server in Laradock. Start and stop the container, configure the SA password/port, and connect from your host.
+- [MySQL](https://laradock.io/docs/services/mysql): Run MySQL in Laradock. Start and stop the container, configure version/port/credentials, create multiple databases, connect from your host, and fix common issues.
+- [Neo4j](https://laradock.io/docs/services/neo4j): Run Neo4j in Laradock. Start and stop the container and open the Neo4j Browser to explore your graph.
+- [Percona Server](https://laradock.io/docs/services/percona): Run Percona Server in Laradock. Start and stop the container, configure port/credentials, create multiple databases, and connect from your host.
+- [pgAdmin](https://laradock.io/docs/services/pgadmin): Run pgAdmin in Laradock as a GUI for PostgreSQL. Start the container, log in, connect to your Postgres server, and fix common issues.
+- [pgbackups](https://laradock.io/docs/services/pgbackups): Scheduled, automatic PostgreSQL backups in Laradock via postgres-backup-local. Start the sidecar container, find your backups, and fix common issues.
+- [pgvector](https://laradock.io/docs/services/pgvector): Run Postgres with the pgvector extension in Laradock. Start and stop the container, configure credentials and port, and connect for vector/embedding storage.
+- [phpMyAdmin](https://laradock.io/docs/services/phpmyadmin): Run phpMyAdmin in Laradock as a GUI for MySQL or MariaDB. Start the container, log in, switch database engines, and fix common issues.
+- [PostgreSQL + PostGIS](https://laradock.io/docs/services/postgres-postgis): Run PostgreSQL with the PostGIS geospatial extension in Laradock. Start and stop the container, configure version and credentials, and connect from your host.
+- [PostgreSQL](https://laradock.io/docs/services/postgres): Run PostgreSQL in Laradock. Start and stop the container, configure version/port/credentials, create multiple databases, and connect from your host.
+- [RethinkDB](https://laradock.io/docs/services/rethinkdb): Run RethinkDB in Laradock. Start the container, open the admin console, and wire it up to Laravel via the Laravel RethinkDB package.
+- [Apache Solr](https://laradock.io/docs/services/solr): Run Apache Solr in Laradock. Start and stop the container, configure the version and admin port, enable JDBC data import connectors, and fix common issues.
+- [SSDB](https://laradock.io/docs/services/ssdb): Run SSDB in Laradock. Start and stop the container, configure the port, connect with redis-cli, and fix common issues.
+- [SurrealDB](https://laradock.io/docs/services/surrealdb): Run SurrealDB in Laradock. Start and stop the container, configure credentials and port, check its health, and fix common issues.
+- [Certbot](https://laradock.io/docs/services/certbot): Run Certbot in Laradock to obtain free Let's Encrypt TLS certificates via the webroot HTTP-01 challenge, for use with nginx, apache2, or caddy.
+- [Docker in Docker](https://laradock.io/docs/services/docker-in-docker): Run Docker in Docker (dind) in Laradock so a container can build and run other containers, useful for self-hosted CI runners.
+- [Docker Registry](https://laradock.io/docs/services/docker-registry): Run a private Docker image registry in Laradock. Start and stop the container, configure the port, and push/pull your own images.
+- [GitLab Runner](https://laradock.io/docs/services/gitlab-runner): Register a GitLab Runner in Laradock to execute CI/CD pipelines for your self-hosted GitLab instance.
+- [GitLab](https://laradock.io/docs/services/gitlab): Run a self-hosted GitLab instance in Laradock. Start the container, set your domain, and connect it to Postgres and Redis.
+- [Theia IDE](https://laradock.io/docs/services/ide-theia): Run the Theia browser-based IDE in Laradock, edit your project code from any browser with a VS Code-like editor, no local install needed.
+- [Jenkins](https://laradock.io/docs/services/jenkins): Run Jenkins in Laradock. Start the container, unlock it with the initial admin password, and configure security and users.
+- [OneDev](https://laradock.io/docs/services/onedev): Run OneDev in Laradock, a self-hosted Git server with built-in CI/CD pipelines and issue tracking.
+- [Portainer](https://laradock.io/docs/services/portainer): Run Portainer in Laradock for a web UI to manage your Docker containers, images, volumes, and networks.
+- [SonarQube](https://laradock.io/docs/services/sonarqube): Run SonarQube in Laradock for automatic code review. Start the container, set your hostname, and fix common Postgres and log-permission errors.
+- [Swagger Editor](https://laradock.io/docs/services/swagger-editor): Run Swagger Editor in Laradock, a browser-based editor for writing and validating OpenAPI/Swagger specs with live linting.
+- [Swagger UI](https://laradock.io/docs/services/swagger-ui): Run Swagger UI in Laradock to render interactive, browsable API documentation from an OpenAPI/Swagger spec.
+- [MailCatcher](https://laradock.io/docs/services/mailcatcher): Run MailCatcher in Laradock to catch outgoing dev email and view it in a web UI. One of the original Ruby-based dev mail catchers.
+- [MailDev](https://laradock.io/docs/services/maildev): Run MailDev in Laradock to catch outgoing dev email and view it in a web UI, with configurable HTTP and SMTP ports.
+- [MailHog](https://laradock.io/docs/services/mailhog): Run MailHog in Laradock to catch outgoing dev email and view it in a web UI. Legacy tool, largely superseded by Mailpit.
+- [Mailpit](https://laradock.io/docs/services/mailpit): Run Mailpit in Laradock to catch outgoing dev email, view it in a web UI, and wire it up as your Laravel mail driver.
+- [Mailu](https://laradock.io/docs/services/mailu): Run Mailu, a full self-hosted mail server suite, in Laradock. Configure domains, TLS, webmail, antispam, and connect your app to real SMTP/IMAP.
+- [Grafana](https://laradock.io/docs/services/grafana): Run Grafana in Laradock to build dashboards on top of Prometheus, InfluxDB, or other data sources.
+- [Graylog](https://laradock.io/docs/services/graylog): Run Graylog in Laradock to centralize and search application logs, backed by MongoDB and Elasticsearch.
+- [InfluxDB](https://laradock.io/docs/services/influxdb): Run InfluxDB in Laradock for high-volume time-series metrics, events, and IoT/analytics data, and chart it with Grafana.
+- [Logstash](https://laradock.io/docs/services/logstash): Run Logstash in Laradock to ingest, transform, and ship logs into Elasticsearch as part of the ELK stack.
+- [NetData](https://laradock.io/docs/services/netdata): Run NetData in Laradock for real-time, zero-configuration monitoring of your Docker host's CPU, memory, disk, and network.
+- [Prometheus](https://laradock.io/docs/services/prometheus): Run Prometheus in Laradock to scrape and store metrics with PromQL, and visualize them in Grafana.
+- [Dejavu](https://laradock.io/docs/services/dejavu): Run Dejavu in Laradock, a lightweight web UI for browsing and querying Elasticsearch indices.
+- [Elasticsearch](https://laradock.io/docs/services/elasticsearch): Run Elasticsearch in Laradock. Start the container, install plugins, and connect from your PHP app or from Kibana/Dejavu.
+- [Kibana](https://laradock.io/docs/services/kibana): Run Kibana in Laradock to visualize and explore data stored in Elasticsearch.
+- [MeiliSearch](https://laradock.io/docs/services/meilisearch): Run MeiliSearch in Laradock. Start the container, configure the master key, and connect it as a Laravel Scout driver.
+- [OpenSearch](https://laradock.io/docs/services/opensearch): Run OpenSearch in Laradock, the Apache-2.0 fork of Elasticsearch. Start the container, configure the port, and connect from your app.
+- [Typesense](https://laradock.io/docs/services/typesense): Run Typesense in Laradock. Start the container, configure the API key, and use it as a fast, typo-tolerant Laravel Scout driver.
+- [AWS EB CLI](https://laradock.io/docs/services/aws-eb-cli): Run the AWS Elastic Beanstalk CLI in Laradock to initialize and deploy your app to Elastic Beanstalk without installing the EB CLI on your host.
+- [Blackfire](https://laradock.io/docs/services/blackfire): Run Blackfire in Laradock to profile PHP performance. Start the agent, add your Blackfire.io credentials, and probe your app from php-fpm or workspace.
+- [Confluence](https://laradock.io/docs/services/confluence): Run Atlassian Confluence in Laradock. Start the container, license it, and optionally front it with NGINX and SSL.
+- [Keycloak](https://laradock.io/docs/services/keycloak): Run Keycloak in Laradock for identity and access management. Start the container, log in as admin, and configure its Postgres-backed database.
+- [Metabase](https://laradock.io/docs/services/metabase): Run Metabase in Laradock for BI dashboards and ad-hoc SQL exploration over your app's databases.
+- [MinIO](https://laradock.io/docs/services/minio): Run MinIO in Laradock as a local S3-compatible object store. Start the container, create a bucket, and point your Laravel filesystem disk at it.
+- [PHP-FPM](https://laradock.io/docs/services/php-fpm): The core PHP runtime container in Laradock. How it's built, which extensions ship enabled by default, and how web servers depend on it.
+- [PHP Worker](https://laradock.io/docs/services/php-worker): Run background queue workers in Laradock. php-worker runs Supervisor to keep Laravel queue:work (and similar) processes alive.
+- [Selenium](https://laradock.io/docs/services/selenium): Run Selenium in Laradock as a browser automation server for Dusk and other WebDriver-based end-to-end tests.
+- [Thumbor](https://laradock.io/docs/services/thumbor): Run Thumbor in Laradock for on-the-fly image cropping, resizing, and smart processing. Start the container and configure loaders, storage, and limits.
+- [Tomcat](https://laradock.io/docs/services/tomcat): Run Apache Tomcat in Laradock to deploy and serve Java web applications (WAR files).
+- [Workspace](https://laradock.io/docs/services/workspace): The core Laradock dev shell container. Enter it to run Composer, Artisan, Node, and Git, and toggle WORKSPACE_INSTALL_* flags to add more tools.
+- [Apache](https://laradock.io/docs/services/apache2): Run Apache (httpd) in Laradock. Configure sites, host ports, SSL, HTTP/2, and connect it to PHP-FPM.
+- [Caddy](https://laradock.io/docs/services/caddy): Run Caddy in Laradock. Configure the Caddyfile, host ports, and automatic HTTPS, and connect it to PHP-FPM.
+- [FrankenPHP](https://laradock.io/docs/services/frankenphp): Run FrankenPHP in Laradock, a modern Caddy-based PHP application server and the recommended runtime for Laravel Octane, with automatic HTTPS and HTTP/3.
+- [HAProxy](https://laradock.io/docs/services/haproxy): Run HAProxy in Laradock as a high-performance TCP/HTTP load balancer in front of your proxy containers.
+- [Nginx](https://laradock.io/docs/services/nginx): Run Nginx in Laradock as the default web server. Configure sites, host and container ports, SSL, and connect it to PHP-FPM.
+- [OpenResty](https://laradock.io/docs/services/openresty): Run OpenResty in Laradock, Nginx bundled with LuaJIT for scriptable request handling. Configure sites, host ports, SSL, and connect it to PHP-FPM.
+- [RoadRunner](https://laradock.io/docs/services/roadrunner): Run RoadRunner in Laradock, a high-performance Go-based PHP application server and Laravel Octane driver, an alternative to PHP-FPM for long-running PHP processes.
+- [Traefik](https://laradock.io/docs/services/traefik): Run Traefik in Laradock as a reverse proxy with automatic Let's Encrypt HTTPS, routing to your containers via labels instead of published ports.
+- [Varnish](https://laradock.io/docs/services/varnish): Run Varnish in Laradock as a caching reverse proxy in front of Nginx, tested for WordPress. Configure backends, cache size, and purge the cache.
 - [Run Adminer on Docker](https://laradock.io/docs/adminer-on-docker): Run Adminer on Docker in seconds with Laradock, a built-in service you turn on with one command to browse and manage MySQL, PostgreSQL and other databases without installing anything on your machine.
 - [Run Akaunting on Docker](https://laradock.io/docs/akaunting-on-docker): Run Akaunting on Docker in minutes with Laradock. What Docker gives an Akaunting instance, why Laradock is the fastest way to get NGINX, PHP, MySQL and Redis running, and the exact commands, with any PHP version, without installing anything on your machine.
 - [Run Aureus ERP on Docker](https://laradock.io/docs/aureus-erp-on-docker): Run Aureus ERP on Docker in minutes with Laradock. What Docker gives an Aureus ERP install, why Laradock is the fastest way to get NGINX, PHP, MySQL and Redis running, and the exact commands, without installing anything on your machine.
