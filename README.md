@@ -36,7 +36,51 @@ Environment setup is where PHP projects lose their first day. Laradock gives it 
 
 ### Quick Start
 
-Set up a demo stack with `PHP`, `NGINX`, `MySQL`, `Redis` and `Composer`:
+Requires [Docker](https://www.docker.com/products/docker-desktop/) with Compose v2.20+. Two ways to set up; both use the exact same files, pick one and switch any time:
+
+#### Option 1 — Quick setup (default)
+
+1 - Clone Laradock inside your PHP project:
+
+```shell
+git clone https://github.com/Laradock/laradock.git
+```
+
+2 - Enter the laradock folder:
+
+```shell
+cd laradock
+```
+
+3 - Run the setup wizard:
+
+```shell
+./laradock setup
+```
+
+It detects your framework, then lets you pick your project from one searchable list of 100+ frameworks, CMSs, e-commerce platforms and apps grouped by type (just type its name to filter), your PHP version, and your stack (web server, database, cache). Every answer is pre-selected, so you can press Enter through it, it can point your app's `.env` at the services for you, and when it's done **it offers to start your stack right away**, so this one command can be all you need. Steps 4 and 5 are the same commands to use later.
+
+4 - Start your stack:
+
+```shell
+./laradock up
+```
+
+Starts the services you chose and prints their URLs and credentials.
+
+5 - Enter the Laradock Workspace (a dev shell with `php`, `composer`, `node`, and `git` inside):
+
+```shell
+./laradock workspace
+```
+
+Then open `http://localhost`. Done.
+
+The CLI is optional, transparent sugar: it prints every real `docker compose` command it runs, keeps no state, and writes nothing but your `.env`. Unknown commands pass straight through (`./laradock logs -f nginx` = `docker compose logs -f nginx`). Full reference: [CLI docs](https://laradock.io/docs/cli).
+
+#### Option 2 — Manual setup (advanced, full control)
+
+The same result, step by step, with you in charge of every detail:
 
 1 - Clone Laradock inside your PHP project:
 
@@ -52,7 +96,7 @@ cp .env.example .env
 
 Your `.env` holds the shared settings. Every service ships pre-configured with its own settings in its folder (`mysql/defaults.env`, `nginx/defaults.env`, ...); to change any value, add that line to your `.env`, it always wins.
 
-3 - Run your containers (requires Docker Compose v2.20+):
+3 - Run your containers:
 
 ```shell
 docker compose up -d workspace nginx mysql redis
@@ -74,10 +118,11 @@ Done.
 
 Laradock provides the PHP runtime, web server, databases, and background services your app needs, so it runs virtually any PHP framework, CMS, or e-commerce platform:
 
-- **Frameworks:** Laravel, Symfony, CodeIgniter, Yii, Laminas (Zend Framework), CakePHP, Phalcon, Slim, Lumen, FuelPHP
-- **CMS:** WordPress, Drupal, Joomla, October CMS, Statamic, Craft CMS, TYPO3, Concrete CMS, Grav
-- **E-commerce:** Magento, WooCommerce, PrestaShop, OpenCart, Sylius, Bagisto
-- **Apps:** Moodle, MediaWiki, phpBB, Matomo
+<!-- SYNC: one of THREE places listing supported projects. Keep in sync with the "Works With" table in DOCUMENTATION/docs/Intro.md AND the projects_* functions in the ./laradock CLI script. Add a project = update all three. -->
+- **Frameworks:** Laravel, Symfony, CodeIgniter, Yii, Laminas (Zend Framework), CakePHP, Phalcon, Slim, Lumen, FuelPHP, Spiral, Hyperf, API Platform, Mezzio, Flight, Fat-Free Framework (F3), ThinkPHP, Silex, Swoole, Workerman, Ubiquity, SilverStripe, Nette, Leaf PHP
+- **CMS:** WordPress, Drupal, Joomla, October CMS, Statamic, Craft CMS, TYPO3, Concrete CMS, Grav, Backdrop CMS, HTMLy, Kirby, ProcessWire, Pico, Bolt CMS, Contao, b2evolution, Serendipity, Nucleus, e107, Pligg, Sulu CMS, Pimcore, Winter CMS, Neos CMS, Textpattern, ExpressionEngine
+- **E-commerce:** Magento, WooCommerce, PrestaShop, OpenCart, Sylius, Bagisto, Aimeos, Avored, OroCommerce, Zen Cart, osCommerce, AbanteCart, CubeCart, Shopware, LiteCart, OpenMage
+- **Apps:** Moodle, MediaWiki, phpBB, Matomo, MyBB, FluxBB, PunBB, Flarum, bbPress, Simple Machines Forum (SMF), DokuWiki, BookStack, Roundcube, phpMyAdmin, Adminer, SuiteCRM, EspoCRM, Vtiger, Dolibarr, Aureus ERP, WebERP, FrontAccounting, Kanboard, Firefly III, Invoice Ninja, X2CRM, Nextcloud, ownCloud, Pydio, Mautic, Crater, Akaunting, Monica CRM, Leantime, Cachet, PHP Server Monitor, YOURLS, LinkAce, Koel, AzuraCast, Lychee, Vanilla Forums
 
 …or plain, framework-free PHP.
 
@@ -111,12 +156,12 @@ Laradock runs each service in its own container, which you turn on or off as nee
 | **Web Servers**           | NGINX, Apache2, Caddy, OpenResty, Tomcat, FrankenPHP                                |
 | **Load Balancers**        | HAProxy, Traefik                                                         |
 | **PHP Compilers**         | PHP FPM, RoadRunner                                                |
-| **Database Management Systems** | MySQL, PostgreSQL (PostGIS), pgvector, MariaDB, Percona, MSSQL, MongoDB, Neo4j, CouchDB, RethinkDB, Cassandra, ClickHouse, Tarantool |
+| **Database Management Systems** | MySQL, PostgreSQL, PostGIS, pgvector, MariaDB, Percona, MSSQL, MongoDB, Neo4j, CouchDB, RethinkDB, Cassandra, ClickHouse, Tarantool |
 | **Database Management Tools** | PhpMyAdmin, Adminer, PgAdmin, MongoDB Web UI, Tarantool Admin, pgbackups (PostgreSQL) |
 | **Cache Engines**         | Redis, Redis Web UI, Redis Cluster, Valkey, Dragonfly, Memcached, Aerospike, Varnish, SSDB        |
 | **Message Brokers**       | RabbitMQ, RabbitMQ Admin Console, Beanstalkd, Beanstalkd Admin Console, Eclipse Mosquitto, Gearman, NATS, Apache Kafka, Kafka Manager |
 | **Log Management**        | GrayLog, Kibana, LogStash                                                |
-| **Search Engines**        | ElasticSearch, OpenSearch, Apache Solr, Manticore Search, Typesense, Dejavu          |
+| **Search Engines**        | ElasticSearch, OpenSearch, Apache Solr, Manticore Search, Typesense, Meilisearch, Dejavu          |
 | **Vector Databases**      | pgvector, Qdrant, Weaviate, Chroma                                       |
 | **Graph / Multi-model Databases** | Neo4j, ArangoDB, SurrealDB                                       |
 | **Time-series Databases** | InfluxDB                                                                 |
@@ -127,15 +172,17 @@ Laradock runs each service in its own container, which you turn on or off as nee
 | **Real-time Communication** | Laravel Echo, Laravel Reverb, Mercure, Soketi                                        |
 | **Monitoring**            | Grafana, NetData, Prometheus                                            |
 | **Coordination Services** | Apache ZooKeeper                                                         |
-| **Container Management**  | Portainer, Docker Registry, Docker Web UI                                |
-| **CI/CD Tools**           | Jenkins, SonarQube, Gitlab, OneDev                                       |
+| **Container Management**  | Portainer, Docker Registry                                              |
+| **CI/CD Tools**           | Jenkins, SonarQube, Gitlab, GitLab Runner, OneDev                        |
 | **Cloud Tools**           | AWS EB CLI, Amazon Simple Queue Service                                  |
 | **Image Processing**      | Thumbor                                                                  |
-| **Security Tools**        | Certbot                                                                  |
+| **Security & Identity Tools** | Certbot, Keycloak                                                    |
 | **Object Storage**        | Minio                                                                    |
 | **Testing**               | Selenium                                                                 |
 | **IDEs**                  | Theia                                                |
 | **API Documentation**     | Swagger UI, Swagger Editor                                              |
+| **Analytics / BI**        | Metabase                                                                 |
+| **Collaboration**         | Confluence                                                               |
 
 See the [full service list and usage docs](https://laradock.io/docs/Intro#supported-services).
 

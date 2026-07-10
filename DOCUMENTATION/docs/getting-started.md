@@ -165,6 +165,21 @@ We recommend using a Docker Engine version which is newer than 19.03.0.
 If you used an older version of Laradock it's highly recommended to rebuild the containers you need to use [see how you rebuild a container](/docs/usage/#build-or-rebuild-containers) in order to prevent as much errors as possible.
 :::
 
+### Two ways to set up
+
+Laradock gives you two equal ways to work; both use the exact same files, and you can switch any time:
+
+- **Convenient (recommended to start):** the [Laradock CLI](/docs/cli), a zero-install script shipped in the repo. `./laradock setup` detects your framework, asks a handful of pre-answered questions, writes your `.env`, and can point your app's `.env` at the services. Then `./laradock up` and you are running. It prints every real `docker compose` command it executes, so nothing is hidden.
+- **Full control:** do it manually, as described below. You edit `.env` yourself and run plain `docker compose` commands. Best when you want to own every detail.
+
+| | Convenient | Full control |
+|---|---|---|
+| Setup | `./laradock setup` | `cp .env.example .env` |
+| Start | `./laradock up` | `docker compose up -d nginx mysql redis workspace` |
+| Dev shell | `./laradock workspace` | `docker compose exec workspace bash` |
+
+The rest of this section documents the manual way in full (the CLI simply automates these exact steps).
+
 1 - Enter the laradock folder and copy `.env.example` to `.env`
 
 ```shell

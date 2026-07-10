@@ -1,0 +1,751 @@
+#!/usr/bin/env bash
+#
+# Laradock CLI — optional convenience layer over plain Docker Compose.
+#
+#   ./laradock setup     interactive wizard, writes .env only
+#   ./laradock up        start your services (from LARADOCK_SERVICES in .env)
+#   ./laradock workspace enter the Laradock Workspace (dev shell)
+#   ./laradock info      show running services, URLs, credentials
+#   ./laradock doctor    diagnose common problems
+#   ./laradock <other>   passed straight to `docker compose <other>`
+#
+# Design contract: no state, no generated files, every command prints the real
+# docker compose command it runs. Plain `docker compose` always works too.
+# Requires: bash 3.2+, Docker with Compose v2.20+.
+
+set -u
+
+VERSION="1.0.0"
+MIN_COMPOSE_MINOR=20   # v2.20+ needed for `include`
+ESC=$(printf '\033')
+EOL=$(printf '\033[K')   # erase to end of line
+BS=$(printf '\010'); DEL=$(printf '\177')   # backspace variants
+
+# ---------------------------------------------------------------- ui helpers
+
+setup_color() {
+  C_RESET='' C_BOLD='' C_DIM='' C_RED='' C_GREEN='' C_YELLOW='' C_CYAN='' C_INV=''
+  if [ -t 1 ] && [ -z "${NO_COLOR:-}" ] && [ "${TERM:-dumb}" != "dumb" ]; then
+    C_RESET=$(printf '\033[0m');  C_BOLD=$(printf '\033[1m');  C_DIM=$(printf '\033[2m')
+    C_RED=$(printf '\033[31m');   C_GREEN=$(printf '\033[32m')
+    C_YELLOW=$(printf '\033[33m'); C_CYAN=$(printf '\033[36m'); C_INV=$(printf '\033[7m')
+  fi
+  OK="${C_GREEN}✓${C_RESET}"; BAD="${C_RED}✗${C_RESET}"; WARN_SYM="${C_YELLOW}⚠${C_RESET}"; ARROW="→"
+  case "${LANG:-}${LC_ALL:-}" in
+    *UTF-8*|*utf8*) : ;;
+    *) OK="${C_GREEN}[ok]${C_RESET}"; BAD="${C_RED}[x]${C_RESET}"; WARN_SYM="${C_YELLOW}[!]${C_RESET}"; ARROW="->" ;;
+  esac
+}
+
+say()  { printf '%s\n' "$*"; }
+bold() { printf '%s%s%s\n' "$C_BOLD" "$*" "$C_RESET"; }
+ok()   { printf '  %s %s\n' "$OK" "$*"; }
+bad()  { printf '  %s %s\n' "$BAD" "$*"; }
+note() { printf '  %s %s\n' "$WARN_SYM" "$*"; }
+warn() { printf '  %s%s%s\n' "$C_YELLOW" "$*" "$C_RESET"; }
+die()  { printf '%serror:%s %s\n' "$C_RED" "$C_RESET" "$*" >&2; exit 1; }
+
+# print the real command, then run it
+run() { printf '  %s%s docker compose %s%s\n' "$C_DIM" "$ARROW" "$*" "$C_RESET"; docker compose "$@"; }
+
+is_tty() { [ -t 0 ] && [ -t 1 ]; }
+
+# ------------------------------------------------------------ input helpers
+# ask VAR "Question" "default" — free text with default
+ask() {
+  local _var=$1 _q=$2 _def=$3 _ans=''
+  if [ "$ASSUME_YES" = 1 ] || ! is_tty; then
+    eval "$_var=\"\$_def\""
+    printf '  %-14s %s[%s]%s\n' "$_q" "$C_CYAN" "$_def" "$C_RESET"
+    return
+  fi
+  printf '  %-14s %s[%s]%s ' "$_q" "$C_CYAN" "$_def" "$C_RESET"
+  IFS= read -r _ans || _ans=''
+  [ -n "$_ans" ] || _ans=$_def
+  eval "$_var=\"\$_ans\""
+}
+
+confirm() {  # confirm "Question" default(Y|n) -> return 0 yes
+  local _q=$1 _def=${2:-Y} _ans
+  if [ "$ASSUME_YES" = 1 ] || ! is_tty; then
+    [ "$_def" = Y ] && { printf '  %s %s[Y]%s\n' "$_q" "$C_CYAN" "$C_RESET"; return 0; }
+    printf '  %s %s[n]%s\n' "$_q" "$C_CYAN" "$C_RESET"; return 1
+  fi
+  local _hint='[Y/n]'; [ "$_def" = n ] && _hint='[y/N]'
+  printf '  %s %s%s%s ' "$_q" "$C_CYAN" "$_hint" "$C_RESET"
+  IFS= read -r _ans || _ans=''
+  [ -n "$_ans" ] || _ans=$_def
+  case "$_ans" in y|Y|yes|YES) return 0 ;; *) return 1 ;; esac
+}
+
+# --------------------------------------------------------------- env helpers
+
+env_get() {  # env_get KEY [file] -> prints value or empty (strips our marker)
+  local _f=${2:-.env}
+  [ -f "$_f" ] || return 0
+  sed -n "s/^${1}=//p" "$_f" | tail -1 | sed 's/ # set by laradock.*//'
+}
+
+env_set() {  # env_set KEY VALUE — update in place or append (preserves everything else)
+  local _k=$1 _v=$2
+  touch .env
+  if grep -q "^${_k}=" .env; then
+    # portable in-place edit (BSD/GNU sed differ; use tmp file)
+    sed "s|^${_k}=.*|${_k}=${_v}|" .env > .env.tmp.$$ && mv .env.tmp.$$ .env
+  else
+    printf '%s=%s\n' "$_k" "$_v" >> .env
+  fi
+}
+
+default_of() {  # default_of KEY — value from .env, else .env.example, else $2
+  local _v
+  _v=$(env_get "$1" .env)
+  [ -n "$_v" ] || _v=$(env_get "$1" .env.example)
+  [ -n "$_v" ] || _v=${2:-}
+  printf '%s' "$_v"
+}
+
+# ------------------------------------------------------------ sanity checks
+
+require_laradock_dir() {
+  [ -f docker-compose.yml ] && grep -q '^include:' docker-compose.yml \
+    || die "this doesn't look like the laradock folder (no docker-compose.yml with an include list). cd into laradock/ first."
+}
+
+compose_version() {
+  docker compose version --short 2>/dev/null | sed 's/^v//'
+}
+
+compose_version_ok() {  # true if >= 2.20 (any major > 2 passes)
+  local _v _maj _min
+  _v=$(compose_version); [ -n "$_v" ] || return 1
+  _maj=${_v%%.*}; _min=$(printf '%s' "$_v" | awk -F. '{print $2}')
+  [ "$_maj" -gt 2 ] 2>/dev/null && return 0
+  [ "$_maj" -eq 2 ] 2>/dev/null && [ "${_min:-0}" -ge "$MIN_COMPOSE_MINOR" ] 2>/dev/null
+}
+
+check_docker() {
+  command -v docker >/dev/null 2>&1 || die "Docker is not installed. Get it at https://docs.docker.com/get-docker/"
+  docker info >/dev/null 2>&1 || die "Docker is installed but not running. Start Docker Desktop (or the docker service) and retry."
+  docker compose version >/dev/null 2>&1 || die "Docker Compose v2 not found (the old docker-compose v1 cannot read this project). Update Docker."
+  compose_version_ok || die "Docker Compose v2.${MIN_COMPOSE_MINOR}+ required (found v$(compose_version)). Update Docker."
+}
+
+# --------------------------------------------------------- framework detect
+
+detect_framework() {  # prints: laravel|wordpress|symfony|drupal|php|none
+  local _app=$1
+  [ -d "$_app" ] || { printf 'none'; return; }
+  if   [ -f "$_app/artisan" ];                                       then printf 'laravel'
+  elif [ -f "$_app/wp-settings.php" ] || [ -f "$_app/wp-config.php" ]; then printf 'wordpress'
+  elif [ -f "$_app/symfony.lock" ] || [ -f "$_app/config/bundles.php" ]; then printf 'symfony'
+  elif [ -f "$_app/core/lib/Drupal.php" ];                           then printf 'drupal'
+  elif [ -f "$_app/composer.json" ] || [ -f "$_app/index.php" ];     then printf 'php'
+  else printf 'none'; fi
+}
+
+# -------------------------------------------------------------- cmd: setup
+
+cmd_setup() {
+  require_laradock_dir
+  bold ""
+  bold "  Laradock setup"
+  say  "  ─────────────────────────────────────────────"
+  check_docker
+  ok "Docker running · Compose v$(compose_version) (needs 2.${MIN_COMPOSE_MINOR}+)"
+
+  [ -f .env ] || { [ -f .env.example ] && cp .env.example .env && ok "created .env from .env.example"; }
+
+  # -- detect the app to pre-answer everything
+  app_path=$(default_of APP_CODE_PATH_HOST "../")
+  fw=$(detect_framework "$app_path")
+  parent_name=$(basename "$(cd "$app_path" 2>/dev/null && pwd || echo my-app)")
+  # seed the picker only on a SPECIFIC detection; generic "php" starts at the top
+  case "$fw" in none|php) fw_item_def="" ;; *) fw_item_def=$fw ;; esac
+  case "$fw" in
+    none) warn "no PHP project detected at $app_path (pick a type below, or change App path)";;
+    php)  ok "Detected: a PHP project  (at $app_path)";;
+    *)    ok "Detected: $fw  (at $app_path)";;
+  esac
+
+  name_def=$(env_get COMPOSE_PROJECT_NAME)
+  case "$name_def" in ''|laradock) name_def=$parent_name ;; esac
+
+  # answers (globals so ask_* helpers can re-ask any single one)
+  W_CAT='' W_TYPE='' W_PHP='' W_WS='' W_DB='' W_CACHE='' W_EXTRAS='' W_NAME='' W_PATH=''
+
+  say ""
+  ask_type;  ask_php;  ask_ws;  ask_db;  ask_cache;  ask_extras;  ask_name;  ask_path
+
+  # -- review screen: change anything before applying
+  if [ "$ASSUME_YES" != 1 ] && is_tty; then
+    while :; do
+      say ""
+      bold "  Review your choices:"
+      say "    1) Project        $W_TYPE"
+      say "    2) PHP version    $W_PHP"
+      say "    3) Web server     $W_WS"
+      say "    4) Database       $W_DB"
+      say "    5) Cache          $W_CACHE"
+      say "    6) Extra services ${W_EXTRAS:-(none)}"
+      say "    7) Project name   $W_NAME"
+      say "    8) App path       $W_PATH"
+      printf '  %sEnter = apply · 1-8 = change that answer · q = quit%s ' "$C_CYAN" "$C_RESET"
+      IFS= read -r _r || _r=''
+      case "$_r" in
+        '') break ;;
+        1) ask_type ;;  2) ask_php ;;  3) ask_ws ;;  4) ask_db ;;
+        5) ask_cache ;; 6) ask_extras ;; 7) ask_name ;; 8) ask_path ;;
+        q|Q) say "  nothing written."; exit 0 ;;
+      esac
+    done
+  fi
+
+  local services=""
+  [ "$W_WS" != none ] && services="$W_WS"
+  [ "$W_DB" != none ] && services="$services $W_DB"
+  [ "$W_CACHE" != none ] && services="$services $W_CACHE"
+  [ -n "$W_EXTRAS" ] && services="$services $W_EXTRAS"
+  services="$services workspace"
+  services=$(printf '%s' "$services" | sed 's/^ *//;s/  */ /g')
+
+  # -- write laradock .env (only the overrides)
+  say ""
+  bold "  Writing .env overrides:"
+  env_set COMPOSE_PROJECT_NAME "$W_NAME"
+  # shellcheck disable=SC2088  # literal ~ is intended: docker compose expands it in volume paths
+  env_set DATA_PATH_HOST "~/.laradock/data-$W_NAME"
+  env_set PHP_VERSION "$W_PHP"
+  env_set APP_CODE_PATH_HOST "$W_PATH"
+  env_set LARADOCK_SERVICES "\"$services\""
+  for kv in "COMPOSE_PROJECT_NAME=$W_NAME" "DATA_PATH_HOST=~/.laradock/data-$W_NAME" \
+            "PHP_VERSION=$W_PHP" "APP_CODE_PATH_HOST=$W_PATH" "LARADOCK_SERVICES=\"$services\""; do
+    say "    $kv"
+  done
+  say "    ${C_DIM}(everything else keeps its shipped default from <service>/defaults.env)${C_RESET}"
+
+  # -- offer to patch the app's .env
+  patch_app_env "$W_PATH" "$W_DB" "$W_CACHE" "$W_EXTRAS"
+
+  # -- offer to start the stack right now (interactive only; --yes writes config and stops)
+  if [ "$ASSUME_YES" != 1 ] && is_tty; then
+    say ""
+    if confirm "Start your stack now ($services)?" Y; then
+      # shellcheck disable=SC2086  # word-splitting the service list is intended
+      cmd_up $services
+      return
+    fi
+  fi
+
+  # -- otherwise, tell them how to proceed
+  say ""
+  bold "  You're set. How to proceed:"
+  say "    ./laradock up            start your stack: $services"
+  say "    ./laradock workspace     Laradock Workspace: a dev shell with php, composer, node, git"
+  say "    ./laradock info          URLs, ports, credentials of what's running"
+  say "    ./laradock doctor        if anything misbehaves"
+  local _egws=$W_WS; [ "$_egws" = none ] && _egws=nginx
+  say "    ${C_DIM}Everything else passes through: ./laradock logs -f ${_egws} = docker compose logs -f ${_egws}${C_RESET}"
+  say "    ${C_DIM}Docs: https://laradock.io/docs/cli${C_RESET}"
+  say ""
+}
+
+# --- supported project types ---------------------------------------------
+# SYNC: this list mirrors the "Works With" lists in README.md and
+#       DOCUMENTATION/docs/Intro.md. Add a project = update ALL THREE places.
+projects_framework() { echo "laravel symfony codeigniter yii laminas cakephp phalcon slim lumen fuelphp spiral hyperf api-platform mezzio flight fat-free thinkphp silex swoole workerman ubiquity silverstripe nette leaf"; }
+projects_cms()       { echo "wordpress drupal joomla october statamic craftcms typo3 concrete grav backdrop htmly kirby processwire pico bolt contao b2evolution serendipity nucleus e107 pligg sulu pimcore wintercms neos textpattern expressionengine"; }
+projects_ecommerce() { echo "magento woocommerce prestashop opencart sylius bagisto aimeos avored orocommerce zencart oscommerce abantecart cubecart shopware litecart openmage"; }
+projects_app()       { echo "moodle mediawiki phpbb matomo mybb fluxbb punbb flarum bbpress smf dokuwiki bookstack roundcube phpmyadmin adminer suitecrm espocrm vtiger dolibarr aureus-erp weberp frontaccounting kanboard firefly-iii invoice-ninja x2crm nextcloud owncloud pydio mautic crater akaunting monica leantime cachet php-server-monitor yourls linkace koel azuracast lychee vanilla"; }
+
+projects_in() {  # category -> space-separated items
+  case "$1" in
+    framework) projects_framework ;;
+    cms)       projects_cms ;;
+    ecommerce) projects_ecommerce ;;
+    app)       projects_app ;;
+  esac
+}
+
+category_of() {  # item -> its category (for pre-selecting from detection)
+  local _c
+  for _c in framework cms ecommerce app; do
+    case " $(projects_in "$_c") " in *" $1 "*) echo "$_c"; return ;; esac
+  done
+  echo other
+}
+
+ws_default_for() {  # $1=category $2=project -> the web server it traditionally expects
+  # frameworks and plain PHP default to nginx
+  case "$1" in framework|other) echo nginx; return ;; esac
+  # modern / flat-file / Laravel- or Symfony-based apps prefer nginx
+  case "$2" in
+    statamic|craftcms|october|wintercms|grav|neos|pimcore|kirby|sulu|bolt|pico|htmly|leaf|\
+    flarum|bookstack|koel|crater|akaunting|monica|leantime|firefly-iii|invoice-ninja|azuracast|linkace|cachet|\
+    sylius|bagisto|aimeos|avored|orocommerce|shopware) echo nginx ;;
+    # traditional CMS / forum / e-commerce / apps assume Apache + .htaccess
+    *) echo apache2 ;;
+  esac
+}
+
+
+# service catalog (mirrors DOCUMENTATION Supported Services; folder name = slug)
+service_groups() {
+  cat <<'GROUPS'
+Web servers|nginx apache2 caddy openresty frankenphp tomcat
+Load balancers|haproxy traefik
+PHP runtime & workers|php-fpm php-worker roadrunner laravel-horizon blackfire
+Databases|mysql mariadb percona postgres postgres-postgis pgvector mssql mongo neo4j couchdb rethinkdb cassandra clickhouse tarantool arangodb surrealdb
+Database tools|phpmyadmin adminer pgadmin mongo-webui tarantool-admin pgbackups
+Cache|redis redis-webui redis-cluster valkey dragonfly memcached aerospike varnish ssdb
+Message queues|rabbitmq beanstalkd beanstalkd-console mosquitto gearman nats kafka kafka-manager sqs zookeeper
+Search & logs|elasticsearch opensearch solr manticore typesense meilisearch dejavu kibana logstash
+Vector databases|qdrant weaviate chroma
+Time-series|influxdb
+AI & automation|ollama localai litellm n8n flowise
+Mail|mailu mailcatcher mailhog maildev mailpit
+Realtime|laravel-echo-server laravel-reverb mercure soketi
+Monitoring|grafana netdata prometheus graylog
+DevOps & CI|jenkins sonarqube gitlab gitlab-runner onedev portainer docker-registry docker-in-docker
+Cloud & tools|aws-eb-cli minio thumbor certbot keycloak selenium ide-theia swagger-ui swagger-editor metabase confluence
+GROUPS
+}
+known_services() { ls -d */compose.yml 2>/dev/null | sed 's#/compose.yml##'; }
+service_other() {  # folders not categorized above and not workspace
+  local _cat _s
+  _cat=" $(service_groups | sed 's/^[^|]*|//' | tr '\n' ' ') "
+  for _s in $(known_services); do
+    [ "$_s" = workspace ] && continue
+    case "$_cat" in *" $_s "*) : ;; *) printf '%s ' "$_s" ;; esac
+  done
+}
+# print a space-separated list in aligned columns to the terminal width
+print_cols() {
+  local _list=$1 _indent=${2:-4}
+  local _w; _w=$(tput cols 2>/dev/null || echo 80); [ "$_w" -gt 180 ] && _w=180
+  local _it _max=0
+  for _it in $_list; do [ ${#_it} -gt "$_max" ] && _max=${#_it}; done
+  [ "$_max" -eq 0 ] && return
+  local _cw=$((_max + 2)) _ncol _i=0
+  _ncol=$(( (_w - _indent) / _cw )); [ "$_ncol" -lt 1 ] && _ncol=1
+  for _it in $_list; do
+    [ $((_i % _ncol)) -eq 0 ] && printf '%*s' "$_indent" ''
+    printf '%s%-*s%s' "$C_GREEN" "$_cw" "$_it" "$C_RESET"
+    _i=$((_i + 1))
+    [ $((_i % _ncol)) -eq 0 ] && printf '\n'
+  done
+  [ $((_i % _ncol)) -ne 0 ] && printf '\n'
+}
+
+# --- interactive grouped menu (single or multi select, type-to-filter) -------
+# imenu MODE VAR PROMPT ROWSFN PRESET
+#   MODE=one|multi · ROWSFN echoes "H|Header" and "I|value" lines (grouped, ordered)
+#   PRESET: one -> default value to highlight · multi -> space-separated preselected
+imenu() {
+  local _mode=$1 _var=$2 _prompt=$3 _rowsfn=$4 _preset=$5
+  local _ak=() _av=() _k _v
+  while IFS='|' read -r _k _v; do _ak[${#_ak[@]}]=$_k; _av[${#_av[@]}]=$_v; done < <($_rowsfn)
+  local _na=${#_ak[@]}
+  if [ "$ASSUME_YES" = 1 ] || ! is_tty; then
+    local _pv=$_preset _q
+    if [ "$_mode" = one ] && [ -z "$_pv" ]; then
+      for _q in $(seq 0 $((_na - 1))); do [ "${_ak[$_q]}" = I ] && { _pv=${_av[$_q]}; break; }; done
+    fi
+    eval "$_var=\"\$_pv\""
+    printf '  %-14s %s[%s]%s\n' "$_prompt" "$C_CYAN" "${_pv:-none}" "$C_RESET"; return
+  fi
+  # show the FULL catalog first (everything available), then the dropdown below
+  say ""
+  bold "  $_prompt"
+  local _ci _cbuf=""
+  for _ci in $(seq 0 $((_na - 1))); do
+    if [ "${_ak[$_ci]}" = H ]; then
+      [ -n "$_cbuf" ] && { print_cols "$_cbuf"; _cbuf=""; }
+      printf '  %s%s%s\n' "$C_BOLD$C_YELLOW" "${_av[$_ci]}" "$C_RESET"
+    else
+      _cbuf="$_cbuf ${_av[$_ci]}"
+    fi
+  done
+  [ -n "$_cbuf" ] && print_cols "$_cbuf"
+  say "  ${C_DIM}--- now pick below (type to filter, arrows to move, enter to select) ---${C_RESET}"
+  local _selset=" " _p
+  [ "$_mode" = multi ] && for _p in $_preset; do _selset="$_selset$_p "; done
+  local _query="" _key _cur=0 _start=0 _win=14 _first=1 _seeded=0
+  printf '  %s%s%s ' "$C_BOLD" "$_prompt" "$C_RESET"
+  if [ "$_mode" = multi ]; then printf '%s(type to filter · arrows move · space toggles · enter = done)%s\n' "$C_DIM" "$C_RESET"
+  else printf '%s(type to filter · arrows move · enter = select)%s\n' "$C_DIM" "$C_RESET"; fi
+  printf '\033[?25l'
+  trap 'printf "\033[?25h"' RETURN 2>/dev/null || true
+  local _rk _rv _nr _lc _i _r _snap _p2 _mn _dv _j _pendhdr _hasitem _mk _out
+  while :; do
+    _lc=$(printf '%s' "$_query" | tr 'A-Z' 'a-z')
+    _rk=(); _rv=(); _mn=0; _pendhdr=""; _hasitem=0
+    for _j in $(seq 0 $((_na - 1))); do
+      if [ "${_ak[$_j]}" = H ]; then _pendhdr=${_av[$_j]}; _hasitem=0; continue; fi
+      _dv=${_av[$_j]}
+      case "$_dv" in *"$_lc"*) : ;; *) continue ;; esac
+      if [ -n "$_pendhdr" ] && [ "$_hasitem" = 0 ]; then _rk[${#_rk[@]}]=H; _rv[${#_rv[@]}]=$_pendhdr; _hasitem=1; fi
+      _rk[${#_rk[@]}]=I; _rv[${#_rv[@]}]=$_dv; _mn=$((_mn + 1))
+    done
+    _nr=${#_rk[@]}
+    if [ "$_seeded" = 0 ]; then _seeded=1
+      if [ "$_mode" = one ] && [ -n "$_preset" ]; then
+        for _i in $(seq 0 $((_nr - 1))); do [ "${_rk[$_i]}" = I ] && [ "${_rv[$_i]}" = "$_preset" ] && { _cur=$_i; break; }; done
+      fi
+    fi
+    [ "$_cur" -ge "$_nr" ] && _cur=$(( _nr > 0 ? _nr - 1 : 0 )); [ "$_cur" -lt 0 ] && _cur=0
+    _snap=$_cur; while [ "$_snap" -lt "$_nr" ] && [ "${_rk[$_snap]:-}" = H ]; do _snap=$((_snap + 1)); done
+    if [ "$_snap" -ge "$_nr" ]; then _snap=$_cur; while [ "$_snap" -ge 0 ] && [ "${_rk[$_snap]:-H}" = H ]; do _snap=$((_snap - 1)); done; fi
+    [ "$_snap" -ge 0 ] && _cur=$_snap
+    [ "$_cur" -lt "$_start" ] && _start=$_cur
+    [ "$_cur" -ge $((_start + _win)) ] && _start=$((_cur - _win + 1)); [ "$_start" -lt 0 ] && _start=0
+    if [ $_first = 0 ]; then printf '\033[%dA' $((_win + 2)); fi
+    _first=0
+    printf '  %ssearch:%s %s%s\n' "$C_CYAN" "$C_RESET" "$_query" "$EOL"
+    for _r in $(seq 0 $((_win - 1))); do
+      _i=$((_start + _r))
+      if [ "$_i" -ge "$_nr" ]; then printf '%s\n' "$EOL"; continue; fi
+      if [ "${_rk[$_i]}" = H ]; then printf '  %s%s%s%s\n' "$C_BOLD$C_YELLOW" "${_rv[$_i]}" "$C_RESET" "$EOL"; continue; fi
+      _dv=${_rv[$_i]}; _mk=""
+      [ "$_mode" = multi ] && { case "$_selset" in *" $_dv "*) _mk="[x] " ;; *) _mk="[ ] " ;; esac; }
+      if [ "$_i" = "$_cur" ]; then printf '     %s%s %s%s %s%s\n' "$C_INV" "$ARROW" "$_mk" "$_dv" "$C_RESET" "$EOL"
+      else printf '       %s%s%s\n' "$_mk" "$_dv" "$EOL"; fi
+    done
+    if [ "$_mode" = multi ]; then
+      _out=$(printf '%s' "$_selset" | sed 's/^ *//;s/ *$//')
+      printf '    %sselected: %s%s%s\n' "$C_DIM" "${_out:-none}" "$C_RESET" "$EOL"
+    else
+      printf '    %s%d match(es)%s%s\n' "$C_DIM" "$_mn" "$C_RESET" "$EOL"
+    fi
+    IFS= read -rsn1 _key || _key=''
+    case "$_key" in
+      '')
+        if [ "$_mode" = one ]; then
+          [ "$_mn" -gt 0 ] && [ "${_rk[$_cur]:-}" = I ] && { eval "$_var=\"\${_rv[\$_cur]}\""; break; }
+        else
+          _out=$(printf '%s' "$_selset" | sed 's/^ *//;s/ *$//'); eval "$_var=\"\$_out\""; break
+        fi ;;
+      ' ')
+        if [ "$_mode" = multi ] && [ "${_rk[$_cur]:-}" = I ]; then
+          _dv=${_rv[$_cur]}
+          case "$_selset" in *" $_dv "*) _selset=$(printf '%s' "$_selset" | sed "s/ $_dv / /") ;; *) _selset="$_selset$_dv " ;; esac
+        fi ;;
+      "$ESC") read -rsn2 -t 1 _key || _key=''
+        case "$_key" in
+          '[A') _p2=$((_cur - 1)); while [ "$_p2" -ge 0 ] && [ "${_rk[$_p2]}" = H ]; do _p2=$((_p2 - 1)); done; [ "$_p2" -ge 0 ] && _cur=$_p2 ;;
+          '[B') _p2=$((_cur + 1)); while [ "$_p2" -lt "$_nr" ] && [ "${_rk[$_p2]}" = H ]; do _p2=$((_p2 + 1)); done; [ "$_p2" -lt "$_nr" ] && _cur=$_p2 ;;
+        esac ;;
+      "$BS"|"$DEL") _query=${_query%?}; _cur=0; _start=0 ;;
+      [[:print:]]) _query="$_query$_key"; _cur=0; _start=0 ;;
+    esac
+  done
+  printf '\033[?25h'
+}
+
+# --- row generators for the menus -------------------------------------------
+project_rows() {
+  local _x
+  printf 'H|Frameworks\n';        for _x in $(projects_framework); do printf 'I|%s\n' "$_x"; done
+  printf 'H|CMS\n';               for _x in $(projects_cms);       do printf 'I|%s\n' "$_x"; done
+  printf 'H|E-commerce\n';        for _x in $(projects_ecommerce); do printf 'I|%s\n' "$_x"; done
+  printf 'H|Apps\n';              for _x in $(projects_app);       do printf 'I|%s\n' "$_x"; done
+  printf 'H|Plain PHP / other\n'; printf 'I|php\n'
+}
+flat_rows() { local _x; for _x in $1; do printf 'I|%s\n' "$_x"; done; }
+php_rows()   { flat_rows "8.5 8.4 8.3 8.2 8.1 8.0 7.4 7.3 7.2 7.1 7.0 5.6"; }
+ws_rows()    { flat_rows "nginx apache2 caddy openresty frankenphp tomcat none"; }
+db_rows()    { flat_rows "mysql postgres mariadb mongo mssql percona pgvector postgres-postgis neo4j couchdb rethinkdb cassandra clickhouse tarantool arangodb surrealdb none"; }
+cache_rows() { flat_rows "redis valkey dragonfly memcached aerospike varnish ssdb none"; }
+extra_service_rows() {  # every non-essential service, grouped (web/db/cache handled separately)
+  local _label _items _x _o
+  service_groups | while IFS='|' read -r _label _items; do
+    case "$_label" in "Web servers"|"Databases"|"Cache") continue ;; esac
+    printf 'H|%s\n' "$_label"; for _x in $_items; do printf 'I|%s\n' "$_x"; done
+  done
+  _o=$(service_other)
+  [ -n "$_o" ] && { printf 'H|Other\n'; for _x in $_o; do printf 'I|%s\n' "$_x"; done; }
+}
+
+# --- single-question helpers (each re-askable from the review screen) --------
+ask_type()   { imenu one W_TYPE "Which project are you setting up?" project_rows "${W_TYPE:-$fw_item_def}"; W_CAT=$(category_of "$W_TYPE"); }
+ask_php()    { imenu one W_PHP "PHP version" php_rows "${W_PHP:-$(default_of PHP_VERSION 8.4)}"; }
+ask_ws()     { imenu one W_WS "Web server" ws_rows "${W_WS:-$(ws_default_for "$W_CAT" "$W_TYPE")}"; }
+ask_db()     {
+  local _d=${W_DB:-mysql}; [ -z "$W_DB" ] && [ "$W_TYPE" = symfony ] && _d=postgres
+  imenu one W_DB "Database" db_rows "$_d"
+}
+ask_cache()  { imenu one W_CACHE "Cache" cache_rows "${W_CACHE:-redis}"; }
+ask_extras() { imenu multi W_EXTRAS "Additional services (optional - space to toggle, enter to skip)" extra_service_rows "$W_EXTRAS"; }
+ask_name()   { ask W_NAME "Project name" "${W_NAME:-$name_def}"; }
+ask_path()   { ask W_PATH "App path" "${W_PATH:-$app_path}"; }
+
+# patch_app_env app_path db cache extras — diff + confirm + backup + markers
+patch_app_env() {
+  local _app=$1 _db=$2 _cache=$3 _extras=$4 _envf="$1/.env"
+  [ -f "$_envf" ] || { [ -f "$_app/.env.example" ] && confirm "App has no .env; create it from .env.example?" Y \
+      && cp "$_app/.env.example" "$_envf" && ok "created app .env"; }
+  [ -f "$_envf" ] || return 0
+
+  # build proposed replacements: key -> value
+  local keys=() vals=()
+  case "$_db" in
+    mysql|mariadb) keys+=(DB_CONNECTION DB_HOST DB_PORT DB_DATABASE DB_USERNAME DB_PASSWORD)
+                   vals+=(mysql "$_db" 3306 default default secret) ;;
+    postgres)      keys+=(DB_CONNECTION DB_HOST DB_PORT DB_DATABASE DB_USERNAME DB_PASSWORD)
+                   vals+=(pgsql postgres 5432 default default secret) ;;
+  esac
+  case "$_cache" in
+    redis|valkey)  keys+=(REDIS_HOST);     vals+=("$_cache") ;;
+    memcached)     keys+=(MEMCACHED_HOST); vals+=(memcached) ;;
+  esac
+  case " $_extras " in *" mailpit "*) keys+=(MAIL_MAILER MAIL_HOST MAIL_PORT); vals+=(smtp mailpit 1025) ;; esac
+  [ ${#keys[@]} -gt 0 ] || return 0
+
+  # compute the actual diff (only keys that exist with a different value, or are missing)
+  local i changes=()
+  for i in $(seq 0 $(( ${#keys[@]} - 1 ))); do
+    local k=${keys[$i]} v=${vals[$i]} cur
+    cur=$(env_get "$k" "$_envf")
+    # respect the marker contract: if we set it before and user changed it since, leave it alone
+    if grep -q "^${k}=.* # set by laradock" "$_envf" 2>/dev/null; then
+      local marked; marked=$(sed -n "s/^${k}=\(.*\) # set by laradock.*/\1/p" "$_envf" | tail -1)
+      [ "$marked" != "$v" ] && continue
+    fi
+    [ "$cur" = "$v" ] && continue
+    changes+=("$k|$cur|$v")
+  done
+  [ ${#changes[@]} -gt 0 ] || { ok "app .env already points at these services"; return 0; }
+
+  say ""
+  bold "  Point your app's .env at these services?"
+  for c in "${changes[@]}"; do
+    local k rest cur v
+    k=${c%%|*}; rest=${c#*|}; cur=${rest%%|*}; v=${rest#*|}
+    if [ -n "$cur" ]; then say "    $k=$cur  $ARROW  $k=$v"
+    else                   say "    + $k=$v"; fi
+  done
+  if confirm "Apply (original backed up to .env.bak.laradock)?" Y; then
+    cp "$_envf" "$_envf.bak.laradock"
+    for c in "${changes[@]}"; do
+      local k rest v
+      k=${c%%|*}; rest=${c#*|}; v=${rest#*|}
+      if grep -q "^${k}=" "$_envf"; then
+        sed "s|^${k}=.*|${k}=${v} # set by laradock|" "$_envf" > "$_envf.tmp.$$" && mv "$_envf.tmp.$$" "$_envf"
+      elif grep -q "^# *${k}=" "$_envf"; then
+        sed "s|^# *${k}=.*|${k}=${v} # set by laradock|" "$_envf" > "$_envf.tmp.$$" && mv "$_envf.tmp.$$" "$_envf"
+      else
+        printf '%s=%s # set by laradock\n' "$k" "$v" >> "$_envf"
+      fi
+    done
+    ok "app .env updated (backup: .env.bak.laradock)"
+  else
+    say "    skipped; set them yourself when ready"
+  fi
+}
+
+# ----------------------------------------------------------------- cmd: up
+
+cmd_up() {
+  require_laradock_dir
+  check_docker
+  [ -f .env ] || die "no .env found. Run: ./laradock setup   (or: cp .env.example .env)"
+  local services=("$@")
+  if [ ${#services[@]} -eq 0 ]; then
+    local s; s=$(env_get LARADOCK_SERVICES | tr -d '"')
+    [ -n "$s" ] || die "no services given and no LARADOCK_SERVICES in .env. Run ./laradock setup, or: ./laradock up nginx mysql"
+    # shellcheck disable=SC2206
+    services=($s)
+  fi
+  bold ""
+  bold "  Starting: ${services[*]}"
+  local rc _tmp
+  _tmp="${TMPDIR:-/tmp}/laradock-up.$$"
+  printf '  %s%s docker compose up -d %s%s\n' "$C_DIM" "$ARROW" "${services[*]}" "$C_RESET"
+  docker compose up -d "${services[@]}" 2>&1 | tee "$_tmp"
+  rc=${PIPESTATUS[0]}
+  if [ $rc -ne 0 ]; then
+    if grep -qi 'port is already allocated\|address already in use' "$_tmp"; then
+      local port; port=$(grep -oE 'Bind for [0-9.:]+[0-9]+' "$_tmp" | grep -oE '[0-9]+$' | head -1)
+      bad "port ${port:-?} is already in use on your machine."
+      say "     Fix: add an override to laradock/.env (e.g. MYSQL_PORT=3307, REDIS_PORT=16379, NGINX_HOST_HTTP_PORT=8080)"
+      say "     Then rerun: ./laradock up"
+    else
+      bad "docker compose failed; full output above. Try: ./laradock doctor"
+    fi
+    rm -f "$_tmp"
+    exit $rc
+  fi
+  rm -f "$_tmp"
+  cmd_info
+}
+
+# --------------------------------------------------------------- cmd: info
+
+cmd_info() {
+  require_laradock_dir
+  bold ""
+  bold "  Laradock — $(env_get COMPOSE_PROJECT_NAME | tr -d '"')"
+  say  "  ─────────────────────────────────────────────"
+  printf '  %s%s docker compose ps%s\n' "$C_DIM" "$ARROW" "$C_RESET"
+  docker compose ps --format '  {{.Service}}\t{{.Status}}\t{{.Ports}}' 2>/dev/null \
+    | awk -F'\t' '{printf "  %-18s %-25s %s\n", $1, $2, $3}'
+  local running; running=$(docker compose ps --services 2>/dev/null)
+  say ""
+  bold "  URLs & credentials:"
+  case "$running" in *nginx*|*apache2*|*caddy*)
+    local _hp; _hp=$(default_of NGINX_HOST_HTTP_PORT 80)
+    if [ "$_hp" = 80 ]; then say "    App          http://localhost"
+    else say "    App          http://localhost:$_hp"; fi ;; esac
+  case "$running" in *phpmyadmin*) say "    phpMyAdmin   http://localhost:$(default_of PMA_PORT 8081)  (server: mysql, user: default, pass: secret)" ;; esac
+  case "$running" in *adminer*)    say "    Adminer      http://localhost:$(default_of ADM_PORT 8080)" ;; esac
+  case "$running" in *mailpit*)    say "    Mailpit      http://localhost:$(default_of MAILPIT_HTTP_PORT 8125)" ;; esac
+  case "$running" in *mysql*)      say "    MySQL        localhost:$(default_of MYSQL_PORT 3306)  db: default  user: default  pass: secret (root: root)" ;; esac
+  case "$running" in *postgres*)   say "    Postgres     localhost:$(default_of POSTGRES_PORT 5432)  db: default  user: default  pass: secret" ;; esac
+  case "$running" in *redis*)      say "    Redis        localhost:$(default_of REDIS_PORT 6379)  pass: $(default_of REDIS_PASSWORD secret_redis)" ;; esac
+  say ""
+  bold "  Inside your app, reach services by NAME (DB_HOST=mysql, REDIS_HOST=redis)."
+  bold "  Next:  ./laradock workspace     (dev shell: php, composer, node, git)"
+  say ""
+}
+
+# -------------------------------------------------------------- cmd: shell
+
+cmd_workspace() {
+  require_laradock_dir
+  check_docker
+  if ! docker compose ps --services 2>/dev/null | grep -qx workspace; then
+    if confirm "workspace is not running. Start it?" Y; then
+      run up -d workspace || exit $?
+    else
+      exit 1
+    fi
+  fi
+  local user_flag=()
+  [ "${1:-}" = "--root" ] || user_flag=(-u laradock)
+  printf '  %s%s docker compose exec %s workspace bash%s\n' "$C_DIM" "$ARROW" "${user_flag[*]:-}" "$C_RESET"
+  exec docker compose exec "${user_flag[@]}" workspace bash
+}
+
+# ------------------------------------------------------------- cmd: doctor
+
+cmd_doctor() {
+  require_laradock_dir
+  bold ""
+  bold "  Laradock doctor"
+  say  "  ─────────────────────────────────────────────"
+  local fails=0 warns=0
+
+  if command -v docker >/dev/null 2>&1; then ok "docker installed"; else bad "docker not installed"; fails=$((fails+1)); fi
+  if docker info >/dev/null 2>&1; then ok "docker daemon running"; else bad "docker daemon NOT running"; fails=$((fails+1)); fi
+  if compose_version_ok; then
+    ok "compose v$(compose_version) (needs 2.${MIN_COMPOSE_MINOR}+)"
+  else
+    bad "compose v$(compose_version) too old or missing (needs 2.${MIN_COMPOSE_MINOR}+)"; fails=$((fails+1))
+  fi
+
+  if [ ! -f .env ]; then
+    say "  ${C_DIM}(the notes below only matter if you're setting up a project in this folder; ignore them if you're just working on Laradock itself)${C_RESET}"
+  fi
+
+  if [ -f .env ]; then ok ".env exists"; else note ".env missing → run ./laradock setup (or cp .env.example .env)"; warns=$((warns+1)); fi
+
+  local name; name=$(env_get COMPOSE_PROJECT_NAME)
+  if [ -n "$name" ]; then
+    if docker compose ls --format '{{.Name}}' 2>/dev/null | grep -vx "$name" | grep -qx "$name"; then :; fi
+    ok "project name: $name"
+  else
+    note "COMPOSE_PROJECT_NAME not set → containers named after this folder; collides if you run several Laradocks"; warns=$((warns+1))
+  fi
+
+  local data; data=$(env_get DATA_PATH_HOST)
+  # shellcheck disable=SC2088  # literal ~ intended: compose expands it
+  [ -n "$data" ] || data="~/.laradock/data"
+  case "$data" in
+    *"data-"*) ok "data path: $data (project-specific)";;
+    *) note "data path: $data is SHARED — two projects would mix database files. Set DATA_PATH_HOST=~/.laradock/data-<name>"; warns=$((warns+1));;
+  esac
+
+  # port availability for the chosen services
+  local svcs; svcs=$(env_get LARADOCK_SERVICES | tr -d '"')
+  if [ -n "$svcs" ]; then
+    local pairs="" s
+    for s in $svcs; do
+      case "$s" in
+        nginx|apache2|caddy) pairs="$pairs $(default_of NGINX_HOST_HTTP_PORT 80):$s" ;;
+        mysql|mariadb)       pairs="$pairs $(default_of MYSQL_PORT 3306):$s" ;;
+        postgres)            pairs="$pairs $(default_of POSTGRES_PORT 5432):$s" ;;
+        redis|valkey)        pairs="$pairs $(default_of REDIS_PORT 6379):$s" ;;
+        phpmyadmin)          pairs="$pairs $(default_of PMA_PORT 8081):$s" ;;
+        workspace)           pairs="$pairs $(default_of WORKSPACE_SSH_PORT 2222):$s $(default_of WORKSPACE_BROWSERSYNC_HOST_PORT 3000):$s $(default_of WORKSPACE_BROWSERSYNC_UI_HOST_PORT 3001):$s $(default_of WORKSPACE_VUE_CLI_SERVE_HOST_PORT 8080):$s $(default_of WORKSPACE_VITE_PORT 5173):$s" ;;
+      esac
+    done
+    local p port svc
+    for p in $pairs; do
+      port=${p%%:*}; svc=${p#*:}
+      if docker compose ps --services 2>/dev/null | grep -qx "$svc"; then
+        ok "port $port ($svc) — used by this project (fine)"
+      elif command -v nc >/dev/null 2>&1 && nc -z localhost "$port" 2>/dev/null; then
+        bad "port $port ($svc) is taken by something else → override its *_PORT in .env"; fails=$((fails+1))
+      else
+        ok "port $port ($svc) free"
+      fi
+    done
+  fi
+  say ""
+  if [ "$fails" -gt 0 ]; then
+    bold "  ${fails} problem(s) — fix the ${BAD} lines above."
+  elif [ "$warns" -gt 0 ]; then
+    bold "  No blockers, ${warns} note(s) above (expected before you run ./laradock setup)."
+  else
+    bold "  All good. ${OK}"
+  fi
+  say ""
+  return "$fails"
+}
+
+# --------------------------------------------------------------------- main
+
+ASSUME_YES=0
+setup_color
+
+args=()
+for a in "$@"; do
+  case "$a" in
+    --yes|-y) ASSUME_YES=1 ;;
+    *) args+=("$a") ;;
+  esac
+done
+set -- ${args[@]+"${args[@]}"}
+
+cmd=${1:-help}
+[ $# -gt 0 ] && shift
+
+case "$cmd" in
+  setup)   cmd_setup "$@" ;;
+  up)      cmd_up "$@" ;;
+  workspace|ws|shell) cmd_workspace "$@" ;;
+  info|status) cmd_info "$@" ;;
+  doctor)  cmd_doctor "$@" ;;
+  version|--version|-v) say "laradock cli $VERSION" ;;
+  help|--help|-h)
+    bold ""
+    bold "  Laradock CLI — thin, transparent layer over docker compose"
+    say  ""
+    say  "    ./laradock setup            interactive wizard (writes .env only)"
+    say  "    ./laradock up [services]    start your stack (default: LARADOCK_SERVICES from .env)"
+    say  "    ./laradock workspace [--root]  enter the Laradock Workspace (php, composer, node, git)"
+    say  "    ./laradock info             running services, URLs, credentials"
+    say  "    ./laradock doctor           diagnose common problems"
+    say  "    ./laradock <anything else>  passed straight to: docker compose <...>"
+    say  ""
+    say  "    Flags: --yes (-y) accept all defaults (CI-friendly). NO_COLOR honored."
+    say  "    Plain docker compose always works too — this tool is optional sugar."
+    say  ""
+    ;;
+  *)
+    # transparent pass-through to docker compose
+    require_laradock_dir
+    printf '  %s%s docker compose %s %s%s\n' "$C_DIM" "$ARROW" "$cmd" "$*" "$C_RESET" >&2
+    exec docker compose "$cmd" "$@"
+    ;;
+esac
