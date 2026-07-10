@@ -142,6 +142,52 @@
   margin-top: 0.35rem;
 }
 
+/* ------------------------------------------------------------------ *
+ * Local search bar: recolour the active suggestion (default is the
+ * orange brand primary, which reads badly), centre it in the header,
+ * and widen the input.
+ * ------------------------------------------------------------------ */
+:root {
+  /* Purple from the brand gradient instead of the orange primary. */
+  --search-local-highlight-color: #7d57c2;
+  --search-local-hit-active-color: #ffffff;
+}
+
+/* Wider input. */
+.navbar__search-input {
+  width: 26rem;
+}
+
+/* Centre the whole search box in the navbar (desktop only; on mobile it
+   collapses into the hamburger menu and should stay in flow). */
+@media (min-width: 997px) {
+  .navbar__search {
+    /* !important: the search plugin's own CSS also sets position on this
+       class and loads after this file, so a plain override loses the tie. */
+    position: absolute !important;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* Current release badge in the navbar. */
+.navbar-version-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid var(--ifm-color-emphasis-500);
+  color: var(--ifm-color-emphasis-500) !important;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none !important;
+}
+.navbar-version-badge:hover {
+  background: var(--ifm-color-emphasis-500);
+  color: var(--ifm-background-color) !important;
+}
+
 /* GitHub mark icon in the navbar (replaces the plain "GitHub" text link) */
 .header-github-link {
   display: flex;

@@ -1,6 +1,18 @@
+import {execFileSync} from 'node:child_process';
 import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+
+function getCurrentVersion(): string {
+  try {
+    return execFileSync('git', ['describe', '--tags', '--abbrev=0'], {cwd: __dirname}).toString().trim();
+  } catch {
+    // ponytail: shallow clone or no tags reachable (e.g. some CI checkouts) - badge just hides itself
+    return '';
+  }
+}
+
+const currentVersion = getCurrentVersion();
 
 const config: Config = {
   title: 'Laradock',
@@ -207,6 +219,18 @@ const config: Config = {
     },
   ],
 
+  themes: [
+    [
+      require.resolve('@easyops-cn/docusaurus-search-local'),
+      {
+        hashed: true,
+        indexDocs: true,
+        docsRouteBasePath: '/',
+        highlightSearchTermsOnTargetPage: true,
+      },
+    ],
+  ],
+
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -262,8 +286,15 @@ const config: Config = {
       },
       items: [
         { type: 'doc', docId: 'Intro', label: 'Docs', position: 'right' },
-        { type: 'doc', docId: 'getting-started', label: 'Getting Started', position: 'right' },
-        { type: 'doc', docId: 'usage', label: 'Usage', position: 'right' },
+        ...(currentVersion
+          ? [
+              {
+                type: 'html' as const,
+                position: 'right' as const,
+                value: `<a class="navbar-version-badge" href="https://github.com/laradock/laradock/releases/tag/${currentVersion}">${currentVersion}</a>`,
+              },
+            ]
+          : []),
         {
           href: 'https://github.com/laradock/laradock',
           position: 'right',
