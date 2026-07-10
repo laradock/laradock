@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
 title: Introduction
-description: Laradock is a full PHP development environment for Docker. Spin up a ready-to-use stack in seconds with 70+ pre-configured services for Laravel, Symfony, WordPress, or plain PHP.
+description: Laradock is a full PHP development environment for Docker. Spin up a ready-to-use stack in seconds with 100+ pre-configured services for Laravel, Symfony, WordPress, or plain PHP.
 keywords:
   - laradock
   - docker php
@@ -25,8 +25,10 @@ Laradock is free, open-source under the MIT license, and has been battle-tested 
 
 ## Features
 
+<!-- SYNC: keep this list identical to the "Key Features" list in /README.md -->
+
 - **Any PHP Version**: Run any version from 5.6 to 8.5. Set `PHP_VERSION` in `.env`, rebuild, and you're on it.
-- **70+ Ready-made Services**: Databases, caches, queues, search engines, and more, all pre-configured and waiting.
+- **100+ Ready-made Services**: Databases, caches, queues, search engines, and more, all pre-configured and waiting.
 - **All-in-One Dev Shell**: Run Artisan, Composer, Node, and every CLI your project needs inside the ready-made `workspace` container, with nothing installed on your host.
 - **Pick Your Database**: MySQL, PostgreSQL, MariaDB, MongoDB, Redis, and many others, ready to switch on.
 - **Local AI, Built In**: Run LLMs and vector search on your own machine with Ollama, LocalAI, LiteLLM, pgvector, Qdrant, Weaviate, and Chroma. Build AI and RAG features with no API keys and no cloud bills.

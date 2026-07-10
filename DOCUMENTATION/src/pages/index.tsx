@@ -6,7 +6,7 @@ import styles from "./index.module.css";
 import SponsorsPage from "../components/SponsorsPage";
 
 const STATS = [
-  { num: "70+ Services", label: "Pre-configured containers" },
+  { num: "100+ Services", label: "Pre-configured containers" },
   { num: "3 Operating Systems", label: "Linux · macOS · Windows" },
   { num: "4.8M Downloads", label: "From Docker Hub" },
   { num: "10+ Years", label: "Battle-tested since 2015" },
@@ -41,7 +41,7 @@ const ICONS: Record<string, JSX.Element> = {
 
 const BENEFITS: { icon: string; title: string; text: string }[] = [
   { icon: "speed", title: "Minutes, not hours", text: "Skip installing and configuring Nginx, databases, caches, and queues by hand. Clone, run one command, and start coding." },
-  { icon: "modular", title: "Run only what you need", text: "Flip any of 70+ services on or off per project from a single .env file. No bloat, no leftover processes." },
+  { icon: "modular", title: "Run only what you need", text: "Flip any of 100+ services on or off per project from a single .env file. No bloat, no leftover processes." },
   { icon: "cross", title: "Same on every OS", text: "An identical environment on Linux, macOS, and Windows, so your whole team builds on the exact same stack." },
 ];
 
@@ -118,7 +118,7 @@ export default function Home(): JSX.Element {
               </h1>
               <p className={styles.subtitle}>
                 Pre-configured Docker containers for Nginx, PHP, MySQL, Redis, and
-                70+ more services. Clone, run one command, and start building, with
+                100+ more services. Clone, run one command, and start building, with
                 zero manual setup.
               </p>
               <div className={styles.ctaRow}>

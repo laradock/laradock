@@ -83,14 +83,21 @@ Laradock provides the PHP runtime, web server, databases, and background service
 
 ### Key Features
 
-- **Pre-configured stack:** 70+ ready-to-use containers (Nginx, Apache, Caddy, PHP-FPM, MySQL, PostgreSQL, MariaDB, MongoDB, Redis, Memcached, Elasticsearch, RabbitMQ, Beanstalkd, and more).
-- **All-in-one dev shell:** run Artisan, Composer, Node, and every CLI your project needs inside the ready-made `workspace` container, with nothing installed on your host.
-- **Local AI, built in:** run LLMs and vector search on your own machine (Ollama, LocalAI, LiteLLM, pgvector, Qdrant, Weaviate, Chroma) for AI/RAG features with no API keys or cloud bills.
-- **Easy version switching:** change PHP (5.6–8.5), database, or service versions in one place.
-- **Project-agnostic:** works with Laravel, Symfony, WordPress, Drupal, Magento, or vanilla PHP.
-- **Cross-platform:** the same environment on Linux, macOS, and Windows.
-- **Modular:** run only the containers you need, in any combination.
-- **Beginner-friendly:** clone, copy the env file, and run `docker compose up`.
+<!-- SYNC: keep this list identical to the "Features" list in /DOCUMENTATION/docs/Intro.md -->
+
+- **Any PHP Version**: Run any version from 5.6 to 8.5. Set `PHP_VERSION` in `.env`, rebuild, and you're on it.
+- **100+ Ready-made Services**: Databases, caches, queues, search engines, and more, all pre-configured and waiting.
+- **All-in-One Dev Shell**: Run Artisan, Composer, Node, and every CLI your project needs inside the ready-made `workspace` container, with nothing installed on your host.
+- **Pick Your Database**: MySQL, PostgreSQL, MariaDB, MongoDB, Redis, and many others, ready to switch on.
+- **Local AI, Built In**: Run LLMs and vector search on your own machine with Ollama, LocalAI, LiteLLM, pgvector, Qdrant, Weaviate, and Chroma. Build AI and RAG features with no API keys and no cloud bills.
+- **Toggle Services On Demand**: Start only what a project needs with `docker compose up`, and stop them easily.
+- **One Environment Everywhere**: Identical setup on Linux, macOS, and Windows, so your team shares the same stack.
+- **A Container Per Service**: Every service is isolated, so nothing conflicts and each piece is easy to manage.
+- **Configure From One File**: every service ships pre-configured (`<service>/defaults.env`); override any setting by adding one line to your `.env`, it always wins.
+- **Official Base Images**: Every image builds on a trusted upstream source for reliability and security.
+- **Web Server Ready**: NGINX, Apache, and Caddy come pre-configured to serve your code out of the box.
+- **One or Many Projects**: Run a dedicated Laradock per project, or share a single setup across all of them.
+- **Yours to Edit**: Every `Dockerfile` and config is plain, readable, and open for you to change.
 
 ### Supported Services
 
