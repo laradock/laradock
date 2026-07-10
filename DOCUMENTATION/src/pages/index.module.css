@@ -333,18 +333,18 @@
 .whyInner { max-width: 1160px; margin: 0 auto; }
 .whyGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 1rem;
 }
 .whyCard {
   --accent: var(--amber);
-  padding: 1.8rem 1.6rem;
+  padding: 1.6rem 1.5rem;
   border: 1px solid var(--line);
   border-radius: 14px;
   background: linear-gradient(180deg, var(--bg-2), var(--bg));
 }
-.whyCard:nth-child(2) { --accent: var(--crimson-bright); }
-.whyCard:nth-child(3) { --accent: var(--purple-bright); }
+.whyCard:nth-child(3n + 2) { --accent: var(--crimson-bright); }
+.whyCard:nth-child(3n + 3) { --accent: var(--purple-bright); }
 .whyIcon {
   display: grid;
   place-items: center;

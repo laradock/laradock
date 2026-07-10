@@ -1,0 +1,112 @@
+.support {
+  padding: 2.75rem 1.5rem;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.inner {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.kicker {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--ifm-color-primary);
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+  line-height: 1.2;
+  margin: 0.5rem 0 0.6rem;
+}
+
+.lede {
+  margin: 0 auto 1.25rem;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.goal {
+  max-width: 560px;
+  margin: 0 auto 1.5rem;
+}
+
+.goalRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.goalAmount {
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--ifm-color-emphasis-800);
+}
+
+.bar {
+  flex: 1;
+  height: 6px;
+  border-radius: 4px;
+  background: var(--ifm-color-emphasis-300);
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  background: var(--ifm-color-primary);
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+
+.goalPct {
+  display: block;
+  margin-top: 0.45rem;
+  font-size: 0.75rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1.1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration: none;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.btn:hover {
+  text-decoration: none;
+}
+
+.btnPrimary {
+  background: #851d55;
+  color: #fff;
+}
+
+.btnPrimary:hover {
+  background: #6c1745;
+  color: #fff;
+}
+
+.btnHollow {
+  border: 1px solid var(--ifm-color-emphasis-400);
+  color: var(--ifm-color-emphasis-900);
+}
+
+.btnHollow:hover {
+  border-color: #851d55;
+  color: #851d55;
+}

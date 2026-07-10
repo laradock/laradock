@@ -1,0 +1,75 @@
+.box {
+  margin: 0.75rem 0.75rem 1rem;
+  padding: 0.85rem 0.9rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 10px;
+  background: var(--ifm-color-emphasis-100);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.bar {
+  height: 6px;
+  border-radius: 4px;
+  background: var(--ifm-color-emphasis-300);
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  border-radius: 4px;
+  background: #faae19;
+  transition: width 0.6s ease;
+}
+
+.meta {
+  font-size: 0.72rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.btn {
+  display: block;
+  text-align: center;
+  padding: 0.45rem 0.6rem;
+  border-radius: 6px;
+  background: #851d55;
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+  background: #6c1745;
+  color: #fff;
+  text-decoration: none;
+}
+
+.btnHollow {
+  display: block;
+  text-align: center;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  color: var(--ifm-color-emphasis-800);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.btnHollow:hover {
+  border-color: #851d55;
+  color: #851d55;
+  text-decoration: none;
+}

@@ -49,9 +49,9 @@ Laradock uses [Docusaurus](https://docusaurus.io/) as its documentation site gen
 
 Navigate to the `DOCUMENTATION/docs` directory to locate and edit the Markdown files for each section of the documentation.
 
-**Note:** Each folder under `docs` represents a section in the sidebar menu, with a `sidebar_position` field in the frontmatter of each file that determines its order.
-
-> The documentation site is auto-generated and deployed to the `gh-pages` branch by GitHub Actions when changes are pushed to the `master` branch.
+:::note
+Each folder under `docs` is a sidebar section, ordered by the `sidebar_position` field in each file's frontmatter. The site is auto-generated and deployed to the `gh-pages` branch by GitHub Actions whenever changes are pushed to `master`.
+:::
 
 ### Host the Documentation Locally
 
@@ -110,27 +110,25 @@ This setup will allow you to preview your changes in real time.
 
 *Most of the images in Laradock are official images; these projects live in other repositories and are maintained by other organizations.*
 
-**Note:** Laradock has two base images, mainly made to speed up the build time on your machine. Each lives in its own repository:
+:::note
+Laradock has two base images, mainly made to speed up the build time on your machine. Each lives in its own repository:
 
 * [`laradock/workspace`](https://github.com/laradock/workspace), the all-in-one dev shell.
 * [`laradock/php-fpm`](https://github.com/laradock/php-fpm), the PHP runtime.
 
 See each repo's `AGENTS.md` for how it builds.
+:::
 
 * Find the dockerfiles, edit them and submit a Pull Request.
 
 * When updating a Laradock base image (`Workspace` or `php-fpm`), ask a project maintainer "Admin" to build a new image after your PR is merged.
 
-**Note:** after the base image is updated, every dockerfile that uses that image, needs to update his base image tag to get the updated code.
+:::note
+After the base image is updated, every dockerfile that uses that image, needs to update his base image tag to get the updated code.
+:::
 
 
 
-
-
-
-
-
-<br/>
 
 
 
@@ -174,14 +172,18 @@ Consider the following guidelines:
   * Commit your changes to your branch (e.g. `my-fix-branch`).
   * Push the changes to your GitHub repository (this will update your Pull Request).
 
-> If the PR gets too outdated we may ask you to rebase and force push to update the PR:
+:::note
+If the PR gets too outdated we may ask you to rebase and force push to update the PR:
 
 ```shell
 git rebase master -i
 git push origin my-fix-branch -f
 ```
+:::
 
-*WARNING. Squashing or reverting commits and forced push thereafter may remove GitHub comments on code that were previously made by you and others in your commits.*
+:::warning
+Squashing or reverting commits and forced push thereafter may remove GitHub comments on code that were previously made by you and others in your commits.
+:::
 
 
 ### 3. After your PR is merged
@@ -216,5 +218,4 @@ After your pull request is merged, you can safely delete your branch and pull th
 
 
 
-<br/>
 ## Happy Coding :)

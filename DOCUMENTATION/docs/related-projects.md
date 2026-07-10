@@ -12,6 +12,8 @@ keywords:
 
 Laradock has inspired a rich ecosystem of community-built tools that extend or simplify how you work with it. The projects below, ranging from GUIs and CLIs to Kubernetes playbooks, are built and maintained by the community. Explore them to find helpers that fit your workflow.
 
+*Evaluating tools instead? See how Laradock compares to DDEV, Sail, Herd, Lando and XAMPP: [Laradock vs Others](/docs/laradock-alternatives).*
+
 ![Docker Image](/img/laradock/laradock-abstract.jpg)
 
 ## Laradock Related Projects
@@ -53,6 +55,6 @@ Laradock has inspired a rich ecosystem of community-built tools that extend or s
 
 
 
-<br/><br/>
-
-> Feel free to submit a PR for listing your project here.
+:::tip
+Feel free to submit a PR for listing your project here.
+:::

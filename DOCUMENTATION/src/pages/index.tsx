@@ -1,24 +1,26 @@
+import type { ReactNode } from "react";
 import Link from "@docusaurus/Link";
 import Head from "@docusaurus/Head";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
 import styles from "./index.module.css";
 import SponsorsPage from "../components/SponsorsPage";
+import SupportBanner from "../components/SupportBanner";
 
 const STATS = [
   { num: "100+ Services", label: "Pre-configured containers" },
-  { num: "3 Operating Systems", label: "Linux · macOS · Windows" },
-  { num: "4.8M Downloads", label: "From Docker Hub" },
+  { num: "5M+ Downloads", label: "From Docker Hub" },
+  { num: "450+ Contributors", label: "Built by the community" },
   { num: "10+ Years", label: "Battle-tested since 2015" },
 ];
 
-const svg = (paths: JSX.Element) => (
+const svg = (paths: ReactNode) => (
   <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round">
     {paths}
   </svg>
 );
 
-const ICONS: Record<string, JSX.Element> = {
+const ICONS: Record<string, ReactNode> = {
   web: svg(<><rect x="3" y="4" width="18" height="7" rx="1.5" /><rect x="3" y="13" width="18" height="7" rx="1.5" /><path d="M7 7.5h.01M7 16.5h.01" /></>),
   php: svg(<path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 6l-4 12" />),
   db: svg(<><ellipse cx="12" cy="6" rx="8" ry="3" /><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3" /></>),
@@ -37,12 +39,26 @@ const ICONS: Record<string, JSX.Element> = {
   speed: svg(<path d="M13 2 4.5 13H11l-1 9 9-12h-6.5L13 2Z" />),
   modular: svg(<><line x1="4" y1="8" x2="20" y2="8" /><circle cx="9" cy="8" r="2.2" /><line x1="4" y1="16" x2="20" y2="16" /><circle cx="15" cy="16" r="2.2" /></>),
   cross: svg(<><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.6 2.4 4 5.7 4 9s-1.4 6.6-4 9c-2.6-2.4-4-5.7-4-9s1.4-6.6 4-9Z" /></>),
+  layers: svg(<><path d="m12 2 9 5-9 5-9-5 9-5Z" /><path d="m3 12 9 5 9-5M3 17l9 5 9-5" /></>),
+  toggle: svg(<><rect x="2" y="8" width="20" height="8" rx="4" /><circle cx="16" cy="12" r="2.3" /></>),
+  file: svg(<><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z" /><path d="M14 3v5h5" /></>),
+  stack: svg(<><rect x="3" y="3" width="13" height="13" rx="1.5" /><path d="M8 21h11a2 2 0 0 0 2-2V8" /></>),
+  edit: svg(<><path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z" /></>),
 };
 
 const BENEFITS: { icon: string; title: string; text: string }[] = [
-  { icon: "speed", title: "Minutes, not hours", text: "Skip installing and configuring Nginx, databases, caches, and queues by hand. Clone, run one command, and start coding." },
-  { icon: "modular", title: "Run only what you need", text: "Flip any of 100+ services on or off per project from a single .env file. No bloat, no leftover processes." },
-  { icon: "cross", title: "Same on every OS", text: "An identical environment on Linux, macOS, and Windows, so your whole team builds on the exact same stack." },
+  { icon: "php", title: "Any PHP Version", text: "Run any version from 5.6 to 8.5. Set PHP_VERSION in .env, rebuild, and you're on it." },
+  { icon: "layers", title: "100+ Ready-made Services", text: "Databases, caches, queues, search engines, and more, all pre-configured and waiting." },
+  { icon: "ide", title: "All-in-One Dev Shell", text: "Run Artisan, Composer, Node, and any CLI inside workspace container, nothing on host." },
+  { icon: "db", title: "Pick Your Database", text: "MySQL, PostgreSQL, MariaDB, MongoDB, Redis, and many others, ready to switch on." },
+  { icon: "cross", title: "Framework-Agnostic", text: "Works great with Laravel, Symfony, WordPress, Magento, Drupal, or plain PHP, on the same stack." },
+  { icon: "ai", title: "Local AI, Built In", text: "Run LLMs and vector search locally with Ollama, LiteLLM, pgvector, Qdrant, and more, no keys or cloud bills." },
+  { icon: "toggle", title: "Toggle Services On Demand", text: "Start only what a project needs with docker compose up, and stop them easily." },
+  { icon: "cloud", title: "One Environment Everywhere", text: "Identical setup on Linux, macOS, and Windows, so your team shares the same stack." },
+  { icon: "file", title: "Configure From One File", text: "Every service ships pre-configured; override any setting with 1 line in .env, always wins." },
+  { icon: "web", title: "Web Server Ready", text: "NGINX, Apache, and Caddy come pre-configured to serve your code out of the box." },
+  { icon: "stack", title: "One or Many Projects", text: "Run a dedicated Laradock per project, or share a single setup across all of them." },
+  { icon: "edit", title: "Yours to Edit", text: "Every Dockerfile and config is plain, readable, and open for you to change." },
 ];
 
 // SYNC: this service list is one of THREE places that list Laradock services.
@@ -82,7 +98,7 @@ const LAYERS: Card[][] = [
   ],
 ];
 
-export default function Home(): JSX.Element {
+export default function Home(): ReactNode {
   const { siteConfig } = useDocusaurusContext();
   return (
     <Layout
@@ -200,6 +216,8 @@ export default function Home(): JSX.Element {
             </div>
           </div>
         </section>
+
+        <SupportBanner />
 
         {/* ===== WHY LARADOCK ===== */}
         <section className={styles.why}>

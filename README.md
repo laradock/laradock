@@ -30,7 +30,7 @@
 
 Laradock is a full PHP development environment for Docker. It ships pre-configured, ready-to-use containers for everything a PHP application needs (Nginx, PHP-FPM, MySQL, PostgreSQL, Redis, and many more), so you can launch a complete local stack in seconds without any manual setup.
 
-It works with **any PHP project** and behaves the same on Linux, macOS, and Windows.
+It works with **any PHP project** and behaves the same on Linux, macOS, and Windows. Comparing tools? See [Laradock vs Others](https://laradock.io/docs/laradock-alternatives) (DDEV, Sail, Herd, Lando, XAMPP).
 
 Environment setup is where PHP projects lose their first day. Laradock gives it back: one clone, one command, a full stack running.
 
@@ -94,7 +94,7 @@ Laradock provides the PHP runtime, web server, databases, and background service
 - **Toggle Services On Demand**: Start only what a project needs with `docker compose up`, and stop them easily.
 - **One Environment Everywhere**: Identical setup on Linux, macOS, and Windows, so your team shares the same stack.
 - **A Container Per Service**: Every service is isolated, so nothing conflicts and each piece is easy to manage.
-- **Configure From One File**: Every service ships pre-configured; override any setting with one line in your `.env`, always wins.
+- **Configure From One File**: Every service ships pre-configured; override any setting with 1 line in your `.env`, always wins.
 - **Official Base Images**: Every image builds on a trusted upstream source for reliability and security.
 - **Web Server Ready**: NGINX, Apache, and Caddy come pre-configured to serve your code out of the box.
 - **One or Many Projects**: Run a dedicated Laradock per project, or share a single setup across all of them.
@@ -297,7 +297,7 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
 
 ### Code Contributors
 
-[![Laradock Contributors](https://opencollective.com/laradock/contributors.svg?width=890&button=false&isActive=true)](https://github.com/laradock/laradock/graphs/contributors)
+[![Laradock Contributors](https://contrib.rocks/image?repo=laradock/laradock)](https://github.com/laradock/laradock/graphs/contributors)
 
 ### Financial Contributors (Backers)
 
@@ -312,9 +312,21 @@ Have a question, found a problem, or need something? **mahmoud@zalt.me**
 
 For security vulnerabilities, see [SECURITY.md](SECURITY.md).
 
+## Community
+
+Gitter's done. Our community of 2,000+ active members has a new home on [GitHub Discussions](https://github.com/laradock/laradock/discussions).
+
 ## Sponsors
 
-Sponsoring is an act of giving in a different fashion. 🌱
+Laradock powers local development for developers and companies worldwide: 5M+ Docker Hub pulls, 12K+ GitHub stars, 100+ services, kept working for 10+ years. Like every open-source project, its future depends on the people who rely on it. Your sponsorship directly funds the maintenance that keeps every service working with the latest PHP, database, and framework versions.
+
+**Your team runs on Laradock? Help fund it:**
+
+- **Individuals** [sponsor monthly on GitHub](https://github.com/sponsors/laradock), from the price of a coffee.
+- **Companies** get your logo on this README with a real dofollow backlink.
+- **Pay by invoice or bank transfer** if a sponsor button won't clear your finance team: [Open Collective](https://opencollective.com/laradock) issues invoices and takes bank transfers so your organization can pay Laradock directly.
+
+[**❤️ Sponsor on GitHub**](https://github.com/sponsors/laradock) &nbsp;·&nbsp; [**Sponsor / invoice via Open Collective**](https://opencollective.com/laradock) &nbsp;·&nbsp; custom or annual agreements: **mahmoud@zalt.me**
 
 ### Diamond Sponsors
 

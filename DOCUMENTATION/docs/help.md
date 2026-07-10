@@ -70,7 +70,9 @@ rm -rf ~/.laradock/data/mysql   # or /postgres, /mariadb, etc.
 docker compose up -d mysql
 ```
 
-> This deletes the database's local data. Back it up first if you need it.
+:::warning
+This deletes the database's local data. Back it up first if you need it.
+:::
 
 ### The server requested authentication method unknown to the client
 

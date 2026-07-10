@@ -36,7 +36,7 @@ Laradock is free, open-source under the MIT license, and has been battle-tested 
 - **Toggle Services On Demand**: Start only what a project needs with `docker compose up`, and stop them easily.
 - **One Environment Everywhere**: Identical setup on Linux, macOS, and Windows, so your team shares the same stack.
 - **A Container Per Service**: Every service is isolated, so nothing conflicts and each piece is easy to manage.
-- **Configure From One File**: Every service ships pre-configured; override any setting with one line in your `.env`, always wins.
+- **Configure From One File**: Every service ships pre-configured; override any setting with 1 line in your `.env`, always wins.
 - **Official Base Images**: Every image builds on a trusted upstream source for reliability and security.
 - **Web Server Ready**: NGINX, Apache, and Caddy come pre-configured to serve your code out of the box.
 - **One or Many Projects**: Run a dedicated Laradock per project, or share a single setup across all of them.
@@ -78,6 +78,14 @@ Why it's a big deal:
 
 
 
+## How Laradock Compares {#laradock-alternatives}
+
+Every other option either installs software on your machine (XAMPP, MAMP, Herd) or puts a tool between you and Docker (DDEV, Lando, Sail). Laradock does neither: **it is raw Docker with the wiring already done.** Nothing to install, no new commands to learn, nothing generated or hidden; you use `docker compose` directly on plain, readable files you fully own. That makes it the lightest option to adopt and the easiest one to inspect, debug, and bend to your will.
+
+See the full honest breakdown, including when the other tools are the better choice: **[Laradock vs Others](/docs/laradock-alternatives)** (DDEV, Sail, Herd, Lando, XAMPP, and more).
+
+
+
 ## Quick Start
 
 Set up a demo stack with `PHP`, `NGINX`, `MySQL`, `Redis` and `Composer`:
@@ -112,7 +120,9 @@ QUEUE_HOST=beanstalkd
 
 Done.
 
-> **How it's organized:** one folder per service; each holds that service's `compose.yml` (container definition), `defaults.env` (pre-filled settings), and `Dockerfile`. Change any setting by adding one line to your `.env`, it always wins. Full map in [Getting Started](/docs/getting-started).
+:::info[How it's organized]
+One folder per service; each holds that service's `compose.yml` (container definition), `defaults.env` (pre-filled settings), and `Dockerfile`. Change any setting by adding one line to your `.env`, it always wins. Full map in [Getting Started](/docs/getting-started).
+:::
 
 <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', margin: '1.5rem 0' }}>
   <a className="button button--primary button--lg" href="/docs/getting-started">Full Getting Started Guide</a>
@@ -123,11 +133,11 @@ Done.
 
 ## Supported Services
 
-> Laradock adheres to the 'separation of concerns' principle, so it runs each software in its own Docker container.
-> You can turn instances on or off as needed without worrying about configuration.
+Laradock adheres to the 'separation of concerns' principle, so it runs each software in its own Docker container. You can turn instances on or off as needed without worrying about configuration.
 
-> To run a chosen container from the list below, run `docker compose up -d {container-name}`. 
-> The container name `{container-name}` is the same as its folder name. Example to run the "PHP FPM" container, use the name "php-fpm".
+:::tip
+To run a chosen container from the list below, run `docker compose up -d {container-name}`. The container name `{container-name}` is the same as its folder name. For example, to run the "PHP FPM" container, use the name "php-fpm".
+:::
 
 
 
@@ -173,7 +183,9 @@ You can choose which tools to install in your workspace container and other cont
 
 
 
-> If you can't find your Software in the list, build it yourself and submit it. Contributions are welcomed :)
+:::tip
+If you can't find your Software in the list, build it yourself and submit it. Contributions are welcomed :)
+:::
 
 
 
@@ -188,11 +200,9 @@ You can choose which tools to install in your workspace container and other cont
 
 
 
-<!-- ## Join Us
+## Community
 
-[![Gitter](https://badges.gitter.im/Laradock/laradock.svg)](https://gitter.im/Laradock/laradock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-
-[![Gitpod](https://img.shields.io/badge/Gitpod-ready--to--code-blue)](https://gitpod.io/#https://github.com/laradock/laradock) -->
+Gitter's done. Our community of 2,000+ active members has a new home on [GitHub Discussions](https://github.com/laradock/laradock/discussions).
 
 <!-- --- -->
 
@@ -324,7 +334,7 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
 
 ### Code Contributors
 
-[![Laradock Contributors](https://opencollective.com/laradock/contributors.svg?width=890&button=false&isActive=true)](https://github.com/laradock/laradock/graphs/contributors)
+[![Laradock Contributors](https://contrib.rocks/image?repo=laradock/laradock)](https://github.com/laradock/laradock/graphs/contributors)
 
 ### Financial Contributors (Backers)
 
@@ -339,7 +349,15 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
 
 <!-- Listing Contributors Refference: https://docs.opencollective.com/help/collectives/collective-settings/data-export#contributor-image -->
 
+Laradock powers local development for developers and companies worldwide: 5M+ Docker Hub pulls, 12K+ GitHub stars, 100+ services, kept working for 10+ years. Like every open-source project, its future depends on the people who rely on it. Your sponsorship directly funds the maintenance that keeps every service working with the latest PHP, database, and framework versions.
 
+**Your team runs on Laradock? Help fund it:**
+
+- **Individuals** [sponsor monthly on GitHub](https://github.com/sponsors/laradock), from the price of a coffee.
+- **Companies** get your logo below with a real dofollow backlink.
+- **Pay by invoice or bank transfer** if a sponsor button won't clear your finance team: [Open Collective](https://opencollective.com/laradock) issues invoices and takes bank transfers so your organization can pay Laradock directly.
+
+[**❤️ Sponsor on GitHub**](https://github.com/sponsors/laradock) · [**Sponsor / invoice via Open Collective**](https://opencollective.com/laradock) · custom or annual agreements: **mahmoud@zalt.me**
 
 ### Diamond Sponsors
 
@@ -357,10 +375,10 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
 ### Gold Sponsors
 
   <!-- Gold sponsors get a true dofollow link (no rel attribute) so they receive
-  ranking authority — the premium they pay for. We use custom per-slot links + the
+  ranking authority, the premium they pay for. We use custom per-slot links + the
   avatar.png endpoint (the .svg endpoint is broken upstream, emits data:false MIME).
   Silver/Bronze stay nofollow via the aggregate iframe. Logos auto-populate from
-  Open Collective on payment — no deploy needed. -->
+  Open Collective on payment, no deploy needed. -->
   
   <!-- <iframe 
     src="https://opencollective.com/laradock/tiers/gold-sponsors.svg?avatarHeight=120&width=800&format=svg&button=false&background=#1B1B1D" 
@@ -373,83 +391,83 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'left', alignItems: 'left' }}>
 
   <a href="https://opencollective.com/laradock/tiers/gold-sponsors/0/website" target="_blank">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/0/avatar.png?isActive=true&avatarHeight=100" height="115" />
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/0/avatar.png?isActive=true&avatarHeight=100" height="115" onLoad={(e) => { if (e.target.naturalWidth <= 1) e.target.parentNode.style.display = "none"; }} />
   </a>
 
   <a href="https://opencollective.com/laradock/tiers/gold-sponsors/1/website" target="_blank">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/1/avatar.png?isActive=true&avatarHeight=100" height="115" />
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/1/avatar.png?isActive=true&avatarHeight=100" height="115" onLoad={(e) => { if (e.target.naturalWidth <= 1) e.target.parentNode.style.display = "none"; }} />
   </a>
 
   <a href="https://opencollective.com/laradock/tiers/gold-sponsors/2/website" target="_blank">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/2/avatar.png?isActive=true&avatarHeight=100" height="115" />
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/2/avatar.png?isActive=true&avatarHeight=100" height="115" onLoad={(e) => { if (e.target.naturalWidth <= 1) e.target.parentNode.style.display = "none"; }} />
   </a>
 
   <a href="https://opencollective.com/laradock/tiers/gold-sponsors/3/website" target="_blank">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/3/avatar.png?isActive=true&avatarHeight=100" height="115" />
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/3/avatar.png?isActive=true&avatarHeight=100" height="115" onLoad={(e) => { if (e.target.naturalWidth <= 1) e.target.parentNode.style.display = "none"; }} />
   </a>
 
   <a href="https://opencollective.com/laradock/tiers/gold-sponsors/4/website" target="_blank">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/4/avatar.png?isActive=true&avatarHeight=100" height="115" />
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/4/avatar.png?isActive=true&avatarHeight=100" height="115" onLoad={(e) => { if (e.target.naturalWidth <= 1) e.target.parentNode.style.display = "none"; }} />
   </a>
 
   <a href="https://opencollective.com/laradock/tiers/gold-sponsors/5/website" target="_blank">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/5/avatar.png?isActive=true&avatarHeight=100" height="115" />
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/5/avatar.png?isActive=true&avatarHeight=100" height="115" onLoad={(e) => { if (e.target.naturalWidth <= 1) e.target.parentNode.style.display = "none"; }} />
   </a>
 
 <a href="https://opencollective.com/laradock/tiers/gold-sponsors/6/website" target="_blank">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/6/avatar.png?isActive=true&avatarHeight=100" height="115" />
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/6/avatar.png?isActive=true&avatarHeight=100" height="115" onLoad={(e) => { if (e.target.naturalWidth <= 1) e.target.parentNode.style.display = "none"; }} />
   </a>
 
   <a href="https://opencollective.com/laradock/tiers/gold-sponsors/7/website" target="_blank">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/7/avatar.png?isActive=true&avatarHeight=100" height="115" />
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/7/avatar.png?isActive=true&avatarHeight=100" height="115" onLoad={(e) => { if (e.target.naturalWidth <= 1) e.target.parentNode.style.display = "none"; }} />
   </a>
 
   <a href="https://opencollective.com/laradock/tiers/gold-sponsors/8/website" target="_blank">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/8/avatar.png?isActive=true&avatarHeight=100" height="115" />
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/8/avatar.png?isActive=true&avatarHeight=100" height="115" onLoad={(e) => { if (e.target.naturalWidth <= 1) e.target.parentNode.style.display = "none"; }} />
   </a>
 
   <a href="https://opencollective.com/laradock/tiers/gold-sponsors/9/website" target="_blank">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/9/avatar.png?isActive=true&avatarHeight=100" height="115" />
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/9/avatar.png?isActive=true&avatarHeight=100" height="115" onLoad={(e) => { if (e.target.naturalWidth <= 1) e.target.parentNode.style.display = "none"; }} />
   </a>
 
   <a href="https://opencollective.com/laradock/tiers/gold-sponsors/10/website" target="_blank">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/10/avatar.png?isActive=true&avatarHeight=100" height="115" />
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/10/avatar.png?isActive=true&avatarHeight=100" height="115" onLoad={(e) => { if (e.target.naturalWidth <= 1) e.target.parentNode.style.display = "none"; }} />
   </a>
 
   <a href="https://opencollective.com/laradock/tiers/gold-sponsors/11/website" target="_blank">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/11/avatar.png?isActive=true&avatarHeight=100" height="115" />
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/11/avatar.png?isActive=true&avatarHeight=100" height="115" onLoad={(e) => { if (e.target.naturalWidth <= 1) e.target.parentNode.style.display = "none"; }} />
   </a>
 
   <a href="https://opencollective.com/laradock/tiers/gold-sponsors/12/website" target="_blank">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/12/avatar.png?isActive=true&avatarHeight=100" height="115" />
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/12/avatar.png?isActive=true&avatarHeight=100" height="115" onLoad={(e) => { if (e.target.naturalWidth <= 1) e.target.parentNode.style.display = "none"; }} />
   </a>
 
   <a href="https://opencollective.com/laradock/tiers/gold-sponsors/13/website" target="_blank">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/13/avatar.png?isActive=true&avatarHeight=100" height="115" />
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/13/avatar.png?isActive=true&avatarHeight=100" height="115" onLoad={(e) => { if (e.target.naturalWidth <= 1) e.target.parentNode.style.display = "none"; }} />
   </a>
 
   <a href="https://opencollective.com/laradock/tiers/gold-sponsors/14/website" target="_blank">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/14/avatar.png?isActive=true&avatarHeight=100" height="115" />
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/14/avatar.png?isActive=true&avatarHeight=100" height="115" onLoad={(e) => { if (e.target.naturalWidth <= 1) e.target.parentNode.style.display = "none"; }} />
   </a>
 
   <a href="https://opencollective.com/laradock/tiers/gold-sponsors/15/website" target="_blank">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/15/avatar.png?isActive=true&avatarHeight=100" height="115" />
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/15/avatar.png?isActive=true&avatarHeight=100" height="115" onLoad={(e) => { if (e.target.naturalWidth <= 1) e.target.parentNode.style.display = "none"; }} />
   </a>
 
   <a href="https://opencollective.com/laradock/tiers/gold-sponsors/16/website" target="_blank">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/16/avatar.png?isActive=true&avatarHeight=100" height="115" />
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/16/avatar.png?isActive=true&avatarHeight=100" height="115" onLoad={(e) => { if (e.target.naturalWidth <= 1) e.target.parentNode.style.display = "none"; }} />
   </a>
 
   <a href="https://opencollective.com/laradock/tiers/gold-sponsors/17/website" target="_blank">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/17/avatar.png?isActive=true&avatarHeight=100" height="115" />
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/17/avatar.png?isActive=true&avatarHeight=100" height="115" onLoad={(e) => { if (e.target.naturalWidth <= 1) e.target.parentNode.style.display = "none"; }} />
   </a>
 
   <a href="https://opencollective.com/laradock/tiers/gold-sponsors/18/website" target="_blank">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/18/avatar.png?isActive=true&avatarHeight=100" height="115" />
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/18/avatar.png?isActive=true&avatarHeight=100" height="115" onLoad={(e) => { if (e.target.naturalWidth <= 1) e.target.parentNode.style.display = "none"; }} />
   </a>
 
   <a href="https://opencollective.com/laradock/tiers/gold-sponsors/19/website" target="_blank">
-    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/19/avatar.png?isActive=true&avatarHeight=100" height="115" />
+    <img src="https://opencollective.com/laradock/tiers/gold-sponsors/19/avatar.png?isActive=true&avatarHeight=100" height="115" onLoad={(e) => { if (e.target.naturalWidth <= 1) e.target.parentNode.style.display = "none"; }} />
   </a>
 
 </div>
@@ -462,22 +480,20 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
     <img src="/img/sponsors/sista-ai-icon-gradient-purple-orange.png" height="90px" alt="Sista AI - AI Workforce platform." />
   </a>
 
-  <iframe 
-    src="https://opencollective.com/laradock/tiers/silver-sponsors.svg?avatarHeight=90&width=700&format=svg&button=false&background=%231B1B1D&isActive=true" 
+  <img
+    src="https://opencollective.com/laradock/tiers/silver-sponsors.svg?avatarHeight=90&width=700&format=svg&button=false&background=%231B1B1D&isActive=true"
     width="700"
-    height="110"
-    style={{ border: 'none', backgroundColor: '#1B1B1D' }}>
-  </iframe>
+    style={{ height: 'auto', backgroundColor: '#1B1B1D' }}
+    alt="Silver Sponsors" />
 </div>
 
 ### Bronze Sponsors
 
-  <iframe 
-    src="https://opencollective.com/laradock/tiers/bronze-sponsors.svg?avatarHeight=55&width=800&format=svg&button=false&background=%231B1B1D&isActive=true" 
+  <img
+    src="https://opencollective.com/laradock/tiers/bronze-sponsors.svg?avatarHeight=55&width=800&format=svg&button=false&background=%231B1B1D&isActive=true"
     width="800"
-    height="300"
-    style={{ border: 'none', backgroundColor: '#1B1B1D' }}>
-  </iframe>
+    style={{ height: 'auto', backgroundColor: '#1B1B1D' }}
+    alt="Bronze Sponsors" />
 
 
 

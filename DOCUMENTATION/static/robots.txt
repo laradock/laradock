@@ -26,6 +26,9 @@ Allow: /
 User-agent: PerplexityBot
 Allow: /
 
+User-agent: Perplexity-User
+Allow: /
+
 User-agent: Google-Extended
 Allow: /
 
@@ -34,5 +37,35 @@ Allow: /
 
 User-agent: CCBot
 Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: Meta-ExternalFetcher
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: AI2Bot
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+User-agent: MistralAI-User
+Allow: /
+
+# AI agents: a curated index of these docs lives at https://laradock.io/llms.txt
+# and the full documentation as one markdown file at https://laradock.io/llms-full.txt
 
 Sitemap: https://laradock.io/sitemap.xml

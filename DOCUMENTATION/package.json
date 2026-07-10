@@ -4,6 +4,8 @@
   "private": false,
   "scripts": {
     "start": "docusaurus start",
+    "generate-llms": "node scripts/generate-llms.js",
+    "prebuild": "node scripts/generate-llms.js",
     "deploy": "docusaurus build && gh-pages -d build",
     "docusaurus": "docusaurus",
     "build": "docusaurus build",

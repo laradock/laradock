@@ -36,7 +36,7 @@ Choose the setup that best suits your needs.
 
 
 <a name="A1"></a>
-### A.1) Already have a PHP project:
+### A.1) Already have a PHP project
 
 1 - Clone laradock on your project root directory:
 
@@ -63,7 +63,7 @@ Note: If you are not using Git yet for your project, you can use `git clone` ins
 3 - Go to the [Usage](#usage) section.
 
 <a name="A2"></a>
-### A.2) Don't have a PHP project yet:
+### A.2) Don't have a PHP project yet
 
 1 - Clone this repository anywhere on your machine:
 
@@ -98,7 +98,7 @@ Make sure to replace `project-z` with your project folder name.
 
 
 <a name="B"></a>
-### B) Setup for Multiple Projects:
+### B) Setup for Multiple Projects
 > (Follow these steps if you want a single Docker environment for all your projects)
 
 1 - Clone this repository anywhere on your machine (similar to [Steps A.2. from above](#a2-dont-have-a-php-project-yet)):
@@ -152,22 +152,18 @@ If you use Chrome 63 or above for development, don't use `.dev`. [Why?](https://
 <a name="Usage"></a>
 ## Usage
 
-**Read Before starting:**
+### Read before starting
 
 If you are using **Docker Toolbox** (VM), do one of the following:
 
 - Upgrade to [Docker Desktop](https://www.docker.com/products/docker-desktop/) for Mac/Windows (Recommended). Check out [Upgrading Laradock](/docs/usage/#upgrade-laradock)
 - Use Laradock v3.\*. Visit the [Laradock-ToolBox](https://github.com/laradock/laradock/tree/LaraDock-ToolBox) branch. *(outdated)*
 
-<br/>
-
 We recommend using a Docker Engine version which is newer than 19.03.0.
 
-<br/>
-
->**Warning:** If you used an older version of Laradock it's highly recommended to rebuild the containers you need to use [see how you rebuild a container](/docs/usage/#build-or-rebuild-containers) in order to prevent as much errors as possible.
-
-<br/>
+:::warning
+If you used an older version of Laradock it's highly recommended to rebuild the containers you need to use [see how you rebuild a container](/docs/usage/#build-or-rebuild-containers) in order to prevent as much errors as possible.
+:::
 
 1 - Enter the laradock folder and copy `.env.example` to `.env`
 
@@ -175,7 +171,7 @@ We recommend using a Docker Engine version which is newer than 19.03.0.
 cp .env.example .env
 ```
 
-**How Laradock configuration works:**
+### How Laradock configuration works
 
 - Your `.env` (the file you just copied) holds the **shared settings**: paths, PHP version, project name.
 - Each service keeps its **own settings** pre-filled in its folder: `mysql/defaults.env`, `nginx/defaults.env`, and so on. You never need to copy or edit those files, they work out of the box.
@@ -183,7 +179,7 @@ cp .env.example .env
 - To discover what a service lets you configure, just open its folder's `defaults.env`, it's a short, readable list.
 - **Upgrading from an older Laradock?** Your existing full `.env` keeps working exactly as before, no changes needed.
 
-**How the repository is organized:**
+### How the repository is organized
 
 One folder per service, and everything about a service lives in its folder:
 
@@ -216,11 +212,14 @@ The root `docker-compose.yml` pulls every service in via Compose `include`, whic
 
 By default the containers that will be created have the current directory name as suffix (e.g. `laradock_workspace_1`). This can cause mixture of data inside the container volumes if you use laradock in multiple projects. In this case, either read the guide for [multiple projects](#b-setup-for-multiple-projects) or change the variable `COMPOSE_PROJECT_NAME` to something unique like your project name.
 
-> **Running more than one Laradock on the same machine?** Set BOTH of these per project in your `.env`, or your projects will share the same databases on disk:
-> ```env
-> COMPOSE_PROJECT_NAME=myproject        # separates the containers
-> DATA_PATH_HOST=~/.laradock/data-myproject   # separates the stored data
-> ```
+:::warning[Running more than one Laradock on the same machine?]
+Set BOTH of these per project in your `.env`, or your projects will share the same databases on disk:
+
+```env
+COMPOSE_PROJECT_NAME=myproject        # separates the containers
+DATA_PATH_HOST=~/.laradock/data-myproject   # separates the stored data
+```
+:::
 
 2 - Build the environment and run it using Docker Compose (v2.20 or newer is required)
 
@@ -238,7 +237,6 @@ You can select your own combination of containers from [this list](/docs/Intro#s
 *(Every top-level folder in the repo is a runnable container; the folder list is always the up-to-date list of available services.)*
 
 
-<br/>
 3 - Enter the Workspace container, to execute commands like (Artisan, Composer, PHPUnit, Gulp, ...)
 
 ```bash
@@ -259,9 +257,10 @@ docker compose exec --user=laradock workspace bash
 
 *You can change the PUID (User id) and PGID (group id) by adding `WORKSPACE_PUID` / `WORKSPACE_PGID` to your `.env` (defaults are in `workspace/defaults.env`)*
 
-> **Where do I run `artisan`, `composer`, `npm`?** Inside the workspace container, not on your machine. The Laravel and PHP docs assume these tools are installed on your host, but with Laradock they live in the workspace. So either enter it once with `docker compose exec workspace bash` and run commands from there, or prefix a single command: `docker compose exec workspace php artisan migrate`.
+:::tip[Where do I run `artisan`, `composer`, `npm`?]
+Inside the workspace container, not on your machine. The Laravel and PHP docs assume these tools are installed on your host, but with Laradock they live in the workspace. So either enter it once with `docker compose exec workspace bash` and run commands from there, or prefix a single command: `docker compose exec workspace php artisan migrate`.
+:::
 
-<br/>
 4 - Update your project configuration to use the database host
 
 Open your PHP project's `.env` file or whichever configuration file you are reading from, and set the database host `DB_HOST` to `mysql`:
@@ -275,7 +274,6 @@ Or you can override them in your `.env` and rebuild the container.
 
 *If you want to install Laravel as your PHP project, see [How to Install Laravel in a Docker Container](/docs/usage/#install-laravel).*
 
-<br/>
 5 - Open your browser and visit your localhost address. 
 
 Make sure you use the right port number provided by your running server.

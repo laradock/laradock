@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import clsx from "clsx";
 import Heading from "@theme/Heading";
 import sponsorsStyles from "./styles.module.css";
@@ -5,7 +6,7 @@ import sponsorsStyles from "./styles.module.css";
 type SponsorItem = {
   link: string;
   imageUrl: string;
-  description: JSX.Element;
+  description: ReactNode;
 };
 
 const SponsorList: SponsorItem[] = [
@@ -49,7 +50,7 @@ function Sponsor({ link, imageUrl, description }: SponsorItem) {
   );
 }
 
-export default function SponsorsPage(): JSX.Element {
+export default function SponsorsPage(): ReactNode {
   return (
     <section className={sponsorsStyles.sponsors}>
       <div className="container">

@@ -42,3 +42,16 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: ./DOCUMENTATION/build
+
+      # IndexNow tells Bing (whose index powers ChatGPT search), Naver, Seznam,
+      # and Yandex about updated pages immediately instead of waiting for a
+      # crawl. The key is public by design; it is verified against the key file
+      # hosted at https://laradock.io/<key>.txt.
+      - name: Ping IndexNow with all sitemap URLs
+        continue-on-error: true
+        run: |
+          KEY=0ef9d3f25f27d6d5142abd3695429d50
+          URLS=$(grep -o '<loc>[^<]*</loc>' build/sitemap.xml | sed -e 's|<loc>||' -e 's|</loc>||' | jq -R . | jq -s -c .)
+          curl -sS -X POST "https://api.indexnow.org/indexnow" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d "{\"host\":\"laradock.io\",\"key\":\"$KEY\",\"keyLocation\":\"https://laradock.io/$KEY.txt\",\"urlList\":$URLS}"

@@ -39,6 +39,10 @@ const config: Config = {
   // entity, so search/AI engines fuse the right thing.
   headTags: [
     {
+      tagName: 'link',
+      attributes: { rel: 'author', href: 'https://zalt.me' },
+    },
+    {
       tagName: 'script',
       attributes: { type: 'application/ld+json' },
       innerHTML: JSON.stringify({
@@ -50,6 +54,7 @@ const config: Config = {
         sameAs: [
           'https://www.wikidata.org/wiki/Q140002860',
           'https://github.com/laradock/laradock',
+          'https://hub.docker.com/u/laradock',
         ],
         applicationCategory: 'DeveloperApplication',
         applicationSubCategory: 'PHP Development Environment',
@@ -72,10 +77,16 @@ const config: Config = {
         },
         author: {
           '@type': 'Person',
+          '@id': 'https://zalt.me/#person',
           name: 'Mahmoud Zalt',
           url: 'https://zalt.me',
-          sameAs: ['https://www.wikidata.org/wiki/Q140002792'],
+          sameAs: [
+            'https://www.wikidata.org/wiki/Q140002792',
+            'https://github.com/Mahmoudz',
+          ],
         },
+        creator: { '@id': 'https://zalt.me/#person' },
+        maintainer: { '@id': 'https://zalt.me/#person' },
       }),
     },
     {
@@ -91,16 +102,20 @@ const config: Config = {
         inLanguage: 'en',
         publisher: {
           '@type': 'Person',
+          '@id': 'https://zalt.me/#person',
           name: 'Mahmoud Zalt',
           url: 'https://zalt.me',
-          sameAs: ['https://www.wikidata.org/wiki/Q140002792'],
+          sameAs: [
+            'https://www.wikidata.org/wiki/Q140002792',
+            'https://github.com/Mahmoudz',
+          ],
         },
       }),
     },
     {
-      // FAQ rich result, sourced verbatim from the Help page so the answers
-      // stay true to the docs. Makes Laradock eligible for FAQ snippets and
-      // gives AI answer engines clean Q->A pairs to cite.
+      // FAQ rich result, sourced from the Help and comparison pages so the
+      // answers stay true to the docs. Makes Laradock eligible for FAQ
+      // snippets and gives AI answer engines clean Q->A pairs to cite.
       tagName: 'script',
       attributes: { type: 'application/ld+json' },
       innerHTML: JSON.stringify({
@@ -145,6 +160,46 @@ const config: Config = {
             acceptedAnswer: {
               '@type': 'Answer',
               text: 'Yes. Laradock works with any PHP project, including Laravel, Symfony, WordPress, or plain PHP, and behaves the same on Linux, macOS, and Windows.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Is Laradock free?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Yes. Laradock is free and open-source under the MIT license, including all 100+ pre-configured services.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Is Laradock still maintained?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Yes. Laradock has been actively maintained since 2015, has 12k+ GitHub stars, and is used by thousands of developers.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'Who created Laradock?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Laradock was created in 2015 by Mahmoud Zalt (https://zalt.me), who still maintains it today.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'What is the difference between Laradock and Laravel Sail?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: "Laravel Sail is Laravel's official minimal Docker environment and works only with Laravel. Laradock is framework-agnostic and ships 100+ pre-configured services with full control over every Dockerfile. Side-by-side comparison: https://laradock.io/docs/laradock-vs-laravel-sail",
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'What are the alternatives to Laradock?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'Popular alternatives include DDEV, Laravel Sail, Laravel Herd, Lando, Homestead, XAMPP/MAMP, Dev Containers, and writing your own Docker Compose. The docs compare each honestly: https://laradock.io/docs/laradock-alternatives',
             },
           },
         ],
@@ -197,6 +252,7 @@ const config: Config = {
           'laradock, docker, php, laravel, development environment, docker compose, nginx, mysql, redis, symfony, wordpress, php docker',
       },
       { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'author', content: 'Mahmoud Zalt' },
     ],
     navbar: {
       title: 'Laradock',
