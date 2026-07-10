@@ -3,9 +3,13 @@ import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
+// Only letters/digits/dots/dashes/underscores: keeps an untrusted tag name out of the raw HTML string below.
+const SAFE_VERSION_TAG = /^[\w.-]+$/;
+
 function getCurrentVersion(): string {
   try {
-    return execFileSync('git', ['describe', '--tags', '--abbrev=0'], {cwd: __dirname}).toString().trim();
+    const tag = execFileSync('git', ['describe', '--tags', '--abbrev=0'], {cwd: __dirname}).toString().trim();
+    return SAFE_VERSION_TAG.test(tag) ? tag : '';
   } catch {
     // ponytail: shallow clone or no tags reachable (e.g. some CI checkouts) - badge just hides itself
     return '';
