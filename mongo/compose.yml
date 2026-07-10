@@ -2,7 +2,10 @@ services:
 
     mongo:
       restart: always
-      build: ./mongo
+      build:
+        context: ./mongo
+        args:
+          - MONGODB_VERSION=${MONGODB_VERSION}
       ports:
         - "${MONGODB_PORT}:27017"
       environment:

@@ -1,4 +1,5 @@
-FROM mongo:latest
+ARG MONGODB_VERSION=8
+FROM mongo:${MONGODB_VERSION}
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 

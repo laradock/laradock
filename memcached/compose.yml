@@ -2,7 +2,10 @@ services:
 
     memcached:
       restart: always
-      build: ./memcached
+      build:
+        context: ./memcached
+        args:
+          - MEMCACHED_VERSION=${MEMCACHED_VERSION}
       volumes:
         - ${DATA_PATH_HOST}/memcached:/var/lib/memcached
       ports:

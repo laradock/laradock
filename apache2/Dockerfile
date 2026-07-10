@@ -1,4 +1,4 @@
-FROM webdevops/apache:ubuntu-18.04
+FROM webdevops/apache:alpine
 
 LABEL maintainer="Eric Pfeiffer <computerfr33k@users.noreply.github.com>"
 

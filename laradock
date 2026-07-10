@@ -45,7 +45,14 @@ ok()   { printf '  %s %s\n' "$OK" "$*"; }
 bad()  { printf '  %s %s\n' "$BAD" "$*"; }
 note() { printf '  %s %s\n' "$WARN_SYM" "$*"; }
 warn() { printf '  %s%s%s\n' "$C_YELLOW" "$*" "$C_RESET"; }
-die()  { printf '%serror:%s %s\n' "$C_RED" "$C_RESET" "$*" >&2; exit 1; }
+die()  {  # die "problem" [hint lines...] — red headline + dim what-to-do lines, then exit
+  printf '\n  %s %s%s%s\n' "$BAD" "$C_BOLD" "$1" "$C_RESET" >&2
+  shift
+  local _h
+  for _h in "$@"; do printf '     %s\n' "$_h" >&2; done
+  printf '\n' >&2
+  exit 1
+}
 
 # print the real command, then run it
 run() { printf '  %s%s docker compose %s%s\n' "$C_DIM" "$ARROW" "$*" "$C_RESET"; docker compose "$@"; }
@@ -111,7 +118,8 @@ default_of() {  # default_of KEY — value from .env, else .env.example, else $2
 
 require_laradock_dir() {
   [ -f docker-compose.yml ] && grep -q '^include:' docker-compose.yml \
-    || die "this doesn't look like the laradock folder (no docker-compose.yml with an include list). cd into laradock/ first."
+    || die "This doesn't look like the laradock folder." \
+           "${C_DIM}Go into the folder you cloned (it contains docker-compose.yml):${C_RESET} ${C_CYAN}cd laradock${C_RESET}${C_DIM}, then retry.${C_RESET}"
 }
 
 compose_version() {
@@ -127,10 +135,18 @@ compose_version_ok() {  # true if >= 2.20 (any major > 2 passes)
 }
 
 check_docker() {
-  command -v docker >/dev/null 2>&1 || die "Docker is not installed. Get it at https://docs.docker.com/get-docker/"
-  docker info >/dev/null 2>&1 || die "Docker is installed but not running. Start Docker Desktop (or the docker service) and retry."
-  docker compose version >/dev/null 2>&1 || die "Docker Compose v2 not found (the old docker-compose v1 cannot read this project). Update Docker."
-  compose_version_ok || die "Docker Compose v2.${MIN_COMPOSE_MINOR}+ required (found v$(compose_version)). Update Docker."
+  command -v docker >/dev/null 2>&1 \
+    || die "Docker is not installed." \
+           "${C_DIM}Install Docker Desktop from${C_RESET} https://docs.docker.com/get-docker/ ${C_DIM}then retry.${C_RESET}"
+  docker info >/dev/null 2>&1 \
+    || die "Docker is installed but not running." \
+           "${C_DIM}Open Docker Desktop (or start the docker service), wait until it says it's ready, then retry.${C_RESET}"
+  docker compose version >/dev/null 2>&1 \
+    || die "Docker Compose v2 not found." \
+           "${C_DIM}The old docker-compose v1 cannot read this project. Update Docker to the latest version, then retry.${C_RESET}"
+  compose_version_ok \
+    || die "Docker Compose v2.${MIN_COMPOSE_MINOR}+ required (you have v$(compose_version))." \
+           "${C_DIM}Update Docker to the latest version, then retry.${C_RESET}"
 }
 
 # --------------------------------------------------------- framework detect
@@ -583,7 +599,9 @@ cmd_up() {
         s=$(env_get LARADOCK_SERVICES | tr -d '"')
         [ -n "$s" ] || exit 0   # setup declined to write / user quit
       else
-        die "no setup yet. Run: ./laradock setup   (or pass services: ./laradock start nginx mysql)"
+        die "Nothing to start yet: this project hasn't been set up." \
+            "${C_DIM}Run${C_RESET} ${C_CYAN}./laradock setup${C_RESET} ${C_DIM}first (takes a minute, all answers pre-filled),${C_RESET}" \
+            "${C_DIM}or name services directly:${C_RESET} ${C_CYAN}./laradock start nginx mysql${C_RESET}"
       fi
     fi
     # shellcheck disable=SC2206
@@ -598,9 +616,8 @@ cmd_up() {
   rc=${PIPESTATUS[0]}
   if [ $rc -ne 0 ]; then
     if grep -qi 'port is already allocated\|address already in use' "$_tmp"; then
-      local port svc var
+      local port svc var owner sugg
       port=$(grep -oE 'Bind for [0-9.:]+[0-9]+' "$_tmp" | grep -oE '[0-9]+$' | head -1)
-      bad "port ${port:-?} is already in use on your machine."
       # Name the exact variable when we can: compose names the failing endpoint
       # <project>-<service>-N; the service folder's defaults.env holds the port var.
       svc=$(grep -oE 'endpoint [A-Za-z0-9_-]+' "$_tmp" | head -1 | awk '{print $2}')
@@ -608,20 +625,223 @@ cmd_up() {
       var=""
       [ -n "$svc" ] && [ -n "$port" ] && [ -f "$svc/defaults.env" ] \
         && var=$(grep -E "^[A-Z0-9_]*PORT[A-Z0-9_]*=${port}\$" "$svc/defaults.env" | head -1 | cut -d= -f1)
-      if [ -n "$var" ]; then
-        say "     Fix: add ${var}=<a free port> to laradock/.env (e.g. ${var}=1${port}), then rerun: ./laradock start"
-      else
-        say "     Fix: add an override to laradock/.env (e.g. MYSQL_PORT=3307, REDIS_PORT=16379, NGINX_HOST_HTTP_PORT=8080)"
-        say "     Then rerun: ./laradock start"
+      # who is holding the port (best effort, macOS/Linux)
+      owner=""
+      [ -n "$port" ] && command -v lsof >/dev/null 2>&1 \
+        && owner=$(lsof -nP -iTCP:"$port" -sTCP:LISTEN 2>/dev/null | awk 'NR==2 {print $1" (pid "$2")"}')
+      # suggest a replacement port that is actually free right now
+      sugg=""
+      if [ -n "$port" ]; then
+        local _c=$((port + 10000))
+        while [ "$_c" -lt $((port + 10020)) ]; do
+          if ! (exec 3<>"/dev/tcp/127.0.0.1/$_c") 2>/dev/null; then sugg=$_c; break; fi
+          _c=$((_c + 1))
+        done
       fi
+      say ""
+      bad "${C_BOLD}Port ${port:-?} is busy:${C_RESET} something on your machine is already using it."
+      [ -n "$owner" ] && say "     ${C_DIM}(currently held by: ${owner})${C_RESET}"
+      say ""
+      if [ -n "$var" ] && [ -n "$sugg" ]; then
+        say "     No problem: ${C_BOLD}${svc}${C_RESET} just needs a different port. ${sugg} is free."
+        say ""
+        if confirm "Fix it for you? (writes ${var}=${sugg} to laradock/.env, then starts again)" Y; then
+          env_set "$var" "$sugg"
+          ok "set ${var}=${sugg} in .env"
+          rm -f "$_tmp"
+          cmd_up "${services[@]}"
+          exit $?
+        fi
+        say ""
+        say "     To do it yourself later:  ${C_CYAN}./laradock set ${var}=${sugg}${C_RESET}  ${C_DIM}then${C_RESET}  ${C_CYAN}./laradock start${C_RESET}"
+      elif [ -n "$var" ]; then
+        say "     No problem: ${C_BOLD}${svc}${C_RESET} just needs a different port. Two steps:"
+        say ""
+        say "       1. Pick a free port and run:   ${C_CYAN}./laradock set ${var}=<a free port>${C_RESET}"
+        say "       2. Run this again:             ${C_CYAN}./laradock start${C_RESET}"
+      else
+        say "     No problem: point that service at a different port. Two steps:"
+        say ""
+        say "       1. Override its port, e.g.:  ${C_CYAN}./laradock set MYSQL_PORT=3307${C_RESET}  ${C_DIM}(each service lists its"
+        say "          port variable in its own defaults.env: MYSQL_PORT, REDIS_PORT, NGINX_HOST_HTTP_PORT, ...)${C_RESET}"
+        say "       2. Run this again:            ${C_CYAN}./laradock start${C_RESET}"
+      fi
+      say ""
     else
-      bad "docker compose failed; full output above. Try: ./laradock doctor"
+      say ""
+      bad "${C_BOLD}Docker could not start your services.${C_RESET} The full output is above."
+      say "     ${C_DIM}The last few lines usually say why. For a quick health check, run:${C_RESET} ${C_CYAN}./laradock doctor${C_RESET}"
+      say ""
     fi
     rm -f "$_tmp"
     exit $rc
   fi
   rm -f "$_tmp"
   cmd_info
+}
+
+# ---------------------------------------------------------------- cmd: set
+
+svc_of_key() {  # best-effort: which service folder owns this variable
+  local _k=$1 _p
+  case "$_k" in PHP_VERSION) printf 'php-fpm'; return ;; esac
+  _p=$(printf '%s' "$_k" | cut -d_ -f1 | tr '[:upper:]' '[:lower:]')
+  [ -f "$_p/defaults.env" ] && { printf '%s' "$_p"; return; }
+  grep -l "^${_k}=" ./*/defaults.env 2>/dev/null | head -1 | sed 's|^\./||; s|/defaults.env$||'
+}
+
+default_value_of() {  # shipped default: any defaults.env first, else .env.example
+  local _d
+  _d=$(grep -h "^${1}=" ./*/defaults.env 2>/dev/null | head -1 | cut -d= -f2-)
+  [ -n "$_d" ] || _d=$(env_get "$1" .env.example)
+  printf '%s' "$_d"
+}
+
+cmd_set() {  # set KEY=VALUE [KEY=VALUE ...] — write overrides into laradock/.env
+  require_laradock_dir
+  [ $# -gt 0 ] || die "What do you want to set?" \
+      "${C_DIM}Example:${C_RESET} ${C_CYAN}./laradock set REDIS_PORT=16379${C_RESET} ${C_DIM}(browse what exists: ./laradock settings mysql)${C_RESET}"
+  [ -f .env ] || { [ -f .env.example ] && cp .env.example .env && ok "created .env from .env.example"; }
+  local kv k v svc _data
+  for kv in "$@"; do
+    case "$kv" in
+      [A-Za-z_]*=*) ;;
+      *) die "Settings look like KEY=VALUE." \
+             "${C_DIM}Example:${C_RESET} ${C_CYAN}./laradock set REDIS_PORT=16379${C_RESET}" ;;
+    esac
+    k=${kv%%=*}; v=${kv#*=}
+    env_set "$k" "$v"
+    ok "set ${k}=${v} in .env"
+    svc=$(svc_of_key "$k")
+    # honest heads-up: database passwords only apply to a fresh database
+    case "$k" in
+      MYSQL_*PASSWORD|MARIADB_*PASSWORD|PERCONA_*PASSWORD|POSTGRES_PASSWORD|MONGO_*PASSWORD|MSSQL_*PASSWORD)
+        _data=$(default_of DATA_PATH_HOST "$HOME/.laradock/data"); _data=${_data/#\~/$HOME}
+        if [ -n "$svc" ] && [ -d "${_data}/${svc}" ]; then
+          note "your ${svc} database already has data, so it keeps its OLD password (these apply on first boot only)."
+          say  "     ${C_DIM}Change it inside the database instead (ALTER USER, see the ${svc} docs page),${C_RESET}"
+          say  "     ${C_DIM}or start that database fresh by deleting ${_data}/${svc} (erases its data).${C_RESET}"
+          continue
+        fi ;;
+    esac
+    # help apply it: build-time settings need a rebuild, the rest just a restart
+    case "$k" in
+      PHP_VERSION|INSTALL_*|*_INSTALL_*|*_VERSION)
+        say "  ${C_DIM}This is baked into the image. Apply it with:${C_RESET} ${C_CYAN}./laradock rebuild ${svc:-<service>}${C_RESET}" ;;
+      *)
+        if [ -n "$svc" ] && docker compose ps --services --status running 2>/dev/null | grep -qx "$svc"; then
+          if confirm "Restart ${svc} now so it takes effect?" Y; then run up -d "$svc"; fi
+        else
+          say "  ${C_DIM}Takes effect the next time ${svc:-that service} starts.${C_RESET}"
+        fi ;;
+    esac
+  done
+}
+
+# ----------------------------------------------------------- cmd: settings
+
+cmd_settings() {  # settings [service] — read side of `set`
+  require_laradock_dir
+  local k v d line
+  if [ -n "${1:-}" ]; then
+    [ -f "$1/defaults.env" ] || die "No service called '$1'." \
+        "${C_DIM}The service name is its folder name: mysql, nginx, redis, workspace, ...${C_RESET}"
+    bold ""
+    bold "  $1 — every setting you can change  ${C_DIM}(./laradock set KEY=VALUE)${C_RESET}"
+    say  "  ─────────────────────────────────────────────"
+    while IFS= read -r line; do
+      case "$line" in ''|\#*) continue ;; esac
+      k=${line%%=*}; d=${line#*=}
+      v=$(env_get "$k")
+      if [ -n "$v" ] && [ "$v" != "$d" ]; then
+        printf '  %-36s = %s%s%s   %s(you changed it; default: %s)%s\n' "$k" "$C_CYAN" "$v" "$C_RESET" "$C_DIM" "$d" "$C_RESET"
+      else
+        printf '  %-36s = %s\n' "$k" "$d"
+      fi
+    done < "$1/defaults.env"
+    say ""
+  else
+    bold ""
+    bold "  Your customizations  ${C_DIM}(.env values that differ from the shipped defaults)${C_RESET}"
+    say  "  ─────────────────────────────────────────────"
+    local found=0
+    [ -f .env ] || { note "no .env yet. Run ./laradock setup first."; return; }
+    while IFS= read -r line; do
+      case "$line" in ''|\#*) continue ;; esac
+      k=${line%%=*}; v=${line#*=}; v=${v%% # set by laradock*}
+      d=$(default_value_of "$k")
+      if [ -n "$d" ] && [ "$v" != "$d" ]; then
+        printf '  %-36s = %s%s%s   %s(default: %s)%s\n' "$k" "$C_CYAN" "$v" "$C_RESET" "$C_DIM" "$d" "$C_RESET"
+        found=1
+      fi
+    done < .env
+    [ "$found" = 1 ] || say "  (none yet — everything is on its shipped default)"
+    say ""
+    say "  ${C_DIM}Browse a service's settings: ./laradock settings mysql · change one: ./laradock set KEY=VALUE${C_RESET}"
+    say ""
+  fi
+}
+
+# -------------------------------------------------------------- cmd: unset
+
+cmd_unset() {  # unset KEY [KEY ...] — remove your override, back to the default
+  require_laradock_dir
+  [ $# -gt 0 ] || die "Which setting do you want back on its default?" \
+      "${C_DIM}Example:${C_RESET} ${C_CYAN}./laradock unset REDIS_PORT${C_RESET} ${C_DIM}(see your changes: ./laradock settings)${C_RESET}"
+  local k d changed=0
+  for k in "$@"; do
+    if ! grep -q "^${k}=" .env 2>/dev/null; then
+      note "${k} is not set in your .env; nothing to undo."
+      continue
+    fi
+    changed=1
+    d=$(grep -h "^${k}=" ./*/defaults.env 2>/dev/null | head -1 | cut -d= -f2-)
+    if [ -n "$d" ]; then
+      # a service default exists: safe to drop the override entirely
+      sed "/^${k}=/d" .env > .env.tmp.$$ && mv .env.tmp.$$ .env
+      ok "${k} back to its default (${d})"
+    elif [ -n "$(env_get "$k" .env.example)" ]; then
+      # shared setting compose needs: reset to the shipped value instead of deleting
+      env_set "$k" "$(env_get "$k" .env.example)"
+      ok "${k} reset to the shipped value ($(env_get "$k" .env.example))"
+    else
+      sed "/^${k}=/d" .env > .env.tmp.$$ && mv .env.tmp.$$ .env
+      ok "removed ${k} from .env"
+    fi
+  done
+  [ "$changed" = 0 ] || say "  ${C_DIM}Takes effect the next time the affected service starts.${C_RESET}"
+}
+
+# --------------------------------------------------------------- cmd: edit
+
+cmd_edit() {  # edit            -> your .env
+              # edit <service>  -> that service's Dockerfile
+              # edit <service> <file> -> any file in that service's folder (compose.yml, my.cnf, ...)
+  require_laradock_dir
+  local target hint=""
+  if [ -z "${1:-}" ]; then
+    [ -f .env ] || { [ -f .env.example ] && cp .env.example .env && ok "created .env from .env.example"; }
+    target=.env
+  else
+    [ -d "$1" ] || die "No service called '$1'." \
+        "${C_DIM}The service name is its folder name: mysql, nginx, redis, workspace, ...${C_RESET}"
+    if [ -n "${2:-}" ]; then
+      [ -f "$1/$2" ] || die "No file '$2' in ${1}/." \
+          "${C_DIM}It has:${C_RESET} $(cd "$1" && ls -p | grep -v / | tr '\n' ' ')"
+      target="$1/$2"
+    else
+      target="$1/Dockerfile"
+      [ -f "$target" ] || die "${1} has no Dockerfile." \
+          "${C_DIM}Edit a specific file instead:${C_RESET} ${C_CYAN}./laradock edit $1 compose.yml${C_RESET}"
+    fi
+    case "$target" in
+      */Dockerfile) hint="Apply your change with: ${C_CYAN}./laradock rebuild $1${C_RESET}" ;;
+      */compose.yml) hint="Apply your change with: ${C_CYAN}./laradock start $1${C_RESET} ${C_DIM}(recreates the container)${C_RESET}" ;;
+      */defaults.env) hint="${C_DIM}Tip: don't edit defaults; override instead with${C_RESET} ${C_CYAN}./laradock set KEY=VALUE${C_RESET}" ;;
+    esac
+  fi
+  "${EDITOR:-${VISUAL:-vi}}" "$target"
+  [ -z "$hint" ] || say "  $hint"
 }
 
 # --------------------------------------------------------------- cmd: info
@@ -679,7 +899,8 @@ cmd_enter() {
   require_laradock_dir
   check_docker
   local svc=${1:-}
-  [ -n "$svc" ] || die "which service? e.g. ./laradock enter mysql"
+  [ -n "$svc" ] || die "Which service do you want a terminal in?" \
+                       "${C_DIM}Example:${C_RESET} ${C_CYAN}./laradock enter mysql${C_RESET}"
   if ! docker compose ps --services --status running 2>/dev/null | grep -qx "$svc"; then
     if confirm "$svc is not running. Start it?" Y; then run up -d "$svc" || exit $?; else exit 1; fi
   fi
@@ -793,6 +1014,10 @@ case "$cmd" in
   rebuild) require_laradock_dir; run build "$@" ;;
   enter)   cmd_enter "$@" ;;
   workspace|ws|shell) cmd_workspace "$@" ;;
+  set)     cmd_set "$@" ;;
+  settings) cmd_settings "$@" ;;
+  unset)   cmd_unset "$@" ;;
+  edit)    cmd_edit "$@" ;;
   info|status) cmd_info "$@" ;;
   doctor)  cmd_doctor "$@" ;;
   version|--version|-v) say "laradock cli $VERSION" ;;
@@ -807,6 +1032,10 @@ case "$cmd" in
     say  "    ./laradock remove  [services]  delete the containers (data on disk is kept)"
     say  "    ./laradock rebuild [services]  apply a version/config change"
     say  "    ./laradock logs  [services]  show recent logs"
+    say  "    ./laradock set KEY=VALUE     change a setting (writes it to your .env)"
+    say  "    ./laradock settings [service]  see all settings, and what you changed"
+    say  "    ./laradock unset KEY         undo a change (back to the default)"
+    say  "    ./laradock edit [service]   open your .env, or a service's Dockerfile"
     say  "    ./laradock enter <service>   open a terminal inside a container (e.g. mysql)"
     say  "    ./laradock workspace [--root]  the dev shell (php, composer, node, git)"
     say  "    ./laradock info              what's running: URLs, ports, passwords"

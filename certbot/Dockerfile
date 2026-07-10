@@ -1,4 +1,4 @@
-FROM phusion/baseimage:bionic-1.0.0
+FROM phusion/baseimage:noble-1.0.3
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 

@@ -65,6 +65,10 @@ Everything is a normal English word. `[services]` is optional, name one or more 
 | `./laradock remove [services]` | Delete the containers. Your data on disk is kept. |
 | `./laradock rebuild [services]` | Apply a version or config change you made. |
 | `./laradock logs [services]` | Show recent logs (handy when something misbehaves). |
+| `./laradock set KEY=VALUE` | Change a setting without opening an editor, e.g. `./laradock set REDIS_PORT=16379`. Writes it to your `.env`, then tells you (or offers) how to apply it. |
+| `./laradock settings [service]` | See every setting a service accepts with its current value (`./laradock settings mysql`), or run it bare to list everything you've customized. |
+| `./laradock unset KEY` | Undo a change, back to the shipped default. |
+| `./laradock edit [service] [file]` | Open your `.env` in your editor. Name a service to open its `Dockerfile` (`./laradock edit mysql`), or any of its files (`./laradock edit mysql my.cnf`); it then tells you the command that applies your change. |
 | `./laradock enter <service>` | Open a terminal inside a container, e.g. `./laradock enter mysql`. |
 | `./laradock workspace` | Open the dev shell: `php`, `composer`, `node`, `git`, all preinstalled. |
 | `./laradock info` | What's running: URLs, ports, and passwords. |
@@ -129,7 +133,10 @@ If you later edit a tagged line yourself, the wizard **never touches it again**,
 
 ## Changing things later
 
-- **Change a setting:** edit the line in `.env` (it beats every default), then `./laradock rebuild <service>` if it's a build-time setting. Or just re-run `./laradock setup`, it reads your current values as the new defaults.
+- **See what a service lets you change:** `./laradock settings mysql` (every variable with its current value; your overrides highlighted). Bare `./laradock settings` lists everything you've customized.
+- **Change a setting:** `./laradock set KEY=VALUE` (or edit the line in `.env` yourself; it beats every default). The CLI then offers the restart, or points you at `./laradock rebuild <service>` for build-time settings, and even warns you when a database password can't apply to existing data.
+- **Undo a change:** `./laradock unset KEY`, back to the shipped default.
+- **A port is taken:** the error tells you exactly which variable to change, suggests a free port, and offers to fix it and start again for you. One keypress.
 - **Add a service:** `./laradock start mailpit` (100+ available; the folder name is the service name).
 - **See how to connect:** `./laradock info`.
 - **Something's wrong:** `./laradock doctor`, then `./laradock logs <service>`.

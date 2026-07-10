@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-bullseye
+FROM eclipse-temurin:17-jdk
 
 RUN apt-get update && apt-get install -y git curl && rm -rf /var/lib/apt/lists/*
 
@@ -25,8 +25,8 @@ VOLUME /var/jenkins_home
 # or config file with your custom jenkins Docker image.
 RUN mkdir -p /usr/share/jenkins/ref/init.groovy.d
 
-ENV TINI_VERSION 0.16.1
-ENV TINI_SHA d1cb5d71adc01d47e302ea439d70c79bd0864288
+ENV TINI_VERSION 0.19.0
+ENV TINI_SHA ffaeece323978760822de2cd2cf1b0913b667b13
 
 # Use tini as subreaper in Docker container to adopt zombie processes 
 RUN curl -fsSL https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini-static-amd64 -o /bin/tini && chmod +x /bin/tini \
@@ -73,7 +73,7 @@ RUN apt-get install -y curl && curl -sSL https://get.docker.com/ | sh
 RUN usermod -aG docker jenkins
 
 # Install Docker-Compose
-RUN curl -L "https://github.com/docker/compose/releases/download/1.16.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+RUN curl -L "https://github.com/docker/compose/releases/download/v2.40.3/docker-compose-linux-$(uname -m)" -o /usr/local/bin/docker-compose
 RUN chmod +x /usr/local/bin/docker-compose
 
 

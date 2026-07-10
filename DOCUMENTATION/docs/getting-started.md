@@ -18,7 +18,7 @@ This guide walks you through setting up Laradock for your project, from the prer
 ## Requirements
 
 - [Git](https://git-scm.com/downloads)
-- [Docker](https://www.docker.com/products/docker-desktop/) [ >= 19.03.0 ]
+- [Docker](https://www.docker.com/products/docker-desktop/) (with Docker Compose v2.20 or newer)
 
 
 
@@ -174,7 +174,7 @@ You can rename the config files, project folders and domains as you like, just m
 ...
 ```
 
-If you use Chrome 63 or above for development, don't use `.dev`. [Why?](https://laravel-news.com/chrome-63-now-forces-dev-domains-https). Instead use `.localhost`, `.invalid`, `.test`, or `.example`.
+Don't use `.dev` for local domains (browsers force HTTPS on it). Instead use `.localhost`, `.invalid`, `.test`, or `.example`.
 
 5 - Go to the [Usage](#usage) section.
 
@@ -189,12 +189,7 @@ If you use Chrome 63 or above for development, don't use `.dev`. [Why?](https://
 
 ### Read before starting
 
-If you are using **Docker Toolbox** (VM), do one of the following:
-
-- Upgrade to [Docker Desktop](https://www.docker.com/products/docker-desktop/) for Mac/Windows (Recommended). Check out [Upgrading Laradock](/docs/maintenance#upgrade-laradock)
-- Use Laradock v3.\*. Visit the [Laradock-ToolBox](https://github.com/laradock/laradock/tree/LaraDock-ToolBox) branch. *(outdated)*
-
-We recommend using a Docker Engine version which is newer than 19.03.0.
+Laradock needs Docker Compose v2.20 or newer (shipped with any current [Docker Desktop](https://www.docker.com/products/docker-desktop/) or Docker Engine).
 
 :::warning
 If you used an older version of Laradock it's highly recommended to rebuild the containers you need to use [see how you rebuild a container](/docs/containers#build-or-rebuild-containers) in order to prevent as much errors as possible.

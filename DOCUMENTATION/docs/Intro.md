@@ -270,15 +270,33 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
 
 ### Project Maintainers
 
+{/* SYNC: keep this list identical to the "Project Maintainers" table in /README.md.
+    Order = number of commits, DESCENDING, EXCEPT @mahmoudz is always pinned first (project founder).
+    Add/remove a maintainer = update BOTH files. */}
+
 <table>
   <tbody>
-    <tr>
+     <tr>
         <td align="center" valign="top">
             <img width="115" height="115" src="https://github.com/mahmoudz.png?s=150" />
             <br/>
             <strong>Mahmoud Zalt</strong>
             <br/>
             <a href="https://github.com/Mahmoudz">@mahmoudz</a>
+        </td>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/bestlong.png?s=150" />
+            <br/>
+            <strong>Yu-Lung Shao (Allen)</strong>
+            <br/>
+            <a href="https://github.com/bestlong">@bestlong</a>
+        </td>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/winfried-van-loon.png?s=150" />
+            <br/>
+            <strong>Winfried van Loon</strong>
+            <br/>
+            <a href="https://github.com/winfried-van-loon">@winfried-van-loon</a>
         </td>
         <td align="center" valign="top">
             <img width="115" height="115" src="https://github.com/appleboy.png?s=150" />
@@ -288,11 +306,71 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
             <a href="https://github.com/appleboy">@appleboy</a>
         </td>
         <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/vlauciani.png?s=150" />
+            <br/>
+            <strong>Valentino Lauciani</strong>
+            <br/>
+            <a href="https://github.com/vlauciani">@vlauciani</a>
+        </td>
+     </tr>
+     <tr>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/arianacosta.png?s=150" />
+            <br/>
+            <strong>Arian Acosta</strong>
+            <br/>
+            <a href="https://github.com/arianacosta">@arianacosta</a>
+        </td>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/erikn69.png?s=150" />
+            <br/>
+            <strong>Erik</strong>
+            <br/>
+            <a href="https://github.com/erikn69">@erikn69</a>
+        </td>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/zeroc0d3.png?s=150" />
+            <br/>
+            <strong>Dwi Fahni Denni</strong>
+            <br/>
+            <a href="https://github.com/zeroc0d3">@zeroc0d3</a>
+        </td>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/makowskid.png?s=150" />
+            <br/>
+            <strong>Dawid Makowski</strong>
+            <br/>
+            <a href="https://github.com/makowskid">@makowskid</a>
+        </td>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/iamlucianojr.png?s=150" />
+            <br/>
+            <strong>Luciano Jr</strong>
+            <br/>
+            <a href="https://github.com/iamlucianojr">@iamlucianojr</a>
+        </td>
+     </tr>
+     <tr>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/PavelSavushkinMix.png?s=150" />
+            <br/>
+            <strong>Pavel Savushkin</strong>
+            <br/>
+            <a href="https://github.com/PavelSavushkinMix">@PavelSavushkinMix</a>
+        </td>
+        <td align="center" valign="top">
             <img width="115" height="115" src="https://github.com/philtrep.png?s=150" />
             <br/>
             <strong>Philippe Trépanier</strong>
             <br/>
             <a href="https://github.com/philtrep">@philtrep</a>
+        </td>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/ahkui.png?s=150" />
+            <br/>
+            <strong>Ahkui</strong>
+            <br/>
+            <a href="https://github.com/ahkui">@ahkui</a>
         </td>
         <td align="center" valign="top">
             <img width="115" height="115" src="https://github.com/mikeerickson.png?s=150" />
@@ -302,11 +380,48 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
             <a href="https://github.com/mikeerickson">@mikeerickson</a>
         </td>
         <td align="center" valign="top">
-            <img width="115" height="115" src="https://github.com/zeroc0d3.png?s=150" />
+            <img width="115" height="115" src="https://github.com/lanphan.png?s=150" />
             <br/>
-            <strong>Dwi Fahni Denni</strong>
+            <strong>Lan Phan</strong>
             <br/>
-            <a href="https://github.com/zeroc0d3">@zeroc0d3</a>
+            <a href="https://github.com/lanphan">@lanphan</a>
+        </td>
+     </tr>
+     <tr>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/zhushaolong.png?s=150" />
+            <br/>
+            <strong>zhushaolong</strong>
+            <br/>
+            <a href="https://github.com/zhushaolong">@zhushaolong</a>
+        </td>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/kideny.png?s=150" />
+            <br/>
+            <strong>Frank Yuan</strong>
+            <br/>
+            <a href="https://github.com/kideny">@kideny</a>
+        </td>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/xiagw.png?s=150" />
+            <br/>
+            <strong>xiagw</strong>
+            <br/>
+            <a href="https://github.com/xiagw">@xiagw</a>
+        </td>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/Omranic.png?s=150" />
+            <br/>
+            <strong>Abdelrahman Omran</strong>
+            <br/>
+            <a href="https://github.com/Omranic">@Omranic</a>
+        </td>
+        <td align="center" valign="top">
+            <img width="115" height="115" src="https://github.com/sixlive.png?s=150" />
+            <br/>
+            <strong>TJ Miller</strong>
+            <br/>
+            <a href="https://github.com/sixlive">@sixlive</a>
         </td>
      </tr>
      <tr>
@@ -318,35 +433,12 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
             <a href="https://github.com/thorerik">@thorerik</a>
         </td>
         <td align="center" valign="top">
-            <img width="115" height="115" src="https://github.com/winfried-van-loon.png?s=150" />
-            <br/>
-            <strong>Winfried van Loon</strong>
-            <br/>
-            <a href="https://github.com/winfried-van-loon">@winfried-van-loon</a>
-        </td>
-        <td align="center" valign="top">
-            <img width="115" height="115" src="https://github.com/sixlive.png?s=150" />
-            <br/>
-            <strong>TJ Miller</strong>
-            <br/>
-            <a href="https://github.com/sixlive">@sixlive</a>
-        </td>
-        <td align="center" valign="top">
-            <img width="115" height="115" src="https://github.com/bestlong.png?s=150" />
-            <br/>
-            <strong>Yu-Lung Shao (Allen)</strong>
-            <br/>
-            <a href="https://github.com/bestlong">@bestlong</a>
-        </td>
-        <td align="center" valign="top">
             <img width="115" height="115" src="https://github.com/urukalo.png?s=150" />
             <br/>
             <strong>Milan Urukalo</strong>
             <br/>
             <a href="https://github.com/urukalo">@urukalo</a>
         </td>
-     </tr>
-     <tr>
         <td align="center" valign="top">
             <img width="115" height="115" src="https://github.com/vwchu.png?s=150" />
             <br/>
@@ -360,20 +452,6 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
             <strong>Huadong Zuo</strong>
             <br/>
             <a href="https://github.com/zuohuadong">@zuohuadong</a>
-        </td>
-        <td align="center" valign="top">
-            <img width="115" height="115" src="https://github.com/lanphan.png?s=150" />
-            <br/>
-            <strong>Lan Phan</strong>
-            <br/>
-            <a href="https://github.com/lanphan">@lanphan</a>
-        </td>
-        <td align="center" valign="top">
-            <img width="115" height="115" src="https://github.com/ahkui.png?s=150" />
-            <br/>
-            <strong>Ahkui</strong>
-            <br/>
-            <a href="https://github.com/ahkui">@ahkui</a>
         </td>
         <td align="center" valign="top">
             <img width="115" height="115" src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/join-us.png" />
