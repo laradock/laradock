@@ -1,17 +1,32 @@
 # Laradock
 
-> A full PHP development environment for Docker. Spin up a ready-to-use stack in seconds, with 70+ pre-configured services (Nginx, PHP, MySQL, Redis, and more). Works with any PHP project (Laravel, Symfony, WordPress, or plain PHP) on Linux, macOS, and Windows.
+> A full PHP development environment for Docker. Spin up a ready-to-use stack in seconds, with 100+ pre-configured services (Nginx, PHP, MySQL, Redis, and more). Works with any PHP project (Laravel, Symfony, WordPress, or plain PHP) on Linux, macOS, and Windows.
 
 Motto: "Use Docker first. Learn about it later." Free, open-source (MIT), 12k+ GitHub stars, maintained since 2015.
+Created and maintained by Mahmoud Zalt (https://zalt.me).
 
 ## Docs
 
-- [Introduction](https://laradock.io/docs/Intro): What Laradock is, key features, the full list of supported services/containers by category, quick start, maintainers, sponsors.
-- [Getting Started](https://laradock.io/docs/getting-started): Requirements (Git, Docker) and installation paths (new project, existing project, single vs multiple projects).
-- [Usage](https://laradock.io/docs/usage): Day-to-day commands and recipes , running/entering containers, editing configs, switching PHP versions, xDebug, queues, scheduler, production, and per-service how-tos.
-- [Help](https://laradock.io/docs/help): Where to get help and support.
-- [Related Projects](https://laradock.io/docs/related-projects): Community-built tools that extend Laradock.
-- [Contributions](https://laradock.io/docs/contributing): How to contribute.
+- [Introduction](https://laradock.io/docs/Intro): Laradock is a full PHP development environment for Docker. Spin up a ready-to-use stack in seconds with 100+ pre-configured services for Laravel, Symfony, WordPress, or plain PHP.
+- [Getting Started](https://laradock.io/docs/getting-started): Install Laradock and get a full Dockerized PHP stack running in minutes. Step-by-step setup for new and existing projects, single or multiple apps, on Linux, macOS, and Windows.
+- [Usage](https://laradock.io/docs/usage): Day-to-day Laradock commands and recipes. Run and enter containers, switch PHP and database versions, set up Xdebug, queues, the scheduler, services like Redis and ElasticSearch, workspace tooling, and production prep.
+- [Help](https://laradock.io/docs/help): Get help with Laradock and fix common problems, blank Laravel page, nginx welcome screen, port already in use, MySQL connection refused, timezone, and Windows 404 errors.
+- [Related Projects](https://laradock.io/docs/related-projects): Community-built tools that extend Laradock, GUIs, CLIs, Kubernetes playbooks, and monitoring helpers that simplify how you manage your Dockerized PHP environment.
+- [Contributions](https://laradock.io/docs/contributing): How to contribute to Laradock, ask questions, report issues, edit the docs, and submit pull requests to the open-source Dockerized PHP development environment.
+- [Community](https://laradock.io/docs/community): Where the Laradock community lives. Gitter's done, our community of 2,000+ active members has a new home on GitHub Discussions.
+
+## Comparisons (Laradock vs alternatives)
+
+- [Laradock vs Others](https://laradock.io/docs/laradock-alternatives): An honest comparison of PHP local development environments. Laradock vs DDEV, Laravel Sail, Laravel Herd, Lando, XAMPP/MAMP, and writing your own Docker Compose, with clear guidance on when to pick each.
+- [Laradock vs DDEV](https://laradock.io/docs/laradock-vs-ddev): DDEV vs Laradock side by side. Set up the same Laravel project with both tools, compare the commands, services, PHP version switching, and find out which local PHP environment fits you.
+- [Laradock vs Laravel Sail](https://laradock.io/docs/laradock-vs-laravel-sail): Laravel Sail vs Laradock side by side. Same Laravel app set up with both, with real commands. When Sail's minimal official stack is enough and when Laradock's 100+ services win.
+- [Laradock vs Laravel Herd](https://laradock.io/docs/laradock-vs-laravel-herd): Laravel Herd vs Laradock compared honestly. Native speed vs production parity, macOS/Windows vs everywhere, free containers vs paid Pro services. Which local PHP environment fits your work?
+- [Laradock vs XAMPP / MAMP](https://laradock.io/docs/laradock-vs-xampp): XAMPP vs Docker, honestly compared. What the classic native bundles still do well, what they cost you, and a 10-minute migration guide from XAMPP, MAMP or WAMP to Laradock.
+- [Laradock vs Homestead / Vagrant](https://laradock.io/docs/laradock-vs-homestead): Laravel Homestead vs Laradock. Why containers replaced the VM workflow, what Homestead still does well, and a migration guide from Vagrant boxes to Docker.
+- [Laradock vs Lando](https://laradock.io/docs/laradock-vs-lando): Lando vs Laradock side by side. Recipe-driven generated Docker vs pre-wired transparent Docker Compose. Real commands for both, and a migration guide from Lando to Laradock.
+- [Laradock vs Dev Containers](https://laradock.io/docs/laradock-vs-devcontainers): VS Code Dev Containers and GitHub Codespaces vs Laradock. Editor-centric containers vs editor-agnostic infrastructure, how they differ, and how to combine them.
+- [Laradock vs Plain Docker Compose](https://laradock.io/docs/laradock-vs-docker-compose): Should you write your own docker-compose.yml for PHP or use Laradock? What hand-rolling a PHP Docker environment really involves, and what Laradock saves you, with zero lock-in either way.
+- [Laradock vs Installing PHP Manually](https://laradock.io/docs/laradock-vs-manual-install): Installing PHP, MySQL and Nginx with brew or apt vs running them in containers with Laradock. The honest trade-offs of a bare-metal PHP setup, and a clean migration path.
 
 ## Full text
 
@@ -20,3 +35,5 @@ Motto: "Use Docker first. Learn about it later." Free, open-source (MIT), 12k+ G
 ## Source
 
 - [GitHub repository](https://github.com/laradock/laradock)
+- [Docker Hub images](https://hub.docker.com/u/laradock)
+- [Creator: Mahmoud Zalt](https://zalt.me)

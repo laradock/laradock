@@ -1,0 +1,13 @@
+/* TEAM */
+Creator & Maintainer: Mahmoud Zalt
+Site: https://zalt.me
+GitHub: https://github.com/Mahmoudz
+Location: Earth
+
+/* SITE */
+Site: https://laradock.io
+Source: https://github.com/laradock/laradock
+Standards: HTML5, CSS3, TypeScript
+Software: Docusaurus
+Since: 2015
+License: MIT
