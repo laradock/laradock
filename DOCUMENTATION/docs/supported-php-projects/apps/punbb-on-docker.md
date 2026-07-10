@@ -115,7 +115,7 @@ Yes. Laradock runs anywhere Docker runs. On macOS/Windows, file-sync speed depen
 
 ### Is this the same Docker setup I would use in production?
 
-The containers are production-style (real NGINX + PHP-FPM), so it is far closer to production than a native install. See [Prepare Laradock for Production](/docs/usage#prepare-laradock-for-production) for the hardening steps, though given PunBB's maintenance status you should weigh whether it belongs in production at all.
+The containers are production-style (real NGINX + PHP-FPM), so it is far closer to production than a native install. See [Prepare Laradock for Production](/docs/production#prepare-laradock-for-production) for the hardening steps, though given PunBB's maintenance status you should weigh whether it belongs in production at all.
 
 ---
 

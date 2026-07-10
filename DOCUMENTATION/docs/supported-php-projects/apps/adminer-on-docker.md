@@ -24,7 +24,7 @@ The catch: wiring a database admin UI to the right container, network and creden
 
 ## Why Laradock is the best fit for Adminer
 
-Unlike most of the other projects in this guide, Adminer is not something you add to Laradock: Laradock already ships it as a ready-to-use built-in service (see [Use Adminer](/docs/usage#adminer)). There is no install step, no codebase to clone, no config file to write, just a service to switch on:
+Unlike most of the other projects in this guide, Adminer is not something you add to Laradock: Laradock already ships it as a ready-to-use built-in service (see [Use Adminer](/docs/services/adminer)). There is no install step, no codebase to clone, no config file to write, just a service to switch on:
 
 - **One line to turn on.** `docker compose up -d adminer` and it is ready to point at any database container in your stack.
 - **Works with more than MySQL.** Adminer's single interface talks to MySQL, MariaDB, PostgreSQL and others, matching whatever database service you already picked in Laradock.
@@ -103,7 +103,7 @@ Both ship as built-in Laradock services and both connect to the same database co
 
 ### Is this the same setup I would use in production?
 
-Most teams do not expose Adminer in production at all, since it is a convenience tool for local and staging work. If you do run it somewhere reachable, put it behind authentication and network restrictions; see [Prepare Laradock for Production](/docs/usage#prepare-laradock-for-production) for the general hardening steps.
+Most teams do not expose Adminer in production at all, since it is a convenience tool for local and staging work. If you do run it somewhere reachable, put it behind authentication and network restrictions; see [Prepare Laradock for Production](/docs/production#prepare-laradock-for-production) for the general hardening steps.
 
 ---
 

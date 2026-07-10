@@ -31,7 +31,7 @@ Roundcube has no official Docker image of its own beyond community-maintained on
 - **Nothing is hidden and you own everything.** No generated files, no magic, no wrapper binary between you and Docker. Every Dockerfile and compose file is right there for you to read and edit.
 - **Nothing new to learn.** What you use is plain `docker compose`, knowledge that transfers straight to production. Our [CLI](/docs/cli) is an optional nicety, never a requirement.
 
-Concretely, for Roundcube's own layer, Laradock gives you a production-style NGINX + PHP-FPM stack and MySQL/PostgreSQL already wired, plus a `workspace` container with Composer and git installed. Laradock's [Mailpit](/docs/usage) service is an outgoing-mail catcher for local development (it captures mail your apps send, so nothing leaks to real inboxes); it is not a full IMAP server and cannot substitute for the mail server Roundcube needs to actually list and read mailboxes.
+Concretely, for Roundcube's own layer, Laradock gives you a production-style NGINX + PHP-FPM stack and MySQL/PostgreSQL already wired, plus a `workspace` container with Composer and git installed. Laradock's [Mailpit](/docs/services/mailpit) service is an outgoing-mail catcher for local development (it captures mail your apps send, so nothing leaks to real inboxes); it is not a full IMAP server and cannot substitute for the mail server Roundcube needs to actually list and read mailboxes.
 
 ## Run Roundcube on Docker with Laradock
 
@@ -118,7 +118,7 @@ Yes. Give each its own Laradock with a unique `COMPOSE_PROJECT_NAME` and `DATA_P
 
 ### Is this the same Docker setup I would use in production?
 
-The containers are production-style (real NGINX + PHP-FPM), so it is far closer to production than a native install. See [Prepare Laradock for Production](/docs/usage#prepare-laradock-for-production) for the hardening steps.
+The containers are production-style (real NGINX + PHP-FPM), so it is far closer to production than a native install. See [Prepare Laradock for Production](/docs/production#prepare-laradock-for-production) for the hardening steps.
 
 ---
 

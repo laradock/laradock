@@ -115,7 +115,7 @@ Yes. Laradock runs anywhere Docker runs. On macOS/Windows, file-sync speed depen
 
 ### Is this the same Docker setup I would use in production?
 
-Yes, closer than most: RoadRunner is Spiral's own recommended production application server, so the `roadrunner` container runs your app the same way it would in production. See [Prepare Laradock for Production](/docs/usage#prepare-laradock-for-production) for the hardening steps.
+Yes, closer than most: RoadRunner is Spiral's own recommended production application server, so the `roadrunner` container runs your app the same way it would in production. See [Prepare Laradock for Production](/docs/production#prepare-laradock-for-production) for the hardening steps.
 
 ---
 

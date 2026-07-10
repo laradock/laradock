@@ -95,6 +95,22 @@ docker compose build php-fpm workspace
 
 Symfony 7 requires PHP 8.2 or newer, and Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs a legacy Symfony 4 project on an older PHP version and a brand-new Symfony 7 one side by side, each isolated, none of it installed on your machine.
 
+## Install the Symfony CLI in the workspace
+
+Laradock can also install the official Symfony CLI (the `symfony` binary) inside the workspace container, and ships a ready NGINX vhost template for Symfony:
+
+1. In `.env`, set `WORKSPACE_INSTALL_SYMFONY` to `true`.
+2. Rebuild the workspace:
+   ```bash
+   docker compose build workspace
+   ```
+3. The NGINX sites include a `symfony.conf.example`; edit it so `root` points to your project's `public` directory.
+4. If the containers were already running, restart them:
+   ```bash
+   docker compose restart
+   ```
+5. Visit `symfony.test`.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP or Composer to run Symfony with Laradock?
@@ -115,7 +131,7 @@ Yes. Laradock runs anywhere Docker runs. On macOS/Windows, file-sync speed depen
 
 ### Is this the same Docker setup I would use in production?
 
-The containers are production-style (real NGINX + PHP-FPM, or FrankenPHP if you choose it), so it is far closer to production than the built-in Symfony CLI server. See [Prepare Laradock for Production](/docs/usage#prepare-laradock-for-production) for the hardening steps.
+The containers are production-style (real NGINX + PHP-FPM, or FrankenPHP if you choose it), so it is far closer to production than the built-in Symfony CLI server. See [Prepare Laradock for Production](/docs/production#prepare-laradock-for-production) for the hardening steps.
 
 ---
 

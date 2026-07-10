@@ -95,6 +95,10 @@ docker compose build php-fpm workspace
 
 CodeIgniter 4 supports PHP 7.4 and newer, with 8.1+ recommended for the latest release, and Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an old CodeIgniter 3 codebase and a current CodeIgniter 4 app side by side, each isolated, none of it installed on your machine.
 
+## No special install flag needed
+
+CodeIgniter is plain PHP, so it needs no special flag: point your web server's site config at the project's `public` folder (CodeIgniter 4) or its root folder (CodeIgniter 3), exactly like the general PHP setup in [Getting Started](/docs/getting-started).
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP or Composer to run CodeIgniter with Laradock?
@@ -115,7 +119,7 @@ Yes. Laradock runs anywhere Docker runs. On macOS/Windows, file-sync speed depen
 
 ### Is this the same Docker setup I would use in production?
 
-The containers are production-style (real NGINX + PHP-FPM), so it is far closer to production than the built-in CodeIgniter development server. See [Prepare Laradock for Production](/docs/usage#prepare-laradock-for-production) for the hardening steps.
+The containers are production-style (real NGINX + PHP-FPM), so it is far closer to production than the built-in CodeIgniter development server. See [Prepare Laradock for Production](/docs/production#prepare-laradock-for-production) for the hardening steps.
 
 ---
 

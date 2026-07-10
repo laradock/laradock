@@ -117,7 +117,7 @@ Yes. Give each its own Laradock with a unique `COMPOSE_PROJECT_NAME` and `DATA_P
 
 ### Is this the same Docker setup I would use in production?
 
-The containers are production-style (real NGINX + PHP-FPM), so it is far closer to production than the default Sail compose file. See [Prepare Laradock for Production](/docs/usage#prepare-laradock-for-production) for the hardening steps.
+The containers are production-style (real NGINX + PHP-FPM), so it is far closer to production than the default Sail compose file. See [Prepare Laradock for Production](/docs/production#prepare-laradock-for-production) for the hardening steps.
 
 ---
 

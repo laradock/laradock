@@ -24,7 +24,7 @@ The catch: wiring a database admin UI to the right container, network and creden
 
 ## Why Laradock is the best fit for phpMyAdmin
 
-Unlike the other projects in this guide, phpMyAdmin is not something you add to Laradock: Laradock already ships it as a ready-to-use built-in service (see [Use phpMyAdmin](/docs/usage#phpmyadmin)). There is no install step, no codebase to clone, no config file to write, just a service to switch on:
+Unlike the other projects in this guide, phpMyAdmin is not something you add to Laradock: Laradock already ships it as a ready-to-use built-in service (see [Use phpMyAdmin](/docs/services/phpmyadmin)). There is no install step, no codebase to clone, no config file to write, just a service to switch on:
 
 - **One line to turn on.** `docker compose up -d phpmyadmin` and it is connected to your database container, nothing to wire up yourself.
 - **Already pointed at your data.** It targets the `mysql` (or `mariadb`) service by name and uses the same credentials your app uses, so there is nothing to reconcile.
@@ -103,7 +103,7 @@ Both ship as built-in Laradock services and both connect to the same database co
 
 ### Is this the same setup I would use in production?
 
-Most teams do not expose phpMyAdmin in production at all, since it is a convenience tool for local and staging work. If you do run it somewhere reachable, put it behind authentication and network restrictions; see [Prepare Laradock for Production](/docs/usage#prepare-laradock-for-production) for the general hardening steps.
+Most teams do not expose phpMyAdmin in production at all, since it is a convenience tool for local and staging work. If you do run it somewhere reachable, put it behind authentication and network restrictions; see [Prepare Laradock for Production](/docs/production#prepare-laradock-for-production) for the general hardening steps.
 
 ---
 

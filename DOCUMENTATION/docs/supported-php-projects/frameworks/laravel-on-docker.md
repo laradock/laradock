@@ -48,7 +48,7 @@ git clone https://github.com/laradock/laradock.git
 cd laradock && cp .env.example .env
 ```
 
-(No Laravel app yet? Clone Laradock first, then [create one from the workspace container](/docs/usage#install-laravel).)
+(No Laravel app yet? Clone Laradock first, then [create one from the workspace container](#starting-a-brand-new-laravel-app).)
 
 ### 2. Pick the services your app needs
 
@@ -100,6 +100,90 @@ docker compose build php-fpm workspace
 
 Anything from PHP 5.6 to 8.5 works, so the same tool runs a legacy Laravel 5 project and a brand-new Laravel 11 one side by side, each isolated, none of it installed on your machine.
 
+## Starting a brand-new Laravel app
+
+If you don't have a Laravel app yet, create one from inside the workspace container instead of installing Composer on your host:
+
+1. Start the workspace:
+   ```bash
+   docker compose up -d workspace
+   ```
+2. Enter it and create the project with Composer (recommended over the Laravel installer):
+   ```bash
+   docker compose exec workspace bash
+   composer create-project laravel/laravel my-cool-app
+   ```
+   See the [Laravel installation docs](https://laravel.com/docs/installation) for details.
+3. Point Laradock at the new app. By default Laradock expects your app in the parent directory of the `laradock` folder, so update `APP_CODE_PATH_HOST` in `.env`:
+   ```dotenv
+   APP_CODE_PATH_HOST=../my-cool-app/
+   ```
+4. `cd my-cool-app` and continue from [step 2](#2-pick-the-services-your-app-needs) above.
+
+## Everyday Artisan, Composer and test commands
+
+Run Artisan, Composer, tests and any other terminal command from the workspace container:
+
+1. Make sure the workspace is running:
+   ```bash
+   docker compose up -d workspace
+   ```
+2. Enter it:
+   ```bash
+   docker compose exec workspace bash
+   ```
+   Add `--user=laradock` so files it creates are owned by your host user instead of root: `docker compose exec --user=laradock workspace bash`.
+3. Run anything you need:
+   ```bash
+   php artisan
+   composer update
+   phpunit
+   ```
+
+## Run the queue worker
+
+1. Create a config for the worker in `php-worker/supervisord.d/` by copying `laravel-worker.conf.example` (for example, to `laravel-worker.conf`).
+2. Start the worker:
+   ```bash
+   docker compose up -d php-worker
+   ```
+
+## Run the scheduler
+
+Laradock can run the Laravel scheduler two ways:
+
+1. **Cron in the workspace container (default).** When you start Laradock, the `workspace` container starts cron and runs `schedule:run` every minute.
+2. **Supervisord in the php-worker container.** Preferred when you don't want to run the workspace in production.
+
+To switch to the second option:
+
+1. Comment out the cron line in `workspace/crontab/laradock`:
+   ```bash
+   # * * * * * laradock /usr/bin/php /var/www/artisan schedule:run >> /dev/null 2>&1
+   ```
+2. Copy `laravel-scheduler.conf.example` in `php-worker/supervisord.d/` to a new config (for example, `laravel-scheduler.conf`).
+3. Start the worker:
+   ```bash
+   docker compose up -d php-worker
+   ```
+
+## Use Browsersync with Laravel Mix
+
+1. Add Browsersync to your `webpack.mix.js` (see the [Browsersync options](https://browsersync.io/docs/options)):
+   ```js
+   const mix = require('laravel-mix')
+
+   // ...
+
+   mix.browserSync({
+     open: false,
+     proxy: 'nginx' // replace with your web server container
+   })
+   ```
+2. Run `npm run watch` inside the workspace container.
+3. Open `http://localhost:[WORKSPACE_BROWSERSYNC_HOST_PORT]`, it reloads automatically when you edit a source file.
+4. The Browsersync UI is at `http://localhost:[WORKSPACE_BROWSERSYNC_UI_HOST_PORT]`.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP or Composer to run Laravel with Laradock?
@@ -120,7 +204,7 @@ Yes. Laradock runs anywhere Docker runs. On macOS/Windows, file-sync speed depen
 
 ### Is this the same Docker setup I would use in production?
 
-The containers are production-style (real NGINX + PHP-FPM), so it is far closer to production than `artisan serve` or a native install. See [Prepare Laradock for Production](/docs/usage#prepare-laradock-for-production) for the hardening steps.
+The containers are production-style (real NGINX + PHP-FPM), so it is far closer to production than `artisan serve` or a native install. See [Prepare Laradock for Production](/docs/production#prepare-laradock-for-production) for the hardening steps.
 
 ---
 

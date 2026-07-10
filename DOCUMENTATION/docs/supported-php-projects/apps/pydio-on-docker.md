@@ -115,7 +115,7 @@ Yes. Give each its own Laradock with a unique `COMPOSE_PROJECT_NAME` and `DATA_P
 
 ### Is this the same Docker setup I would use in production?
 
-The containers are production-style (real NGINX + PHP-FPM), so it is closer to production than a native install, but keep in mind Pydio 8 itself is unmaintained and carries unpatched security risk regardless of how it is hosted. See [Prepare Laradock for Production](/docs/usage#prepare-laradock-for-production) for the hardening steps that still apply.
+The containers are production-style (real NGINX + PHP-FPM), so it is closer to production than a native install, but keep in mind Pydio 8 itself is unmaintained and carries unpatched security risk regardless of how it is hosted. See [Prepare Laradock for Production](/docs/production#prepare-laradock-for-production) for the hardening steps that still apply.
 
 ---
 

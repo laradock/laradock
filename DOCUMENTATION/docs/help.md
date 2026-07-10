@@ -47,7 +47,7 @@ Then restart Docker Desktop.
 
 ### The time in my services does not match the current time
 
-1. Make sure you have [changed the timezone](/docs/usage/#change-the-timezone).
+1. Make sure you have [changed the timezone](/docs/environment#change-the-timezone).
 2. Rebuild and restart the containers: `docker compose up -d --build <services>`.
 
 ### I get MySQL connection refused

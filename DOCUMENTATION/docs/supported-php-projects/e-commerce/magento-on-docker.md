@@ -77,7 +77,7 @@ bin/magento setup:install \
   --admin-email=admin@example.com --admin-user=admin --admin-password=Admin123!
 ```
 
-Then open [http://localhost](http://localhost). That is a full Magento store running on Docker. (If you are on Adobe Commerce rather than Magento Open Source or Mage-OS, swap the Composer repository for your Adobe Marketplace credentials.)
+Then open [http://localhost](http://localhost). That is a full Magento store running on Docker. (If you are on Adobe Commerce rather than Magento Open Source or Mage-OS, swap the Composer repository for your Adobe Marketplace credentials, see [Add Magento authentication](#add-magento-composer-authentication) below.)
 
 ## Change the PHP version anytime
 
@@ -92,6 +92,17 @@ docker compose build php-fpm workspace
 ```
 
 Magento 2.4.x currently targets PHP 8.3, with newer releases moving to 8.4/8.5, so check which PHP range your specific Magento version supports before you pick one; either way, the same tool can run a legacy 2.3 store on PHP 7.4 and a current 2.4 store on 8.3 side by side, each isolated, none of it installed on your machine.
+
+## Add Magento Composer authentication
+
+Adding Composer authentication credentials for Magento 2 (needed for Adobe Commerce's private Marketplace repository, or any other private Composer repository your store depends on):
+
+1. In `.env`, set `WORKSPACE_COMPOSER_AUTH` to `true`.
+2. Add your credentials to `workspace/auth.json`.
+3. Rebuild the workspace:
+   ```bash
+   docker compose build workspace
+   ```
 
 ## Frequently Asked Questions
 
@@ -113,7 +124,7 @@ Yes. Laradock runs anywhere Docker runs. On macOS/Windows, file-sync speed depen
 
 ### Is this the same Docker setup I would use in production?
 
-The containers are production-style (real NGINX + PHP-FPM), so it is far closer to production than a native install, though a production Magento cluster typically splits the search engine, cache and database onto dedicated infrastructure. See [Prepare Laradock for Production](/docs/usage#prepare-laradock-for-production) for the hardening steps.
+The containers are production-style (real NGINX + PHP-FPM), so it is far closer to production than a native install, though a production Magento cluster typically splits the search engine, cache and database onto dedicated infrastructure. See [Prepare Laradock for Production](/docs/production#prepare-laradock-for-production) for the hardening steps.
 
 ---
 

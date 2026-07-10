@@ -43,7 +43,7 @@ git clone https://github.com/laradock/laradock.git
 cd laradock && cp .env.example .env
 ```
 
-(No Laravel app yet? Clone Laradock first, then [create one from the workspace container](/docs/usage#install-laravel); Aimeos is added into it in the steps below.)
+(No Laravel app yet? Clone Laradock first, then [create one from the workspace container](/docs/laravel-on-docker); Aimeos is added into it in the steps below.)
 
 ### 2. Pick the services your app needs
 
@@ -114,7 +114,7 @@ Yes. Give each its own Laradock with a unique `COMPOSE_PROJECT_NAME` and `DATA_P
 
 ### Is this the same Docker setup I would use in production?
 
-The containers are production-style (real NGINX + PHP-FPM), so it is far closer to production than a native install. See [Prepare Laradock for Production](/docs/usage#prepare-laradock-for-production) for the hardening steps.
+The containers are production-style (real NGINX + PHP-FPM), so it is far closer to production than a native install. See [Prepare Laradock for Production](/docs/production#prepare-laradock-for-production) for the hardening steps.
 
 ---
 
