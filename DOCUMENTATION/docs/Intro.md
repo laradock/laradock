@@ -63,7 +63,7 @@ A command line preloaded with PHP, Composer, Node, Git, and dozens of dev tools,
 Enter it and work from there:
 
 ```bash
-docker-compose exec workspace bash
+docker compose exec workspace bash
 ```
 
 `artisan`, `composer`, `phpunit`, `npm`, and `git` all just work, with nothing installed on your host: no PHP, no Composer, no Node, no version conflicts. Stop the project and **zero traces are left on your device.**

@@ -143,10 +143,10 @@ Always Test everything and make sure its working:
 
 - Pull the latest updates (or fork if you don’t have permission)
 - Before editing anything:
-    - Test building the container (docker-compose build --no-cache container-name) build with no cache first.
+    - Test building the container (docker compose build --no-cache container-name) build with no cache first.
     - Test running the container with some other containers in a real app and see if everything is working fine.
 - Now edit the container (edit section by section and test rebuilding the container after every edited section)
-    - Testing building the container (docker-compose build container-name) with no errors.
+    - Testing building the container (docker compose build container-name) with no errors.
     - Test it in a real App if possible.
 
 

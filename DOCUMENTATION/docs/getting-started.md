@@ -236,7 +236,7 @@ You can select your own combination of containers from [this list](/docs/Intro#s
 3 - Enter the Workspace container, to execute commands like (Artisan, Composer, PHPUnit, Gulp, ...)
 
 ```bash
-docker-compose exec workspace bash
+docker compose exec workspace bash
 ```
 
 *Alternatively, for Windows PowerShell users: execute the following command to enter any running container:*
@@ -248,12 +248,12 @@ docker exec -it {workspace-container-id} bash
 **Note:** You can add `--user=laradock` to have files created as your host's user. Example: 
 
 ```shell
-docker-compose exec --user=laradock workspace bash
+docker compose exec --user=laradock workspace bash
 ```
 
 *You can change the PUID (User id) and PGID (group id) by adding `WORKSPACE_PUID` / `WORKSPACE_PGID` to your `.env` (defaults are in `workspace/defaults.env`)*
 
-> **Where do I run `artisan`, `composer`, `npm`?** Inside the workspace container, not on your machine. The Laravel and PHP docs assume these tools are installed on your host, but with Laradock they live in the workspace. So either enter it once with `docker-compose exec workspace bash` and run commands from there, or prefix a single command: `docker-compose exec workspace php artisan migrate`.
+> **Where do I run `artisan`, `composer`, `npm`?** Inside the workspace container, not on your machine. The Laravel and PHP docs assume these tools are installed on your host, but with Laradock they live in the workspace. So either enter it once with `docker compose exec workspace bash` and run commands from there, or prefix a single command: `docker compose exec workspace php artisan migrate`.
 
 <br/>
 4 - Update your project configuration to use the database host

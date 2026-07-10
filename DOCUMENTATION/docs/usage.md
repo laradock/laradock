@@ -15,7 +15,7 @@ Once Laradock is installed, you drive it with a handful of Docker and Docker Com
 
 > **The golden rule:** whenever you change the `.env` file, a service's `compose.yml` or `defaults.env`, or any `Dockerfile`, rebuild the affected container for the change to take effect:
 > ```bash
-> docker-compose build {container-name}
+> docker compose build {container-name}
 > ```
 > Most recipes below end with this step. Add `--no-cache` to force a clean rebuild.
 
@@ -36,7 +36,7 @@ docker ps
 To see only the containers from this project:
 
 ```bash
-docker-compose ps
+docker compose ps
 ```
 
 
@@ -48,19 +48,19 @@ Open a shell inside a running container to run commands in it.
 1. List the running containers with `docker ps`.
 2. Enter the one you want:
    ```bash
-   docker-compose exec {container-name} bash
+   docker compose exec {container-name} bash
    ```
    *Example — enter the MySQL container:*
    ```bash
-   docker-compose exec mysql bash
+   docker compose exec mysql bash
    ```
    *Example — open the MySQL prompt directly:*
    ```bash
-   docker-compose exec mysql mysql -udefault -psecret
+   docker compose exec mysql mysql -udefault -psecret
    ```
 3. Type `exit` to leave.
 
-> **Tip:** add `--user=laradock` to run as the Laradock user so created files are owned by your host user: `docker-compose exec --user=laradock workspace bash`.
+> **Tip:** add `--user=laradock` to run as the Laradock user so created files are owned by your host user: `docker compose exec --user=laradock workspace bash`.
 
 
 <a name="Close-all-running-Containers"></a>
@@ -69,13 +69,13 @@ Open a shell inside a running container to run commands in it.
 Stop everything:
 
 ```bash
-docker-compose stop
+docker compose stop
 ```
 
 Stop a single container:
 
 ```bash
-docker-compose stop {container-name}
+docker compose stop {container-name}
 ```
 
 
@@ -83,7 +83,7 @@ docker-compose stop {container-name}
 ### Delete containers
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
 
@@ -93,13 +93,13 @@ docker-compose down
 NGINX writes its logs to the `logs/nginx` directory. For any other container, use:
 
 ```bash
-docker-compose logs {container-name}
+docker compose logs {container-name}
 ```
 
 Follow the log live with `-f`:
 
 ```bash
-docker-compose logs -f {container-name}
+docker compose logs -f {container-name}
 ```
 
 See the [Docker Compose logs options](https://docs.docker.com/compose/reference/logs/) for more.
@@ -111,19 +111,19 @@ See the [Docker Compose logs options](https://docs.docker.com/compose/reference/
 After editing any `Dockerfile`, rebuild for the change to take effect:
 
 ```bash
-docker-compose build
+docker compose build
 ```
 
 Rebuild a single container instead of all of them:
 
 ```bash
-docker-compose build {container-name}
+docker compose build {container-name}
 ```
 
 Use `--no-cache` to force a full, clean rebuild:
 
 ```bash
-docker-compose build --no-cache {container-name}
+docker compose build --no-cache {container-name}
 ```
 
 
@@ -154,7 +154,7 @@ REDIS_PORT=1111
 2. Edit it as you like.
 3. Rebuild the container:
    ```bash
-   docker-compose build mysql
+   docker compose build mysql
    ```
 
 
@@ -182,7 +182,7 @@ By default the latest stable PHP version runs. PHP-FPM serves your application c
    ```
 2. Rebuild the image:
    ```bash
-   docker-compose build php-fpm
+   docker compose build php-fpm
    ```
 
 > For details on the underlying base image, see the [official PHP Docker images](https://hub.docker.com/_/php/).
@@ -199,7 +199,7 @@ The PHP-CLI lives in the Workspace container and is used only for Artisan and Co
    ```
 2. Rebuild the Workspace:
    ```bash
-   docker-compose build workspace
+   docker compose build workspace
    ```
 
 
@@ -211,7 +211,7 @@ PHP extensions are toggled per container. Each PHP container lists a flag for ev
 1. Find the extension's flag in the relevant container's `defaults.env`, then set it to `true` in your `.env` (e.g. `PHP_FPM_INSTALL_GMP=true`).
 2. Rebuild that container with `--no-cache`:
    ```bash
-   docker-compose build --no-cache {container-name}
+   docker compose build --no-cache {container-name}
    ```
 
 The sections below cover the debuggers and the individual extensions Laradock ships with.
@@ -225,7 +225,7 @@ The sections below cover the debuggers and the individual extensions Laradock sh
    - `PHP_FPM_INSTALL_XDEBUG`
 2. Rebuild:
    ```bash
-   docker-compose build workspace php-fpm
+   docker compose build workspace php-fpm
    ```
 
 To configure Xdebug with your IDE, see this [Laravel + Laradock + PhpStorm guide](https://github.com/LarryEitel/laravel-laradock-phpstorm).
@@ -253,7 +253,7 @@ A fast code-coverage driver for PHP 7.1+.
    - `PHP_FPM_INSTALL_PCOV`
 2. Rebuild:
    ```bash
-   docker-compose build workspace php-fpm
+   docker compose build workspace php-fpm
    ```
 
 For tuning tips, see the [pcov README](https://github.com/krakjoe/pcov).
@@ -269,7 +269,7 @@ The interactive PHP debugger.
    - `PHP_FPM_INSTALL_PHPDBG`
 2. Rebuild:
    ```bash
-   docker-compose build workspace php-fpm
+   docker compose build workspace php-fpm
    ```
 
 
@@ -281,7 +281,7 @@ The interactive PHP debugger.
    - `PHP_FPM_INSTALL_IONCUBE`
 2. Rebuild:
    ```bash
-   docker-compose build workspace php-fpm
+   docker compose build workspace php-fpm
    ```
 
 The latest loaders are always downloaded from [ionCube](http://www.ioncube.com/loaders.php).
@@ -295,7 +295,7 @@ The latest loaders are always downloaded from [ionCube](http://www.ioncube.com/l
    - `PHP_FPM_INSTALL_AEROSPIKE`
 2. Rebuild:
    ```bash
-   docker-compose build workspace php-fpm
+   docker compose build workspace php-fpm
    ```
 
 
@@ -305,7 +305,7 @@ The latest loaders are always downloaded from [ionCube](http://www.ioncube.com/l
 1. In `.env`, set `PHP_FPM_INSTALL_CALENDAR` to `true`.
 2. Rebuild:
    ```bash
-   docker-compose build php-fpm
+   docker compose build php-fpm
    ```
 
 
@@ -318,7 +318,7 @@ Libfaketime lets you control the date and time the OS reports, set via the `PHP_
 2. Set `PHP_FPM_FAKETIME` to your desired offset.
 3. Rebuild:
    ```bash
-   docker-compose build php-fpm
+   docker compose build php-fpm
    ```
 
 
@@ -330,7 +330,7 @@ Parse and emit YAML from PHP. See the [PHP YAML reference](http://php.net/manual
 1. In `.env`, set `PHP_FPM_INSTALL_YAML` to `true`.
 2. Rebuild:
    ```bash
-   docker-compose build php-fpm
+   docker compose build php-fpm
    ```
 
 
@@ -340,7 +340,7 @@ Parse and emit YAML from PHP. See the [PHP YAML reference](http://php.net/manual
 1. In `.env`, set `PHP_FPM_INSTALL_RDKAFKA` to `true`.
 2. Rebuild:
    ```bash
-   docker-compose build php-fpm
+   docker compose build php-fpm
    ```
 
 
@@ -352,7 +352,7 @@ Needed for `composer install` when your dependencies require Kafka.
 1. In `.env`, set `WORKSPACE_INSTALL_RDKAFKA` to `true`.
 2. Rebuild:
    ```bash
-   docker-compose build workspace
+   docker compose build workspace
    ```
 
 
@@ -364,7 +364,7 @@ AST exposes the abstract syntax tree generated by PHP 7+. It's required by tools
 1. In `.env`, set `WORKSPACE_INSTALL_AST` to `true`.
 2. Rebuild:
    ```bash
-   docker-compose build workspace
+   docker compose build workspace
    ```
 
 > To pin a specific version, set `WORKSPACE_AST_VERSION` before rebuilding.
@@ -380,7 +380,7 @@ The [Decimal extension](https://php-decimal.io) adds correctly-rounded, arbitrar
    - `PHP_FPM_INSTALL_PHPDECIMAL`
 2. Rebuild:
    ```bash
-   docker-compose build workspace php-fpm
+   docker compose build workspace php-fpm
    ```
 
 
@@ -403,7 +403,7 @@ By default **MySQL 8.4 (LTS)** runs. You can pin any tag published on the [MySQL
    ```
 2. Rebuild:
    ```bash
-   docker-compose build mysql
+   docker compose build mysql
    ```
 
 
@@ -414,7 +414,7 @@ The default root credentials are username `root`, password `root`.
 
 1. Enter the MySQL container:
    ```bash
-   docker-compose exec mysql bash
+   docker compose exec mysql bash
    ```
 2. Open the MySQL prompt (use `mysql -udefault -psecret` for non-root access):
    ```bash
@@ -461,11 +461,11 @@ If you also need MySQL access from your host, change the internal port in `mysql
    - `PHP_FPM_INSTALL_MONGO`
 2. Rebuild:
    ```bash
-   docker-compose build workspace php-fpm
+   docker compose build workspace php-fpm
    ```
 3. Start the container:
    ```bash
-   docker-compose up -d mongo
+   docker compose up -d mongo
    ```
 4. Add a MongoDB connection to `config/database.php`:
    ```php
@@ -502,7 +502,7 @@ If you also need MySQL access from your host, change the internal port in `mysql
 
 1. Start the container:
    ```bash
-   docker-compose up -d rethinkdb
+   docker compose up -d rethinkdb
    ```
 2. Open the admin console at [http://localhost:8090/#tables](http://localhost:8090/#tables) and create a database named `database`.
 3. Add a RethinkDB connection to `config/database.php`:
@@ -536,7 +536,7 @@ If you also need MySQL access from your host, change the internal port in `mysql
 1. Make sure the `postgres` container is running.
 2. Start the backup container:
    ```bash
-   docker-compose up -d pgbackups
+   docker compose up -d pgbackups
    ```
 
 Backups are written to the `../backup` folder on your host. The service reuses your Postgres container's `POSTGRES_DB`, `POSTGRES_USER`, and `POSTGRES_PASSWORD`; adjust the schedule and retention in `pgbackups/compose.yml`.
@@ -572,11 +572,11 @@ Run Artisan, Composer, tests, and other terminal commands from the Workspace con
 
 1. Make sure the Workspace is running:
    ```bash
-   docker-compose up -d workspace
+   docker compose up -d workspace
    ```
 2. Enter it:
    ```bash
-   docker-compose exec workspace bash
+   docker compose exec workspace bash
    ```
    > Add `--user=laradock` so created files are owned by your host user (avoids permission issues on rotated log files).
 3. Run anything you need:
@@ -593,7 +593,7 @@ Run Artisan, Composer, tests, and other terminal commands from the Workspace con
 1. Create a config for the worker in `php-worker/supervisord.d/` by copying `laravel-worker.conf.example` (for example, to `laravel-worker.conf`).
 2. Start the worker:
    ```bash
-   docker-compose up -d php-worker
+   docker compose up -d php-worker
    ```
 
 
@@ -613,7 +613,7 @@ Laradock can run the Laravel scheduler two ways:
 2. Copy `laravel-scheduler.conf.example` in `php-worker/supervisord.d/` to a new config (for example, `laravel-scheduler.conf`).
 3. Start the worker:
    ```bash
-   docker-compose up -d php-worker
+   docker compose up -d php-worker
    ```
 
 
@@ -650,10 +650,10 @@ Recipes for non-Laravel PHP projects.
 1. In `.env`, set `WORKSPACE_INSTALL_SYMFONY` to `true`.
 2. Rebuild the Workspace:
    ```bash
-   docker-compose build workspace
+   docker compose build workspace
    ```
 3. The NGINX sites include a `symfony.conf.example` — edit it so `root` points to your project's `public` directory.
-4. If the containers were already running, restart them: `docker-compose restart`.
+4. If the containers were already running, restart them: `docker compose restart`.
 5. Visit `symfony.test`.
 
 
@@ -673,7 +673,7 @@ CodeIgniter is plain PHP, so it needs no special flag: point your web server's s
 2. Add your credentials to `workspace/auth.json`.
 3. Rebuild the Workspace:
    ```bash
-   docker-compose build workspace
+   docker compose build workspace
    ```
 
 
@@ -689,7 +689,7 @@ The Workspace container is your command-line home. Toggle these tools in `.env` 
 1. In `.env`, set `WORKSPACE_INSTALL_NODE` to `true`.
 2. Rebuild:
    ```bash
-   docker-compose build workspace
+   docker compose build workspace
    ```
 
 > A `.npmrc` is included in the `workspace` folder and is copied into the root and laradock users' home directories on build, in case you need global npm config.
@@ -703,7 +703,7 @@ pnpm stores a single copy of each package version on disk and hard-links it into
 1. In `.env`, set both `WORKSPACE_INSTALL_NODE` and `WORKSPACE_INSTALL_PNPM` to `true`.
 2. Rebuild:
    ```bash
-   docker-compose build workspace
+   docker compose build workspace
    ```
 
 
@@ -713,7 +713,7 @@ pnpm stores a single copy of each package version on disk and hard-links it into
 1. In `.env`, set both `WORKSPACE_INSTALL_NODE` and `WORKSPACE_INSTALL_YARN` to `true`.
 2. Rebuild:
    ```bash
-   docker-compose build workspace
+   docker compose build workspace
    ```
 
 
@@ -723,7 +723,7 @@ pnpm stores a single copy of each package version on disk and hard-links it into
 1. In `.env`, set `WORKSPACE_INSTALL_NPM_GULP` to `true`.
 2. Rebuild:
    ```bash
-   docker-compose build workspace
+   docker compose build workspace
    ```
 
 
@@ -735,7 +735,7 @@ pnpm stores a single copy of each package version on disk and hard-links it into
 1. In `.env`, set `WORKSPACE_INSTALL_NPM_BOWER` to `true`.
 2. Rebuild:
    ```bash
-   docker-compose build workspace
+   docker compose build workspace
    ```
 
 
@@ -746,7 +746,7 @@ pnpm stores a single copy of each package version on disk and hard-links it into
 2. Optionally change the ports: `WORKSPACE_VUE_CLI_SERVE_HOST_PORT` (default `8080`) and `WORKSPACE_VUE_CLI_UI_HOST_PORT` (default `8001`).
 3. Rebuild:
    ```bash
-   docker-compose build workspace
+   docker compose build workspace
    ```
 
 Run `vue serve` or `vue ui` from the Workspace, then browse to the matching port.
@@ -758,7 +758,7 @@ Run `vue serve` or `vue ui` from the Workspace, then browse to the matching port
 1. In `.env`, set `WORKSPACE_INSTALL_NPM_ANGULAR_CLI` to `true`.
 2. Rebuild:
    ```bash
-   docker-compose build workspace
+   docker compose build workspace
    ```
 
 
@@ -771,7 +771,7 @@ Run `vue serve` or `vue ui` from the Workspace, then browse to the matching port
 2. Set `WORKSPACE_INSTALL_NPM_CHECK_UPDATES_CLI` to `true`.
 3. Rebuild:
    ```bash
-   docker-compose build workspace
+   docker compose build workspace
    ```
 
 
@@ -784,7 +784,7 @@ Install your global Composer requirements at build time so they're available in 
 2. Add your dependencies to `workspace/composer.json`.
 3. Rebuild:
    ```bash
-   docker-compose build workspace
+   docker compose build workspace
    ```
 
 
@@ -797,7 +797,7 @@ Install your global Composer requirements at build time so they're available in 
 2. Add `"hirak/prestissimo": "^0.3"` to `workspace/composer.json`.
 3. Rebuild:
    ```bash
-   docker-compose build workspace
+   docker compose build workspace
    ```
 
 
@@ -809,7 +809,7 @@ Install your global Composer requirements at build time so they're available in 
 1. In `.env`, set `WORKSPACE_INSTALL_DEPLOYER` to `true`.
 2. Rebuild:
    ```bash
-   docker-compose build workspace
+   docker compose build workspace
    ```
 
 See the [Deployer documentation](https://deployer.org/docs/).
@@ -823,7 +823,7 @@ See the [Deployer documentation](https://deployer.org/docs/).
 1. In `.env`, set `WORKSPACE_INSTALL_LARAVEL_ENVOY` to `true`.
 2. Rebuild:
    ```bash
-   docker-compose build workspace
+   docker compose build workspace
    ```
 
 See the [Laravel Envoy documentation](https://laravel.com/docs/envoy).
@@ -837,7 +837,7 @@ See the [Laravel Envoy documentation](https://laravel.com/docs/envoy).
 1. In `.env`, set `WORKSPACE_INSTALL_LINUXBREW` to `true`.
 2. Rebuild:
    ```bash
-   docker-compose build workspace
+   docker compose build workspace
    ```
 
 
@@ -850,7 +850,7 @@ See the [Laravel Envoy documentation](https://laravel.com/docs/envoy).
 2. Create a worker config in `php-worker/supervisord.d/` by copying `laravel-worker.conf.example`.
 3. Rebuild:
    ```bash
-   docker-compose build workspace
+   docker compose build workspace
    ```
 
 
@@ -862,7 +862,7 @@ See the [Laravel Envoy documentation](https://laravel.com/docs/envoy).
 1. In `.env`, set `WORKSPACE_INSTALL_GNU_PARALLEL` to `true`.
 2. Rebuild:
    ```bash
-   docker-compose build workspace
+   docker compose build workspace
    ```
 
 
@@ -872,7 +872,7 @@ See the [Laravel Envoy documentation](https://laravel.com/docs/envoy).
 1. In `.env`, set `WORKSPACE_INSTALL_FFMPEG` to `true`.
 2. Rebuild:
    ```bash
-   docker-compose build workspace
+   docker compose build workspace
    ```
 
 > If you queue conversions, also install FFmpeg in the `php-worker` and `php-fpm` containers (same flag pattern) — otherwise the `php-ffmpeg` binary errors out.
@@ -886,7 +886,7 @@ See the [Laravel Envoy documentation](https://laravel.com/docs/envoy).
 1. In `.env`, set `WORKSPACE_INSTALL_AUDIOWAVEFORM` to `true`.
 2. Rebuild:
    ```bash
-   docker-compose build workspace
+   docker compose build workspace
    ```
 
 > If you queue processing, also install it in the `php-worker`, `laravel-horizon`, and `php-fpm` containers (same flag pattern) — otherwise the `audiowaveform` binary errors out.
@@ -900,7 +900,7 @@ See the [Laravel Envoy documentation](https://laravel.com/docs/envoy).
 1. In `.env`, set `WORKSPACE_INSTALL_WKHTMLTOPDF` to `true`.
 2. Rebuild:
    ```bash
-   docker-compose build workspace
+   docker compose build workspace
    ```
 
 > Also install it in the `php-fpm` container (same flag pattern) — otherwise the `wkhtmltopdf` binary errors out.
@@ -914,7 +914,7 @@ See the [Laravel Envoy documentation](https://laravel.com/docs/envoy).
 1. In `.env`, set the flag to `true` for each container you need it in: `WORKSPACE_INSTALL_POPPLER_UTILS`, `PHP_FPM_INSTALL_POPPLER_UTILS`, `PHP_WORKER_INSTALL_POPPLER_UTILS`, `LARAVEL_HORIZON_INSTALL_POPPLER_UTILS`.
 2. Rebuild the affected containers:
    ```bash
-   docker-compose build workspace php-fpm php-worker laravel-horizon
+   docker compose build workspace php-fpm php-worker laravel-horizon
    ```
 
 
@@ -925,9 +925,9 @@ See the [Laravel Envoy documentation](https://laravel.com/docs/envoy).
 
 | Container | Flag | Rebuild |
 | --------- | ---- | ------- |
-| Workspace | `WORKSPACE_INSTALL_GRAPHVIZ` | `docker-compose build workspace` |
-| PHP-FPM (most common) | `PHP_FPM_INSTALL_GRAPHVIZ` | `docker-compose build php-fpm` |
-| PHP-Worker | `PHP_WORKER_INSTALL_GRAPHVIZ` | `docker-compose build php-worker` |
+| Workspace | `WORKSPACE_INSTALL_GRAPHVIZ` | `docker compose build workspace` |
+| PHP-FPM (most common) | `PHP_FPM_INSTALL_GRAPHVIZ` | `docker compose build php-fpm` |
+| PHP-Worker | `PHP_WORKER_INSTALL_GRAPHVIZ` | `docker compose build php-worker` |
 
 Set the flag to `true`, then rebuild.
 
@@ -940,7 +940,7 @@ Set the flag to `true`, then rebuild.
    - `PHP_FPM_INSTALL_DNSUTILS`
 2. Rebuild:
    ```bash
-   docker-compose build workspace php-fpm
+   docker compose build workspace php-fpm
    ```
 
 
@@ -952,12 +952,12 @@ Set the flag to `true`, then rebuild.
 1. In `.env`, set `WORKSPACE_INSTALL_GITHUB_CLI` to `true`.
 2. Rebuild and start the Workspace:
    ```bash
-   docker-compose build workspace
-   docker-compose up -d workspace
+   docker compose build workspace
+   docker compose up -d workspace
    ```
 3. Enter the Workspace:
    ```bash
-   docker-compose exec workspace bash
+   docker compose exec workspace bash
    ```
 4. Authenticate, then install the Copilot extension:
    ```bash
@@ -974,11 +974,11 @@ Set the flag to `true`, then rebuild.
 1. In `.env`, set `SHELL_OH_MY_ZSH` to `true`.
 2. Rebuild:
    ```bash
-   docker-compose build workspace
+   docker compose build workspace
    ```
 3. Use it:
    ```bash
-   docker-compose exec --user=laradock workspace zsh
+   docker compose exec --user=laradock workspace zsh
    ```
 
 > Configure it by editing `/home/laradock/.zshrc` in the running container.
@@ -997,7 +997,7 @@ A bash prompt showing the current branch, diff with remote, and counts of staged
 1. In `.env`, set `WORKSPACE_INSTALL_GIT_PROMPT` to `true`.
 2. Rebuild:
    ```bash
-   docker-compose build workspace
+   docker compose build workspace
    ```
 
 > Customize it by editing `workspace/gitprompt.sh` and rebuilding. See the [bash-git-prompt repo](https://github.com/magicmonty/bash-git-prompt).
@@ -1015,7 +1015,7 @@ On startup, Laradock copies `workspace/aliases.sh` into the container and source
 1. In `.env`, set both `WORKSPACE_INSTALL_POWERLINE` and `WORKSPACE_INSTALL_PYTHON` to `true` (Powerline requires Python).
 2. Rebuild:
    ```bash
-   docker-compose build workspace
+   docker compose build workspace
    ```
 
 
@@ -1024,16 +1024,16 @@ On startup, Laradock copies `workspace/aliases.sh` into the container and source
 <a name="Use-a-Service"></a>
 ## Use a Service
 
-Each service runs in its own container. Start the ones you need with `docker-compose up -d {container-name}` and open the port listed below.
+Each service runs in its own container. Start the ones you need with `docker compose up -d {container-name}` and open the port listed below.
 
 <a name="Use-Redis"></a>
 ### Redis
 
 1. Start the container:
    ```bash
-   docker-compose up -d redis
+   docker compose up -d redis
    ```
-   > To run Redis commands, enter the container with `docker-compose exec redis bash`, then use `redis-cli`.
+   > To run Redis commands, enter the container with `docker compose exec redis bash`, then use `redis-cli`.
 2. In your Laravel `.env`, set `REDIS_HOST=redis`. If that variable isn't there, set the host in `config/database.php` instead — replace the default `127.0.0.1` with `redis`:
    ```php
    'redis' => [
@@ -1063,7 +1063,7 @@ Each service runs in its own container. Start the ones you need with `docker-com
 
 1. Start the container:
    ```bash
-   docker-compose up -d redis-cluster
+   docker compose up -d redis-cluster
    ```
 2. Configure the cluster in `config/database.php` (example uses phpredis — see the [Laravel Redis docs](https://laravel.com/docs/redis#configuration)):
    ```php
@@ -1127,8 +1127,8 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 **Run:**
 
 1. Rename `default_wordpress.vcl` to `default.vcl`.
-2. `docker-compose up -d nginx`
-3. `docker-compose up -d proxy`
+2. `docker compose up -d nginx`
+3. `docker compose up -d proxy`
 
 > Varnish must be built after NGINX, because it checks the domain's availability.
 
@@ -1146,10 +1146,10 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 1. Start it alongside your database:
    ```bash
    # with MySQL
-   docker-compose up -d mysql phpmyadmin
+   docker compose up -d mysql phpmyadmin
 
    # with MariaDB
-   docker-compose up -d mariadb phpmyadmin
+   docker compose up -d mariadb phpmyadmin
    ```
    > For MariaDB, set `PMA_DB_ENGINE=mariadb` in `.env` (default is `mysql`).
 2. Open [http://localhost:8081](http://localhost:8081). For the default MySQL setup, use server `mysql`, user `default`, password `secret`.
@@ -1160,7 +1160,7 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 
 1. Start the container:
    ```bash
-   docker-compose up -d adminer
+   docker compose up -d adminer
    ```
 2. Open [http://localhost:8080](http://localhost:8080).
 
@@ -1176,7 +1176,7 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 
 1. Start it alongside Postgres:
    ```bash
-   docker-compose up -d postgres pgadmin
+   docker compose up -d postgres pgadmin
    ```
 2. Open [http://localhost:5050](http://localhost:5050).
 
@@ -1188,7 +1188,7 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 
 1. Start the container:
    ```bash
-   docker-compose up -d elasticsearch
+   docker compose up -d elasticsearch
    ```
 2. Open [http://localhost:9200](http://localhost:9200).
 
@@ -1198,11 +1198,11 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 
 1. Install it:
    ```bash
-   docker-compose exec elasticsearch /usr/share/elasticsearch/bin/plugin install {plugin-name}
+   docker compose exec elasticsearch /usr/share/elasticsearch/bin/plugin install {plugin-name}
    ```
 2. Restart the container:
    ```bash
-   docker-compose restart elasticsearch
+   docker compose restart elasticsearch
    ```
 
 
@@ -1211,7 +1211,7 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 
 1. Start the container:
    ```bash
-   docker-compose up -d meilisearch
+   docker compose up -d meilisearch
    ```
 2. Open [http://localhost:7700](http://localhost:7700).
 
@@ -1231,7 +1231,7 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
    ```
 2. Start the container:
    ```bash
-   docker-compose up -d typesense
+   docker compose up -d typesense
    ```
 3. The API is available at [http://localhost:8108](http://localhost:8108); health check: `curl http://localhost:8108/health`.
 
@@ -1251,7 +1251,7 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
    ```
 2. Start the container:
    ```bash
-   docker-compose up -d pgvector
+   docker compose up -d pgvector
    ```
 3. Connect on host port `5433`. The `vector` extension is enabled automatically in `PGVECTOR_DB` on first init (see `pgvector/docker-entrypoint-initdb.d/init.sql`).
 <a name="Use-Laravel-Reverb"></a>
@@ -1263,7 +1263,7 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 2. Point Reverb at `0.0.0.0` in your app `.env` so it is reachable from the host: `REVERB_HOST=0.0.0.0`, `REVERB_PORT=8080`.
 3. Start the container:
    ```bash
-   docker-compose up -d laravel-reverb
+   docker compose up -d laravel-reverb
    ```
 4. The WebSocket server is available on host port `8080` (configurable via `LARAVEL_REVERB_PORT`).
 <a name="Use-FrankenPHP"></a>
@@ -1279,7 +1279,7 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
    ```
 2. Start the container:
    ```bash
-   docker-compose up -d frankenphp
+   docker compose up -d frankenphp
    ```
 3. Your app is served on [https://localhost:8443](https://localhost:8443) (HTTP on `8000` auto-redirects to HTTPS). Add PHP extensions by editing `frankenphp/Dockerfile` (`install-php-extensions ...`). For Octane worker mode, follow the [Octane + FrankenPHP docs](https://laravel.com/docs/octane#frankenphp).
 <a name="Use-RoadRunner"></a>
@@ -1295,7 +1295,7 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
    ```
 3. Start the container:
    ```bash
-   docker-compose up -d roadrunner
+   docker compose up -d roadrunner
    ```
 4. Your app is served on host port `8090` (configurable via `ROADRUNNER_HTTP_PORT`).
 
@@ -1307,9 +1307,9 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 
 1. Start the container:
    ```bash
-   docker-compose up -d ollama
+   docker compose up -d ollama
    ```
-2. API on `http://localhost:11434` from the host, `http://ollama:11434` from other containers (OpenAI-compatible base `http://ollama:11434/v1`). Pull a model: `docker-compose exec ollama ollama pull llama3.2`.
+2. API on `http://localhost:11434` from the host, `http://ollama:11434` from other containers (OpenAI-compatible base `http://ollama:11434/v1`). Pull a model: `docker compose exec ollama ollama pull llama3.2`.
 
 
 <a name="Use-LocalAI"></a>
@@ -1319,7 +1319,7 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 
 1. Start the container:
    ```bash
-   docker-compose up -d localai
+   docker compose up -d localai
    ```
 2. API on `http://localhost:8088` (readiness `/readyz`, models `/v1/models`). Models persist in the `localai` volume at `/models`; from your app use `http://localai:8080/v1`.
 
@@ -1332,7 +1332,7 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 1. Edit `litellm/config.yaml` to add your models/providers (a commented Ollama example is included).
 2. Start the container:
    ```bash
-   docker-compose up -d litellm
+   docker compose up -d litellm
    ```
 3. Proxy on `http://localhost:4000` (health `/health/liveliness`). Auth with `LITELLM_MASTER_KEY` (default `sk-laradock`).
 
@@ -1344,7 +1344,7 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 
 1. Start the container:
    ```bash
-   docker-compose up -d n8n
+   docker compose up -d n8n
    ```
 2. Editor at `http://localhost:5678` (health `/healthz`). Workflows persist in the `n8n` volume.
 
@@ -1356,7 +1356,7 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 
 1. Start the container:
    ```bash
-   docker-compose up -d flowise
+   docker compose up -d flowise
    ```
 2. Builder at `http://localhost:3020` (health `/api/v1/ping` returns `pong`).
 
@@ -1368,7 +1368,7 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 
 1. Start the container:
    ```bash
-   docker-compose up -d qdrant
+   docker compose up -d qdrant
    ```
 2. REST on `http://localhost:6333` (health `/healthz`, dashboard `/dashboard`), gRPC on `6334`.
 
@@ -1380,7 +1380,7 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 
 1. Start the container:
    ```bash
-   docker-compose up -d weaviate
+   docker compose up -d weaviate
    ```
 2. Reachable at `http://localhost:8085` (REST under `/v1`, readiness `/v1/.well-known/ready`). Anonymous access is on by default.
 
@@ -1392,7 +1392,7 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 
 1. Start the container:
    ```bash
-   docker-compose up -d chroma
+   docker compose up -d chroma
    ```
 2. API on `http://localhost:8001` (heartbeat `/api/v2/heartbeat`). Data persists in the `chroma` volume at `/data`.
 
@@ -1404,7 +1404,7 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 
 1. Start the container:
    ```bash
-   docker-compose up -d arangodb
+   docker compose up -d arangodb
    ```
 2. Web UI and API on `http://localhost:8529` (version `/_api/version`). Root password set by `ARANGODB_ROOT_PASSWORD` (default `secret`).
 
@@ -1416,7 +1416,7 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 
 1. Start the container:
    ```bash
-   docker-compose up -d surrealdb
+   docker compose up -d surrealdb
    ```
 2. API on `http://localhost:8010` (health `/health`). Credentials `SURREALDB_USER` / `SURREALDB_PASSWORD` (default `root` / `secret`); data persists in the `surrealdb` volume.
 
@@ -1428,7 +1428,7 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 
 1. Start the container:
    ```bash
-   docker-compose up -d influxdb
+   docker compose up -d influxdb
    ```
 2. UI and API on `http://localhost:8086` (health `/health`). First-run credentials from `.env` (`INFLUXDB_INIT_*`): user `laradock`, org `laradock`, bucket `default`.
 
@@ -1440,7 +1440,7 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 
 1. Start the container:
    ```bash
-   docker-compose up -d prometheus
+   docker compose up -d prometheus
    ```
 2. Web UI on `http://localhost:9091` (health `/-/healthy`). Edit `prometheus/prometheus.yml` to add scrape targets, then restart.
 
@@ -1452,7 +1452,7 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 
 1. Start the container:
    ```bash
-   docker-compose up -d valkey
+   docker compose up -d valkey
    ```
 2. Reachable on `${VALKEY_PORT}` (default `6380`) from the host, `valkey:6379` from other containers.
 
@@ -1464,7 +1464,7 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 
 1. Start the container:
    ```bash
-   docker-compose up -d dragonfly
+   docker compose up -d dragonfly
    ```
 2. Reachable on `${DRAGONFLY_PORT}` (default `6381`) from the host, `dragonfly:6379` from other containers. Uses any Redis client.
 
@@ -1476,7 +1476,7 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 
 1. Start the container:
    ```bash
-   docker-compose up -d opensearch
+   docker compose up -d opensearch
    ```
 2. REST API on `http://localhost:9202` (`OPENSEARCH_HOST_PORT`); `curl http://localhost:9202` returns the version. From other containers use `http://opensearch:9200`.
 
@@ -1486,7 +1486,7 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 
 1. Start the container:
    ```bash
-   docker-compose up -d beanstalkd
+   docker compose up -d beanstalkd
    ```
 2. In `config/queue.php`, set `beanstalkd` as the default driver and `QUEUE_HOST=beanstalkd`. It listens on port `11300`.
 3. Install the client:
@@ -1498,7 +1498,7 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 
 1. Start it:
    ```bash
-   docker-compose up -d beanstalkd-console
+   docker compose up -d beanstalkd-console
    ```
 2. Open [http://localhost:2080](http://localhost:2080) (change the port with `BEANSTALKD_CONSOLE_HOST_PORT`).
 3. Add the server — host `beanstalkd`, port `11300`.
@@ -1510,7 +1510,7 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 1. Optionally change the port with `MOSQUITTO_PORT` (default `9001`).
 2. Start the container:
    ```bash
-   docker-compose up -d mosquitto
+   docker compose up -d mosquitto
    ```
 3. Use an MQTT client (for example, [MQTT.js](https://github.com/mqttjs/MQTT.js)) to subscribe and publish:
    ```bash
@@ -1526,14 +1526,14 @@ Varnish sits behind NGINX as a caching reverse proxy. NGINX listens on 80/443, f
 
 1. Start ZooKeeper and Kafka together:
    ```bash
-   docker-compose up -d zookeeper kafka
+   docker compose up -d zookeeper kafka
    ```
 2. The broker listens on port `9092`.
 
 To manage Kafka from a web UI, also start Kafka Manager:
 
 ```bash
-docker-compose up -d kafka-manager
+docker compose up -d kafka-manager
 ```
 
 Open [http://localhost:9020](http://localhost:9020) and add a cluster pointing at the ZooKeeper host `zookeeper:2181`.
@@ -1558,7 +1558,7 @@ Open [http://localhost:9020](http://localhost:9020) and add a cluster pointing a
 
 1. Start the container:
    ```bash
-   docker-compose up -d mailpit
+   docker compose up -d mailpit
    ```
 2. Open [http://localhost:8125](http://localhost:8125).
 3. Configure your Laravel `.env`:
@@ -1577,7 +1577,7 @@ Open [http://localhost:9020](http://localhost:9020) and add a cluster pointing a
 1. Optionally change the port with `GRAFANA_PORT` (default `3000`).
 2. Start the container:
    ```bash
-   docker-compose up -d grafana
+   docker compose up -d grafana
    ```
 3. Open [http://localhost:3000](http://localhost:3000).
 
@@ -1595,7 +1595,7 @@ Open [http://localhost:9020](http://localhost:9020) and add a cluster pointing a
    > Generate the hash with: `echo -n somesupersecretpassword | sha256sum`
 2. Start the container:
    ```bash
-   docker-compose up -d graylog
+   docker compose up -d graylog
    ```
 3. Open [http://localhost:9000](http://localhost:9000) and sign in as `admin` with your password.
 4. Go to **System → Inputs** and launch a new input.
@@ -1606,7 +1606,7 @@ Open [http://localhost:9020](http://localhost:9020) and add a cluster pointing a
 
 1. Start the container:
    ```bash
-   docker-compose up -d netdata
+   docker compose up -d netdata
    ```
 2. Open [http://localhost:19999](http://localhost:19999).
 
@@ -1617,12 +1617,12 @@ Open [http://localhost:9020](http://localhost:9020) and add a cluster pointing a
 1. Optionally set `TARANTOOL_PORT` and `TARANTOOL_ADMIN_PORT` (defaults `3301` and `8002`).
 2. Start both containers:
    ```bash
-   docker-compose up -d tarantool tarantool-admin
+   docker compose up -d tarantool tarantool-admin
    ```
 3. Open the admin tool at [http://localhost:8002](http://localhost:8002) and set **Hostname** to `tarantool` — your data then appears in the panel.
 4. To use the console:
    ```bash
-   docker-compose exec tarantool console
+   docker compose exec tarantool console
    ```
 
 See the [Tarantool documentation](https://www.tarantool.io/en/doc/latest/).
@@ -1633,18 +1633,18 @@ See the [Tarantool documentation](https://www.tarantool.io/en/doc/latest/).
 
 1. Start the container:
    ```bash
-   docker-compose up -d jenkins
+   docker compose up -d jenkins
    ```
 2. Open [http://localhost:8090/](http://localhost:8090/).
 3. Sign in — default user `admin`, password from:
    ```bash
-   docker-compose exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
+   docker compose exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
    ```
 4. Install plugins and create your admin user.
 
 **Notes:**
 
-- Enter as root with `docker-compose exec --user root jenkins bash`.
+- Enter as root with `docker compose exec --user root jenkins bash`.
 - Add a user at `http://localhost:8090/securityRealm/addUser`; restart at `http://localhost:8090/restart`.
 - Review authorization at `http://localhost:8090/configureSecurity/`.
 
@@ -1654,7 +1654,7 @@ See the [Tarantool documentation](https://www.tarantool.io/en/doc/latest/).
 
 1. Start the container:
    ```bash
-   docker-compose up -d gitlab
+   docker compose up -d gitlab
    ```
 2. Open [http://localhost:8989](http://localhost:8989).
 
@@ -1683,11 +1683,11 @@ See the [Tarantool documentation](https://www.tarantool.io/en/doc/latest/).
    ```
 4. Start the runner:
    ```bash
-   docker-compose up -d gitlab-runner
+   docker compose up -d gitlab-runner
    ```
 5. Register it:
    ```bash
-   docker-compose exec gitlab-runner bash
+   docker compose exec gitlab-runner bash
    gitlab-runner register
    ```
 6. Add a `.gitlab-ci.yml` to your project, push, and confirm the pipeline runs:
@@ -1709,7 +1709,7 @@ See the [Tarantool documentation](https://www.tarantool.io/en/doc/latest/).
 1. In `.env`, set `SONARQUBE_HOSTNAME` to your domain (for example, `sonar.example.com`).
 2. Start the container:
    ```bash
-   docker-compose up -d sonarqube
+   docker compose up -d sonarqube
    ```
 3. Open [http://localhost:9000/](http://localhost:9000/).
 
@@ -1717,12 +1717,12 @@ See the [Tarantool documentation](https://www.tarantool.io/en/doc/latest/).
 
 - Database error:
   ```bash
-  docker-compose exec --user=root postgres
+  docker compose exec --user=root postgres
   source docker-entrypoint-initdb.d/init_sonarqube_db.sh
   ```
 - Logs error:
   ```bash
-  docker-compose run --user=root --rm sonarqube chown sonarqube:sonarqube /opt/sonarqube/logs
+  docker compose run --user=root --rm sonarqube chown sonarqube:sonarqube /opt/sonarqube/logs
   ```
 
 
@@ -1733,7 +1733,7 @@ See the [Tarantool documentation](https://www.tarantool.io/en/doc/latest/).
 
 1. Start the container:
    ```bash
-   docker-compose up -d onedev
+   docker compose up -d onedev
    ```
 2. Open [http://localhost:6610](http://localhost:6610) and complete the setup wizard.
 
@@ -1745,7 +1745,7 @@ Git over SSH is available on port `6611`. Change either port with `ONEDEV_HTTP_P
 
 1. Start the container:
    ```bash
-   docker-compose up -d portainer
+   docker compose up -d portainer
    ```
 2. Open [http://localhost:9010](http://localhost:9010).
 
@@ -1756,7 +1756,7 @@ Git over SSH is available on port `6611`. Change either port with `ONEDEV_HTTP_P
 1. Configure it: tweak the `MINIO_*` settings in `.env`, and optionally install the Minio client in the Workspace with `WORKSPACE_INSTALL_MC=true`.
 2. Start the container:
    ```bash
-   docker-compose up -d minio
+   docker compose up -d minio
    ```
 3. Open [http://localhost:9000](http://localhost:9000).
 4. Create a bucket via the web UI or the client:
@@ -1796,7 +1796,7 @@ Git over SSH is available on port `6611`. Change either port with `ONEDEV_HTTP_P
 1. Review the Thumbor settings in `.env`.
 2. Start the container:
    ```bash
-   docker-compose up -d thumbor
+   docker compose up -d thumbor
    ```
 3. Try an example: `http://localhost:8000/unsafe/300x300/i.imgur.com/bvjzPct.jpg`
 
@@ -1809,11 +1809,11 @@ See the [Thumbor documentation](http://thumbor.readthedocs.io/en/latest/index.ht
 1. Add your SSH keys to the `aws-eb-cli/ssh_keys` folder.
 2. Start the container:
    ```bash
-   docker-compose up -d aws
+   docker compose up -d aws
    ```
 3. Enter it:
    ```bash
-   docker-compose exec aws bash
+   docker compose exec aws bash
    ```
 4. Initialize your project with `eb init`. See the [EB CLI docs](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-configuration.html).
 
@@ -1823,7 +1823,7 @@ See the [Thumbor documentation](http://thumbor.readthedocs.io/en/latest/index.ht
 
 1. Start the container:
    ```bash
-   docker-compose up -d keycloak
+   docker compose up -d keycloak
    ```
 2. Open [http://localhost:8081](http://localhost:8081).
 
@@ -1835,7 +1835,7 @@ See the [Thumbor documentation](http://thumbor.readthedocs.io/en/latest/index.ht
 
 1. Start the container:
    ```bash
-   docker-compose up -d metabase
+   docker compose up -d metabase
    ```
 2. Open [http://localhost:3030](http://localhost:3030).
 
@@ -1849,7 +1849,7 @@ See [Running Metabase on Docker](https://www.metabase.com/docs/latest/installati
 
 1. Start the container:
    ```bash
-   docker-compose up -d confluence
+   docker compose up -d confluence
    ```
 2. Open [http://localhost:8090](http://localhost:8090).
 
@@ -1868,7 +1868,7 @@ See [Running Metabase on Docker](https://www.metabase.com/docs/latest/installati
 
 1. Start the container:
    ```bash
-   docker-compose up -d selenium
+   docker compose up -d selenium
    ```
 2. Open [http://localhost:4444/wd/hub](http://localhost:4444/wd/hub).
 
@@ -1880,7 +1880,7 @@ See [Running Metabase on Docker](https://www.metabase.com/docs/latest/installati
 
 1. Start the container:
    ```bash
-   docker-compose up -d tomcat
+   docker compose up -d tomcat
    ```
 2. Open [http://localhost:8080](http://localhost:8080).
 
@@ -1996,7 +1996,7 @@ To install your own CA certificates, drop them in the `workspace/ca-certificates
 For production, create a dedicated Compose file — for example `production-docker-compose.yml` — that includes only the containers you'll actually run:
 
 ```bash
-docker-compose -f production-docker-compose.yml up -d nginx mysql redis ...
+docker compose -f production-docker-compose.yml up -d nginx mysql redis ...
 ```
 
 > **Security:** do not forward database ports in production. Docker publishes them on the host unless told otherwise, which is insecure. Remove lines like:
@@ -2069,14 +2069,14 @@ We also recommend [setting the timezone in Laravel](http://www.camroncade.com/ma
 
 1. In `.env`, set `PHP_FPM_INSTALL_ADDITIONAL_LOCALES` to `true`.
 2. Add the locale codes to `PHP_FPM_ADDITIONAL_LOCALES`.
-3. Rebuild: `docker-compose build php-fpm`.
-4. Check them: `docker-compose exec php-fpm locale -a`.
+3. Rebuild: `docker compose build php-fpm`.
+4. Check them: `docker compose exec php-fpm locale -a`.
 
 **Change the default locale** (default is `POSIX`):
 
 1. In `.env`, set `PHP_FPM_DEFAULT_LOCALE` to your locale, for example `en_US.UTF8`.
-2. Rebuild: `docker-compose build php-fpm`.
-3. Check it: `docker-compose exec php-fpm locale`.
+2. Rebuild: `docker compose build php-fpm`.
+3. Check it: `docker compose exec php-fpm locale`.
 
 
 <a name="CronJobs"></a>
@@ -2135,6 +2135,6 @@ Moving from Docker Toolbox (VirtualBox) to Docker Desktop, and Laradock v3 to v4
 1. Stop the docker VM: `docker-machine stop {default}`.
 2. Install [Docker Desktop for Mac](https://docs.docker.com/docker-for-mac/) or [Windows](https://docs.docker.com/docker-for-windows/).
 3. Upgrade Laradock to `v4.*.*`: `git pull origin master`.
-4. Use Laradock as usual: `docker-compose up -d nginx mysql`.
+4. Use Laradock as usual: `docker compose up -d nginx mysql`.
 
-> If the last step fails, rebuild everything with `docker-compose build --no-cache`. **Warning:** container data might be lost.
+> If the last step fails, rebuild everything with `docker compose build --no-cache`. **Warning:** container data might be lost.
