@@ -11,6 +11,9 @@ keywords:
   - laragon migrate to docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Laragon?
 
 [Laragon](https://laragon.org/) is a free, portable, Windows-native local development environment. It installs Apache or Nginx, PHP, MySQL/MariaDB, and more directly on Windows, automatically creates a virtual host and a pretty `.test` domain for every project you drop into its `www` folder (no manual hosts-file editing), and adds one-click "Quick App" installers for WordPress, Laravel, Symfony, and other stacks. It is widely considered the fastest and most polished of the classic Windows PHP bundles (XAMPP, WAMP, Laragon).
@@ -34,12 +37,30 @@ Adding a plain project: drop its folder into `C:\laragon\www`, click **Reload**,
 ```bash
 cd my-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
+```
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql redis workspace
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 docker compose exec workspace bash
 ```
 
-Your site is served at `http://localhost`. The trade: Laragon's one-click app installers become explicit `docker compose up -d {service}` commands, and virtual hosts are configured through nginx site files instead of being fully automatic, in exchange for the same setup working identically on Linux and macOS, plus 100+ services beyond Laragon's built-in set.
+</TabItem>
+</Tabs>
+
+Your site is served at `http://localhost`. The trade: Laragon's one-click app installers become explicit `./laradock start <service>` commands, and virtual hosts are configured through nginx site files instead of being fully automatic, in exchange for the same setup working identically on Linux and macOS, plus 100+ services beyond Laragon's built-in set.
 
 ## Side by side
 

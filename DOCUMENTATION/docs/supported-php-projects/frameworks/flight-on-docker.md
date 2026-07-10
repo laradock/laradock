@@ -12,6 +12,9 @@ keywords:
   - flight php nginx docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Flight?
 
 [Flight](https://flightphp.com) is an extensible micro-framework for PHP: a small, fast core for routing, request/response handling and simple middleware, without the weight of a full-stack framework. It has no built-in ORM; database access is typically wired manually through PDO (Flight ships a `PdoWrapper` helper for this) against MySQL, PostgreSQL, or even SQLite for lightweight setups. A real Flight app needs a web server, PHP, and whichever database you connect to.
@@ -49,9 +52,22 @@ cd laradock && cp .env.example .env
 
 Most Flight apps need a web server and a database. Start exactly those (the web server pulls in PHP-FPM automatically):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Building something small enough for SQLite instead? Skip the database container entirely; SQLite is already available in the `workspace` container. The full catalog is [here](/docs/Intro#supported-services).
 
@@ -76,9 +92,27 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 Enter the `workspace` container, where Composer and git live:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
-composer create-project flightphp/skeleton .   # only if you have no Flight files yet
+```
+
+</TabItem>
+</Tabs>
+
+Once inside, create the app if you have no Flight files yet:
+
+```bash
+composer create-project flightphp/skeleton .
 ```
 
 Then open [http://localhost](http://localhost). That is a full Flight app running on Docker.
@@ -91,9 +125,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Flight requires PHP 7.4 or newer, so a small legacy script and a brand-new API each run on the version they need, isolated, none of it installed on your machine.
 

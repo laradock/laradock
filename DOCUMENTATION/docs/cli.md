@@ -11,6 +11,9 @@ keywords:
   - php development environment cli
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # The Laradock CLI
 
 The Laradock CLI is the **easy, fast way to get your whole PHP environment running**, without touching Docker or learning any of its commands and flags.
@@ -24,10 +27,31 @@ For most people, this is all you'll ever need.
 ```bash
 git clone https://github.com/laradock/laradock.git
 cd laradock
+```
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
 ./laradock start
 ```
 
-The first time, `start` walks you through a quick setup (it even detects your project and pre-fills every answer, so you can just press Enter), then launches your stack. After that, `./laradock start` simply starts what you chose. Open `http://localhost` and you're running.
+The first time, `start` walks you through a quick setup (it even detects your project and pre-fills every answer, so you can just press Enter), then launches your stack. After that, `./laradock start` simply starts what you chose.
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+cp .env.example .env
+docker compose up -d nginx mysql redis workspace
+```
+
+No wizard, no detection, just plain Compose: copy the env file, then start whichever services your project needs (swap the list for what applies to you).
+
+</TabItem>
+</Tabs>
+
+Open `http://localhost` and you're running.
 
 ## The commands you'll actually use
 

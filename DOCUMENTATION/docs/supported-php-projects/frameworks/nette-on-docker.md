@@ -12,6 +12,9 @@ keywords:
   - nette nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Nette?
 
 [Nette](https://nette.org) is a mature Czech PHP framework known for its Latte templating engine, the Tracy debugger, and configuration written in the NEON format rather than YAML or PHP arrays. It has a long track record and a stable, tightly designed core. A Nette app needs a web server, a PHP runtime, and, once the Nette Database layer or Doctrine is involved, a real database: commonly MySQL or PostgreSQL.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Most Nette apps need a web server and a database (the web server pulls in PHP-FPM automatically):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer PostgreSQL? Swap the name: `docker compose up -d nginx postgres workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 ### 3. Point Nette at the containers
 
@@ -72,8 +88,24 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 
 Enter the shell where Composer and git live, and install dependencies:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+```bash
 composer create-project nette/web-project .   # only if you have no app yet
 composer install
 ```
@@ -88,9 +120,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 The current `nette/web-project` skeleton requires PHP 8.2 or newer, while older Nette 2.x apps run on PHP 7.1 and up. Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs a legacy Nette app and a brand-new one side by side, each isolated, none of it installed on your machine.
 

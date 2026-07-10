@@ -12,6 +12,9 @@ keywords:
   - codeigniter nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is CodeIgniter?
 
 [CodeIgniter](https://codeigniter.com) is a lightweight PHP framework known for a small footprint and a gentle learning curve compared to heavier frameworks. It ships routing, an active-record-style query builder, and a straightforward MVC structure. A CodeIgniter app needs a web server, a PHP runtime, and a database; MySQL and MariaDB are the most common choices, with PostgreSQL and SQLite also supported out of the box.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Most CodeIgniter apps need a web server and a database (the web server pulls in PHP-FPM automatically):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer MariaDB or PostgreSQL? Swap the name: `docker compose up -d nginx mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB or PostgreSQL? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) detects CodeIgniter and pre-selects nginx/mysql for you: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -74,8 +90,24 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 
 Enter the shell where Composer and git live, and run the usual commands:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+```bash
 composer create-project codeigniter4/appstarter .   # only if you have no CodeIgniter app yet
 ```
 
@@ -89,9 +121,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.1
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 CodeIgniter 4 supports PHP 7.4 and newer, with 8.1+ recommended for the latest release, and Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an old CodeIgniter 3 codebase and a current CodeIgniter 4 app side by side, each isolated, none of it installed on your machine.
 

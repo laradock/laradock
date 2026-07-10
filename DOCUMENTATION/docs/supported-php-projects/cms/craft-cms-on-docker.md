@@ -12,6 +12,9 @@ keywords:
   - craft cms nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Craft CMS?
 
 [Craft CMS](https://craftcms.com) is a professional CMS built on the Yii 2 PHP framework, known for a highly flexible content-modeling system (any structure of fields and blocks, not a fixed set of post types) aimed at agencies and custom builds. A Craft CMS site is a PHP application that needs a web server, a PHP runtime, and a real database; unlike a flat-file CMS, Craft requires MySQL or PostgreSQL to run at all.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Craft CMS needs a web server and a database; there is no flat-file mode, so pick one now. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer PostgreSQL? Swap the name: `docker compose up -d nginx postgres workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -75,8 +91,26 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 
 Enter the `workspace` container, where Composer and git live, and run the installer:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then, inside the container:
+
+```bash
 composer create-project craftcms/craft my-craft-site   # only if you have no project yet
 php craft install
 ```
@@ -91,9 +125,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Craft CMS 5 requires PHP 8.2 or newer, and Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older Craft 4 site and a current Craft 5 site side by side, each isolated, none of it installed on your machine.
 

@@ -12,6 +12,9 @@ keywords:
   - woocommerce wordpress mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is WooCommerce?
 
 [WooCommerce](https://woocommerce.com) is the most widely used e-commerce plugin for WordPress, turning a regular WordPress site into a full online store: products, cart, checkout, payments and shipping. It is not a standalone application; it requires a working WordPress install first, which means the same underlying stack as any WordPress site: a web server, PHP-FPM, a MySQL or MariaDB database, and Redis for object caching once a store has real traffic.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 WooCommerce needs everything WordPress needs, plus Redis for object caching once product/order volume grows. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql redis workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql redis workspace
 ```
 
-Prefer MariaDB over MySQL? Swap the name: `docker compose up -d nginx mariadb redis workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb redis workspace` (or `docker compose up -d nginx mariadb redis workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -74,8 +90,26 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 Enter the `workspace` container, where WP-CLI, Composer and git live, set WordPress up, then add WooCommerce on top:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Once inside, run:
+
+```bash
 wp core download          # only if you have no WordPress files yet
 wp core install --url=http://localhost --title="My Store" \
   --admin_user=admin --admin_password=secret --admin_email=you@example.com
@@ -92,9 +126,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 WooCommerce currently recommends PHP 8.3 and works down to PHP 7.4 on older stores, so a legacy site pinned to an old theme and a brand-new build run side by side, each isolated, none of it installed on your machine.
 

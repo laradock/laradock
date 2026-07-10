@@ -12,6 +12,9 @@ keywords:
   - cubecart nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is CubeCart?
 
 [CubeCart](https://www.cubecart.com) is an open-source PHP shopping cart used by a large number of small merchants, known for being lightweight and simple to self-host. It is a plain PHP application, with no framework or Composer step in front of it, backed by a MySQL or MariaDB database and served through a web server via a browser-based installer.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 CubeCart needs a web server and a database. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer MariaDB over MySQL? Swap the name: `docker compose up -d nginx mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -74,8 +90,24 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 Pull the CubeCart source into the workspace container, then finish setup in your browser:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+```bash
 git clone https://github.com/cubecart/v6.git .   # only if you have no CubeCart files yet
 ```
 
@@ -89,9 +121,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Current CubeCart releases need at least PHP 7.4, with 8.2 recommended, while older installs and third-party add-ons sometimes lag behind. Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older CubeCart store and a current one side by side, each isolated, none of it installed on your machine.
 

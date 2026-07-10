@@ -12,6 +12,9 @@ keywords:
   - owncloud nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is ownCloud?
 
 [ownCloud](https://owncloud.com) is a self-hosted file sync and share platform, the project Nextcloud was forked from, known for letting teams keep control of their own storage instead of relying on a third-party cloud. The classic edition, ownCloud 10, is a PHP application backed by MySQL, MariaDB, PostgreSQL or SQLite, served through a web server, with an `occ` command-line tool handling installation and maintenance tasks. ownCloud's newer flagship, Infinite Scale, is a separate product rewritten in Go; this page covers the PHP-based ownCloud 10 line, which remains a maintained option for existing LAMP-style deployments.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 ownCloud needs a web server and a database. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer MariaDB or PostgreSQL instead? Swap the name: `docker compose up -d nginx postgres workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB or PostgreSQL instead? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -74,8 +90,26 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 
 Enter the `workspace` container, place the ownCloud codebase, and run the install command above:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then, inside the container:
+
+```bash
 # place or clone the ownCloud codebase into the current directory first
 ./occ maintenance:install --database "mysql" --database-host "mysql" \
   --database-name "default" --database-user "default" --database-pass "secret" \
@@ -92,9 +126,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.1
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 ownCloud 10 targets PHP 7.4 through 8.1 depending on the release; Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older ownCloud instance you have not upgraded yet and a brand-new one side by side, each isolated, none of it installed on your machine.
 

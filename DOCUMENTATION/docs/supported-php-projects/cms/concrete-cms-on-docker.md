@@ -12,6 +12,9 @@ keywords:
   - concrete cms nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Concrete CMS?
 
 [Concrete CMS](https://www.concretecms.com) (formerly concrete5) is an open source CMS best known for in-context editing: content editors work directly on the live page instead of a separate admin form. A Concrete CMS site is a PHP application backed by a MySQL or MariaDB database, served through a web server.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Concrete CMS needs a web server and a database. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer MariaDB? Swap the name: `docker compose up -d nginx mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -74,8 +90,26 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 
 Enter the `workspace` container, where git and Composer live, and fetch Concrete CMS:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then, inside the container:
+
+```bash
 curl -LO https://www.concretecms.org/download_file/concrete5.zip   # only if you have no files yet
 ```
 
@@ -89,9 +123,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.1
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Concrete CMS 9 supports PHP 7.4 through 8.x, with PHP 8.0 or newer recommended, and Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older site and a current one side by side, each isolated, none of it installed on your machine.
 

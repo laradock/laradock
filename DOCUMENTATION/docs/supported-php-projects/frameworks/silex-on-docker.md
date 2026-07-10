@@ -12,6 +12,9 @@ keywords:
   - silex nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Silex?
 
 [Silex](https://github.com/silexphp/Silex) was a micro-framework built on top of Symfony components and the Pimple dependency injection container, created by Fabien Potencier as a lightweight alternative to full Symfony. It reached its planned end of life in June 2018; the project is archived, and its own README says "DEPRECATED, use Symfony instead." It is not actively developed, but plenty of production apps built on it in the mid-2010s are still running and still need maintenance. A Silex app needs a web server and a PHP runtime, and, if it uses the Doctrine DBAL provider, a real database: usually MySQL or PostgreSQL.
@@ -47,11 +50,24 @@ cd laradock && cp .env.example .env
 
 Most Silex apps need a web server and a database (the web server pulls in PHP-FPM automatically):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Need PostgreSQL instead? Swap the name: `docker compose up -d nginx postgres workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Need PostgreSQL instead? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 ### 3. Point Silex at the containers
 
@@ -75,8 +91,24 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 Enter the shell where Composer and git live, and install dependencies:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+```bash
 composer install
 ```
 
@@ -90,9 +122,22 @@ This is where a native install hurts and Laradock shines, especially for a frame
 PHP_VERSION=7.4
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Silex 2.x was never updated for PHP 8; it targets the PHP 5.5 to 7.x era it was built in. Laradock covers PHP 5.6 all the way to 8.5, so you can run the Silex app on the old PHP version it actually needs while every other project on the same machine stays on a current one, none of it installed on your host.
 

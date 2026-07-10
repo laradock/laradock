@@ -12,6 +12,9 @@ keywords:
   - smf nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Simple Machines Forum (SMF)?
 
 [Simple Machines Forum](https://www.simplemachines.org) (SMF) is a long-running, free open source forum package known for being lightweight, fast, and heavily themeable through a large library of community mods. It is a PHP application backed by a database (MySQL, PostgreSQL, or MariaDB are all supported), served through a web server, and installed through a browser-based setup wizard rather than a CLI installer.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 SMF needs a web server and a database. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer PostgreSQL or MariaDB? Swap the name: `docker compose up -d nginx postgres workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer PostgreSQL or MariaDB? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -75,9 +91,22 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 
 Enter the `workspace` container, place the SMF files in your project's web root (download the archive from [simplemachines.org](https://www.simplemachines.org) and extract it if you have not already), then finish the setup in the browser:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
 ```
+
+</TabItem>
+</Tabs>
 
 Then open [http://localhost](http://localhost) and follow SMF's install wizard: it detects PHP and checks for the `mbstring` and `fileinfo` extensions, asks for the database details from the step above, and creates the admin account. Remove or lock down `install.php` once it is done, as SMF's own docs recommend.
 
@@ -89,9 +118,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 SMF 2.1 needs PHP 7.1 or newer and runs fine on current PHP 8.x; Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older SMF 2.0 forum with legacy mods and a brand-new SMF 2.1 install side by side, each isolated, none of it installed on your machine.
 

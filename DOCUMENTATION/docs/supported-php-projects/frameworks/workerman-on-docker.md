@@ -12,6 +12,9 @@ keywords:
   - workerman nginx docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Workerman?
 
 [Workerman](https://www.workerman.net) is a pure-PHP, event-driven library for building long-running TCP, HTTP and WebSocket servers, no C extension required (though it can use `ext-event` for higher throughput). Like Swoole, a Workerman app is not served by NGINX and PHP-FPM; it forks its own worker processes and listens on a port itself, staying alive between requests instead of bootstrapping PHP fresh on every one. It is the base of frameworks like Webman and GatewayWorker. Workerman needs the `pcntl` extension to fork multiple worker processes on Linux; beyond that, a database or Redis is only needed if the app built on top of it uses one.
@@ -47,9 +50,22 @@ cd laradock && cp .env.example .env
 
 For development, the `workspace` container is enough; add a database only if your app uses one:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start workspace mysql
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d workspace mysql
 ```
+
+</TabItem>
+</Tabs>
 
 The full catalog is [here](/docs/Intro#supported-services).
 
@@ -71,8 +87,26 @@ To reach it from your host, add a port mapping for the container running it, or 
 
 ### 4. Run the server
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then, inside the container:
+
+```bash
 composer require workerman/workerman
 php start.php start
 ```
@@ -87,9 +121,22 @@ Set the version in Laradock's `.env` and rebuild:
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild workspace php-worker
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build workspace php-worker
 ```
+
+</TabItem>
+</Tabs>
 
 Current Workerman releases require PHP 8.1 or newer; older Workerman 4.x apps run on PHP 5.4 and up. Laradock covers PHP 5.6 all the way to 8.5, so an old and a new Workerman app can run side by side, each isolated, none of it installed on your machine.
 

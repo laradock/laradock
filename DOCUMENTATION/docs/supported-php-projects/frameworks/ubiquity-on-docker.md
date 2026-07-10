@@ -12,6 +12,9 @@ keywords:
   - ubiquity nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Ubiquity?
 
 [Ubiquity](https://github.com/phpMv/ubiquity) is a PHP MVC framework built around speed and a heavy code-generation devtools CLI: it can scaffold controllers, models, views and CRUD screens for you, and ships a browser-based admin ("webtools") alongside it. It supports several database engines through its ORM, most commonly MySQL and PostgreSQL over PDO, but also Mysqli, MongoDB and others. A Ubiquity app needs a web server, a PHP runtime, and a real database.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 A Ubiquity app needs a web server and a database (the web server pulls in PHP-FPM automatically):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer PostgreSQL? Swap the name: `docker compose up -d nginx postgres workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 ### 3. Point Ubiquity at the containers
 
@@ -77,8 +93,26 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 
 Enter the shell where Composer, git and the Ubiquity devtools live:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Once inside:
+
+```bash
 composer create-project phpmv/ubiquity-project .   # only if you have no project yet
 composer install
 ```
@@ -93,9 +127,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Ubiquity requires PHP 7.4 or newer, and Laradock covers anything from PHP 5.6 to 8.5, so an older Ubiquity project and a brand-new one run side by side, each isolated, none of it installed on your machine.
 

@@ -11,6 +11,9 @@ keywords:
   - php development environment mac
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Laravel Herd?
 
 [Laravel Herd](https://herd.laravel.com/) is a native macOS and Windows application, built by the Laravel team, that installs PHP, a web server, and local `.test` domains directly onto your computer, no Docker, no containers, no virtual machine. You open the app, and your PHP projects are served instantly.
@@ -39,12 +42,30 @@ The catch appears at the services layer: MySQL, Redis, queues, and mail capture 
 ```bash
 cd my-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
-docker compose up -d nginx mysql redis workspace
-docker compose exec workspace bash   # artisan, composer, node, all inside
+cd laradock
 ```
 
-No app installed, no native PHP, no menu bar icon: your machine stays clean, and `docker compose down` leaves zero traces. Every service is free and unlimited: databases, queues, search, mail catchers, monitoring, local LLMs; 100+ of them, one command each.
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql redis workspace
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+cp .env.example .env
+docker compose up -d nginx mysql redis workspace
+docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Inside the workspace: artisan, composer, node, all ready to go. No app installed, no native PHP, no menu bar icon: your machine stays clean, and `./laradock remove` leaves zero traces. Every service is free and unlimited: databases, queues, search, mail catchers, monitoring, local LLMs; 100+ of them, one command each.
 
 Change PHP version: `PHP_VERSION=8.3` in `.env` + rebuild. Different projects can run different versions side by side in their own containers.
 
@@ -80,10 +101,10 @@ Change PHP version: `PHP_VERSION=8.3` in `.env` + rebuild. Different projects ca
 1. **Export your databases** from wherever they live today (Herd Pro's MySQL, DBngin, or a local install): `mysqldump -h 127.0.0.1 -u root mydb > backup.sql`
 2. **Quit Herd** (its native Nginx holds port 80, which Laradock's web server needs).
 3. **Add Laradock** next to your code: `git clone https://github.com/laradock/laradock.git && cd laradock && cp .env.example .env`
-4. **Start your stack:** `docker compose up -d nginx mysql redis workspace`
-5. **Import the database:** `docker compose exec -T mysql mysql -uroot -proot default < ../backup.sql`
+4. **Start your stack:** `./laradock start nginx mysql redis workspace` (or `docker compose up -d nginx mysql redis workspace`)
+5. **Import the database:** `./laradock exec -T mysql mysql -uroot -proot default < ../backup.sql`
 6. **Update your app's `.env`:** `DB_HOST=mysql`, `REDIS_HOST=redis`, credentials from `mysql/defaults.env`.
-7. Your site now answers at `http://localhost` instead of `my-app.test`, and `artisan`/`composer` run inside `docker compose exec workspace bash`.
+7. Your site now answers at `http://localhost` instead of `my-app.test`, and `artisan`/`composer` run inside `./laradock workspace`.
 
 ## Frequently Asked Questions
 

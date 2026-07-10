@@ -12,6 +12,9 @@ keywords:
   - litecart nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is LiteCart?
 
 [LiteCart](https://www.litecart.net) is a small, free open-source PHP shopping cart built with jQuery and a minimal footprint in mind, aimed at merchants who want a lightweight store without a large framework underneath. It is a plain PHP application, with no Composer step in front of it, backed by a MySQL (or MariaDB) database and served through a web server via a browser-based installer.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 LiteCart needs a web server and a database. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer MariaDB over MySQL? Swap the name: `docker compose up -d nginx mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -74,9 +90,27 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 Pull the LiteCart source into the workspace container, then finish setup in your browser:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
-git clone https://github.com/litecart/litecart.git .   # only if you have no LiteCart files yet
+```
+
+</TabItem>
+</Tabs>
+
+Once inside, clone LiteCart (only if you have no LiteCart files yet):
+
+```bash
+git clone https://github.com/litecart/litecart.git .
 ```
 
 Open [http://localhost](http://localhost) and run the LiteCart installation wizard. That is a full LiteCart store running on Docker.
@@ -89,9 +123,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 LiteCart's own requirements start at PHP 5.6 and go up through current PHP 8.x releases, with the latest stable PHP recommended for best performance; older installs with unmodified custom templates sometimes need to stay on an earlier version. Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older LiteCart store and a current one side by side, each isolated, none of it installed on your machine.
 

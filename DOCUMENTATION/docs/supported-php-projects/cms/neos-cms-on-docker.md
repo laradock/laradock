@@ -12,6 +12,9 @@ keywords:
   - neos flow docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Neos CMS?
 
 [Neos](https://www.neos.io) is an open-source CMS built on the Flow framework, from the same team behind TYPO3. It is aimed at content-heavy, structured editing workflows, with a distinct content repository model separate from the presentation layer. It is a full Flow application, installed through Composer, backed by MySQL, MariaDB or PostgreSQL via Doctrine, served through a web server and a PHP runtime.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Every Neos project needs a web server, PHP-FPM and a database:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer PostgreSQL or MariaDB? Swap the name: `docker compose up -d nginx postgres workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer PostgreSQL or MariaDB? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -78,8 +94,24 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 Enter the shell where Composer and the Flow console live, and run the usual commands:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+```bash
 composer create-project neos/neos-base-distribution .   # only if you have no Neos project yet
 ./flow setup
 ```
@@ -94,9 +126,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Recent Neos and Flow releases require PHP 8.2 or newer, while older Neos versions run on PHP 7.1+, so a legacy project and a brand-new one can run side by side on different PHP versions, each isolated, none of it installed on your machine.
 

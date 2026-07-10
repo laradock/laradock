@@ -12,6 +12,9 @@ keywords:
   - grav flat-file cms docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Grav?
 
 [Grav](https://getgrav.org) is a flat-file CMS built on PHP, Symfony components and Twig, known for being fast to set up and run: content lives as Markdown files with YAML frontmatter, and there is no database at all. A Grav site needs nothing but a web server and a PHP runtime; that is the entire infrastructure requirement.
@@ -49,9 +52,22 @@ cd laradock && cp .env.example .env
 
 Grav has no database, so a web server is the whole stack; PHP-FPM comes with it automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx workspace
 ```
+
+</TabItem>
+</Tabs>
 
 The full catalog of everything else available is [here](/docs/Intro#supported-services).
 
@@ -65,8 +81,24 @@ There is no database host to configure. Grav's pages, config and users live as f
 
 Enter the `workspace` container, where Composer and git live, and create the project:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+```bash
 composer create-project getgrav/grav .   # only if you have no Grav files yet
 bin/grav install
 ```
@@ -81,9 +113,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Grav requires PHP 7.3.6 or newer, with 8.1 or newer recommended for current releases, and Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older Grav site and a brand-new one side by side, each isolated, none of it installed on your machine.
 

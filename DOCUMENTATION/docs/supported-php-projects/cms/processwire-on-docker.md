@@ -12,6 +12,9 @@ keywords:
   - processwire nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is ProcessWire?
 
 [ProcessWire](https://processwire.com) is an open-source CMS and web application framework built around a flexible, field-based content model and a powerful selector API for querying pages. Unlike most other CMS platforms in this series, it is not flat-file: a real ProcessWire site is a PHP application backed by a MySQL (or MariaDB) database, served through a web server, with a browser-based installer that does most of the setup for you.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 ProcessWire needs a web server and a database. Start exactly those (the web server pulls in PHP-FPM automatically):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer MariaDB over MySQL? Swap the name: `docker compose up -d nginx mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -74,8 +90,24 @@ Override any of them by adding the line to Laradock's `.env` (it always wins).
 
 Enter the `workspace` container to fetch ProcessWire, then run the installer from your browser:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+```bash
 composer create-project processwire/processwire my-processwire-site
 ```
 
@@ -93,9 +125,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 ProcessWire runs on PHP 7.2+, with PHP 8.x recommended for current releases, so the same tool runs a legacy site and a brand-new build side by side, each isolated, none of it installed on your machine.
 

@@ -12,6 +12,9 @@ keywords:
   - leaf php nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Leaf PHP?
 
 [Leaf](https://leafphp.dev) is a modern, lightweight PHP framework built for simplicity and speed, in the same spirit as Slim or Express.js rather than a heavier full-stack framework. Its own CLI can scaffold a project, and the optional Leaf MVC skeleton adds routing, a query builder (Leaf DB) and a config-driven structure on top of the minimal core. A typical Leaf app needs a web server, a PHP runtime, and, once Leaf DB is involved, a real database: usually MySQL or PostgreSQL.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Most Leaf MVC apps need a web server and a database (the web server pulls in PHP-FPM automatically):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer PostgreSQL? Swap the name: `docker compose up -d nginx postgres workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 ### 3. Point Leaf at the containers
 
@@ -74,8 +90,24 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 
 Enter the shell where Composer and git live, and run the usual commands:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+```bash
 composer create-project leafs/mvc .   # only if you have no app yet
 composer install
 ```
@@ -90,9 +122,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Leaf currently supports PHP 7.4 and newer, with the project moving its minimum requirement to PHP 8.1. Laradock covers anything from PHP 5.6 to 8.5, so an older app and a brand-new one run side by side, each isolated, none of it installed on your machine.
 

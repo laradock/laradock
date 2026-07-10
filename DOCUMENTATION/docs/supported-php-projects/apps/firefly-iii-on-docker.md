@@ -12,6 +12,9 @@ keywords:
   - firefly iii nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Firefly III?
 
 [Firefly III](https://www.firefly-iii.org) is a free, open-source personal finance manager: it tracks income and expenses, budgets, bills and multi-currency accounts, and gives you reports and charts over all of it. Under the hood it is a Laravel application, so like any Laravel app it needs a web server, a PHP runtime, and a database (MySQL/MariaDB, PostgreSQL or SQLite); Redis is optional for cache and queues.
@@ -48,9 +51,22 @@ cd laradock && cp .env.example .env
 
 Firefly III needs a web server and a database. Redis is optional but recommended once you rely on queues or caching. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql redis workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql redis workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Prefer PostgreSQL? Swap the name: `docker compose up -d nginx postgres redis workspace`. The full catalog is [here](/docs/Intro#supported-services).
 
@@ -76,8 +92,26 @@ DB_PASSWORD=secret
 
 Enter the `workspace` container, where Composer, Node and Artisan live, and run Firefly III's install steps:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then, inside the container:
+
+```bash
 composer install --no-dev
 php artisan migrate --seed
 php artisan firefly-iii:upgrade-database
@@ -94,9 +128,22 @@ This is where a native install hurts and Laradock shines. Recent Firefly III rel
 PHP_VERSION=8.5
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 That means you can pin an older Firefly III release to an older PHP version, or move straight to what the latest release requires, without touching anything installed on your machine.
 

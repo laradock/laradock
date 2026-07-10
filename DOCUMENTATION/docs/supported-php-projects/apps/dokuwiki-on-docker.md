@@ -12,6 +12,9 @@ keywords:
   - dokuwiki nginx php docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is DokuWiki?
 
 [DokuWiki](https://www.dokuwiki.org) is an open source wiki application known for one thing above all: it has no database. Pages, revisions and media are stored as plain text files on disk, in the `data/` directory, which makes backups a simple file copy and the whole thing easy to reason about. It is a PHP application served through a web server; that is the entire stack it needs.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 DokuWiki only needs a web server; there is no database to start. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx workspace
 ```
 
-Prefer Apache or Caddy instead? Swap the name: `docker compose up -d apache2 workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer Apache or Caddy instead? Swap the name: `./laradock start apache2 workspace` (or `docker compose up -d apache2 workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -65,9 +81,22 @@ There is no database host to configure. Just make sure DokuWiki's `data/`, `conf
 
 Enter the `workspace` container, place the DokuWiki files in your project's web root (download the archive from [dokuwiki.org](https://www.dokuwiki.org) and extract it if you have not already):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
 ```
+
+</TabItem>
+</Tabs>
 
 Then open [http://localhost/install.php](http://localhost/install.php) and finish DokuWiki's browser installer: it checks file permissions, asks for a wiki name and admin account, and writes the configuration to `conf/local.php`. Remove or lock down `install.php` once it is done, as DokuWiki's own docs recommend.
 
@@ -79,9 +108,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Current DokuWiki releases need PHP 8.0 or newer; Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older wiki pinned to a legacy plugin and a brand-new install side by side, each isolated, none of it installed on your machine.
 

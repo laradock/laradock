@@ -12,6 +12,9 @@ keywords:
   - matomo nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Matomo?
 
 [Matomo](https://matomo.org) (formerly Piwik) is a self-hosted, privacy-focused web analytics platform, an open-source alternative to Google Analytics that keeps all visitor data on your own server. It is a PHP application backed by a MySQL or MariaDB database, served through a web server, and it needs a recurring cron job to archive report data plus a comfortable `memory_limit` once you are tracking sites with real traffic.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Matomo needs a web server and a database. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer MariaDB? Swap the name: `docker compose up -d nginx mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -74,9 +90,22 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 
 Enter the `workspace` container, place the Matomo files in your project's web root (download the package from [matomo.org](https://matomo.org/download/) and extract it if you have not already), then finish the setup in the browser:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
 ```
+
+</TabItem>
+</Tabs>
 
 Then open [http://localhost](http://localhost) and follow Matomo's install wizard: system check, database connection (the values above), table creation, Super User account, and your first website/tracking code. There is no built-in, fully headless CLI equivalent to this wizard; if you need an unattended install, either pre-fill `config/config.ini.php` with your database details before the first request (Matomo then skips the database step), or use the community [ExtraTools plugin](https://plugins.matomo.org/ExtraTools), which adds a `matomo:install` console command.
 
@@ -88,9 +117,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Matomo works down to PHP 7.2.5 but is markedly faster on current PHP 8.x, which is what the project recommends; Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older Matomo install and a brand-new one side by side, each isolated, none of it installed on your machine.
 

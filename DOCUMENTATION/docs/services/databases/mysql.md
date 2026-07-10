@@ -18,42 +18,17 @@ import TabItem from '@theme/TabItem';
 
 [MySQL](https://www.mysql.com) is the world's most widely used open-source relational database, the default choice for most PHP apps (Laravel, WordPress, and most of the frameworks and CMSs Laradock supports ship with MySQL out of the box). Laradock runs it as its own container, pre-wired with sane defaults, so you never install MySQL on your host machine.
 
-:::tip Two ways to run everything
-Each command below has a **Laradock CLI (Easy)** tab (plain English, recommended) and a **Docker Compose (Advanced)** tab (the raw command it runs under the hood). Pick a tab once and the whole page follows it. New here? Stay on the CLI.
-:::
-
 ## Start MySQL
 
-Normally you start MySQL **alongside your site**, not on its own. With the CLI, `php-fpm` and the `workspace` are added for you automatically:
-
 <Tabs groupId="interface">
-<TabItem value="cli" label="Laradock CLI (Easy)">
-
-```bash
-./laradock start nginx mysql
-```
-
-</TabItem>
-<TabItem value="docker" label="Docker Compose (Advanced)">
-
-```bash
-docker compose up -d nginx mysql php-fpm workspace
-```
-
-</TabItem>
-</Tabs>
-
-To start just MySQL by itself:
-
-<Tabs groupId="interface">
-<TabItem value="cli" label="Laradock CLI (Easy)">
+<TabItem value="cli" label="Laradock CLI">
 
 ```bash
 ./laradock start mysql
 ```
 
 </TabItem>
-<TabItem value="docker" label="Docker Compose (Advanced)">
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose up -d mysql
@@ -62,21 +37,21 @@ docker compose up -d mysql
 </TabItem>
 </Tabs>
 
-Your data is created on first start and kept between restarts.
+Your data is created on first start and kept between restarts. Name any other services alongside it to start them together, for example `./laradock start mysql redis`.
 
 ## Stop MySQL
 
 Stopping just pauses the container; **your data is safe**:
 
 <Tabs groupId="interface">
-<TabItem value="cli" label="Laradock CLI (Easy)">
+<TabItem value="cli" label="Laradock CLI">
 
 ```bash
 ./laradock stop mysql
 ```
 
 </TabItem>
-<TabItem value="docker" label="Docker Compose (Advanced)">
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose stop mysql
@@ -88,14 +63,14 @@ docker compose stop mysql
 To delete the container entirely (the data on disk is still untouched, it lives under `DATA_PATH_HOST`):
 
 <Tabs groupId="interface">
-<TabItem value="cli" label="Laradock CLI (Easy)">
+<TabItem value="cli" label="Laradock CLI">
 
 ```bash
 ./laradock remove mysql
 ```
 
 </TabItem>
-<TabItem value="docker" label="Docker Compose (Advanced)">
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose rm -sf mysql
@@ -129,14 +104,14 @@ MYSQL_VERSION=8.0
 Then apply the change:
 
 <Tabs groupId="interface">
-<TabItem value="cli" label="Laradock CLI (Easy)">
+<TabItem value="cli" label="Laradock CLI">
 
 ```bash
 ./laradock rebuild mysql
 ```
 
 </TabItem>
-<TabItem value="docker" label="Docker Compose (Advanced)">
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose build mysql
@@ -145,14 +120,18 @@ docker compose build mysql
 </TabItem>
 </Tabs>
 
-Changing the **major** version against an existing data folder can break startup (MySQL doesn't downgrade/cross-upgrade data files cleanly). If you hit that, point `DATA_PATH_HOST` at a fresh folder or back up and drop the old one.
+Changing the **major** version against an existing data folder can break startup (MySQL doesn't downgrade/cross-upgrade data files cleanly). The safe way to move to a new major version without losing data:
+
+1. **Back up first** (see [Backup and restore](#backup-and-restore) below): `./laradock exec -T mysql mysqldump -uroot -proot default > backup.sql`
+2. Set the new `MYSQL_VERSION` in `.env` and [start completely fresh](#start-completely-fresh-wipe-all-data), which wipes `DATA_PATH_HOST/mysql` and rebuilds on the new version.
+3. Restore your backup into the fresh container: `./laradock exec -T mysql mysql -uroot -proot default < backup.sql`
 
 ## Root access
 
 Default root credentials are `root` / `root` (`MYSQL_ROOT_PASSWORD`). Open a terminal inside the MySQL container, then start the MySQL prompt:
 
 <Tabs groupId="interface">
-<TabItem value="cli" label="Laradock CLI (Easy)">
+<TabItem value="cli" label="Laradock CLI">
 
 ```bash
 ./laradock enter mysql
@@ -160,7 +139,7 @@ mysql -uroot -proot
 ```
 
 </TabItem>
-<TabItem value="docker" label="Docker Compose (Advanced)">
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose exec mysql bash
@@ -189,7 +168,7 @@ GRANT ALL ON `your_db_1`.* TO 'default'@'%';
 This file only auto-runs the **first time** the container initializes its data folder (when `DATA_PATH_HOST/mysql` doesn't exist yet). If your data folder already exists, run it manually instead:
 
 <Tabs groupId="interface">
-<TabItem value="cli" label="Laradock CLI (Easy)">
+<TabItem value="cli" label="Laradock CLI">
 
 ```bash
 ./laradock enter mysql
@@ -197,7 +176,7 @@ mysql -uroot -proot < /docker-entrypoint-initdb.d/createdb.sql
 ```
 
 </TabItem>
-<TabItem value="docker" label="Docker Compose (Advanced)">
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose exec mysql bash
@@ -206,6 +185,99 @@ mysql -uroot -proot < /docker-entrypoint-initdb.d/createdb.sql
 
 </TabItem>
 </Tabs>
+
+## Backup and restore
+
+**Export (back up) a database** to a `.sql` file on your host:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock exec -T mysql mysqldump -uroot -proot default > backup.sql
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose exec -T mysql mysqldump -uroot -proot default > backup.sql
+```
+
+</TabItem>
+</Tabs>
+
+Replace `default` with your database name (`MYSQL_DATABASE`). The `-T` disables the container's pseudo-terminal so the dump isn't corrupted when redirected to a file, always include it when piping output to or from a file.
+
+**Restore (import) a database** from a `.sql` file:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock exec -T mysql mysql -uroot -proot default < backup.sql
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose exec -T mysql mysql -uroot -proot default < backup.sql
+```
+
+</TabItem>
+</Tabs>
+
+Unlike the `createdb.sql` first-boot init file above, this works anytime, the target database (`default` here) just has to already exist. This is also how you bring in a dump from a client's production site or your previous local MySQL install.
+
+## Start completely fresh (wipe all data)
+
+To throw away everything and start MySQL from a clean, empty state (⚠️ this **permanently deletes** every database in this container, back up first if you need anything):
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock stop mysql
+./laradock remove mysql
+rm -rf "${DATA_PATH_HOST:-~/.laradock/data}/mysql"
+./laradock start mysql
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose stop mysql
+docker compose rm -sf mysql
+rm -rf "${DATA_PATH_HOST:-~/.laradock/data}/mysql"
+docker compose up -d mysql
+```
+
+</TabItem>
+</Tabs>
+
+`DATA_PATH_HOST` is whatever you have set in `.env` (`~/.laradock/data` by default), so the folder above is where MySQL's data actually lives on your machine. Deleting it and starting again re-runs first-boot initialization: `MYSQL_DATABASE`, `MYSQL_USER`, `MYSQL_PASSWORD`, and any `docker-entrypoint-initdb.d` scripts all apply fresh, exactly like a brand-new install.
+
+## Character set, collation, and timezone
+
+Two common mismatches to fix in `mysql/my.cnf`:
+
+```conf
+[mysqld]
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+default-time-zone = "+00:00"
+```
+
+- **`utf8mb4`** (not plain `utf8`) is what you need for full emoji/multi-byte Unicode support, common with WordPress and user-generated content.
+- **`default-time-zone`** controls what `NOW()`/`CURRENT_TIMESTAMP` return inside MySQL; set it to match your app (`WORKSPACE_TIMEZONE` in `.env` controls the *container's* OS timezone, this is MySQL's own separate setting).
+
+Restart after editing (`./laradock restart mysql`). This only affects **new** databases/tables; existing ones keep their original charset unless you `ALTER` them.
+
+## Talk to this database from another Laradock project
+
+Each Laradock project is its own isolated Docker network by default, so a second project's containers can't reach this MySQL by container name out of the box. Easiest fix: publish the port (already done, `MYSQL_PORT`) and have the other project connect to your **host machine's** address instead of `mysql`, for example `DB_HOST=host.docker.internal` (Docker Desktop) with `DB_PORT` set to this project's `MYSQL_PORT`. Make sure the two projects use different `MYSQL_PORT` values if they're both running at once.
 
 ## Change the MySQL port
 
@@ -221,14 +293,14 @@ If you also need to reach it from your host on that port, update the mapping in 
 **Host-side port** (what you connect to from your machine, container-internal port unchanged): set `MYSQL_PORT` in `.env`, then restart:
 
 <Tabs groupId="interface">
-<TabItem value="cli" label="Laradock CLI (Easy)">
+<TabItem value="cli" label="Laradock CLI">
 
 ```bash
 ./laradock restart mysql
 ```
 
 </TabItem>
-<TabItem value="docker" label="Docker Compose (Advanced)">
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose restart mysql
@@ -244,7 +316,7 @@ Inside Laradock, other containers reach MySQL by container name: `DB_HOST=mysql`
 ## Common issues
 
 - **"Access denied" right after first boot.** The container needs a few seconds to initialize on a truly fresh `DATA_PATH_HOST`. Run `./laradock logs mysql` and wait for `ready for connections` before connecting.
-- **Credential/database changes don't take effect.** `MYSQL_DATABASE`, `MYSQL_USER`, and `MYSQL_PASSWORD` are only applied when the data folder is created for the first time. If you change them afterward, either drop `DATA_PATH_HOST/mysql` (data loss) or create the new user/database manually after `./laradock enter mysql`.
+- **Credential/database changes don't take effect.** `MYSQL_DATABASE`, `MYSQL_USER`, and `MYSQL_PASSWORD` are only applied when the data folder is created for the first time. If you change them afterward, either [start completely fresh](#start-completely-fresh-wipe-all-data) (data loss, back up first) or create the new user/database manually after `./laradock enter mysql`.
 - **Two Laradock projects overwrite each other's data.** Running more than one Laradock on the same machine? Set both `COMPOSE_PROJECT_NAME` and `DATA_PATH_HOST` to unique values per project, otherwise they share the same MySQL data on disk.
 - **Port already in use on your host.** Another local MySQL (or another Laradock project) is already bound to `3306`. Change `MYSQL_PORT` in `.env` and restart: `./laradock restart mysql`.
 - **App can't connect but the container is running.** Confirm the app's `.env` uses `DB_HOST=mysql` (the container name), not `localhost` or `127.0.0.1`, those only work from your host machine, not from inside another container.

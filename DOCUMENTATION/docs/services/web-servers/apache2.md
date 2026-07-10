@@ -11,27 +11,69 @@ keywords:
   - apache ssl docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Apache?
 
 [Apache HTTP Server](https://httpd.apache.org) is one of the most widely used web servers, known for `.htaccess`-driven per-directory config and broad module support. Laradock runs it as an alternative to Nginx, proxying PHP requests to `php-fpm`.
 
 ## Start Apache
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start apache2
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d apache2
 ```
 
+</TabItem>
+</Tabs>
+
 Apache's `compose.yml` declares `depends_on: php-fpm`, so Compose starts it automatically. Add whatever else your app needs, for example:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start apache2 mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose up -d apache2 mysql workspace
 ```
 
+</TabItem>
+</Tabs>
+
 ## Stop Apache
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock stop apache2
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose stop apache2
 ```
+
+</TabItem>
+</Tabs>
 
 ## Configuration
 
@@ -61,9 +103,22 @@ cp apache2/sites/sample.conf.example apache2/sites/myapp.conf
 
 Edit `ServerName` and `DocumentRoot`, then restart:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock restart apache2
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose restart apache2
 ```
+
+</TabItem>
+</Tabs>
 
 ```apacheconf
 <VirtualHost *:80>
@@ -78,6 +133,31 @@ docker compose restart apache2
 </VirtualHost>
 ```
 
+## Test a config change before restarting
+
+A typo in a VirtualHost file can take the whole server down on restart. Check syntax first, inside the running container:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock enter apache2
+apache2ctl configtest
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose exec apache2 bash
+apache2ctl configtest
+```
+
+</TabItem>
+</Tabs>
+
+`Syntax OK` means it's safe to restart. Anything else names the file and line to fix.
+
 ## Enable SSL
 
 Copy `apache2/sites/default.apache.ssl.example` alongside your site config, point it at your certificate files under the folder set by `APACHE_SSL_PATH` (`./apache2/ssl/` by default), and restart the container.
@@ -88,10 +168,39 @@ Copy `apache2/sites/default.apache.ssl.example` alongside your site config, poin
 APACHE_INSTALL_HTTP2=true
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild apache2
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build apache2
+```
+
+</TabItem>
+</Tabs>
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start apache2
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
 docker compose up -d apache2
 ```
+
+</TabItem>
+</Tabs>
 
 ## Change the exposed port
 
@@ -100,17 +209,58 @@ APACHE_HOST_HTTP_PORT=8080
 APACHE_HOST_HTTPS_PORT=8443
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start apache2
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d apache2
 ```
 
+</TabItem>
+</Tabs>
+
+## View logs
+
+Apache writes `error.log` and `access.log` per VirtualHost (see `ErrorLog`/`CustomLog` in the shipped site configs) to `/var/log/apache2` inside the container, which is bind-mounted to `APACHE_HOST_LOG_PATH` (`./logs/apache2` by default) on your host. Read them straight from your host with any tool (`tail -f`, an editor, etc.), no container access needed:
+
+```bash
+tail -f logs/apache2/error.log
+```
+
+For the container's own stdout/stderr (startup messages, not per-request traffic):
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock logs apache2
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose logs --tail=100 apache2
+```
+
+</TabItem>
+</Tabs>
+
 ## Common issues
 
 - **502/503 from Apache.** Confirm `php-fpm` is running and that `APACHE_PHP_UPSTREAM_CONTAINER`/`APACHE_PHP_UPSTREAM_PORT` match its real name and port; also check `APACHE_PHP_UPSTREAM_TIMEOUT` if long-running requests are being cut off.
-- **New site file has no effect.** VirtualHosts in `apache2/sites/` are read on container start, run `docker compose restart apache2` after adding or editing a file.
+- **New site file has no effect.** VirtualHosts in `apache2/sites/` are read on container start, run `./laradock restart apache2` after adding or editing a file.
 - **`.htaccess` rules ignored.** Confirm the VirtualHost has `AllowOverride All` in its `<Directory>` block, as shown in the shipped examples.
 - **Building on Apple Silicon fails or behaves oddly.** Set `APACHE_FOR_MAC_M1=true` and rebuild.
 - **Port already in use on your host.** Another web server (or another Laradock project) is already bound to `80`/`443`. Change `APACHE_HOST_HTTP_PORT`/`APACHE_HOST_HTTPS_PORT` and restart.
+- **Restart succeeded but the site still 500s.** Check `logs/apache2/error.log` on your host (or `./laradock logs apache2` for startup-time errors) for the actual PHP or Apache error before guessing further.
 
 ---
 

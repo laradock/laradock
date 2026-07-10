@@ -12,6 +12,9 @@ keywords:
   - phpservermon nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is PHP Server Monitor?
 
 [PHP Server Monitor](https://www.phpservermonitor.org) is a small, self-hosted tool for keeping an eye on servers and websites: it checks hosts and URLs on a schedule and sends an alert by email or SMS when one goes down. A PHP Server Monitor instance is a lightweight PHP application backed by a MySQL database, served through a web server, with a browser-based `install.php` script handling first-time setup and cron handling the recurring checks afterward.
@@ -49,9 +52,22 @@ cd laradock && cp .env.example .env
 
 PHP Server Monitor needs a web server and a database. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
+
+</TabItem>
+</Tabs>
 
 The full catalog is [here](/docs/Intro#supported-services).
 
@@ -73,8 +89,24 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 
 Enter the `workspace` container, place the PHP Server Monitor codebase, and let the web installer create the config and database tables:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+```bash
 git clone https://github.com/phpservermon/phpservermon.git --single-branch .   # only if you have no codebase yet
 ```
 
@@ -82,15 +114,13 @@ Then open [http://localhost/install.php](http://localhost/install.php) and follo
 
 ## Change the PHP version anytime
 
-This is where a native install hurts and Laradock shines. Set the version in Laradock's `.env` and rebuild:
+This is where a native install hurts and Laradock shines. Set the version in Laradock's `.env`:
 
 ```env
 PHP_VERSION=8.1
 ```
 
-```bash
-docker compose build php-fpm workspace
-```
+Then run `./laradock rebuild php-fpm workspace` (or `docker compose build php-fpm workspace`) to apply it.
 
 PHP Server Monitor is undemanding and runs on a wide range of PHP versions; Laradock covers anything from PHP 5.6 to 8.5, so you can pin whatever version matches the release you are running without touching anything else on the machine.
 

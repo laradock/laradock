@@ -10,6 +10,9 @@ keywords:
   - laradock port already in use
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## Get Help
 
 - Open an [issue](https://github.com/laradock/laradock/issues) on GitHub (it will be labeled as a Question).
@@ -48,7 +51,7 @@ Then restart Docker Desktop.
 ### The time in my services does not match the current time
 
 1. Make sure you have [changed the timezone](/docs/environment#change-the-timezone).
-2. Rebuild and restart the containers: `docker compose up -d --build <services>`.
+2. Rebuild and restart the containers: `./laradock rebuild <services>` then `./laradock restart <services>` (or `docker compose up -d --build <services>`).
 
 ### I get MySQL connection refused
 
@@ -64,11 +67,43 @@ MySQL/PostgreSQL only read those values the **first** time the data volume is cr
 
 To start fresh, stop the containers and delete that database's data folder, then bring it back up:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock remove
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose down
+```
+
+</TabItem>
+</Tabs>
+
+```bash
 rm -rf ~/.laradock/data/mysql   # or /postgres, /mariadb, etc.
+```
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start mysql
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
 docker compose up -d mysql
 ```
+
+</TabItem>
+</Tabs>
 
 :::warning
 This deletes the database's local data. Back it up first if you need it.
@@ -105,7 +140,7 @@ WORKSPACE_COMPOSER_REPO_PACKAGIST=https://packagist.phpcomposer.com
 ### The apache2 container won't start on Apple Silicon (M1/M2)
 
 1. Set `APACHE_FOR_MAC_M1=true` in your `.env`.
-2. Rebuild the image: `docker compose build apache2`.
+2. Rebuild the image: `./laradock rebuild apache2` (or `docker compose build apache2`).
 
 ### Everything is slow on macOS
 

@@ -12,6 +12,9 @@ keywords:
   - pimcore symfony mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Pimcore?
 
 [Pimcore](https://pimcore.com) is an enterprise platform combining a CMS, PIM (product information management), DAM (digital asset management) and commerce data model, built on Symfony. It is a full Symfony application, installed through Composer, backed by MySQL or MariaDB via Doctrine, and it commonly pairs with Elasticsearch or OpenSearch for search and large product catalogs. It needs a web server and a PHP runtime in front of all of that, plus a healthy amount of memory.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Every Pimcore project needs a web server, PHP-FPM and a database; add Elasticsearch if your project relies on Pimcore's search or large catalogs:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer MariaDB? Swap the name: `docker compose up -d nginx mariadb workspace`. Need search later? Add it any time: `docker compose up -d elasticsearch`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). Need search later? Add it any time: `./laradock start elasticsearch` (or `docker compose up -d elasticsearch`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -71,8 +87,24 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 Enter the shell where Composer, Node and the Pimcore console live, and run the usual commands:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+```bash
 composer create-project pimcore/skeleton .   # only if you have no Pimcore project yet
 php bin/console pimcore:install --admin-username=admin --admin-password=secret --no-interaction
 ```
@@ -87,9 +119,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Pimcore requires PHP 8.1 or newer, so a project pinned to an older supported release and a brand-new one can run side by side on different PHP versions, each isolated, none of it installed on your machine.
 

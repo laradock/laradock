@@ -12,6 +12,9 @@ keywords:
   - crater nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Crater?
 
 [Crater](https://craterapp.com) is an open source invoicing and expense-tracking app for freelancers and small businesses, built on Laravel with a Vue frontend. A Crater instance is a PHP application backed by a MySQL or MariaDB database, served through a web server, with Composer and a browser-based setup wizard handling installation. Release activity has slowed noticeably in the last couple of years; the codebase still works and is worth self-hosting, but check the project's GitHub activity before relying on it for anything mission-critical.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Crater needs a web server and a database. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer MariaDB instead? Swap the name: `docker compose up -d nginx mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB instead? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -74,8 +90,26 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 
 Enter the `workspace` container, where Composer, Node and npm live, clone or place the Crater codebase, and prepare it:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then, inside the container:
+
+```bash
 git clone https://github.com/crater-invoice-inc/crater.git --single-branch .   # only if you have no codebase yet
 composer install
 cp .env.example .env
@@ -92,9 +126,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Crater targets PHP 7.4 and newer; Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older Crater instance you have not upgraded yet and a brand-new one side by side, each isolated, none of it installed on your machine.
 

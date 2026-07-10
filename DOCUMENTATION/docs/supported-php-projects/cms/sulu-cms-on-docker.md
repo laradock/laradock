@@ -12,6 +12,9 @@ keywords:
   - sulu symfony docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Sulu CMS?
 
 [Sulu](https://sulu.io) is an enterprise-grade, Symfony-based CMS aimed at editors and developers who need structured content, multi-site and multilingual setups. It is a full Symfony application, installed through Composer, backed by MySQL or PostgreSQL via Doctrine, and it commonly uses Elasticsearch for its content search. It needs a web server and a PHP runtime in front of all of that.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Every Sulu project needs a web server, PHP-FPM and a database; add Elasticsearch if you use Sulu's content search:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer PostgreSQL? Swap the name: `docker compose up -d nginx postgres workspace`. Need search later? Add it any time: `docker compose up -d elasticsearch`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres workspace`. Need search later? Add it any time: `./laradock start elasticsearch`. The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -71,8 +87,26 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 Enter the shell where Composer, Node and the Symfony console live, and run the usual commands:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then, inside that shell:
+
+```bash
 composer create-project sulu/skeleton .   # only if you have no Sulu project yet
 composer require doctrine
 php bin/adminconsole doctrine:database:create
@@ -89,9 +123,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Sulu requires PHP 7.2 or newer and tracks Symfony's supported versions, so an older Sulu project and a brand-new one can run side by side on different PHP versions, each isolated, none of it installed on your machine.
 

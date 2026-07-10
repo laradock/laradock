@@ -12,6 +12,9 @@ keywords:
   - suitecrm nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is SuiteCRM?
 
 [SuiteCRM](https://suitecrm.com) is an open source customer relationship management platform, forked from SugarCRM's community edition, covering sales, marketing and support workflows for teams that want a self-hosted CRM instead of a SaaS one. It is a PHP application backed by a MySQL or MariaDB database, served through a web server, installed through a browser-based setup wizard, and known for wanting a healthy amount of PHP memory to run comfortably.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 SuiteCRM needs a web server and a database. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer MariaDB instead? Swap the name: `docker compose up -d nginx mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB instead? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -75,8 +91,26 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 
 Enter the `workspace` container, place the SuiteCRM files in your project's web root (download the archive from [suitecrm.com](https://suitecrm.com) and extract it if you have not already):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Once inside, install dependencies:
+
+```bash
 composer install
 ```
 
@@ -90,9 +124,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Current SuiteCRM releases need PHP 8.2, 8.3 or 8.4; Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older SuiteCRM instance you have not upgraded yet and a brand-new one side by side, each isolated, none of it installed on your machine.
 

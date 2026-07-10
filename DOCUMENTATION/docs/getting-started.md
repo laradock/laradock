@@ -10,6 +10,9 @@ keywords:
   - laravel docker install
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 This guide walks you through setting up Laradock for your project, from the prerequisites to a fully running environment. Whether you are starting a brand-new app or adding Docker to an existing one, the steps below have you covered. Pick the installation path that matches your setup and you will have a complete local stack running in minutes.
 
 ## Requirements
@@ -22,19 +25,35 @@ This guide walks you through setting up Laradock for your project, from the prer
 
 ## Installation
 
-There are two ways to set up, both use the exact same files and you can switch any time:
+Both tabs reach the exact same result, using the exact same files, pick one and switch any time:
 
-- **Fastest, the [Laradock CLI](/docs/cli):** a zero-install script shipped in the repo. Clone it, then run one command:
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
 
-  ```bash
-  git clone https://github.com/laradock/laradock.git
-  cd laradock
-  ./laradock up
-  ```
+Fastest: a zero-install script shipped in the repo. Clone it, then run one command:
 
-  On the first run, `up` walks you through setup (detects your framework, lets you pick your project, PHP version, and services, all pre-answered), points your app's `.env` at the services, and starts your stack. After that, `./laradock up` just starts. It prints every real `docker compose` command it runs, so nothing is hidden. Full reference: [The Laradock CLI](/docs/cli).
+```bash
+git clone https://github.com/laradock/laradock.git
+cd laradock
+./laradock up
+```
 
-- **Manual, full control:** edit `.env` yourself and run plain `docker compose`. The rest of this page covers that path in detail.
+On the first run, `up` walks you through setup (detects your framework, lets you pick your project, PHP version, and services, all pre-answered), points your app's `.env` at the services, and starts your stack. After that, `./laradock up` just starts. It prints every real `docker compose` command it runs, so nothing is hidden. Full reference: [The Laradock CLI](/docs/cli).
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+Full control: edit `.env` yourself and run plain `docker compose`. The rest of this page covers this path in detail; the short version:
+
+```bash
+git clone https://github.com/laradock/laradock.git
+cd laradock
+cp .env.example .env
+docker compose up -d nginx mysql redis workspace
+```
+
+</TabItem>
+</Tabs>
 
 ### Manual setup
 
@@ -256,11 +275,24 @@ DATA_PATH_HOST=~/.laradock/data-myproject   # separates the stored data
 
 In this example we'll see how to run NGINX (web server) and MySQL (database engine) to host PHP web scripts:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql
 ```
 
-**Note**: All the web server containers (`nginx`, `apache`, etc.) depend on `php-fpm`, which means if you run any of them, they will automatically launch the `php-fpm` container for you, so there's no need to explicitly specify it in the `up` command. If you have to do so, you may need to run them as follows: `docker compose up -d nginx php-fpm mysql`.
+</TabItem>
+</Tabs>
+
+**Note**: All the web server containers (`nginx`, `apache`, etc.) depend on `php-fpm`, which means if you run any of them, they will automatically launch the `php-fpm` container for you, so there's no need to explicitly specify it in the `up` command. If you have to do so, you may need to run them as follows: `./laradock start nginx php-fpm mysql` (or `docker compose up -d nginx php-fpm mysql`).
 
 
 You can select your own combination of containers from [this list](/docs/Intro#supported-services).
@@ -270,9 +302,22 @@ You can select your own combination of containers from [this list](/docs/Intro#s
 
 3 - Enter the Workspace container, to execute commands like (Artisan, Composer, PHPUnit, Gulp, ...)
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
 ```
+
+</TabItem>
+</Tabs>
 
 *Alternatively, for Windows PowerShell users: execute the following command to enter any running container:*
 
@@ -280,7 +325,7 @@ docker compose exec workspace bash
 docker exec -it {workspace-container-id} bash
 ```
 
-**Note:** You can add `--user=laradock` to have files created as your host's user. Example: 
+**Note:** `./laradock workspace` already enters as your host's user (files come out owned by you, not root); the raw `docker compose` form needs `--user=laradock` spelled out:
 
 ```shell
 docker compose exec --user=laradock workspace bash
@@ -289,7 +334,7 @@ docker compose exec --user=laradock workspace bash
 *You can change the PUID (User id) and PGID (group id) by adding `WORKSPACE_PUID` / `WORKSPACE_PGID` to your `.env` (defaults are in `workspace/defaults.env`)*
 
 :::tip[Where do I run `artisan`, `composer`, `npm`?]
-Inside the workspace container, not on your machine. The Laravel and PHP docs assume these tools are installed on your host, but with Laradock they live in the workspace. So either enter it once with `docker compose exec workspace bash` and run commands from there, or prefix a single command: `docker compose exec workspace php artisan migrate`.
+Inside the workspace container, not on your machine. The Laravel and PHP docs assume these tools are installed on your host, but with Laradock they live in the workspace. So either enter it once with `./laradock workspace` (or `docker compose exec workspace bash`) and run commands from there, or prefix a single command: `./laradock exec workspace php artisan migrate` (or `docker compose exec workspace php artisan migrate`).
 :::
 
 4 - Update your project configuration to use the database host

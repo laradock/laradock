@@ -12,6 +12,9 @@ keywords:
   - dolibarr nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Dolibarr?
 
 [Dolibarr](https://www.dolibarr.org) is an open-source ERP and CRM: a single PHP application covering invoicing, orders, stock, CRM, HR and accounting for small and mid-size businesses. It is known for being modular, you enable only the features you need, and for shipping as a self-contained PHP codebase with a browser-based install wizard rather than a build step. What it genuinely needs is a web server, a PHP runtime, and a database (MySQL, MariaDB or PostgreSQL); Redis is optional but helps on busier installs.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Dolibarr needs a web server and a database; add Redis if you want caching. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql redis workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql redis workspace
 ```
 
-Prefer MariaDB or PostgreSQL? Swap the name: `docker compose up -d nginx mariadb redis workspace` or `docker compose up -d nginx postgres redis workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB or PostgreSQL? Swap the name: `./laradock start nginx mariadb redis workspace` (or `docker compose up -d nginx mariadb redis workspace`) or `./laradock start nginx postgres redis workspace` (or `docker compose up -d nginx postgres redis workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -74,9 +90,22 @@ Open [http://localhost](http://localhost). Dolibarr has no Artisan- or WP-CLI-st
 
 If you need a shell for Composer, git or a maintenance script, it lives in the workspace container:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
 ```
+
+</TabItem>
+</Tabs>
 
 That is a full Dolibarr install running on Docker.
 
@@ -88,9 +117,22 @@ This is where a native install hurts and Laradock shines. Dolibarr requires PHP 
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 So a Dolibarr install pinned to an older PHP release and a brand-new one run side by side, each isolated, none of it installed on your machine.
 

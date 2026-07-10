@@ -1,57 +1,90 @@
 .support {
-  padding: 2.75rem 1.5rem;
-  border-top: 1px solid var(--ifm-color-emphasis-200);
+  position: relative;
+  isolation: isolate;
+  padding: 5.5rem 1.5rem;
+  overflow: hidden;
+  background:
+    radial-gradient(70% 70% at 82% -5%, rgba(249, 174, 26, 0.22), transparent 60%),
+    radial-gradient(60% 70% at 12% 8%, rgba(206, 32, 71, 0.2), transparent 60%),
+    radial-gradient(80% 80% at 35% 115%, rgba(125, 87, 194, 0.22), transparent 62%),
+    linear-gradient(180deg, #140d20 0%, #0b0813 100%);
+  border-top: 1px solid rgba(249, 174, 26, 0.16);
+}
+.support::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: url("/img/laradock/laradock-abstract.jpg") center / cover no-repeat;
+  opacity: 0.22;
+  mix-blend-mode: luminosity;
+  filter: saturate(0.9) contrast(1.05);
+  -webkit-mask-image: radial-gradient(120% 90% at 50% 50%, #000 35%, transparent 88%);
+  mask-image: radial-gradient(120% 90% at 50% 50%, #000 35%, transparent 88%);
+}
+.support::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(rgba(249, 174, 26, 0.16) 1.2px, transparent 1.2px);
+  background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(110% 80% at 50% 50%, #000 25%, transparent 82%);
+  mask-image: radial-gradient(110% 80% at 50% 50%, #000 25%, transparent 82%);
 }
 
 .inner {
-  max-width: 640px;
+  position: relative;
+  z-index: 1;
+  max-width: 820px;
   margin: 0 auto;
   text-align: center;
 }
 
 .kicker {
   font-family: var(--ifm-font-family-monospace);
-  font-size: 0.75rem;
-  letter-spacing: 0.04em;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
   color: var(--ifm-color-primary);
   text-transform: uppercase;
 }
 
 .title {
-  font-size: clamp(1.3rem, 2.6vw, 1.7rem);
-  line-height: 1.2;
-  margin: 0.5rem 0 0.6rem;
+  font-size: clamp(1.7rem, 3.2vw, 2.5rem);
+  line-height: 1.15;
+  margin: 0.5rem 0 0.9rem;
 }
 
 .lede {
-  margin: 0 auto 1.25rem;
-  font-size: 0.98rem;
-  line-height: 1.55;
+  margin: 0 auto 1.8rem;
+  max-width: 44rem;
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  line-height: 1.6;
   color: var(--ifm-color-emphasis-700);
 }
 
 .goal {
-  max-width: 560px;
-  margin: 0 auto 1.5rem;
+  max-width: 620px;
+  margin: 0 auto 2rem;
 }
 
 .goalRow {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.9rem;
 }
 
 .goalAmount {
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
   white-space: nowrap;
   color: var(--ifm-color-emphasis-800);
 }
 
 .bar {
   flex: 1;
-  height: 6px;
-  border-radius: 4px;
+  height: 10px;
+  border-radius: 6px;
   background: var(--ifm-color-emphasis-300);
   overflow: hidden;
 }
@@ -59,14 +92,14 @@
 .fill {
   height: 100%;
   background: var(--ifm-color-primary);
-  border-radius: 4px;
+  border-radius: 6px;
   transition: width 0.6s ease;
 }
 
 .goalPct {
   display: block;
-  margin-top: 0.45rem;
-  font-size: 0.75rem;
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
   color: var(--ifm-color-emphasis-600);
 }
 
@@ -74,17 +107,17 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.75rem;
+  gap: 0.9rem;
 }
 
 .btn {
   display: inline-block;
-  padding: 0.6rem 1.1rem;
-  border-radius: 6px;
+  padding: 0.85rem 1.7rem;
+  border-radius: 9px;
   font-weight: 600;
-  font-size: 0.92rem;
+  font-size: 1.05rem;
   text-decoration: none;
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.18s ease, box-shadow 0.25s ease;
 }
 
 .btn:hover {
@@ -97,8 +130,10 @@
 }
 
 .btnPrimary:hover {
-  background: #6c1745;
+  background: #9c2465;
   color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px -12px rgba(133, 29, 85, 0.75);
 }
 
 .btnHollow {
@@ -107,6 +142,7 @@
 }
 
 .btnHollow:hover {
-  border-color: #851d55;
-  color: #851d55;
+  border-color: #f9ae1a;
+  color: #f9ae1a;
+  transform: translateY(-2px);
 }

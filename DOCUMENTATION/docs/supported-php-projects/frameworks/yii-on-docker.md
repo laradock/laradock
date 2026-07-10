@@ -12,6 +12,9 @@ keywords:
   - yii nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Yii?
 
 [Yii](https://www.yiiframework.com) is a performance-focused PHP framework built around code generation (Gii), a full ActiveRecord ORM, and a "basic" or "advanced" application template to start from. It is popular for admin panels and data-heavy backends. A Yii app needs a web server, a PHP runtime, and a database; MySQL is the default in the official application templates, with PostgreSQL, SQLite and others also supported.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Most Yii apps need a web server and a database (the web server pulls in PHP-FPM automatically):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer PostgreSQL? Swap the name: `docker compose up -d nginx postgres workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) detects Yii and pre-selects nginx/mysql for you: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -71,14 +87,32 @@ return [
 ];
 ```
 
-The default database, user and password live in Laradock's `mysql/defaults.env`; override any of them by adding the line to Laradock's `.env` (it always wins). Yii will not create the database for you; run `docker compose exec mysql mysql -udefault -psecret -e "CREATE DATABASE IF NOT EXISTS default"` (or use a database tool such as `phpmyadmin`/`adminer` from the catalog) before migrating.
+The default database, user and password live in Laradock's `mysql/defaults.env`; override any of them by adding the line to Laradock's `.env` (it always wins). Yii will not create the database for you; run `./laradock exec mysql mysql -udefault -psecret -e "CREATE DATABASE IF NOT EXISTS default"` (or `docker compose exec mysql mysql -udefault -psecret -e "CREATE DATABASE IF NOT EXISTS default"`) (or use a database tool such as `phpmyadmin`/`adminer` from the catalog) before migrating.
 
 ### 4. Run your app from the workspace
 
 Enter the shell where Composer and git live, and run the usual commands:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Once inside, run:
+
+```bash
 composer create-project --prefer-dist yiisoft/yii2-app-basic .   # only if you have no Yii app yet
 php yii migrate
 ```
@@ -93,9 +127,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.1
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Yii 2 supports PHP 7.3 and newer, and Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs a legacy Yii 1 project pinned to an old PHP version and a current Yii 2 app side by side, each isolated, none of it installed on your machine.
 

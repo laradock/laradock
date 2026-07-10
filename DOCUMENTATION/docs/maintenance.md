@@ -29,8 +29,8 @@ Moving from Docker Toolbox (VirtualBox) to Docker Desktop, and Laradock v3 to v4
 1. Stop the docker VM: `docker-machine stop {default}`.
 2. Install [Docker Desktop for Mac](https://docs.docker.com/docker-for-mac/) or [Windows](https://docs.docker.com/docker-for-windows/).
 3. Upgrade Laradock to `v4.*.*`: `git pull origin master`.
-4. Use Laradock as usual: `docker compose up -d nginx mysql`.
+4. Use Laradock as usual: `./laradock start nginx mysql` (or `docker compose up -d nginx mysql`).
 
 :::warning
-If the last step fails, rebuild everything with `docker compose build --no-cache`. **Warning:** container data might be lost.
+If the last step fails, rebuild everything with `./laradock rebuild --no-cache` (or `docker compose build --no-cache`). **Warning:** container data might be lost.
 :::

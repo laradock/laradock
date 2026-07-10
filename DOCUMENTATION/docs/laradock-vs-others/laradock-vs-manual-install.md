@@ -11,6 +11,9 @@ keywords:
   - clean php development setup
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What does "installing PHP manually" mean?
 
 This is the oldest approach of all: installing PHP, a web server, and a database directly onto your operating system yourself, using your system's package manager, `brew` on macOS, `apt` on Ubuntu/Debian, `dnf` on Fedora, and configuring them by hand. No installer bundle, no virtual machine, and no containers involved; everything runs natively as processes on your machine.
@@ -39,12 +42,30 @@ It boots fast and runs at native speed. The recurring costs: **one global PHP** 
 ```bash
 cd my-project
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
-docker compose up -d nginx mysql redis workspace
-docker compose exec workspace bash   # php, composer, node, git, all inside
+cd laradock
 ```
 
-Same stack, containerized: per-project PHP versions (5.6 to 8.5) side by side, configs in one visible folder tree instead of across your OS, teammates get identical environments from the same files, and `docker compose down` returns your machine to exactly how it was.
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql redis workspace
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+cp .env.example .env
+docker compose up -d nginx mysql redis workspace
+docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Inside the workspace: php, composer, node, git, all inside. Same stack, containerized: per-project PHP versions (5.6 to 8.5) side by side, configs in one visible folder tree instead of across your OS, teammates get identical environments from the same files, and `./laradock remove` returns your machine to exactly how it was.
 
 ## Side by side
 
@@ -77,10 +98,10 @@ Same stack, containerized: per-project PHP versions (5.6 to 8.5) side by side, c
 1. **Export your databases** from the local MySQL: `mysqldump -h 127.0.0.1 -u root my_db > backup.sql`
 2. **Stop the native services** so ports 80/3306/6379 free up: `brew services stop nginx mysql redis` (uninstall later, once you are confident).
 3. **Add Laradock** next to your code: `git clone https://github.com/laradock/laradock.git && cd laradock && cp .env.example .env`
-4. **Start your stack:** `docker compose up -d nginx mysql redis workspace`
-5. **Import the database:** `docker compose exec -T mysql mysql -uroot -proot default < ../backup.sql`
+4. **Start your stack:** `./laradock start nginx mysql redis workspace` (or `docker compose up -d nginx mysql redis workspace`)
+5. **Import the database:** `./laradock exec -T mysql mysql -uroot -proot default < ../backup.sql`
 6. **Update your app's config:** `DB_HOST=127.0.0.1` becomes `DB_HOST=mysql`; credentials in `mysql/defaults.env`.
-7. Your CLI life moves inside: `docker compose exec workspace bash` has PHP, Composer and Node matching the container versions, not whatever brew last upgraded to.
+7. Your CLI life moves inside: `./laradock workspace` has PHP, Composer and Node matching the container versions, not whatever brew last upgraded to.
 
 ## Frequently Asked Questions
 

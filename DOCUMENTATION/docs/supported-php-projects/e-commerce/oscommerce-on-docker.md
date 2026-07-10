@@ -12,6 +12,9 @@ keywords:
   - oscommerce nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is osCommerce?
 
 [osCommerce](https://www.oscommerce.com) is one of the oldest open-source PHP shopping carts still in use, originally released in 2000, and the ancestor several other carts (including Zen Cart) forked from. It is a plain PHP application backed by a MySQL or MariaDB database, served through a web server via a browser-based installer, with no framework or Composer step in front of it.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 osCommerce needs a web server and a database. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer MariaDB over MySQL? Swap the name: `docker compose up -d nginx mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -74,8 +90,26 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 Pull the osCommerce source into the workspace container, then finish setup in your browser:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Once inside, pull the osCommerce source:
+
+```bash
 git clone https://github.com/osCommerce/osCommerce-V4.git .   # only if you have no osCommerce files yet
 ```
 
@@ -89,9 +123,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=7.4
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 osCommerce 4 works with PHP 7.2 and up (through current 8.x releases), while the older 2.3.x/2.4.x legacy branches are only reliable on PHP 5.x through 7.1 and generally need an older `PHP_VERSION` to avoid deprecation and removed-function errors. Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs a legacy 2.x store and a current osCommerce 4 store side by side, each isolated, none of it installed on your machine.
 

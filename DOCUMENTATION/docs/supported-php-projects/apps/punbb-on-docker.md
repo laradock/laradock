@@ -12,6 +12,9 @@ keywords:
   - punbb nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is PunBB?
 
 [PunBB](https://punbb.informer.com) is a minimalist, fast PHP forum package from the mid-2000s, notable mainly as the project FluxBB was forked from in 2008. It is a PHP application backed by a database (MySQL, PostgreSQL or SQLite), served through a web server, and installed through a browser-based setup wizard. Be aware going in: PunBB has seen essentially no development in recent years, its most recent stable release (1.4.6) is well over a decade old, and it should be treated as effectively unmaintained for anything beyond a legacy site you already run; a modern forum platform or the FluxBB community fork are safer choices for a new project.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 PunBB needs a web server and a database. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer PostgreSQL? Swap the name: `docker compose up -d nginx postgres workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -75,9 +91,22 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 
 Enter the `workspace` container, place the PunBB files in your project's web root (download the package from [punbb.informer.com](https://punbb.informer.com/downloads.php) and extract it if you have not already), then finish the setup in the browser:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
 ```
+
+</TabItem>
+</Tabs>
 
 Then open `http://localhost/install.php` and follow PunBB's install wizard: it checks your PHP setup, asks for the database details from the step above, and creates the admin account. Delete `install.php` once it is done, as PunBB's own docs recommend.
 
@@ -89,9 +118,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=5.6
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 PunBB 1.4's codebase predates PHP 7, so expect compatibility issues on anything newer without patches; Laradock covers anything from PHP 5.6 to 8.5, so you can give a legacy PunBB install the exact old PHP version it needs while every other project on the same machine runs current PHP, none of it installed on your host.
 

@@ -12,6 +12,9 @@ keywords:
   - b2evolution nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is b2evolution?
 
 [b2evolution](https://b2evolution.net) is an older, feature-heavy CMS for running multiple blogs, forums and a small social network from one install. It predates most of the modern PHP CMS landscape and its release pace has slowed considerably in recent years (the last stable tag is from 2022), so it is best treated as a legacy platform: fine for maintaining an existing site, worth evaluating carefully before starting something new on it. A b2evolution site is a PHP application backed by a MySQL database, served through a web server.
@@ -49,9 +52,22 @@ cd laradock && cp .env.example .env
 
 b2evolution needs a web server and a database. Start exactly those (the web server pulls in PHP-FPM automatically):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
+
+</TabItem>
+</Tabs>
 
 The full catalog of every other available service is [here](/docs/Intro#supported-services).
 
@@ -88,9 +104,22 @@ This is where a native install hurts and Laradock shines, particularly for an ol
 PHP_VERSION=7.4
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 b2evolution's official support tops out at PHP 7.4; newer PHP versions are not officially supported by the project. Laradock lets you pin exactly that version for this site while every other project on the same machine runs whatever PHP it needs, none of it installed on your host.
 

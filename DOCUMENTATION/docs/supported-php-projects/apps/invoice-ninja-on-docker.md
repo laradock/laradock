@@ -12,6 +12,9 @@ keywords:
   - invoice ninja nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Invoice Ninja?
 
 [Invoice Ninja](https://invoiceninja.com) is a source-available invoicing, quoting and payments platform built for freelancers and small businesses, on top of the Laravel framework. It is known for free self-hosting, client and vendor portals, recurring invoices, time tracking and a large list of payment gateway integrations. Being a Laravel app, it genuinely needs a web server, a PHP runtime with a fairly specific extension list, and a MySQL or PostgreSQL database.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Invoice Ninja needs a web server and a database. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer PostgreSQL instead? Swap the name: `docker compose up -d nginx postgres workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer PostgreSQL instead? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -75,8 +91,24 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 Enter the shell where Composer, git and Artisan live, and run the usual Laravel install steps:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+```bash
 composer install
 php artisan key:generate
 php artisan migrate
@@ -92,9 +124,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Current Invoice Ninja releases require PHP 8.2 with extensions such as bcmath, gd, imagick, mbstring and zip already enabled in Laradock's PHP-FPM image; older self-hosted releases pinned to PHP 7.4 or 8.1 still run the same way, each isolated, none of it installed on your machine.
 

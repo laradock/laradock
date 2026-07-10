@@ -12,6 +12,9 @@ keywords:
   - api platform postgresql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is API Platform?
 
 [API Platform](https://api-platform.com) is a framework for building REST and GraphQL APIs, built on top of Symfony and Doctrine ORM. It is known for generating OpenAPI/Hydra documentation, filtering, pagination and validation straight from your entity classes, with minimal boilerplate. A real API Platform app needs a web server, a PHP runtime, and a database; Doctrine supports PostgreSQL (the framework's default), MySQL, MariaDB, SQLite and SQL Server.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Most API Platform apps need a web server and a database. Start exactly those (the web server pulls in PHP-FPM automatically):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx postgres workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx postgres workspace
 ```
 
-Prefer MySQL instead of PostgreSQL? Swap the name: `docker compose up -d nginx mysql workspace`. Want Caddy instead of NGINX, to match API Platform's official distribution? `docker compose up -d caddy postgres workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MySQL instead of PostgreSQL? Swap the name: `./laradock start nginx mysql workspace` (or `docker compose up -d nginx mysql workspace`). Want Caddy instead of NGINX, to match API Platform's official distribution? `./laradock start caddy postgres workspace` (or `docker compose up -d caddy postgres workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -71,8 +87,26 @@ The default database, user and password live in `postgres/defaults.env`; overrid
 
 Enter the `workspace` container, where Composer, git and Symfony's console live:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Once inside, install and run the app:
+
+```bash
 composer create-project api-platform/api-platform .   # only if you have no API Platform files yet
 bin/console doctrine:database:create
 bin/console doctrine:migrations:migrate
@@ -88,9 +122,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 API Platform requires PHP 8.2 or newer, so pick a version at or above that; each project can pin its own, isolated, none of it installed on your machine.
 

@@ -12,6 +12,9 @@ keywords:
   - contao nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Contao?
 
 [Contao](https://contao.org) is an open-source CMS built on Symfony, aimed at editors and agencies that need a structured, accessibility-focused site builder rather than a blogging tool. A Contao site is a PHP application backed by a MySQL (or MariaDB) database, served through a web server, installed either via the Contao Manager (a web-based graphical installer) or via Composer from the command line.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Contao needs a web server and a database. Start exactly those (the web server pulls in PHP-FPM automatically):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer MariaDB over MySQL? Swap the name: `docker compose up -d nginx mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -71,8 +87,26 @@ Override any of those values by adding the line to Laradock's `.env` instead (it
 
 Enter the `workspace` container, create the project with Composer, and install it from the command line:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then, inside the container:
+
+```bash
 composer create-project contao/managed-edition my-contao-site
 cd my-contao-site
 vendor/bin/contao-console contao:migrate
@@ -89,9 +123,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Current Contao (5.7) requires PHP 8.3 or newer, so the same tool runs it alongside an older Contao 4 project pinned to PHP 7.4, each isolated, none of it installed on your machine.
 

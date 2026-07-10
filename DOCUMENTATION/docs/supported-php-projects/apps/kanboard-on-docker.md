@@ -12,6 +12,9 @@ keywords:
   - kanboard nginx php docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Kanboard?
 
 [Kanboard](https://kanboard.org) is an open-source kanban project management tool, known for staying deliberately simple and minimalist rather than chasing every feature a heavier tool like Jira ships. It is a PHP application served through a web server, and unlike most self-hosted PHP apps on this list, it needs almost no infrastructure to run: out of the box it stores everything in a single SQLite database file, with MySQL/MariaDB and PostgreSQL available as opt-in alternatives once a team outgrows a single file.
@@ -49,15 +52,41 @@ cd laradock && cp .env.example .env
 
 Kanboard's biggest difference from the rest of this list: it needs no database service at all to start. By default it writes to a SQLite file inside its own `data/` folder, so a web server is genuinely enough:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx workspace
 ```
 
+</TabItem>
+</Tabs>
+
 Outgrowing a single SQLite file, or setting up Kanboard for a team that needs real concurrency? Add MySQL or PostgreSQL the same way you would for any other app:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose up -d nginx mysql workspace
 ```
+
+</TabItem>
+</Tabs>
 
 The full catalog is [here](/docs/Intro#supported-services).
 
@@ -81,10 +110,24 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 Enter the `workspace` container, place the Kanboard codebase, and let the first request run the setup:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
-# place or clone the Kanboard codebase into the current directory first
 ```
+
+</TabItem>
+</Tabs>
+
+Once inside, place or clone the Kanboard codebase into the current directory.
 
 Then open [http://localhost](http://localhost) and log in with the default admin account (`admin` / `admin`), which Kanboard prompts you to change on first login.
 
@@ -96,9 +139,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Kanboard requires PHP 8.1 or newer since version 1.2.46; Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs a Kanboard instance pinned to an older release you have not upgraded yet and a brand-new one side by side, each isolated, none of it installed on your machine.
 

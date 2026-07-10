@@ -12,6 +12,9 @@ keywords:
   - mediawiki nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is MediaWiki?
 
 [MediaWiki](https://www.mediawiki.org) is the open-source wiki software that powers Wikipedia and thousands of other wikis, known for its extension and skin ecosystem and its ability to handle very large, heavily-edited content collections. It is a PHP application backed by a database (MySQL/MariaDB is recommended; PostgreSQL and SQLite are also supported), served through a web server, and it benefits from Redis or Memcached for object caching once a wiki gets real traffic.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 MediaWiki needs a web server and a database. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer PostgreSQL? Swap the name: `docker compose up -d nginx postgres workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -75,8 +91,26 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 Enter the `workspace` container and either finish the setup in the browser, or run the CLI installer (the maintenance script that writes `LocalSettings.php` for you):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then, inside the container:
+
+```bash
 php maintenance/install.php --dbserver=mysql --dbname=default \
   --dbuser=default --dbpass=secret --pass=adminpassword \
   "My Wiki" Admin
@@ -92,9 +126,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 MediaWiki's current stable release requires PHP 8.1 or newer, with the newest release requiring PHP 8.3+; Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older wiki pinned to an older PHP version and a brand-new install side by side, each isolated, none of it installed on your machine.
 

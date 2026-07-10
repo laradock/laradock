@@ -12,6 +12,9 @@ keywords:
   - expressionengine nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is ExpressionEngine?
 
 [ExpressionEngine](https://expressionengine.com) is a flexible, template-driven CMS originally built by EllisLab, popular for content-heavy sites that need highly custom data structures (its "channels" and custom fields go beyond a typical blog-post model). It went open source under the Apache 2.0 license in 2018 and its core is free; an optional paid "Pro" edition adds extra features on top. It is a plain PHP application backed by a MySQL (or MariaDB) database, served through a web server.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 ExpressionEngine needs a web server and a database. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer MariaDB over MySQL? Swap the name: `docker compose up -d nginx mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -74,9 +90,27 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 Download ExpressionEngine into the workspace container, then finish setup in your browser:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
-git clone https://github.com/ExpressionEngine/ExpressionEngine.git .   # only if you have no EE files yet
+```
+
+</TabItem>
+</Tabs>
+
+Once inside, clone ExpressionEngine (only if you have no EE files yet):
+
+```bash
+git clone https://github.com/ExpressionEngine/ExpressionEngine.git .
 ```
 
 Open [http://localhost/admin.php](http://localhost/admin.php) and run the ExpressionEngine installer. That is a full ExpressionEngine site running on Docker.
@@ -89,9 +123,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.1
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 ExpressionEngine supports PHP 7.2.5 and newer, with current releases fully supporting PHP 8.3, so a legacy install and a brand-new one can run side by side on different PHP versions, each isolated, none of it installed on your machine.
 

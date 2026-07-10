@@ -12,6 +12,9 @@ keywords:
   - pico flat file cms docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Pico?
 
 [Pico](https://picocms.org) describes itself as a stupidly simple, blazing fast, flat-file CMS. There is no database, no admin panel and no install wizard: a page is just a Markdown file dropped into a `content` folder, rendered through Twig templates. It needs nothing more than a web server and PHP.
@@ -49,9 +52,22 @@ cd laradock && cp .env.example .env
 
 Pico has no database, so it only needs a web server. Start that (it pulls in PHP-FPM automatically) and the workspace shell:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx workspace
 ```
+
+</TabItem>
+</Tabs>
 
 The full catalog of every other available service is [here](/docs/Intro#supported-services).
 
@@ -65,8 +81,26 @@ There is no hostname to configure, since there is no database. Site-wide setting
 
 Enter the `workspace` container to pull in Pico:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then, inside the container:
+
+```bash
 composer create-project picocms/pico-composer my-pico-site
 ```
 
@@ -82,9 +116,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Pico's minimum is PHP 5.3.6 with the `dom` and `mbstring` extensions, though in practice any current PHP 7.x or 8.x works fine, so the same tool runs an old Pico site and a brand-new one side by side, each isolated, none of it installed on your machine.
 

@@ -14,6 +14,10 @@
   --amber-bright: #ffc24d;
   --purple: #7d57c2;
   --purple-bright: #a47ee6;
+  --orange: #f26e25;
+  --orange-bright: #ff8a45;
+  --plum: #851d55;
+  --plum-bright: #c2407e;
   --text: #d7cfe4;
   --text-dim: #968caa;
   --white: #f7f3ff;
@@ -120,6 +124,12 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+.accentAlt {
+  background: linear-gradient(100deg, var(--amber), var(--crimson-bright) 50%, var(--purple-bright));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
 .subtitle {
   font-size: clamp(1rem, 1.4vw, 1.18rem);
@@ -213,7 +223,11 @@
 /* ---------- SERVICES (full width, cards by type) ---------- */
 .services {
   padding: 5rem 1.5rem 4.5rem;
-  background: #1a1330;
+  background:
+    radial-gradient(65% 55% at 12% 0%, rgba(125, 87, 194, 0.22), transparent 62%),
+    radial-gradient(55% 50% at 88% 6%, rgba(249, 174, 26, 0.16), transparent 60%),
+    radial-gradient(60% 55% at 80% 100%, rgba(206, 32, 71, 0.18), transparent 62%),
+    linear-gradient(180deg, #140d20 0%, #0b0813 100%);
   border-top: 1px solid var(--line);
 }
 .servicesInner { max-width: 1160px; margin: 0 auto; }
@@ -246,9 +260,13 @@
   flex: 1 1 250px;
   position: relative;
   padding: 1.3rem 1.35rem 1.4rem;
-  border: 1px solid var(--line);
+  border: 1px solid color-mix(in srgb, var(--accent) 14%, var(--line));
   border-radius: 14px;
-  background: linear-gradient(180deg, var(--bg-2), var(--bg));
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--accent) 4%, var(--bg-2)),
+    var(--bg) 80%
+  );
   overflow: hidden;
   transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.25s ease;
 }
@@ -258,13 +276,17 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 3px;
+  height: 2px;
   background: var(--accent);
-  opacity: 0.9;
+  opacity: 0.55;
 }
+/* rotate all five logo colors: odd rows amber/crimson/purple, even rows orange/plum/amber */
 .card:nth-child(3n + 1) { --accent: var(--amber); }
 .card:nth-child(3n + 2) { --accent: var(--crimson-bright); }
 .card:nth-child(3n) { --accent: var(--purple-bright); }
+.layerRow:nth-child(even) .card:nth-child(3n + 1) { --accent: var(--orange); }
+.layerRow:nth-child(even) .card:nth-child(3n + 2) { --accent: var(--plum-bright); }
+.layerRow:nth-child(even) .card:nth-child(3n) { --accent: var(--amber); }
 .card:hover {
   transform: translateY(-4px);
   border-color: var(--accent);
@@ -293,7 +315,7 @@
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 1rem;
-  color: var(--white);
+  color: color-mix(in srgb, var(--accent) 62%, var(--white));
   letter-spacing: 0.01em;
   margin: 0;
 }
@@ -306,29 +328,34 @@
   border-radius: 999px;
   padding: 0.1rem 0.5rem;
 }
-.svcChips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.svcChips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .chip {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  padding: 0.28rem 0.55rem;
-  border-radius: 6px;
+  font-size: 0.86rem;
+  font-weight: 500;
+  padding: 0.4rem 0.7rem;
+  border-radius: 7px;
   white-space: nowrap;
-  color: var(--text);
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.02);
+  color: var(--white);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
   transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
 }
 .chip:hover {
   color: var(--white);
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
 }
 
 /* ---------- WHY LARADOCK ---------- */
 .why {
   padding: 5rem 1.5rem;
-  background: #120d22;
-  border-top: 1px solid var(--line);
+  background:
+    radial-gradient(60% 55% at 88% 0%, rgba(242, 110, 37, 0.16), transparent 60%),
+    radial-gradient(55% 50% at 10% 5%, rgba(249, 174, 26, 0.12), transparent 60%),
+    radial-gradient(65% 60% at 40% 115%, rgba(125, 87, 194, 0.22), transparent 64%),
+    linear-gradient(180deg, #140d20 0%, #0b0813 100%);
+  border-top: 1px solid rgba(125, 87, 194, 0.22);
 }
 .whyInner { max-width: 1160px; margin: 0 auto; }
 .whyGrid {
@@ -339,29 +366,48 @@
 .whyCard {
   --accent: var(--amber);
   padding: 1.6rem 1.5rem;
-  border: 1px solid var(--line);
+  border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
   border-radius: 14px;
-  background: linear-gradient(180deg, var(--bg-2), var(--bg));
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--accent) 6%, var(--bg-2)),
+    var(--bg) 80%
+  );
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.25s ease;
 }
-.whyCard:nth-child(3n + 2) { --accent: var(--crimson-bright); }
-.whyCard:nth-child(3n + 3) { --accent: var(--purple-bright); }
+.whyCard:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  box-shadow: 0 18px 42px -24px var(--accent);
+}
+/* all five logo colors across the grid */
+.whyCard:nth-child(5n + 2) { --accent: var(--crimson-bright); }
+.whyCard:nth-child(5n + 3) { --accent: var(--purple-bright); }
+.whyCard:nth-child(5n + 4) { --accent: var(--orange); }
+.whyCard:nth-child(5n + 5) { --accent: var(--plum-bright); }
+.whyHead {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 0.6rem;
+}
 .whyIcon {
   display: grid;
   place-items: center;
-  width: 46px;
-  height: 46px;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
   border-radius: 12px;
   color: var(--accent);
   background: color-mix(in srgb, var(--accent) 14%, transparent);
   border: 1px solid color-mix(in srgb, var(--accent) 32%, transparent);
-  margin-bottom: 1.1rem;
 }
 .whyTitle {
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 1.15rem;
   color: var(--white);
-  margin: 0 0 0.5rem;
+  margin: 0;
 }
 .whyText {
   color: var(--text-dim);

@@ -12,6 +12,9 @@ keywords:
   - aureus erp nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Aureus ERP?
 
 [Aureus ERP](https://aureuserp.com) is an open-source ERP platform built on Laravel and FilamentPHP. It ships as a set of installable modules, accounting/finance, inventory, sales, CRM, HR and recruitment, and purchasing among them, so a business can start with only the modules it needs and add more later. Under the hood it is a Laravel application with a Filament admin panel, which means it needs the same infrastructure as any Laravel app: a web server, a PHP runtime, and a database, with Redis recommended once you move past a single-user trial.
@@ -49,9 +52,22 @@ cd laradock && cp .env.example .env
 
 Aureus ERP needs a web server, a database, and Redis once you go beyond a single user. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql redis workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql redis workspace
 ```
+
+</TabItem>
+</Tabs>
 
 MySQL 8.0+ is what Aureus ERP recommends; the full service catalog (including alternatives) is [here](/docs/Intro#supported-services).
 
@@ -73,8 +89,24 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 Enter the `workspace` container, where Composer, Node and Artisan live, and run the project's own installer:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+```bash
 composer install
 cp .env.example .env
 php artisan key:generate
@@ -91,9 +123,22 @@ This is where a native install hurts and Laradock shines. Aureus ERP asks for PH
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Bump it later to track a new Aureus ERP release, all without touching anything installed on your host.
 

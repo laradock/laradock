@@ -52,14 +52,14 @@ We also recommend [setting the timezone in Laravel](http://www.camroncade.com/ma
 
 1. In `.env`, set `PHP_FPM_INSTALL_ADDITIONAL_LOCALES` to `true`.
 2. Add the locale codes to `PHP_FPM_ADDITIONAL_LOCALES`.
-3. Rebuild: `docker compose build php-fpm`.
-4. Check them: `docker compose exec php-fpm locale -a`.
+3. Rebuild: `./laradock rebuild php-fpm` (or `docker compose build php-fpm`).
+4. Check them: `./laradock enter php-fpm` then `locale -a` (or `docker compose exec php-fpm locale -a`).
 
 **Change the default locale** (default is `POSIX`):
 
 1. In `.env`, set `PHP_FPM_DEFAULT_LOCALE` to your locale, for example `en_US.UTF8`.
-2. Rebuild: `docker compose build php-fpm`.
-3. Check it: `docker compose exec php-fpm locale`.
+2. Rebuild: `./laradock rebuild php-fpm` (or `docker compose build php-fpm`).
+3. Check it: `./laradock enter php-fpm` then `locale` (or `docker compose exec php-fpm locale`).
 
 ## Add cron jobs
 

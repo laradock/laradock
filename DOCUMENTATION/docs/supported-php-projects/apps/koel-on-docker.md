@@ -12,6 +12,9 @@ keywords:
   - koel nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Koel?
 
 [Koel](https://koel.dev) is a self-hosted personal music streaming server: point it at a folder of audio files and it scans, catalogs and streams your library back through a Vue-based web player. It is a Laravel application under the hood, so a real Koel install needs a web server, a PHP runtime and a database (MySQL, PostgreSQL, MariaDB or SQLite), plus a persistent storage path for the actual music files, kept separate from the database.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Koel needs a web server, PHP and a database. Start exactly those (the web server pulls in PHP-FPM automatically):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer PostgreSQL? Swap the name: `docker compose up -d nginx postgres workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -74,10 +90,28 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 ### 4. Install and run your library
 
-Enter the shell where Composer, npm and Artisan live, and run Koel's own setup wizard:
+Enter the shell where Composer, npm and Artisan live:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then run Koel's own setup wizard inside that shell:
+
+```bash
 composer install
 php artisan koel:init
 ```
@@ -92,9 +126,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Current Koel releases require PHP 8.2 or newer, and anything up to 8.5 works, so an older Koel install and a freshly upgraded one run side by side, each isolated, none of it installed on your machine.
 

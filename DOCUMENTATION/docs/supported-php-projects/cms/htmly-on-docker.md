@@ -12,6 +12,9 @@ keywords:
   - htmly flat file cms docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is HTMLy?
 
 [HTMLy](https://www.htmly.com) is a flat-file blogging platform written in PHP. Instead of a database, every post and page is stored as a plain text file on disk, which keeps the whole stack down to a web server and a PHP runtime. It is aimed at people who want a fast, simple blog without the overhead (and the extra moving part) of running MySQL.
@@ -49,9 +52,22 @@ cd laradock && cp .env.example .env
 
 HTMLy has no database, so it only needs a web server. Start that (it pulls in PHP-FPM automatically) and the workspace shell:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx workspace
 ```
+
+</TabItem>
+</Tabs>
 
 The full catalog of every other available service is [here](/docs/Intro#supported-services).
 
@@ -81,9 +97,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 HTMLy needs PHP 7.2 or newer; current releases run cleanly on PHP 8.x. The same tool runs an old blog pinned to an older PHP release and a brand-new install side by side, each isolated, none of it installed on your machine.
 

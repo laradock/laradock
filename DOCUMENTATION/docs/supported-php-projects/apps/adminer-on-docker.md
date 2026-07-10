@@ -12,6 +12,9 @@ keywords:
   - adminer mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Adminer?
 
 [Adminer](https://www.adminer.org) is a lightweight, single-file database administration tool that supports MySQL, MariaDB, PostgreSQL, SQLite, MS SQL and more from one simple interface. It is not an application with its own database; it is a PHP frontend that connects to a database server you already have running, prized for being far smaller and simpler than heavier admin UIs.
@@ -26,7 +29,7 @@ The catch: wiring a database admin UI to the right container, network and creden
 
 Unlike most of the other projects in this guide, Adminer is not something you add to Laradock: Laradock already ships it as a ready-to-use built-in service (see [Use Adminer](/docs/services/adminer)). There is no install step, no codebase to clone, no config file to write, just a service to switch on:
 
-- **One line to turn on.** `docker compose up -d adminer` and it is ready to point at any database container in your stack.
+- **One line to turn on.** `./laradock start adminer` (or `docker compose up -d adminer`) and it is ready to point at any database container in your stack.
 - **Works with more than MySQL.** Adminer's single interface talks to MySQL, MariaDB, PostgreSQL and others, matching whatever database service you already picked in Laradock.
 - **Nothing is hidden and you own everything.** No generated files, no magic. The `adminer/compose.yml` and its Dockerfile are right there for you to read and edit.
 - **Fits whatever else you are running.** Laradock is framework-agnostic, so the same Adminer service works whether the app behind that database is Laravel, WordPress, or plain PHP.
@@ -47,9 +50,22 @@ cd laradock && cp .env.example .env
 
 Adminer needs a database to point at. Start both together:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock start mysql adminer
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose up -d mysql adminer
 ```
+
+</TabItem>
+</Tabs>
 
 Using PostgreSQL or MariaDB instead? Start that service and point Adminer's login screen at it by default:
 
@@ -57,9 +73,22 @@ Using PostgreSQL or MariaDB instead? Start that service and point Adminer's logi
 ADM_DEFAULT_SERVER=postgres
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock start postgres adminer
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose up -d postgres adminer
 ```
+
+</TabItem>
+</Tabs>
 
 The full catalog of other services is [here](/docs/Intro#supported-services).
 
@@ -69,19 +98,28 @@ There is nothing to configure by hand: Adminer's login screen asks for a server,
 
 ### 4. Open and log in
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock start mysql adminer
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose up -d mysql adminer
 ```
+
+</TabItem>
+</Tabs>
 
 Then open [http://localhost:8081](http://localhost:8081) (the default `ADM_PORT`) and log in with system `MySQL`, server `mysql`, user `default`, password `secret`, or whatever you overrode those to. If you are running Adminer alongside phpMyAdmin, note they share the same default port; set `ADM_PORT` to something else in `.env` so both can run at once.
 
 ## Change the PHP version anytime
 
-Adminer's own container is built and versioned by Laradock independently of the `PHP_VERSION` your application uses, so there is nothing to change here for a typical setup. If you do need to rebuild the service after editing `adminer/Dockerfile`, the same pattern applies to it as to every other Laradock service:
-
-```bash
-docker compose build adminer
-```
+Adminer's own container is built and versioned by Laradock independently of the `PHP_VERSION` your application uses, so there is nothing to change here for a typical setup. If you do need to rebuild the service after editing `adminer/Dockerfile`, the same pattern applies to it as to every other Laradock service: `./laradock rebuild adminer` (or `docker compose build adminer`).
 
 ## Frequently Asked Questions
 

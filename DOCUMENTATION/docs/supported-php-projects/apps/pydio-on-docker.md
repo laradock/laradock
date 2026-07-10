@@ -12,6 +12,9 @@ keywords:
   - pydio nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Pydio?
 
 [Pydio](https://pydio.com) started life as AjaXplorer in 2007 and became a self-hosted file sync and share platform. This page covers **Pydio 8**, the legacy PHP edition (the LAMP-stack line that grew out of AjaXplorer), which is a PHP application backed by MySQL, PostgreSQL or SQLite, served through a web server. Note the nuance up front: the actively developed edition today is **Pydio Cells**, a full rewrite in Go released in 2018 because the team hit the limits of what PHP could handle for large file collaboration. Pydio 8 itself reached end of life in December 2019 and receives no further updates. This setup is meant for maintaining an existing Pydio 8 install, not for starting a new deployment; for a new project, Pydio Cells (outside PHP, and outside the scope of Laradock) is the maintained choice.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Pydio 8 needs a web server and a database. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer PostgreSQL instead? Swap the name: `docker compose up -d nginx postgres workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer PostgreSQL instead? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -74,8 +90,26 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 
 Enter the `workspace` container, place your existing Pydio 8 codebase, and finish setup from the browser:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then, inside the container:
+
+```bash
 # place your Pydio 8 files into the current directory
 ```
 
@@ -89,9 +123,22 @@ This is where a native install hurts and Laradock shines, particularly for a pro
 PHP_VERSION=7.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Pydio 8 was built for an older PHP branch (its support window ended before PHP 8 was common); Laradock covers anything from PHP 5.6 to 8.5, so you can keep the exact old runtime Pydio 8 needs isolated from every other project on the machine.
 

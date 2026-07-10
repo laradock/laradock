@@ -12,6 +12,9 @@ keywords:
   - bookstack nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is BookStack?
 
 [BookStack](https://www.bookstackapp.com) is an open source platform for organizing documentation into a shelf, book, chapter, page hierarchy, popular as a self-hosted alternative to wiki and knowledge-base tools. It is built on the Laravel framework, so a BookStack instance is a PHP application backed by a MySQL or MariaDB database, served through a web server, with Artisan handling migrations and setup tasks just like any other Laravel app.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 BookStack needs a web server and a database. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer MariaDB instead? Swap the name: `docker compose up -d nginx mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB instead? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -74,8 +90,26 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 
 Enter the `workspace` container, where Composer, git and Artisan live, clone or place the BookStack codebase, then run its setup:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then, inside the container:
+
+```bash
 git clone https://github.com/BookStackApp/BookStack.git --branch release --single-branch .   # only if you have no codebase yet
 composer install
 cp .env.example .env
@@ -93,9 +127,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Current BookStack releases need PHP 8.2 or newer; Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older BookStack instance you have not upgraded yet and a brand-new one side by side, each isolated, none of it installed on your machine.
 

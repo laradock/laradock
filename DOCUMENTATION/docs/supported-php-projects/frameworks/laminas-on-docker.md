@@ -12,6 +12,9 @@ keywords:
   - laminas nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Laminas?
 
 [Laminas](https://getlaminas.org) (the successor to Zend Framework) is a collection of enterprise-grade PHP components and an MVC application skeleton used for large, modular applications, and it also underpins projects like Mezzio and parts of Magento's ecosystem. A Laminas MVC app needs a web server, a PHP runtime, and, once `laminas-db` is added, a database; MySQL and PostgreSQL are the most common choices.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Most Laminas apps need a web server and a database (the web server pulls in PHP-FPM automatically):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer PostgreSQL? Swap the name: `docker compose up -d nginx postgres workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) detects Laminas and pre-selects nginx/mysql for you: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -79,8 +95,24 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 
 Enter the shell where Composer and git live, and run the usual commands:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+```bash
 composer create-project -s dev laminas/laminas-mvc-skeleton .   # only if you have no Laminas app yet
 ```
 
@@ -94,9 +126,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 The current Laminas MVC skeleton targets PHP 8.1 and newer, and Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs a legacy Zend Framework 2 codebase and a current Laminas app side by side, each isolated, none of it installed on your machine.
 

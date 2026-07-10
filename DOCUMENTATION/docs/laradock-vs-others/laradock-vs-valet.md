@@ -11,6 +11,9 @@ keywords:
   - php local development macos
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Laravel Valet?
 
 [Laravel Valet](https://laravel.com/docs/valet) is a minimal, official Laravel tool for macOS that configures Nginx and DnsMasq to run natively in the background on your Mac, then proxies requests for any project folder you "park" or "link" to a `.test` domain. There is no virtual machine and no container: everything runs directly on your OS, using roughly 7MB of RAM.
@@ -45,12 +48,30 @@ valet use php@8.3
 ```bash
 cd my-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
+```
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql redis workspace
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 docker compose exec workspace bash
 ```
 
-Your site answers at `http://localhost`; MySQL and Redis are one word in the `up` command instead of a separate Homebrew install, and 100+ other services (search, queues, local LLMs) are equally one command away. `docker compose down` leaves nothing behind, whereas Valet's native services stay installed until you remove them by hand.
+</TabItem>
+</Tabs>
+
+Your site answers at `http://localhost`; MySQL and Redis are one word in the `start` command instead of a separate Homebrew install, and 100+ other services (search, queues, local LLMs) are equally one command away. `./laradock remove` leaves nothing behind, whereas Valet's native services stay installed until you remove them by hand.
 
 ## Side by side
 
@@ -83,8 +104,8 @@ Your site answers at `http://localhost`; MySQL and Redis are one word in the `up
 1. **Export your database** (installed via Homebrew alongside Valet): `mysqldump -h 127.0.0.1 -u root my_db > backup.sql`
 2. **Stop Valet's services** so port 80 frees up: `valet stop` (or `composer global remove laravel/valet` once you're confident).
 3. **Add Laradock** next to your code: `git clone https://github.com/laradock/laradock.git && cd laradock && cp .env.example .env`
-4. **Start your stack:** `docker compose up -d nginx mysql redis workspace`
-5. **Import the database:** `docker compose exec -T mysql mysql -uroot -proot default < ../backup.sql`
+4. **Start your stack:** `./laradock start nginx mysql redis workspace` (or `docker compose up -d nginx mysql redis workspace`)
+5. **Import the database:** `./laradock exec -T mysql mysql -uroot -proot default < ../backup.sql`
 6. **Update your app's `.env`:** `DB_HOST=127.0.0.1` becomes `DB_HOST=mysql`; credentials in `mysql/defaults.env`.
 7. Your site now answers at `http://localhost` instead of `my-app.test` (or wire an nginx site config to keep a custom domain).
 

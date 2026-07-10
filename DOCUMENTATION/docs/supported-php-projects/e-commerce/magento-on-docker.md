@@ -12,6 +12,9 @@ keywords:
   - magento nginx mysql opensearch docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Magento?
 
 [Magento](https://business.adobe.com/products/magento/magento-commerce.html) (now sold by Adobe as Adobe Commerce, with Magento Open Source as the free edition) is a large, extensible PHP e-commerce platform known for handling complex catalogs, multi-store setups and B2B pricing. It is genuinely demanding infrastructure: a web server, PHP-FPM with a high memory limit, a MySQL or MariaDB database, a search engine (OpenSearch or Elasticsearch, mandatory for catalog and layered navigation search since Magento 2.4), and Redis for cache and session storage on anything beyond a toy install.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Magento needs a web server, a database, and a search engine (OpenSearch is what Adobe currently recommends; Elasticsearch still works on older 2.4.x releases). Redis is optional but strongly recommended once you go past a bare install:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql opensearch redis workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql opensearch redis workspace
 ```
 
-Prefer MariaDB or Elasticsearch instead? Swap the name: `docker compose up -d nginx mariadb elasticsearch redis workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB or Elasticsearch instead? Swap the name: `./laradock start nginx mariadb elasticsearch redis workspace` (or `docker compose up -d nginx mariadb elasticsearch redis workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Before installing, raise PHP's memory limit for the Composer install and setup steps; Magento's own docs call for at least 2G. Edit the `memory_limit` line in `php-fpm/php8.3.ini` (or whichever `php-fpm/phpX.Y.ini` matches your `PHP_VERSION`) before you build.
 
@@ -65,8 +81,26 @@ Unlike Laravel or WordPress, Magento does not need a config file hand-edited bef
 
 Enter the `workspace` container, where Composer and git live, pull Magento and run the installer:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Once inside the container:
+
+```bash
 composer create-project --repository-url=https://mirror.mage-os.org/ magento/project-community-edition .
 bin/magento setup:install \
   --base-url=http://localhost \
@@ -87,9 +121,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Magento 2.4.x currently targets PHP 8.3, with newer releases moving to 8.4/8.5, so check which PHP range your specific Magento version supports before you pick one; either way, the same tool can run a legacy 2.3 store on PHP 7.4 and a current 2.4 store on 8.3 side by side, each isolated, none of it installed on your machine.
 
@@ -99,10 +146,7 @@ Adding Composer authentication credentials for Magento 2 (needed for Adobe Comme
 
 1. In `.env`, set `WORKSPACE_COMPOSER_AUTH` to `true`.
 2. Add your credentials to `workspace/auth.json`.
-3. Rebuild the workspace:
-   ```bash
-   docker compose build workspace
-   ```
+3. Rebuild the workspace: `./laradock rebuild workspace` (or `docker compose build workspace`).
 
 ## Frequently Asked Questions
 

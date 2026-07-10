@@ -12,6 +12,9 @@ keywords:
   - symfony nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Symfony?
 
 [Symfony](https://symfony.com) is a mature PHP framework and a set of reusable components used both directly and as the foundation of other projects (Laravel, Drupal, and many more all borrow Symfony components). It ships routing, the Doctrine ORM, a service container, and a console, and it powers everything from small APIs to large enterprise applications. A Symfony app needs a web server, a PHP runtime, and, once Doctrine is involved, a real database: MySQL, MariaDB, PostgreSQL, or SQLite.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Most Symfony apps need a web server, a database, and PHP-FPM (the web server pulls PHP-FPM in automatically):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer PostgreSQL or MariaDB? Swap the name: `docker compose up -d nginx postgres workspace`. Need Redis for cache and sessions later, or Mercure for real-time updates? Add it any time: `docker compose up -d redis` or `docker compose up -d mercure`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer PostgreSQL or MariaDB? Swap the name: `./laradock start nginx postgres workspace`. Need Redis for cache and sessions later, or Mercure for real-time updates? Add it any time: `./laradock start redis` or `./laradock start mercure`. The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) detects Symfony and pre-selects nginx/mysql for you: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -71,8 +87,24 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 Enter the shell where Composer, the Symfony console and Node live, and run the usual commands:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+```bash
 composer create-project symfony/skeleton .   # only if you have no Symfony app yet
 composer require doctrine
 php bin/console doctrine:database:create
@@ -89,9 +121,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Symfony 7 requires PHP 8.2 or newer, and Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs a legacy Symfony 4 project on an older PHP version and a brand-new Symfony 7 one side by side, each isolated, none of it installed on your machine.
 
@@ -100,15 +145,9 @@ Symfony 7 requires PHP 8.2 or newer, and Laradock covers anything from PHP 5.6 t
 Laradock can also install the official Symfony CLI (the `symfony` binary) inside the workspace container, and ships a ready NGINX vhost template for Symfony:
 
 1. In `.env`, set `WORKSPACE_INSTALL_SYMFONY` to `true`.
-2. Rebuild the workspace:
-   ```bash
-   docker compose build workspace
-   ```
+2. Rebuild the workspace: `./laradock rebuild workspace` (or `docker compose build workspace`).
 3. The NGINX sites include a `symfony.conf.example`; edit it so `root` points to your project's `public` directory.
-4. If the containers were already running, restart them:
-   ```bash
-   docker compose restart
-   ```
+4. If the containers were already running, restart them: `./laradock restart` (or `docker compose restart`).
 5. Visit `symfony.test`.
 
 ## Frequently Asked Questions

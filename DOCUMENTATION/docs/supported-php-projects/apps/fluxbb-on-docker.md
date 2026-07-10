@@ -12,6 +12,9 @@ keywords:
   - fluxbb nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is FluxBB?
 
 [FluxBB](https://fluxbb.org) is a lightweight, fast PHP forum package forked from PunBB in 2008, built around a small footprint and a simple admin panel rather than a large extension ecosystem. It is a PHP application backed by a database (MySQL, PostgreSQL or SQLite), served through a web server, and installed through a browser-based setup wizard. The official project has been dormant since around 2021 (its site went offline and the domain lapsed), though a community-maintained fork keeps it working on current PHP versions; if you pick FluxBB today, use that fork rather than the last official release.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 FluxBB needs a web server and a database. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer PostgreSQL? Swap the name: `docker compose up -d nginx postgres workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -75,9 +91,22 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 
 Enter the `workspace` container, place the FluxBB files in your project's web root (download the package from the community-maintained fork if you want current PHP support, or from [fluxbb.org](https://fluxbb.org/downloads/) for the last official release), then finish the setup in the browser:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
 ```
+
+</TabItem>
+</Tabs>
 
 Then open `http://localhost/install.php` and follow FluxBB's install wizard: it checks your PHP version, asks for the database details from the step above, and creates the admin account. Delete `install.php` once it is done, as FluxBB's own docs recommend.
 
@@ -89,9 +118,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.1
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 The last official FluxBB release predates PHP 7, while the community-maintained fork runs on PHP 7.2 through 8.2; Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs a legacy install pinned to an old PHP version and a fork-based install on current PHP side by side, each isolated, none of it installed on your machine.
 

@@ -12,6 +12,9 @@ keywords:
   - linkace nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is LinkAce?
 
 [LinkAce](https://www.linkace.org) is a self-hosted bookmark manager for archiving and organizing links, tags, lists and notes instead of relying on a browser's bookmark bar. It is a Laravel application, so a real LinkAce install needs a web server, a PHP runtime, a MySQL or MariaDB database, and a `queue`/scheduler process for background jobs like link archiving.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 LinkAce needs a web server, PHP and a database. Start exactly those (the web server pulls in PHP-FPM automatically):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer MariaDB over MySQL? Swap the name: `docker compose up -d nginx mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -72,10 +88,28 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 ### 4. Install and run your bookmarks
 
-Enter the shell where Composer, npm and Artisan live, and run LinkAce's own setup commands:
+Enter the shell where Composer, npm and Artisan live:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then run LinkAce's own setup commands inside that shell:
+
+```bash
 composer install
 php artisan key:generate
 php artisan migrate
@@ -93,9 +127,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.4
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Current LinkAce releases require PHP 8.2 or newer, and anything up to 8.5 works, so the same tool runs an older LinkAce install pinned to 8.2 and a freshly upgraded one side by side, each isolated, none of it installed on your machine.
 

@@ -12,6 +12,9 @@ keywords:
   - winter cms laravel docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Winter CMS?
 
 [Winter CMS](https://wintercms.com) is a free, self-hosted CMS built on the Laravel framework. It was forked from October CMS in 2021 and is community-maintained, keeping the same architecture: Laravel routing and the Eloquent ORM underneath, plus a plugin and theme system on top. It is a full Laravel-style application, installed through Composer, backed by MySQL, MariaDB, PostgreSQL or SQLite, served through a web server and a PHP runtime.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Most Winter CMS sites need a web server, a database, and Redis for cache. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql redis workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql redis workspace
 ```
 
-Need Postgres instead of MySQL? Swap the name: `docker compose up -d nginx postgres redis workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Need Postgres instead of MySQL? Swap the name: `./laradock start nginx postgres redis workspace` (or `docker compose up -d nginx postgres redis workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -72,8 +88,24 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 Enter the shell where Composer, Node and Artisan live, and run the installer:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+```bash
 composer create-project wintercms/winter .   # only if you have no Winter CMS project yet
 php artisan winter:up
 ```
@@ -88,9 +120,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Winter CMS requires PHP 8.1 or newer (8.2+ recommended), so a project pinned to an older supported release and a brand-new one can run side by side on different PHP versions, each isolated, none of it installed on your machine.
 

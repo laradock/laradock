@@ -12,6 +12,9 @@ keywords:
   - espocrm nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is EspoCRM?
 
 [EspoCRM](https://www.espocrm.com) is an open source customer relationship management platform with a modern, extensible interface, built for sales, support and marketing teams that want to customize entities and workflows without forking the codebase. It is a PHP application backed by a MySQL, MariaDB or PostgreSQL database, served through a web server, and installed either through a browser-based wizard or a command-line installer.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 EspoCRM needs a web server and a database. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer MariaDB or PostgreSQL instead? Swap the name: `docker compose up -d nginx mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB or PostgreSQL instead? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -74,8 +90,24 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 
 Enter the `workspace` container, place the EspoCRM files in your project's web root (download the archive from [espocrm.com](https://www.espocrm.com) and extract it if you have not already):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+```bash
 composer install --no-dev
 ```
 
@@ -89,9 +121,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Current EspoCRM releases need PHP 8.3 or newer; Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older EspoCRM instance you have not upgraded yet and a brand-new one side by side, each isolated, none of it installed on your machine.
 

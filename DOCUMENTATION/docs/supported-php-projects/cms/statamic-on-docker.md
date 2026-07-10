@@ -12,6 +12,9 @@ keywords:
   - statamic nginx php docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Statamic?
 
 [Statamic](https://statamic.com) is a CMS built on the Laravel framework, known for storing content as flat files (Markdown and YAML) instead of a database by default, while still giving developers a Laravel app to work in. A Statamic site needs a web server and a PHP runtime; no database is required out of the box, though Statamic can optionally use one (via Laravel's Eloquent) for things like users or high-volume form submissions.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Statamic's default flat-file mode needs nothing but a web server; PHP-FPM comes with it automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock start nginx workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx workspace
 ```
 
-Opting into a database for users or forms? Add it any time: `docker compose up -d mysql` (or `postgres`). The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Opting into a database for users or forms? Add it any time: `./laradock start mysql` (or `docker compose up -d mysql`; swap in `postgres` for Postgres). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -65,8 +81,24 @@ There is no database host to configure for a flat-file site. Your content, colle
 
 Enter the `workspace` container, where Composer, Node and git live, and create the project:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+```bash
 composer create-project statamic/statamic my-statamic-site   # only if you have no project yet
 php please make:user
 ```
@@ -81,9 +113,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Statamic requires PHP 8.1 or newer (8.2 recommended), and Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older site and a brand-new one side by side, each isolated, none of it installed on your machine.
 

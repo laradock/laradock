@@ -12,6 +12,9 @@ keywords:
   - avored laravel mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is AvoRed?
 
 [AvoRed](https://github.com/avored/laravel-ecommerce) is an open-source Laravel e-commerce package that adds a GraphQL-first shopping cart and admin to a Laravel app, aimed at teams that want a headless catalog/checkout API rather than a bundled front end. As a Laravel package it needs whatever Laravel needs: a web server, PHP-FPM, and a MySQL or MariaDB database; Redis is a common addition for cache and sessions once traffic grows.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 AvoRed needs whatever a Laravel app needs: a web server and a database. Redis is optional but recommended for cache and sessions:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql redis workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql redis workspace
 ```
 
-Prefer MariaDB over MySQL? Swap the name: `docker compose up -d nginx mariadb redis workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb redis workspace`. The full catalog is [here](/docs/Intro#supported-services).
 
 ### 3. Point Laravel at the containers
 
@@ -70,8 +86,26 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 Enter the `workspace` container, where Artisan, Composer and npm live, scaffold a fresh Laravel app and add AvoRed to it:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Once inside the container:
+
+```bash
 composer create-project laravel/laravel .
 composer require avored/framework
 php artisan avored:install
@@ -88,9 +122,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 AvoRed tracks Laravel's own PHP requirements, so match `PHP_VERSION` to the Laravel release you scaffold (check `avored/framework`'s `composer.json` for the exact floor if you are pinning an older Laravel version); the same tool can still run an older Laravel app on a lower PHP version in a separate Laradock instance, each isolated, none of it installed on your machine.
 

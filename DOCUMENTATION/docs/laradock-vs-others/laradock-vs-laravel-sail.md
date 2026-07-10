@@ -11,6 +11,9 @@ keywords:
   - sail vs docker compose
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Laravel Sail?
 
 [Laravel Sail](https://laravel.com/docs/sail) is Laravel's own, official command-line interface for running a Laravel application in Docker. It ships automatically with every new Laravel project: no separate install, just a `sail` command and a small `docker-compose.yml` file that Laravel generates for you, covering PHP, a database, and a handful of common services.
@@ -41,16 +44,34 @@ Change PHP version: edit `compose.yaml`, point the build context at another runt
 ```bash
 cd my-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
-docker compose up -d nginx mysql redis workspace
-docker compose exec workspace bash   # artisan, composer, npm all live here
+cd laradock
 ```
 
-Or let the optional [CLI](/docs/cli) do the choosing: `./laradock setup` detects Laravel and pre-selects nginx/mysql/redis, exactly like `sail:install`'s menu, then shows every real command it runs.
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
 
-Day to day you use Docker directly: `docker compose exec workspace php artisan migrate`, `docker compose logs -f nginx`, `docker compose stop`.
+```bash
+./laradock start nginx mysql redis workspace
+./laradock workspace
+```
 
-Change PHP version: `PHP_VERSION=8.3` in `.env`, then `docker compose build php-fpm workspace`. Runs anything from PHP 5.6 to 8.5, which Sail does not attempt (great for legacy projects).
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+cp .env.example .env
+docker compose up -d nginx mysql redis workspace
+docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Inside the workspace: artisan, composer, npm all live here. Or let the optional [CLI](/docs/cli) do the choosing: `./laradock setup` detects Laravel and pre-selects nginx/mysql/redis, exactly like `sail:install`'s menu, then shows every real command it runs.
+
+Day to day you use Docker directly: `./laradock exec workspace php artisan migrate`, `./laradock logs nginx -f`, `./laradock stop`.
+
+Change PHP version: `PHP_VERSION=8.3` in `.env`, then `./laradock rebuild php-fpm workspace` (or `docker compose build php-fpm workspace`). Runs anything from PHP 5.6 to 8.5, which Sail does not attempt (great for legacy projects).
 
 ## Side by side
 
@@ -87,8 +108,8 @@ Sail and Laradock both call the containers `mysql` and `redis`, so your app's `.
 1. **Export your database** while Sail still runs: `./vendor/bin/sail exec mysql mysqldump -uroot -ppassword laravel > backup.sql` (adjust db name/creds to your `.env`).
 2. **Stop Sail:** `./vendor/bin/sail down`
 3. **Add Laradock** inside your project: `git clone https://github.com/laradock/laradock.git && cd laradock && cp .env.example .env`
-4. **Start your stack:** `docker compose up -d nginx mysql redis workspace`
-5. **Import the database:** `docker compose exec -T mysql mysql -uroot -proot default < ../backup.sql`
+4. **Start your stack:** `./laradock start nginx mysql redis workspace` (or `docker compose up -d nginx mysql redis workspace`)
+5. **Import the database:** `./laradock exec -T mysql mysql -uroot -proot default < ../backup.sql`
 6. **Update your app's `.env`:** `DB_HOST=mysql` and `REDIS_HOST=redis` stay the same; change `DB_DATABASE`/`DB_USERNAME`/`DB_PASSWORD` to Laradock's (in `mysql/defaults.env`) or set yours in Laradock's `.env`.
 7. Optional cleanup once you are settled: `composer remove laravel/sail --dev` and delete Sail's `compose.yaml`.
 

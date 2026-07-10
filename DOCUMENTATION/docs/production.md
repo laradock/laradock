@@ -21,6 +21,8 @@ For production, create a dedicated Compose file (for example `production-docker-
 docker compose -f production-docker-compose.yml up -d nginx mysql redis ...
 ```
 
+The [Laradock CLI](/docs/cli) is a local-dev convenience layer and doesn't know about custom Compose files like this one, use plain `docker compose` for production.
+
 :::danger[Security]
 do not forward database ports in production. Docker publishes them on the host unless told otherwise, which is insecure. Remove lines like:
 

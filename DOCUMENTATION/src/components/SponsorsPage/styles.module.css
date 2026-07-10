@@ -6,6 +6,8 @@
   background-color: #16101f;
   background-image: radial-gradient(rgba(249, 174, 26, 0.07) 1px, transparent 1px);
   background-size: 24px 24px;
+  border-top: 1px solid rgba(153, 110, 225, 0.25);
+  border-bottom: 1px solid rgba(153, 110, 225, 0.25);
 }
 
 .sponsorImg {

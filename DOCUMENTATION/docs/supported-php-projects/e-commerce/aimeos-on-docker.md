@@ -12,6 +12,9 @@ keywords:
   - aimeos laravel mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Aimeos?
 
 [Aimeos](https://aimeos.org) is an e-commerce package, not a standalone application: it is installed via Composer into an existing Laravel, Symfony or TYPO3 project (the Laravel integration, `aimeos/aimeos-laravel`, is by far the most common path) to add a full storefront, catalog and order system on top. It needs whatever its host framework needs: a web server, PHP-FPM, and a MySQL, MariaDB or PostgreSQL database; Redis is a common addition for cache and sessions.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Aimeos needs whatever your host Laravel app needs: a web server, a database, and usually Redis. Start exactly those:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql redis workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql redis workspace
 ```
 
-Prefer PostgreSQL or MariaDB? Swap the name: `docker compose up -d nginx postgres redis workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer PostgreSQL or MariaDB? Swap the name: `./laradock start nginx postgres redis workspace` (or `docker compose up -d nginx postgres redis workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 ### 3. Point Laravel at the containers
 
@@ -68,10 +84,28 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 ### 4. Install Aimeos into your app and run it
 
-Enter the `workspace` container, where Artisan, Composer and npm live, add Aimeos to your existing Laravel app and set it up:
+Enter the `workspace` container, where Artisan, Composer and npm live:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then add Aimeos to your existing Laravel app and set it up:
+
+```bash
 composer require aimeos/aimeos-laravel
 php artisan vendor:publish --tag=config --tag=public
 php artisan migrate
@@ -88,9 +122,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Current Aimeos releases target current Laravel LTS versions and need a modern PHP (8.2 or newer is a safe baseline; check `aimeos/aimeos-laravel`'s `composer.json` for the exact floor of the release you install), so the same tool can still run an older Laravel app on a lower PHP version in a separate Laradock instance, each isolated, none of it installed on your machine.
 

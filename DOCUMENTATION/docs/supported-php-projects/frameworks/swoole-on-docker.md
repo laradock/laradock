@@ -12,6 +12,9 @@ keywords:
   - swoole nginx docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Swoole?
 
 [Swoole](https://www.swoole.com) is a C extension that gives PHP asynchronous I/O, coroutines, and built-in TCP/UDP/HTTP/WebSocket server classes. Unlike a traditional PHP framework, a Swoole app is not served by NGINX and PHP-FPM; it is its own long-running process that opens a socket and listens on a port itself, handling many requests concurrently inside one PHP process. Frameworks like Hyperf and Swoft, and tools like Laravel Octane, are all built on top of it. Swoole itself needs nothing but the extension and a PHP runtime; a database or Redis is only needed if the app you build on top of it uses one.
@@ -51,11 +54,24 @@ Set the install flag before building, for whichever container you'll run the ser
 WORKSPACE_INSTALL_SWOOLE=true
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d workspace
 ```
 
-Need MySQL or Redis for the app built on top of Swoole? Add them the same way as any other project: `docker compose up -d mysql redis`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Need MySQL or Redis for the app built on top of Swoole? Add them the same way as any other project: `./laradock start mysql redis` (or `docker compose up -d mysql redis`). The full catalog is [here](/docs/Intro#supported-services).
 
 ### 3. Bind the server to the container, not localhost
 
@@ -73,8 +89,24 @@ To reach it from your host, add a port mapping for the container running it, or 
 
 ### 4. Run the server from the workspace
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+```bash
 php -m | grep swoole   # confirms the extension loaded
 php server.php
 ```
@@ -89,9 +121,22 @@ This is where a native install hurts and Laradock shines, especially for an exte
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Laradock re-resolves the matching Swoole release for the PHP version you pick, so you are never stuck manually hunting for a compatible build. Modern Swoole features (fibers, full coroutine support) want PHP 8.1 or newer; older apps can still run on the 4.x branch back to PHP 7.x.
 

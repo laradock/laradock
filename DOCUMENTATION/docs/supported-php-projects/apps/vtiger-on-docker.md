@@ -12,6 +12,9 @@ keywords:
   - vtiger nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Vtiger?
 
 [Vtiger CRM](https://www.vtiger.com/open-source-crm) is an open source customer relationship management platform covering sales, support and inventory in one self-hosted application, with a large module ecosystem built up over close to two decades. It is a PHP application backed by a MySQL database with the InnoDB storage engine, served through a web server, installed through a browser-based setup wizard, and known like other full-featured PHP CRMs for wanting a healthy amount of PHP memory to run comfortably.
@@ -49,9 +52,22 @@ cd laradock && cp .env.example .env
 
 Vtiger needs a web server and a MySQL database. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
+
+</TabItem>
+</Tabs>
 
 The full catalog of other services is [here](/docs/Intro#supported-services).
 
@@ -74,9 +90,22 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 
 Enter the `workspace` container, place the Vtiger files in your project's web root (download the archive from [vtiger.com](https://www.vtiger.com/open-source-crm) and extract it if you have not already):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
 ```
+
+</TabItem>
+</Tabs>
 
 Then open [http://localhost](http://localhost) and follow Vtiger's install wizard: it checks PHP extensions (GD, IMAP, cURL, OpenSSL among them) and memory settings, asks for the database details from the step above, and creates the admin account.
 
@@ -88,9 +117,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Current Vtiger releases are built and tested against PHP 8.2 and 8.3, while a number of older installs and modules still run on PHP 7.x; Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs a legacy Vtiger instance and a brand-new one side by side, each isolated, none of it installed on your machine.
 

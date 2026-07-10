@@ -12,6 +12,9 @@ keywords:
   - edit docker compose config
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 The core commands you use every day to start, stop, inspect, and rebuild your stack.
 
 ## List running containers
@@ -22,66 +25,169 @@ docker ps
 
 To see only the containers from this project:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock ps
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose ps
 ```
+
+</TabItem>
+</Tabs>
 
 ## Enter a container
 
 Open a shell inside a running container to run commands in it.
 
-1. List the running containers with `docker ps`.
-2. Enter the one you want:
-   ```bash
-   docker compose exec {container-name} bash
-   ```
-   *Example, enter the MySQL container:*
-   ```bash
-   docker compose exec mysql bash
-   ```
-   *Example, open the MySQL prompt directly:*
-   ```bash
-   docker compose exec mysql mysql -udefault -psecret
-   ```
-3. Type `exit` to leave.
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock enter mysql
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose exec mysql bash
+```
+
+</TabItem>
+</Tabs>
+
+Swap `mysql` for any container name. To open the MySQL prompt directly instead of a shell:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock exec mysql mysql -udefault -psecret
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose exec mysql mysql -udefault -psecret
+```
+
+</TabItem>
+</Tabs>
+
+Type `exit` to leave.
 
 :::tip
-add `--user=laradock` to run as the Laradock user so created files are owned by your host user: `docker compose exec --user=laradock workspace bash`.
+`./laradock enter` always uses the `laradock` user in the `workspace` container, so files it creates are owned by your host user (not root). Need root instead? `./laradock enter workspace --root`, or manually: `docker compose exec --user=laradock workspace bash`.
 :::
 
 ## Stop containers
 
 Stop everything:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock stop
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose stop
 ```
 
+</TabItem>
+</Tabs>
+
 Stop a single container:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
 ```bash
-docker compose stop {container-name}
+./laradock stop mysql
 ```
 
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose stop mysql
+```
+
+</TabItem>
+</Tabs>
+
 ## Delete containers
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock remove
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose down
 ```
 
+</TabItem>
+</Tabs>
+
+Your data on disk is untouched either way, it lives under `DATA_PATH_HOST`, outside the containers. `docker compose down` additionally tears down the project's network, rarely something you need to think about for local dev.
+
 ## View logs
 
 NGINX writes its logs to the `logs/nginx` directory. For any other container, use:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
 ```bash
-docker compose logs {container-name}
+./laradock logs mysql
 ```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose logs mysql
+```
+
+</TabItem>
+</Tabs>
 
 Follow the log live with `-f`:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
 ```bash
-docker compose logs -f {container-name}
+./laradock logs mysql -f
 ```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose logs -f mysql
+```
+
+</TabItem>
+</Tabs>
 
 See the [Docker Compose logs options](https://docs.docker.com/compose/reference/logs/) for more.
 
@@ -89,21 +195,60 @@ See the [Docker Compose logs options](https://docs.docker.com/compose/reference/
 
 After editing any `Dockerfile`, rebuild for the change to take effect:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build
 ```
 
+</TabItem>
+</Tabs>
+
 Rebuild a single container instead of all of them:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
 ```bash
-docker compose build {container-name}
+./laradock rebuild mysql
 ```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose build mysql
+```
+
+</TabItem>
+</Tabs>
 
 Use `--no-cache` to force a full, clean rebuild:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
 ```bash
-docker compose build --no-cache {container-name}
+./laradock rebuild --no-cache mysql
 ```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose build --no-cache mysql
+```
+
+</TabItem>
+</Tabs>
 
 ## Edit a container's Compose config
 
@@ -127,10 +272,7 @@ REDIS_PORT=1111
 
 1. Find the image's `Dockerfile`, for `mysql` it's `mysql/Dockerfile`.
 2. Edit it as you like.
-3. Rebuild the container:
-   ```bash
-   docker compose build mysql
-   ```
+3. Rebuild the container: `./laradock rebuild mysql` (or `docker compose build mysql`).
 
 ## Add more services
 

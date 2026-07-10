@@ -11,6 +11,9 @@ keywords:
   - migrate from homestead
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Laravel Homestead?
 
 [Laravel Homestead](https://github.com/laravel/homestead) was Laravel's official pre-built [Vagrant](https://developer.hashicorp.com/vagrant) box: a downloadable virtual machine image, pre-configured with PHP, Nginx, MySQL, and other common services, that you launched with the `vagrant up` command to get a full local Linux server running inside a VM on your machine.
@@ -48,12 +51,30 @@ The tax: the VM permanently reserves gigabytes of RAM, boots slowly, needs full-
 ```bash
 cd my-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
-docker compose up -d nginx mysql redis workspace
-docker compose exec workspace bash   # the same "ssh in and work" feeling
+cd laradock
 ```
 
-Containers start in seconds, take memory only while running, and each service is isolated instead of sharing one Ubuntu. The `workspace` container gives you the same "one machine with all the tools" experience Homestead users like (PHP, Composer, Node, git inside), without the VM around it.
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql redis workspace
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+cp .env.example .env
+docker compose up -d nginx mysql redis workspace
+docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+That's the same "ssh in and work" feeling Homestead users like. Containers start in seconds, take memory only while running, and each service is isolated instead of sharing one Ubuntu. The `workspace` container gives you the same "one machine with all the tools" experience Homestead users like (PHP, Composer, Node, git inside), without the VM around it.
 
 ## Side by side
 

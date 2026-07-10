@@ -139,7 +139,7 @@ Laradock provides the PHP runtime, web server, databases, and background service
 
 ### Supported Services
 
-Laradock runs each service in its own container, which you turn on or off as needed. To start one, run `docker compose up -d {container-name}` (the container name matches its folder name, e.g. `php-fpm`).
+Laradock runs each service in its own container, which you turn on or off as needed. To start one: `./laradock start {container-name}` (or `docker compose up -d {container-name}`); the container name matches its folder name, e.g. `php-fpm`.
 
 <!-- SYNC: one of THREE places listing Laradock services. Keep in sync with the other table (README.md / DOCUMENTATION/docs/Intro.md) AND the homepage list in DOCUMENTATION/src/pages/index.tsx. Add a service = update all three. -->
 | Category                  | Services (Containers)                                                                 |
@@ -182,7 +182,13 @@ See the [full service list and usage docs](https://laradock.io/docs/Intro#suppor
 
 A command line preloaded with PHP, Composer, Node, Git, and dozens of dev tools, so you run every command your project needs *inside* it and install nothing on your own machine.
 
-Enter it and work from there:
+Enter it and work from there, with the [Laradock CLI](https://laradock.io/docs/cli):
+
+```bash
+./laradock workspace
+```
+
+or plain Docker Compose:
 
 ```bash
 docker compose exec workspace bash

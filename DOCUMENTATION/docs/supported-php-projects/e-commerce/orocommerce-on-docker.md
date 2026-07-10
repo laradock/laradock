@@ -12,6 +12,9 @@ keywords:
   - orocommerce symfony postgresql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is OroCommerce?
 
 [OroCommerce](https://oroinc.com/orocommerce) is an open-source B2B ecommerce platform built on the Symfony framework, aimed at wholesale, multi-organization and complex-catalog storefronts rather than a simple shop front. It is a PHP application backed by a real database (MySQL or PostgreSQL), served through a web server, and it leans on Redis for caching and, for larger catalogs, Elasticsearch for product search. It is noticeably heavier than a typical PHP app: Oro's own documentation calls for a `memory_limit` of at least 512M, and a comfortable local setup wants more CPU and RAM than a small CMS would.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 A typical OroCommerce install needs a web server, a database, and Redis; add Elasticsearch if you want full product search. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx postgres redis workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx postgres redis workspace
 ```
 
-Prefer MySQL over PostgreSQL? Swap the name: `docker compose up -d nginx mysql redis workspace`. Need search? `docker compose up -d elasticsearch`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MySQL over PostgreSQL? Swap the name: `./laradock start nginx mysql redis workspace`. Need search? `./laradock start elasticsearch`. The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -76,8 +92,26 @@ Use `pdo_mysql` and port `3306` instead if you started `mysql`. The default data
 
 Enter the `workspace` container, where Composer lives, and run the installer:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Once inside, run:
+
+```bash
 composer create-project oro/commerce-crm-application my-orocommerce-app   # only if you have no project yet
 php bin/console oro:install --env=prod --timeout=2000
 ```
@@ -92,9 +126,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Current OroCommerce releases (6.x) run on PHP 8.3 and 8.4; Laradock covers anything from PHP 5.6 to 8.5, so the same tool can run an older Oro instance pinned to an earlier PHP version alongside a current one, each isolated, none of it installed on your machine.
 

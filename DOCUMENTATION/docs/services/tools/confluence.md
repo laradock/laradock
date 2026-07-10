@@ -10,6 +10,9 @@ keywords:
   - confluence postgres
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Confluence?
 
 [Confluence](https://www.atlassian.com/software/confluence) is Atlassian's team wiki and documentation platform. Laradock runs it via the official `atlassian/confluence-server` image, backed by the `postgres` container.
@@ -18,17 +21,64 @@ keywords:
 
 ## Start Confluence
 
-Confluence depends on `postgres`, so make sure it's running too:
+Confluence depends on `postgres` (its `compose.yml` declares it), so start both together:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start postgres confluence
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose up -d postgres confluence
 ```
 
+</TabItem>
+</Tabs>
+
 ## Stop Confluence
+
+Stopping just pauses the container; **your data is safe**:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock stop confluence
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose stop confluence
 ```
+
+</TabItem>
+</Tabs>
+
+To delete the container entirely (the data on disk is still untouched, it lives under `DATA_PATH_HOST/Confluence`):
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock remove confluence
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose rm -sf confluence
+```
+
+</TabItem>
+</Tabs>
 
 ## Configuration
 
@@ -43,11 +93,7 @@ Confluence's database name, user, and password (`CONFLUENCE_POSTGRES_DB`, `CONFL
 
 ## First-time setup
 
-```bash
-docker compose up -d postgres confluence
-```
-
-Open [http://localhost:8090](http://localhost:8090) and walk through Confluence's own setup wizard: license entry, database connection (point it at the `postgres` container using the `CONFLUENCE_POSTGRES_*` credentials above), and initial admin account.
+Start Confluence and `postgres` together (see [Start Confluence](#start-confluence) above), then open [http://localhost:8090](http://localhost:8090) and walk through Confluence's own setup wizard: license entry, database connection (point it at the `postgres` container using the `CONFLUENCE_POSTGRES_*` credentials above), and initial admin account.
 
 ## Serve it through NGINX with SSL
 
@@ -56,12 +102,143 @@ Open [http://localhost:8090](http://localhost:8090) and walk through Confluence'
 
 Confluence stays reachable directly on `8090` regardless, NGINX just adds a proper domain and TLS in front of it.
 
+## Backup and restore
+
+Confluence's state is split across two places: application data (attachments, indexes, config) on disk, and content/permissions in its `postgres` database. Back up both.
+
+**Back up the application data** to a `.tar.gz` on your host:
+
+```bash
+tar -czf confluence-data-backup.tar.gz -C "${DATA_PATH_HOST:-~/.laradock/data}/Confluence" .
+```
+
+**Back up the database**:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock exec -T postgres pg_dump -U laradock_confluence laradock_confluence > confluence-db-backup.sql
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose exec -T postgres pg_dump -U laradock_confluence laradock_confluence > confluence-db-backup.sql
+```
+
+</TabItem>
+</Tabs>
+
+Replace the database/user names if you changed `CONFLUENCE_POSTGRES_DB`/`CONFLUENCE_POSTGRES_USER`. The `-T` disables the container's pseudo-terminal so the dump isn't corrupted when redirected to a file.
+
+**Restore** is the reverse: stop Confluence, extract the `.tar.gz` back into `DATA_PATH_HOST/Confluence`, restore the database, then start Confluence again:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock exec -T postgres psql -U laradock_confluence -d laradock_confluence -f - < confluence-db-backup.sql
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose exec -T postgres psql -U laradock_confluence -d laradock_confluence -f - < confluence-db-backup.sql
+```
+
+</TabItem>
+</Tabs>
+
+## Start completely fresh (wipe all data)
+
+To throw away everything and re-run Confluence's setup wizard from scratch (⚠️ this **permanently deletes** all pages, attachments, and the Confluence database, back up first if you need anything):
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock stop confluence
+./laradock remove confluence
+rm -rf "${DATA_PATH_HOST:-~/.laradock/data}/Confluence"
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose stop confluence
+docker compose rm -sf confluence
+rm -rf "${DATA_PATH_HOST:-~/.laradock/data}/Confluence"
+```
+
+</TabItem>
+</Tabs>
+
+Wiping the application data folder alone leaves the old content sitting in the `postgres` database, so the setup wizard will find an existing schema instead of starting fresh. Drop and recreate the database too (using the `postgres` root credentials, `default`/`secret` by default):
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock enter postgres
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose exec postgres bash
+```
+
+</TabItem>
+</Tabs>
+
+```bash
+dropdb -U default laradock_confluence
+createdb -U default -O laradock_confluence laradock_confluence
+exit
+```
+
+Then start Confluence again (see [Start Confluence](#start-confluence)) and go through the setup wizard once more.
+
+## Change the Confluence version
+
+Set the version in your `.env`:
+
+```env
+CONFLUENCE_VERSION=7.19.24-jdk11
+```
+
+Then recreate the container, which pulls the new image tag automatically:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start confluence
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d confluence
+```
+
+</TabItem>
+</Tabs>
+
+Confluence runs its own database migration on first boot after a version bump, so [back up both the application data and the database](#backup-and-restore) before changing major versions, the same way you would for any upgrade with irreversible schema changes.
+
 ## Common issues
 
 - **Setup wizard asks for a license every restart.** That means `DATA_PATH_HOST/Confluence` isn't persisting between restarts, check your `DATA_PATH_HOST` value and that the volume actually mounted.
 - **Confluence can't connect to its database.** Confirm `postgres` is running and that `CONFLUENCE_POSTGRES_INIT=true` was set the first time `postgres` initialized, that flag only creates the database/role on first boot.
-- **Container takes a long time to become reachable.** This is normal for Confluence, it's a JVM application with a real startup sequence; check `docker compose logs confluence` before assuming it's stuck.
-- **Port already in use on your host.** Change `CONFLUENCE_HOST_HTTP_PORT` in `.env` and restart: `docker compose up -d confluence`.
+- **Container takes a long time to become reachable.** This is normal for Confluence, it's a JVM application with a real startup sequence; check `./laradock logs confluence` before assuming it's stuck.
+- **Port already in use on your host.** Change `CONFLUENCE_HOST_HTTP_PORT` in `.env` and restart: `./laradock restart confluence`.
 
 ---
 

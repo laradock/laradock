@@ -1,7 +1,7 @@
 ---
 slug: /services/redis
 title: Redis
-description: Run Redis in Laradock. Start and stop the container, configure the port and password, wire it up as your Laravel cache/session/queue driver, and connect from your host.
+description: Run Redis in Laradock. Start and stop the container, configure the port and password, wire it up as your Laravel cache/session/queue driver, flush keys, back up and restore data, and connect from your host.
 keywords:
   - laradock redis
   - redis docker
@@ -9,7 +9,12 @@ keywords:
   - laravel redis cache
   - redis password docker
   - connect redis host
+  - redis backup restore docker
+  - flush redis cache docker
 ---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 ## What is Redis?
 
@@ -17,17 +22,62 @@ keywords:
 
 ## Start Redis
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start redis
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d redis
 ```
 
+</TabItem>
+</Tabs>
+
 ## Stop Redis
+
+Stopping just pauses the container; **your data is safe**:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock stop redis
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose stop redis
 ```
 
-This stops the container without deleting its data. To remove the container (data on disk is untouched, it lives under `DATA_PATH_HOST`): `docker compose rm -f redis`.
+</TabItem>
+</Tabs>
+
+To delete the container entirely (the data on disk is still untouched, it lives under `DATA_PATH_HOST`):
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock remove redis
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose rm -sf redis
+```
+
+</TabItem>
+</Tabs>
 
 ## Configuration
 
@@ -63,12 +113,170 @@ This stops the container without deleting its data. To remove the container (dat
 
 ## Use the redis-cli
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
 ```bash
-docker compose exec redis bash
-redis-cli
+./laradock enter redis
 ```
 
-If `REDIS_PASSWORD` is set, authenticate first: `redis-cli -a secret_redis`.
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose exec redis bash
+```
+
+</TabItem>
+</Tabs>
+
+Then start the client, authenticating if `REDIS_PASSWORD` is set:
+
+```bash
+redis-cli -a secret_redis
+```
+
+## Flush all keys (clear the cache)
+
+⚠️ This **permanently deletes** every key in Redis, there's no undo. Useful when stale cached data is causing bugs and you just want a clean slate:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock exec -T redis redis-cli -a secret_redis FLUSHALL
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose exec -T redis redis-cli -a secret_redis FLUSHALL
+```
+
+</TabItem>
+</Tabs>
+
+`FLUSHALL` clears every database inside Redis. To clear only the currently selected database (`database => 0` by default in Laravel's config above), use `FLUSHDB` instead.
+
+## Check memory usage and stats
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock exec -T redis redis-cli -a secret_redis INFO memory
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose exec -T redis redis-cli -a secret_redis INFO memory
+```
+
+</TabItem>
+</Tabs>
+
+`INFO memory` reports `used_memory_human` (current usage) and `maxmemory_policy` (what Redis does when it hits a memory cap, if you've set one). Swap `memory` for `stats` (`INFO stats`) to see hit/miss counters, or run `DBSIZE` for a quick key count in the current database.
+
+## Backup and restore
+
+Redis periodically snapshots its dataset to disk as `dump.rdb` under `/data` in the container, which maps to `DATA_PATH_HOST/redis/dump.rdb` on your host. To back up, force an immediate snapshot, then copy that file out:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock exec -T redis redis-cli -a secret_redis SAVE
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose exec -T redis redis-cli -a secret_redis SAVE
+```
+
+</TabItem>
+</Tabs>
+
+```bash
+cp "${DATA_PATH_HOST:-~/.laradock/data}/redis/dump.rdb" backup.rdb
+```
+
+**Restore** a snapshot by putting it back before Redis starts, since Redis only loads `dump.rdb` from disk on boot:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock stop redis
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose stop redis
+```
+
+</TabItem>
+</Tabs>
+
+```bash
+cp backup.rdb "${DATA_PATH_HOST:-~/.laradock/data}/redis/dump.rdb"
+```
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start redis
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d redis
+```
+
+</TabItem>
+</Tabs>
+
+## Start completely fresh (wipe all data)
+
+To throw away everything (all keys, all snapshots) and start Redis from a clean, empty state (⚠️ this **permanently deletes** the data, back up first if you need anything):
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock stop redis
+./laradock remove redis
+rm -rf "${DATA_PATH_HOST:-~/.laradock/data}/redis"
+./laradock start redis
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose stop redis
+docker compose rm -sf redis
+rm -rf "${DATA_PATH_HOST:-~/.laradock/data}/redis"
+docker compose up -d redis
+```
+
+</TabItem>
+</Tabs>
+
+`DATA_PATH_HOST` is whatever you have set in `.env` (`~/.laradock/data` by default), so the folder above is where Redis's `dump.rdb` actually lives on your machine.
+
+## Talk to this Redis from another Laradock project
+
+Each Laradock project is its own isolated Docker network by default, so a second project's containers can't reach this Redis by container name out of the box. Easiest fix: publish the port (already done, `REDIS_PORT`) and have the other project connect to your **host machine's** address instead of `redis`, for example `REDIS_HOST=host.docker.internal` (Docker Desktop) with `REDIS_PORT` and `REDIS_PASSWORD` matching this project's values. Make sure the two projects use different `REDIS_PORT` values if they're both running at once, and pick different `database =>` indexes (or a key prefix) if you don't want them to see each other's keys.
 
 ## Connect from your host machine
 
@@ -78,8 +286,9 @@ Inside Laradock, other containers reach Redis by container name: `REDIS_HOST=red
 
 - **`NOAUTH Authentication required`.** `REDIS_PASSWORD` is set in `.env` but your client isn't sending it. Pass `-a <password>` to `redis-cli`, or set the password on your Laravel Redis connection config.
 - **App can't connect but the container is running.** Confirm the app's `.env` uses `REDIS_HOST=redis` (the container name), not `localhost` or `127.0.0.1`, those only work from your host machine, not from inside another container.
-- **Port already in use on your host.** Another local Redis (or another Laradock project) is already bound to `6379`. Change `REDIS_PORT` in `.env` and restart: `docker compose up -d redis`.
-- **Data disappears after `docker compose down -v`.** Redis data lives under `DATA_PATH_HOST/redis`; `-v` removes named volumes and, depending on your setup, can wipe it. Use `docker compose stop` if you just want to pause the container.
+- **Port already in use on your host.** Another local Redis (or another Laradock project) is already bound to `6379`. Change `REDIS_PORT` in `.env` and restart: `./laradock restart redis`.
+- **Data disappears after `docker compose down -v`.** Redis data lives under `DATA_PATH_HOST/redis`; `-v` removes named volumes and, depending on your setup, can wipe it. Use `./laradock stop redis` if you just want to pause the container.
+- **Cached values from a previous session/database still show up.** You're probably sharing the same `database =>` index across two apps or two Laradock projects. See [Flush all keys](#flush-all-keys-clear-the-cache) above, or give each app its own database index.
 
 ---
 

@@ -12,6 +12,9 @@ keywords:
   - kirby flat file cms docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Kirby?
 
 [Kirby](https://getkirby.com) is a flat-file CMS built for developers who want full control over templates and content structure. Content is stored as plain text files on disk instead of database rows, so there is no database to run: just a web server and PHP. Kirby is commercially licensed for production use (a one-time per-project fee), while running it locally for development and testing is free, which matters when you decide how to set it up.
@@ -49,9 +52,22 @@ cd laradock && cp .env.example .env
 
 Kirby has no database, so it only needs a web server. Start that (it pulls in PHP-FPM automatically) and the workspace shell:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx workspace
 ```
+
+</TabItem>
+</Tabs>
 
 The full catalog of every other available service is [here](/docs/Intro#supported-services).
 
@@ -63,10 +79,28 @@ There is no hostname to configure, since there is no database. General settings 
 
 ### 4. Install and run your site
 
-Enter the `workspace` container, where Composer and git live, and pull in the Starterkit (or your own Kirby project):
+Enter the `workspace` container, where Composer and git live:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then pull in the Starterkit (or your own Kirby project):
+
+```bash
 composer create-project getkirby/starterkit my-kirby-site
 ```
 
@@ -86,9 +120,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Kirby supports PHP 8.2, 8.3 (recommended) and 8.4, so the same tool runs an older client project pinned to 8.2 and a brand-new build on 8.4 side by side, each isolated, none of it installed on your machine.
 

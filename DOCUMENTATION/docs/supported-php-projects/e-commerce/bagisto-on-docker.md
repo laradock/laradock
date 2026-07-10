@@ -12,6 +12,9 @@ keywords:
   - bagisto laravel mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Bagisto?
 
 [Bagisto](https://bagisto.com) is an open-source e-commerce platform built on Laravel, giving you a multi-vendor-capable store with the usual Laravel toolchain (Artisan, Eloquent, queues) underneath. As a Laravel app it needs a web server, PHP-FPM, and a MySQL or MariaDB database; Redis is commonly added for cache, sessions and queues once a store is real.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Bagisto needs a web server and a database. Redis is optional but recommended for cache, sessions and queues:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock start nginx mysql redis workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql redis workspace
 ```
 
-Prefer MariaDB over MySQL? Swap the name: `docker compose up -d nginx mariadb redis workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb redis workspace` (or `docker compose up -d nginx mariadb redis workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 ### 3. Point Bagisto at the containers
 
@@ -68,10 +84,28 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 ### 4. Install and run your store
 
-Enter the `workspace` container, where Artisan, Composer and npm live, scaffold the project and run Bagisto's own installer:
+Enter the `workspace` container, where Artisan, Composer and npm live:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
 
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then, inside the container, scaffold the project and run Bagisto's own installer:
+
+```bash
 composer create-project bagisto/bagisto .
 php artisan bagisto:install
 ```
@@ -86,9 +120,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Current Bagisto releases require PHP 8.2 or newer, so keep `PHP_VERSION` at 8.2+ for a current install; the same tool can still run an older Laravel app on a lower PHP version in a separate Laradock instance, each isolated, none of it installed on your machine.
 

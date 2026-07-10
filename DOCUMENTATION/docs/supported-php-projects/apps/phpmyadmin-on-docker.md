@@ -12,6 +12,9 @@ keywords:
   - phpmyadmin mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is phpMyAdmin?
 
 [phpMyAdmin](https://www.phpmyadmin.net) is a widely used web-based administration tool for MySQL and MariaDB: browse tables, run queries, manage users and permissions, and import or export data, all from the browser. It is not an application with its own database; it is a PHP frontend that connects to a database server you already have running.
@@ -47,9 +50,22 @@ cd laradock && cp .env.example .env
 
 phpMyAdmin needs a database to point at. Start both together:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start mysql phpmyadmin
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d mysql phpmyadmin
 ```
+
+</TabItem>
+</Tabs>
 
 Using MariaDB instead? Start it and set the engine phpMyAdmin should target:
 
@@ -57,9 +73,22 @@ Using MariaDB instead? Start it and set the engine phpMyAdmin should target:
 PMA_DB_ENGINE=mariadb
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start mariadb phpmyadmin
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d mariadb phpmyadmin
 ```
+
+</TabItem>
+</Tabs>
 
 The full catalog of other services is [here](/docs/Intro#supported-services).
 
@@ -69,9 +98,22 @@ There is nothing to configure by hand: phpMyAdmin's compose service already targ
 
 ### 4. Open and log in
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start mysql phpmyadmin
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d mysql phpmyadmin
 ```
+
+</TabItem>
+</Tabs>
 
 Then open [http://localhost:8081](http://localhost:8081) (the default `PMA_PORT`) and log in with server `mysql`, user `default`, password `secret`, or whatever you overrode those to.
 
@@ -79,9 +121,22 @@ Then open [http://localhost:8081](http://localhost:8081) (the default `PMA_PORT`
 
 phpMyAdmin's own container is built and versioned by Laradock independently of the `PHP_VERSION` your application uses, so there is nothing to change here for a typical setup. If you do need to rebuild the service after editing `phpmyadmin/Dockerfile`, the same pattern applies to it as to every other Laradock service:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild phpmyadmin
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build phpmyadmin
 ```
+
+</TabItem>
+</Tabs>
 
 ## Frequently Asked Questions
 

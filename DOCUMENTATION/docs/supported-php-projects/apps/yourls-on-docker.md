@@ -12,6 +12,9 @@ keywords:
   - yourls nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is YOURLS?
 
 [YOURLS](https://yourls.org) (Your Own URL Shortener) is a small, self-hosted set of PHP scripts that turns any domain into a private link shortener, complete with click stats, a plugin system and a simple API. It is deliberately minimal: no framework, no build step, just PHP files backed by a MySQL (or MariaDB) database and a web server in front of them.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 YOURLS needs a web server, PHP, and a database. Start exactly those (the web server pulls in PHP-FPM automatically):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer Apache or MariaDB instead? Swap the names: `docker compose up -d apache2 mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer Apache or MariaDB instead? Swap the names: `./laradock start apache2 mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -88,9 +104,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Current YOURLS releases require PHP 8.1 or newer, but anything from 5.6 to 8.5 is available, so an older YOURLS fork pinned to a legacy PHP version and a current install can run side by side, each isolated, none of it installed on your machine.
 

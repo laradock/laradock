@@ -12,6 +12,9 @@ keywords:
   - slim nginx php docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Slim?
 
 [Slim](https://www.slimframework.com) is a PHP micro-framework for building APIs and small web apps: routing, middleware, and a PSR-7 request/response layer, with none of the batteries a full-stack framework bundles. Slim has no built-in ORM or database layer by design; a typical Slim app needs a web server and a PHP runtime, and adds a database only if the app itself needs one, usually via plain PDO or a library like Doctrine or Eloquent pulled in through Composer.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 A Slim API often needs nothing more than a web server (the web server pulls in PHP-FPM automatically):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx workspace
 ```
 
-Add a database only if your app uses one: `docker compose up -d mysql` or `docker compose up -d postgres`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Add a database only if your app uses one: `./laradock start mysql` or `./laradock start postgres`. The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -72,10 +88,28 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 
 ### 4. Run your app from the workspace
 
-Enter the shell where Composer and git live, and run the usual commands:
+Enter the shell where Composer and git live:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then run the usual commands:
+
+```bash
 composer create-project slim/slim-skeleton .   # only if you have no Slim app yet
 ```
 
@@ -89,9 +123,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.1
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Slim 4 supports PHP 7.4 and newer, and Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older Slim 3 service and a current Slim 4 API side by side, each isolated, none of it installed on your machine.
 

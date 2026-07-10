@@ -12,6 +12,9 @@ keywords:
   - cakephp nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is CakePHP?
 
 [CakePHP](https://cakephp.org) is a long-running, convention-over-configuration PHP framework with code generation (Bake), a built-in ORM, and scaffolding for CRUD apps. It is a common choice for admin tools and internal apps that need to be built fast. A CakePHP app needs a web server, a PHP runtime, and a database; MySQL is the default, with PostgreSQL, SQLite and SQL Server also supported out of the box.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Most CakePHP apps need a web server and a database (the web server pulls in PHP-FPM automatically):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer PostgreSQL? Swap the name: `docker compose up -d nginx postgres workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) detects CakePHP and pre-selects nginx/mysql for you: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -78,8 +94,26 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 
 Enter the shell where Composer and git live, and run the usual commands:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Once inside, run the usual commands:
+
+```bash
 composer create-project --prefer-dist cakephp/app .   # only if you have no CakePHP app yet
 bin/cake migrations migrate
 ```
@@ -94,9 +128,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 CakePHP 5 requires PHP 8.1 or newer (CakePHP 4 supports 7.2+), and Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs a legacy CakePHP 3 project and a current CakePHP 5 app side by side, each isolated, none of it installed on your machine.
 

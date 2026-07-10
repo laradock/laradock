@@ -12,6 +12,9 @@ keywords:
   - pligg nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Pligg?
 
 [Pligg](https://sourceforge.net/projects/pligg/) is an older, PHP-based CMS built for social bookmarking and Digg-style "submit and vote" content sites. It is a plain PHP application backed by a MySQL database, served through a web server, with no framework, no Composer, and no build step. It has seen no meaningful upstream activity in years; the project is effectively dormant, kept alive mostly through community forks on GitHub rather than an active core team.
@@ -49,9 +52,22 @@ cd laradock && cp .env.example .env
 
 Pligg needs a web server and a database. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
+
+</TabItem>
+</Tabs>
 
 The full catalog is [here](/docs/Intro#supported-services).
 
@@ -74,8 +90,26 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 Pull a maintained Pligg fork into the workspace container, then finish setup in your browser (check the fork's own instructions, since the original project is no longer actively developed):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Once inside the container:
+
+```bash
 git clone https://github.com/logbie/pligg.git .   # or another maintained fork
 ```
 
@@ -89,9 +123,7 @@ This is where a native install hurts and Laradock shines, and Pligg is the clear
 PHP_VERSION=5.6
 ```
 
-```bash
-docker compose build php-fpm workspace
-```
+Then rebuild with `./laradock rebuild php-fpm workspace` (or `docker compose build php-fpm workspace`).
 
 Nothing forces that old PHP version onto your host or your other projects; it exists only inside this Laradock instance.
 

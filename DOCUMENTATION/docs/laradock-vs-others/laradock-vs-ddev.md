@@ -11,6 +11,9 @@ keywords:
   - php docker development environment
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is DDEV?
 
 [DDEV](https://ddev.com/) is a free, open-source command-line tool for running local PHP development environments in Docker. You install one binary, run `ddev config` and `ddev start`, and it generates and manages all the Docker containers for you behind the scenes, database, web server, PHP, the works, without you writing or seeing a Dockerfile.
@@ -55,18 +58,38 @@ Laradock is a git clone; there is nothing to install:
 ```bash
 cd my-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
-docker compose up -d nginx mysql redis workspace
-docker compose exec workspace bash   # composer create-project laravel/laravel .
+cd laradock
 ```
 
-Your site is live at `http://localhost`. Redis was one word in the `up` command; the same is true for 100+ other services (`docker compose up -d ollama`, `rabbitmq`, `elasticsearch`, ...).
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
 
-Change PHP version: set `PHP_VERSION=8.4` in `.env`, then `docker compose build php-fpm workspace`.
+```bash
+./laradock start nginx mysql redis workspace
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+cp .env.example .env
+docker compose up -d nginx mysql redis workspace
+docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then, inside the workspace: `composer create-project laravel/laravel .`
+
+Your site is live at `http://localhost`. Redis was one word in the `start` command; the same is true for 100+ other services (`./laradock start ollama`, `rabbitmq`, `elasticsearch`, ...).
+
+Change PHP version: set `PHP_VERSION=8.4` in `.env`, then `./laradock rebuild php-fpm workspace` (or `docker compose build php-fpm workspace`).
 
 Prefer a guided start? `./laradock setup` (the optional, zero-install [CLI](/docs/cli)) asks the same three-questions-style wizard, then prints every real command it runs.
 
-Day to day you talk to Docker itself: `docker compose exec workspace bash`, `docker compose logs mysql`, plain `artisan` and `composer` inside the workspace. Every file involved (`nginx/compose.yml`, `php-fpm/Dockerfile`, ...) is readable and permanently editable.
+Day to day you talk to Docker itself: `./laradock enter workspace`, `./laradock logs mysql`, plain `artisan` and `composer` inside the workspace. Every file involved (`nginx/compose.yml`, `php-fpm/Dockerfile`, ...) is readable and permanently editable.
 
 ## Side by side
 
@@ -101,8 +124,8 @@ Day to day you talk to Docker itself: `docker compose exec workspace bash`, `doc
 1. **Export your database** while DDEV still runs: `ddev export-db --file=backup.sql.gz && gunzip backup.sql.gz`
 2. **Stop DDEV:** `ddev stop` (keep the `.ddev/` folder until you are confident; nothing conflicts).
 3. **Add Laradock** next to your code: `git clone https://github.com/laradock/laradock.git && cd laradock && cp .env.example .env`
-4. **Start your stack:** `docker compose up -d nginx mysql redis workspace`
-5. **Import the database:** `docker compose exec -T mysql mysql -uroot -proot default < ../backup.sql` (or use phpMyAdmin: `docker compose up -d phpmyadmin`, then `localhost:8081`).
+4. **Start your stack:** `./laradock start nginx mysql redis workspace` (or `docker compose up -d nginx mysql redis workspace`)
+5. **Import the database:** `./laradock exec -T mysql mysql -uroot -proot default < ../backup.sql` (or use phpMyAdmin: `./laradock start phpmyadmin`, then `localhost:8081`).
 6. **Update your app's `.env`:** DDEV's `DB_HOST=db` becomes `DB_HOST=mysql`, credentials are in `mysql/defaults.env` (user `default`, password `secret` by default).
 7. Your site now answers at `http://localhost` instead of `https://my-app.ddev.site`.
 

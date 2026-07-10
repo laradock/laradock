@@ -12,6 +12,9 @@ keywords:
   - opencart mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is OpenCart?
 
 [OpenCart](https://www.opencart.com) is a lightweight, open-source PHP shopping cart platform known for being simple to install and extend compared to heavier e-commerce frameworks. It is a plain PHP application: no full framework underneath, just a web server, PHP-FPM, and a MySQL or MariaDB database (OpenCart also supports PostgreSQL via PDO in recent versions).
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 OpenCart needs a web server and a database, nothing else is required out of the box:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer MariaDB instead of MySQL? Swap the name: `docker compose up -d nginx mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB instead of MySQL? Swap the name: `./laradock start nginx mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
 
 ### 3. Point OpenCart at the containers
 
@@ -61,10 +77,28 @@ OpenCart's installer writes your database connection into `config.php` and `admi
 
 ### 4. Install and run
 
-Enter the `workspace` container, where Composer and git live, download OpenCart and run its command-line installer:
+Enter the `workspace` container, where Composer and git live:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then download OpenCart and run its command-line installer:
+
+```bash
 composer create-project opencart/opencart .
 mv upload/* . && mv upload/.htaccess . 2>/dev/null
 php install/cli_install.php install \
@@ -83,9 +117,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.1
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 OpenCart 4 requires PHP 8.1 or newer, while OpenCart 3.x stores commonly still run on PHP 7.4, so the same tool runs a legacy 3.x shop and a current OpenCart 4 store side by side, each isolated, none of it installed on your machine.
 

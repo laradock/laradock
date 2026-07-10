@@ -1,7 +1,7 @@
 ---
 slug: /services/phpmyadmin
 title: phpMyAdmin
-description: Run phpMyAdmin in Laradock as a GUI for MySQL or MariaDB. Start the container, log in, switch database engines, and fix common issues.
+description: Run phpMyAdmin in Laradock as a GUI for MySQL or MariaDB. Start the container, log in, switch database engines, connect to any server, and fix common issues.
 keywords:
   - laradock phpmyadmin
   - phpmyadmin docker
@@ -11,27 +11,90 @@ keywords:
   - database admin ui docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is phpMyAdmin?
 
 [phpMyAdmin](https://www.phpmyadmin.net) is a web-based admin GUI for MySQL and MariaDB, browse tables, run queries, manage users, and import/export data without touching a command line. There's nothing to "install", Laradock builds it as its own container from the official `phpmyadmin` image and points it at whichever database container you're already running.
 
 ## Start phpMyAdmin
 
-Start it alongside the database it should manage:
+phpMyAdmin is useless on its own, it needs a database to point at. Start it alongside the engine set in `PMA_DB_ENGINE` (`mysql` by default):
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
 
 ```bash
-# with MySQL
-docker compose up -d mysql phpmyadmin
+./laradock start mysql phpmyadmin
+```
 
-# with MariaDB
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d mysql phpmyadmin
+```
+
+</TabItem>
+</Tabs>
+
+With MariaDB instead:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start mariadb phpmyadmin
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
 docker compose up -d mariadb phpmyadmin
 ```
 
+</TabItem>
+</Tabs>
+
 ## Stop phpMyAdmin
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock stop phpmyadmin
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose stop phpmyadmin
 ```
+
+</TabItem>
+</Tabs>
+
+phpMyAdmin itself keeps no data of its own (your actual data lives in the database container it manages), so there's nothing to back up here. To delete the container entirely:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock remove phpmyadmin
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose rm -sf phpmyadmin
+```
+
+</TabItem>
+</Tabs>
 
 ## Configuration
 
@@ -39,7 +102,7 @@ All settings live in `phpmyadmin/defaults.env` and can be overridden by adding t
 
 | Variable | Default | What it does |
 |---|---|---|
-| `PMA_DB_ENGINE` | `mysql` | Which service phpMyAdmin depends on and connects to by default: `mysql` or `mariadb`. |
+| `PMA_DB_ENGINE` | `mysql` | Which service phpMyAdmin `depends_on` and connects to by default: `mysql` or `mariadb`. |
 | `PMA_USER` | `default` | Username phpMyAdmin logs in with. |
 | `PMA_PASSWORD` | `secret` | Password for `PMA_USER`. |
 | `PMA_ROOT_PASSWORD` | `secret` | Root password passed through to the container. |
@@ -50,20 +113,52 @@ All settings live in `phpmyadmin/defaults.env` and can be overridden by adding t
 
 ## Log in
 
-Open [http://localhost:8081](http://localhost:8081). For the default MySQL setup, use server `mysql`, user `default`, password `secret` (or your own `PMA_USER`/`PMA_PASSWORD`).
+Open [http://localhost:8081](http://localhost:8081) (or your own `PMA_PORT`). For the default MySQL setup, use server `mysql`, user `default`, password `secret` (or your own `PMA_USER`/`PMA_PASSWORD`).
 
-## Switch to MariaDB
+## Connect to any server, not just the default one
+
+Laradock builds phpMyAdmin with `PMA_ARBITRARY=1`, which unlocks the "Server" field on the login screen instead of locking you to `PMA_DB_ENGINE`. Type in any hostname reachable from the container and log in with that server's own credentials, useful for:
+
+- Switching between `mysql` and `mariadb` without changing `.env`, as long as both containers are running.
+- Pointing at a database in a different Laradock project on the same machine, for example `host.docker.internal` with that project's `MYSQL_PORT`.
+- Pointing at any external MySQL/MariaDB server your Laradock host can reach.
+
+## Switch to MariaDB by default
 
 1. In `.env`, set `PMA_DB_ENGINE=mariadb`.
-2. Start `mariadb` instead of `mysql`: `docker compose up -d mariadb phpmyadmin`.
+2. Start `mariadb` instead of `mysql`, see [Start phpMyAdmin](#start-phpmyadmin) above.
 3. Log in with server `mariadb`.
+
+## Update to the latest phpMyAdmin version
+
+The image is built fresh from the official `phpmyadmin` image with no version pin, so Laradock always uses whatever tag Docker last pulled locally. To force a newer image and rebuild:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild phpmyadmin --pull
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose build --pull phpmyadmin
+```
+
+</TabItem>
+</Tabs>
+
+Then restart it: `./laradock restart phpmyadmin`.
 
 ## Common issues
 
-- **"mysqli::real_connect(): (HY000/2002)" or similar connection error.** phpMyAdmin `depends_on: ${PMA_DB_ENGINE}`, meaning it starts alongside whichever engine `PMA_DB_ENGINE` names, but if that container isn't actually up (or you changed `PMA_DB_ENGINE` without restarting), the login form has nothing to connect to. Confirm the matching database container is running: `docker compose ps`.
+- **"mysqli::real_connect(): (HY000/2002)" or similar connection error.** phpMyAdmin `depends_on: ${PMA_DB_ENGINE}`, meaning it starts alongside whichever engine `PMA_DB_ENGINE` names, but if that container isn't actually up (or you changed `PMA_DB_ENGINE` without restarting), the login form has nothing to connect to. Confirm the matching database container is running: `./laradock info`.
 - **Login rejected.** Double-check `PMA_USER`/`PMA_PASSWORD` match the actual credentials on the target database (`MYSQL_USER`/`MYSQL_PASSWORD` or `MARIADB_USER`/`MARIADB_PASSWORD`), they're independent variables and can drift out of sync if you change one without the other.
-- **Large import fails partway through.** Raise `PMA_UPLOAD_LIMIT` and `PMA_MAX_EXECUTION_TIME` in `.env`, then restart: `docker compose up -d phpmyadmin`.
-- **Port already in use on your host.** Change `PMA_PORT` in `.env` and restart.
+- **Large import fails partway through.** Raise `PMA_UPLOAD_LIMIT` and `PMA_MAX_EXECUTION_TIME` in `.env`, then restart: `./laradock restart phpmyadmin`.
+- **Port already in use on your host.** Change `PMA_PORT` in `.env` and restart: `./laradock restart phpmyadmin`.
+- **Need to log into a server other than the default one.** See [Connect to any server, not just the default one](#connect-to-any-server-not-just-the-default-one) above, `PMA_ARBITRARY=1` is already on.
 
 ---
 

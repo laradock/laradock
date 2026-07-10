@@ -12,6 +12,9 @@ keywords:
   - phalcon nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Phalcon?
 
 [Phalcon](https://phalcon.io) is a full-stack PHP framework delivered as a C extension rather than a set of PHP files. It is loaded directly into the PHP runtime (`phalcon.so`), which is what makes it unusually fast and low-overhead, at the cost of needing a matching compiled extension for whatever PHP version you run. A Phalcon app needs a web server, a PHP runtime with the Phalcon extension enabled, and a database; MySQL and PostgreSQL are both supported through Phalcon's own PDO-based abstraction.
@@ -54,11 +57,24 @@ WORKSPACE_INSTALL_PHALCON=true
 
 Then start a web server, a database, and the workspace (the web server pulls in PHP-FPM automatically):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start --build nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d --build nginx mysql workspace
 ```
 
-The `--build` matters here: the Phalcon extension is compiled at image build time, so any time you flip these flags you need to rebuild. Prefer PostgreSQL? Swap the name: `docker compose up -d --build nginx postgres workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+The `--build` matters here: the Phalcon extension is compiled at image build time, so any time you flip these flags you need to rebuild. Prefer PostgreSQL? Swap the name: `./laradock start --build nginx postgres workspace` (or `docker compose up -d --build nginx postgres workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) detects Phalcon and can pre-select these flags for you: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -82,8 +98,26 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 
 Enter the shell and confirm the extension loaded, then run your app's usual commands:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Once inside, confirm the extension loaded:
+
+```bash
 php -m | grep -i phalcon
 ```
 
@@ -97,9 +131,22 @@ This is where a native install hurts most and Laradock shines: normally, changin
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Check that your installed Phalcon major version supports the PHP version you set (Phalcon's compatibility matrix maps specific Phalcon releases to specific PHP releases); Laradock rebuilds the extension against whatever `PHP_VERSION` you choose.
 

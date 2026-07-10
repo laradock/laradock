@@ -12,6 +12,9 @@ keywords:
   - nextcloud nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Nextcloud?
 
 [Nextcloud](https://nextcloud.com) is an open-source file sync, share and collaboration platform, a self-hosted alternative to Dropbox or Google Drive with calendar, contacts, and office-document apps built on top. It is known for giving individuals and organizations full control over where their data lives. A real Nextcloud instance needs a web server, a PHP runtime, a database (MySQL/MariaDB or PostgreSQL; SQLite is supported but only for tiny, non-production installs), and benefits heavily from Redis for caching and file locking once more than a handful of people use it.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Nextcloud needs a web server and a database; add Redis for caching and file locking. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql redis workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql redis workspace
 ```
 
-Prefer PostgreSQL or MariaDB? Swap the name: `docker compose up -d nginx postgres redis workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer PostgreSQL or MariaDB? Swap the name: `./laradock start nginx postgres redis workspace` (or `docker compose up -d nginx postgres redis workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -70,8 +86,26 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 Enter the `workspace` container and fetch the Nextcloud server archive into your web root (adjust the path to match your `nginx`/`APP_CODE_PATH_CONTAINER` setting):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Once inside, fetch the archive and unpack it:
+
+```bash
 curl -LO https://download.nextcloud.com/server/releases/latest.zip
 unzip latest.zip -d /var/www
 cd /var/www/nextcloud
@@ -96,9 +130,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Nextcloud's supported PHP range moves with every major release (Nextcloud 32 supports PHP 8.1-8.4, Nextcloud 34 supports PHP 8.2-8.5, for example), so pinning the exact version an install needs, and changing it later for an upgrade, is a one-line edit instead of a host-level PHP reinstall.
 

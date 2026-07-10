@@ -12,6 +12,9 @@ keywords:
   - shopware nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Shopware?
 
 [Shopware](https://www.shopware.com) is a Symfony-based open-source ecommerce platform, with Shopware 6 built around Symfony on the backend and Vue.js for the storefront and administration UI. A Shopware installation is a PHP application backed by a MySQL/MariaDB database, served through a web server, and it relies on Redis for caching and session storage once you move past a bare-bones setup, plus Node for building storefront and admin assets.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 A typical Shopware 6 install needs a web server, a database, and Redis. Start exactly those (the web server pulls in PHP-FPM automatically):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql redis workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql redis workspace
 ```
 
-Prefer MariaDB over MySQL? Swap the name: `docker compose up -d nginx mariadb redis workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb redis workspace` (or `docker compose up -d nginx mariadb redis workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -71,8 +87,26 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 Enter the `workspace` container, where Composer and Node live, and run the installer:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Once inside the container:
+
+```bash
 composer create-project shopware/production my-shopware-app   # only if you have no project yet
 php bin/console system:install --basic-setup
 ```
@@ -87,9 +121,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Current Shopware 6 releases require PHP 8.2 or newer, while an older Shopware 6 install pinned to an earlier minor version may need an earlier PHP release. Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older Shopware store and a current one side by side, each isolated, none of it installed on your machine.
 

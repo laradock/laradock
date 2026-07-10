@@ -12,6 +12,9 @@ keywords:
   - lumen nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Lumen?
 
 [Lumen](https://lumen.laravel.com) is Laravel's micro-framework: built by the same team, on the same Illuminate components (Eloquent, the container, routing), stripped down for fast, small API services. It shares Artisan-style console commands and Laravel's `.env`-driven config. One thing worth knowing up front: Laravel's team has said Lumen only receives bug fixes now and recommends the full Laravel framework (optionally with Octane) for new projects; Lumen still works and is fine for maintaining an existing service, this page assumes you already have one or are intentionally choosing it. A Lumen app needs a web server, a PHP runtime, and typically a database (MySQL, PostgreSQL, SQLite or SQL Server via Eloquent) plus Redis if it uses caching or queues.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Most Lumen APIs need a web server, a database, and Redis for cache and queues. Start exactly those (the web server pulls in PHP-FPM automatically):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql redis workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql redis workspace
 ```
 
-Need Postgres instead of MySQL? Swap the name: `docker compose up -d nginx postgres redis workspace`. No database at all for a stateless service? Drop it: `docker compose up -d nginx workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Need Postgres instead of MySQL? Swap the name: `./laradock start nginx postgres redis workspace`. No database at all for a stateless service? Drop it: `./laradock start nginx workspace`. The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) detects Lumen and pre-selects nginx/mysql/redis for you: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -70,10 +86,28 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 ### 4. Run your app from the workspace
 
-Enter the shell where Artisan, Composer and npm live, and run the usual commands:
+Enter the shell where Artisan, Composer and npm live:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then run the usual commands:
+
+```bash
 composer create-project --prefer-dist laravel/lumen .   # only if you have no Lumen app yet
 php artisan migrate
 ```
@@ -88,9 +122,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 The latest Lumen release targets PHP 8.1+, and Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older Lumen 7 service pinned to an old PHP version and a current Lumen 10 API side by side, each isolated, none of it installed on your machine.
 

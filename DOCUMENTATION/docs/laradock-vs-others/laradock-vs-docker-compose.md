@@ -11,6 +11,9 @@ keywords:
   - laradock native docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What does "your own Docker Compose" mean?
 
 [Docker Compose](https://docs.docker.com/compose/) is the standard, official tool built into Docker for defining and running a multi-container application from a single YAML file. "Writing your own" means creating that `docker-compose.yml` (or several service files) completely from scratch for your PHP project: choosing base images, writing the PHP Dockerfile, wiring the web server to PHP, and so on, with no starter kit or framework involved.
@@ -54,9 +57,26 @@ The compose file is the quick part. The real work is the PHP image: choosing a b
 
 ```bash
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
+```
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql redis workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
+
+</TabItem>
+</Tabs>
 
 That is the identical architecture you would have built (nginx to php-fpm, per-service containers, named volumes, a dev shell), already wired, with ~100 more services ready behind the same command. The PHP images come with 50+ extensions as one-line toggles (`PHP_FPM_INSTALL_GD=true`), permissions are solved, and every file is in front of you: [mysql/compose.yml](https://github.com/laradock/laradock/blob/master/mysql/compose.yml), `php-fpm/Dockerfile`, `nginx/sites/`. Editing them IS the workflow; there is no abstraction to fight.
 
@@ -90,7 +110,7 @@ That is the identical architecture you would have built (nginx to php-fpm, per-s
 
 Nothing forces a big bang; it is all just Compose:
 
-1. **Run Laradock alongside** your existing setup for the services you are missing: `docker compose up -d elasticsearch rabbitmq` from the laradock folder while your own stack keeps running (watch for port overlaps; override any port with one line in Laradock's `.env`).
+1. **Run Laradock alongside** your existing setup for the services you are missing: `./laradock start elasticsearch rabbitmq` (or `docker compose up -d elasticsearch rabbitmq`) from the laradock folder while your own stack keeps running (watch for port overlaps; override any port with one line in Laradock's `.env`).
 2. **Steal what you like:** every service definition is a small readable file (`<service>/compose.yml` + `<service>/defaults.env`); copy patterns or whole folders into your setup, MIT-licensed.
 3. **Or move in fully:** point `APP_CODE_PATH_HOST` at your code, start your services, and bring your custom containers with you; adding one is a folder with a `compose.yml` plus one `include` line in the root file.
 
@@ -110,7 +130,7 @@ Yes, either run Laradock alongside your existing compose stack for the services 
 
 ### Do I need to know Docker Compose to use Laradock?
 
-Basic familiarity helps but is not required to get started (`docker compose up -d nginx mysql` is the whole first step); however, because Laradock is just compose files, learning Docker Compose while using it transfers directly to any future project.
+Basic familiarity helps but is not required to get started (`./laradock start nginx mysql`, or `docker compose up -d nginx mysql`, is the whole first step); however, because Laradock is just compose files, learning Docker Compose while using it transfers directly to any future project.
 
 ### What Docker Compose version does Laradock require?
 

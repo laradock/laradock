@@ -12,6 +12,9 @@ keywords:
   - sylius symfony docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Sylius?
 
 [Sylius](https://sylius.com) is an open-source e-commerce platform built on the Symfony framework, aimed at developers who want a fully customizable, API-first store rather than a plugin-heavy monolith. As a Symfony application it needs a web server, PHP-FPM, and a MySQL or PostgreSQL database; Node.js is needed at build time for its front-end assets, and Redis is a common addition for cache and sessions on larger stores.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Sylius needs a web server and a database, either MySQL/MariaDB or PostgreSQL. Redis is optional for cache and sessions:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx postgres redis workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx postgres redis workspace
 ```
 
-Prefer MySQL instead of PostgreSQL? Swap the name: `docker compose up -d nginx mysql redis workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MySQL instead of PostgreSQL? Swap the name: `./laradock start nginx mysql redis workspace` (or `docker compose up -d nginx mysql redis workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 ### 3. Point Sylius at the containers
 
@@ -67,10 +83,28 @@ Use `mysql://` in place of `postgresql://` if you started `mysql` instead. The d
 
 ### 4. Install and run your store
 
-Enter the `workspace` container, where Composer, Node and git live, scaffold the project and run the installer:
+Enter the `workspace` container, where Composer, Node and git live:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then scaffold the project and run the installer:
+
+```bash
 composer create-project sylius/sylius-standard .
 bin/console sylius:install
 ```
@@ -85,9 +119,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Sylius currently requires PHP 8.2 or newer, so keep `PHP_VERSION` at 8.2+ for a current Sylius install; the same tool can still run an older Symfony app on a lower PHP version in a separate Laradock instance, each isolated, none of it installed on your machine.
 

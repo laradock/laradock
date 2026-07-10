@@ -12,6 +12,9 @@ keywords:
   - laravel nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Laravel?
 
 [Laravel](https://laravel.com) is the most popular PHP web framework: an expressive, full-stack toolkit for building everything from APIs to large applications, with routing, an ORM (Eloquent), queues, a scheduler, and a huge ecosystem. A real Laravel app rarely runs alone; it wants a web server, a PHP runtime, a database, usually Redis for cache and queues, and often a search engine or a mail catcher alongside it.
@@ -54,11 +57,24 @@ cd laradock && cp .env.example .env
 
 Most Laravel apps need a web server, a database, and Redis. Start exactly those (the web server pulls in PHP-FPM automatically):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql redis workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql redis workspace
 ```
 
-Need Postgres instead of MySQL? Swap the name: `docker compose up -d nginx postgres redis workspace`. Need search or a mail catcher later? Add it any time: `docker compose up -d meilisearch` or `docker compose up -d mailpit`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Need Postgres instead of MySQL? Swap the name: `./laradock start nginx postgres redis workspace` (or `docker compose up -d nginx postgres redis workspace`). Need search or a mail catcher later? Add it any time: `./laradock start meilisearch` (or `docker compose up -d meilisearch`) or `./laradock start mailpit` (or `docker compose up -d mailpit`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) detects Laravel and pre-selects nginx/mysql/redis for you: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -75,10 +91,28 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 ### 4. Run your app from the workspace
 
-Enter the shell where Artisan, Composer and npm live, and run the usual commands:
+Enter the shell where Artisan, Composer and npm live:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then run the usual commands:
+
+```bash
 composer install
 php artisan key:generate
 php artisan migrate
@@ -94,9 +128,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Anything from PHP 5.6 to 8.5 works, so the same tool runs a legacy Laravel 5 project and a brand-new Laravel 11 one side by side, each isolated, none of it installed on your machine.
 
@@ -104,13 +151,9 @@ Anything from PHP 5.6 to 8.5 works, so the same tool runs a legacy Laravel 5 pro
 
 If you don't have a Laravel app yet, create one from inside the workspace container instead of installing Composer on your host:
 
-1. Start the workspace:
+1. Start the workspace: `./laradock start workspace` (or `docker compose up -d workspace`).
+2. Enter it (`./laradock workspace`, or `docker compose exec workspace bash`) and create the project with Composer (recommended over the Laravel installer):
    ```bash
-   docker compose up -d workspace
-   ```
-2. Enter it and create the project with Composer (recommended over the Laravel installer):
-   ```bash
-   docker compose exec workspace bash
    composer create-project laravel/laravel my-cool-app
    ```
    See the [Laravel installation docs](https://laravel.com/docs/installation) for details.
@@ -124,15 +167,8 @@ If you don't have a Laravel app yet, create one from inside the workspace contai
 
 Run Artisan, Composer, tests and any other terminal command from the workspace container:
 
-1. Make sure the workspace is running:
-   ```bash
-   docker compose up -d workspace
-   ```
-2. Enter it:
-   ```bash
-   docker compose exec workspace bash
-   ```
-   Add `--user=laradock` so files it creates are owned by your host user instead of root: `docker compose exec --user=laradock workspace bash`.
+1. Make sure the workspace is running: `./laradock start workspace` (or `docker compose up -d workspace`).
+2. Enter it: `./laradock workspace` (or `docker compose exec workspace bash`). Add `--user=laradock` so files it creates are owned by your host user instead of root: `docker compose exec --user=laradock workspace bash`.
 3. Run anything you need:
    ```bash
    php artisan
@@ -143,10 +179,7 @@ Run Artisan, Composer, tests and any other terminal command from the workspace c
 ## Run the queue worker
 
 1. Create a config for the worker in `php-worker/supervisord.d/` by copying `laravel-worker.conf.example` (for example, to `laravel-worker.conf`).
-2. Start the worker:
-   ```bash
-   docker compose up -d php-worker
-   ```
+2. Start the worker: `./laradock start php-worker` (or `docker compose up -d php-worker`).
 
 ## Run the scheduler
 
@@ -162,10 +195,7 @@ To switch to the second option:
    # * * * * * laradock /usr/bin/php /var/www/artisan schedule:run >> /dev/null 2>&1
    ```
 2. Copy `laravel-scheduler.conf.example` in `php-worker/supervisord.d/` to a new config (for example, `laravel-scheduler.conf`).
-3. Start the worker:
-   ```bash
-   docker compose up -d php-worker
-   ```
+3. Start the worker: `./laradock start php-worker` (or `docker compose up -d php-worker`).
 
 ## Use Browsersync with Laravel Mix
 

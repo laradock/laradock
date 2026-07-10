@@ -12,6 +12,9 @@ keywords:
   - leantime nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Leantime?
 
 [Leantime](https://leantime.io) is an open source project management system built for goal-driven teams rather than career project managers, with task boards, milestones, and goal tracking designed with ADHD, autism and dyslexia in mind. A Leantime instance is a PHP application (its own lightweight framework, not Laravel) backed by MySQL or MariaDB, served through a web server, with a browser-based `/install` wizard handling setup once the database connection is configured.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Leantime needs a web server and a database (it will not run without one). The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer MariaDB instead? Swap the name: `docker compose up -d nginx mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB instead? Swap the name: `./laradock start nginx mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -75,8 +91,26 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 
 Enter the `workspace` container, place or clone the Leantime codebase, and set the `.env` values above:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Once inside, run:
+
+```bash
 git clone https://github.com/Leantime/leantime.git --single-branch .   # only if you have no codebase yet
 cp config/sample.env config/.env
 # edit config/.env with the LEAN_DB_* values above
@@ -92,9 +126,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Leantime requires PHP 8.2 or newer for current production releases; Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older Leantime instance you have not upgraded yet and a brand-new one side by side, each isolated, none of it installed on your machine.
 

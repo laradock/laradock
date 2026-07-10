@@ -12,6 +12,9 @@ keywords:
   - fuelphp nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is FuelPHP?
 
 [FuelPHP](https://fuelphp.com) is a community-driven, full-stack PHP framework built around an HMVC (Hierarchical Model-View-Controller) architecture, along with routing, an ORM, a CLI (Oil), and a modular package system. A FuelPHP app needs a web server, a PHP runtime, and a database; it ships drivers for MySQL, MySQLi and PDO out of the box.
@@ -49,9 +52,22 @@ cd laradock && cp .env.example .env
 
 FuelPHP needs a web server and a database. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
+
+</TabItem>
+</Tabs>
 
 The full catalog of services is [here](/docs/Intro#supported-services).
 
@@ -76,8 +92,26 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 Enter the `workspace` container, where Composer and git live:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then, inside the container:
+
+```bash
 composer create-project fuel/fuel . --prefer-dist   # only if you have no FuelPHP files yet
 php oil refine migrate
 ```
@@ -92,9 +126,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.1
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 FuelPHP's actively maintained 1.9 branch runs cleanly up to PHP 8.1; older FuelPHP 1.x code written against PHP 5.4-5.6 can keep running on its original version in its own Laradock, isolated on the same machine, none of it installed on your host.
 

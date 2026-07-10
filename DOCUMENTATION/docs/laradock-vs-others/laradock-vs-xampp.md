@@ -13,6 +13,9 @@ keywords:
   - xampp replacement
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is XAMPP / MAMP?
 
 [XAMPP](https://www.apachefriends.org/) and [MAMP](https://www.mamp.info/) are free, all-in-one installer packages that put Apache, MySQL (or MariaDB), and PHP directly onto your Windows, macOS, or Linux machine. They have been the default way millions of developers got a local PHP environment running since the early 2000s: download one installer, click through a control panel, and your server is running, no command line and no Docker required.
@@ -34,28 +37,45 @@ The costs show up over time: **one global PHP version** for every project (switc
 ```bash
 cd my-project
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
+```
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql phpmyadmin
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+cp .env.example .env
 docker compose up -d nginx mysql phpmyadmin
 ```
 
+</TabItem>
+</Tabs>
+
 - Your app: `http://localhost`
 - phpMyAdmin: `http://localhost:8081` (host `mysql`, user `default`, password `secret`)
-- Prefer Apache like XAMPP? `docker compose up -d apache2 mysql phpmyadmin`. That is the entire difference.
+- Prefer Apache like XAMPP? `./laradock start apache2 mysql phpmyadmin` (or `docker compose up -d apache2 mysql phpmyadmin`). That is the entire difference.
 
-Everything runs in containers: each project can have its own PHP (5.6 to 8.5) and its own database, teammates get an identical stack from the same files, and `docker compose down` leaves your machine exactly as it was.
+Everything runs in containers: each project can have its own PHP (5.6 to 8.5) and its own database, teammates get an identical stack from the same files, and `./laradock remove` leaves your machine exactly as it was.
 
 ## Side by side
 
 | | **XAMPP / MAMP** | **Laradock** |
 |---|---|---|
 | Install | Desktop installer (global Apache/MySQL/PHP) | Nothing (git clone; only Docker itself) |
-| Start | Control panel buttons | `docker compose up -d nginx mysql` |
+| Start | Control panel buttons | `./laradock start nginx mysql` |
 | PHP versions | One global (reinstall to switch) | 5.6 to 8.5, per project, via `.env` |
 | Isolation between projects | None | Full (containers per project) |
 | Services beyond LAMP | No (Apache + MySQL only) | 100+ (Redis, Postgres, queues, search, mail, LLMs, ...) |
 | Matches your Linux server | No (native Windows/macOS) | Yes (same containers) |
 | Team consistency | Everyone configures by hand | Same files = same stack for everyone |
-| Cleanup | Uninstaller, leftovers linger | `docker compose down`, zero traces |
+| Cleanup | Uninstaller, leftovers linger | `./laradock remove`, zero traces |
 | Machine footprint | Apache/MySQL/PHP installed globally | Nothing installed on the host |
 
 ## Choose XAMPP / MAMP if...
@@ -81,19 +101,19 @@ Everything runs in containers: each project can have its own PHP (5.6 to 8.5) an
    git clone https://github.com/laradock/laradock.git
    cd laradock && cp .env.example .env
    ```
-4. **Start your stack:** `docker compose up -d nginx mysql phpmyadmin` (first run builds for a few minutes; afterwards it starts in seconds).
+4. **Start your stack:** `./laradock start nginx mysql phpmyadmin` (or `docker compose up -d nginx mysql phpmyadmin`; first run builds for a few minutes, afterwards it starts in seconds).
 5. **Import the database** in the NEW phpMyAdmin at `localhost:8081`: create the database, import the file.
 6. **Update your app's config:** database host becomes `mysql` (not `localhost`; containers reach each other by service name), user `default`, password `secret` (changeable in `.env`).
 7. **Retire the old habits:**
 
 | In XAMPP you... | With Laradock you... |
 |---|---|
-| Open the control panel and press Start | `docker compose up -d nginx mysql` |
-| Stop Apache/MySQL from the panel | `docker compose stop` |
+| Open the control panel and press Start | `./laradock start nginx mysql` |
+| Stop Apache/MySQL from the panel | `./laradock stop` |
 | Put projects in `htdocs/` | Keep projects anywhere; set `APP_CODE_PATH_HOST` in `.env` |
 | Edit `php.ini` | Edit `php-fpm/phpX.Y.ini`, rebuild once |
 | Switch PHP by reinstalling XAMPP | Change `PHP_VERSION=` in `.env`, rebuild once |
-| Run `php` / `composer` on your OS | `docker compose exec workspace bash` (Linux shell with PHP, Composer, Node, git preinstalled) |
+| Run `php` / `composer` on your OS | `./laradock workspace` (Linux shell with PHP, Composer, Node, git preinstalled) |
 | phpMyAdmin at `localhost/phpmyadmin` | phpMyAdmin at `localhost:8081` |
 
 ## Frequently Asked Questions

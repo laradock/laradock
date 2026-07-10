@@ -12,6 +12,9 @@ keywords:
   - cachet nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Cachet?
 
 [Cachet](https://cachethq.io) is an open source, self-hosted status page system for publishing incident history and component uptime, built on Laravel. A Cachet instance is a PHP application backed by MySQL, MariaDB, PostgreSQL or SQLite, served through a web server, with Artisan handling installation and migrations. Worth knowing before you commit to it: the last stable v2 release shipped in November 2023, and a v3 rewrite (Laravel, Inertia, Vue) has been in public progress since 2023 without a committed release date, so treat the project's pace as slow rather than dead, and check its GitHub activity for the current state before depending on it.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Cachet needs a web server and a database. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer PostgreSQL instead? Swap the name: `docker compose up -d nginx postgres workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer PostgreSQL instead? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -75,8 +91,26 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 
 Enter the `workspace` container, where Composer, git and Artisan live, clone or place the Cachet codebase, and run its setup:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then, inside the container:
+
+```bash
 git clone https://github.com/cachethq/cachet.git --branch 2.4 --single-branch .   # only if you have no codebase yet
 composer install --no-dev -o
 cp .env.example .env
@@ -94,9 +128,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Cachet's current stable release targets PHP 8.2 or newer; Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older Cachet instance you have not upgraded yet and a brand-new one side by side, each isolated, none of it installed on your machine.
 

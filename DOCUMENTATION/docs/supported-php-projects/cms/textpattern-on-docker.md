@@ -12,6 +12,9 @@ keywords:
   - textpattern nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Textpattern?
 
 [Textpattern](https://textpattern.com) is a lightweight, open-source CMS focused on clean output and a simple tagging language for templates, popular with writers and small sites that do not need a heavy plugin ecosystem. It is a plain PHP application backed by a MySQL database, served through a web server, with no framework layer or build step in front of it.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Textpattern needs a web server and a database. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer MariaDB over MySQL? Swap the name: `docker compose up -d nginx mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -74,8 +90,26 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 Download Textpattern into the workspace container, then finish setup in your browser:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then, inside the container:
+
+```bash
 git clone https://github.com/textpattern/textpattern.git .   # only if you have no Textpattern files yet
 mv textpattern/config-dist.php textpattern/config.php
 ```
@@ -90,9 +124,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.1
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Textpattern 4.9 runs on PHP 5.6 and newer, with current releases tested against PHP 8.0/8.1, so a legacy install and a brand-new one can run side by side on different PHP versions, each isolated, none of it installed on your machine.
 

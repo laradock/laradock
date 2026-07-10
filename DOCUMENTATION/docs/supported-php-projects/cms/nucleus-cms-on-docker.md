@@ -12,6 +12,9 @@ keywords:
   - nucleus cms nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Nucleus CMS?
 
 Nucleus CMS is an early-2000s PHP blog management system with a MySQL backend. It is legacy software: development has been effectively dormant for years, the last meaningful commit to the project explicitly dropped support for PHP 8, and there is no realistic path to running current Nucleus code on a modern PHP version. This guide is for maintaining or archiving an existing Nucleus site, not for starting a new one. A Nucleus site is a PHP application backed by a MySQL database, served through a web server.
@@ -49,9 +52,22 @@ cd laradock && cp .env.example .env
 
 Nucleus needs a web server and a database. Start exactly those (the web server pulls in PHP-FPM automatically):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
+
+</TabItem>
+</Tabs>
 
 The full catalog of every other available service is [here](/docs/Intro#supported-services).
 
@@ -88,9 +104,22 @@ This is where a native install hurts and Laradock shines, particularly for a cod
 PHP_VERSION=7.4
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Nucleus's last active development explicitly dropped PHP 8 support, so PHP 7.x is the safe choice. Laradock lets you pin exactly that version for this one site while every other project on the same machine runs whatever current PHP it needs, none of it installed on your host.
 

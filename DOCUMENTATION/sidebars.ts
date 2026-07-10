@@ -35,7 +35,20 @@ const sidebars: SidebarsConfig = {
         { type: "link", label: "Usage", href: "/docs/getting-started#usage" },
       ],
     },
-    { type: "doc", id: "cli", label: "CLI Reference" },
+    {
+      type: "category",
+      label: "CLI Reference",
+      link: { type: "doc", id: "cli" },
+      collapsible: true,
+      collapsed: true,
+      items: [
+        { type: "link", label: "Get Started in One Command", href: "/docs/cli#get-started-in-one-command" },
+        { type: "link", label: "Commands You'll Actually Use", href: "/docs/cli#the-commands-youll-actually-use" },
+        { type: "link", label: "The Setup Wizard", href: "/docs/cli#the-setup-wizard" },
+        { type: "link", label: "Changing Things Later", href: "/docs/cli#changing-things-later" },
+        { type: "link", label: "Advanced: Nothing Is Hidden", href: "/docs/cli#advanced-nothing-is-hidden" },
+      ],
+    },
     {
       type: "category",
       label: "Supported PHP Projects",

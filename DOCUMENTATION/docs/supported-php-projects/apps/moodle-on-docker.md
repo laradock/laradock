@@ -12,6 +12,9 @@ keywords:
   - moodle nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Moodle?
 
 [Moodle](https://moodle.org) is the most widely used open-source learning management system (LMS), running courses, quizzes, grading and certification for schools, universities and companies worldwide. It is a PHP application backed by a database (MySQL/MariaDB or PostgreSQL), served through a web server, and it needs a writable `moodledata` directory outside the web root plus a recurring cron job to process notifications, backups and scheduled tasks.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Moodle needs a web server and a database; Redis is optional but recommended once a course platform has real traffic (session and application caching). The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql redis workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql redis workspace
 ```
 
-Prefer PostgreSQL? Swap the name: `docker compose up -d nginx postgres redis workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres redis workspace` (or `docker compose up -d nginx postgres redis workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -77,15 +93,33 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 Enter the `workspace` container and run the CLI installer (or open the browser wizard instead, once the files are in place):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Once inside, run the installer:
+
+```bash
 php admin/cli/install.php --wwwroot=http://localhost --dbtype=mysqli \
   --dbhost=mysql --dbname=default --dbuser=default --dbpass=secret \
   --fullname="My Site" --shortname="mysite" --adminpass=secretpass \
   --adminemail=you@example.com --agree-license --non-interactive
 ```
 
-Flag names can change between Moodle versions; run `php admin/cli/install.php --help` to confirm the current list. Then open [http://localhost](http://localhost). That is a full Moodle LMS running on Docker. Don't forget to schedule `php admin/cli/cron.php` to run every minute (via your host's cron calling `docker compose exec -T workspace ...`), the same way production Moodle sites do.
+Flag names can change between Moodle versions; run `php admin/cli/install.php --help` to confirm the current list. Then open [http://localhost](http://localhost). That is a full Moodle LMS running on Docker. Don't forget to schedule `php admin/cli/cron.php` to run every minute (via your host's cron calling `./laradock exec workspace php admin/cli/cron.php`, or `docker compose exec -T workspace ...`), the same way production Moodle sites do.
 
 ## Change the PHP version anytime
 
@@ -95,9 +129,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Moodle's current major release requires PHP 8.2 or newer (8.3 and 8.4 are also supported), while older Moodle 4.x sites can run on PHP 7.4+; Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs a legacy course platform and a brand-new install side by side, each isolated, none of it installed on your machine.
 

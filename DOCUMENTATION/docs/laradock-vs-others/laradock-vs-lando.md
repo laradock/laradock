@@ -11,6 +11,9 @@ keywords:
   - php docker development environment
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Lando?
 
 [Lando](https://lando.dev/) is a free, open-source command-line tool that uses Docker to run local development environments from a single configuration file (`.lando.yml`). Similar in spirit to DDEV, it originated in the Drupal community and ships ready-made "recipes" for platforms like Drupal, WordPress, and Laravel, so you describe what kind of project you have and Lando builds the matching Docker setup for you.
@@ -51,12 +54,30 @@ Your site is served at `https://my-app.lndo.site`. Day to day you talk to the to
 ```bash
 cd my-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
-docker compose up -d nginx mysql redis workspace
-docker compose exec workspace bash   # composer, artisan, node
+cd laradock
 ```
 
-No binary, no recipe format to learn, no regeneration: the service definitions are plain files in front of you, and the commands are standard Docker Compose. Change PHP with `PHP_VERSION=8.3` in `.env` + rebuild; add any of 100+ services with one `up` command.
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql redis workspace
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+cp .env.example .env
+docker compose up -d nginx mysql redis workspace
+docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Inside the workspace: composer, artisan, node, all ready to go. No binary, no recipe format to learn, no regeneration: the service definitions are plain files in front of you, and the commands are standard Docker Compose. Change PHP with `PHP_VERSION=8.3` in `.env` + rebuild; add any of 100+ services with one `start` command.
 
 ## Side by side
 

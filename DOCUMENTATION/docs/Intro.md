@@ -11,6 +11,9 @@ keywords:
   - laradock services
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 **Laradock** is a full PHP development environment for Docker. Spin up a ready-to-use stack in seconds, with popular pre-configured services.
 
 ![Laradock](/img/laradock/laradock-logo.png)
@@ -22,6 +25,90 @@ Instead of installing and configuring Nginx, databases, caches, and queues by ha
 Laradock is free, open-source under the MIT license, and has been battle-tested in real-world PHP projects since 2015.
 
 > **Use Docker first. Learn about it later.**
+
+## Quick Start
+
+Requires Docker with Compose v2.20+. Pick a tab, both reach the exact same result, and you can switch any time.
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+1 - Clone Laradock inside your PHP project:
+
+```shell
+git clone https://github.com/Laradock/laradock.git
+```
+
+2 - Enter the laradock folder:
+
+```shell
+cd laradock
+```
+
+3 - Start your stack:
+
+```shell
+./laradock up
+```
+
+The first time, `up` runs the setup wizard for you: it detects your framework, then lets you pick your project from one searchable list of 100+ frameworks, CMSs, e-commerce platforms and apps grouped by type (just type its name to filter), your PHP version, and your stack (web server, database, cache). Every answer is pre-selected, so you can press Enter through it, and it can point your app's `.env` at the services for you. Then it starts. After that, `./laradock up` just starts what you chose and prints their URLs and credentials. Re-run the wizard anytime with `./laradock setup`.
+
+4 - Enter the Laradock Workspace (a dev shell with `php`, `composer`, `node`, and `git` inside):
+
+```shell
+./laradock workspace
+```
+
+Then open `http://localhost`. Done.
+
+The CLI is optional, transparent sugar: it prints every real `docker compose` command it runs, keeps no state, and writes nothing but your `.env`. Full reference: [The Laradock CLI](/docs/cli).
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+The same result, step by step, with you in charge of every detail:
+
+1 - Clone Laradock inside your PHP project:
+
+```shell
+git clone https://github.com/Laradock/laradock.git
+```
+
+2 - Enter the laradock folder and rename `.env.example` to `.env`.
+
+```shell
+cp .env.example .env
+```
+
+3 - Run your containers:
+
+```shell
+docker compose up -d workspace nginx mysql redis
+```
+
+4 - Open your project's `.env` file and set the following:
+
+```shell
+DB_HOST=mysql
+REDIS_HOST=redis
+QUEUE_HOST=beanstalkd
+```
+
+5 - Open your browser and visit localhost: `http://localhost`.
+
+Done.
+
+</TabItem>
+</Tabs>
+
+:::info[How it's organized]
+One folder per service; each holds that service's `compose.yml` (container definition), `defaults.env` (pre-filled settings), and `Dockerfile`. Change any setting by adding one line to your `.env`, it always wins. Full map in [Getting Started](/docs/getting-started).
+:::
+
+<div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', margin: '1.5rem 0' }}>
+  <a className="button button--primary button--lg" href="/docs/getting-started">Full Getting Started Guide</a>
+  <a className="button button--secondary button--lg" href="/docs/containers">Usage and Commands</a>
+</div>
 
 ## Features
 
@@ -64,9 +151,22 @@ A command line preloaded with PHP, Composer, Node, Git, and dozens of dev tools,
 
 Enter it and work from there:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
 ```
+
+</TabItem>
+</Tabs>
 
 `artisan`, `composer`, `phpunit`, `npm`, and `git` all just work, with nothing installed on your host: no PHP, no Composer, no Node, no version conflicts. Stop the project and **zero traces are left on your device.**
 
@@ -79,101 +179,12 @@ Why it's a big deal:
 
 
 
-## How Laradock Compares {#laradock-alternatives}
-
-Every other option either installs software on your machine (XAMPP, MAMP, Herd) or puts a tool between you and Docker (DDEV, Lando, Sail). Laradock does neither: **it is raw Docker with the wiring already done.** Nothing to install, no new commands to learn, nothing generated or hidden; you use `docker compose` directly on plain, readable files you fully own. That makes it the lightest option to adopt and the easiest one to inspect, debug, and bend to your will.
-
-See the full honest breakdown, including when the other tools are the better choice: **[Laradock vs Others](/docs/laradock-alternatives)** (DDEV, Sail, Herd, Lando, XAMPP, and more).
-
-
-
-## Quick Start
-
-Requires Docker with Compose v2.20+. Two ways to set up; both use the exact same files, pick one and switch any time:
-
-### Option 1 — Quick setup (default)
-
-1 - Clone Laradock inside your PHP project:
-
-```shell
-git clone https://github.com/Laradock/laradock.git
-```
-
-2 - Enter the laradock folder:
-
-```shell
-cd laradock
-```
-
-3 - Start your stack:
-
-```shell
-./laradock up
-```
-
-The first time, `up` runs the setup wizard for you: it detects your framework, then lets you pick your project from one searchable list of 100+ frameworks, CMSs, e-commerce platforms and apps grouped by type (just type its name to filter), your PHP version, and your stack (web server, database, cache). Every answer is pre-selected, so you can press Enter through it, and it can point your app's `.env` at the services for you. Then it starts. After that, `./laradock up` just starts what you chose and prints their URLs and credentials. Re-run the wizard anytime with `./laradock setup`.
-
-4 - Enter the Laradock Workspace (a dev shell with `php`, `composer`, `node`, and `git` inside):
-
-```shell
-./laradock workspace
-```
-
-Then open `http://localhost`. Done.
-
-The CLI is optional, transparent sugar: it prints every real `docker compose` command it runs, keeps no state, and writes nothing but your `.env`. Full reference: [The Laradock CLI](/docs/cli).
-
-### Option 2 — Manual setup (advanced, full control)
-
-The same result, step by step, with you in charge of every detail:
-
-1 - Clone Laradock inside your PHP project:
-
-```shell
-git clone https://github.com/Laradock/laradock.git
-```
-
-2 - Enter the laradock folder and rename `.env.example` to `.env`.
-
-```shell
-cp .env.example .env
-```
-
-3 - Run your containers:
-
-```shell
-docker compose up -d workspace nginx mysql redis
-```
-
-4 - Open your project's `.env` file and set the following:
-
-```shell
-DB_HOST=mysql
-REDIS_HOST=redis
-QUEUE_HOST=beanstalkd
-```
-
-5 - Open your browser and visit localhost: `http://localhost`.
-
-Done.
-
-:::info[How it's organized]
-One folder per service; each holds that service's `compose.yml` (container definition), `defaults.env` (pre-filled settings), and `Dockerfile`. Change any setting by adding one line to your `.env`, it always wins. Full map in [Getting Started](/docs/getting-started).
-:::
-
-<div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', margin: '1.5rem 0' }}>
-  <a className="button button--primary button--lg" href="/docs/getting-started">Full Getting Started Guide</a>
-  <a className="button button--secondary button--lg" href="/docs/containers">Usage and Commands</a>
-</div>
-
-
-
 ## Supported Services
 
 Laradock adheres to the 'separation of concerns' principle, so it runs each software in its own Docker container. You can turn instances on or off as needed without worrying about configuration.
 
 :::tip
-To run a chosen container from the list below, run `docker compose up -d {container-name}`. The container name `{container-name}` is the same as its folder name. For example, to run the "PHP FPM" container, use the name "php-fpm".
+To run a chosen container from the list below: `./laradock start {container-name}` (or `docker compose up -d {container-name}`). The container name `{container-name}` is the same as its folder name. For example, to run the "PHP FPM" container, use the name "php-fpm".
 :::
 
 
@@ -238,6 +249,12 @@ If you can't find your Software in the list, build it yourself and submit it. Co
 
 
 
+
+## How Laradock Compares {#laradock-alternatives}
+
+Every other option either installs software on your machine (XAMPP, MAMP, Herd) or puts a tool between you and Docker (DDEV, Lando, Sail). Laradock does neither: **it is raw Docker with the wiring already done.** Nothing to install, no new commands to learn, nothing generated or hidden; you use `docker compose` directly on plain, readable files you fully own. That makes it the lightest option to adopt and the easiest one to inspect, debug, and bend to your will.
+
+See the full honest breakdown, including when the other tools are the better choice: **[Laradock vs Others](/docs/laradock-alternatives)** (DDEV, Sail, Herd, Lando, XAMPP, and more).
 
 ## Community
 

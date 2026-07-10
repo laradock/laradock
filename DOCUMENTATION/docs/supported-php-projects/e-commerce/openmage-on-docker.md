@@ -12,6 +12,9 @@ keywords:
   - openmage nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is OpenMage?
 
 [OpenMage LTS](https://www.openmage.org) is the actively maintained, community-driven continuation of Magento 1 (it forked from Magento Community Edition 1.9.4.5), kept alive as a long-term-support, PCI-compliant option for merchants who still run Magento 1-era code. It is distinct from Magento 2 and its successors: it is a plain PHP application backed by a MySQL or MariaDB database, served through a web server, and, unlike Magento 2, it does not require Elasticsearch, since Elasticsearch only became a core requirement starting with Magento 2.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 OpenMage needs a web server and a database; it does not require Elasticsearch or Redis to run. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer MariaDB over MySQL? Swap the name: `docker compose up -d nginx mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -72,10 +88,28 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 ### 4. Install and run your store
 
-Enter the `workspace` container, where Composer and git live, and fetch OpenMage:
+Enter the `workspace` container, where Composer and git live:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then fetch OpenMage:
+
+```bash
 git clone https://github.com/OpenMage/magento-lts.git .   # only if you have no project yet
 ```
 
@@ -89,9 +123,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 OpenMage LTS targets PHP 8.1 through 8.5, and dropped support for older PHP versions as the project modernized past its Magento 1 origins. Laradock covers anything from PHP 5.6 to 8.5, so the same tool can run OpenMage alongside older Magento 1-era code that still needs a legacy PHP version, each isolated, none of it installed on your machine.
 

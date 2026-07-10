@@ -11,6 +11,9 @@ keywords:
   - migrate local wp to docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Local WP?
 
 [Local WP](https://localwp.com/) (formerly Local by Flywheel, now from WP Engine) is a free desktop application, for macOS, Windows, and Linux, built specifically for WordPress local development. You click "Create a new site," and within about two minutes you have a fully working WordPress install with SSL, WP-CLI, and one-click access to phpMyAdmin, Mailhog, and other add-ons, all through a graphical interface, no command line required.
@@ -34,12 +37,30 @@ Sharing or deploying: right-click the site for **Export** (a zip with `wp-conten
 ```bash
 cd my-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
-docker compose up -d apache2 mysql phpmyadmin workspace
-docker compose exec workspace bash   # wp-cli, composer, php all live here
+cd laradock
 ```
 
-WordPress itself is not bundled, you download it into your project folder (or install via `wp core download` inside the workspace) the same way you would on any host. In exchange, you get a stack that is not locked to WordPress: the identical `docker compose up -d {service}` command starts Redis, Elasticsearch, a queue, or any of Laradock's 100+ other services, and the whole setup is plain text files instead of app state.
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start apache2 mysql phpmyadmin workspace
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+cp .env.example .env
+docker compose up -d apache2 mysql phpmyadmin workspace
+docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Inside the workspace: wp-cli, composer, php, all live here. WordPress itself is not bundled, you download it into your project folder (or install via `wp core download` inside the workspace) the same way you would on any host. In exchange, you get a stack that is not locked to WordPress: the identical `./laradock start <service>` command starts Redis, Elasticsearch, a queue, or any of Laradock's 100+ other services, and the whole setup is plain text files instead of app state.
 
 ## Side by side
 
@@ -72,8 +93,8 @@ WordPress itself is not bundled, you download it into your project folder (or in
 1. **Export your site** in Local WP: right-click the site → **Export site**; you get a zip with `wp-content` and a database dump.
 2. **Stop the site in Local WP** (or quit the app) so its ports free up.
 3. **Add Laradock** next to a new project folder: `git clone https://github.com/laradock/laradock.git && cd laradock && cp .env.example .env`
-4. **Start your stack:** `docker compose up -d apache2 mysql phpmyadmin workspace`
-5. **Unzip the export**, copy `wp-content` into your project's WordPress install, and import the database dump via phpMyAdmin (`localhost:8081`) or `docker compose exec -T mysql mysql -uroot -proot default < dump.sql`.
+4. **Start your stack:** `./laradock start apache2 mysql phpmyadmin workspace` (or `docker compose up -d apache2 mysql phpmyadmin workspace`)
+5. **Unzip the export**, copy `wp-content` into your project's WordPress install, and import the database dump via phpMyAdmin (`localhost:8081`) or `./laradock exec -T mysql mysql -uroot -proot default < dump.sql`.
 6. **Update `wp-config.php`:** set `DB_HOST` to `mysql` (not `localhost`), and the credentials from `mysql/defaults.env` (or your `.env` overrides).
 7. Your site now answers at `http://localhost` instead of Local WP's `.local` domain.
 

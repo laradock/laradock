@@ -12,6 +12,9 @@ keywords:
   - swoole coroutine docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Hyperf?
 
 [Hyperf](https://hyperf.wiki) is a coroutine-based PHP microservice framework built on [Swoole](https://www.swoole.co.uk), focused on high concurrency for APIs and middleware. Unlike most PHP frameworks, Hyperf does not run behind PHP-FPM in the usual request/response model: it boots as a long-lived process (`php bin/hyperf.php start`) that listens on its own port and handles requests inside Swoole coroutines, closer to how a Node.js or Go server behaves. A Hyperf app needs the Swoole PHP extension, and typically MySQL and Redis for storage and cache.
@@ -55,10 +58,39 @@ WORKSPACE_INSTALL_SWOOLE=true
 
 Then build and start:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build workspace
+```
+
+</TabItem>
+</Tabs>
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start mysql redis workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
 docker compose up -d mysql redis workspace
 ```
+
+</TabItem>
+</Tabs>
 
 The full catalog of services is [here](/docs/Intro#supported-services).
 
@@ -80,8 +112,26 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 Enter the `workspace` container, where Composer, git and the Swoole extension live:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Then, inside that shell:
+
+```bash
 composer create-project hyperf/hyperf-skeleton .   # only if you have no Hyperf files yet
 php bin/hyperf.php start
 ```
@@ -92,7 +142,7 @@ This starts Hyperf's own HTTP server on port 9501 inside the container. Laradock
 - "9501:9501"
 ```
 
-Rebuild is not needed for a compose change, just recreate the container (`docker compose up -d workspace`), then open [http://localhost:9501](http://localhost:9501). That is a full Hyperf app running on Docker.
+Rebuild is not needed for a compose change, just recreate the container (`./laradock start workspace`, equivalent to `docker compose up -d workspace`), then open [http://localhost:9501](http://localhost:9501). That is a full Hyperf app running on Docker.
 
 ## Change the PHP version anytime
 
@@ -102,9 +152,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Hyperf requires PHP 8.1 or newer (recent 3.x releases require 8.2), so pick a version at or above that when you rebuild; the Swoole extension is rebuilt for the new version automatically since `WORKSPACE_INSTALL_SWOOLE` stays set.
 

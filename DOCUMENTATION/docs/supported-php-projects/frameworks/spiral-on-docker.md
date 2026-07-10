@@ -12,6 +12,9 @@ keywords:
   - roadrunner docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Spiral Framework?
 
 [Spiral](https://spiral.dev) is a full-stack PHP framework built for medium to large enterprise applications, with routing, the Cycle ORM, queues, and a strong focus on long-running, high-performance execution. Spiral is designed and maintained by the same team behind [RoadRunner](https://roadrunner.dev), a high-performance application server written in Go, and it is built to run on top of it instead of the classic PHP-FPM request cycle. A real Spiral app needs RoadRunner (or, if you choose, a PHP-FPM bridge), a database (Cycle/DBAL supports MySQL, PostgreSQL, SQLite and SQL Server), and usually Redis for cache and queues.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Spiral apps run through the `roadrunner` service instead of NGINX + PHP-FPM; add a database and Redis:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start roadrunner postgres redis workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d roadrunner postgres redis workspace
 ```
 
-Need MySQL instead? Swap the name: `docker compose up -d roadrunner mysql redis workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Need MySQL instead? Swap the name: `./laradock start roadrunner mysql redis workspace`. The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -74,8 +90,24 @@ The default database, user and password live in `postgres/defaults.env`; overrid
 
 Enter the `workspace` container, where Composer and git live:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+```bash
 composer create-project spiral/app .   # only if you have no Spiral files yet
 ```
 
@@ -89,9 +121,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild roadrunner workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build roadrunner workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Spiral requires PHP 8.1 or newer, so this rebuilds the `roadrunner` worker image against the version you chose, isolated from anything installed on your machine.
 

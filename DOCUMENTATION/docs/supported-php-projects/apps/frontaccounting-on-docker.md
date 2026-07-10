@@ -12,6 +12,9 @@ keywords:
   - frontaccounting nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is FrontAccounting?
 
 [FrontAccounting](https://frontaccounting.com) is an open-source, browser-based accounting and ERP application for small and medium businesses: general ledger, invoicing, inventory, banking and multi-company, multi-currency support, all in a single PHP codebase. It is a classic LAMP-style app with no build step or Node toolchain: PHP rendering pages behind a web server, backed by a MySQL database whose accounting tables need InnoDB for transactions.
@@ -49,9 +52,22 @@ cd laradock && cp .env.example .env
 
 FrontAccounting needs a web server and a MySQL database; the web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
+
+</TabItem>
+</Tabs>
 
 The full catalog of services, if you later need a mail catcher for outgoing invoices or anything else, is [here](/docs/Intro#supported-services).
 
@@ -74,8 +90,24 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 Enter the `workspace` container, where git and Composer live, fetch a FrontAccounting release, and make the app directory writable for the installer:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+```bash
 cd www/my-frontaccounting-app   # wherever nginx serves this project from
 # download and extract a FrontAccounting release here, then:
 chmod -R 777 .
@@ -91,9 +123,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 The current FrontAccounting 2.4.x series is tested against PHP 8.0 through 8.5, and older instances still running on a legacy PHP build can be reproduced the same way, each isolated, none of it installed on your machine.
 

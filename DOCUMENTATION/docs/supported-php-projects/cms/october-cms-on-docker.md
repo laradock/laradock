@@ -12,6 +12,9 @@ keywords:
   - october cms nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is October CMS?
 
 [October CMS](https://octobercms.com) is a self-hosted CMS built on top of the Laravel framework, aimed at developers who want a plugin-driven, drag-and-drop page builder without giving up Laravel's tooling underneath. An October CMS site is a PHP application that needs a web server, a PHP runtime, and a database (MySQL, MariaDB, PostgreSQL or SQLite are all supported), and it benefits from Redis for cache and queues on busier sites.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Most October CMS sites need a web server, a database, and Redis for cache and queues. Start exactly those (the web server pulls in PHP-FPM automatically):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql redis workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql redis workspace
 ```
 
-Prefer PostgreSQL? Swap the name: `docker compose up -d nginx postgres redis workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres redis workspace` (or `docker compose up -d nginx postgres redis workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -72,8 +88,24 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 
 Enter the `workspace` container, where Composer, Node and git live, and run the installer:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+```bash
 composer create-project october/october my-october-site   # only if you have no project yet
 php artisan october:install
 ```
@@ -88,9 +120,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.2
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 October CMS v4 requires PHP 8.2 or newer, and v3 supports PHP 8.0.3 and up; Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older v2 site and a current v4 site side by side, each isolated, none of it installed on your machine.
 

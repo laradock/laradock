@@ -12,6 +12,9 @@ keywords:
   - silverstripe nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is SilverStripe?
 
 [SilverStripe CMS](https://www.silverstripe.org) (also written Silverstripe) is an open-source content management system and PHP framework, popular for government and enterprise sites that need a flexible content model rather than a plugin-driven CMS like WordPress. It ships its own ORM (`DataObject`), a templating layer, and an admin panel out of the box. A SilverStripe site needs a web server, PHP-FPM, and a database, most commonly MySQL or MariaDB; the current major version requires PHP 8.3 or newer.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 SilverStripe needs a web server and a database (the web server pulls in PHP-FPM automatically):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer MariaDB? Swap the name: `docker compose up -d nginx mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 ### 3. Point SilverStripe at the containers
 
@@ -76,8 +92,24 @@ The default database, user and password Laradock's MySQL container ships with li
 
 Enter the `workspace` container, where Composer and git live, and set the site up:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+```bash
 composer create-project silverstripe/installer .   # only if you have no project yet
 vendor/bin/sake dev/build
 ```
@@ -92,9 +124,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.4
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 The current SilverStripe CMS major version requires PHP 8.3, 8.4 or 8.5, while an older SilverStripe 4 site may need PHP 7.4 or 8.1. Laradock covers anything from PHP 5.6 to 8.5, so an old and a current site run side by side, each isolated, none of it installed on your machine.
 

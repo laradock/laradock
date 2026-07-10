@@ -12,6 +12,9 @@ keywords:
   - thinkphp nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is ThinkPHP?
 
 [ThinkPHP](https://www.thinkphp.cn) is one of the most widely used PHP frameworks in China, a full-stack MVC framework with routing, a built-in ORM, and two decades of production use behind it. A real ThinkPHP app needs a web server, a PHP runtime, and a database; its ORM ships MySQL support by default and can be extended to other drivers through PDO.
@@ -49,9 +52,22 @@ cd laradock && cp .env.example .env
 
 Most ThinkPHP apps need a web server and a database. Start exactly those (the web server pulls in PHP-FPM automatically):
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
+
+</TabItem>
+</Tabs>
 
 The full catalog is [here](/docs/Intro#supported-services).
 
@@ -74,8 +90,26 @@ The default database, user and password live in `mysql/defaults.env`; override a
 
 Enter the `workspace` container, where Composer and git live:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Once inside, run:
+
+```bash
 composer create-project topthink/think .   # only if you have no ThinkPHP files yet
 ```
 
@@ -89,9 +123,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.0
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 The current ThinkPHP 8 branch requires PHP 8.0 or newer; ThinkPHP 6 runs on PHP 7.1+. Either way, a legacy project and a modern one each run on the version they need, isolated, none of it installed on your machine.
 

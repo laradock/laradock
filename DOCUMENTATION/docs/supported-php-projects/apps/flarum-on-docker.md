@@ -12,6 +12,9 @@ keywords:
   - flarum nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is Flarum?
 
 [Flarum](https://flarum.org) is a modern, fast forum platform built around a single extension system, everything from the core discussion view to third-party features is an extension, all installed and updated through Composer. It is a PHP application backed by a MySQL or MariaDB database, served through a web server, and it needs Composer available on the server for both the initial install and every extension you add later.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 Flarum needs a web server and a database. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer MariaDB? Swap the name: `docker compose up -d nginx mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -78,8 +94,24 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 
 Enter the `workspace` container, use Composer to fetch Flarum, then finish the setup in the browser:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+```bash
 composer create-project flarum/flarum . --stability=beta
 ```
 
@@ -93,9 +125,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.3
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 Flarum's 1.x line needs PHP 8.1 or newer, while Flarum 2.0 requires PHP 8.3+; Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older Flarum 1.x forum and a Flarum 2.0 install side by side, each isolated, none of it installed on your machine.
 

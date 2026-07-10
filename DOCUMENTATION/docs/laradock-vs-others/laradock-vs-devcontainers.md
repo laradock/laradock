@@ -11,6 +11,9 @@ keywords:
   - vscode php development container
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What are Dev Containers?
 
 [Dev Containers](https://containers.dev/) is an open specification, championed by Microsoft and VS Code, for describing a development environment as a container that your code editor runs inside of. You add a `devcontainer.json` file to a project, and any supporting editor can build that container and reopen your workspace inside it, extensions, terminal, and all. [GitHub Codespaces](https://github.com/features/codespaces) is the cloud-hosted version of the same idea, running that container in the browser instead of on your machine.
@@ -44,9 +47,26 @@ The limits: it is editor-centric (the experience belongs to VS Code and, partial
 ```bash
 cd my-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
+```
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql redis workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
+
+</TabItem>
+</Tabs>
 
 The stack is defined by the project and runs identically no matter what you code in: VS Code, PhpStorm, Vim, or SSH from another machine. The compose wiring Dev Containers would ask you to write is exactly the part Laradock ships pre-built, 100+ services included.
 

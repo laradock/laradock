@@ -12,6 +12,9 @@ keywords:
   - mybb nginx mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is MyBB?
 
 [MyBB](https://mybb.com) is a free, open-source forum software known for its plugin and theme ecosystem and its straightforward admin panel. It is a PHP application backed by a database (MySQL/MariaDB is the common choice; PostgreSQL and SQLite are also supported), served through a web server, and installed through a browser-based setup wizard.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 MyBB needs a web server and a database. The web server pulls in PHP-FPM automatically:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Prefer MariaDB? Swap the name: `docker compose up -d nginx mariadb workspace`. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Prefer MariaDB? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
 
@@ -75,9 +91,22 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 
 Enter the `workspace` container, place the MyBB files in your project's web root (download the package from [mybb.com](https://mybb.com/download/) and extract it if you have not already), then finish the setup in the browser:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
 ```
+
+</TabItem>
+</Tabs>
 
 Then open `http://localhost/install/` and follow MyBB's install wizard: it checks your PHP version and extensions (mbstring, GD and SimpleXML among them), asks for the database details from the step above, and creates the admin account. Delete the `install/` directory once it is done, as MyBB's own docs require.
 
@@ -89,9 +118,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.1
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 MyBB's official minimum is still PHP 5.2, which is long obsolete; current releases fixed compatibility with PHP 8, so run modern PHP for security and performance. Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older MyBB install with legacy plugins and a brand-new one side by side, each isolated, none of it installed on your machine.
 

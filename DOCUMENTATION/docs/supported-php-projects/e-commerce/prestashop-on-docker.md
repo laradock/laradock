@@ -12,6 +12,9 @@ keywords:
   - prestashop mysql docker
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## What is PrestaShop?
 
 [PrestaShop](https://www.prestashop.com) is an open-source PHP e-commerce platform popular in Europe and Latin America, covering everything from a small catalog to a multi-store, multi-language shop. It is a PHP application that needs a web server, PHP-FPM, and a MySQL or MariaDB database; Redis is not required but is commonly added for cache and session storage on busier stores.
@@ -49,11 +52,24 @@ cd laradock && cp .env.example .env
 
 PrestaShop needs a web server and a database. Redis is optional; add it when you enable object caching:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d nginx mysql workspace
 ```
 
-Want Redis too, or MariaDB instead of MySQL? `docker compose up -d nginx mariadb redis workspace`. PrestaShop ships Apache-oriented `.htaccess` rules, so if you use `nginx` you may need to port a few of its rewrite rules; Apache is available as a service too. The full catalog is [here](/docs/Intro#supported-services).
+</TabItem>
+</Tabs>
+
+Want Redis too, or MariaDB instead of MySQL? `./laradock start nginx mariadb redis workspace` (or `docker compose up -d nginx mariadb redis workspace`). PrestaShop ships Apache-oriented `.htaccess` rules, so if you use `nginx` you may need to port a few of its rewrite rules; Apache is available as a service too. The full catalog is [here](/docs/Intro#supported-services).
 
 ### 3. Point PrestaShop at the containers
 
@@ -63,8 +79,24 @@ PrestaShop's installer writes its connection details to `app/config/parameters.p
 
 Enter the `workspace` container, where Composer and git live, download PrestaShop and run its installer:
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+```bash
 composer create-project prestashop/prestashop .
 php install-dev/index_cli.php --domain=localhost --db_server=mysql \
   --db_name=prestashop --db_user=root --db_password=secret \
@@ -81,9 +113,22 @@ This is where a native install hurts and Laradock shines. Set the version in Lar
 PHP_VERSION=8.1
 ```
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose build php-fpm workspace
 ```
+
+</TabItem>
+</Tabs>
 
 PrestaShop 9 targets PHP 8.1 and up (8.4 recommended), while PrestaShop 1.6 stores still run on much older PHP, so the same tool runs a legacy 1.6 shop and a current PrestaShop 9 store side by side, each isolated, none of it installed on your machine.
 

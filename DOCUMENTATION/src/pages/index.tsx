@@ -155,14 +155,14 @@ export default function Home(): ReactNode {
             <div className={styles.heroCopy}>
               <span className={styles.eyebrow}>A full PHP development environment for Docker</span>
               <h1 className={styles.title}>
-                Your full PHP stack,
+                Your full <span className={styles.accentAlt}>PHP stack</span>,
                 <br />
                 <span className={styles.accent}>one command</span> away.
               </h1>
               <p className={styles.subtitle}>
-                Pre-configured Docker containers for Nginx, PHP, MySQL, Redis, and
+                Pre-configured Docker containers for PHP, MySQL, Redis and
                 100+ more services. Clone, run one command, and start building, with
-                zero manual setup.
+                zero manual setup and zero Docker knowledge.
               </p>
               <div className={styles.ctaRow}>
                 <Link className={styles.btnPrimary} to="/docs/Intro">
@@ -259,8 +259,10 @@ export default function Home(): ReactNode {
             <div className={styles.whyGrid}>
               {BENEFITS.map((b) => (
                 <div className={styles.whyCard} key={b.title}>
-                  <span className={styles.whyIcon}>{ICONS[b.icon]}</span>
-                  <h3 className={styles.whyTitle}>{b.title}</h3>
+                  <div className={styles.whyHead}>
+                    <span className={styles.whyIcon}>{ICONS[b.icon]}</span>
+                    <h3 className={styles.whyTitle}>{b.title}</h3>
+                  </div>
                   <p className={styles.whyText}>{b.text}</p>
                 </div>
               ))}

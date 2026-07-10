@@ -1,7 +1,7 @@
 ---
 slug: /services/solr
 title: Apache Solr
-description: Run Apache Solr in Laradock. Start and stop the container, configure the version and admin port, enable JDBC data import connectors, and fix common issues.
+description: Run Apache Solr in Laradock. Start and stop the container, configure the version and admin port, create/delete cores, back up and restore, enable JDBC data import connectors, and fix common issues.
 keywords:
   - laradock solr
   - apache solr docker
@@ -9,7 +9,11 @@ keywords:
   - solr admin ui docker
   - lucene search docker
   - solr dataimporthandler
+  - solr backup restore
 ---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 ## What is Apache Solr?
 
@@ -17,17 +21,64 @@ keywords:
 
 ## Start Solr
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start solr
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose up -d solr
 ```
 
+</TabItem>
+</Tabs>
+
+Name any other services alongside it to start them together, for example `./laradock start solr mysql`.
+
 ## Stop Solr
+
+Stopping just pauses the container; **your cores are safe**, they live under `DATA_PATH_HOST/solr`:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock stop solr
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose stop solr
 ```
 
-This stops the container without deleting its data. Cores live under `DATA_PATH_HOST/solr`.
+</TabItem>
+</Tabs>
+
+To delete the container entirely (the data on disk is still untouched):
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock remove solr
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose rm -sf solr
+```
+
+</TabItem>
+</Tabs>
 
 ## Configuration
 
@@ -48,24 +99,166 @@ http://localhost:8983/solr
 
 ## Create a core
 
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock exec solr solr create_core -c mycore
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
 ```bash
 docker compose exec solr solr create_core -c mycore
 ```
+
+</TabItem>
+</Tabs>
+
+## Check core status
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock exec solr solr status
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose exec solr solr status
+```
+
+</TabItem>
+</Tabs>
+
+You can also check a single core's health from the admin UI (**Core Admin** page) or by hitting `http://localhost:8983/solr/mycore/admin/ping`.
+
+## Delete a core
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock exec solr solr delete -c mycore
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose exec solr solr delete -c mycore
+```
+
+</TabItem>
+</Tabs>
 
 ## Enable a JDBC data import connector
 
 1. In `.env`, set `SOLR_DATAIMPORTHANDLER_MYSQL=true` (or `SOLR_DATAIMPORTHANDLER_MSSQL=true`).
 2. Rebuild with a clean cache, since the connector is downloaded during the build:
-   ```bash
-   docker compose build --no-cache solr
-   ```
+
+```bash
+docker compose build --no-cache solr
+```
+
+## Backup and restore a core
+
+Solr's replication handler can snapshot a core to disk and restore it later, no extra tooling needed. Both commands hit the core's own HTTP endpoint:
+
+**Back up** `mycore` (writes a `snapshot.<timestamp>` folder inside that core's data directory, under `DATA_PATH_HOST/solr/mycore/data`):
+
+```bash
+curl "http://localhost:8983/solr/mycore/replication?command=backup"
+```
+
+Check `command=details` to confirm the backup finished before relying on it:
+
+```bash
+curl "http://localhost:8983/solr/mycore/replication?command=details"
+```
+
+**Restore** the most recent snapshot back into `mycore`:
+
+```bash
+curl "http://localhost:8983/solr/mycore/replication?command=restore"
+```
+
+Both commands run asynchronously; poll restore progress with `command=restorestatus`. Because the snapshot is written under `DATA_PATH_HOST/solr`, copying that folder off-host is also a valid manual backup.
+
+## Start completely fresh (wipe all data)
+
+To throw away every core and start Solr from a clean, empty state (⚠️ this **permanently deletes** all cores and their indexed data, back up first if you need anything):
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock stop solr
+./laradock remove solr
+rm -rf "${DATA_PATH_HOST:-~/.laradock/data}/solr"
+./laradock start solr
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose stop solr
+docker compose rm -sf solr
+rm -rf "${DATA_PATH_HOST:-~/.laradock/data}/solr"
+docker compose up -d solr
+```
+
+</TabItem>
+</Tabs>
+
+`DATA_PATH_HOST` is whatever you have set in `.env` (`~/.laradock/data` by default). That folder is mounted straight to `/opt/solr/server/solr/mycores`, Solr's entire cores directory, so wiping it removes every core, not just their documents. After starting again you'll need to [create your cores](#create-a-core) from scratch.
+
+## Tune the JVM heap size
+
+Solr's upstream image reads its JVM heap size from a `SOLR_HEAP` environment variable, but `solr/compose.yml` doesn't pass it through by default. Add it yourself under the `solr` service:
+
+```yaml
+environment:
+  - SOLR_HEAP=1g
+```
+
+Then apply the change:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock restart solr
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose restart solr
+```
+
+</TabItem>
+</Tabs>
+
+Solr's default heap is fairly small (`512m`); indexing anything non-trivial usually calls for raising this.
+
+## Talk to this Solr from another Laradock project
+
+Each Laradock project is its own isolated Docker network by default, so a second project's containers can't reach this Solr by container name out of the box. Easiest fix: publish the port (already done, `SOLR_PORT`) and have the other project connect to your **host machine's** address instead of `solr`, for example `http://host.docker.internal:8983/solr` (Docker Desktop). Make sure the two projects use different `SOLR_PORT` values if they're both running at once.
 
 ## Common issues
 
-- **Changing `SOLR_VERSION` doesn't take effect.** It's a build argument, rebuild after changing it: `docker compose build solr`.
-- **JDBC connectors missing.** They're only fetched when the matching flag was `true` at build time, flip the flag and rebuild with `--no-cache`, a plain rebuild reuses the cached layer and skips the download.
-- **Cores don't persist across `docker compose down`.** They're written to `DATA_PATH_HOST/solr` (mounted to `/opt/solr/server/solr/mycores`), confirm `DATA_PATH_HOST` is set consistently between runs.
-- **Port already in use on your host.** Change `SOLR_PORT` in `.env` and restart: `docker compose up -d solr`.
+- **Changing `SOLR_VERSION` doesn't take effect.** It's a build argument, rebuild after changing it: `./laradock rebuild solr`.
+- **JDBC connectors missing.** They're only fetched when the matching flag was `true` at build time, flip the flag and rebuild with `docker compose build --no-cache solr`, a plain rebuild reuses the cached layer and skips the download.
+- **Cores don't persist across restarts.** They're written to `DATA_PATH_HOST/solr` (mounted to `/opt/solr/server/solr/mycores`), confirm `DATA_PATH_HOST` is set consistently between runs.
+- **Port already in use on your host.** Change `SOLR_PORT` in `.env` and restart: `./laradock restart solr`.
+- **Indexing is slow or Solr gets OOM-killed on large collections.** Raise the JVM heap, see [Tune the JVM heap size](#tune-the-jvm-heap-size) above.
 
 ---
 
