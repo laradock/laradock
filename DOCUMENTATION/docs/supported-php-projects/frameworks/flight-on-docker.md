@@ -71,7 +71,7 @@ docker compose up -d nginx mysql workspace
 
 Building something small enough for SQLite instead? Skip the database container entirely; SQLite is already available in the `workspace` container. The full catalog is [here](/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Flight at the containers
 

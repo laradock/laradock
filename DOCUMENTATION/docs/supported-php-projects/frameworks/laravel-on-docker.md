@@ -76,7 +76,7 @@ docker compose up -d nginx mysql redis workspace
 
 Need Postgres instead of MySQL? Swap the name: `./laradock start nginx postgres redis workspace` (or `docker compose up -d nginx postgres redis workspace`). Need search or a mail catcher later? Add it any time: `./laradock start meilisearch` (or `docker compose up -d meilisearch`) or `./laradock start mailpit` (or `docker compose up -d mailpit`). The full catalog is [here](/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](/docs/cli) detects Laravel and pre-selects nginx/mysql/redis for you: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](/docs/cli) detects Laravel and pre-selects nginx/mysql/redis for you: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Laravel at the containers
 

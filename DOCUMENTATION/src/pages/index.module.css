@@ -134,7 +134,7 @@
 .subtitle {
   font-size: clamp(1rem, 1.4vw, 1.18rem);
   line-height: 1.6;
-  color: var(--text-dim);
+  color: var(--white);
   max-width: 33rem;
   margin: 0 0 1.9rem;
 }

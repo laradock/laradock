@@ -96,7 +96,7 @@ Day to day you talk to Docker itself: `./laradock enter workspace`, `./laradock 
 | | **DDEV** | **Laradock** |
 |---|---|---|
 | Install | ddev binary | nothing (git clone) |
-| First run | `ddev config` + `ddev start` | `./laradock setup` + `./laradock up` (or plain `docker compose`) |
+| First run | `ddev config` + `ddev start` | `./laradock setup` + `./laradock start` (or plain `docker compose`) |
 | URLs | `https://my-app.ddev.site` automatic | `http://localhost` (or wire Traefik/Caddy yourself) |
 | HTTPS | Automatic, trusted | Manual (Caddy/Traefik/certbot services included) |
 | Services | ~50 curated add-ons | 100+ shipped folders (incl. Kafka, ClickHouse, Ollama, GitLab) |

@@ -71,7 +71,7 @@ docker compose up -d nginx workspace
 
 The full catalog of every other available service is [here](/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point HTMLy at the containers
 

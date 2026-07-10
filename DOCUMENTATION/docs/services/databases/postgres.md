@@ -94,6 +94,10 @@ The core connection settings (`POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD
 
 `postgres/defaults.env` also carries `CONFLUENCE_POSTGRES_INIT`, `GITLAB_POSTGRES_INIT`, `SONARQUBE_POSTGRES_INIT`, and `KEYCLOAK_POSTGRES_INIT` flags plus their own db/user/password variables; those exist purely so those other services can get their own database seeded inside the same Postgres instance and aren't needed for a plain app database.
 
+:::warning Passwords apply on first boot only
+`POSTGRES_DB`, `POSTGRES_USER`, and `POSTGRES_PASSWORD` take effect the first time Postgres starts and creates its data files. Changing them in `.env` later (even with a rebuild) does not touch an existing database; the old password keeps working. Change it inside Postgres instead (`ALTER USER "default" WITH PASSWORD 'newpass';`), or [wipe the data folder](#start-completely-fresh-wipe-all-data) to re-initialize.
+:::
+
 ## Change the PostgreSQL version
 
 Set the version in your `.env`:

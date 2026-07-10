@@ -60,15 +60,16 @@ export default function SupportBanner(): ReactNode {
   return (
     <section className={styles.support} aria-labelledby="support-title">
       <div className={styles.inner}>
-        <span className={styles.kicker}>// keep laradock alive</span>
+        <span className={styles.kicker}>// Keeping the PHP ecosystem alive</span>
         <h2 id="support-title" className={styles.title}>
-          Your team runs on Laradock. Help fund it.
+          Trusted by millions of engineers worldwide
         </h2>
         <p className={styles.lede}>
-          Sponsorship funds the maintenance that keeps 100+ services working with
-          the latest PHP, database, and framework versions. Companies that
-          can&apos;t expense a sponsor button can pay by{" "}
-          <strong>invoice or bank transfer</strong> through Open Collective.
+          
+          If we saves you time, help us keep it alive for the millions who rely on it daily.
+          <br />
+          Prefer{" "}
+          <strong>invoice or bank transfer</strong>? Open Collective handles both.
         </p>
 
         <GoalBar />
@@ -88,7 +89,7 @@ export default function SupportBanner(): ReactNode {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Invoice via Open Collective →
+            Via Open Collective →
           </a>
         </div>
       </div>

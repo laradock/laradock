@@ -249,7 +249,7 @@ cmd_setup() {
   # -- otherwise, tell them how to proceed
   say ""
   bold "  You're set. How to proceed:"
-  say "    ./laradock up            start your stack: $services"
+  say "    ./laradock start         start your stack: $services"
   say "    ./laradock workspace     Laradock Workspace: a dev shell with php, composer, node, git"
   say "    ./laradock info          URLs, ports, credentials of what's running"
   say "    ./laradock doctor        if anything misbehaves"
@@ -498,7 +498,7 @@ ask_db()      {
 ask_cache()   { imenu one W_CACHE "Cache" cache_rows "${W_CACHE:-redis}" \
   "In-memory store for sessions, queues and speed. redis is the standard pick; \"none\" if you don't need one yet."; }
 ask_extras()  { imenu multi W_EXTRAS "Additional services (optional - space to toggle, enter to skip)" extra_service_rows "$W_EXTRAS" \
-  "Everything else Laradock offers (mail, search, queues, tools). Leave empty to start lean; you can add any later with ./laradock up <name>."; }
+  "Everything else Laradock offers (mail, search, queues, tools). Leave empty to start lean; you can add any later with ./laradock start <name>."; }
 ask_name()   { ask W_NAME "Project name" "${W_NAME:-$name_def}"; }
 ask_path()   { ask W_PATH "App path" "${W_PATH:-$app_path}"; }
 
@@ -578,12 +578,12 @@ cmd_up() {
     local s=""
     [ -f .env ] && s=$(env_get LARADOCK_SERVICES | tr -d '"')
     if [ -z "$s" ]; then
-      if is_tty && confirm "No setup found. Run ./laradock setup now?" y; then
+      if confirm "No setup found. Run ./laradock setup now?" Y; then
         SKIP_START_OFFER=1; cmd_setup; unset SKIP_START_OFFER   # we start below, don't double-start
         s=$(env_get LARADOCK_SERVICES | tr -d '"')
         [ -n "$s" ] || exit 0   # setup declined to write / user quit
       else
-        die "no setup yet. Run: ./laradock setup   (or pass services: ./laradock up nginx mysql)"
+        die "no setup yet. Run: ./laradock setup   (or pass services: ./laradock start nginx mysql)"
       fi
     fi
     # shellcheck disable=SC2206
@@ -598,10 +598,22 @@ cmd_up() {
   rc=${PIPESTATUS[0]}
   if [ $rc -ne 0 ]; then
     if grep -qi 'port is already allocated\|address already in use' "$_tmp"; then
-      local port; port=$(grep -oE 'Bind for [0-9.:]+[0-9]+' "$_tmp" | grep -oE '[0-9]+$' | head -1)
+      local port svc var
+      port=$(grep -oE 'Bind for [0-9.:]+[0-9]+' "$_tmp" | grep -oE '[0-9]+$' | head -1)
       bad "port ${port:-?} is already in use on your machine."
-      say "     Fix: add an override to laradock/.env (e.g. MYSQL_PORT=3307, REDIS_PORT=16379, NGINX_HOST_HTTP_PORT=8080)"
-      say "     Then rerun: ./laradock up"
+      # Name the exact variable when we can: compose names the failing endpoint
+      # <project>-<service>-N; the service folder's defaults.env holds the port var.
+      svc=$(grep -oE 'endpoint [A-Za-z0-9_-]+' "$_tmp" | head -1 | awk '{print $2}')
+      svc=${svc%-[0-9]*}; svc=${svc#"$(env_get COMPOSE_PROJECT_NAME | tr -d '"')"-}
+      var=""
+      [ -n "$svc" ] && [ -n "$port" ] && [ -f "$svc/defaults.env" ] \
+        && var=$(grep -E "^[A-Z0-9_]*PORT[A-Z0-9_]*=${port}\$" "$svc/defaults.env" | head -1 | cut -d= -f1)
+      if [ -n "$var" ]; then
+        say "     Fix: add ${var}=<a free port> to laradock/.env (e.g. ${var}=1${port}), then rerun: ./laradock start"
+      else
+        say "     Fix: add an override to laradock/.env (e.g. MYSQL_PORT=3307, REDIS_PORT=16379, NGINX_HOST_HTTP_PORT=8080)"
+        say "     Then rerun: ./laradock start"
+      fi
     else
       bad "docker compose failed; full output above. Try: ./laradock doctor"
     fi
@@ -632,11 +644,13 @@ cmd_info() {
   case "$running" in *phpmyadmin*) say "    phpMyAdmin   http://localhost:$(default_of PMA_PORT 8081)  (server: mysql, user: default, pass: secret)" ;; esac
   case "$running" in *adminer*)    say "    Adminer      http://localhost:$(default_of ADM_PORT 8080)" ;; esac
   case "$running" in *mailpit*)    say "    Mailpit      http://localhost:$(default_of MAILPIT_HTTP_PORT 8125)" ;; esac
-  case "$running" in *mysql*)      say "    MySQL        localhost:$(default_of MYSQL_PORT 3306)  db: default  user: default  pass: secret (root: root)" ;; esac
-  case "$running" in *postgres*)   say "    Postgres     localhost:$(default_of POSTGRES_PORT 5432)  db: default  user: default  pass: secret" ;; esac
+  case "$running" in *mysql*)      say "    MySQL        localhost:$(default_of MYSQL_PORT 3306)  db: $(default_of MYSQL_DATABASE default)  user: $(default_of MYSQL_USER default)  pass: $(default_of MYSQL_PASSWORD secret) (root: $(default_of MYSQL_ROOT_PASSWORD root))" ;; esac
+  case "$running" in *postgres*)   say "    Postgres     localhost:$(default_of POSTGRES_PORT 5432)  db: $(default_of POSTGRES_DB default)  user: $(default_of POSTGRES_USER default)  pass: $(default_of POSTGRES_PASSWORD secret)" ;; esac
   case "$running" in *redis*)      say "    Redis        localhost:$(default_of REDIS_PORT 6379)  pass: $(default_of REDIS_PASSWORD secret_redis)" ;; esac
   say ""
-  bold "  Inside your app, reach services by NAME (DB_HOST=mysql, REDIS_HOST=redis)."
+  local _dbhost=mysql
+  case "$running" in *mysql*) _dbhost=mysql ;; *postgres*) _dbhost=postgres ;; *mariadb*) _dbhost=mariadb ;; esac
+  bold "  Inside your app, reach services by NAME (DB_HOST=${_dbhost}, REDIS_HOST=redis)."
   bold "  Next:  ./laradock workspace     (dev shell: php, composer, node, git)"
   say ""
 }

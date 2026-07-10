@@ -35,10 +35,10 @@ Fastest: a zero-install script shipped in the repo. Clone it, then run one comma
 ```bash
 git clone https://github.com/laradock/laradock.git
 cd laradock
-./laradock up
+./laradock start
 ```
 
-On the first run, `up` walks you through setup (detects your framework, lets you pick your project, PHP version, and services, all pre-answered), points your app's `.env` at the services, and starts your stack. After that, `./laradock up` just starts. It prints every real `docker compose` command it runs, so nothing is hidden. Full reference: [The Laradock CLI](/docs/cli).
+On the first run, `start` walks you through setup (detects your framework, lets you pick your project, PHP version, and services, all pre-answered), points your app's `.env` at the services, and starts your stack. After that, `./laradock start` just starts. It prints every real `docker compose` command it runs, so nothing is hidden. Full reference: [The Laradock CLI](/docs/cli).
 
 </TabItem>
 <TabItem value="docker" label="Docker Compose">
@@ -204,13 +204,13 @@ If you used an older version of Laradock it's highly recommended to rebuild the 
 
 Laradock gives you two equal ways to work; both use the exact same files, and you can switch any time:
 
-- **Convenient (recommended to start):** the [Laradock CLI](/docs/cli), a zero-install script shipped in the repo. Just `./laradock up`: on the first run it walks you through setup (detects your framework, asks a handful of pre-answered questions, writes your `.env`, and can point your app's `.env` at the services), then starts. After that, `./laradock up` just starts. It prints every real `docker compose` command it executes, so nothing is hidden.
+- **Convenient (recommended to start):** the [Laradock CLI](/docs/cli), a zero-install script shipped in the repo. Just `./laradock start`: on the first run it walks you through setup (detects your framework, asks a handful of pre-answered questions, writes your `.env`, and can point your app's `.env` at the services), then starts. After that, `./laradock start` just starts. It prints every real `docker compose` command it executes, so nothing is hidden.
 - **Full control:** do it manually, as described below. You edit `.env` yourself and run plain `docker compose` commands. Best when you want to own every detail.
 
 | | Convenient | Full control |
 |---|---|---|
 | Setup | `./laradock setup` | `cp .env.example .env` |
-| Start | `./laradock up` | `docker compose up -d nginx mysql redis workspace` |
+| Start | `./laradock start` | `docker compose up -d nginx mysql redis workspace` |
 | Dev shell | `./laradock workspace` | `docker compose exec workspace bash` |
 
 The rest of this section documents the manual way in full (the CLI simply automates these exact steps).
@@ -228,6 +228,10 @@ cp .env.example .env
 - To change **any** setting, shared or per-service, add that line to your `.env` with your value. **Your `.env` always wins over every `defaults.env`.** For example, to run MySQL on another port, add `MYSQL_PORT=3307` to your `.env`.
 - To discover what a service lets you configure, just open its folder's `defaults.env`, it's a short, readable list.
 - **Upgrading from an older Laradock?** Your existing full `.env` keeps working exactly as before, no changes needed.
+
+:::warning One exception: database passwords are set on first run only
+`MYSQL_PASSWORD`, `POSTGRES_PASSWORD`, and the other database credentials are applied the **first time** that database starts, when it creates its data files on disk. Changing them in `.env` later (even with `./laradock rebuild`) does **not** update an existing database; the old password keeps working. To change a database password for real, either run the change inside the database itself (for example `ALTER USER`), or delete that service's data folder under `DATA_PATH_HOST` so it initializes fresh (this erases that database's data).
+:::
 
 ### How the repository is organized
 

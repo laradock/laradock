@@ -71,7 +71,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](/docs/cli) detects CakePHP and pre-selects nginx/mysql for you: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](/docs/cli) detects CakePHP and pre-selects nginx/mysql for you: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point CakePHP at the containers
 

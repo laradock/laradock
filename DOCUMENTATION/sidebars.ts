@@ -14,10 +14,10 @@ const sidebars: SidebarsConfig = {
       collapsible: true,
       collapsed: false,
       items: [
-        { type: "link", label: "Features", href: "/docs/Intro#features" },
-        { type: "link", label: "How Laradock Compares", href: "/docs/Intro#laradock-alternatives" },
-        { type: "link", label: "Supported Services", href: "/docs/Intro#supported-services" },
         { type: "link", label: "Quick Start", href: "/docs/Intro#quick-start" },
+        { type: "link", label: "Features", href: "/docs/Intro#features" },
+        { type: "link", label: "Supported Services", href: "/docs/Intro#supported-services" },
+        { type: "link", label: "How Laradock Compares", href: "/docs/Intro#laradock-alternatives" },
         { type: "link", label: "Awesome People", href: "/docs/Intro#awesome-people" },
         { type: "link", label: "Sponsors", href: "/docs/Intro#sponsors" },
         { type: "link", label: "License", href: "/docs/Intro#license" },

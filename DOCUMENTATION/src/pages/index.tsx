@@ -194,7 +194,7 @@ export default function Home(): ReactNode {
                       <span className={styles.prompt}>$</span>cd laradock
                     </div>
                     <div>
-                      <span className={styles.prompt}>$</span>./laradock up
+                      <span className={styles.prompt}>$</span>./laradock start
                     </div>
                   </div>
                 </div>

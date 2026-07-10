@@ -71,7 +71,7 @@ docker compose up -d nginx workspace
 
 Opting into a database for users or forms? Add it any time: `./laradock start mysql` (or `docker compose up -d mysql`; swap in `postgres` for Postgres). The full catalog is [here](/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Where Statamic's content lives
 

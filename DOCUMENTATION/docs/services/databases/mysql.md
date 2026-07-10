@@ -93,6 +93,10 @@ All settings live in `mysql/defaults.env` and can be overridden by adding the sa
 | `MYSQL_PORT` | `3306` | Host-side port MySQL is published on (`host:container`). |
 | `MYSQL_ENTRYPOINT_INITDB` | `./mysql/docker-entrypoint-initdb.d` | Folder of `.sql`/`.sh` files auto-run on first boot. |
 
+:::warning Passwords apply on first boot only
+`MYSQL_DATABASE`, `MYSQL_USER`, `MYSQL_PASSWORD`, and `MYSQL_ROOT_PASSWORD` take effect the first time MySQL starts and creates its data files. Changing them in `.env` later (even with a rebuild) does not touch an existing database; the old password keeps working. Change it inside MySQL instead (`ALTER USER 'default'@'%' IDENTIFIED BY 'newpass';`), or [wipe the data folder](#start-completely-fresh-wipe-all-data) to re-initialize.
+:::
+
 ## Change the MySQL version
 
 Set the version in your `.env`:

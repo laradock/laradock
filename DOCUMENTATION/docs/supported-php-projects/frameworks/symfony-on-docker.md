@@ -71,7 +71,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer PostgreSQL or MariaDB? Swap the name: `./laradock start nginx postgres workspace`. Need Redis for cache and sessions later, or Mercure for real-time updates? Add it any time: `./laradock start redis` or `./laradock start mercure`. The full catalog is [here](/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](/docs/cli) detects Symfony and pre-selects nginx/mysql for you: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](/docs/cli) detects Symfony and pre-selects nginx/mysql for you: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Symfony at the containers
 
