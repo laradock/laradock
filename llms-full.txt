@@ -45,10 +45,10 @@ cd laradock
 3 - Start your stack:
 
 ```shell
-./laradock up
+./laradock start
 ```
 
-The first time, `up` runs the setup wizard for you: it detects your framework, then lets you pick your project from one searchable list of 100+ frameworks, CMSs, e-commerce platforms and apps grouped by type (just type its name to filter), your PHP version, and your stack (web server, database, cache). Every answer is pre-selected, so you can press Enter through it, and it can point your app's `.env` at the services for you. Then it starts. After that, `./laradock up` just starts what you chose and prints their URLs and credentials. Re-run the wizard anytime with `./laradock setup`.
+The first time, `start` runs the setup wizard for you: it detects your framework, then lets you pick your project from one searchable list of 100+ frameworks, CMSs, e-commerce platforms and apps grouped by type (just type its name to filter), your PHP version, and your stack (web server, database, cache). Every answer is pre-selected, so you can press Enter through it, and it can point your app's `.env` at the services for you. Then it starts. After that, `./laradock start` just starts what you chose and prints their URLs and credentials. Re-run the wizard anytime with `./laradock setup`.
 
 4 - Enter the Laradock Workspace (a dev shell with `php`, `composer`, `node`, and `git` inside):
 
@@ -587,10 +587,10 @@ Fastest: a zero-install script shipped in the repo. Clone it, then run one comma
 ```bash
 git clone https://github.com/laradock/laradock.git
 cd laradock
-./laradock up
+./laradock start
 ```
 
-On the first run, `up` walks you through setup (detects your framework, lets you pick your project, PHP version, and services, all pre-answered), points your app's `.env` at the services, and starts your stack. After that, `./laradock up` just starts. It prints every real `docker compose` command it runs, so nothing is hidden. Full reference: [The Laradock CLI](https://laradock.io/docs/cli).
+On the first run, `start` walks you through setup (detects your framework, lets you pick your project, PHP version, and services, all pre-answered), points your app's `.env` at the services, and starts your stack. After that, `./laradock start` just starts. It prints every real `docker compose` command it runs, so nothing is hidden. Full reference: [The Laradock CLI](https://laradock.io/docs/cli).
 
 </TabItem>
 <TabItem value="docker" label="Docker Compose">
@@ -756,13 +756,13 @@ If you used an older version of Laradock it's highly recommended to rebuild the 
 
 Laradock gives you two equal ways to work; both use the exact same files, and you can switch any time:
 
-- **Convenient (recommended to start):** the [Laradock CLI](https://laradock.io/docs/cli), a zero-install script shipped in the repo. Just `./laradock up`: on the first run it walks you through setup (detects your framework, asks a handful of pre-answered questions, writes your `.env`, and can point your app's `.env` at the services), then starts. After that, `./laradock up` just starts. It prints every real `docker compose` command it executes, so nothing is hidden.
+- **Convenient (recommended to start):** the [Laradock CLI](https://laradock.io/docs/cli), a zero-install script shipped in the repo. Just `./laradock start`: on the first run it walks you through setup (detects your framework, asks a handful of pre-answered questions, writes your `.env`, and can point your app's `.env` at the services), then starts. After that, `./laradock start` just starts. It prints every real `docker compose` command it executes, so nothing is hidden.
 - **Full control:** do it manually, as described below. You edit `.env` yourself and run plain `docker compose` commands. Best when you want to own every detail.
 
 | | Convenient | Full control |
 |---|---|---|
 | Setup | `./laradock setup` | `cp .env.example .env` |
-| Start | `./laradock up` | `docker compose up -d nginx mysql redis workspace` |
+| Start | `./laradock start` | `docker compose up -d nginx mysql redis workspace` |
 | Dev shell | `./laradock workspace` | `docker compose exec workspace bash` |
 
 The rest of this section documents the manual way in full (the CLI simply automates these exact steps).
@@ -780,6 +780,10 @@ cp .env.example .env
 - To change **any** setting, shared or per-service, add that line to your `.env` with your value. **Your `.env` always wins over every `defaults.env`.** For example, to run MySQL on another port, add `MYSQL_PORT=3307` to your `.env`.
 - To discover what a service lets you configure, just open its folder's `defaults.env`, it's a short, readable list.
 - **Upgrading from an older Laradock?** Your existing full `.env` keeps working exactly as before, no changes needed.
+
+:::warning One exception: database passwords are set on first run only
+`MYSQL_PASSWORD`, `POSTGRES_PASSWORD`, and the other database credentials are applied the **first time** that database starts, when it creates its data files on disk. Changing them in `.env` later (even with `./laradock rebuild`) does **not** update an existing database; the old password keeps working. To change a database password for real, either run the change inside the database itself (for example `ALTER USER`), or delete that service's data folder under `DATA_PATH_HOST` so it initializes fresh (this erases that database's data).
+:::
 
 ### How the repository is organized
 
@@ -1154,7 +1158,7 @@ Day to day you talk to Docker itself: `./laradock enter workspace`, `./laradock 
 | | **DDEV** | **Laradock** |
 |---|---|---|
 | Install | ddev binary | nothing (git clone) |
-| First run | `ddev config` + `ddev start` | `./laradock setup` + `./laradock up` (or plain `docker compose`) |
+| First run | `ddev config` + `ddev start` | `./laradock setup` + `./laradock start` (or plain `docker compose`) |
 | URLs | `https://my-app.ddev.site` automatic | `http://localhost` (or wire Traefik/Caddy yourself) |
 | HTTPS | Automatic, trusted | Manual (Caddy/Traefik/certbot services included) |
 | Services | ~50 curated add-ons | 100+ shipped folders (incl. Kafka, ClickHouse, Ollama, GitLab) |
@@ -12668,6 +12672,10 @@ All settings live in `mysql/defaults.env` and can be overridden by adding the sa
 | `MYSQL_PORT` | `3306` | Host-side port MySQL is published on (`host:container`). |
 | `MYSQL_ENTRYPOINT_INITDB` | `./mysql/docker-entrypoint-initdb.d` | Folder of `.sql`/`.sh` files auto-run on first boot. |
 
+:::warning Passwords apply on first boot only
+`MYSQL_DATABASE`, `MYSQL_USER`, `MYSQL_PASSWORD`, and `MYSQL_ROOT_PASSWORD` take effect the first time MySQL starts and creates its data files. Changing them in `.env` later (even with a rebuild) does not touch an existing database; the old password keeps working. Change it inside MySQL instead (`ALTER USER 'default'@'%' IDENTIFIED BY 'newpass';`), or [wipe the data folder](#start-completely-fresh-wipe-all-data) to re-initialize.
+:::
+
 ## Change the MySQL version
 
 Set the version in your `.env`:
@@ -14489,6 +14497,10 @@ The core connection settings (`POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD
 | `POSTGRES_PORT` | `5432` | root `.env` | Host-side port Postgres is published on (`host:container`). |
 
 `postgres/defaults.env` also carries `CONFLUENCE_POSTGRES_INIT`, `GITLAB_POSTGRES_INIT`, `SONARQUBE_POSTGRES_INIT`, and `KEYCLOAK_POSTGRES_INIT` flags plus their own db/user/password variables; those exist purely so those other services can get their own database seeded inside the same Postgres instance and aren't needed for a plain app database.
+
+:::warning Passwords apply on first boot only
+`POSTGRES_DB`, `POSTGRES_USER`, and `POSTGRES_PASSWORD` take effect the first time Postgres starts and creates its data files. Changing them in `.env` later (even with a rebuild) does not touch an existing database; the old password keeps working. Change it inside Postgres instead (`ALTER USER "default" WITH PASSWORD 'newpass';`), or [wipe the data folder](#start-completely-fresh-wipe-all-data) to re-initialize.
+:::
 
 ## Change the PostgreSQL version
 
@@ -27026,7 +27038,7 @@ docker compose up -d nginx mysql redis workspace
 
 Prefer PostgreSQL instead? Swap the name: `./laradock start nginx postgres redis workspace` (or `docker compose up -d nginx postgres redis workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Akaunting at the containers
 
@@ -27186,7 +27198,7 @@ docker compose up -d nginx mysql redis workspace
 
 MySQL 8.0+ is what Aureus ERP recommends; the full service catalog (including alternatives) is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Aureus ERP at the containers
 
@@ -27390,7 +27402,7 @@ docker compose up -d nginx mysql redis workspace
 
 Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb redis workspace` (or `docker compose up -d nginx mariadb redis workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point WordPress at the containers
 
@@ -27553,7 +27565,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB instead? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point BookStack at the containers
 
@@ -27719,7 +27731,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer PostgreSQL instead? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Cachet at the containers
 
@@ -27886,7 +27898,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB instead? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Crater at the containers
 
@@ -28051,7 +28063,7 @@ docker compose up -d nginx workspace
 
 Prefer Apache or Caddy instead? Swap the name: `./laradock start apache2 workspace` (or `docker compose up -d apache2 workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point DokuWiki at your project
 
@@ -28198,7 +28210,7 @@ docker compose up -d nginx mysql redis workspace
 
 Prefer MariaDB or PostgreSQL? Swap the name: `./laradock start nginx mariadb redis workspace` (or `docker compose up -d nginx mariadb redis workspace`) or `./laradock start nginx postgres redis workspace` (or `docker compose up -d nginx postgres redis workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Dolibarr at the containers
 
@@ -28354,7 +28366,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB or PostgreSQL instead? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point EspoCRM at the containers
 
@@ -28513,7 +28525,7 @@ docker compose up -d nginx mysql redis workspace
 
 Prefer PostgreSQL? Swap the name: `docker compose up -d nginx postgres redis workspace`. The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Firefly III at the containers
 
@@ -28681,7 +28693,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Flarum at the containers
 
@@ -28845,7 +28857,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point FluxBB at the containers
 
@@ -29002,7 +29014,7 @@ docker compose up -d nginx mysql workspace
 
 The full catalog of services, if you later need a mail catcher for outgoing invoices or anything else, is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point FrontAccounting at the containers
 
@@ -29164,7 +29176,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer PostgreSQL instead? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Invoice Ninja at the containers
 
@@ -29346,7 +29358,7 @@ docker compose up -d nginx mysql workspace
 
 The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Kanboard at the containers
 
@@ -29505,7 +29517,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Koel at the containers and your music
 
@@ -29670,7 +29682,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB instead? Swap the name: `./laradock start nginx mariadb workspace`. The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Leantime at the containers
 
@@ -29835,7 +29847,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point LinkAce at the containers
 
@@ -30001,7 +30013,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB or PostgreSQL? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Lychee at the containers and your photos
 
@@ -30166,7 +30178,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Matomo at the containers
 
@@ -30322,7 +30334,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB instead? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Mautic at the containers
 
@@ -30491,7 +30503,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point MediaWiki at the containers
 
@@ -30656,7 +30668,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB instead? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Monica at the containers
 
@@ -30822,7 +30834,7 @@ docker compose up -d nginx mysql redis workspace
 
 Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres redis workspace` (or `docker compose up -d nginx postgres redis workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Moodle at the containers
 
@@ -30990,7 +31002,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point MyBB at the containers
 
@@ -31147,7 +31159,7 @@ docker compose up -d nginx mysql redis workspace
 
 Prefer PostgreSQL or MariaDB? Swap the name: `./laradock start nginx postgres redis workspace` (or `docker compose up -d nginx postgres redis workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Nextcloud at the containers
 
@@ -31316,7 +31328,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB or PostgreSQL instead? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point ownCloud at the containers
 
@@ -31481,7 +31493,7 @@ docker compose up -d nginx mysql workspace
 
 The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point PHP Server Monitor at the containers
 
@@ -31625,7 +31637,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point phpBB at the containers
 
@@ -31940,7 +31952,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point PunBB at the containers
 
@@ -32097,7 +32109,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer PostgreSQL instead? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Pydio 8 at the containers
 
@@ -32259,7 +32271,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer PostgreSQL instead? Swap the name: `./laradock start nginx postgres workspace`. The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Roundcube at the containers, and at a real mail server
 
@@ -32424,7 +32436,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer PostgreSQL or MariaDB? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point SMF at the containers
 
@@ -32581,7 +32593,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB instead? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point SuiteCRM at the containers
 
@@ -32744,7 +32756,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Vanilla at the containers
 
@@ -32881,7 +32893,7 @@ docker compose up -d nginx mysql workspace
 
 The full catalog of other services is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Vtiger at the containers
 
@@ -33037,7 +33049,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb workspace`. The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point webERP at the containers
 
@@ -33192,7 +33204,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer Apache instead? Swap the name: `./laradock start apache2 mysql workspace` (or `docker compose up -d apache2 mysql workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point X2CRM at the containers
 
@@ -33346,7 +33358,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer Apache or MariaDB instead? Swap the names: `./laradock start apache2 mariadb workspace`. The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point YOURLS at the containers
 
@@ -33489,7 +33501,7 @@ docker compose up -d nginx mysql workspace
 
 The full catalog of every other available service is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point b2evolution at the containers
 
@@ -33632,7 +33644,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Backdrop CMS at the containers
 
@@ -33792,7 +33804,7 @@ docker compose up -d nginx workspace
 
 Prefer MySQL or PostgreSQL instead? Add the service: `./laradock start nginx mysql workspace` or `./laradock start nginx postgres workspace`. The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Bolt at the containers
 
@@ -33957,7 +33969,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Concrete CMS at the containers
 
@@ -34119,7 +34131,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb workspace`. The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Contao at the containers
 
@@ -34281,7 +34293,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Craft CMS at the containers
 
@@ -34445,7 +34457,7 @@ docker compose up -d nginx mysql redis workspace
 
 Prefer PostgreSQL or MariaDB? Swap the name: `./laradock start nginx postgres redis workspace` (or `docker compose up -d nginx postgres redis workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Drupal at the containers
 
@@ -34608,7 +34620,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point e107 at the containers
 
@@ -34768,7 +34780,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point ExpressionEngine at the containers
 
@@ -34930,7 +34942,7 @@ docker compose up -d nginx workspace
 
 The full catalog of everything else available is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Where Grav's content lives
 
@@ -35082,7 +35094,7 @@ docker compose up -d nginx workspace
 
 The full catalog of every other available service is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point HTMLy at the containers
 
@@ -35218,7 +35230,7 @@ docker compose up -d nginx mysql redis workspace
 
 Prefer MariaDB or PostgreSQL? Swap the name: `./laradock start nginx mariadb redis workspace` (or `docker compose up -d nginx mariadb redis workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Joomla at the containers
 
@@ -35379,7 +35391,7 @@ docker compose up -d nginx workspace
 
 The full catalog of every other available service is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Kirby at the containers
 
@@ -35538,7 +35550,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer PostgreSQL or MariaDB? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Neos at the containers
 
@@ -35703,7 +35715,7 @@ docker compose up -d nginx mysql workspace
 
 The full catalog of every other available service is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Nucleus at the containers
 
@@ -35846,7 +35858,7 @@ docker compose up -d nginx mysql redis workspace
 
 Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres redis workspace` (or `docker compose up -d nginx postgres redis workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point October CMS at the containers
 
@@ -36005,7 +36017,7 @@ docker compose up -d nginx workspace
 
 The full catalog of every other available service is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Pico at the containers
 
@@ -36160,7 +36172,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). Need search later? Add it any time: `./laradock start elasticsearch` (or `docker compose up -d elasticsearch`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Pimcore at the containers
 
@@ -36318,7 +36330,7 @@ docker compose up -d nginx mysql workspace
 
 The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Pligg at the containers
 
@@ -36465,7 +36477,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point ProcessWire at the containers
 
@@ -36629,7 +36641,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer PostgreSQL instead? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Serendipity at the containers
 
@@ -36772,7 +36784,7 @@ docker compose up -d nginx workspace
 
 Opting into a database for users or forms? Add it any time: `./laradock start mysql` (or `docker compose up -d mysql`; swap in `postgres` for Postgres). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Where Statamic's content lives
 
@@ -36924,7 +36936,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres workspace`. Need search later? Add it any time: `./laradock start elasticsearch`. The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Sulu at the containers
 
@@ -37086,7 +37098,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb workspace`. The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Textpattern at the containers
 
@@ -37249,7 +37261,7 @@ docker compose up -d nginx mysql redis workspace
 
 Prefer PostgreSQL or MariaDB? Swap the name: `./laradock start nginx postgres redis workspace` (or `docker compose up -d nginx postgres redis workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point TYPO3 at the containers
 
@@ -37413,7 +37425,7 @@ docker compose up -d nginx mysql redis workspace
 
 Need Postgres instead of MySQL? Swap the name: `./laradock start nginx postgres redis workspace` (or `docker compose up -d nginx postgres redis workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Winter CMS at the containers
 
@@ -37572,7 +37584,7 @@ docker compose up -d nginx mysql redis workspace
 
 Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb redis workspace` (or `docker compose up -d nginx mariadb redis workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point WordPress at the containers
 
@@ -37736,7 +37748,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point AbanteCart at the containers
 
@@ -38377,7 +38389,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb workspace`. The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point CubeCart at the containers
 
@@ -38537,7 +38549,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point LiteCart at the containers
 
@@ -39023,7 +39035,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point OpenMage at the containers
 
@@ -39185,7 +39197,7 @@ docker compose up -d nginx postgres redis workspace
 
 Prefer MySQL over PostgreSQL? Swap the name: `./laradock start nginx mysql redis workspace`. Need search? `./laradock start elasticsearch`. The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point OroCommerce at the containers
 
@@ -39350,7 +39362,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb workspace`. The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point osCommerce at the containers
 
@@ -39664,7 +39676,7 @@ docker compose up -d nginx mysql redis workspace
 
 Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb redis workspace` (or `docker compose up -d nginx mariadb redis workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Shopware at the containers
 
@@ -39982,7 +39994,7 @@ docker compose up -d nginx mysql redis workspace
 
 Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb redis workspace` (or `docker compose up -d nginx mariadb redis workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point WordPress at the containers
 
@@ -40147,7 +40159,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB over MySQL? Swap the name: `./laradock start nginx mariadb workspace`. The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Zen Cart at the containers
 
@@ -40307,7 +40319,7 @@ docker compose up -d nginx postgres workspace
 
 Prefer MySQL instead of PostgreSQL? Swap the name: `./laradock start nginx mysql workspace` (or `docker compose up -d nginx mysql workspace`). Want Caddy instead of NGINX, to match API Platform's official distribution? `./laradock start caddy postgres workspace` (or `docker compose up -d caddy postgres workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point API Platform at the containers
 
@@ -40468,7 +40480,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) detects CakePHP and pre-selects nginx/mysql for you: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) detects CakePHP and pre-selects nginx/mysql for you: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point CakePHP at the containers
 
@@ -40635,7 +40647,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer MariaDB or PostgreSQL? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) detects CodeIgniter and pre-selects nginx/mysql for you: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) detects CodeIgniter and pre-selects nginx/mysql for you: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point CodeIgniter at the containers
 
@@ -40799,7 +40811,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer PostgreSQL instead? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point F3 at the containers
 
@@ -40958,7 +40970,7 @@ docker compose up -d nginx mysql workspace
 
 Building something small enough for SQLite instead? Skip the database container entirely; SQLite is already available in the `workspace` container. The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Flight at the containers
 
@@ -41122,7 +41134,7 @@ docker compose up -d nginx mysql workspace
 
 The full catalog of services is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point FuelPHP at the containers
 
@@ -41478,7 +41490,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) detects Laminas and pre-selects nginx/mysql for you: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) detects Laminas and pre-selects nginx/mysql for you: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Laminas at the containers
 
@@ -41648,7 +41660,7 @@ docker compose up -d nginx mysql redis workspace
 
 Need Postgres instead of MySQL? Swap the name: `./laradock start nginx postgres redis workspace` (or `docker compose up -d nginx postgres redis workspace`). Need search or a mail catcher later? Add it any time: `./laradock start meilisearch` (or `docker compose up -d meilisearch`) or `./laradock start mailpit` (or `docker compose up -d mailpit`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) detects Laravel and pre-selects nginx/mysql/redis for you: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) detects Laravel and pre-selects nginx/mysql/redis for you: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Laravel at the containers
 
@@ -42038,7 +42050,7 @@ docker compose up -d nginx mysql redis workspace
 
 Need Postgres instead of MySQL? Swap the name: `./laradock start nginx postgres redis workspace`. No database at all for a stateless service? Drop it: `./laradock start nginx workspace`. The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) detects Lumen and pre-selects nginx/mysql/redis for you: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) detects Lumen and pre-selects nginx/mysql/redis for you: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Lumen at the containers
 
@@ -42199,7 +42211,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer PostgreSQL instead? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Mezzio at the containers
 
@@ -42530,7 +42542,7 @@ docker compose up -d --build nginx mysql workspace
 
 The `--build` matters here: the Phalcon extension is compiled at image build time, so any time you flip these flags you need to rebuild. Prefer PostgreSQL? Swap the name: `./laradock start --build nginx postgres workspace` (or `docker compose up -d --build nginx postgres workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) detects Phalcon and can pre-select these flags for you: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) detects Phalcon and can pre-select these flags for you: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Phalcon at the containers
 
@@ -43019,7 +43031,7 @@ docker compose up -d nginx workspace
 
 Add a database only if your app uses one: `./laradock start mysql` or `./laradock start postgres`. The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Slim at the containers
 
@@ -43181,7 +43193,7 @@ docker compose up -d roadrunner postgres redis workspace
 
 Need MySQL instead? Swap the name: `./laradock start roadrunner mysql redis workspace`. The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Spiral at the containers
 
@@ -43501,7 +43513,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer PostgreSQL or MariaDB? Swap the name: `./laradock start nginx postgres workspace`. Need Redis for cache and sessions later, or Mercure for real-time updates? Add it any time: `./laradock start redis` or `./laradock start mercure`. The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) detects Symfony and pre-selects nginx/mysql for you: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) detects Symfony and pre-selects nginx/mysql for you: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Symfony at the containers
 
@@ -43671,7 +43683,7 @@ docker compose up -d nginx mysql workspace
 
 The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point ThinkPHP at the containers
 
@@ -44159,7 +44171,7 @@ docker compose up -d nginx mysql workspace
 
 Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) detects Yii and pre-selects nginx/mysql for you: `./laradock setup`, then `./laradock up`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) detects Yii and pre-selects nginx/mysql for you: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
 ### 3. Point Yii at the containers
 
