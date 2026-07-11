@@ -143,6 +143,16 @@ docker compose build php-fpm workspace
 
 The current FrontAccounting 2.4.x series is tested against PHP 8.0 through 8.5, and older instances still running on a legacy PHP build can be reproduced the same way, each isolated, none of it installed on your machine.
 
+## Take your install live
+
+When your FrontAccounting install is ready, the same Laradock stack becomes your deployment. You build one hardened image and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP or MySQL to run FrontAccounting with Laradock?

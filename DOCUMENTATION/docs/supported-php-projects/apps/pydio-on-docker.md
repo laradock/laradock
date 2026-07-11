@@ -143,6 +143,16 @@ docker compose build php-fpm workspace
 
 Pydio 8 was built for an older PHP branch (its support window ended before PHP 8 was common); Laradock covers anything from PHP 5.6 to 8.5, so you can keep the exact old runtime Pydio 8 needs isolated from every other project on the machine.
 
+## Take your instance live
+
+When your Pydio 8 instance is ready, the same Laradock stack becomes your deployment. You build one hardened image and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere. Keep in mind that Pydio 8 is unmaintained, so lock it behind your own network controls and treat any public exposure with caution.
+
 ## Frequently Asked Questions
 
 ### Do I need to install an old PHP version on my machine to run Pydio 8?

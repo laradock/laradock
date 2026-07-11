@@ -138,6 +138,16 @@ docker compose build php-fpm workspace
 
 PunBB 1.4's codebase predates PHP 7, so expect compatibility issues on anything newer without patches; Laradock covers anything from PHP 5.6 to 8.5, so you can give a legacy PunBB install the exact old PHP version it needs while every other project on the same machine runs current PHP, none of it installed on your host.
 
+## Take your forum live
+
+When your PunBB forum is ready, the same Laradock stack becomes your deployment. You build one hardened image of your app and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere. Given PunBB's maintenance status, weigh whether it belongs on the public internet at all before you ship it.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP or MySQL to run PunBB with Laradock?

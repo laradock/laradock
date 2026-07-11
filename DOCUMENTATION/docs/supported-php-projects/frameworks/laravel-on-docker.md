@@ -17,7 +17,7 @@ import TabItem from '@theme/TabItem';
 
 ## What is Laravel?
 
-[Laravel](https://laravel.com) is the most popular PHP web framework: an expressive, full-stack toolkit for building everything from APIs to large applications, with routing, an ORM (Eloquent), queues, a scheduler, and a huge ecosystem. A real Laravel app rarely runs alone; it wants a web server, a PHP runtime, a database, usually Redis for cache and queues, and often a search engine or a mail catcher alongside it.
+[Laravel](https://laravel.com) is the most popular PHP web framework: an expressive, full-stack toolkit for building everything from APIs to large applications, with routing, an ORM (Eloquent), queues, a scheduler, and a huge ecosystem. A real Laravel app rarely runs alone. It wants a web server, a PHP runtime, a database, and Redis for cache, sessions and queues. Laravel speaks to Redis natively (it ships `predis`/`phpredis` drivers), so unlike most PHP apps there is nothing to install to use it. Bigger apps then add a search engine, a mail catcher, or a queue worker alongside.
 
 ## Why run Laravel in Docker?
 
@@ -34,12 +34,7 @@ Laravel has its own official Docker tools (Sail) and native runtimes (Herd, Vale
 - **Nothing is hidden and you own everything.** No generated files, no magic, no wrapper binary between you and Docker. Every Dockerfile and compose file is right there for you to read and edit.
 - **Nothing new to learn.** What you use is plain `docker compose`, knowledge that transfers straight to production and to every other project. Our [CLI](/docs/cli) is an optional nicety, never a requirement.
 
-[Laradock](/docs/getting-started) is a ready-made Docker environment for PHP: 100+ pre-configured services you start with plain `docker compose`, no binary to install and no wrapper command to learn. For Laravel specifically it gives you:
-
-- **A production-style stack out of the box** - real NGINX (or Apache/Caddy) in front of PHP-FPM, not `artisan serve`.
-- **Every service Laravel touches, already wired** - MySQL/PostgreSQL, Redis, Meilisearch, Beanstalk, Mailpit, and dozens more, each a single `up` command away.
-- **Any PHP version, per project** - switch between PHP 5.6 and 8.5 by changing one line, without touching your machine.
-- **A `workspace` container** - a Linux shell with Composer, Node, npm, git and Artisan already installed, so you run every command there and keep your host clean.
+Concretely, for Laravel it gives you a production-style NGINX (or Apache/Caddy) + PHP-FPM stack instead of `artisan serve`, MySQL/PostgreSQL and Redis ready to connect with zero extra setup, a `workspace` container with Composer, Node, npm, git and Artisan already installed, and any PHP version behind a single line of config. Search (Meilisearch), a mail catcher (Mailpit), and a queue worker are each one command away when a feature needs them.
 
 ## Run Laravel on Docker with Laradock
 
@@ -55,7 +50,7 @@ cd laradock
 
 ### 2. Pick the services your app needs
 
-Most Laravel apps need a web server, a database, and Redis. Start exactly those (the web server pulls in PHP-FPM automatically):
+Laravel needs a **web server**, a **database**, and **Redis** (its default cache, session and queue driver). The web server pulls in PHP-FPM automatically, so this is the whole required stack:
 
 <Tabs groupId="interface">
 <TabItem value="cli" label="Laradock CLI">
@@ -75,7 +70,7 @@ docker compose up -d nginx mysql redis workspace
 </TabItem>
 </Tabs>
 
-Need Postgres instead of MySQL? Swap the name: `./laradock start nginx postgres redis workspace` (or `docker compose up -d nginx postgres redis workspace`). Need search or a mail catcher later? Add it any time: `./laradock start meilisearch` (or `docker compose up -d meilisearch`) or `./laradock start mailpit` (or `docker compose up -d mailpit`). The full catalog is [here](/docs/Intro#supported-services).
+Prefer PostgreSQL over MySQL? Swap the name: `./laradock start nginx postgres redis workspace` (or `docker compose up -d nginx postgres redis workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) detects Laravel and pre-selects nginx/mysql/redis for you: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
@@ -85,7 +80,14 @@ In your app's `.env`, use the service names as hostnames:
 
 ```env
 DB_HOST=mysql
+DB_DATABASE=default
+DB_USERNAME=default
+DB_PASSWORD=secret
+
 REDIS_HOST=redis
+CACHE_STORE=redis
+SESSION_DRIVER=redis
+QUEUE_CONNECTION=redis
 ```
 
 The default database, user and password live in `mysql/defaults.env`; override any of them by adding the line to Laradock's `.env` (it always wins).
@@ -174,19 +176,54 @@ Run Artisan, Composer, tests and any other terminal command from the workspace c
    ```bash
    php artisan
    composer update
-   phpunit
+   php artisan test
    ```
+
+## Import an existing database
+
+Moving an app you already run somewhere else? Bring its database over once and every migration and query just works.
+
+1. Start the database and copy your dump into the workspace: put the `.sql` file next to your app so it appears at `/var/www` inside the container.
+2. Enter the workspace (`./laradock workspace`) and import it into the `default` database:
+   ```bash
+   mysql -h mysql -u default -psecret default < dump.sql
+   ```
+   For PostgreSQL: `psql -h postgres -U default -d default -f dump.sql`.
+3. Point your app's `.env` at the container as in [step 3](#3-point-laravel-at-the-containers), then run `php artisan migrate` to apply any newer migrations.
+
+You can also open the database in a browser with a GUI: `./laradock start phpmyadmin` (MySQL/MariaDB) or `./laradock start pgadmin` (PostgreSQL), then visit its port from [the catalog](/docs/Intro#supported-services).
 
 ## Run the queue worker
 
-1. Create a config for the worker in `php-worker/supervisord.d/` by copying `laravel-worker.conf.example` (for example, to `laravel-worker.conf`).
-2. Start the worker: `./laradock start php-worker` (or `docker compose up -d php-worker`).
+Laravel's queues (`QUEUE_CONNECTION=redis`) need a long-running worker process. Laradock runs it in a dedicated `php-worker` container so it survives restarts:
+
+1. Create a config for the worker in `php-worker/supervisord.d/` by copying `laravel-worker.conf.example` (for example, to `laravel-worker.conf`). It already runs `php artisan queue:work`.
+2. Start the worker:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start php-worker
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d php-worker
+```
+
+</TabItem>
+</Tabs>
+
+Supervisord keeps the worker alive and restarts it if it dies. Dispatch a job from your app and it is picked up by the container.
 
 ## Run the scheduler
 
-Laradock can run the Laravel scheduler two ways:
+Laradock can run the Laravel scheduler (`php artisan schedule:run`) two ways:
 
-1. **Cron in the workspace container (default).** When you start Laradock, the `workspace` container starts cron and runs `schedule:run` every minute.
+1. **Cron in the workspace container (default).** When you start Laradock, the `workspace` container starts cron and runs `schedule:run` every minute. Nothing to configure.
 2. **Supervisord in the php-worker container.** Preferred when you don't want to run the workspace in production.
 
 To switch to the second option:
@@ -198,7 +235,117 @@ To switch to the second option:
 2. Copy `laravel-scheduler.conf.example` in `php-worker/supervisord.d/` to a new config (for example, `laravel-scheduler.conf`).
 3. Start the worker: `./laradock start php-worker` (or `docker compose up -d php-worker`).
 
-## Use Browsersync with Laravel Mix
+## Run Laravel Horizon (optional)
+
+If you use [Horizon](https://laravel.com/docs/horizon) to manage Redis queues with a dashboard, Laradock ships a dedicated container for it:
+
+1. Install Horizon in your app from the workspace: `composer require laravel/horizon` then `php artisan horizon:install`.
+2. Start the container:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start laravel-horizon
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d laravel-horizon
+```
+
+</TabItem>
+</Tabs>
+
+The container runs `php artisan horizon`. The dashboard is served by your app at `http://localhost/horizon`. Use Horizon instead of the plain `php-worker` queue worker above, not alongside it.
+
+## Add Meilisearch full-text search (optional)
+
+Laravel's [Scout](https://laravel.com/docs/scout) driver gives your Eloquent models instant full-text search, and Meilisearch is the fastest engine to run locally. Wiring it up is three steps:
+
+1. Start the Meilisearch container:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start meilisearch
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d meilisearch
+```
+
+</TabItem>
+</Tabs>
+
+2. Point Scout at it in your app's `.env` (the container's key defaults to `masterkey` in `meilisearch/defaults.env`):
+   ```env
+   SCOUT_DRIVER=meilisearch
+   MEILISEARCH_HOST=http://meilisearch:7700
+   MEILISEARCH_KEY=masterkey
+   ```
+3. From the workspace, install Scout and the Meilisearch client, then index a model:
+   ```bash
+   composer require laravel/scout meilisearch/meilisearch-php
+   php artisan scout:import "App\Models\Post"
+   ```
+
+The Meilisearch dashboard is at `http://localhost:7700`. Without those steps the container just sits idle, which is why the required stack above leaves it out.
+
+## Catch outgoing mail with Mailpit (optional)
+
+In development you never want real emails to send. Mailpit captures everything your app sends and shows it in a web inbox:
+
+1. Start the Mailpit container:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start mailpit
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d mailpit
+```
+
+</TabItem>
+</Tabs>
+
+2. Point Laravel's mailer at it in your app's `.env`:
+   ```env
+   MAIL_MAILER=smtp
+   MAIL_HOST=mailpit
+   MAIL_PORT=1025
+   MAIL_USERNAME=null
+   MAIL_PASSWORD=null
+   MAIL_ENCRYPTION=null
+   ```
+3. Send any mail from your app, then open the inbox at `http://localhost:8125` to read it. Nothing leaves your machine.
+
+## Build assets with Vite (or Laravel Mix)
+
+Front-end assets compile inside the workspace, where Node and npm already live, so you never install them on your host.
+
+1. Enter the workspace: `./laradock workspace` (or `docker compose exec workspace bash`).
+2. Install and run the dev server:
+   ```bash
+   npm install
+   npm run dev      # Vite dev server with hot reload (Laravel 9+)
+   npm run build    # production build
+   ```
+3. Vite's dev server is exposed on the workspace container. If hot reload does not connect, set `server.hmr.host` to `localhost` in `vite.config.js` so the browser can reach it from your host.
+
+Still on older **Laravel Mix**? Browsersync works the same way:
 
 1. Add Browsersync to your `webpack.mix.js` (see the [Browsersync options](https://browsersync.io/docs/options)):
    ```js
@@ -212,8 +359,17 @@ To switch to the second option:
    })
    ```
 2. Run `npm run watch` inside the workspace container.
-3. Open `http://localhost:[WORKSPACE_BROWSERSYNC_HOST_PORT]`, it reloads automatically when you edit a source file.
-4. The Browsersync UI is at `http://localhost:[WORKSPACE_BROWSERSYNC_UI_HOST_PORT]`.
+3. Open `http://localhost:[WORKSPACE_BROWSERSYNC_HOST_PORT]`, it reloads automatically when you edit a source file. The Browsersync UI is at `http://localhost:[WORKSPACE_BROWSERSYNC_UI_HOST_PORT]`.
+
+## Take your app live
+
+When your app is ready, the same Laradock stack becomes your deployment. You build one hardened image of your app and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
 
 ## Frequently Asked Questions
 
@@ -223,7 +379,7 @@ No. Everything lives inside the containers. Composer, Node, npm, git and Artisan
 
 ### Which services should I start for a typical Laravel app?
 
-`nginx mysql redis workspace` covers most apps. Swap `mysql` for `postgres` if you prefer, and add extras like `meilisearch` (search) or `mailpit` (catching outgoing mail) whenever a feature needs them.
+`nginx mysql redis workspace` covers most apps: web server, database, Redis (Laravel's default cache, session and queue driver), and a shell. Swap `mysql` for `postgres` if you prefer, and add extras like `meilisearch` (search), `mailpit` (catching outgoing mail), or `php-worker` (queue worker) whenever a feature needs them.
 
 ### Can I run multiple Laravel apps on different PHP versions?
 

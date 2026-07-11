@@ -143,6 +143,54 @@ docker compose build php-fpm workspace
 
 Sulu requires PHP 7.2 or newer and tracks Symfony's supported versions, so an older Sulu project and a brand-new one can run side by side on different PHP versions, each isolated, none of it installed on your machine.
 
+## Add Elasticsearch (optional)
+
+Sulu's search runs on a Zend Lucene backend out of the box, so a fresh project needs nothing extra. If you switch its search to Elasticsearch for larger content sets, wire it up in three steps:
+
+1. Start the Elasticsearch container alongside the rest:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start elasticsearch
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d elasticsearch
+```
+
+</TabItem>
+</Tabs>
+
+2. Point Sulu's search at it in your app's `.env`, using the service name as the host:
+
+```env
+MASSIVE_SEARCH_ADAPTER=elastic
+ELASTICSEARCH_HOST=elasticsearch:9200
+```
+
+3. From the `workspace` container, rebuild the search index:
+
+```bash
+php bin/adminconsole massive:search:index:rebuild
+```
+
+Without those steps the container just sits idle, which is why the required stack above leaves it out.
+
+## Take your site live
+
+When your Sulu project is ready, the same Laradock stack becomes your deployment. You build one hardened image of your app and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP or Composer to run Sulu with Laradock?

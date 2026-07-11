@@ -12,6 +12,25 @@ keywords:
 
 This guide gets Laradock running for your project. The fastest path is the **Laradock CLI**, a short wizard that sets everything up for you, so start there. If you would rather wire things up by hand with plain `docker compose`, jump to [Manual setup](#manual-setup) at the bottom, it is meant for advanced users who want full control.
 
+**Building something specific?** Jump straight to a guide tailored to the most popular platforms:
+
+<div className="install-grid">
+  <a href="/docs/laravel-on-docker">Laravel</a>
+  <a href="/docs/wordpress-on-docker">WordPress</a>
+  <a href="/docs/symfony-on-docker">Symfony</a>
+  <a href="/docs/drupal-on-docker">Drupal</a>
+  <a href="/docs/magento-on-docker">Magento</a>
+  <a href="/docs/joomla-on-docker">Joomla</a>
+  <a href="/docs/woocommerce-on-docker">WooCommerce</a>
+  <a href="/docs/moodle-on-docker">Moodle</a>
+  <a href="/docs/codeigniter-on-docker">CodeIgniter</a>
+  <a href="/docs/nextcloud-on-docker">Nextcloud</a>
+  <a href="/docs/prestashop-on-docker">PrestaShop</a>
+  <a href="/docs/yii-on-docker">Yii</a>
+</div>
+
+Not one of these? Browse the [full list of 100+ supported projects](/docs/Intro#supported-php-projects), then follow its guide. Otherwise the generic steps below work for any PHP app.
+
 ## Requirements
 
 - [Git](https://git-scm.com/downloads)

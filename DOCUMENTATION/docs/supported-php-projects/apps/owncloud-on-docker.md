@@ -119,6 +119,42 @@ Then, inside the container:
 
 Then open [http://localhost](http://localhost) and sign in with the admin user you set above.
 
+## Add Redis (optional)
+
+Redis is not required to run ownCloud, but the project strongly recommends it for two things on a real instance: memory caching and transactional file locking (which prevents data corruption when many clients sync at once). Wiring it up is two steps.
+
+1. Start the Redis container alongside the rest:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start redis
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d redis
+```
+
+</TabItem>
+</Tabs>
+
+2. Point ownCloud at it in `config/config.php`, using the service name as the host:
+
+```php
+'memcache.local' => '\OC\Memcache\APCu',
+'memcache.locking' => '\OC\Memcache\Redis',
+'redis' => [
+    'host' => 'redis',
+    'port' => 6379,
+],
+```
+
+Without those lines the Redis container just sits idle, which is why the required stack above leaves it out.
+
 ## Change the PHP version anytime
 
 This is where a native install hurts and Laradock shines. Set the version in Laradock's `.env` and rebuild:
@@ -146,6 +182,16 @@ docker compose build php-fpm workspace
 
 ownCloud 10 targets PHP 7.4 through 8.1 depending on the release; Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older ownCloud instance you have not upgraded yet and a brand-new one side by side, each isolated, none of it installed on your machine.
 
+## Take your instance live
+
+When your ownCloud instance is ready, the same Laradock stack becomes your deployment. You build one hardened image of your app and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP or MySQL to run ownCloud with Laradock?
@@ -154,7 +200,7 @@ No. Everything lives inside the containers. PHP, the `occ` CLI and git are reach
 
 ### Which services should I start for a typical ownCloud instance?
 
-`nginx mysql workspace` covers it: web server, database, and a shell. Swap `mysql` for `mariadb` or `postgres` if you prefer.
+`nginx mysql workspace` covers it: web server, database, and a shell. Swap `mysql` for `mariadb` or `postgres` if you prefer. On a real instance, also add `redis` and wire it up for caching and file locking (see [Add Redis](#add-redis-optional)).
 
 ### Can I run multiple ownCloud instances on different PHP versions?
 

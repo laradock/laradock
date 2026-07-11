@@ -34,7 +34,7 @@ Spiral's own team also builds and ships official Docker images for RoadRunner, s
 - **Nothing is hidden and you own everything.** No generated files, no magic, no wrapper binary between you and Docker. Every Dockerfile and compose file is right there for you to read and edit.
 - **Nothing new to learn.** What you use is plain `docker compose`, knowledge that transfers straight to production and to every other project. Our [CLI](/docs/cli) is an optional nicety, never a requirement.
 
-For Spiral specifically, Laradock ships a dedicated `roadrunner` service (it runs `rr serve` against the RoadRunner binary), PostgreSQL/MySQL and Redis already wired, and a `workspace` container with Composer and git installed.
+For Spiral specifically, Laradock ships a dedicated `roadrunner` service (it runs `rr serve` against the RoadRunner binary), PostgreSQL/MySQL ready to connect (and Redis one command away when you want cache or queues), and a `workspace` container with Composer and git installed.
 
 ## Run Spiral on Docker with Laradock
 
@@ -50,13 +50,13 @@ cd laradock
 
 ### 2. Pick the services your app needs
 
-Spiral apps run through the `roadrunner` service instead of NGINX + PHP-FPM; add a database and Redis:
+Spiral apps run through the `roadrunner` service instead of NGINX + PHP-FPM, plus a database. That is the whole required stack:
 
 <Tabs groupId="interface">
 <TabItem value="cli" label="Laradock CLI">
 
 ```bash
-./laradock start roadrunner postgres redis workspace
+./laradock start roadrunner postgres workspace
 ```
 
 </TabItem>
@@ -64,15 +64,17 @@ Spiral apps run through the `roadrunner` service instead of NGINX + PHP-FPM; add
 
 ```bash
 cp .env.example .env
-docker compose up -d roadrunner postgres redis workspace
+docker compose up -d roadrunner postgres workspace
 ```
 
 </TabItem>
 </Tabs>
 
-Need MySQL instead? Swap the name: `./laradock start roadrunner mysql redis workspace`. The full catalog is [here](/docs/Intro#supported-services).
+Need MySQL instead? Swap the name: `./laradock start roadrunner mysql workspace`. The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
+
+> **Do I need Redis?** Not to boot. A fresh Spiral app runs fine on `roadrunner postgres workspace`. Redis only matters once you point Spiral's cache or queue at it. See [Add Redis for cache and queues](#add-redis-for-cache-and-queues-optional) below when you want it.
 
 ### 3. Point Spiral at the containers
 
@@ -114,6 +116,38 @@ composer create-project spiral/app .   # only if you have no Spiral files yet
 
 Your project ships a `.rr.yaml`; the `roadrunner` container mounts your code and runs `rr serve` against it automatically. Then open [http://localhost:8090](http://localhost:8090) (the port Laradock's `roadrunner` service listens on by default; change `ROADRUNNER_HTTP_PORT` in `.env` if you want a different one). That is a full Spiral app running on Docker.
 
+## Add Redis for cache and queues (optional)
+
+Redis is not required to boot, but Spiral uses it well for cache and for the queue system. Wiring it up is two steps:
+
+1. Start the Redis container alongside the rest:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start redis
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d redis
+```
+
+</TabItem>
+</Tabs>
+
+2. Point Spiral at it in your app's `.env`, using the service name as the host:
+
+```env
+REDIS_CONNECTION=tcp
+REDIS_ADDRESSES=redis:6379
+```
+
+Spiral's cache and queue bootloaders read those values, so `spiral/roadrunner-bridge` and the Cycle cache now store data in the `redis` container. Without those lines the container just sits idle, which is why the required stack above leaves it out.
+
 ## Change the PHP version anytime
 
 This is where a native install hurts and Laradock shines. Set the version in Laradock's `.env` and rebuild:
@@ -141,6 +175,16 @@ docker compose build roadrunner workspace
 
 Spiral requires PHP 8.1 or newer, so this rebuilds the `roadrunner` worker image against the version you chose, isolated from anything installed on your machine.
 
+## Take your app live
+
+When your app is ready, the same Laradock stack becomes your deployment. You build one hardened image of your app and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP, Composer or the RoadRunner binary to run Spiral with Laradock?
@@ -149,7 +193,7 @@ No. Everything lives inside the containers. Composer and git are in the `workspa
 
 ### Which services should I start for a typical Spiral app?
 
-`roadrunner postgres redis workspace` covers most apps. Swap `postgres` for `mysql` if you prefer, and skip `redis` if you are not using cache or queues yet.
+`roadrunner postgres workspace` is all a Spiral app requires: application server, database, and a shell. Swap `postgres` for `mysql` if you prefer. Add `redis` only when you point Spiral's [cache or queues](#add-redis-for-cache-and-queues-optional) at it.
 
 ### Can I run multiple Spiral apps on different PHP versions?
 

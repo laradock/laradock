@@ -125,6 +125,16 @@ Then run `./laradock rebuild php-fpm workspace` (or `docker compose build php-fp
 
 PHP Server Monitor is undemanding and runs on a wide range of PHP versions; Laradock covers anything from PHP 5.6 to 8.5, so you can pin whatever version matches the release you are running without touching anything else on the machine.
 
+## Take your instance live
+
+When your monitoring instance is ready, the same Laradock stack becomes your deployment. You build one hardened image of your app and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere. Remember to schedule the check script as a cron job on the live host too, or the monitor only runs when someone opens the page.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP or MySQL to run PHP Server Monitor with Laradock?

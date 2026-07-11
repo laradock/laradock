@@ -146,6 +146,16 @@ docker compose build php-fpm workspace
 
 FuelPHP's actively maintained 1.9 branch runs cleanly up to PHP 8.1; older FuelPHP 1.x code written against PHP 5.4-5.6 can keep running on its original version in its own Laradock, isolated on the same machine, none of it installed on your host.
 
+## Take your app live
+
+When your app is ready, the same Laradock stack becomes your deployment. You build one hardened image of your app and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP, Composer or MySQL to run FuelPHP with Laradock?

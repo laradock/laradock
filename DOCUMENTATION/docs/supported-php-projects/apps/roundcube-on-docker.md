@@ -146,6 +146,16 @@ docker compose build php-fpm workspace
 
 Current Roundcube releases need PHP 7.4 or newer (8.1+ recommended); Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older Roundcube instance and a brand-new one side by side, each isolated, none of it installed on your machine.
 
+## Take your instance live
+
+When your Roundcube instance is ready, the same Laradock stack becomes your deployment. You build one hardened image and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere. Remember that the deployed instance still needs to reach a real IMAP/SMTP server, so point `imap_host` and `smtp_host` at your production mail server.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP or MySQL to run Roundcube with Laradock?

@@ -17,7 +17,7 @@ import TabItem from '@theme/TabItem';
 
 ## What is Symfony?
 
-[Symfony](https://symfony.com) is a mature PHP framework and a set of reusable components used both directly and as the foundation of other projects (Laravel, Drupal, and many more all borrow Symfony components). It ships routing, the Doctrine ORM, a service container, and a console, and it powers everything from small APIs to large enterprise applications. A Symfony app needs a web server, a PHP runtime, and, once Doctrine is involved, a real database: MySQL, MariaDB, PostgreSQL, or SQLite.
+[Symfony](https://symfony.com) is a mature PHP framework and a set of reusable components used both directly and as the foundation of other projects (Laravel, Drupal, and many more all borrow Symfony components). It ships routing, the Doctrine ORM, a service container, a console, Messenger for background jobs, Mailer, and an asset pipeline, and it powers everything from small APIs to large enterprise applications. A Symfony app needs a web server, a PHP runtime, and, once Doctrine is involved, a real database: PostgreSQL (the default in recent recipes), MySQL, MariaDB, or SQLite.
 
 ## Why run Symfony in Docker?
 
@@ -34,7 +34,7 @@ Symfony has its own official Docker setup, [symfony-docker](https://github.com/d
 - **Nothing is hidden and you own everything.** No generated files, no magic, no wrapper binary between you and Docker. Every Dockerfile and compose file is right there for you to read and edit.
 - **Nothing new to learn.** What you use is plain `docker compose`, knowledge that transfers straight to production and to every other project. Our [CLI](/docs/cli) is an optional nicety, never a requirement.
 
-For Symfony specifically, Laradock wires a production-style NGINX + PHP-FPM stack (FrankenPHP is also available as a web server if you want it), MySQL/PostgreSQL/MariaDB, and a `workspace` container with Composer, the Symfony console, Node, npm and git already installed.
+For Symfony specifically, Laradock wires a production-style NGINX + PHP-FPM stack (FrankenPHP is also available as a web server if you want it), PostgreSQL/MySQL/MariaDB, a `php-worker` container for Messenger consumers, and a `workspace` container with Composer, the Symfony console, Node, npm and git already installed.
 
 ## Run Symfony on Docker with Laradock
 
@@ -50,13 +50,13 @@ cd laradock
 
 ### 2. Pick the services your app needs
 
-Most Symfony apps need a web server, a database, and PHP-FPM (the web server pulls PHP-FPM in automatically):
+A Symfony app needs a web server, a database, and PHP-FPM (the web server pulls PHP-FPM in automatically). Symfony's recent recipes default to PostgreSQL, so that is the required stack:
 
 <Tabs groupId="interface">
 <TabItem value="cli" label="Laradock CLI">
 
 ```bash
-./laradock start nginx mysql workspace
+./laradock start nginx postgres workspace
 ```
 
 </TabItem>
@@ -64,25 +64,29 @@ Most Symfony apps need a web server, a database, and PHP-FPM (the web server pul
 
 ```bash
 cp .env.example .env
-docker compose up -d nginx mysql workspace
+docker compose up -d nginx postgres workspace
 ```
 
 </TabItem>
 </Tabs>
 
-Prefer PostgreSQL or MariaDB? Swap the name: `./laradock start nginx postgres workspace`. Need Redis for cache and sessions later, or Mercure for real-time updates? Add it any time: `./laradock start redis` or `./laradock start mercure`. The full catalog is [here](/docs/Intro#supported-services).
+Prefer MySQL or MariaDB? Swap the name: `./laradock start nginx mysql workspace` (or `docker compose up -d nginx mysql workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
-Prefer to be asked? The optional [CLI](/docs/cli) detects Symfony and pre-selects nginx/mysql for you: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
+Prefer to be asked? The optional [CLI](/docs/cli) detects Symfony and pre-selects nginx/postgres for you: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
+
+> **Do I need Redis, a queue worker, or a mail catcher to boot?** No. A fresh Symfony app runs on `nginx postgres workspace` alone. Redis (cache/sessions), the `php-worker` container (Messenger), Mailpit (email), and a search engine each need a config line to do anything, so they live in their own optional sections below. Add them when a feature actually calls for them.
 
 ### 3. Point Symfony at the containers
 
-In your app's `.env`, set `DATABASE_URL` to the service name as the hostname:
+In your app's `.env` (or `.env.local`), set `DATABASE_URL` to the service name as the hostname:
 
 ```env
-DATABASE_URL="mysql://default:secret@mysql:3306/default?serverVersion=8.4&charset=utf8mb4"
+DATABASE_URL="postgresql://default:secret@postgres:5432/default?serverVersion=16&charset=utf8"
 ```
 
-The default database, user and password live in `mysql/defaults.env`; override any of them by adding the line to Laradock's `.env` (it always wins).
+On MySQL instead, the URL is `mysql://default:secret@mysql:3306/default?serverVersion=8.4&charset=utf8mb4`.
+
+The default database, user and password live in `.env` (`POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, all `default`/`secret`); change them there and they win.
 
 ### 4. Run your app from the workspace
 
@@ -107,12 +111,247 @@ docker compose exec workspace bash
 
 ```bash
 composer create-project symfony/skeleton .   # only if you have no Symfony app yet
-composer require doctrine
+composer require webapp                       # full-stack extras, skip for an API/microservice
 php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate
 ```
 
 Then open [http://localhost](http://localhost). That is a full Symfony app running on Docker.
+
+## Add Redis for cache and sessions (optional)
+
+Symfony can use Redis as a native cache and session backend, but it does nothing until you point Symfony at it. Three steps:
+
+1. Start the Redis container alongside the rest:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start redis
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d redis
+```
+
+</TabItem>
+</Tabs>
+
+2. In your app's `.env`, add the Redis DSN with the service name as the host:
+
+```env
+REDIS_URL=redis://redis:6379
+```
+
+3. Wire it into `config/packages/cache.yaml` (and sessions in `framework.yaml`):
+
+```yaml
+framework:
+    cache:
+        app: cache.adapter.redis
+        default_redis_provider: '%env(REDIS_URL)%'
+    session:
+        handler_id: '%env(REDIS_URL)%'
+```
+
+Clear the cache once (`php bin/console cache:clear`) and Symfony now stores its cache pools and sessions in Redis. Without those lines the container just sits idle, which is why the required stack above leaves it out.
+
+## Run background jobs with Messenger (optional)
+
+Symfony [Messenger](https://symfony.com/doc/current/messenger.html) dispatches work (emails, imports, webhooks) to a transport and processes it in a long-running worker. Laradock has a dedicated `php-worker` container for exactly this, so consumers survive restarts instead of dying with your terminal.
+
+1. Configure an async transport in your app's `.env` (Doctrine needs no extra service; for higher throughput point it at Redis or `rabbitmq` instead):
+
+```env
+MESSENGER_TRANSPORT_DSN=doctrine://default?auto_setup=1
+# or: redis://redis:6379/messages
+# or: amqp://guest:guest@rabbitmq:5672/%2f/messages   (needs ./laradock start rabbitmq)
+```
+
+2. Tell the `php-worker` container to run the Symfony consumer. Copy the bundled Laravel example and edit it for Symfony:
+
+```bash
+cp php-worker/supervisord.d/laravel-worker.conf.example \
+   php-worker/supervisord.d/symfony-worker.conf
+```
+
+Set the command inside that file to the Symfony console (the app is mounted at `/var/www`):
+
+```ini
+[program:symfony-worker]
+command=php /var/www/bin/console messenger:consume async --time-limit=3600
+autostart=true
+autorestart=true
+numprocs=2
+user=laradock
+redirect_stderr=true
+```
+
+3. Start the worker:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start php-worker
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d php-worker
+```
+
+</TabItem>
+</Tabs>
+
+Supervisor keeps the consumer alive and restarts it hourly (a healthy habit for long-running PHP). After you deploy new message handlers, rebuild the worker: `./laradock rebuild php-worker`.
+
+## Schedule recurring tasks (optional)
+
+For periodic work (cleanups, digests, syncing), Symfony offers two paths, both of which fit Laradock:
+
+- **Symfony Scheduler** (the modern approach) runs on top of Messenger. Define a schedule, then consume its transport with a worker exactly like the section above, pointing the command at `messenger:consume scheduler_default`. Add that as a second `[program:...]` block in your `php-worker` config.
+- **Classic cron.** The `workspace` container runs `cron`. Add a crontab entry that shells into your app, for example a nightly command:
+
+```cron
+0 3 * * * cd /var/www && php bin/console app:send-digest >> /dev/null 2>&1
+```
+
+Drop that line in `workspace/crontab/laradock` and rebuild the workspace (`./laradock rebuild workspace`) so cron picks it up.
+
+## Send and preview email with Mailpit (optional)
+
+Symfony Mailer needs an SMTP server, and you never want dev email hitting real inboxes. Mailpit catches every message and shows it in a web inbox.
+
+1. Start it:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start mailpit
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d mailpit
+```
+
+</TabItem>
+</Tabs>
+
+2. Point Mailer at the container in your app's `.env` (use the internal SMTP port `1025`, not the host-mapped one):
+
+```env
+MAILER_DSN=smtp://mailpit:1025
+```
+
+3. Send anything from your app, then open the inbox at [http://localhost:8125](http://localhost:8125) to read it. Nothing leaves your machine.
+
+## Add a search engine (optional)
+
+For full-text search, Symfony pairs cleanly with Meilisearch (lightest to run) or Elasticsearch. Start the engine and point your app at it by service name:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start meilisearch
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d meilisearch
+```
+
+</TabItem>
+</Tabs>
+
+Then, in the workspace, install the matching bundle and set the host in `.env`:
+
+```bash
+composer require meilisearch/search-bundle   # or: friendsofsymfony/elastica-bundle for Elasticsearch
+```
+
+```env
+MEILISEARCH_URL=http://meilisearch:7700
+# Elasticsearch instead: ELASTICSEARCH_URL=http://elasticsearch:9200  (./laradock start elasticsearch)
+```
+
+Index your entities per the bundle's docs, and search now runs against a real engine instead of `LIKE` queries.
+
+## Add real-time updates with Mercure (optional)
+
+Symfony's [Mercure](https://symfony.com/doc/current/mercure.html) integration pushes live updates to browsers over Server-Sent Events. Laradock ships a `mercure` hub:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start mercure
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d mercure
+```
+
+</TabItem>
+</Tabs>
+
+Install the bundle (`composer require mercure`) and set `MERCURE_URL`/`MERCURE_PUBLIC_URL` to the hub's address, then dispatch `Update` objects from your controllers.
+
+## Build front-end assets
+
+New Symfony apps use **AssetMapper** by default, which needs no build step and no Node: run `php bin/console importmap:install` in the workspace and you are done. If your project uses **Webpack Encore** instead, Node, npm and Yarn are already installed in the `workspace` container, so build from there:
+
+```bash
+npm install
+npm run dev          # or: npm run watch   /   npm run build for production
+```
+
+Nothing is installed on your host; the whole toolchain lives in the container.
+
+## Console and admin tooling
+
+The `workspace` container is your Symfony command line. Every `bin/console` command runs there, so you never install PHP or Composer on your machine:
+
+```bash
+php bin/console list                       # every available command
+php bin/console make:controller            # MakerBundle scaffolding (composer require --dev maker)
+php bin/console make:entity
+php bin/console debug:router
+php bin/console debug:container
+php bin/console cache:clear
+```
+
+Because the app is mounted into the container, edits on your host are visible instantly, no rebuild needed for code changes.
+
+## Import an existing database
+
+Moving a real Symfony project onto Laradock? Load its dump into the running database container. From your host, with the `.sql` file in the Laradock folder:
+
+```bash
+# PostgreSQL
+docker compose exec -T postgres psql -U default -d default < dump.sql
+
+# MySQL / MariaDB
+docker compose exec -T mysql mysql -u default -psecret default < dump.sql
+```
+
+Then run `php bin/console doctrine:migrations:migrate` from the workspace to bring the schema up to date. Point `DATABASE_URL` at the same service name and your app is running on the imported data.
 
 ## Change the PHP version anytime
 
@@ -151,6 +390,16 @@ Laradock can also install the official Symfony CLI (the `symfony` binary) inside
 4. If the containers were already running, restart them: `./laradock restart` (or `docker compose restart`).
 5. Visit `symfony.test`.
 
+## Take your app live
+
+When your app is ready, the same Laradock stack becomes your deployment. You build one hardened image of your app and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP or Composer to run Symfony with Laradock?
@@ -159,7 +408,11 @@ No. Everything lives inside the containers. Composer, the Symfony console, Node,
 
 ### Which services should I start for a typical Symfony app?
 
-`nginx mysql workspace` covers most apps. Swap `mysql` for `postgres` or `mariadb` if you prefer, and add extras like `redis` (cache/sessions) or `mercure` (real-time) whenever a feature needs them.
+`nginx postgres workspace` is all a fresh Symfony app requires: web server, database, and a shell. Swap `postgres` for `mysql` or `mariadb` if you prefer. Add `redis` (cache/sessions), `php-worker` (Messenger jobs), `mailpit` (email), `meilisearch` (search), or `mercure` (real-time) only when a feature needs them, each is wired in its own section above.
+
+### How do I run Messenger workers so they survive a restart?
+
+Use the `php-worker` container: copy the bundled worker config, set its command to `php /var/www/bin/console messenger:consume async`, and `./laradock start php-worker`. Supervisor keeps the consumer running and restarts it automatically. See [Run background jobs with Messenger](#run-background-jobs-with-messenger-optional).
 
 ### Can I run multiple Symfony apps on different PHP versions?
 

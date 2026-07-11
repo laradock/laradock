@@ -124,6 +124,16 @@ docker compose build php-fpm workspace
 
 Current Serendipity (2.6) needs PHP 8.0 or newer and is tested up to PHP 8.4, so the same tool runs it alongside older projects on earlier PHP versions, each isolated, none of it installed on your machine.
 
+## Take your blog live
+
+When your blog is ready, the same Laradock stack becomes your deployment. You build one hardened image of your app and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP or a database to run Serendipity with Laradock?

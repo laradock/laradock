@@ -147,6 +147,51 @@ docker compose build php-fpm workspace
 
 Current LinkAce releases require PHP 8.2 or newer, and anything up to 8.5 works, so the same tool runs an older LinkAce install pinned to 8.2 and a freshly upgraded one side by side, each isolated, none of it installed on your machine.
 
+## Run background jobs (optional)
+
+LinkAce is a Laravel app, so its background work (link archiving, broken-link checks, scheduled tasks) runs through Laravel's queue and scheduler. A fresh install works without them, but archiving and periodic checks only fire once a worker is running. From the `workspace` container:
+
+```bash
+php artisan queue:work        # process archiving and check jobs
+php artisan schedule:work     # run the periodic broken-link checks
+```
+
+For a heavier setup, back the queue with Redis. Start it and switch the driver in your app's `.env`:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start redis
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d redis
+```
+
+</TabItem>
+</Tabs>
+
+```env
+REDIS_HOST=redis
+QUEUE_CONNECTION=redis
+```
+
+Because LinkAce boots and serves bookmarks without a worker, the required stack above leaves these out.
+
+## Take your app live
+
+When your LinkAce install is ready, the same Laradock stack becomes your deployment. You build one hardened image and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP or Composer to run LinkAce with Laradock?

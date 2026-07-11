@@ -145,6 +145,16 @@ docker compose build php-fpm workspace
 
 ProcessWire runs on PHP 7.2+, with PHP 8.x recommended for current releases, so the same tool runs a legacy site and a brand-new build side by side, each isolated, none of it installed on your machine.
 
+## Take your site live
+
+When your site is ready, the same Laradock stack becomes your deployment. You build one hardened image of your app and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP or MySQL to run ProcessWire with Laradock?

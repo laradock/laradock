@@ -124,6 +124,16 @@ docker compose build php-fpm workspace
 
 Nucleus's last active development explicitly dropped PHP 8 support, so PHP 7.x is the safe choice. Laradock lets you pin exactly that version for this one site while every other project on the same machine runs whatever current PHP it needs, none of it installed on your host.
 
+## Take your site live
+
+When your site is ready, the same Laradock stack becomes your deployment. You build one hardened image of your app and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere. Given how old and unmaintained Nucleus CMS is, treat any production use as a maintenance liability regardless of how it is hosted.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP or MySQL to run Nucleus CMS with Laradock?

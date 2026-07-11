@@ -172,6 +172,16 @@ docker compose build workspace
 
 Hyperf requires PHP 8.1 or newer (recent 3.x releases require 8.2), so pick a version at or above that when you rebuild; the Swoole extension is rebuilt for the new version automatically since `WORKSPACE_INSTALL_SWOOLE` stays set.
 
+## Take your app live
+
+When your service is ready, the same Laradock stack becomes your deployment. You build one hardened image of your app and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. For a leaner runtime you can base the production image on Hyperf's own official `hyperf/hyperf` image; a Docker image runs the same everywhere.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP, Composer or Swoole to run Hyperf with Laradock?

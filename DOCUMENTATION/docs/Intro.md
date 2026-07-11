@@ -147,6 +147,25 @@ See the [release notes](https://github.com/laradock/laradock/releases) for the f
 
 Laradock provides the PHP runtime, web server, databases, and background services your app needs, so it runs virtually any PHP framework, CMS, or e-commerce platform, right down to plain framework-free PHP.
 
+New here? Jump straight to a step-by-step guide for the most popular platforms:
+
+<div className="install-grid">
+  <a href="/docs/laravel-on-docker">Laravel</a>
+  <a href="/docs/wordpress-on-docker">WordPress</a>
+  <a href="/docs/symfony-on-docker">Symfony</a>
+  <a href="/docs/drupal-on-docker">Drupal</a>
+  <a href="/docs/magento-on-docker">Magento</a>
+  <a href="/docs/joomla-on-docker">Joomla</a>
+  <a href="/docs/woocommerce-on-docker">WooCommerce</a>
+  <a href="/docs/moodle-on-docker">Moodle</a>
+  <a href="/docs/codeigniter-on-docker">CodeIgniter</a>
+  <a href="/docs/nextcloud-on-docker">Nextcloud</a>
+  <a href="/docs/prestashop-on-docker">PrestaShop</a>
+  <a href="/docs/yii-on-docker">Yii</a>
+</div>
+
+Not listed? Pick from the full catalog of 100+ supported projects below.
+
 <!-- SYNC: one of THREE places listing supported projects. Keep in sync with the "Supported PHP Projects" list in README.md AND the projects_* functions in the ./laradock CLI script. Add a project = update all three. -->
 | Type | Projects |
 |------|----------|

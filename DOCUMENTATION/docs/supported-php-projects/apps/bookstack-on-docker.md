@@ -17,7 +17,7 @@ import TabItem from '@theme/TabItem';
 
 ## What is BookStack?
 
-[BookStack](https://www.bookstackapp.com) is an open source platform for organizing documentation into a shelf, book, chapter, page hierarchy, popular as a self-hosted alternative to wiki and knowledge-base tools. It is built on the Laravel framework, so a BookStack instance is a PHP application backed by a MySQL or MariaDB database, served through a web server, with Artisan handling migrations and setup tasks just like any other Laravel app.
+[BookStack](https://www.bookstackapp.com) is an open source platform for organizing documentation into a shelf, book, chapter, page hierarchy, popular as a self-hosted alternative to wiki and knowledge-base tools. It is built on the Laravel framework, so a BookStack instance is a PHP application backed by a MySQL or MariaDB database, served through a web server, with Artisan handling migrations and setup tasks just like any other Laravel app. Its search runs on the database itself, so there is no separate search engine to install, and it can optionally use Redis for cache, sessions and background queues.
 
 ## Why run BookStack in Docker?
 
@@ -34,7 +34,7 @@ BookStack has no official Docker image of its own beyond a few community-maintai
 - **Nothing is hidden and you own everything.** No generated files, no magic, no wrapper binary between you and Docker. Every Dockerfile and compose file is right there for you to read and edit.
 - **Nothing new to learn.** What you use is plain `docker compose`, knowledge that transfers straight to production and to every other Laravel-based project. Our [CLI](/docs/cli) is an optional nicety, never a requirement.
 
-Concretely, for BookStack it gives you a production-style NGINX + PHP-FPM stack, MySQL/MariaDB already wired, and a `workspace` container with Composer, git and Artisan already installed.
+Concretely, for BookStack it gives you a production-style NGINX + PHP-FPM stack, MySQL/MariaDB ready to connect, a `workspace` container with Composer, git and Artisan already installed, and Redis, a MailHog catcher and a queue worker each one command away when you want them.
 
 ## Run BookStack on Docker with Laradock
 
@@ -50,7 +50,7 @@ cd laradock
 
 ### 2. Pick the services your instance needs
 
-BookStack needs a web server and a database. The web server pulls in PHP-FPM automatically:
+BookStack needs exactly two things: a **web server** and a **database**. The web server pulls in PHP-FPM automatically, and search runs on the database, so this is the whole required stack:
 
 <Tabs groupId="interface">
 <TabItem value="cli" label="Laradock CLI" default>
@@ -74,22 +74,25 @@ Prefer MariaDB instead? Swap the name: `./laradock start nginx mariadb workspace
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
+> **Do I need Redis?** Not to get running. BookStack defaults to file cache, file sessions and a synchronous queue, so a fresh instance runs perfectly on `nginx mysql workspace`. Redis only helps once you switch those drivers over to it. See [Add Redis](#add-redis-for-cache-sessions-and-queues-optional) below when you want it.
+
 ### 3. Point BookStack at the containers
 
 In BookStack's `.env`, use the service names as hostnames:
 
 ```env
+APP_URL=http://localhost
 DB_HOST=mysql
 DB_DATABASE=default
 DB_USERNAME=default
 DB_PASSWORD=secret
 ```
 
-The default database, user and password live in Laradock's `mysql/defaults.env`; override any of them by adding the line to Laradock's `.env` (it always wins).
+The default database, user and password live in Laradock's `mysql/defaults.env`; override any of them by adding the line to Laradock's `.env` (it always wins). `APP_URL` matters in BookStack: every link it generates is built from that value.
 
 ### 4. Install and run your instance
 
-Enter the `workspace` container, where Composer, git and Artisan live, clone or place the BookStack codebase, then run its setup:
+Enter the `workspace` container, where Composer, git and Artisan live, place the BookStack codebase, then run its setup:
 
 <Tabs groupId="interface">
 <TabItem value="cli" label="Laradock CLI" default>
@@ -112,13 +115,108 @@ Then, inside the container:
 
 ```bash
 git clone https://github.com/BookStackApp/BookStack.git --branch release --single-branch .   # only if you have no codebase yet
-composer install
+composer install --no-dev
 cp .env.example .env
 php artisan key:generate
 php artisan migrate
 ```
 
-Then open [http://localhost](http://localhost). BookStack's default admin login is `admin@admin.com` / `password`; change it immediately after your first sign-in.
+The `release` branch ships with its front-end assets pre-built, so you do not need Node for a standard install (see [Build the front-end assets](#build-the-front-end-assets-development-branch) if you work from `development` instead).
+
+Then open [http://localhost](http://localhost). BookStack seeds a default admin login of `admin@admin.com` / `password`. Sign in and change it immediately, or skip the default and create your own admin from the workspace:
+
+```bash
+php artisan bookstack:create-admin --email you@example.com --name "You" --password "a-strong-password"
+```
+
+## Add Redis for cache, sessions and queues (optional)
+
+Redis is not required, but on a busier instance it takes cache and session storage off the database and lets background jobs run out of process. Wiring it up is two steps.
+
+1. Start the Redis container alongside the rest:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock start redis
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
+```bash
+docker compose up -d redis
+```
+
+</TabItem>
+</Tabs>
+
+2. Point BookStack at it in its `.env`. BookStack uses a single `REDIS_SERVERS` line in `HOST:PORT:DATABASE` form, not the usual `REDIS_HOST`:
+
+```env
+CACHE_DRIVER=redis
+SESSION_DRIVER=redis
+REDIS_SERVERS=redis:6379:0
+```
+
+That switches cache and sessions to Redis. To also move background jobs onto it, set `QUEUE_CONNECTION=redis` and run a worker, covered next.
+
+## Run a queue worker for async email (optional)
+
+By default BookStack's `QUEUE_CONNECTION` is `sync`, so email and other jobs run inline during the web request and no worker is needed. On a real instance you usually want them off the request path: set the connection to `database` (no extra service) or `redis`, then run a worker.
+
+1. In BookStack's `.env`:
+
+```env
+QUEUE_CONNECTION=database
+```
+
+Use `redis` here instead if you enabled Redis above. `database` needs no extra container; it queues jobs into a table.
+
+2. Run the worker from the `workspace` container:
+
+```bash
+php artisan queue:work
+```
+
+For a supervised worker that restarts on its own, Laradock ships a dedicated `php-worker` container (Supervisor-managed), and `laravel-horizon` if you run the Redis queue and want its dashboard. Start either with `./laradock start php-worker`. BookStack has no required cron scheduler; its background work flows through this queue, not a `schedule:run` cron.
+
+## Send email through MailHog (optional)
+
+BookStack sends invitations, notifications and password resets by email. Laradock's `mailhog` container catches every outgoing message in a web inbox so you can read them without a real SMTP account.
+
+1. Start MailHog:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock start mailhog
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
+```bash
+docker compose up -d mailhog
+```
+
+</TabItem>
+</Tabs>
+
+2. Point BookStack's mail at the container in its `.env`:
+
+```env
+MAIL_DRIVER=smtp
+MAIL_HOST=mailhog
+MAIL_PORT=1025
+MAIL_ENCRYPTION=null
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+```
+
+Open [http://localhost:8025](http://localhost:8025) to read anything BookStack sends. Swap in your real SMTP host, port and credentials when you go live.
 
 ## Change the PHP version anytime
 
@@ -147,15 +245,81 @@ docker compose build php-fpm workspace
 
 Current BookStack releases need PHP 8.2 or newer; Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older BookStack instance you have not upgraded yet and a brand-new one side by side, each isolated, none of it installed on your machine.
 
+## Rebuild the search index
+
+BookStack's search is a table it maintains inside your database, so there is no Elasticsearch or OpenSearch to run. After a bulk import, a restored database, or if results ever look stale, rebuild the index from the `workspace` container:
+
+```bash
+php artisan bookstack:regenerate-search
+```
+
+That is the whole search story: no extra container, no config, just this one command when the index needs a refresh.
+
+## Admin and maintenance commands
+
+BookStack ships a set of Artisan commands you run from inside the `workspace` container. The common ones:
+
+```bash
+php artisan bookstack:create-admin            # create an admin user (add --email, --name, --password to skip prompts)
+php artisan bookstack:reset-mfa               # clear a user's multi-factor methods if they are locked out
+php artisan bookstack:update-url OLD NEW      # rewrite stored links after changing domain, e.g. http://localhost https://docs.example.com
+php artisan bookstack:regenerate-permissions  # rebuild access control after a bulk change
+php artisan bookstack:regenerate-references   # rebuild cross-item links
+php artisan bookstack:cleanup-images --force  # delete images no longer referenced by any page
+```
+
+Enter the container first with `./laradock workspace` (or `docker compose exec workspace bash`), then run any of these.
+
+## Build the front-end assets (development branch)
+
+If you cloned the `release` branch above, the CSS and JS are already built and you can skip this. If you work from the `development` branch instead, build the assets once (and after front-end changes) from the `workspace` container, which has Node and npm installed:
+
+```bash
+npm ci
+npm run build
+```
+
+## Import an existing BookStack database
+
+Moving an instance onto Laradock? Copy its SQL dump into the Laradock folder (so the `workspace` container can see it), then load it into the `mysql` container:
+
+```bash
+./laradock workspace
+mysql -h mysql -u default -p default < /var/www/backup.sql
+```
+
+The password is `secret` unless you changed it. After importing, fix any hard-coded links to the old address and rebuild the search index:
+
+```bash
+php artisan bookstack:update-url https://old-host.example https://localhost
+php artisan bookstack:regenerate-search
+```
+
+Uploaded files and images live under BookStack's `storage/` and `public/uploads/` directories, so copy those across too if the dump does not include them.
+
+## Take your instance live
+
+When your BookStack instance is ready, the same Laradock stack becomes your deployment. You build one hardened image of your app and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP or Composer to run BookStack with Laradock?
 
-No. Everything lives inside the containers. Composer, git and Artisan are all in the `workspace` container; you never install PHP on your host.
+No. Everything lives inside the containers. Composer, git, Node and Artisan are all in the `workspace` container; you never install PHP on your host.
 
 ### Which services should I start for a typical BookStack instance?
 
-`nginx mysql workspace` covers it: web server, database, and a shell. Swap `mysql` for `mariadb` if you prefer.
+`nginx mysql workspace` covers it: web server, database, and a shell. Swap `mysql` for `mariadb` if you prefer. BookStack's search runs on the database, so there is no separate search engine to add. Bring in `redis`, `mailhog` or `php-worker` only when you want Redis caching, an email inbox, or an out-of-process queue, each covered in its own section above.
+
+### Does BookStack need Redis, a search engine, or a cron job?
+
+No to all three by default. It ships with file cache and sessions, a synchronous queue, and database-backed search, so a fresh instance runs on just `nginx mysql workspace`. Redis and a queue worker are optional upgrades, and BookStack has no required scheduled/cron task.
 
 ### Can I run multiple BookStack instances on different PHP versions?
 

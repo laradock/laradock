@@ -141,6 +141,16 @@ docker compose build php-fpm workspace
 
 e107 v2 targets PHP 7.1+ (with PHP 8.x compatibility improving in recent releases), so pinning an older `PHP_VERSION` for a legacy install and running PHP 8.x for a fresh one, side by side on the same machine, is exactly what Laradock is for.
 
+## Take your site live
+
+When your site is ready, the same Laradock stack becomes your deployment. You build one hardened image of your app and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP or MySQL to run e107 with Laradock?

@@ -116,6 +116,44 @@ git clone https://github.com/OpenMage/magento-lts.git .   # only if you have no 
 
 OpenMage also supports a Composer-based install (it uses a Magento-root-dir installer rather than a plain `create-project`; see the [OpenMage install docs](https://docs.openmage.org/users/install/use-composer/) for the exact `composer.json` setup). Either way, open [http://localhost](http://localhost) and run the OpenMage installation wizard, which writes `app/etc/local.xml` and sets up the admin account. That is a full OpenMage store running on Docker.
 
+## Add Redis caching (optional)
+
+OpenMage does not need Redis to run, but it inherits Magento 1's optional Redis cache backend (`Cm_Cache_Backend_Redis`), which stores the config and block cache in memory and speeds up a busy store. Wiring it up is two steps:
+
+1. Start the Redis container alongside the rest:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start redis
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d redis
+```
+
+</TabItem>
+</Tabs>
+
+2. Point OpenMage at it in `app/etc/local.xml`, inside the `<global>` block:
+
+```xml
+<cache>
+  <backend>Cm_Cache_Backend_Redis</backend>
+  <backend_options>
+    <server>redis</server>
+    <port>6379</port>
+    <database>0</database>
+  </backend_options>
+</cache>
+```
+
+Use the service name `redis` as the host. Without those steps the container just sits idle, which is why the required stack above leaves it out.
+
 ## Change the PHP version anytime
 
 This is where a native install hurts and Laradock shines. Set the version in Laradock's `.env` and rebuild:
@@ -142,6 +180,16 @@ docker compose build php-fpm workspace
 </Tabs>
 
 OpenMage LTS targets PHP 8.1 through 8.5, and dropped support for older PHP versions as the project modernized past its Magento 1 origins. Laradock covers anything from PHP 5.6 to 8.5, so the same tool can run OpenMage alongside older Magento 1-era code that still needs a legacy PHP version, each isolated, none of it installed on your machine.
+
+## Take your store live
+
+When your store is ready, the same Laradock stack becomes your deployment. You build one hardened image of your store and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
 
 ## Frequently Asked Questions
 

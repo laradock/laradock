@@ -34,7 +34,7 @@ The Aureus ERP repository does ship a `docker-compose.yml`, but it is the standa
 - **Nothing is hidden and you own everything.** No generated files, no magic, no wrapper binary between you and Docker. Every Dockerfile and compose file is right there for you to read and edit.
 - **Nothing new to learn.** What you use is plain `docker compose`, knowledge that transfers straight to production and to every other project. Our [CLI](/docs/cli) is an optional nicety, never a requirement.
 
-For Aureus ERP specifically, Laradock wires a production-style NGINX + PHP-FPM stack, MySQL and Redis, and a `workspace` container with Composer, Node and Artisan already installed, so the ERP's PHP-extension and memory requirements are handled by the image instead of your host.
+For Aureus ERP specifically, Laradock wires a production-style NGINX + PHP-FPM stack, MySQL ready to connect (and Redis one command away when you want caching), and a `workspace` container with Composer, Node and Artisan already installed, so the ERP's PHP-extension and memory requirements are handled by the image instead of your host.
 
 ## Run Aureus ERP on Docker with Laradock
 
@@ -50,13 +50,13 @@ cd laradock
 
 ### 2. Pick the services Aureus ERP needs
 
-Aureus ERP needs a web server, a database, and Redis once you go beyond a single user. The web server pulls in PHP-FPM automatically:
+Aureus ERP needs exactly two things: a **web server** and a **database**. The web server pulls in PHP-FPM automatically, so this is the whole required stack:
 
 <Tabs groupId="interface">
 <TabItem value="cli" label="Laradock CLI">
 
 ```bash
-./laradock start nginx mysql redis workspace
+./laradock start nginx mysql workspace
 ```
 
 </TabItem>
@@ -64,13 +64,15 @@ Aureus ERP needs a web server, a database, and Redis once you go beyond a single
 
 ```bash
 cp .env.example .env
-docker compose up -d nginx mysql redis workspace
+docker compose up -d nginx mysql workspace
 ```
 
 </TabItem>
 </Tabs>
 
 MySQL 8.0+ is what Aureus ERP recommends; the full service catalog (including alternatives) is [here](/docs/Intro#supported-services).
+
+Redis is not required to boot Aureus ERP, but it is worth adding once you move past a single-user trial. See [Add Redis caching](#add-redis-caching-optional) below.
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
@@ -81,7 +83,6 @@ Aureus ERP is a standard Laravel app, so in its `.env`, use the service names as
 ```env
 DB_CONNECTION=mysql
 DB_HOST=mysql
-REDIS_HOST=redis
 ```
 
 The default database, user and password live in `mysql/defaults.env`; override any of them by adding the line to Laradock's `.env` (it always wins).
@@ -116,6 +117,39 @@ php artisan erp:install
 
 `erp:install` runs the migrations and seeders, sets up Filament Shield roles and permissions, and walks you through creating an admin account. Then open [http://localhost](http://localhost). That is a full Aureus ERP install running on Docker.
 
+## Add Redis caching (optional)
+
+Redis is not required, but because Aureus ERP is a Laravel app it can use Redis for cache and sessions with no plugin, just config, which helps once more than one person is using it. Two steps:
+
+1. Start the Redis container alongside the rest:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start redis
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d redis
+```
+
+</TabItem>
+</Tabs>
+
+2. Point Aureus ERP at it in its `.env` (the service name is the host):
+
+```env
+CACHE_STORE=redis
+SESSION_DRIVER=redis
+REDIS_HOST=redis
+```
+
+That is it. Without those lines the Redis container just sits idle, which is why the required stack above leaves it out.
+
 ## Change the PHP version anytime
 
 This is where a native install hurts and Laradock shines. Aureus ERP asks for PHP 8.2 or higher; set it in Laradock's `.env` and rebuild:
@@ -143,6 +177,16 @@ docker compose build php-fpm workspace
 
 Bump it later to track a new Aureus ERP release, all without touching anything installed on your host.
 
+## Take your install live
+
+When your Aureus ERP install is ready, the same Laradock stack becomes your deployment. You build one hardened image of your app and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP, Composer or MySQL to run Aureus ERP with Laradock?
@@ -151,7 +195,7 @@ No. Everything lives inside the containers. Composer, Node and Artisan are all i
 
 ### Which services should I start for Aureus ERP?
 
-`nginx mysql redis workspace` covers it: web server, database, cache, and a shell with the tooling you need. Aureus ERP recommends MySQL 8.0+; SQLite is an option for a minimal trial but is not recommended for real use.
+`nginx mysql workspace` is all Aureus ERP requires: web server, database, and a shell with the tooling you need. Aureus ERP recommends MySQL 8.0+; SQLite is an option for a minimal trial but is not recommended for real use. Add `redis` once you go past a single-user trial, see [Add Redis caching](#add-redis-caching-optional).
 
 ### Does Aureus ERP need more resources than a typical Laravel app?
 

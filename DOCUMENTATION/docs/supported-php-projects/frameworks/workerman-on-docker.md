@@ -48,13 +48,13 @@ cd laradock
 
 ### 2. Pick the services your app needs
 
-For development, the `workspace` container is enough; add a database only if your app uses one:
+Workerman is a runtime library, not a web app: it does not need NGINX, PHP-FPM or a database to boot. For development the `workspace` container is all you need:
 
 <Tabs groupId="interface">
 <TabItem value="cli" label="Laradock CLI">
 
 ```bash
-./laradock start workspace mysql
+./laradock start workspace
 ```
 
 </TabItem>
@@ -62,13 +62,36 @@ For development, the `workspace` container is enough; add a database only if you
 
 ```bash
 cp .env.example .env
-docker compose up -d workspace mysql
+docker compose up -d workspace
 ```
 
 </TabItem>
 </Tabs>
 
-The full catalog is [here](/docs/Intro#supported-services).
+The full catalog is [here](/docs/Intro#supported-services). Add a database only if the app you build on Workerman uses one (see below).
+
+## Add a database (optional)
+
+If your Workerman app stores data, start a database container alongside the workspace:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start mysql
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d mysql
+```
+
+</TabItem>
+</Tabs>
+
+Then connect from your code using the service name as the host (`mysql`), database `default`, user `default`, password `secret`. Swap `mysql` for `postgres` or `redis` the same way if your app uses those instead.
 
 ### 3. Bind the server to the container, not localhost
 
@@ -141,7 +164,21 @@ docker compose build workspace php-worker
 
 Current Workerman releases require PHP 8.1 or newer; older Workerman 4.x apps run on PHP 5.4 and up. Laradock covers PHP 5.6 all the way to 8.5, so an old and a new Workerman app can run side by side, each isolated, none of it installed on your machine.
 
+## Take your server live
+
+When your server is ready, the same Laradock stack becomes your deployment. You build one hardened image of your app and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
+
 ## Frequently Asked Questions
+
+### Which services should I start for a Workerman app?
+
+`workspace` on its own is enough to develop and run a Workerman server, since Workerman does not need NGINX or PHP-FPM. Add `mysql`, `postgres` or `redis` only if the app built on top of Workerman actually uses them. For a persistent, auto-restarting server, run it from the `php-worker` container.
 
 ### Do I need PHP-FPM or NGINX to run Workerman?
 

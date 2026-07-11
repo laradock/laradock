@@ -142,6 +142,16 @@ docker compose build php-fpm workspace
 
 Current Aimeos releases target current Laravel LTS versions and need a modern PHP (8.2 or newer is a safe baseline; check `aimeos/aimeos-laravel`'s `composer.json` for the exact floor of the release you install), so the same tool can still run an older Laravel app on a lower PHP version in a separate Laradock instance, each isolated, none of it installed on your machine.
 
+## Take your store live
+
+When your store is ready, the same Laradock stack becomes your deployment. You build one hardened image of your app and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP or Composer to run Aimeos with Laradock?

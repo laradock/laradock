@@ -53,14 +53,14 @@ cd laradock
 Concrete CMS needs a web server and a database. The web server pulls in PHP-FPM automatically:
 
 <Tabs groupId="interface">
-<TabItem value="cli" label="Laradock CLI" default>
+<TabItem value="cli" label="Laradock CLI">
 
 ```bash
 ./laradock start nginx mysql workspace
 ```
 
 </TabItem>
-<TabItem value="compose" label="Docker Compose">
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 cp .env.example .env
@@ -92,14 +92,14 @@ The default database, user and password live in Laradock's `mysql/defaults.env`;
 Enter the `workspace` container, where git and Composer live, and fetch Concrete CMS:
 
 <Tabs groupId="interface">
-<TabItem value="cli" label="Laradock CLI" default>
+<TabItem value="cli" label="Laradock CLI">
 
 ```bash
 ./laradock workspace
 ```
 
 </TabItem>
-<TabItem value="compose" label="Docker Compose">
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose exec workspace bash
@@ -125,14 +125,14 @@ PHP_VERSION=8.1
 ```
 
 <Tabs groupId="interface">
-<TabItem value="cli" label="Laradock CLI" default>
+<TabItem value="cli" label="Laradock CLI">
 
 ```bash
 ./laradock rebuild php-fpm workspace
 ```
 
 </TabItem>
-<TabItem value="compose" label="Docker Compose">
+<TabItem value="docker" label="Docker Compose">
 
 ```bash
 docker compose build php-fpm workspace
@@ -142,6 +142,16 @@ docker compose build php-fpm workspace
 </Tabs>
 
 Concrete CMS 9 supports PHP 7.4 through 8.x, with PHP 8.0 or newer recommended, and Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older site and a current one side by side, each isolated, none of it installed on your machine.
+
+## Take your site live
+
+When your site is ready, the same Laradock stack becomes your deployment. You build one hardened image of your site and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
 
 ## Frequently Asked Questions
 

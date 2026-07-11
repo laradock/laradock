@@ -34,7 +34,7 @@ Akaunting has no official Docker image maintained by the core project; self-host
 - **Nothing is hidden and you own everything.** No generated files, no magic, no wrapper binary between you and Docker. Every Dockerfile and compose file is right there for you to read and edit, useful when you add or build a custom Akaunting app/module.
 - **Nothing new to learn.** What you use is plain `docker compose`, knowledge that transfers straight to production and to every other Laravel-based project. Our [CLI](/docs/cli) is an optional nicety, never a requirement.
 
-Concretely, for Akaunting it gives you a production-style NGINX + PHP-FPM stack, MySQL/MariaDB/PostgreSQL already wired, Redis for cache, and a `workspace` container with Composer, Node, npm and Artisan already installed.
+Concretely, for Akaunting it gives you a production-style NGINX + PHP-FPM stack, MySQL/MariaDB/PostgreSQL ready to connect (and Redis one command away when you want caching), and a `workspace` container with Composer, Node, npm and Artisan already installed.
 
 ## Run Akaunting on Docker with Laradock
 
@@ -50,13 +50,13 @@ cd laradock
 
 ### 2. Pick the services your instance needs
 
-Akaunting needs a web server and a database; add Redis for cache. The web server pulls in PHP-FPM automatically:
+Akaunting needs exactly two things: a **web server** and a **database**. The web server pulls in PHP-FPM automatically, so this is the whole required stack:
 
 <Tabs groupId="interface">
 <TabItem value="cli" label="Laradock CLI">
 
 ```bash
-./laradock start nginx mysql redis workspace
+./laradock start nginx mysql workspace
 ```
 
 </TabItem>
@@ -64,13 +64,15 @@ Akaunting needs a web server and a database; add Redis for cache. The web server
 
 ```bash
 cp .env.example .env
-docker compose up -d nginx mysql redis workspace
+docker compose up -d nginx mysql workspace
 ```
 
 </TabItem>
 </Tabs>
 
-Prefer PostgreSQL instead? Swap the name: `./laradock start nginx postgres redis workspace` (or `docker compose up -d nginx postgres redis workspace`). The full catalog is [here](/docs/Intro#supported-services).
+Prefer PostgreSQL instead? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](/docs/Intro#supported-services).
+
+Redis is not required to boot Akaunting; it defaults to file-based cache. Add it later for a speed-up: see [Add Redis caching](#add-redis-caching-optional) below.
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
@@ -80,7 +82,6 @@ In Akaunting's `.env`, use the service names as hostnames:
 
 ```env
 DB_HOST=mysql
-REDIS_HOST=redis
 ```
 
 The default database, user and password live in Laradock's `mysql/defaults.env`; override any of them by adding the line to Laradock's `.env` (it always wins).
@@ -114,6 +115,39 @@ php artisan install --db-name="default" --db-username="default" --db-password="s
 
 Add `php artisan sample-data:seed` afterwards if you want demo data. Then open [http://localhost](http://localhost). That is a full Akaunting instance running on Docker.
 
+## Add Redis caching (optional)
+
+Redis is not required, but because Akaunting is a Laravel app it can use Redis for cache and sessions with no plugin, just config. Two steps:
+
+1. Start the Redis container alongside the rest:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start redis
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d redis
+```
+
+</TabItem>
+</Tabs>
+
+2. Point Akaunting at it in its `.env` (the service name is the host):
+
+```env
+CACHE_DRIVER=redis
+SESSION_DRIVER=redis
+REDIS_HOST=redis
+```
+
+That is it. Without those lines the Redis container just sits idle, which is why the required stack above leaves it out.
+
 ## Change the PHP version anytime
 
 This is where a native install hurts and Laradock shines. Set the version in Laradock's `.env` and rebuild:
@@ -141,6 +175,16 @@ docker compose build php-fpm workspace
 
 Akaunting requires PHP 8.1 or newer; Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older Akaunting instance you have not upgraded yet and a brand-new one side by side, each isolated, none of it installed on your machine.
 
+## Take your instance live
+
+When your Akaunting instance is ready, the same Laradock stack becomes your deployment. You build one hardened image of your app and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP or Composer to run Akaunting with Laradock?
@@ -149,7 +193,7 @@ No. Everything lives inside the containers. Composer, Node, npm and Artisan are 
 
 ### Which services should I start for a typical Akaunting instance?
 
-`nginx mysql redis workspace` covers most instances: web server, database, cache, and a shell. Swap `mysql` for `postgres` if you prefer.
+`nginx mysql workspace` is all Akaunting requires: web server, database, and a shell. Swap `mysql` for `postgres` if you prefer. Add `redis` only when you want caching, see [Add Redis caching](#add-redis-caching-optional).
 
 ### Can I run multiple Akaunting instances on different PHP versions?
 

@@ -151,6 +151,16 @@ docker compose build php-fpm workspace
 
 Check that your installed Phalcon major version supports the PHP version you set (Phalcon's compatibility matrix maps specific Phalcon releases to specific PHP releases); Laradock rebuilds the extension against whatever `PHP_VERSION` you choose.
 
+## Take your app live
+
+When your app is ready, the same Laradock stack becomes your deployment. You build one hardened image of your app, with the Phalcon extension already compiled in, and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
+
 ## Frequently Asked Questions
 
 ### Do I need to compile the Phalcon extension myself to use it with Laradock?

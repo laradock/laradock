@@ -117,6 +117,66 @@ php artisan migrate
 
 Then open [http://localhost](http://localhost) and complete the web-based `/setup` wizard to create the first account, or run `php artisan migrate:fresh --seed` beforehand if you want sample data instead.
 
+## Add a queue worker (optional)
+
+Invoice Ninja pushes email, PDF generation and recurring-invoice jobs onto a Laravel queue. A fresh install runs fine on the synchronous default, but for anything realistic you want a background worker so those jobs do not block web requests. Two steps:
+
+1. Point the queue at the database (or Redis, see below) in your app's `.env`:
+
+```env
+QUEUE_CONNECTION=database
+```
+
+2. Start the dedicated worker container, which runs `php artisan queue:work` for you:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start php-worker
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
+```bash
+docker compose up -d php-worker
+```
+
+</TabItem>
+</Tabs>
+
+Without a worker running, queued emails and PDFs simply wait, which is why the required stack above leaves it out.
+
+## Add Redis (optional)
+
+Being a Laravel app, Invoice Ninja can use Redis as its cache and queue backend with no extra plugin, just config. Start the container and point the app at it:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start redis
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
+```bash
+docker compose up -d redis
+```
+
+</TabItem>
+</Tabs>
+
+Then in your app's `.env`:
+
+```env
+CACHE_DRIVER=redis
+QUEUE_CONNECTION=redis
+REDIS_HOST=redis
+```
+
 ## Change the PHP version anytime
 
 This is where a native install hurts and Laradock shines. Set the version in Laradock's `.env` and rebuild:
@@ -143,6 +203,16 @@ docker compose build php-fpm workspace
 </Tabs>
 
 Current Invoice Ninja releases require PHP 8.2 with extensions such as bcmath, gd, imagick, mbstring and zip already enabled in Laradock's PHP-FPM image; older self-hosted releases pinned to PHP 7.4 or 8.1 still run the same way, each isolated, none of it installed on your machine.
+
+## Take your app live
+
+When your Invoice Ninja install is ready, the same Laradock stack becomes your deployment. You build one hardened image of your app and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
 
 ## Frequently Asked Questions
 

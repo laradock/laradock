@@ -49,13 +49,13 @@ cd laradock
 
 ### 2. Pick the services Firefly III needs
 
-Firefly III needs a web server and a database. Redis is optional but recommended once you rely on queues or caching. The web server pulls in PHP-FPM automatically:
+Firefly III needs exactly two things: a web server and a database. Out of the box it uses the database for cache and runs jobs synchronously, so this is the whole required stack (Redis is an optional upgrade, wired below). The web server pulls in PHP-FPM automatically:
 
 <Tabs groupId="interface">
 <TabItem value="cli" label="Laradock CLI">
 
 ```bash
-./laradock start nginx mysql redis workspace
+./laradock start nginx mysql workspace
 ```
 
 </TabItem>
@@ -63,13 +63,13 @@ Firefly III needs a web server and a database. Redis is optional but recommended
 
 ```bash
 cp .env.example .env
-docker compose up -d nginx mysql redis workspace
+docker compose up -d nginx mysql workspace
 ```
 
 </TabItem>
 </Tabs>
 
-Prefer PostgreSQL? Swap the name: `docker compose up -d nginx postgres redis workspace`. The full catalog is [here](/docs/Intro#supported-services).
+Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
@@ -121,6 +121,40 @@ php artisan firefly-iii:laravel-passport-keys
 
 Then open [http://localhost](http://localhost) and register the first user, who becomes the site owner.
 
+## Add Redis for cache and queues (optional)
+
+Firefly III runs fine on the database for cache and processes jobs inline, so Redis is not required to boot. On a heavily-used install it is faster to cache in memory and push slow work (like importing transactions) onto a background queue. Wiring it up is two steps:
+
+1. Start the Redis container alongside the rest:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start redis
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d redis
+```
+
+</TabItem>
+</Tabs>
+
+2. Point Firefly III at it in the app's `.env`:
+
+```env
+CACHE_DRIVER=redis
+QUEUE_CONNECTION=redis
+REDIS_HOST=redis
+REDIS_PORT=6379
+```
+
+If you set `QUEUE_CONNECTION=redis`, run a worker from the `workspace` container so queued jobs actually process: `php artisan queue:work`. Without those lines Firefly III ignores the Redis container entirely, which is why the required stack above leaves it out.
+
 ## Change the PHP version anytime
 
 This is where a native install hurts and Laradock shines. Recent Firefly III releases require PHP 8.5; older releases run on earlier versions. Set whichever your Firefly III version needs in Laradock's `.env` and rebuild:
@@ -148,6 +182,16 @@ docker compose build php-fpm workspace
 
 That means you can pin an older Firefly III release to an older PHP version, or move straight to what the latest release requires, without touching anything installed on your machine.
 
+## Take your install live
+
+When your Firefly III install is ready, the same Laradock stack becomes your deployment. You build one hardened image and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP, Composer or a database engine to run Firefly III with Laradock?
@@ -160,7 +204,7 @@ If you only ever plan to run Firefly III alone, the official image is a fine, we
 
 ### Which services should I start for Firefly III?
 
-`nginx mysql redis workspace` covers a typical install: web server, database, optional cache, and a shell. Swap `mysql` for `postgres` if you prefer PostgreSQL.
+`nginx mysql workspace` is all Firefly III requires: web server, database, and a shell. Swap `mysql` for `postgres` if you prefer PostgreSQL. Add `redis` only if you wire it up for [cache and queues](#add-redis-for-cache-and-queues-optional); without that config Firefly III does not touch it.
 
 ### Does this work the same on macOS, Windows and Linux?
 

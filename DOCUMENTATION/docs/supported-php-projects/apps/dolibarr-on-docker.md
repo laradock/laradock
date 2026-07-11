@@ -34,7 +34,7 @@ Dolibarr does publish an official Docker image (`dolibarr/dolibarr`, maintained 
 - **Nothing is hidden and you own everything.** No generated files, no magic, no wrapper binary between you and Docker. Every Dockerfile and compose file is right there for you to read and edit.
 - **Nothing new to learn.** What you use is plain `docker compose`, knowledge that transfers straight to production and to every other project. Our [CLI](/docs/cli) is an optional nicety, never a requirement.
 
-Concretely, for Dolibarr it gives you a production-style NGINX (or Apache) + PHP-FPM stack, MySQL/MariaDB/PostgreSQL and Redis already wired, and a `workspace` container with Composer, git and PHP CLI installed for any maintenance scripts.
+Concretely, for Dolibarr it gives you a production-style NGINX (or Apache) + PHP-FPM stack, MySQL/MariaDB/PostgreSQL ready to connect (and Redis one command away when you want caching), and a `workspace` container with Composer, git and PHP CLI installed for any maintenance scripts.
 
 ## Run Dolibarr on Docker with Laradock
 
@@ -50,13 +50,13 @@ cd laradock
 
 ### 2. Pick the services your Dolibarr install needs
 
-Dolibarr needs a web server and a database; add Redis if you want caching. The web server pulls in PHP-FPM automatically:
+Dolibarr needs exactly two things: a web server and a database. The web server pulls in PHP-FPM automatically, so this is the whole required stack:
 
 <Tabs groupId="interface">
 <TabItem value="cli" label="Laradock CLI">
 
 ```bash
-./laradock start nginx mysql redis workspace
+./laradock start nginx mysql workspace
 ```
 
 </TabItem>
@@ -64,15 +64,17 @@ Dolibarr needs a web server and a database; add Redis if you want caching. The w
 
 ```bash
 cp .env.example .env
-docker compose up -d nginx mysql redis workspace
+docker compose up -d nginx mysql workspace
 ```
 
 </TabItem>
 </Tabs>
 
-Prefer MariaDB or PostgreSQL? Swap the name: `./laradock start nginx mariadb redis workspace` (or `docker compose up -d nginx mariadb redis workspace`) or `./laradock start nginx postgres redis workspace` (or `docker compose up -d nginx postgres redis workspace`). The full catalog is [here](/docs/Intro#supported-services).
+Prefer MariaDB or PostgreSQL? Swap the name: `./laradock start nginx mariadb workspace` (or `docker compose up -d nginx mariadb workspace`) or `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
+
+> **Do I need Redis?** Not to get running. A fresh Dolibarr install runs perfectly on `nginx mysql workspace`. Redis only helps on busier installs, and only once you enable and point Dolibarr's cache at it. See [Add Redis caching](#add-redis-caching-optional) below when you actually want it.
 
 ### 3. Point Dolibarr at the containers
 
@@ -137,6 +139,51 @@ docker compose build php-fpm workspace
 
 So a Dolibarr install pinned to an older PHP release and a brand-new one run side by side, each isolated, none of it installed on your machine.
 
+## Add Redis caching (optional)
+
+Redis is not required, but on a busier install it can hold Dolibarr's cache in memory instead of on disk. Wiring it up is two steps:
+
+1. Start the Redis container alongside the rest:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start redis
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d redis
+```
+
+</TabItem>
+</Tabs>
+
+2. Point Dolibarr's cache at it. In `htdocs/conf/conf.php`, set the memcached-compatible cache host to the service name:
+
+```php
+$dolibarr_main_prod = 1;
+$dolibarr_main_force_https = 0;
+$dolibarr_nocsrfcheck = 0;
+// Cache backend
+$dolibarr_main_memcached_host = 'redis';
+```
+
+Without those steps the Redis container just sits idle, which is why the required stack above leaves it out.
+
+## Take your app live
+
+When your Dolibarr install is ready, the same Laradock stack becomes your deployment. You build one hardened image of your app and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP or a database to run Dolibarr with Laradock?
@@ -145,7 +192,7 @@ No. Everything lives inside the containers. PHP, Composer and git are all availa
 
 ### Which services should I start for a typical Dolibarr install?
 
-`nginx mysql redis workspace` covers most installs: web server, database, optional cache, and a shell. Swap `mysql` for `mariadb` or `postgres` if you prefer.
+`nginx mysql workspace` is all Dolibarr requires: web server, database, and a shell. Swap `mysql` for `mariadb` or `postgres` if you prefer. Add `redis` only if you wire up Dolibarr's [cache](#add-redis-caching-optional); without it, Redis does nothing for Dolibarr.
 
 ### Can I run multiple Dolibarr installs on different PHP versions?
 

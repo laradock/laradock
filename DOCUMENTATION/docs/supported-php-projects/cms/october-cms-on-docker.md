@@ -34,7 +34,7 @@ October CMS has no official Docker tool of its own, so a ready-made, no-lock-in 
 - **Nothing is hidden and you own everything.** No generated files, no magic, no wrapper binary between you and Docker. Every Dockerfile and compose file is right there for you to read and edit.
 - **Nothing new to learn.** What you use is plain `docker compose`, knowledge that transfers straight to production. Our [CLI](/docs/cli) is an optional nicety, never a requirement.
 
-Concretely, for October CMS it gives you a production-style NGINX + PHP-FPM stack, MySQL/PostgreSQL and Redis already wired, and a `workspace` container with Composer, Node, npm and git installed, so `php artisan` commands work exactly like they would in any Laravel app.
+Concretely, for October CMS it gives you a production-style NGINX + PHP-FPM stack, MySQL/PostgreSQL ready to connect (and Redis one command away when you want cache and queues), and a `workspace` container with Composer, Node, npm and git installed, so `php artisan` commands work exactly like they would in any Laravel app.
 
 ## Run October CMS on Docker with Laradock
 
@@ -50,13 +50,13 @@ cd laradock
 
 ### 2. Pick the services your site needs
 
-Most October CMS sites need a web server, a database, and Redis for cache and queues. Start exactly those (the web server pulls in PHP-FPM automatically):
+October CMS needs a web server and a database. Start exactly those (the web server pulls in PHP-FPM automatically):
 
 <Tabs groupId="interface">
 <TabItem value="cli" label="Laradock CLI">
 
 ```bash
-./laradock start nginx mysql redis workspace
+./laradock start nginx mysql workspace
 ```
 
 </TabItem>
@@ -64,23 +64,24 @@ Most October CMS sites need a web server, a database, and Redis for cache and qu
 
 ```bash
 cp .env.example .env
-docker compose up -d nginx mysql redis workspace
+docker compose up -d nginx mysql workspace
 ```
 
 </TabItem>
 </Tabs>
 
-Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres redis workspace` (or `docker compose up -d nginx postgres redis workspace`). The full catalog is [here](/docs/Intro#supported-services).
+Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](/docs/Intro#supported-services).
 
 Prefer to be asked? The optional [CLI](/docs/cli) walks you through the choices: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
 
+> **Do I need Redis?** Not to get running. Out of the box October CMS uses file-based cache and a synchronous queue, so a fresh site runs perfectly on `nginx mysql workspace`. Redis only helps once you switch the cache and queue drivers to it. See [Add Redis for cache and queues](#add-redis-for-cache-and-queues-optional) below when you actually want it.
+
 ### 3. Point October CMS at the containers
 
-In your project's `.env`, use the service names as hostnames:
+In your project's `.env`, use the service name as the database host:
 
 ```env
 DB_HOST=mysql
-REDIS_HOST=redis
 ```
 
 The default database, user and password live in Laradock's `mysql/defaults.env`; override any of them by adding the line to Laradock's `.env` (it always wins).
@@ -113,6 +114,39 @@ php artisan october:install
 
 `october:install` walks you through the database connection, application URL and admin account. Then open [http://localhost](http://localhost). That is a full October CMS site running on Docker.
 
+## Add Redis for cache and queues (optional)
+
+Redis is not required, but on a busier site it is a fast in-memory store for October's cache and queued jobs. Wiring it up is two steps:
+
+1. Start the Redis container alongside the rest:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start redis
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d redis
+```
+
+</TabItem>
+</Tabs>
+
+2. Point October at it in your project's `.env`, using the service name as the host and switching the drivers over:
+
+```env
+REDIS_HOST=redis
+CACHE_STORE=redis
+QUEUE_CONNECTION=redis
+```
+
+October CMS is Laravel underneath, so the Redis client is already built in; no extension or plugin to install. Until you set those driver lines the Redis container just sits idle, which is why the required stack above leaves it out.
+
 ## Change the PHP version anytime
 
 This is where a native install hurts and Laradock shines. Set the version in Laradock's `.env` and rebuild:
@@ -140,6 +174,16 @@ docker compose build php-fpm workspace
 
 October CMS v4 requires PHP 8.2 or newer, and v3 supports PHP 8.0.3 and up; Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs an older v2 site and a current v4 site side by side, each isolated, none of it installed on your machine.
 
+## Take your site live
+
+When your site is ready, the same Laradock stack becomes your deployment. You build one hardened image of your app and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP or Composer to run October CMS with Laradock?
@@ -148,7 +192,7 @@ No. Everything lives inside the containers. Composer, Node, npm and git are all 
 
 ### Which services should I start for a typical October CMS site?
 
-`nginx mysql redis workspace` covers most sites: web server, database, cache/queues, and a shell. Swap `mysql` for `postgres` if you prefer.
+`nginx mysql workspace` is all October CMS requires: web server, database, and a shell. Swap `mysql` for `postgres` if you prefer. Add `redis` only when you switch the cache and queue drivers to it (see [Add Redis for cache and queues](#add-redis-for-cache-and-queues-optional)); a fresh site uses file cache and runs fine without it.
 
 ### Can I run multiple October CMS sites on different PHP versions?
 

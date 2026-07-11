@@ -313,6 +313,21 @@ ws_default_for() {  # $1=category $2=project -> the web server it traditionally 
   esac
 }
 
+db_default_for() {  # project -> the database it expects (default mysql)
+  # PostgreSQL-first stacks: Symfony's convention, and apps that require Postgres.
+  case "$1" in symfony|orocommerce) echo postgres ;; *) echo mysql ;; esac
+}
+
+rec_extras_for() {  # project -> heavy services it REQUIRES to install & run (beyond web/db/cache)
+  # Only services that work out of the box are pre-selected here; things that need a
+  # config file first (e.g. php-worker) stay opt-in so "next-next" never starts a broken one.
+  case "$1" in
+    magento|openmage) echo "opensearch" ;;      # catalog search is mandatory on Magento 2.4
+    orocommerce)      echo "rabbitmq elasticsearch" ;;  # Oro needs a message queue + search
+    *)                echo "" ;;
+  esac
+}
+
 
 # service catalog (mirrors DOCUMENTATION Supported Services; folder name = slug)
 service_groups() {
@@ -506,15 +521,12 @@ ask_runtime() { imenu one W_RUNTIME "PHP runtime" runtime_rows "${W_RUNTIME:-php
   "How PHP is served behind your web server. php-fpm is the standard choice; leave it unless you know you need RoadRunner."; }
 ask_ws()      { imenu one W_WS "Web server" ws_rows "${W_WS:-$(ws_default_for "$W_CAT" "$W_TYPE")}" \
   "Serves your site over http and hands PHP to the runtime. nginx is the common default; pick \"none\" for CLI-only."; }
-ask_db()      {
-  local _d=${W_DB:-mysql}; [ -z "$W_DB" ] && [ "$W_TYPE" = symfony ] && _d=postgres
-  imenu one W_DB "Database" db_rows "$_d" \
-    "Where your app stores its data (users, posts, orders). mysql is the safe default; \"none\" if your app has no database."
-}
+ask_db()      { imenu one W_DB "Database" db_rows "${W_DB:-$(db_default_for "$W_TYPE")}" \
+    "Where your app stores its data (users, posts, orders). mysql is the safe default; \"none\" if your app has no database."; }
 ask_cache()   { imenu one W_CACHE "Cache" cache_rows "${W_CACHE:-redis}" \
   "In-memory store for sessions, queues and speed. redis is the standard pick; \"none\" if you don't need one yet."; }
-ask_extras()  { imenu multi W_EXTRAS "Additional services (optional - space to toggle, enter to skip)" extra_service_rows "$W_EXTRAS" \
-  "Everything else Laradock offers (mail, search, queues, tools). Leave empty to start lean; you can add any later with ./laradock start <name>."; }
+ask_extras()  { imenu multi W_EXTRAS "Additional services (optional - space to toggle, enter to skip)" extra_service_rows "${W_EXTRAS:-$(rec_extras_for "$W_TYPE")}" \
+  "Everything else Laradock offers (mail, search, queues, tools). Anything your project needs is pre-selected; you can add more later with ./laradock start <name>."; }
 ask_name()   { ask W_NAME "Project name" "${W_NAME:-$name_def}"; }
 ask_path()   { ask W_PATH "App path" "${W_PATH:-$app_path}"; }
 

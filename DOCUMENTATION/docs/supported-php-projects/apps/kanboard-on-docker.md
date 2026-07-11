@@ -159,6 +159,16 @@ docker compose build php-fpm workspace
 
 Kanboard requires PHP 8.1 or newer since version 1.2.46; Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs a Kanboard instance pinned to an older release you have not upgraded yet and a brand-new one side by side, each isolated, none of it installed on your machine.
 
+## Take your instance live
+
+When your Kanboard instance is ready, the same Laradock stack becomes your deployment. You build one hardened image and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP to run Kanboard with Laradock?

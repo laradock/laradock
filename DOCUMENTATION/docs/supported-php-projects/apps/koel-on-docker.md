@@ -146,6 +146,49 @@ docker compose build php-fpm workspace
 
 Current Koel releases require PHP 8.2 or newer, and anything up to 8.5 works, so an older Koel install and a freshly upgraded one run side by side, each isolated, none of it installed on your machine.
 
+## Add Redis for caching and queues (optional)
+
+Koel is a Laravel app, so Redis needs no plugin or module, just switch the drivers on. On a larger library it caches metadata and moves the media scan into a background queue so the web player stays responsive. Two steps:
+
+1. Start the Redis container alongside the rest:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start redis
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d redis
+```
+
+</TabItem>
+</Tabs>
+
+2. Point Koel at it in your app's `.env` (the service name is the host):
+
+```env
+REDIS_HOST=redis
+CACHE_DRIVER=redis
+QUEUE_CONNECTION=redis
+```
+
+To actually run queued scans, start a worker from the `workspace` container: `php artisan queue:work`. Without these lines Koel runs fine synchronously, which is why the required stack above leaves Redis out.
+
+## Take your server live
+
+When your Koel server is ready, the same Laradock stack becomes your deployment. You build one hardened image and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP, Composer or ffmpeg to run Koel with Laradock?

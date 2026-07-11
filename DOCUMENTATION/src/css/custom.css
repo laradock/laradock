@@ -251,3 +251,42 @@
   color: #7D57C2;
   border-bottom-color: #7D57C2;
 }
+
+/* Quick-access "install for your platform" pill grid (Intro & Getting Started). */
+.install-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.7rem;
+  margin: 1.5rem 0;
+}
+.install-grid a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  background: var(--ifm-background-surface-color);
+  color: var(--ifm-font-color-base);
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  text-decoration: none !important;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
+}
+.install-grid a::after {
+  content: "→";
+  opacity: 0.35;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.install-grid a:hover {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(125, 87, 194, 0.18);
+}
+.install-grid a:hover::after {
+  opacity: 0.9;
+  transform: translateX(3px);
+}

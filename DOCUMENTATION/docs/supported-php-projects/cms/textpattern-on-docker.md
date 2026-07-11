@@ -144,6 +144,16 @@ docker compose build php-fpm workspace
 
 Textpattern 4.9 runs on PHP 5.6 and newer, with current releases tested against PHP 8.0/8.1, so a legacy install and a brand-new one can run side by side on different PHP versions, each isolated, none of it installed on your machine.
 
+## Take your site live
+
+When your site is ready, the same Laradock stack becomes your deployment. You build one hardened image of your app and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP or MySQL to run Textpattern with Laradock?

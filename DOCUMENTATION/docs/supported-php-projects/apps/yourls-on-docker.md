@@ -124,6 +124,16 @@ docker compose build php-fpm workspace
 
 Current YOURLS releases require PHP 8.1 or newer, but anything from 5.6 to 8.5 is available, so an older YOURLS fork pinned to a legacy PHP version and a current install can run side by side, each isolated, none of it installed on your machine.
 
+## Take your shortener live
+
+When your YOURLS shortener is ready, the same Laradock stack becomes your deployment. You build one hardened image and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
+
 ## Frequently Asked Questions
 
 ### Do I need to install PHP or MySQL to run YOURLS with Laradock?
