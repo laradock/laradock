@@ -18,7 +18,7 @@ const usd = (n: number): string =>
     maximumFractionDigits: 0,
   }).format(n);
 
-function GoalBar(): ReactNode {
+export function GoalBar(): ReactNode {
   const [monthly, setMonthly] = useState(FALLBACK_MONTHLY);
 
   useEffect(() => {
@@ -62,11 +62,11 @@ export default function SupportBanner(): ReactNode {
       <div className={styles.inner}>
         <span className={styles.kicker}>// Keeping the PHP ecosystem alive</span>
         <h2 id="support-title" className={styles.title}>
-          Trusted by millions of engineers worldwide
+          Trusted by 100K+ developers worldwide
         </h2>
         <p className={styles.lede}>
-          
-          If we saves you time, help us keep it alive for the millions who rely on it daily.
+
+          If it saves you time, help us keep it alive for the developers who rely on it every day.
           <br />
           Prefer{" "}
           <strong>invoice or bank transfer</strong>? Open Collective handles both.

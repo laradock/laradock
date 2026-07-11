@@ -26,6 +26,8 @@
 
 <h2 align="center" style="color:#7d58c2">¡Usa Docker primero, apréndelo después!</h2>
 
+<h3 align="center">La forma más fácil de ejecutar PHP en Docker.</h3>
+
 ## Descripción general
 
 Laradock es un entorno de desarrollo PHP completo para Docker. Incluye contenedores preconfigurados y listos para usar con todo lo que necesita una aplicación PHP (Nginx, PHP-FPM, MySQL, PostgreSQL, Redis y muchos más), para que puedas levantar un stack local completo en segundos sin ninguna configuración manual.

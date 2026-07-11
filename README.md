@@ -26,6 +26,8 @@
 
 <h2 align="center" style="color:#7d58c2">Use Docker First - Learn About It Later!</h2>
 
+<h3 align="center">The easiest way to run PHP on Docker.</h3>
+
 ## Overview
 
 Laradock is a full PHP development environment for Docker. It ships pre-configured, ready-to-use containers for everything a PHP application needs (Nginx, PHP-FPM, MySQL, PostgreSQL, Redis, and many more), so you can launch a complete local stack in seconds without any manual setup.
@@ -40,21 +42,18 @@ Environment setup is where PHP projects lose their first day. Laradock gives it 
 
 ### What's New (2026)
 
-Laradock has been battle-tested since 2015, and it isn't standing still. The last few releases turned it from a local-dev tool into a full **local-to-production** platform. If you used it years ago, it's far more powerful today:
+Battle-tested since 2015, and still growing. Recent highlights:
 
-- **Deploy to production (v20).** `./laradock ship` turns your exact dev stack into a hardened image you deploy to a single server, **Kubernetes** (EKS/GKE/AKS), or a managed cloud (AWS ECS, Cloud Run, Fly). Sail, Herd, Valet, and XAMPP stop at your laptop; Laradock follows you all the way to production.
-- **A real CLI (v19).** `./laradock start` runs a setup wizard and boots your stack in plain English, no Docker knowledge required, and prints every real `docker compose` command it runs so nothing is hidden.
-- **A local AI stack, 20+ new services (v18).** Ollama, LocalAI, LiteLLM, and vector databases (pgvector, Qdrant, Weaviate, Chroma) for LLMs and RAG on your machine, plus FrankenPHP, RoadRunner, Laravel Reverb, OpenSearch, and more, 100+ services in all.
-- **PHP 5.6 → 8.5.** Every current PHP version, plus legacy runtimes no native tool will touch.
-- **Cleaner internals (v18.1).** Per-service compose files and a small shared `.env`, with **zero breaking changes**, verified byte-identical.
+- **Deploy to production**, `./laradock ship` builds an image for any server or cloud.
+- **A plain-English CLI**, `./laradock start` runs your whole stack, no Docker needed.
+- **Local AI built in**, run LLMs and vector databases on your own machine.
+- **100+ services ready**, plus every PHP version from 5.6 to 8.5.
 
-Full history in the [release notes](https://github.com/laradock/laradock/releases).
+See the [release notes](https://github.com/laradock/laradock/releases) for the full history.
 
 ### Quick Start
 
-Requires [Docker](https://www.docker.com/products/docker-desktop/) with Compose v2.20+. Two ways to set up; both use the exact same files, pick one and switch any time:
-
-#### Option 1 — Quick setup (default)
+Requires [Docker](https://www.docker.com/products/docker-desktop/) with Compose v2.20+.
 
 1 - Clone Laradock inside your PHP project:
 
@@ -86,51 +85,19 @@ Then open `http://localhost`. Done.
 
 The CLI is optional, transparent sugar: it prints every real `docker compose` command it runs, keeps no state, and writes nothing but your `.env`. Unknown commands pass straight through (`./laradock logs -f nginx` = `docker compose logs -f nginx`). Full reference: [CLI docs](https://laradock.io/docs/cli).
 
-#### Option 2 — Manual setup (advanced, full control)
-
-The same result, step by step, with you in charge of every detail:
-
-1 - Clone Laradock inside your PHP project:
-
-```shell
-git clone https://github.com/Laradock/laradock.git
-```
-
-2 - Enter the laradock folder and rename `.env.example` to `.env`.
-
-```shell
-cp .env.example .env
-```
-
-Your `.env` holds the shared settings. Every service ships pre-configured with its own settings in its folder (`mysql/defaults.env`, `nginx/defaults.env`, ...); to change any value, add that line to your `.env`, it always wins.
-
-3 - Run your containers:
-
-```shell
-docker compose up -d workspace nginx mysql redis
-```
-
-4 - Open your project's `.env` file and set the following:
-
-```shell
-DB_HOST=mysql
-REDIS_HOST=redis
-QUEUE_HOST=beanstalkd
-```
-
-5 - Open your browser and visit localhost: `http://localhost`.
-
-Done.
+Prefer plain Docker? Skip the CLI and run `docker compose` directly, same files, same result. See the [manual setup guide](https://laradock.io/docs/getting-started#manual-setup).
 
 ### Supported PHP Projects
 
 Laradock provides the PHP runtime, web server, databases, and background services your app needs, so it runs virtually any PHP framework, CMS, or e-commerce platform:
 
 <!-- SYNC: one of THREE places listing supported projects. Keep in sync with the "Supported PHP Projects" table in DOCUMENTATION/docs/Intro.md AND the projects_* functions in the ./laradock CLI script. Add a project = update all three. -->
-- **Frameworks:** [Laravel](https://laradock.io/docs/laravel-on-docker), [Symfony](https://laradock.io/docs/symfony-on-docker), [CodeIgniter](https://laradock.io/docs/codeigniter-on-docker), [Yii](https://laradock.io/docs/yii-on-docker), [Laminas (Zend Framework)](https://laradock.io/docs/laminas-on-docker), [CakePHP](https://laradock.io/docs/cakephp-on-docker), [Phalcon](https://laradock.io/docs/phalcon-on-docker), [Slim](https://laradock.io/docs/slim-on-docker), [Lumen](https://laradock.io/docs/lumen-on-docker), [FuelPHP](https://laradock.io/docs/fuelphp-on-docker), [Spiral](https://laradock.io/docs/spiral-on-docker), [Hyperf](https://laradock.io/docs/hyperf-on-docker), [API Platform](https://laradock.io/docs/api-platform-on-docker), [Mezzio](https://laradock.io/docs/mezzio-on-docker), [Flight](https://laradock.io/docs/flight-on-docker), [Fat-Free Framework (F3)](https://laradock.io/docs/fat-free-framework-on-docker), [ThinkPHP](https://laradock.io/docs/thinkphp-on-docker), [Silex](https://laradock.io/docs/silex-on-docker), [Swoole](https://laradock.io/docs/swoole-on-docker), [Workerman](https://laradock.io/docs/workerman-on-docker), [Ubiquity](https://laradock.io/docs/ubiquity-on-docker), [SilverStripe](https://laradock.io/docs/silverstripe-on-docker), [Nette](https://laradock.io/docs/nette-on-docker), [Leaf PHP](https://laradock.io/docs/leaf-php-on-docker)
-- **CMS:** [WordPress](https://laradock.io/docs/wordpress-on-docker), [Drupal](https://laradock.io/docs/drupal-on-docker), [Joomla](https://laradock.io/docs/joomla-on-docker), [October CMS](https://laradock.io/docs/october-cms-on-docker), [Statamic](https://laradock.io/docs/statamic-on-docker), [Craft CMS](https://laradock.io/docs/craft-cms-on-docker), [TYPO3](https://laradock.io/docs/typo3-on-docker), [Concrete CMS](https://laradock.io/docs/concrete-cms-on-docker), [Grav](https://laradock.io/docs/grav-on-docker), [Backdrop CMS](https://laradock.io/docs/backdrop-cms-on-docker), [HTMLy](https://laradock.io/docs/htmly-on-docker), [Kirby](https://laradock.io/docs/kirby-on-docker), [ProcessWire](https://laradock.io/docs/processwire-on-docker), [Pico](https://laradock.io/docs/pico-on-docker), [Bolt CMS](https://laradock.io/docs/bolt-cms-on-docker), [Contao](https://laradock.io/docs/contao-on-docker), [b2evolution](https://laradock.io/docs/b2evolution-on-docker), [Serendipity](https://laradock.io/docs/serendipity-on-docker), [Nucleus](https://laradock.io/docs/nucleus-cms-on-docker), [e107](https://laradock.io/docs/e107-on-docker), [Pligg](https://laradock.io/docs/pligg-on-docker), [Sulu CMS](https://laradock.io/docs/sulu-cms-on-docker), [Pimcore](https://laradock.io/docs/pimcore-on-docker), [Winter CMS](https://laradock.io/docs/winter-cms-on-docker), [Neos CMS](https://laradock.io/docs/neos-cms-on-docker), [Textpattern](https://laradock.io/docs/textpattern-on-docker), [ExpressionEngine](https://laradock.io/docs/expressionengine-on-docker)
-- **E-commerce:** [Magento](https://laradock.io/docs/magento-on-docker), [WooCommerce](https://laradock.io/docs/woocommerce-on-docker), [PrestaShop](https://laradock.io/docs/prestashop-on-docker), [OpenCart](https://laradock.io/docs/opencart-on-docker), [Sylius](https://laradock.io/docs/sylius-on-docker), [Bagisto](https://laradock.io/docs/bagisto-on-docker), [Aimeos](https://laradock.io/docs/aimeos-on-docker), [Avored](https://laradock.io/docs/avored-on-docker), [OroCommerce](https://laradock.io/docs/orocommerce-on-docker), [Zen Cart](https://laradock.io/docs/zen-cart-on-docker), [osCommerce](https://laradock.io/docs/oscommerce-on-docker), [AbanteCart](https://laradock.io/docs/abantecart-on-docker), [CubeCart](https://laradock.io/docs/cubecart-on-docker), [Shopware](https://laradock.io/docs/shopware-on-docker), [LiteCart](https://laradock.io/docs/litecart-on-docker), [OpenMage](https://laradock.io/docs/openmage-on-docker)
-- **Apps:** [Moodle](https://laradock.io/docs/moodle-on-docker), [MediaWiki](https://laradock.io/docs/mediawiki-on-docker), [phpBB](https://laradock.io/docs/phpbb-on-docker), [Matomo](https://laradock.io/docs/matomo-on-docker), [MyBB](https://laradock.io/docs/mybb-on-docker), [FluxBB](https://laradock.io/docs/fluxbb-on-docker), [PunBB](https://laradock.io/docs/punbb-on-docker), [Flarum](https://laradock.io/docs/flarum-on-docker), [bbPress](https://laradock.io/docs/bbpress-on-docker), [Simple Machines Forum (SMF)](https://laradock.io/docs/smf-on-docker), [DokuWiki](https://laradock.io/docs/dokuwiki-on-docker), [BookStack](https://laradock.io/docs/bookstack-on-docker), [Roundcube](https://laradock.io/docs/roundcube-on-docker), [phpMyAdmin](https://laradock.io/docs/phpmyadmin-on-docker), [Adminer](https://laradock.io/docs/adminer-on-docker), [SuiteCRM](https://laradock.io/docs/suitecrm-on-docker), [EspoCRM](https://laradock.io/docs/espocrm-on-docker), [Vtiger](https://laradock.io/docs/vtiger-on-docker), [Dolibarr](https://laradock.io/docs/dolibarr-on-docker), [Aureus ERP](https://laradock.io/docs/aureus-erp-on-docker), [WebERP](https://laradock.io/docs/weberp-on-docker), [FrontAccounting](https://laradock.io/docs/frontaccounting-on-docker), [Kanboard](https://laradock.io/docs/kanboard-on-docker), [Firefly III](https://laradock.io/docs/firefly-iii-on-docker), [Invoice Ninja](https://laradock.io/docs/invoice-ninja-on-docker), [X2CRM](https://laradock.io/docs/x2crm-on-docker), [Nextcloud](https://laradock.io/docs/nextcloud-on-docker), [ownCloud](https://laradock.io/docs/owncloud-on-docker), [Pydio](https://laradock.io/docs/pydio-on-docker), [Mautic](https://laradock.io/docs/mautic-on-docker), [Crater](https://laradock.io/docs/crater-on-docker), [Akaunting](https://laradock.io/docs/akaunting-on-docker), [Monica CRM](https://laradock.io/docs/monica-crm-on-docker), [Leantime](https://laradock.io/docs/leantime-on-docker), [Cachet](https://laradock.io/docs/cachet-on-docker), [PHP Server Monitor](https://laradock.io/docs/php-server-monitor-on-docker), [YOURLS](https://laradock.io/docs/yourls-on-docker), [LinkAce](https://laradock.io/docs/linkace-on-docker), [Koel](https://laradock.io/docs/koel-on-docker), [AzuraCast](https://laradock.io/docs/azuracast-on-docker), [Lychee](https://laradock.io/docs/lychee-on-docker), [Vanilla Forums](https://laradock.io/docs/vanilla-forums-on-docker)
+| Type | Projects |
+|------|----------|
+| **Frameworks** | [Laravel](https://laradock.io/docs/laravel-on-docker) · [Symfony](https://laradock.io/docs/symfony-on-docker) · [CodeIgniter](https://laradock.io/docs/codeigniter-on-docker) · [Yii](https://laradock.io/docs/yii-on-docker) · [Laminas (Zend Framework)](https://laradock.io/docs/laminas-on-docker) · [CakePHP](https://laradock.io/docs/cakephp-on-docker) · [Phalcon](https://laradock.io/docs/phalcon-on-docker) · [Slim](https://laradock.io/docs/slim-on-docker) · [Lumen](https://laradock.io/docs/lumen-on-docker) · [FuelPHP](https://laradock.io/docs/fuelphp-on-docker) · [Spiral](https://laradock.io/docs/spiral-on-docker) · [Hyperf](https://laradock.io/docs/hyperf-on-docker) · [API Platform](https://laradock.io/docs/api-platform-on-docker) · [Mezzio](https://laradock.io/docs/mezzio-on-docker) · [Flight](https://laradock.io/docs/flight-on-docker) · [Fat-Free Framework (F3)](https://laradock.io/docs/fat-free-framework-on-docker) · [ThinkPHP](https://laradock.io/docs/thinkphp-on-docker) · [Silex](https://laradock.io/docs/silex-on-docker) · [Swoole](https://laradock.io/docs/swoole-on-docker) · [Workerman](https://laradock.io/docs/workerman-on-docker) · [Ubiquity](https://laradock.io/docs/ubiquity-on-docker) · [SilverStripe](https://laradock.io/docs/silverstripe-on-docker) · [Nette](https://laradock.io/docs/nette-on-docker) · [Leaf PHP](https://laradock.io/docs/leaf-php-on-docker) |
+| **CMS** | [WordPress](https://laradock.io/docs/wordpress-on-docker) · [Drupal](https://laradock.io/docs/drupal-on-docker) · [Joomla](https://laradock.io/docs/joomla-on-docker) · [October CMS](https://laradock.io/docs/october-cms-on-docker) · [Statamic](https://laradock.io/docs/statamic-on-docker) · [Craft CMS](https://laradock.io/docs/craft-cms-on-docker) · [TYPO3](https://laradock.io/docs/typo3-on-docker) · [Concrete CMS](https://laradock.io/docs/concrete-cms-on-docker) · [Grav](https://laradock.io/docs/grav-on-docker) · [Backdrop CMS](https://laradock.io/docs/backdrop-cms-on-docker) · [HTMLy](https://laradock.io/docs/htmly-on-docker) · [Kirby](https://laradock.io/docs/kirby-on-docker) · [ProcessWire](https://laradock.io/docs/processwire-on-docker) · [Pico](https://laradock.io/docs/pico-on-docker) · [Bolt CMS](https://laradock.io/docs/bolt-cms-on-docker) · [Contao](https://laradock.io/docs/contao-on-docker) · [b2evolution](https://laradock.io/docs/b2evolution-on-docker) · [Serendipity](https://laradock.io/docs/serendipity-on-docker) · [Nucleus](https://laradock.io/docs/nucleus-cms-on-docker) · [e107](https://laradock.io/docs/e107-on-docker) · [Pligg](https://laradock.io/docs/pligg-on-docker) · [Sulu CMS](https://laradock.io/docs/sulu-cms-on-docker) · [Pimcore](https://laradock.io/docs/pimcore-on-docker) · [Winter CMS](https://laradock.io/docs/winter-cms-on-docker) · [Neos CMS](https://laradock.io/docs/neos-cms-on-docker) · [Textpattern](https://laradock.io/docs/textpattern-on-docker) · [ExpressionEngine](https://laradock.io/docs/expressionengine-on-docker) |
+| **E-commerce** | [Magento](https://laradock.io/docs/magento-on-docker) · [WooCommerce](https://laradock.io/docs/woocommerce-on-docker) · [PrestaShop](https://laradock.io/docs/prestashop-on-docker) · [OpenCart](https://laradock.io/docs/opencart-on-docker) · [Sylius](https://laradock.io/docs/sylius-on-docker) · [Bagisto](https://laradock.io/docs/bagisto-on-docker) · [Aimeos](https://laradock.io/docs/aimeos-on-docker) · [Avored](https://laradock.io/docs/avored-on-docker) · [OroCommerce](https://laradock.io/docs/orocommerce-on-docker) · [Zen Cart](https://laradock.io/docs/zen-cart-on-docker) · [osCommerce](https://laradock.io/docs/oscommerce-on-docker) · [AbanteCart](https://laradock.io/docs/abantecart-on-docker) · [CubeCart](https://laradock.io/docs/cubecart-on-docker) · [Shopware](https://laradock.io/docs/shopware-on-docker) · [LiteCart](https://laradock.io/docs/litecart-on-docker) · [OpenMage](https://laradock.io/docs/openmage-on-docker) |
+| **Apps** | [Moodle](https://laradock.io/docs/moodle-on-docker) · [MediaWiki](https://laradock.io/docs/mediawiki-on-docker) · [phpBB](https://laradock.io/docs/phpbb-on-docker) · [Matomo](https://laradock.io/docs/matomo-on-docker) · [MyBB](https://laradock.io/docs/mybb-on-docker) · [FluxBB](https://laradock.io/docs/fluxbb-on-docker) · [PunBB](https://laradock.io/docs/punbb-on-docker) · [Flarum](https://laradock.io/docs/flarum-on-docker) · [bbPress](https://laradock.io/docs/bbpress-on-docker) · [Simple Machines Forum (SMF)](https://laradock.io/docs/smf-on-docker) · [DokuWiki](https://laradock.io/docs/dokuwiki-on-docker) · [BookStack](https://laradock.io/docs/bookstack-on-docker) · [Roundcube](https://laradock.io/docs/roundcube-on-docker) · [phpMyAdmin](https://laradock.io/docs/phpmyadmin-on-docker) · [Adminer](https://laradock.io/docs/adminer-on-docker) · [SuiteCRM](https://laradock.io/docs/suitecrm-on-docker) · [EspoCRM](https://laradock.io/docs/espocrm-on-docker) · [Vtiger](https://laradock.io/docs/vtiger-on-docker) · [Dolibarr](https://laradock.io/docs/dolibarr-on-docker) · [Aureus ERP](https://laradock.io/docs/aureus-erp-on-docker) · [WebERP](https://laradock.io/docs/weberp-on-docker) · [FrontAccounting](https://laradock.io/docs/frontaccounting-on-docker) · [Kanboard](https://laradock.io/docs/kanboard-on-docker) · [Firefly III](https://laradock.io/docs/firefly-iii-on-docker) · [Invoice Ninja](https://laradock.io/docs/invoice-ninja-on-docker) · [X2CRM](https://laradock.io/docs/x2crm-on-docker) · [Nextcloud](https://laradock.io/docs/nextcloud-on-docker) · [ownCloud](https://laradock.io/docs/owncloud-on-docker) · [Pydio](https://laradock.io/docs/pydio-on-docker) · [Mautic](https://laradock.io/docs/mautic-on-docker) · [Crater](https://laradock.io/docs/crater-on-docker) · [Akaunting](https://laradock.io/docs/akaunting-on-docker) · [Monica CRM](https://laradock.io/docs/monica-crm-on-docker) · [Leantime](https://laradock.io/docs/leantime-on-docker) · [Cachet](https://laradock.io/docs/cachet-on-docker) · [PHP Server Monitor](https://laradock.io/docs/php-server-monitor-on-docker) · [YOURLS](https://laradock.io/docs/yourls-on-docker) · [LinkAce](https://laradock.io/docs/linkace-on-docker) · [Koel](https://laradock.io/docs/koel-on-docker) · [AzuraCast](https://laradock.io/docs/azuracast-on-docker) · [Lychee](https://laradock.io/docs/lychee-on-docker) · [Vanilla Forums](https://laradock.io/docs/vanilla-forums-on-docker) |
 
 …or plain, framework-free PHP.
 
@@ -194,6 +161,17 @@ A **service** is one piece of software (a database, web server, cache, queue) th
 | **Collaboration**  | [Confluence](https://laradock.io/docs/services/confluence) |
 
 See the [full service list and usage docs](https://laradock.io/docs/Intro#supported-services).
+
+### Deploy Anywhere
+
+Laradock follows your app to production. Build one image with `./laradock ship`, then run that same image on any of these:
+
+| Where | Platforms |
+|-------|-----------|
+| **Managed clouds** | [Google Cloud Run](https://laradock.io/docs/deploy-to-google-cloud-run) · [AWS ECS](https://laradock.io/docs/deploy-to-aws-ecs) · [AWS App Runner](https://laradock.io/docs/deploy-to-aws-app-runner) · [Azure Container Apps](https://laradock.io/docs/deploy-to-azure-container-apps) · [Fly.io](https://laradock.io/docs/deploy-to-fly-io) · [Render](https://laradock.io/docs/deploy-to-render) · [Railway](https://laradock.io/docs/deploy-to-railway) · [DigitalOcean](https://laradock.io/docs/deploy-to-digitalocean) · [Heroku](https://laradock.io/docs/deploy-to-heroku) |
+| **Your own infrastructure** | [Kubernetes](https://laradock.io/docs/deploy-to-kubernetes) · [Kamal](https://laradock.io/docs/deploy-to-kamal) · [A single server](https://laradock.io/docs/deploy-to-a-server) |
+
+Start here: [Deploy to Production](https://laradock.io/docs/production).
 
 ### Your All-in-One Dev Workspace
 
@@ -466,7 +444,9 @@ Gitter's done. Our community of 2,000+ active members has a new home on [GitHub 
 
 ## Sponsors
 
-Laradock powers local development for developers and companies worldwide: 5M+ Docker Hub pulls, 12K+ GitHub stars, 100+ services, kept working for 10+ years. Like every open-source project, its future depends on the people who rely on it. Your sponsorship directly funds the maintenance that keeps every service working with the latest PHP, database, and framework versions.
+**Laradock has stayed free and maintained for 10+ years, funded entirely by the developers who use it.**
+
+Laradock powers local development for developers and companies worldwide: 100K+ active developers, 5M+ downloads, 100+ services, kept working for 10+ years. Like every open-source project, its future depends on the people who rely on it. Your sponsorship directly funds the maintenance that keeps every service working with the latest PHP, database, and framework versions.
 
 **Your team runs on Laradock? Help fund it:**
 

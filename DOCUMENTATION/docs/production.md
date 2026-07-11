@@ -8,6 +8,9 @@ keywords:
   - php docker production image
   - deploy laravel symfony wordpress docker
   - laradock kubernetes
+  - deploy php to aws ecs
+  - deploy php to google cloud run
+  - deploy php fly render railway
   - kamal deploy php
   - docker database port security
 ---
@@ -38,6 +41,8 @@ docker build -f laradock/production/Dockerfile -t myapp:latest .
 
 What you get versus your dev container: code **baked in** (no bind mount), `composer install --no-dev` (skipped automatically if your project has no `composer.json`, so WordPress and Moodle just work), `opcache.validate_timestamps=0`, **no Xdebug**, and a production `php.ini`. Same PHP version and base extensions as dev.
 
+The image is **self-contained** (nginx + php-fpm inside) and serves HTTP on `$PORT` (default 8080), so it runs as a single container on any platform, from Kubernetes to Cloud Run. On Apple Silicon `ship` builds `linux/amd64` by default. Check it locally with `docker run -p 8080:8080 myapp:latest`.
+
 :::tip[Enabled extra extensions in dev?]
 If you toggled on things like `redis`, `pdo_pgsql` or `gd`, add them at the `extensions` line in [`production/Dockerfile`](https://github.com/laradock/laradock/tree/master/production/Dockerfile), or point `--build-arg BASE_IMAGE=` at your locally-built laradock php-fpm image for exact parity.
 :::
@@ -46,23 +51,31 @@ If you toggled on things like `redis`, `pdo_pgsql` or `gd`, add them at the `ext
 
 Because it's a standard OCI image, **every target below just runs it**, there is nothing Laradock-specific to install on the server. The only real decision is **who runs the infrastructure**: a managed platform, or you.
 
-| Where you deploy | Who runs it | Ship the image with |
-|---|---|---|
-| **Fully managed containers** (hand over the image, they run everything) | | |
-| Google Cloud Run | Google | push to Artifact Registry, `gcloud run deploy` |
-| AWS ECS / Fargate | AWS | push to ECR, ECS task definition |
-| AWS App Runner | AWS | push to ECR, point App Runner at it |
-| Azure Container Apps | Azure | push to ACR, `az containerapp up` |
-| DigitalOcean App Platform | DigitalOcean | point it at the image |
-| Fly.io · Render · Railway · Koyeb | them | point at the Dockerfile or image |
-| **Managed Kubernetes** (they run the control plane, you apply manifests) | | |
-| AWS EKS · Google GKE · Azure AKS · DO DOKS | shared | `kubectl apply -f kubernetes.yaml` |
-| **Your own servers** (you run everything) | you | |
-| One box | you | `docker compose -f production/compose.yml up -d` |
-| Several boxes, no Kubernetes | you | Kamal or Docker Swarm |
-| Your own Kubernetes cluster | you | `kubectl apply -f kubernetes.yaml` |
+Each platform has its own step-by-step guide.
 
-The flows worth spelling out:
+**Managed clouds** (push the image, they run everything):
+
+| Platform | Guide |
+|----------|-------|
+| Google Cloud Run | [Deploy to Cloud Run](/docs/deploy-to-google-cloud-run) |
+| AWS ECS / Fargate | [Deploy to AWS ECS](/docs/deploy-to-aws-ecs) |
+| AWS App Runner | [Deploy to App Runner](/docs/deploy-to-aws-app-runner) |
+| Azure Container Apps | [Deploy to Azure](/docs/deploy-to-azure-container-apps) |
+| Fly.io | [Deploy to Fly.io](/docs/deploy-to-fly-io) |
+| Render | [Deploy to Render](/docs/deploy-to-render) |
+| Railway | [Deploy to Railway](/docs/deploy-to-railway) |
+| DigitalOcean App Platform | [Deploy to DigitalOcean](/docs/deploy-to-digitalocean) |
+| Heroku | [Deploy to Heroku](/docs/deploy-to-heroku) |
+
+**Your own infrastructure** (you run it):
+
+| Platform | Guide |
+|----------|-------|
+| Kubernetes (EKS / GKE / AKS / DOKS, or your own) | [Deploy to Kubernetes](/docs/deploy-to-kubernetes) |
+| Your own servers, no Kubernetes (Kamal) | [Deploy with Kamal](/docs/deploy-to-kamal) |
+| A single server (Docker Compose) | [Deploy to a Server](/docs/deploy-to-a-server) |
+
+The flows in brief (each guide above has the full steps):
 
 ### Managed platforms: Cloud Run, ECS/Fargate, App Runner, Container Apps {#managed}
 
@@ -74,6 +87,21 @@ Same shape everywhere: push the image to that cloud's registry, then point its c
 # then create an ECS/Fargate service (or App Runner / Cloud Run) from that image
 ```
 
+**Ready-made configs** live in [`production/providers/`](https://github.com/laradock/laradock/tree/master/production/providers), copy the one you need and fill in image + secrets:
+
+| Provider | Config |
+|----------|--------|
+| AWS ECS / Fargate | [`aws-ecs-task-definition.json`](https://github.com/laradock/laradock/blob/master/production/providers/aws-ecs-task-definition.json) |
+| AWS App Runner | [`aws-app-runner.json`](https://github.com/laradock/laradock/blob/master/production/providers/aws-app-runner.json) |
+| Google Cloud Run | [`google-cloud-run.yaml`](https://github.com/laradock/laradock/blob/master/production/providers/google-cloud-run.yaml) |
+| Azure Container Apps | [`azure-container-app.yaml`](https://github.com/laradock/laradock/blob/master/production/providers/azure-container-app.yaml) |
+| Fly.io | [`fly.toml`](https://github.com/laradock/laradock/blob/master/production/providers/fly.toml) |
+| Render | [`render.yaml`](https://github.com/laradock/laradock/blob/master/production/providers/render.yaml) |
+| Railway | [`railway.json`](https://github.com/laradock/laradock/blob/master/production/providers/railway.json) |
+| DigitalOcean App Platform | [`digitalocean-app.yaml`](https://github.com/laradock/laradock/blob/master/production/providers/digitalocean-app.yaml) |
+| Heroku | [`heroku.yml`](https://github.com/laradock/laradock/blob/master/production/providers/heroku.yml) |
+| Kamal (your own servers) | [`kamal-deploy.yml`](https://github.com/laradock/laradock/blob/master/production/providers/kamal-deploy.yml) |
+
 ### Kubernetes: managed (EKS / GKE / AKS / DOKS) or your own {#kubernetes}
 
 Push the image, then apply the reference manifests. Managed clusters give you the control plane; the manifests are identical either way.
@@ -83,11 +111,11 @@ kubectl create secret generic app-env --from-env-file=laradock/production/.env
 kubectl apply -f laradock/production/kubernetes.yaml
 ```
 
-[`kubernetes.yaml`](https://github.com/laradock/laradock/tree/master/production/kubernetes.yaml) is a deliberately plain starting point: a deployment (php-fpm + nginx sidecar), service, ingress, plus optional worker, scheduler CronJob, and a migrate Job.
+[`kubernetes.yaml`](https://github.com/laradock/laradock/tree/master/production/kubernetes.yaml) is a deliberately plain starting point: a deployment (the self-contained web container, with resource limits and probes), a service, a TLS-ready ingress (cert-manager), an uploads PVC, plus optional worker, scheduler CronJob, and a migrate Job.
 
 ### Your own servers {#self-hosted}
 
-**One box** (the 80% case). nginx sits in front of php-fpm; point the database and Redis at managed services:
+**One box** (the 80% case). One self-contained container serves HTTP; point the database and Redis at managed services:
 
 ```bash
 cp laradock/production/.env.example laradock/production/.env   # fill real values

@@ -1,0 +1,13 @@
+# Laradock on Heroku (container stack)  —  copy to `heroku.yml` at your root.
+#   heroku create && heroku stack:set container
+#   heroku config:set APP_ENV=production DB_HOST=… DB_PASSWORD=…
+#   git push heroku main
+# Heroku injects $PORT (dynamic); the image's entrypoint listens on it.
+
+build:
+  docker:
+    web: laradock/production/Dockerfile
+
+# Background worker (optional): uncomment, then `heroku ps:scale worker=1`
+# run:
+#   worker: php artisan queue:work --tries=3 --timeout=90

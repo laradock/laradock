@@ -14,6 +14,7 @@ keywords:
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import TerminalDemo from '@site/src/components/TerminalDemo';
+import { GoalBar } from '@site/src/components/SupportBanner';
 
 **Laradock** is a complete Docker environment for PHP. Everything your application needs is already configured, so you can skip setup and start building in seconds.
 
@@ -111,15 +112,14 @@ Done.
 
 ## What's New (2026)
 
-Laradock has been battle-tested since 2015, and it isn't standing still. The last few releases turned it from a local-dev tool into a full **local-to-production** platform. If you used it years ago, it's far more powerful today:
+Battle-tested since 2015, and still growing. Recent highlights:
 
-- **Deploy to production (v20).** `./laradock ship` turns your exact dev stack into a hardened image you deploy to a single server, [Kubernetes](/docs/production) (EKS/GKE/AKS), or a managed cloud (AWS ECS, Cloud Run, Fly). Sail, Herd, Valet, and XAMPP stop at your laptop; Laradock follows you all the way to production.
-- **A real CLI (v19).** `./laradock start` runs a setup wizard and boots your stack in plain English, no Docker knowledge required, and prints every real `docker compose` command it runs so nothing is hidden. See [The Laradock CLI](/docs/cli).
-- **A local AI stack, 20+ new services (v18).** Ollama, LocalAI, LiteLLM, and vector databases (pgvector, Qdrant, Weaviate, Chroma) for LLMs and RAG on your machine, plus FrankenPHP, RoadRunner, Laravel Reverb, OpenSearch, and more, 100+ services in all.
-- **PHP 5.6 → 8.5.** Every current PHP version, plus legacy runtimes no native tool will touch.
-- **Cleaner internals (v18.1).** Per-service compose files and a small shared `.env`, with **zero breaking changes**, verified byte-identical.
+- **Deploy to production**, [`./laradock ship`](/docs/production) builds an image for any server or cloud.
+- **A plain-English CLI**, [`./laradock start`](/docs/cli) runs your whole stack, no Docker needed.
+- **Local AI built in**, run LLMs and vector databases on your own machine.
+- **100+ services ready**, plus every PHP version from 5.6 to 8.5.
 
-Full history in the [release notes](https://github.com/laradock/laradock/releases).
+See the [release notes](https://github.com/laradock/laradock/releases) for the full history.
 
 ## Features
 
@@ -242,6 +242,17 @@ If you can't find your Software in the list, build it yourself and submit it. Co
 
 
 
+
+## Deploy Anywhere
+
+Laradock follows your app to production. Build one image with `./laradock ship`, then run that same image on any of these:
+
+| Where | Platforms |
+|-------|-----------|
+| **Managed clouds** | [Google Cloud Run](/docs/deploy-to-google-cloud-run) · [AWS ECS](/docs/deploy-to-aws-ecs) · [AWS App Runner](/docs/deploy-to-aws-app-runner) · [Azure Container Apps](/docs/deploy-to-azure-container-apps) · [Fly.io](/docs/deploy-to-fly-io) · [Render](/docs/deploy-to-render) · [Railway](/docs/deploy-to-railway) · [DigitalOcean](/docs/deploy-to-digitalocean) · [Heroku](/docs/deploy-to-heroku) |
+| **Your own infrastructure** | [Kubernetes](/docs/deploy-to-kubernetes) · [Kamal](/docs/deploy-to-kamal) · [A single server](/docs/deploy-to-a-server) |
+
+Start here: [Deploy to Production](/docs/production).
 
 ## Your All-in-One Dev Workspace
 
@@ -523,7 +534,11 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
 
 <!-- Listing Contributors Refference: https://docs.opencollective.com/help/collectives/collective-settings/data-export#contributor-image -->
 
-Laradock powers local development for developers and companies worldwide: 5M+ Docker Hub pulls, 12K+ GitHub stars, 100+ services, kept working for 10+ years. Like every open-source project, its future depends on the people who rely on it. Your sponsorship directly funds the maintenance that keeps every service working with the latest PHP, database, and framework versions.
+**Laradock has stayed free and maintained for 10+ years, funded entirely by the developers who use it.** Here's this month's progress toward keeping it alive:
+
+<GoalBar />
+
+Laradock powers local development for developers and companies worldwide: 100K+ active developers, 5M+ downloads, 100+ services, kept working for 10+ years. Like every open-source project, its future depends on the people who rely on it. Your sponsorship directly funds the maintenance that keeps every service working with the latest PHP, database, and framework versions.
 
 **Your team runs on Laradock? Help fund it:**
 

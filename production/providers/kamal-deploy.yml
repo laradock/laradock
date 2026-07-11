@@ -1,0 +1,41 @@
+# Laradock with Kamal (deploy the image to YOUR own servers, zero-downtime).
+# Copy to `config/deploy.yml`. Put secrets in `.kamal/secrets`. Then:
+#   kamal setup      # first time
+#   kamal deploy     # every release
+# Kamal builds from the production Dockerfile and its proxy terminates TLS.
+
+service: laradock-app
+image: your-user/laradock-app
+
+servers:
+  web:
+    - 192.0.2.10           # your server IP(s)
+
+proxy:
+  ssl: true
+  host: example.com
+  app_port: 8080           # the image serves here
+
+registry:
+  server: registry.example.com   # or ghcr.io / docker.io
+  username: your-user
+  password:
+    - KAMAL_REGISTRY_PASSWORD    # from .kamal/secrets
+
+builder:
+  arch: amd64
+  dockerfile: laradock/production/Dockerfile
+
+env:
+  clear:
+    APP_ENV: production
+    DB_HOST: your-managed-db-host
+  secret:
+    - DB_PASSWORD
+
+# Background worker (optional):
+# accessories or a second role, e.g.
+# servers:
+#   worker:
+#     hosts: [192.0.2.10]
+#     cmd: php artisan queue:work --tries=3 --timeout=90

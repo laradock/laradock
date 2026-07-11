@@ -145,6 +145,26 @@
   flex-wrap: wrap;
   gap: 0.85rem;
 }
+.heroSlogan {
+  font-family: var(--font-mono);
+  font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--white);
+  margin: 1.3rem 0 0;
+  white-space: nowrap;
+}
+.rotWord {
+  display: inline-block;
+  animation: rotFade 0.5s ease;
+}
+@keyframes rotFade {
+  from { opacity: 0; transform: translateY(0.15em); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rotWord { animation: none; }
+}
 .heroTerminal {
   margin-top: 1.8rem;
   max-width: 30rem;

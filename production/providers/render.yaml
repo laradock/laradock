@@ -1,0 +1,21 @@
+# Laradock on Render  —  copy to `render.yaml` at your project root, then
+# Render Dashboard > New > Blueprint. Render sets $PORT; the image honors it.
+# Point DB/Redis at Render managed Postgres/Redis or any managed service.
+
+services:
+  - type: web
+    name: laradock-app
+    runtime: image
+    image:
+      url: registry.example.com/laradock-app:latest   # your pushed image
+    # or build from source instead of a pre-built image:
+    # runtime: docker
+    # dockerfilePath: laradock/production/Dockerfile
+    healthCheckPath: /
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: DB_HOST
+        value: your-managed-db-host
+      - key: DB_PASSWORD
+        sync: false        # set in the dashboard, never in git

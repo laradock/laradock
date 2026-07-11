@@ -1,32 +1,30 @@
 # syntax=docker/dockerfile:1
 #
 #--------------------------------------------------------------------------
-# Laradock — Production Image
+# Laradock — Production Image (self-contained web container)
 #--------------------------------------------------------------------------
 #
-# Turns the SAME stack you dev with into a hardened, shippable image:
-# code baked in (no bind mount), composer deps resolved, opcache frozen,
-# no xdebug, production php.ini. Any PHP app — Laravel, Symfony, WordPress,
-# Moodle, Drupal, plain PHP.
+# ONE image that serves HTTP on $PORT (nginx + php-fpm inside), so it runs
+# anywhere a container runs: a server, Kubernetes, or any single-container
+# cloud (Cloud Run, ECS, App Runner, Azure Container Apps, Fly, Render,
+# Railway, DigitalOcean, Heroku). Any PHP app — Laravel, Symfony, WordPress,
+# Moodle, plain PHP.
 #
-# Easiest build:  ./laradock ship
-# Manual build (from your PROJECT root, where composer.json / index.php lives):
-#   cp laradock/production/dockerignore.sample .dockerignore
-#   docker build -f laradock/production/Dockerfile -t myapp:latest .
+# Build:  ./laradock ship        (or: docker build -f production/Dockerfile -t myapp .)
+# Run:    docker run -p 8080:8080 myapp   ->   http://localhost:8080
 #
-# Self-contained: the only thing it needs from the build context is your app
-# code, so it builds no matter where the laradock folder sits.
+# Workers/scheduler/migrations reuse THIS image with a command override, e.g.
+#   docker run myapp php artisan queue:work
+# (any command passed is exec'd instead of the web server — see entrypoint.)
 #
 
 ARG PHP_VERSION=8.3
-# ponytail: default to Laradock's public base = the same extensions dev's base
-# ships. Enabled extras in dev (redis, pdo_pgsql, gd...)? add them at "extensions"
-# below, or point BASE_IMAGE at your locally-built laradock php-fpm image.
+# ponytail: default to Laradock's public base = same extensions dev's base ships.
 ARG BASE_IMAGE=laradock/php-fpm:latest-${PHP_VERSION}
 
 FROM ${BASE_IMAGE}
 LABEL org.opencontainers.image.source="https://github.com/laradock/laradock"
-LABEL org.opencontainers.image.description="Laradock production PHP-FPM image"
+LABEL org.opencontainers.image.description="Laradock production image (nginx + php-fpm, serves \$PORT)"
 
 # --- production PHP config (errors off) ---
 COPY <<'EOF' /usr/local/etc/php/conf.d/zz-laradock-prod.ini
@@ -44,8 +42,7 @@ realpath_cache_size = 4096K
 realpath_cache_ttl = 600
 EOF
 
-# --- production opcache: the big win is validate_timestamps=0 (never stat files;
-#     a deploy is a new image, so the code never changes under a live container) ---
+# --- production opcache: validate_timestamps=0 (code never changes under a live container) ---
 COPY <<'EOF' /usr/local/etc/php/conf.d/zz-laradock-opcache.ini
 opcache.enable = 1
 opcache.enable_cli = 0
@@ -58,12 +55,78 @@ opcache.save_comments = 1
 opcache.fast_shutdown = 1
 EOF
 
+# --- nginx + supervisor so one container serves HTTP directly ---
+RUN set -eux; \
+    apt-get update -yqq; \
+    apt-get install -yqq --no-install-recommends nginx supervisor gettext-base curl; \
+    rm -rf /var/lib/apt/lists/* /etc/nginx/sites-enabled/default
+
+# nginx site (a template; ${PORT}/${WEBROOT} are filled at boot, nginx's own $vars are kept literal)
+COPY <<'EOF' /etc/nginx/templates/site.conf.template
+server {
+    listen ${PORT} default_server;
+    root ${WEBROOT};
+    index index.php index.html;
+    client_max_body_size 32m;
+
+    add_header X-Content-Type-Options nosniff always;
+    add_header X-Frame-Options SAMEORIGIN always;
+
+    location / { try_files $uri $uri/ /index.php?$query_string; }
+
+    location ~ \.php$ {
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+        fastcgi_hide_header X-Powered-By;
+        fastcgi_read_timeout 60;
+    }
+    location ~ /\.(?!well-known).* { deny all; }
+}
+EOF
+
+# supervisor runs php-fpm + nginx together, logs to the container's stdout/stderr
+COPY <<'EOF' /etc/supervisor/conf.d/app.conf
+[supervisord]
+nodaemon=true
+user=root
+logfile=/dev/null
+logfile_maxbytes=0
+
+[program:php-fpm]
+command=php-fpm -F
+autorestart=true
+stdout_logfile=/dev/stdout
+stdout_logfile_maxbytes=0
+stderr_logfile=/dev/stderr
+stderr_logfile_maxbytes=0
+
+[program:nginx]
+command=nginx -g "daemon off;"
+autorestart=true
+stdout_logfile=/dev/stdout
+stdout_logfile_maxbytes=0
+stderr_logfile=/dev/stderr
+stderr_logfile_maxbytes=0
+EOF
+
+# entrypoint: a passed command (worker/scheduler/migrate) runs as-is; otherwise serve HTTP on $PORT
+COPY <<'EOF' /usr/local/bin/laradock-entrypoint.sh
+#!/bin/sh
+set -e
+if [ "$#" -gt 0 ]; then exec "$@"; fi
+: "${PORT:=8080}"; : "${WEBROOT:=/var/www/public}"
+export PORT WEBROOT
+envsubst '${PORT} ${WEBROOT}' < /etc/nginx/templates/site.conf.template > /etc/nginx/conf.d/default.conf
+exec supervisord -c /etc/supervisor/conf.d/app.conf
+EOF
+RUN chmod +x /usr/local/bin/laradock-entrypoint.sh
+
 # composer binary — only used if your project has a composer.json
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
-
-# bake app + resolved vendor in (immutable image = reproducible deploy)
 COPY --chown=www-data:www-data . /var/www
 RUN if [ -f composer.json ]; then \
       composer install --no-dev --optimize-autoloader \
@@ -74,12 +137,10 @@ RUN if [ -f composer.json ]; then \
 # RUN docker-php-ext-install pdo_pgsql pcntl \
 #  && pecl install redis && docker-php-ext-enable redis
 
-USER www-data
-EXPOSE 9000
+ENV PORT=8080 WEBROOT=/var/www/public
+EXPOSE 8080
 
-# ponytail: php-fpm speaks FastCGI not HTTP — liveness = is the master alive.
-# Upgrade path: cgi-fcgi ping a /ping pool for a real request-level check.
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
-  CMD pgrep php-fpm >/dev/null || exit 1
+  CMD curl -fsS "http://127.0.0.1:${PORT}/" >/dev/null || exit 1
 
-CMD ["php-fpm"]
+ENTRYPOINT ["/usr/local/bin/laradock-entrypoint.sh"]

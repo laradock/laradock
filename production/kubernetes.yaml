@@ -1,33 +1,13 @@
 # Laradock — Kubernetes reference manifests (a STARTING POINT, not a distro).
 #
-# Same image you built with production/Dockerfile, pushed to a registry, then:
+# The app image serves HTTP itself, so this is one container per pod (no sidecar).
+#   ./laradock ship registry.example.com/you/app:1.0 --push
 #   kubectl create secret generic app-env --from-env-file=production/.env
+#   # set image: below to your pushed image, then:
 #   kubectl apply -f production/kubernetes.yaml
 #
-# Set image: below to your pushed image. Managed DB/Redis go in the Secret,
-# NOT as pods. Delete the worker/scheduler/migrate blocks you don't need.
-#
-# ponytail: intentionally plain YAML. If you template a lot of these, graduate
-# to a Helm chart or kustomize — but most apps never need to.
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: web-nginx
-data:
-  default.conf: |
-    server {
-      listen 80;
-      root /var/www/public;           # WP/Moodle/plain PHP: /var/www
-      index index.php index.html;
-      location / { try_files $uri $uri/ /index.php?$query_string; }
-      location ~ \.php$ {
-        fastcgi_pass 127.0.0.1:9000;   # nginx + php-fpm in one pod (sidecar)
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        include fastcgi_params;
-      }
-      location ~ /\.(?!well-known).* { deny all; }
-    }
+# DB/Redis are MANAGED services (in the Secret), NOT pods. Delete the worker /
+# scheduler / migrate blocks you don't need.
 ---
 # App env. In real life create this from your .env:
 #   kubectl create secret generic app-env --from-env-file=production/.env
@@ -44,7 +24,6 @@ stringData:
   DB_USERNAME: app
   DB_PASSWORD: change-me
 ---
-# php-fpm + nginx in one pod (nginx as a sidecar talking to 127.0.0.1:9000).
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -56,25 +35,19 @@ spec:
     metadata: { labels: { app: app } }
     spec:
       containers:
-        - name: php-fpm
-          image: myapp:latest            # <-- your pushed image
-          ports: [{ containerPort: 9000 }]
+        - name: app
+          image: myapp:latest            # <-- your pushed image (./laradock ship … --push)
+          ports: [{ containerPort: 8080 }]
           envFrom: [{ secretRef: { name: app-env } }]
-          # tcp check on the FastCGI port: base-image-agnostic (no pgrep needed) and
-          # a truer liveness signal than "is a process named php-fpm alive".
-          livenessProbe:
-            tcpSocket: { port: 9000 }
-            initialDelaySeconds: 10
-          readinessProbe:
-            tcpSocket: { port: 9000 }
-        - name: nginx
-          image: nginx:alpine
-          ports: [{ containerPort: 80 }]
-          volumeMounts:
-            - { name: nginx-conf, mountPath: /etc/nginx/conf.d }
-      volumes:
-        - name: nginx-conf
-          configMap: { name: web-nginx }
+          # generic probes; point them at a real /health route if you have one
+          readinessProbe: { tcpSocket: { port: 8080 }, initialDelaySeconds: 5 }
+          livenessProbe:  { tcpSocket: { port: 8080 }, initialDelaySeconds: 10 }
+          resources:
+            requests: { cpu: 100m, memory: 256Mi }
+            limits:   { cpu: 500m, memory: 512Mi }
+          # --- uploads/persistent files? uncomment (WordPress, Moodle). See PVC at bottom. ---
+          # volumeMounts: [{ name: storage, mountPath: /var/www/storage }]
+      # volumes: [{ name: storage, persistentVolumeClaim: { claimName: app-storage } }]
 ---
 apiVersion: v1
 kind: Service
@@ -82,15 +55,20 @@ metadata:
   name: app
 spec:
   selector: { app: app }
-  ports: [{ port: 80, targetPort: 80 }]
+  ports: [{ port: 80, targetPort: 8080 }]
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: app
-  # TLS / controller annotations (e.g. cert-manager.io/cluster-issuer: letsencrypt) go here
+  annotations:
+    # TLS via cert-manager (install it, then set your issuer):
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts: [example.com]
+      secretName: app-tls        # cert-manager fills this in
   rules:
     - host: example.com
       http:
@@ -115,6 +93,9 @@ spec:
           image: myapp:latest
           command: ["php", "artisan", "queue:work", "--tries=3", "--timeout=90"]
           envFrom: [{ secretRef: { name: app-env } }]
+          resources:
+            requests: { cpu: 50m, memory: 128Mi }
+            limits:   { cpu: 500m, memory: 512Mi }
 ---
 # --- OPTIONAL: scheduler/cron (Laravel schedule, Moodle cron). Delete if unused. ---
 apiVersion: batch/v1
@@ -123,6 +104,7 @@ metadata:
   name: scheduler
 spec:
   schedule: "* * * * *"
+  concurrencyPolicy: Forbid
   jobTemplate:
     spec:
       template:
@@ -149,3 +131,14 @@ spec:
           image: myapp:latest
           command: ["php", "artisan", "migrate", "--force"]
           envFrom: [{ secretRef: { name: app-env } }]
+---
+# --- OPTIONAL: persistent uploads (WordPress wp-content, Moodle moodledata). ---
+# Block storage is ReadWriteOnce: with replicas > 1 you need a ReadWriteMany class
+# (EFS / Filestore / Azure Files) or, better, push uploads to S3-compatible storage.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: app-storage
+spec:
+  accessModes: [ReadWriteOnce]
+  resources: { requests: { storage: 10Gi } }

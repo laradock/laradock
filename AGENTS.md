@@ -1,33 +1,27 @@
 # AGENTS.md
 
-Guidance for AI agents and contributors working in this repository.
+Slim map for AI agents in a Laradock repo. It points to sources; it does not copy them (keep it that way).
 
 ## What this is
 
-Laradock is a full PHP development environment for Docker. Each service is a self-contained Docker image in its own top-level folder; you compose them with `docker-compose` and configure everything through `.env`.
+Laradock is a full PHP/Docker dev environment. Each service (nginx, mysql, php-fpm, workspace, ...) is a self-contained image in its own top-level folder, wired together with Compose `include` and configured through `.env`.
 
-## How it works
+## Operate it
 
-- Each top-level folder (e.g. `nginx/`, `mysql/`, `php-fpm/`, `workspace/`) is one container with its own `Dockerfile`, its compose definition in `<folder>/compose.yml`, and its pre-filled settings in `<folder>/defaults.env`.
-- The root `docker-compose.yml` declares the shared networks/volumes and pulls every service in via Compose `include` (requires Docker Compose v2.20+). Each `include` entry sets `project_directory: .` (relative paths resolve from the repo root) and `env_file: <folder>/defaults.env`.
-- `.env` (copied from the small `.env.example`) holds shared settings (paths, PHP version, project name) and user overrides. Precedence: root `.env` beats `defaults.env`. Old full `.env` files from before the split keep working unchanged.
-- Run services: `docker compose up -d <container-name>` , the name matches the folder name.
+Use the `./laradock` CLI (plain-English verbs that hide the Docker flags). Run **`./laradock help`** for the current command list, the CLI is the source of truth, not this file. Anything it doesn't recognize passes straight to `docker compose`; add `-y` for non-interactive/CI.
 
-## Conventions
+## Structure
 
-- Configure via `.env`. Do not hardcode values in compose files.
-- Each service extends an official base image; keep Dockerfiles clean and minimal.
-- After editing a `compose.yml`, `.env`, or any `Dockerfile`, rebuild: `docker compose build <container>`.
-- Adding a service = new folder + `Dockerfile` + `compose.yml` + `defaults.env` (pre-filled, working values) + an `include` entry in the root `docker-compose.yml`. Only truly shared variables go in `.env.example`.
-- Before opening a PR, run what CI runs: `shellcheck` (severity `error`) on any `*.sh` you touched, `hadolint` (failure-threshold `error`, ignoring `DL3008,DL3018,DL3013,DL3016`) on any `Dockerfile` you touched.
-- Disclose AI assistance in the PR template's AI Disclosure checkbox, not just "used AI" but confirm you actually reviewed and tested the result.
+- One folder = one container: `<svc>/Dockerfile`, `<svc>/compose.yml`, `<svc>/defaults.env` (pre-filled defaults).
+- Root `docker-compose.yml` wires every service via Compose `include` (needs Compose v2.20+).
+- `.env` (from `.env.example`) holds shared settings + your overrides; root `.env` beats `defaults.env`.
+
+## Modifying it
+
+- Configure via `.env`; never hardcode in compose files. Rebuild after a change: `./laradock rebuild <svc>`.
+- Add a service = new folder (`Dockerfile` + `compose.yml` + `defaults.env`) + one `include` entry in the root `docker-compose.yml`.
+- Before a PR, pass the same checks CI runs, see `.github/workflows/shellcheck.yml` and `hadolint.yml`. Tick the PR AI-disclosure box.
 
 ## Docs
 
-- Full documentation: https://laradock.io
-- Machine-readable index: https://laradock.io/llms.txt
-- Docs source lives in `DOCUMENTATION/` (Docusaurus).
-
-## Notes
-
-- No application code here. Laradock provisions environments; it does not run business logic.
+Full docs https://laradock.io · machine index https://laradock.io/llms.txt · source in `DOCUMENTATION/`. No application code lives here.

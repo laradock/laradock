@@ -1,0 +1,32 @@
+# Laradock on Azure Container Apps.
+#   az containerapp create -g RESOURCE_GROUP -n laradock-app \
+#     --environment MANAGED_ENV --yaml laradock/production/providers/azure-container-app.yaml
+# Ingress routes to targetPort 8080; the image serves there.
+
+location: eastus
+properties:
+  configuration:
+    ingress:
+      external: true
+      targetPort: 8080
+      transport: auto
+    secrets:
+      - name: db-password
+        value: change-me        # or reference a Key Vault secret
+  template:
+    containers:
+      - name: app
+        image: REGISTRY.azurecr.io/laradock-app:latest
+        resources:
+          cpu: 0.5
+          memory: 1Gi
+        env:
+          - name: APP_ENV
+            value: production
+          - name: DB_HOST
+            value: your-managed-db-host
+          - name: DB_PASSWORD
+            secretRef: db-password
+    scale:
+      minReplicas: 1
+      maxReplicas: 3

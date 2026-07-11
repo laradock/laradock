@@ -1,0 +1,23 @@
+# Laradock on Fly.io  —  copy to `fly.toml` at your project root.
+#   fly launch --no-deploy      # first time, creates the app
+#   fly secrets set DB_PASSWORD=…  APP_KEY=…
+#   fly deploy
+# Fly builds your image from the production Dockerfile and routes HTTPS to :8080.
+
+app = "laradock-app"
+primary_region = "iad"
+
+[build]
+  dockerfile = "laradock/production/Dockerfile"
+
+[http_service]
+  internal_port = 8080          # the image serves here (PORT default)
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 1
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory = "512mb"

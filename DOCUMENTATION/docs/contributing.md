@@ -13,8 +13,12 @@ Welcome, Laradock is entirely community-driven, and that means it runs on people
 
 ![Docker Image](/img/laradock/laradock-abstract-thin.jpg)
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/laradock/laradock)
-
+<div style={{display: 'flex', gap: '0.75rem', flexWrap: 'wrap', margin: '1.5rem 0'}}>
+  <a className="button button--primary button--lg" href="https://github.com/laradock/laradock/issues/new">Report a Bug</a>
+  <a className="button button--secondary button--lg" href="https://github.com/laradock/laradock/issues/new">Request a Feature</a>
+  <a className="button button--secondary button--lg" href="https://github.com/laradock/laradock/pulls">Open a Pull Request</a>
+  <a className="button button--secondary button--lg" href="https://gitpod.io/#https://github.com/laradock/laradock">Open in Gitpod</a>
+</div>
 
 ## Have a Question
 

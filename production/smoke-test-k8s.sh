@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #
 # Proves the Kubernetes path works: builds the production image and deploys the
-# same manifest shape as kubernetes.yaml (php-fpm + nginx sidecar + service) to a
-# real cluster, then asserts a request is served.
+# same manifest shape as kubernetes.yaml (one self-contained container + service)
+# to a real cluster, then asserts a request is served.
 #
 #   ./production/smoke-test-k8s.sh
 #
@@ -56,25 +56,8 @@ fi
 
 kubectl --context "$ctx" create ns "$ns" >/dev/null 2>&1 || true
 
-echo "▸ applying manifest (php-fpm + nginx sidecar + service) ..."
+echo "▸ applying manifest (one self-contained container + service) ..."
 kubectl --context "$ctx" -n "$ns" apply -f - >/dev/null <<YAML
-apiVersion: v1
-kind: ConfigMap
-metadata: { name: web-nginx }
-data:
-  default.conf: |
-    server {
-      listen 80;
-      root /var/www/public;
-      index index.php index.html;
-      location / { try_files \$uri \$uri/ /index.php?\$query_string; }
-      location ~ \.php\$ {
-        fastcgi_pass 127.0.0.1:9000;
-        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
-        include fastcgi_params;
-      }
-    }
----
 apiVersion: apps/v1
 kind: Deployment
 metadata: { name: app }
@@ -85,26 +68,18 @@ spec:
     metadata: { labels: { app: app } }
     spec:
       containers:
-        - name: php-fpm
+        - name: app
           image: ${img}
           imagePullPolicy: IfNotPresent
-          ports: [{ containerPort: 9000 }]
-          livenessProbe: { tcpSocket: { port: 9000 }, initialDelaySeconds: 5 }
-          readinessProbe: { tcpSocket: { port: 9000 } }
-        - name: nginx
-          image: nginx:alpine
-          ports: [{ containerPort: 80 }]
-          volumeMounts: [{ name: nginx-conf, mountPath: /etc/nginx/conf.d }]
-      volumes:
-        - name: nginx-conf
-          configMap: { name: web-nginx }
+          ports: [{ containerPort: 8080 }]
+          readinessProbe: { tcpSocket: { port: 8080 }, initialDelaySeconds: 3 }
 ---
 apiVersion: v1
 kind: Service
 metadata: { name: app }
 spec:
   selector: { app: app }
-  ports: [{ port: 80, targetPort: 80 }]
+  ports: [{ port: 80, targetPort: 8080 }]
 YAML
 
 echo "▸ waiting for rollout ..."

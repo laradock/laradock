@@ -5,10 +5,10 @@ type Stat = { num: string; label: string };
 
 const STATS: Stat[] = [
   { num: "100+ Services", label: "Pre-configured containers" },
+  { num: "100K+ Developers", label: "Active users worldwide" },
   { num: "5M+ Downloads", label: "From Docker Hub" },
   { num: "450+ Contributors", label: "Built by the community" },
   { num: "10+ Years", label: "Battle-tested since 2015" },
-  { num: "12K+ Stars", label: "Loved on GitHub" },
   { num: "MIT Licensed", label: "Free & open-source" },
   { num: "Zero Config", label: "Runs out of the box" },
   { num: "3 Platforms", label: "Linux · macOS · Windows" },

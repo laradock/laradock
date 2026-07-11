@@ -26,6 +26,8 @@
 
 <h2 align="center" style="color:#7d58c2">先用 Docker，后学习 Docker！</h2>
 
+<h3 align="center">在 Docker 上运行 PHP 最简单的方式。</h3>
+
 ## 概述
 
 Laradock 是一套基于 Docker 的完整 PHP 开发环境。它提供了 PHP 应用所需的一切预配置、开箱即用的容器（Nginx、PHP-FPM、MySQL、PostgreSQL、Redis 等等），让你无需任何手动配置，几秒钟内就能启动一整套本地开发环境。

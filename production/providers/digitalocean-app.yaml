@@ -1,0 +1,25 @@
+# Laradock on DigitalOcean App Platform.
+#   doctl apps create --spec laradock/production/providers/digitalocean-app.yaml
+# App Platform routes to http_port 8080; the image serves there.
+
+name: laradock-app
+region: nyc
+services:
+  - name: app
+    image:
+      registry_type: DOCR          # DO Container Registry (or DOCKER_HUB / GHCR)
+      repository: laradock-app
+      tag: latest
+    http_port: 8080
+    instance_size_slug: basic-xxs
+    instance_count: 1
+    health_check:
+      http_path: /
+    envs:
+      - key: APP_ENV
+        value: production
+      - key: DB_HOST
+        value: your-managed-db-host
+      - key: DB_PASSWORD
+        type: SECRET
+        value: change-me

@@ -78,6 +78,7 @@ Everything is a normal English word. `[services]` is optional, name one or more 
 | `./laradock share` | Get a temporary public URL for your local site, handy for previews and webhook testing. Uses `cloudflared` or `ngrok` if installed. |
 | `./laradock info` | What's running: URLs, ports, and passwords. |
 | `./laradock doctor` | Check for common problems and tell you how to fix them. |
+| `./laradock ship [tag] [--push]` | Build a hardened production image of your app to deploy anywhere (server, Kubernetes, any cloud). On Apple Silicon it builds `linux/amd64` by default. See [Deploy to Production](/docs/production). |
 | `./laradock setup` | Re-run the setup questions any time. |
 
 Flags: `--yes` (`-y`) accepts every default (handy for scripts/CI). `NO_COLOR` is honored. On Windows, run it from WSL or Git Bash (the same environments Docker Desktop uses).

@@ -19,13 +19,17 @@ Something not working right? You're not the first to hit it, most Laradock setup
 
 ## Get Help
 
-- Open an [issue](https://github.com/laradock/laradock/issues) on GitHub (it will be labeled as a Question).
-- Have a question, found a problem, or need something? **mahmoud@zalt.me**
-- For security vulnerabilities, please follow the [Security Policy](https://github.com/laradock/laradock/blob/master/SECURITY.md).
+Can't find your issue below? Reach out:
 
-## Common Problems
+<div style={{display: 'flex', gap: '0.75rem', flexWrap: 'wrap', margin: '1.5rem 0'}}>
+  <a className="button button--primary button--lg" href="https://github.com/laradock/laradock/issues">Open an Issue</a>
+  <a className="button button--secondary button--lg" href="https://github.com/laradock/laradock/discussions">Ask the Community</a>
+</div>
 
-Here are the problems you are most likely to hit, and how to fix them.
+- Need something directly? **mahmoud@zalt.me**
+- Security vulnerabilities: follow the [Security Policy](https://github.com/laradock/laradock/blob/master/SECURITY.md).
+
+## Pages & display
 
 ### I see a blank (white) page instead of the Laravel welcome page
 
@@ -38,6 +42,8 @@ sudo chmod -R 777 storage bootstrap/cache
 ### I see "Welcome to nginx" instead of my Laravel app
 
 Use `http://127.0.0.1` instead of `http://localhost` in your browser.
+
+## Ports & networking
 
 ### I get "address already in use" or "port is already allocated"
 
@@ -52,10 +58,7 @@ Docker can't see your project files because the drive is not shared:
 
 Then restart Docker Desktop.
 
-### The time in my services does not match the current time
-
-1. Make sure you have [changed the timezone](/docs/environment#change-the-timezone).
-2. Rebuild and restart the containers: `./laradock rebuild <services>` then `./laradock restart <services>` (or `docker compose up -d --build <services>`).
+## Databases
 
 ### I get MySQL connection refused
 
@@ -129,6 +132,8 @@ Use the **container name** as the server/host, not `localhost`:
 - phpMyAdmin → server `mysql` (or `mariadb`), with the `MYSQL_USER` / `MYSQL_PASSWORD` from your `.env`.
 - pgAdmin → host `postgres`, with your `POSTGRES_USER` / `POSTGRES_PASSWORD`.
 
+## Build, mirrors & timing
+
 ### Package mirrors are slow or the build hangs fetching sources
 
 Common when your network is far from the default mirrors (for example in China):
@@ -140,6 +145,13 @@ Common when your network is far from the default mirrors (for example in China):
 WORKSPACE_NPM_REGISTRY=https://registry.npmmirror.com
 WORKSPACE_COMPOSER_REPO_PACKAGIST=https://packagist.phpcomposer.com
 ```
+
+### The time in my services does not match the current time
+
+1. Make sure you have [changed the timezone](/docs/environment#change-the-timezone).
+2. Rebuild and restart the containers: `./laradock rebuild <services>` then `./laradock restart <services>` (or `docker compose up -d --build <services>`).
+
+## macOS & Apple Silicon
 
 ### The apache2 container won't start on Apple Silicon (M1/M2)
 

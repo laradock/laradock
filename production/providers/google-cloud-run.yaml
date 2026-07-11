@@ -1,0 +1,30 @@
+# Laradock on Google Cloud Run.
+#   gcloud run services replace laradock/production/providers/google-cloud-run.yaml --region=us-central1
+# Cloud Run injects PORT and routes to containerPort 8080; the image honors PORT.
+# Secrets: reference Secret Manager (shown), or use plain env for non-secrets.
+
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: laradock-app
+spec:
+  template:
+    spec:
+      containers:
+        - image: us-central1-docker.pkg.dev/PROJECT_ID/REPO/laradock-app:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: APP_ENV
+              value: production
+            - name: DB_HOST
+              value: your-managed-db-host
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: latest
+                  name: db-password        # a Secret Manager secret
+          resources:
+            limits:
+              cpu: "1"
+              memory: 512Mi
