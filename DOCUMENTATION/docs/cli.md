@@ -70,6 +70,7 @@ Everything is a normal English word. `[services]` is optional, name one or more 
 | `./laradock unset KEY` | Undo a change, back to the shipped default. |
 | `./laradock edit [service] [file]` | Open your `.env` in your editor. Name a service to open its `Dockerfile` (`./laradock edit mysql`), or any of its files (`./laradock edit mysql my.cnf`); it then tells you the command that applies your change. |
 | `./laradock enter <service>` | Open a terminal inside a container, e.g. `./laradock enter mysql`. |
+| `./laradock exec <service> <command>` | Run one command inside a container without entering it, e.g. `./laradock exec workspace php artisan migrate`. |
 | `./laradock workspace` | Open the dev shell: `php`, `composer`, `node`, `git`, all preinstalled. |
 | `./laradock info` | What's running: URLs, ports, and passwords. |
 | `./laradock doctor` | Check for common problems and tell you how to fix them. |

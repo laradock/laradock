@@ -44,6 +44,7 @@ const ICONS: Record<string, ReactNode> = {
   file: svg(<><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z" /><path d="M14 3v5h5" /></>),
   stack: svg(<><rect x="3" y="3" width="13" height="13" rx="1.5" /><path d="M8 21h11a2 2 0 0 0 2-2V8" /></>),
   edit: svg(<><path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z" /></>),
+  rocket: svg(<><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09Z" /><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2Z" /><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" /><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /></>),
 };
 
 const BENEFITS: { icon: string; title: string; text: string }[] = [
@@ -58,7 +59,7 @@ const BENEFITS: { icon: string; title: string; text: string }[] = [
   { icon: "file", title: "Configure From One File", text: "Every service ships pre-configured; override any setting with 1 line in .env, always wins." },
   { icon: "web", title: "Web Server Ready", text: "NGINX, Apache, and Caddy come pre-configured to serve your code out of the box." },
   { icon: "stack", title: "One or Many Projects", text: "Run a dedicated Laradock per project, or share a single setup across all of them." },
-  { icon: "edit", title: "Yours to Edit", text: "Every Dockerfile and config is plain, readable, and open for you to change." },
+  { icon: "rocket", title: "Deploy to Production", text: "Turn your dev stack into a hardened image with ./laradock ship, then run it anywhere, a server, Kubernetes (EKS/GKE), or managed clouds like AWS ECS and Cloud Run." },
 ];
 
 // SYNC: this service list is one of THREE places that list Laradock services.

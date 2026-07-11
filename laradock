@@ -276,7 +276,7 @@ cmd_setup() {
 }
 
 # --- supported project types ---------------------------------------------
-# SYNC: this list mirrors the "Works With" lists in README.md and
+# SYNC: this list mirrors the "Support PHP Projects" lists in README.md and
 #       DOCUMENTATION/docs/Intro.md. Add a project = update ALL THREE places.
 projects_framework() { echo "laravel symfony codeigniter yii laminas cakephp phalcon slim lumen fuelphp spiral hyperf api-platform mezzio flight fat-free thinkphp silex swoole workerman ubiquity silverstripe nette leaf"; }
 projects_cms()       { echo "wordpress drupal joomla october statamic craftcms typo3 concrete grav backdrop htmly kirby processwire pico bolt contao b2evolution serendipity nucleus e107 pligg sulu pimcore wintercms neos textpattern expressionengine"; }
@@ -909,6 +909,57 @@ cmd_enter() {
   exec docker compose exec "$svc" sh -c 'command -v bash >/dev/null 2>&1 && exec bash || exec sh'
 }
 
+# --------------------------------------------------------------- cmd: ship
+# Build (and optionally push) a hardened production image of the user's app.
+# The image is the universal deploy artifact — run it anywhere (production/README.md).
+cmd_ship() {
+  require_laradock_dir
+  check_docker
+  [ -f production/Dockerfile ] || die "no production/ folder in this laradock" \
+     "update laradock to get the production deploy files."
+
+  local push=0 tag=""
+  for a in "$@"; do
+    case "$a" in
+      --push) push=1 ;;
+      -*)     die "unknown option: $a" "usage: ./laradock ship [image:tag] [--push]" ;;
+      *)      tag="$a" ;;
+    esac
+  done
+  [ -n "$tag" ] || tag="laradock-app:latest"   # matches APP_IMAGE default in production/compose.yml
+
+  # app code lives where dev mounts it from (APP_CODE_PATH_HOST, default ../)
+  local app_rel; app_rel=$(env_get APP_CODE_PATH_HOST); app_rel=${app_rel:-../}
+  local app_root
+  app_root=$(cd "$app_rel" 2>/dev/null && pwd) ||
+    die "can't find your app at: $app_rel" "set APP_CODE_PATH_HOST in .env to your project folder."
+
+  # keep secrets / .git / the laradock stack out of the image
+  if [ ! -f "$app_root/.dockerignore" ]; then
+    note "no .dockerignore in your app — writing a safe default (keeps secrets & .git out of the image)"
+    cp production/dockerignore.sample "$app_root/.dockerignore"
+  fi
+
+  bold ""
+  bold "  Building production image  ${tag}"
+  say  "  ${C_DIM}app: ${app_root}${C_RESET}"
+  printf '  %s%s docker build -f production/Dockerfile -t %s %s%s\n' \
+    "$C_DIM" "$ARROW" "$tag" "$app_root" "$C_RESET"
+  docker build -f "$PWD/production/Dockerfile" -t "$tag" "$app_root" || exit $?
+  ok "built  ${tag}"
+
+  if [ "$push" = 1 ]; then
+    printf '  %s%s docker push %s%s\n' "$C_DIM" "$ARROW" "$tag" "$C_RESET"
+    docker push "$tag" || exit $?
+    ok "pushed  ${tag}"
+  fi
+
+  say ""
+  say "  ${OK} image ready. Deploy it anywhere that runs a container:"
+  say "     ${C_DIM}single server${C_RESET}       docker compose -f production/compose.yml up -d"
+  say "     ${C_DIM}kamal · k8s · paas${C_RESET}  see production/README.md"
+}
+
 # ------------------------------------------------------------- cmd: doctor
 
 cmd_doctor() {
@@ -1020,6 +1071,7 @@ case "$cmd" in
   edit)    cmd_edit "$@" ;;
   info|status) cmd_info "$@" ;;
   doctor)  cmd_doctor "$@" ;;
+  ship)    cmd_ship "$@" ;;
   version|--version|-v) say "laradock cli $VERSION" ;;
   help|--help|-h)
     bold ""
@@ -1037,9 +1089,11 @@ case "$cmd" in
     say  "    ./laradock unset KEY         undo a change (back to the default)"
     say  "    ./laradock edit [service]   open your .env, or a service's Dockerfile"
     say  "    ./laradock enter <service>   open a terminal inside a container (e.g. mysql)"
+    say  "    ./laradock exec <service> <command>  run one command inside a container"
     say  "    ./laradock workspace [--root]  the dev shell (php, composer, node, git)"
     say  "    ./laradock info              what's running: URLs, ports, passwords"
     say  "    ./laradock doctor            check for common problems"
+    say  "    ./laradock ship [--push]     build a production image of your app to deploy"
     say  ""
     say  "    ${C_DIM}Advanced: anything else is passed straight to docker compose"
     say  "    (./laradock ps, ./laradock config ...). Plain docker compose works too.${C_RESET}"

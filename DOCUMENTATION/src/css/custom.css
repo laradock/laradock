@@ -148,6 +148,15 @@
 .markdown table tr:nth-child(even) {
   background: var(--ifm-color-emphasis-100);
 }
+.markdown table td:first-child,
+.markdown table th:first-child {
+  width: 35%;
+  min-width: 280px;
+}
+.markdown table td:first-child {
+  color: #ffc24d;
+  font-family: var(--ifm-font-family-monospace);
+}
 
 /* A touch more room between list items on dense pages. */
 .markdown li + li {

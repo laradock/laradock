@@ -29,8 +29,10 @@ To see only the containers from this project:
 <TabItem value="cli" label="Laradock CLI">
 
 ```bash
-./laradock ps
+./laradock info
 ```
+
+Shows what's running, plus the URLs, ports, and passwords to reach each service.
 
 </TabItem>
 <TabItem value="docker" label="Docker Compose">

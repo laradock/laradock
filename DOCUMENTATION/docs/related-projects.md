@@ -10,7 +10,7 @@ keywords:
   - laradock ecosystem
 ---
 
-Laradock has inspired a rich ecosystem of community-built tools that extend, port, or simplify how you work with it. The projects below are grouped by what they do, and built and maintained by the community. Explore them to find helpers that fit your workflow.
+Laradock has inspired a rich ecosystem of community-built tools that extend, port, or simplify how you work with it. The projects below are grouped by what they do, and built and maintained by the community. Explore them to find helpers that fit your workflow. Discover [1.5K+ community projects](https://github.com/search?q=laradock&type=repositories&s=stars&o=desc) built around Laradock.
 
 ![Docker Image](/img/laradock/laradock-abstract-thinner.jpg)
 

@@ -385,15 +385,31 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: "category",
-      label: "Guides",
+      label: "How-To Guides",
       collapsible: true,
       collapsed: true,
       items: [
         "containers",
         "environment",
         "networking",
-        "production",
+        "xdebug-ide",
         "maintenance",
+      ],
+    },
+    {
+      type: "category",
+      label: "Deploy to Production",
+      link: { type: "doc", id: "production" },
+      collapsible: true,
+      collapsed: true,
+      items: [
+        { type: "link", label: "Build the Image", href: "/docs/production#build" },
+        { type: "link", label: "All Options (managed vs self)", href: "/docs/production#deploy" },
+        { type: "link", label: "Managed (Cloud Run, ECS, Fargate)", href: "/docs/production#managed" },
+        { type: "link", label: "Kubernetes (EKS, GKE, AKS)", href: "/docs/production#kubernetes" },
+        { type: "link", label: "Your Own Servers (Kamal, Compose)", href: "/docs/production#self-hosted" },
+        { type: "link", label: "Frameworks (Laravel, WordPress, Moodle)", href: "/docs/production#frameworks" },
+        { type: "link", label: "Security", href: "/docs/production#security" },
       ],
     },
     {

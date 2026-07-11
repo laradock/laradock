@@ -1,0 +1,15 @@
+# Copy this to `.dockerignore` in your PROJECT ROOT before building the prod image
+# (./laradock ship does this for you automatically if it's missing).
+# Keeps secrets, git history, the laradock stack and dev junk OUT of the image.
+
+.git
+.gitignore
+.env
+.env.*
+node_modules
+tests
+laradock/                 # the whole dev stack — don't bake it into the app image
+production/.env
+*.md
+storage/logs/*
+storage/framework/cache/*

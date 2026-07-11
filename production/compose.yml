@@ -1,0 +1,62 @@
+# Laradock — production, single-server run.
+#
+#   ./laradock ship                                    # build the image
+#   cp production/.env.example production/.env          # fill real values
+#   docker compose -f production/compose.yml up -d      # run it
+#
+# Point DB/REDIS at MANAGED services (RDS/CloudSQL/ElastiCache). Running the
+# database as a container on the same box is fine for a hobby project, not for
+# anything you care about.
+#
+# Optional worker/scheduler are off by default — enable per framework:
+#   docker compose -f production/compose.yml --profile worker --profile scheduler up -d
+
+name: ${APP_NAME:-laradock-app}
+
+services:
+  app:                                   # php-fpm with your code baked in (built by ./laradock ship)
+    image: ${APP_IMAGE:-laradock-app:latest}
+    restart: always
+    env_file: .env
+    healthcheck:
+      test: ["CMD-SHELL", "pgrep php-fpm >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+    networks: [backend]
+
+  web:                                   # nginx in front
+    image: nginx:alpine
+    restart: always
+    depends_on: [app]
+    ports:
+      - "${HTTP_PORT:-80}:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    networks: [backend, frontend]
+
+  # --- optional: queue/messenger worker (Laravel/Symfony). Off unless --profile worker ---
+  worker:
+    image: ${APP_IMAGE:-laradock-app:latest}
+    restart: always
+    env_file: .env
+    command: ${WORKER_COMMAND:-php artisan queue:work --tries=3 --timeout=90}
+    depends_on: [app]
+    networks: [backend]
+    profiles: [worker]
+
+  # --- optional: scheduler/cron (Laravel schedule, Moodle cron). Off unless --profile scheduler ---
+  # ponytail: naive 60s sleep loop. Precise cron? use the k8s CronJob or a host crontab.
+  scheduler:
+    image: ${APP_IMAGE:-laradock-app:latest}
+    restart: always
+    env_file: .env
+    entrypoint: ["/bin/sh", "-c"]
+    command: ["while true; do ${SCHEDULER_COMMAND:-php artisan schedule:run}; sleep 60; done"]
+    depends_on: [app]
+    networks: [backend]
+    profiles: [scheduler]
+
+networks:
+  frontend:
+  backend:

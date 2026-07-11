@@ -14,11 +14,11 @@ keywords:
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-**Laradock** is a full PHP development environment for Docker. Spin up a ready-to-use stack in seconds, with popular pre-configured services.
+**Laradock** is a complete Docker environment for PHP. Everything your application needs is already configured, so you can skip setup and start building in seconds.
 
 ![Laradock](/img/laradock/laradock-logo.png)
 
-Standing up a PHP stack by hand burns hours: matching versions, wiring databases and queues, chasing "works on my machine." Laradock hands you the whole environment ready to run, so you skip the setup and get straight to code.
+Standing up a PHP stack by hand burns hours: matching versions, wiring databases and queues, chasing "works on my machine." Laradock hands you the whole environment ready to run, so you skip the setup and get straight to code. Start with the `./laradock` CLI, no Docker knowledge required, and drop to plain `docker compose` whenever you want full control, it's the same files underneath. And the same stack follows you all the way to production.
 
 Instead of installing and configuring Nginx, databases, caches, and queues by hand, you get them all as ready-made containers you can switch on and off per project. It works with any PHP project (Laravel, Symfony, WordPress, or plain PHP) and behaves the same on Linux, macOS, and Windows, so your whole team shares one identical setup.
 
@@ -101,10 +101,6 @@ Done.
 </TabItem>
 </Tabs>
 
-:::info[How it's organized]
-One folder per service; each holds that service's `compose.yml` (container definition), `defaults.env` (pre-filled settings), and `Dockerfile`. Change any setting by adding one line to your `.env`, it always wins. Full map in [Getting Started](/docs/getting-started).
-:::
-
 <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', margin: '1.5rem 0' }}>
   <a className="button button--primary button--lg" href="/docs/getting-started">Full Getting Started Guide</a>
   <a className="button button--secondary button--lg" href="/docs/containers">Usage and Commands</a>
@@ -117,6 +113,7 @@ One folder per service; each holds that service's `compose.yml` (container defin
 - **Any PHP Version**: Run any version from 5.6 to 8.5. Set `PHP_VERSION` in `.env`, rebuild, and you're on it.
 - **100+ Ready-made Services**: Databases, caches, queues, search engines, and more, all pre-configured and waiting.
 - **All-in-One Dev Shell**: Run Artisan, Composer, Node, and any CLI inside the `workspace` container, nothing on your host.
+- **Deploy to Production**: Turn your dev stack into a hardened image with `./laradock ship`, then run it anywhere.
 - **Pick Your Database**: MySQL, PostgreSQL, MariaDB, MongoDB, Redis, and many others, ready to switch on.
 - **Framework-Agnostic**: Works great with Laravel, and Symfony, WordPress, Magento, Drupal, or plain PHP, on the same stack.
 - **Local AI, Built In**: Run LLMs and vector search locally with Ollama, LiteLLM, pgvector, Qdrant, and more, no keys or cloud bills.
@@ -131,23 +128,109 @@ One folder per service; each holds that service's `compose.yml` (container defin
 
 
 
-## Works With
+## Support PHP Projects
 
 Laradock provides the PHP runtime, web server, databases, and background services your app needs, so it runs virtually any PHP framework, CMS, or e-commerce platform, right down to plain framework-free PHP.
 
-<!-- SYNC: one of THREE places listing supported projects. Keep in sync with the "Works With" list in README.md AND the projects_* functions in the ./laradock CLI script. Add a project = update all three. -->
+<!-- SYNC: one of THREE places listing supported projects. Keep in sync with the "Support PHP Projects" list in README.md AND the projects_* functions in the ./laradock CLI script. Add a project = update all three. -->
 | Type | Projects |
 |------|----------|
-| **Frameworks**  | Laravel, Symfony, CodeIgniter, Yii, Laminas (Zend Framework), CakePHP, Phalcon, Slim, Lumen, FuelPHP, Spiral, Hyperf, API Platform, Mezzio, Flight, Fat-Free Framework (F3), ThinkPHP, Silex, Swoole, Workerman, Ubiquity, SilverStripe, Nette, Leaf PHP |
-| **CMS**         | WordPress, Drupal, Joomla, October CMS, Statamic, Craft CMS, TYPO3, Concrete CMS, Grav, Backdrop CMS, HTMLy, Kirby, ProcessWire, Pico, Bolt CMS, Contao, b2evolution, Serendipity, Nucleus, e107, Pligg, Sulu CMS, Pimcore, Winter CMS, Neos CMS, Textpattern, ExpressionEngine |
-| **E-commerce**  | Magento, WooCommerce, PrestaShop, OpenCart, Sylius, Bagisto, Aimeos, Avored, OroCommerce, Zen Cart, osCommerce, AbanteCart, CubeCart, Shopware, LiteCart, OpenMage |
-| **Apps**        | Moodle, MediaWiki, phpBB, Matomo, MyBB, FluxBB, PunBB, Flarum, bbPress, Simple Machines Forum (SMF), DokuWiki, BookStack, Roundcube, phpMyAdmin, Adminer, SuiteCRM, EspoCRM, Vtiger, Dolibarr, Aureus ERP, WebERP, FrontAccounting, Kanboard, Firefly III, Invoice Ninja, X2CRM, Nextcloud, ownCloud, Pydio, Mautic, Crater, Akaunting, Monica CRM, Leantime, Cachet, PHP Server Monitor, YOURLS, LinkAce, Koel, AzuraCast, Lychee, Vanilla Forums |
+| **Frameworks**  | [Laravel](/docs/laravel-on-docker), [Symfony](/docs/symfony-on-docker), [CodeIgniter](/docs/codeigniter-on-docker), [Yii](/docs/yii-on-docker), [Laminas (Zend Framework)](/docs/laminas-on-docker), [CakePHP](/docs/cakephp-on-docker), [Phalcon](/docs/phalcon-on-docker), [Slim](/docs/slim-on-docker), [Lumen](/docs/lumen-on-docker), [FuelPHP](/docs/fuelphp-on-docker), [Spiral](/docs/spiral-on-docker), [Hyperf](/docs/hyperf-on-docker), [API Platform](/docs/api-platform-on-docker), [Mezzio](/docs/mezzio-on-docker), [Flight](/docs/flight-on-docker), [Fat-Free Framework (F3)](/docs/fat-free-framework-on-docker), [ThinkPHP](/docs/thinkphp-on-docker), [Silex](/docs/silex-on-docker), [Swoole](/docs/swoole-on-docker), [Workerman](/docs/workerman-on-docker), [Ubiquity](/docs/ubiquity-on-docker), [SilverStripe](/docs/silverstripe-on-docker), [Nette](/docs/nette-on-docker), [Leaf PHP](/docs/leaf-php-on-docker) |
+| **CMS**         | [WordPress](/docs/wordpress-on-docker), [Drupal](/docs/drupal-on-docker), [Joomla](/docs/joomla-on-docker), [October CMS](/docs/october-cms-on-docker), [Statamic](/docs/statamic-on-docker), [Craft CMS](/docs/craft-cms-on-docker), [TYPO3](/docs/typo3-on-docker), [Concrete CMS](/docs/concrete-cms-on-docker), [Grav](/docs/grav-on-docker), [Backdrop CMS](/docs/backdrop-cms-on-docker), [HTMLy](/docs/htmly-on-docker), [Kirby](/docs/kirby-on-docker), [ProcessWire](/docs/processwire-on-docker), [Pico](/docs/pico-on-docker), [Bolt CMS](/docs/bolt-cms-on-docker), [Contao](/docs/contao-on-docker), [b2evolution](/docs/b2evolution-on-docker), [Serendipity](/docs/serendipity-on-docker), [Nucleus](/docs/nucleus-cms-on-docker), [e107](/docs/e107-on-docker), [Pligg](/docs/pligg-on-docker), [Sulu CMS](/docs/sulu-cms-on-docker), [Pimcore](/docs/pimcore-on-docker), [Winter CMS](/docs/winter-cms-on-docker), [Neos CMS](/docs/neos-cms-on-docker), [Textpattern](/docs/textpattern-on-docker), [ExpressionEngine](/docs/expressionengine-on-docker) |
+| **E-commerce**  | [Magento](/docs/magento-on-docker), [WooCommerce](/docs/woocommerce-on-docker), [PrestaShop](/docs/prestashop-on-docker), [OpenCart](/docs/opencart-on-docker), [Sylius](/docs/sylius-on-docker), [Bagisto](/docs/bagisto-on-docker), [Aimeos](/docs/aimeos-on-docker), [Avored](/docs/avored-on-docker), [OroCommerce](/docs/orocommerce-on-docker), [Zen Cart](/docs/zen-cart-on-docker), [osCommerce](/docs/oscommerce-on-docker), [AbanteCart](/docs/abantecart-on-docker), [CubeCart](/docs/cubecart-on-docker), [Shopware](/docs/shopware-on-docker), [LiteCart](/docs/litecart-on-docker), [OpenMage](/docs/openmage-on-docker) |
+| **Apps**        | [Moodle](/docs/moodle-on-docker), [MediaWiki](/docs/mediawiki-on-docker), [phpBB](/docs/phpbb-on-docker), [Matomo](/docs/matomo-on-docker), [MyBB](/docs/mybb-on-docker), [FluxBB](/docs/fluxbb-on-docker), [PunBB](/docs/punbb-on-docker), [Flarum](/docs/flarum-on-docker), [bbPress](/docs/bbpress-on-docker), [Simple Machines Forum (SMF)](/docs/smf-on-docker), [DokuWiki](/docs/dokuwiki-on-docker), [BookStack](/docs/bookstack-on-docker), [Roundcube](/docs/roundcube-on-docker), [phpMyAdmin](/docs/phpmyadmin-on-docker), [Adminer](/docs/adminer-on-docker), [SuiteCRM](/docs/suitecrm-on-docker), [EspoCRM](/docs/espocrm-on-docker), [Vtiger](/docs/vtiger-on-docker), [Dolibarr](/docs/dolibarr-on-docker), [Aureus ERP](/docs/aureus-erp-on-docker), [WebERP](/docs/weberp-on-docker), [FrontAccounting](/docs/frontaccounting-on-docker), [Kanboard](/docs/kanboard-on-docker), [Firefly III](/docs/firefly-iii-on-docker), [Invoice Ninja](/docs/invoice-ninja-on-docker), [X2CRM](/docs/x2crm-on-docker), [Nextcloud](/docs/nextcloud-on-docker), [ownCloud](/docs/owncloud-on-docker), [Pydio](/docs/pydio-on-docker), [Mautic](/docs/mautic-on-docker), [Crater](/docs/crater-on-docker), [Akaunting](/docs/akaunting-on-docker), [Monica CRM](/docs/monica-crm-on-docker), [Leantime](/docs/leantime-on-docker), [Cachet](/docs/cachet-on-docker), [PHP Server Monitor](/docs/php-server-monitor-on-docker), [YOURLS](/docs/yourls-on-docker), [LinkAce](/docs/linkace-on-docker), [Koel](/docs/koel-on-docker), [AzuraCast](/docs/azuracast-on-docker), [Lychee](/docs/lychee-on-docker), [Vanilla Forums](/docs/vanilla-forums-on-docker) |
 
 
 
-## The Workspace: Your All-in-One Dev Shell
+## Supported Services
 
-A command line preloaded with PHP, Composer, Node, Git, and dozens of dev tools, so you run every command your project needs *inside* it and install nothing on your own machine.
+A **service** is one piece of software, a database, a web server, a cache, a queue, that Laradock runs for you in its own isolated **container** (a lightweight, self-contained box). Each one is already configured, so you just switch on the ones your project needs and leave the rest off. Because they're isolated, they never conflict with each other or with anything on your machine.
+
+To start any service from the list below, use its name, which is the same as its folder name. For example, the "PHP FPM" service lives in the `php-fpm` folder, so you start it with `php-fpm`:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start php-fpm
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d php-fpm
+```
+
+</TabItem>
+</Tabs>
+
+
+
+<!-- SYNC: one of THREE places listing Laradock services. Keep in sync with the other table (README.md / DOCUMENTATION/docs/Intro.md) AND the homepage list in DOCUMENTATION/src/pages/index.tsx. Add a service = update all three. -->
+| Category                  | Services (Containers)                                                                 |
+|---------------------------|--------------------------------------------------------------------------|
+| (**Laradock Workspace**)  | [PHP CLI](/docs/services/workspace), [Composer](/docs/services/workspace), [Git](/docs/services/workspace), [Vim](/docs/services/workspace), [xDebug](/docs/services/workspace), [Linuxbrew](/docs/services/workspace), [Node](/docs/services/workspace), [V8JS](/docs/services/workspace), [Gulp](/docs/services/workspace), [SQLite](/docs/services/workspace), [Laravel Envoy](/docs/services/workspace), [Deployer](/docs/services/workspace), [Yarn](/docs/services/workspace), [SOAP](/docs/services/workspace), [Drush](/docs/services/workspace), [Wordpress CLI](/docs/services/workspace), [dnsutils](/docs/services/workspace), [Terraform](/docs/services/workspace), [ImageMagick](/docs/services/workspace), [Drupal Console](/docs/services/workspace), [Protoc](/docs/services/workspace), [JDK](/docs/services/workspace), [Docker Client](/docs/services/workspace) |
+| **Web Servers**  | [NGINX](/docs/services/nginx), [Apache2](/docs/services/apache2), [Caddy](/docs/services/caddy), [OpenResty](/docs/services/openresty), [Tomcat](/docs/services/tomcat), [FrankenPHP](/docs/services/frankenphp) |
+| **Load Balancers**  | [HAProxy](/docs/services/haproxy), [Traefik](/docs/services/traefik) |
+| **PHP Compilers**  | [PHP FPM](/docs/services/php-fpm), [RoadRunner](/docs/services/roadrunner) |
+| **Database Management Systems**  | [MySQL](/docs/services/mysql), [PostgreSQL](/docs/services/postgres), [PostGIS](/docs/services/postgres-postgis), [pgvector](/docs/services/pgvector), [MariaDB](/docs/services/mariadb), [Percona](/docs/services/percona), [MSSQL](/docs/services/mssql), [MongoDB](/docs/services/mongo), [Neo4j](/docs/services/neo4j), [CouchDB](/docs/services/couchdb), [RethinkDB](/docs/services/rethinkdb), [Cassandra](/docs/services/cassandra), [ClickHouse](/docs/services/clickhouse), [Tarantool](/docs/services/tarantool) |
+| **Database Management Tools**  | [PhpMyAdmin](/docs/services/phpmyadmin), [Adminer](/docs/services/adminer), [PgAdmin](/docs/services/pgadmin), [MongoDB Web UI](/docs/services/mongo-webui), [Tarantool Admin](/docs/services/tarantool-admin), [pgbackups (PostgreSQL)](/docs/services/pgbackups) |
+| **Cache Engines**  | [Redis](/docs/services/redis), [Redis Web UI](/docs/services/redis-webui), [Redis Cluster](/docs/services/redis-cluster), [Valkey](/docs/services/valkey), [Dragonfly](/docs/services/dragonfly), [Memcached](/docs/services/memcached), [Aerospike](/docs/services/aerospike), [Varnish](/docs/services/varnish), [SSDB](/docs/services/ssdb) |
+| **Message Brokers**  | [RabbitMQ](/docs/services/rabbitmq), [RabbitMQ Admin Console](/docs/services/rabbitmq), [Beanstalkd](/docs/services/beanstalkd), [Beanstalkd Admin Console](/docs/services/beanstalkd-console), [Eclipse Mosquitto](/docs/services/mosquitto), [Gearman](/docs/services/gearman), [NATS](/docs/services/nats), [Apache Kafka](/docs/services/kafka), [Kafka Manager](/docs/services/kafka-manager) |
+| **Log Management**  | [GrayLog](/docs/services/graylog), [Kibana](/docs/services/kibana), [LogStash](/docs/services/logstash) |
+| **Search Engines**  | [ElasticSearch](/docs/services/elasticsearch), [OpenSearch](/docs/services/opensearch), [Apache Solr](/docs/services/solr), [Manticore Search](/docs/services/manticore), [Typesense](/docs/services/typesense), [Meilisearch](/docs/services/meilisearch), [Dejavu](/docs/services/dejavu) |
+| **Vector Databases**  | [pgvector](/docs/services/pgvector), [Qdrant](/docs/services/qdrant), [Weaviate](/docs/services/weaviate), [Chroma](/docs/services/chroma) |
+| **Graph / Multi-model Databases**  | [Neo4j](/docs/services/neo4j), [ArangoDB](/docs/services/arangodb), [SurrealDB](/docs/services/surrealdb) |
+| **Time-series Databases**  | [InfluxDB](/docs/services/influxdb) |
+| **AI / LLM**  | [Ollama](/docs/services/ollama), [LocalAI](/docs/services/localai), [LiteLLM](/docs/services/litellm) |
+| **Agentic / Automation**  | [n8n](/docs/services/n8n), [Flowise](/docs/services/flowise) |
+| **PHP Extensions**  | [Swoole](/docs/swoole-on-docker), [Blackfire](/docs/services/blackfire), [Phalcon](/docs/phalcon-on-docker), [PHP Worker](/docs/services/php-worker), [Laravel Horizon](/docs/services/laravel-horizon) |
+| **Mail Servers**  | [Mailu](/docs/services/mailu), [MailCatcher](/docs/services/mailcatcher), [Mailhog](/docs/services/mailhog), [MailDev](/docs/services/maildev), [Mailpit](/docs/services/mailpit) |
+| **Real-time Communication**  | [Laravel Echo](/docs/services/laravel-echo-server), [Laravel Reverb](/docs/services/laravel-reverb), [Mercure](/docs/services/mercure), [Soketi](/docs/services/soketi) |
+| **Monitoring**  | [Grafana](/docs/services/grafana), [NetData](/docs/services/netdata), [Prometheus](/docs/services/prometheus) |
+| **Coordination Services**  | [Apache ZooKeeper](/docs/services/zookeeper) |
+| **Container Management**  | [Portainer](/docs/services/portainer), [Docker Registry](/docs/services/docker-registry) |
+| **CI/CD Tools**  | [Jenkins](/docs/services/jenkins), [SonarQube](/docs/services/sonarqube), [Gitlab](/docs/services/gitlab), [GitLab Runner](/docs/services/gitlab-runner), [OneDev](/docs/services/onedev) |
+| **Cloud Tools**  | [AWS EB CLI](/docs/services/aws-eb-cli), [Amazon Simple Queue Service](/docs/services/sqs) |
+| **Image Processing**  | [Thumbor](/docs/services/thumbor) |
+| **Security & Identity Tools**  | [Certbot](/docs/services/certbot), [Keycloak](/docs/services/keycloak) |
+| **Object Storage**  | [Minio](/docs/services/minio) |
+| **Testing**  | [Selenium](/docs/services/selenium) |
+| **IDEs**  | [Theia](/docs/services/ide-theia) |
+| **API Documentation**  | [Swagger UI](/docs/services/swagger-ui), [Swagger Editor](/docs/services/swagger-editor) |
+| **Analytics / BI**  | [Metabase](/docs/services/metabase) |
+| **Collaboration**  | [Confluence](/docs/services/confluence) |
+
+
+
+You can choose which tools to install in your workspace container and other containers: browse the available flags in each container's `defaults.env` (e.g. `workspace/defaults.env`), then set the ones you want in your `.env` (your `.env` overrides all defaults).
+
+
+*If you modify a `compose.yml`, `defaults.env`, `.env` or any `dockerfile` file, you must re-build your containers, to see those effects in the running instance.*
+
+
+
+:::tip
+If you can't find your Software in the list, build it yourself and submit it. Contributions are welcomed :)
+:::
+
+
+
+---
+
+
+
+
+
+
+
+
+
+
+## Your All-in-One Dev Workspace
+
+Laradock ships a **Workspace**: a ready-to-use Linux command line with PHP, Composer, Node, Git, and dozens of dev tools already installed. You run every command your project needs *inside* it, so nothing gets installed on your own machine.
 
 Enter it and work from there:
 
@@ -177,78 +260,15 @@ Why it's a big deal:
 - **Isolate every project.** Each one runs on its own PHP and database versions with no conflicts between them.
 - **Revive old projects.** Run legacy apps on older PHP (5.6, 7.x) without touching your system's PHP version.
 
-
-
-## Supported Services
-
-Laradock adheres to the 'separation of concerns' principle, so it runs each software in its own Docker container. You can turn instances on or off as needed without worrying about configuration.
-
-:::tip
-To run a chosen container from the list below: `./laradock start {container-name}` (or `docker compose up -d {container-name}`). The container name `{container-name}` is the same as its folder name. For example, to run the "PHP FPM" container, use the name "php-fpm".
+:::tip[The full journey, from local dev to production]
+Laradock doesn't stop at your laptop. When your app is ready, `./laradock ship` turns this exact stack into a hardened image you can deploy anywhere, a single server, Kubernetes (EKS/GKE/AKS), or a managed cloud like AWS ECS, Cloud Run, or Fly. Read more: [Deploy to Production](/docs/production).
 :::
 
 
 
-<!-- SYNC: one of THREE places listing Laradock services. Keep in sync with the other table (README.md / DOCUMENTATION/docs/Intro.md) AND the homepage list in DOCUMENTATION/src/pages/index.tsx. Add a service = update all three. -->
-| Category                  | Services (Containers)                                                                 |
-|---------------------------|--------------------------------------------------------------------------|
-| (**Laradock Workspace**)    | PHP CLI, Composer, Git, Vim, xDebug, Linuxbrew, Node, V8JS, Gulp, SQLite, Laravel Envoy, Deployer, Yarn, SOAP, Drush, Wordpress CLI, dnsutils, Terraform, ImageMagick, Drupal Console, Protoc, JDK, Docker Client |
-| **Web Servers**           | NGINX, Apache2, Caddy, OpenResty, Tomcat, FrankenPHP                                |
-| **Load Balancers**        | HAProxy, Traefik                                                         |
-| **PHP Compilers**         | PHP FPM, RoadRunner                                                |
-| **Database Management Systems** | MySQL, PostgreSQL, PostGIS, pgvector, MariaDB, Percona, MSSQL, MongoDB, Neo4j, CouchDB, RethinkDB, Cassandra, ClickHouse, Tarantool |
-| **Database Management Tools** | PhpMyAdmin, Adminer, PgAdmin, MongoDB Web UI, Tarantool Admin, pgbackups (PostgreSQL) |
-| **Cache Engines**         | Redis, Redis Web UI, Redis Cluster, Valkey, Dragonfly, Memcached, Aerospike, Varnish, SSDB        |
-| **Message Brokers**       | RabbitMQ, RabbitMQ Admin Console, Beanstalkd, Beanstalkd Admin Console, Eclipse Mosquitto, Gearman, NATS, Apache Kafka, Kafka Manager |
-| **Log Management**        | GrayLog, Kibana, LogStash                                                |
-| **Search Engines**        | ElasticSearch, OpenSearch, Apache Solr, Manticore Search, Typesense, Meilisearch, Dejavu          |
-| **Vector Databases**      | pgvector, Qdrant, Weaviate, Chroma                                       |
-| **Graph / Multi-model Databases** | Neo4j, ArangoDB, SurrealDB                                       |
-| **Time-series Databases** | InfluxDB                                                                 |
-| **AI / LLM**              | Ollama, LocalAI, LiteLLM                                                 |
-| **Agentic / Automation**  | n8n, Flowise                                                             |
-| **PHP Extensions**        | Swoole, Blackfire, Phalcon, PHP Worker, Laravel Horizon                  |
-| **Mail Servers**          | Mailu, MailCatcher, Mailhog, MailDev, Mailpit                                     |
-| **Real-time Communication** | Laravel Echo, Laravel Reverb, Mercure, Soketi                                        |
-| **Monitoring**            | Grafana, NetData, Prometheus                                            |
-| **Coordination Services** | Apache ZooKeeper                                                         |
-| **Container Management**  | Portainer, Docker Registry                                              |
-| **CI/CD Tools**           | Jenkins, SonarQube, Gitlab, GitLab Runner, OneDev                        |
-| **Cloud Tools**           | AWS EB CLI, Amazon Simple Queue Service                                  |
-| **Image Processing**      | Thumbor                                                                  |
-| **Security & Identity Tools** | Certbot, Keycloak                                                    |
-| **Object Storage**        | Minio                                                                    |
-| **Testing**               | Selenium                                                                 |
-| **IDEs**                  | Theia                                                |
-| **API Documentation**     | Swagger UI, Swagger Editor                                              |
-| **Analytics / BI**        | Metabase                                                                 |
-| **Collaboration**         | Confluence                                                               |
-
-
-
-You can choose which tools to install in your workspace container and other containers: browse the available flags in each container's `defaults.env` (e.g. `workspace/defaults.env`), then set the ones you want in your `.env` (your `.env` overrides all defaults).
-
-
-*If you modify a `compose.yml`, `defaults.env`, `.env` or any `dockerfile` file, you must re-build your containers, to see those effects in the running instance.*
-
-
-
-:::tip
-If you can't find your Software in the list, build it yourself and submit it. Contributions are welcomed :)
+:::info[How it's organized]
+One folder per service; each holds that service's `compose.yml` (container definition), `defaults.env` (pre-filled settings), and `Dockerfile`. Change any setting by adding one line to your `.env`, it always wins. Full map in [Getting Started](/docs/getting-started).
 :::
-
-
-
----
-
-
-
-
-
-
-
-
-
 
 ## How Laradock Compares {#laradock-alternatives}
 
