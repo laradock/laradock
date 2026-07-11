@@ -2913,6 +2913,10 @@ Everything is a normal English word. `[services]` is optional, name one or more 
 | `./laradock enter <service>` | Open a terminal inside a container, e.g. `./laradock enter mysql`. |
 | `./laradock exec <service> <command>` | Run one command inside a container without entering it, e.g. `./laradock exec workspace php artisan migrate`. |
 | `./laradock workspace` | Open the dev shell: `php`, `composer`, `node`, `git`, all preinstalled. |
+| `./laradock test [args]` | Run your test suite inside the workspace. Auto-detects the runner (`artisan test`, then Pest, then PHPUnit); extra args pass through, e.g. `./laradock test --filter=Orders`. |
+| `./laradock db` | Open a SQL shell in your running database, credentials handled for you. Auto-detects MySQL, MariaDB, or PostgreSQL. |
+| `./laradock open [ui]` | Open your app in the browser. Name a UI to open that instead: `./laradock open mailpit` (also `phpmyadmin`, `adminer`), or pass a full URL. |
+| `./laradock share` | Get a temporary public URL for your local site, handy for previews and webhook testing. Uses `cloudflared` or `ngrok` if installed. |
 | `./laradock info` | What's running: URLs, ports, and passwords. |
 | `./laradock doctor` | Check for common problems and tell you how to fix them. |
 | `./laradock setup` | Re-run the setup questions any time. |
