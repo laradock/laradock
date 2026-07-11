@@ -12,6 +12,10 @@ keywords:
 
 This guide gets Laradock running for your project. The fastest path is the **Laradock CLI**, a short wizard that sets everything up for you, so start there. If you would rather wire things up by hand with plain `docker compose`, jump to [Manual setup](#manual-setup) at the bottom, it is meant for advanced users who want full control.
 
+:::tip[Let your AI coding agent do the setup]
+This repo ships agent instructions ([`AGENTS.md`](https://github.com/laradock/laradock/blob/master/AGENTS.md), plus matching rule files for [Claude Code](https://claude.com/claude-code), [Gemini CLI](https://github.com/google-gemini/gemini-cli), [Cursor](https://cursor.com), [Cline](https://cline.bot), and [Windsurf](https://windsurf.com)), so any of them can read the layout and run the whole setup for you. Clone Laradock into your project, open it in your agent, and ask: *"Set up Laradock for this project."*
+:::
+
 **Building something specific?** Jump straight to a guide tailored to the most popular platforms:
 
 <div className="install-grid">

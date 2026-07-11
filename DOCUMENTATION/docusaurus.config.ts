@@ -1,6 +1,7 @@
 import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import glossaryLinks from './plugins/remark-glossary-links';
 
 const config: Config = {
   title: 'Laradock',
@@ -228,6 +229,7 @@ const config: Config = {
         docs: {
           id: 'default',
           sidebarPath: './sidebars.ts',
+          remarkPlugins: [glossaryLinks],
           editUrl:
             'https://github.com/laradock/laradock/tree/master/DOCUMENTATION/',
         },

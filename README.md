@@ -30,9 +30,9 @@
 
 ## Overview
 
-Laradock is a full PHP development environment for Docker. It ships pre-configured, ready-to-use containers for everything a PHP application needs (Nginx, PHP-FPM, MySQL, PostgreSQL, Redis, and many more), so you can launch a complete local stack in seconds without any manual setup.
+Laradock is a full PHP development environment for Docker. It ships pre-configured, ready-to-use containers for everything a PHP application needs ([Nginx](https://laradock.io/docs/services/nginx), [PHP-FPM](https://laradock.io/docs/services/php-fpm), [MySQL](https://laradock.io/docs/services/mysql), [PostgreSQL](https://laradock.io/docs/services/postgres), [Redis](https://laradock.io/docs/services/redis), and many more), so you can launch a complete local stack in seconds without any manual setup.
 
-It works with **any PHP project** and behaves the same on Linux, macOS, and Windows. Comparing tools? See [Laradock vs Others](https://laradock.io/docs/laradock-alternatives) (DDEV, Sail, Herd, Lando, XAMPP).
+It works with **any PHP project** and behaves the same on Linux, macOS, and Windows.
 
 Environment setup is where PHP projects lose their first day. Laradock gives it back: one clone, one command, a full stack running.
 
@@ -109,8 +109,8 @@ Laradock provides the PHP runtime, web server, databases, and background service
 - **100+ Ready-made Services**: Databases, caches, queues, search engines, and more, all pre-configured and waiting.
 - **All-in-One Dev Shell**: Run Artisan, Composer, Node, and any CLI inside the `workspace` container, nothing on your host.
 - **Deploy to Production**: Turn your dev stack into a hardened image with `./laradock ship`, then deploy anywhere.
-- **Pick Your Database**: MySQL, PostgreSQL, MariaDB, MongoDB, Redis, and many others, ready to switch on.
-- **Framework-Agnostic**: Works with Laravel, Symfony, WordPress, Magento, Drupal, or plain PHP.
+- **Pick Your Database**: MySQL, PostgreSQL, [MariaDB](https://laradock.io/docs/services/mariadb), [MongoDB](https://laradock.io/docs/services/mongo), Redis, and many others, ready to switch on.
+- **Framework-Agnostic**: Works with [Laravel](https://laradock.io/docs/laravel-on-docker), [Symfony](https://laradock.io/docs/symfony-on-docker), [WordPress](https://laradock.io/docs/wordpress-on-docker), [Magento](https://laradock.io/docs/magento-on-docker), [Drupal](https://laradock.io/docs/drupal-on-docker), or plain PHP.
 - **Local AI, Built In**: Run LLMs and vector search locally with Ollama, LiteLLM, pgvector, Qdrant, no cloud bills.
 - **Toggle Services On Demand**: Start only what a project needs with `docker compose up`, and stop them easily.
 - **One Environment Everywhere**: Identical setup on Linux, macOS, and Windows, so your team shares the same stack.

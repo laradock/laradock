@@ -16,7 +16,9 @@ import TabItem from '@theme/TabItem';
 import TerminalDemo from '@site/src/components/TerminalDemo';
 import { GoalBar } from '@site/src/components/SupportBanner';
 
-**Laradock** is a complete Docker environment for PHP. Everything your application needs is already configured, so you can skip setup and start building in seconds.
+### The easiest way to run PHP on Docker.
+
+**Laradock** is a complete Docker environment for PHP. Everything your application needs is already configured, so you can skip setup and start building in seconds. Works with almost every [PHP project](#supported-php-projects), from [Laravel](/docs/laravel-on-docker) to [WordPress](/docs/wordpress-on-docker).
 
 ![Laradock](/img/laradock/laradock-logo.png)
 
@@ -28,7 +30,17 @@ Laradock is free, open-source under the MIT license, and has been battle-tested 
 
 > **Use Docker first. Learn about it later.**
 
+
+<br />
+
 <TerminalDemo />
+
+<br />
+<br />
+
+:::tip[Let your AI coding agent do the setup]
+This repo ships agent instructions ([`AGENTS.md`](https://github.com/laradock/laradock/blob/master/AGENTS.md), plus matching rule files for [Claude Code](https://claude.com/claude-code), [Gemini CLI](https://github.com/google-gemini/gemini-cli), [Cursor](https://cursor.com), [Cline](https://cline.bot), and [Windsurf](https://windsurf.com)), so any of them can read the layout and run the whole setup for you. Clone Laradock into your project, open it in your agent, and ask: *"Set up Laradock for this project."*
+:::
 
 ## Quick Start
 
