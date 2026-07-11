@@ -3,6 +3,9 @@ name: Lint Dockerfiles
 # Lints all ~78 Dockerfiles with hadolint. Only hard errors fail the build,
 # so it catches real mistakes without drowning in style nits on legacy files.
 # Version-pinning rules are ignored because laradock intentionally floats them.
+# production/Dockerfile is skipped: it uses `COPY <<'EOF'` heredocs (it must
+# stay self-contained since its build context is the user's app), and hadolint
+# cannot parse Dockerfile heredocs. Linted per-file over stdin to keep control.
 
 on:
   pull_request:
@@ -24,8 +27,12 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Run hadolint on all Dockerfiles
-        uses: hadolint/hadolint-action@v3.3.0
-        with:
-          recursive: true
-          failure-threshold: error
-          ignore: DL3008,DL3018,DL3013,DL3016
+        run: |
+          rc=0
+          while IFS= read -r f; do
+            docker run --rm -i hadolint/hadolint:v2.14.0 hadolint \
+              --failure-threshold error \
+              --ignore DL3008 --ignore DL3018 --ignore DL3013 --ignore DL3016 \
+              - < "$f" || { echo "::error file=$f::hadolint reported an error"; rc=1; }
+          done < <(find . -name Dockerfile -not -path './production/*' -not -path '*/node_modules/*' | sort)
+          exit $rc

@@ -558,6 +558,27 @@ Laradock powers local development for developers and companies worldwide: 100K+ 
   <a href="http://apiato.io/" target="_blank" style={{ marginRight: '10px' }}>
     <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/apiato.png" height="135px" alt="Apiato - A powerful PHP framework for building scalable, enterprise-grade APIs!" />
   </a>
+
+  {/* Diamond auto-slots: paid Diamond sponsors auto-populate from Open Collective (dofollow, largest logo); empty slots hide themselves. Same mechanism as Gold. */}
+  <a href="https://opencollective.com/laradock/tiers/diamond-sponsors/0/website" target="_blank">
+    <img src="https://opencollective.com/laradock/tiers/diamond-sponsors/0/avatar.png?isActive=true&avatarHeight=130" height="150" onLoad={(e) => { if (e.target.naturalWidth <= 1) e.target.parentNode.style.display = "none"; }} />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/diamond-sponsors/1/website" target="_blank">
+    <img src="https://opencollective.com/laradock/tiers/diamond-sponsors/1/avatar.png?isActive=true&avatarHeight=130" height="150" onLoad={(e) => { if (e.target.naturalWidth <= 1) e.target.parentNode.style.display = "none"; }} />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/diamond-sponsors/2/website" target="_blank">
+    <img src="https://opencollective.com/laradock/tiers/diamond-sponsors/2/avatar.png?isActive=true&avatarHeight=130" height="150" onLoad={(e) => { if (e.target.naturalWidth <= 1) e.target.parentNode.style.display = "none"; }} />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/diamond-sponsors/3/website" target="_blank">
+    <img src="https://opencollective.com/laradock/tiers/diamond-sponsors/3/avatar.png?isActive=true&avatarHeight=130" height="150" onLoad={(e) => { if (e.target.naturalWidth <= 1) e.target.parentNode.style.display = "none"; }} />
+  </a>
+
+  <a href="https://opencollective.com/laradock/tiers/diamond-sponsors/4/website" target="_blank">
+    <img src="https://opencollective.com/laradock/tiers/diamond-sponsors/4/avatar.png?isActive=true&avatarHeight=130" height="150" onLoad={(e) => { if (e.target.naturalWidth <= 1) e.target.parentNode.style.display = "none"; }} />
+  </a>
 </div>
 
 

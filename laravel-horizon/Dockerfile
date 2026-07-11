@@ -263,7 +263,7 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
         pecl install mongo; \
         docker-php-ext-enable mongo; \
       else \
-        pecl install mongodb; \
+        pecl install mongodb-1.21.0; \
         docker-php-ext-enable mongodb; \
       fi; \
     fi
