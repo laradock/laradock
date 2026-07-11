@@ -110,10 +110,10 @@ Done.
 - **Any PHP Version**: Run any version from 5.6 to 8.5. Set `PHP_VERSION` in `.env`, rebuild, and you're on it.
 - **100+ Ready-made Services**: Databases, caches, queues, search engines, and more, all pre-configured and waiting.
 - **All-in-One Dev Shell**: Run Artisan, Composer, Node, and any CLI inside the `workspace` container, nothing on your host.
-- **Deploy to Production**: Turn your dev stack into a hardened image with `./laradock ship`, then run it anywhere.
+- **Deploy to Production**: Turn your dev stack into a hardened image with `./laradock ship`, then deploy anywhere.
 - **Pick Your Database**: MySQL, PostgreSQL, MariaDB, MongoDB, Redis, and many others, ready to switch on.
-- **Framework-Agnostic**: Works great with Laravel, and Symfony, WordPress, Magento, Drupal, or plain PHP, on the same stack.
-- **Local AI, Built In**: Run LLMs and vector search locally with Ollama, LiteLLM, pgvector, Qdrant, and more, no keys or cloud bills.
+- **Framework-Agnostic**: Works with Laravel, Symfony, WordPress, Magento, Drupal, or plain PHP.
+- **Local AI, Built In**: Run LLMs and vector search locally with Ollama, LiteLLM, pgvector, Qdrant, no cloud bills.
 - **Toggle Services On Demand**: Start only what a project needs with `docker compose up`, and stop them easily.
 - **One Environment Everywhere**: Identical setup on Linux, macOS, and Windows, so your team shares the same stack.
 - **A Container Per Service**: Every service is isolated, so nothing conflicts and each piece is easy to manage.
