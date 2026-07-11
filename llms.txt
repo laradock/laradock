@@ -18,7 +18,7 @@ Created and maintained by Mahmoud Zalt (https://zalt.me).
 - [Environment & Platform](https://laradock.io/docs/environment): Workspace access, host-specific tuning, and scheduling. SSH into the workspace, change the timezone, add PHP-FPM locales, add cron jobs, and speed up file sharing on macOS.
 - [Maintenance & Upgrades](https://laradock.io/docs/maintenance): Keep your Laradock customizations under version control while still pulling upstream updates, and how to upgrade an older Laradock (Docker Toolbox, v3) to the current version.
 - [Networking & Domains](https://laradock.io/docs/networking): Point a real domain at your Laradock stack instead of the Docker IP, and install your own CA certificates into the workspace container.
-- [Production & Deployment](https://laradock.io/docs/production): Prepare a Laradock stack for production with a dedicated Compose file that avoids exposing database ports, plus how to authenticate Docker against Google Cloud.
+- [Production & Deployment](https://laradock.io/docs/production): Turn your Laradock dev stack into a hardened, portable production image with one command, then deploy it to a single server, Kamal, Kubernetes, or any PaaS.
 - [Chroma](https://laradock.io/docs/services/chroma): Run Chroma in Laradock, a lightweight open-source vector database with a simple HTTP API for semantic search and RAG.
 - [Flowise](https://laradock.io/docs/services/flowise): Run Flowise in Laradock, a visual, low-code builder for LLM apps and AI agents.
 - [LiteLLM](https://laradock.io/docs/services/litellm): Run LiteLLM in Laradock, an LLM proxy/gateway exposing one OpenAI-compatible endpoint that routes to any provider.
@@ -233,6 +233,7 @@ Created and maintained by Mahmoud Zalt (https://zalt.me).
 - [Run Ubiquity on Docker](https://laradock.io/docs/ubiquity-on-docker): Run a Ubiquity PHP app on Docker in minutes with Laradock. What Docker gives a Ubiquity project, why Laradock is the fastest way to get NGINX, PHP and a database running, and the exact commands, with any PHP version, without installing anything on your machine.
 - [Run Workerman on Docker](https://laradock.io/docs/workerman-on-docker): Run a Workerman server on Docker in minutes with Laradock. What Docker gives a Workerman app, why Laradock's supervisord-based worker container is a natural fit, and the exact commands, without installing anything on your machine.
 - [Run Yii on Docker](https://laradock.io/docs/yii-on-docker): Run any Yii app on Docker in minutes with Laradock. What Docker gives a Yii project, why Laradock is the fastest way to get NGINX, PHP and MySQL running, and the exact commands, with any PHP version, without installing anything on your machine.
+- [Debug with Xdebug (IDE setup)](https://laradock.io/docs/xdebug-ide): Wire PhpStorm or VS Code to Laradock's Xdebug so breakpoints hit. Covers the connection port, IDE key, and the host-to-container path mapping that trips most people up.
 
 ## Comparisons (Laradock vs alternatives)
 
