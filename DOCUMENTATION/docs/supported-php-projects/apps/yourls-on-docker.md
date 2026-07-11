@@ -43,7 +43,7 @@ Concretely, for YOURLS it gives you a production-style NGINX (or Apache) + PHP-F
 ```bash
 cd my-yourls-shortener
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No YOURLS files yet? Clone Laradock first, then download YOURLS into your project directory from the [YOURLS releases page](https://github.com/YOURLS/YOURLS/releases) or via `git clone`.)
@@ -63,6 +63,7 @@ YOURLS needs a web server, PHP, and a database. Start exactly those (the web ser
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

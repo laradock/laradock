@@ -276,7 +276,7 @@ cmd_setup() {
 }
 
 # --- supported project types ---------------------------------------------
-# SYNC: this list mirrors the "Support PHP Projects" lists in README.md and
+# SYNC: this list mirrors the "Supported PHP Projects" lists in README.md and
 #       DOCUMENTATION/docs/Intro.md. Add a project = update ALL THREE places.
 projects_framework() { echo "laravel symfony codeigniter yii laminas cakephp phalcon slim lumen fuelphp spiral hyperf api-platform mezzio flight fat-free thinkphp silex swoole workerman ubiquity silverstripe nette leaf"; }
 projects_cms()       { echo "wordpress drupal joomla october statamic craftcms typo3 concrete grav backdrop htmly kirby processwire pico bolt contao b2evolution serendipity nucleus e107 pligg sulu pimcore wintercms neos textpattern expressionengine"; }
@@ -587,6 +587,8 @@ patch_app_env() {
 cmd_up() {
   require_laradock_dir
   check_docker
+  # `start nginx mysql` (explicit services) skips setup, so ensure .env exists here too.
+  [ -f .env ] || { [ -f .env.example ] && cp .env.example .env && ok "created .env from .env.example"; }
   local services=("$@")
   # Explicit services on the command line (`up nginx mysql`) skip the setup check.
   if [ ${#services[@]} -eq 0 ]; then
@@ -909,6 +911,91 @@ cmd_enter() {
   exec docker compose exec "$svc" sh -c 'command -v bash >/dev/null 2>&1 && exec bash || exec sh'
 }
 
+# start a service (with a prompt) if it isn't already running — used by test/db
+ensure_running() {  # ensure_running SERVICE
+  local s=$1
+  docker compose ps --services --status running 2>/dev/null | grep -qx "$s" && return 0
+  if confirm "$s is not running. Start it?" Y; then run up -d "$s" || exit $?; else exit 1; fi
+}
+
+# ---------------------------------------------------------------- cmd: test
+# Run the app's test suite inside the workspace (artisan test > pest > phpunit).
+cmd_test() {
+  require_laradock_dir
+  check_docker
+  ensure_running workspace
+  printf '  %s%s docker compose exec -u laradock workspace <artisan|pest|phpunit> test%s\n' "$C_DIM" "$ARROW" "$C_RESET"
+  exec docker compose exec -u laradock workspace bash -c '
+    if   [ -f artisan ];            then exec php artisan test "$@"
+    elif [ -x vendor/bin/pest ];    then exec vendor/bin/pest "$@"
+    elif [ -x vendor/bin/phpunit ]; then exec vendor/bin/phpunit "$@"
+    else echo "No test runner found (looked for artisan, vendor/bin/pest, vendor/bin/phpunit)."; exit 1; fi
+  ' _ "$@"
+}
+
+# ---------------------------------------------------------------- cmd: open
+# Open the app (or a known web UI) in the default browser — no URL to remember.
+cmd_open() {
+  require_laradock_dir
+  local target=${1:-app} url port
+  case "$target" in
+    app)
+      port=$(default_of NGINX_HOST_HTTP_PORT 80)
+      if [ "$port" = 80 ]; then url="http://localhost"; else url="http://localhost:$port"; fi ;;
+    mail|mailpit)      url="http://localhost:$(default_of MAILPIT_HTTP_PORT 8125)" ;;
+    pma|phpmyadmin)    url="http://localhost:$(default_of PMA_PORT 8081)" ;;
+    adminer)           url="http://localhost:$(default_of ADM_PORT 8080)" ;;
+    http://*|https://*) url="$target" ;;
+    *) die "don't know how to open '$target'" "try: app, mailpit, phpmyadmin, adminer, or a full URL" ;;
+  esac
+  printf '  %s%s open %s%s\n' "$C_DIM" "$ARROW" "$url" "$C_RESET"
+  if   command -v open     >/dev/null 2>&1; then open "$url"
+  elif command -v xdg-open >/dev/null 2>&1; then xdg-open "$url" >/dev/null 2>&1 &
+  elif command -v wslview  >/dev/null 2>&1; then wslview "$url"
+  else say "  open this in your browser: $url"; fi
+}
+
+# ------------------------------------------------------------------ cmd: db
+# Drop into a SQL shell in the running database container (creds handled for you).
+cmd_db() {
+  require_laradock_dir
+  check_docker
+  local running; running=$(docker compose ps --services --status running 2>/dev/null)
+  case "$running" in
+    *mysql*)
+      printf '  %s%s docker compose exec mysql mysql%s\n' "$C_DIM" "$ARROW" "$C_RESET"
+      exec docker compose exec mysql sh -c 'exec mysql -u"${MYSQL_USER:-default}" -p"${MYSQL_PASSWORD:-secret}" "${MYSQL_DATABASE:-default}"' ;;
+    *mariadb*)
+      printf '  %s%s docker compose exec mariadb mysql%s\n' "$C_DIM" "$ARROW" "$C_RESET"
+      exec docker compose exec mariadb sh -c 'exec mysql -u"${MYSQL_USER:-default}" -p"${MYSQL_PASSWORD:-secret}" "${MYSQL_DATABASE:-default}"' ;;
+    *postgres*)
+      printf '  %s%s docker compose exec postgres psql%s\n' "$C_DIM" "$ARROW" "$C_RESET"
+      exec docker compose exec postgres sh -c 'exec psql -U "${POSTGRES_USER:-default}" "${POSTGRES_DB:-default}"' ;;
+    *)
+      die "no database is running" "start one first, e.g.: ./laradock start mysql" ;;
+  esac
+}
+
+# --------------------------------------------------------------- cmd: share
+# Expose the local app on a temporary public URL via an installed tunnel tool.
+# ponytail: wraps cloudflared/ngrok, don't reinvent tunneling; add expose if asked.
+cmd_share() {
+  require_laradock_dir
+  local port; port=$(default_of NGINX_HOST_HTTP_PORT 80)
+  if command -v cloudflared >/dev/null 2>&1; then
+    printf '  %s%s cloudflared tunnel --url http://localhost:%s%s\n' "$C_DIM" "$ARROW" "$port" "$C_RESET"
+    exec cloudflared tunnel --url "http://localhost:$port"
+  elif command -v ngrok >/dev/null 2>&1; then
+    printf '  %s%s ngrok http %s%s\n' "$C_DIM" "$ARROW" "$port" "$C_RESET"
+    exec ngrok http "$port"
+  else
+    die "no tunnel tool found (cloudflared or ngrok)" \
+        "install one, then retry:" \
+        "${C_DIM}cloudflared (no signup):${C_RESET} brew install cloudflared" \
+        "${C_DIM}ngrok:${C_RESET} https://ngrok.com/download"
+  fi
+}
+
 # --------------------------------------------------------------- cmd: ship
 # Build (and optionally push) a hardened production image of the user's app.
 # The image is the universal deploy artifact — run it anywhere (production/README.md).
@@ -1086,6 +1173,10 @@ case "$cmd" in
   rebuild) require_laradock_dir; run build "$@" ;;
   enter)   cmd_enter "$@" ;;
   workspace|ws|shell) cmd_workspace "$@" ;;
+  test)    cmd_test "$@" ;;
+  open)    cmd_open "$@" ;;
+  db)      cmd_db "$@" ;;
+  share)   cmd_share "$@" ;;
   set)     cmd_set "$@" ;;
   settings) cmd_settings "$@" ;;
   unset)   cmd_unset "$@" ;;
@@ -1109,6 +1200,7 @@ case "$cmd" in
     hrow "restart [services]" "restart them"
     hrow "logs [services]"    "show recent logs"
     hrow "info"               "what's running: URLs, ports, passwords"
+    hrow "open [ui]"          "open the app in your browser (or mailpit, phpmyadmin)"
     hrow "doctor"             "check for common problems"
 
     hsec "Containers"
@@ -1125,6 +1217,11 @@ case "$cmd" in
     hrow "enter <service>"    "open a terminal inside a container (e.g. mysql)"
     hrow "exec <service> ..." "run one command inside a container"
     hrow "workspace [--root]" "the dev shell (php, composer, node, git)"
+    hrow "db"                 "open a SQL shell in your database"
+
+    hsec "Develop"
+    hrow "test [args]"        "run your test suite (artisan / pest / phpunit)"
+    hrow "share"              "get a public URL to your local site (cloudflared / ngrok)"
 
     hsec "Deploy"
     hrow "ship [--push]"      "build a deployable production image (amd64-safe on Apple Silicon)"

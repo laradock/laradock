@@ -43,7 +43,7 @@ Concretely, for FuelPHP it gives you a production-style NGINX + PHP-FPM stack, M
 ```bash
 cd my-fuelphp-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No FuelPHP app yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ FuelPHP needs a web server and a database. The web server pulls in PHP-FPM autom
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

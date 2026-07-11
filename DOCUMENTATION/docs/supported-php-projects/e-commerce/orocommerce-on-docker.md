@@ -43,7 +43,7 @@ For OroCommerce specifically, Laradock wires a production-style NGINX + PHP-FPM 
 ```bash
 cd my-orocommerce-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No OroCommerce project yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ A typical OroCommerce install needs a web server, a database, and Redis; add Ela
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx postgres redis workspace
 ```
 

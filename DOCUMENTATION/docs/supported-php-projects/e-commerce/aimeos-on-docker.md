@@ -43,7 +43,7 @@ Concretely, for an Aimeos-powered app it gives you a production-style NGINX + PH
 ```bash
 cd my-aimeos-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Laravel app yet? Clone Laradock first, then [create one from the workspace container](/docs/laravel-on-docker); Aimeos is added into it in the steps below.)
@@ -63,6 +63,7 @@ Aimeos needs whatever your host Laravel app needs: a web server, a database, and
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 

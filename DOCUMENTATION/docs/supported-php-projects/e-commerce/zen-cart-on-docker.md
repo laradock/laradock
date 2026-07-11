@@ -43,7 +43,7 @@ Concretely, for Zen Cart it gives you an NGINX + PHP-FPM stack pinned to whichev
 ```bash
 cd my-zen-cart-store
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Zen Cart files yet? Clone Laradock first, then download Zen Cart from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Zen Cart needs a web server and a database. The web server pulls in PHP-FPM auto
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

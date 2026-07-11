@@ -43,7 +43,7 @@ Concretely, for MediaWiki it gives you a production-style NGINX + PHP-FPM stack,
 ```bash
 cd my-wiki
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No MediaWiki files yet? Clone Laradock first, then download the MediaWiki tarball from the `workspace` container in the next steps.)
@@ -63,6 +63,7 @@ MediaWiki needs a web server and a database. The web server pulls in PHP-FPM aut
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

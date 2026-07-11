@@ -43,7 +43,7 @@ Concretely, for Dolibarr it gives you a production-style NGINX (or Apache) + PHP
 ```bash
 cd my-dolibarr-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Dolibarr files yet? Clone Laradock first, then download Dolibarr from the [official releases](https://www.dolibarr.org/downloads) or via the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Dolibarr needs a web server and a database; add Redis if you want caching. The w
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 

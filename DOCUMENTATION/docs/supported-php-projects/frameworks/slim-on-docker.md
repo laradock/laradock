@@ -43,7 +43,7 @@ Concretely, for Slim it gives you a production-style NGINX + PHP-FPM stack, any 
 ```bash
 cd my-slim-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Slim app yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ A Slim API often needs nothing more than a web server (the web server pulls in P
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx workspace
 ```
 

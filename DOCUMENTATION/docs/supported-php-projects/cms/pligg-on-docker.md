@@ -43,7 +43,7 @@ Concretely, for Pligg it gives you an NGINX + PHP-FPM stack pinned to an old PHP
 ```bash
 cd my-pligg-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Pligg files yet? Clone Laradock first, then download Pligg from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Pligg needs a web server and a database. The web server pulls in PHP-FPM automat
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

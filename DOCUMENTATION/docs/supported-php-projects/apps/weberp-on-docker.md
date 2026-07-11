@@ -43,7 +43,7 @@ Concretely, for webERP it gives you a production-style NGINX + PHP-FPM stack, My
 ```bash
 cd my-weberp-install
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No webERP files yet? Clone Laradock first, then download webERP from the [official GitHub repository](https://github.com/timschofield/webERP) into your project root in the next steps.)
@@ -63,6 +63,7 @@ webERP needs a web server and a database; the web server pulls in PHP-FPM automa
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

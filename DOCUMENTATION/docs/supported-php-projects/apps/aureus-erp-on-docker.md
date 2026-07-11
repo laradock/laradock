@@ -43,7 +43,7 @@ For Aureus ERP specifically, Laradock wires a production-style NGINX + PHP-FPM s
 ```bash
 cd my-aureus-erp-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Aureus ERP files yet? Clone Laradock first, then pull Aureus ERP from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Aureus ERP needs a web server, a database, and Redis once you go beyond a single
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 

@@ -43,7 +43,7 @@ Concretely, for Pico it gives you a production-style NGINX + PHP-FPM stack, no d
 ```bash
 cd my-pico-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Pico files yet? Clone Laradock first, then pull in Pico from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Pico has no database, so it only needs a web server. Start that (it pulls in PHP
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx workspace
 ```
 

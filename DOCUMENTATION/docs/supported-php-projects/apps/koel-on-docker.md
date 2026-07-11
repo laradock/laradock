@@ -43,7 +43,7 @@ For Koel specifically, Laradock wires a production-style NGINX + PHP-FPM stack, 
 ```bash
 cd my-koel-server
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Koel files yet? Clone Laradock first, then clone Koel from [its GitHub repo](https://github.com/koel/koel) into your project directory.)
@@ -63,6 +63,7 @@ Koel needs a web server, PHP and a database. Start exactly those (the web server
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

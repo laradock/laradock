@@ -43,7 +43,7 @@ Concretely, for Concrete CMS it gives you a production-style NGINX + PHP-FPM sta
 ```bash
 cd my-concrete-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Concrete CMS files yet? Clone Laradock first, then download Concrete CMS from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Concrete CMS needs a web server and a database. The web server pulls in PHP-FPM 
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

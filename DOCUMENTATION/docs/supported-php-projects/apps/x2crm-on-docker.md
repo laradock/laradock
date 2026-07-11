@@ -43,7 +43,7 @@ Concretely, for X2CRM it gives you a web server (NGINX or Apache) paired with PH
 ```bash
 cd my-x2crm-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No X2CRM files yet? Clone the [X2CRM repository](https://github.com/X2Engine/X2CRM) into your project root first, then continue below.)
@@ -63,6 +63,7 @@ X2CRM needs a web server and a MySQL database. The web server pulls in PHP-FPM a
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

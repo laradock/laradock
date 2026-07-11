@@ -43,7 +43,7 @@ Concretely, for Nucleus CMS it gives you a production-style NGINX + PHP-FPM stac
 ```bash
 cd my-nucleus-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Nucleus files yet? Clone Laradock first, then pull your existing Nucleus files into your project root.)
@@ -63,6 +63,7 @@ Nucleus needs a web server and a database. Start exactly those (the web server p
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

@@ -43,7 +43,7 @@ For Drupal specifically, Laradock wires a production-style NGINX + PHP-FPM stack
 ```bash
 cd my-drupal-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Drupal codebase yet? Clone Laradock first, then build one from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Most Drupal sites need a web server, a database, and Redis for caching. Start ex
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 
@@ -167,4 +168,4 @@ The containers are production-style (real NGINX + PHP-FPM), so it is far closer 
 
 ---
 
-Comparing environments? See the full **[Laradock vs Others](/docs/laradock-alternatives)** breakdown. Ready to start? **[Getting Started](/docs/getting-started)** takes about five minutes.
+Comparing environments? See **[Laradock vs Drupal Docker](/docs/laradock-vs-drupal-docker)** (DDEV & the official image) and the full **[Laradock vs Others](/docs/laradock-alternatives)** breakdown. Ready to start? **[Getting Started](/docs/getting-started)** takes about five minutes.

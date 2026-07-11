@@ -43,7 +43,7 @@ For Ubiquity specifically, Laradock gives you a production-style NGINX + PHP-FPM
 ```bash
 cd my-ubiquity-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Ubiquity project yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ A Ubiquity app needs a web server and a database (the web server pulls in PHP-FP
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

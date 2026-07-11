@@ -43,7 +43,7 @@ For SilverStripe specifically, Laradock wires a production-style NGINX + PHP-FPM
 ```bash
 cd my-silverstripe-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No SilverStripe files yet? Clone Laradock first, then create the project from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ SilverStripe needs a web server and a database (the web server pulls in PHP-FPM 
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

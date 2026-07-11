@@ -43,7 +43,7 @@ For Backdrop CMS specifically, Laradock wires a production-style NGINX + PHP-FPM
 ```bash
 cd my-backdrop-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Backdrop files yet? Clone Laradock first, then download Backdrop from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Backdrop CMS needs a web server and a database. The web server pulls in PHP-FPM 
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

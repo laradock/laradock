@@ -43,7 +43,7 @@ Concretely, for Nextcloud, Laradock wires a production-style NGINX + PHP-FPM sta
 ```bash
 cd my-nextcloud-install
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Nextcloud files yet? Clone Laradock first, then download the Nextcloud server archive from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Nextcloud needs a web server and a database; add Redis for caching and file lock
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 

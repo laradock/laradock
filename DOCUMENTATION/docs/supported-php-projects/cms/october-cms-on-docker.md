@@ -43,7 +43,7 @@ Concretely, for October CMS it gives you a production-style NGINX + PHP-FPM stac
 ```bash
 cd my-october-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No October CMS project yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Most October CMS sites need a web server, a database, and Redis for cache and qu
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 

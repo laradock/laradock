@@ -109,6 +109,18 @@ Done.
   <a className="button button--secondary button--lg" href="/docs/containers">Usage and Commands</a>
 </div>
 
+## What's New (2026)
+
+Laradock has been battle-tested since 2015, and it isn't standing still. The last few releases turned it from a local-dev tool into a full **local-to-production** platform. If you used it years ago, it's far more powerful today:
+
+- **Deploy to production (v20).** `./laradock ship` turns your exact dev stack into a hardened image you deploy to a single server, [Kubernetes](/docs/production) (EKS/GKE/AKS), or a managed cloud (AWS ECS, Cloud Run, Fly). Sail, Herd, Valet, and XAMPP stop at your laptop; Laradock follows you all the way to production.
+- **A real CLI (v19).** `./laradock start` runs a setup wizard and boots your stack in plain English, no Docker knowledge required, and prints every real `docker compose` command it runs so nothing is hidden. See [The Laradock CLI](/docs/cli).
+- **A local AI stack, 20+ new services (v18).** Ollama, LocalAI, LiteLLM, and vector databases (pgvector, Qdrant, Weaviate, Chroma) for LLMs and RAG on your machine, plus FrankenPHP, RoadRunner, Laravel Reverb, OpenSearch, and more, 100+ services in all.
+- **PHP 5.6 → 8.5.** Every current PHP version, plus legacy runtimes no native tool will touch.
+- **Cleaner internals (v18.1).** Per-service compose files and a small shared `.env`, with **zero breaking changes**, verified byte-identical.
+
+Full history in the [release notes](https://github.com/laradock/laradock/releases).
+
 ## Features
 
 <!-- SYNC: keep this list identical to the "Key Features" list in /README.md -->
@@ -131,11 +143,11 @@ Done.
 
 
 
-## Support PHP Projects
+## Supported PHP Projects
 
 Laradock provides the PHP runtime, web server, databases, and background services your app needs, so it runs virtually any PHP framework, CMS, or e-commerce platform, right down to plain framework-free PHP.
 
-<!-- SYNC: one of THREE places listing supported projects. Keep in sync with the "Support PHP Projects" list in README.md AND the projects_* functions in the ./laradock CLI script. Add a project = update all three. -->
+<!-- SYNC: one of THREE places listing supported projects. Keep in sync with the "Supported PHP Projects" list in README.md AND the projects_* functions in the ./laradock CLI script. Add a project = update all three. -->
 | Type | Projects |
 |------|----------|
 | **Frameworks**  | [Laravel](/docs/laravel-on-docker), [Symfony](/docs/symfony-on-docker), [CodeIgniter](/docs/codeigniter-on-docker), [Yii](/docs/yii-on-docker), [Laminas (Zend Framework)](/docs/laminas-on-docker), [CakePHP](/docs/cakephp-on-docker), [Phalcon](/docs/phalcon-on-docker), [Slim](/docs/slim-on-docker), [Lumen](/docs/lumen-on-docker), [FuelPHP](/docs/fuelphp-on-docker), [Spiral](/docs/spiral-on-docker), [Hyperf](/docs/hyperf-on-docker), [API Platform](/docs/api-platform-on-docker), [Mezzio](/docs/mezzio-on-docker), [Flight](/docs/flight-on-docker), [Fat-Free Framework (F3)](/docs/fat-free-framework-on-docker), [ThinkPHP](/docs/thinkphp-on-docker), [Silex](/docs/silex-on-docker), [Swoole](/docs/swoole-on-docker), [Workerman](/docs/workerman-on-docker), [Ubiquity](/docs/ubiquity-on-docker), [SilverStripe](/docs/silverstripe-on-docker), [Nette](/docs/nette-on-docker), [Leaf PHP](/docs/leaf-php-on-docker) |
@@ -272,6 +284,10 @@ Laradock doesn't stop at your laptop. When your app is ready, `./laradock ship` 
 :::info[How it's organized]
 One folder per service; each holds that service's `compose.yml` (container definition), `defaults.env` (pre-filled settings), and `Dockerfile`. Change any setting by adding one line to your `.env`, it always wins. Full map in [Getting Started](/docs/getting-started).
 :::
+
+## The Story: Laravel + Docker = Laradock
+
+Laradock started in 2015 as exactly what the name says: **Lara**vel + **Dock**er, a simple way to run a Laravel app in containers back when Laravel had no official Docker answer of its own. Then the demand grew. Developers wanted more databases, caches, queues, and search engines, and wanted to run projects that were never Laravel at all (Symfony, WordPress, Magento, plain PHP). So Laradock grew with them, from one Laravel stack into 100+ pre-configured services for any PHP project, and now all the way to production with `./laradock ship`. Laravel eventually shipped its own minimal, Laravel-only [Sail](https://laravel.com/docs/sail); Laradock is where you go when you outgrow it.
 
 ## How Laradock Compares {#laradock-alternatives}
 

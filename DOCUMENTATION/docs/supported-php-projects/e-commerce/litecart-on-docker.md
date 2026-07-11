@@ -43,7 +43,7 @@ Concretely, for LiteCart it gives you a production-style NGINX + PHP-FPM stack, 
 ```bash
 cd my-litecart-store
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No LiteCart files yet? Clone Laradock first, then download LiteCart from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ LiteCart needs a web server and a database. The web server pulls in PHP-FPM auto
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

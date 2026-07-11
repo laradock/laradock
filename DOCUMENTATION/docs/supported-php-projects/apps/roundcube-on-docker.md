@@ -43,7 +43,7 @@ Concretely, for Roundcube's own layer, Laradock gives you a production-style NGI
 ```bash
 cd my-roundcube-instance
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Roundcube files yet? Clone Laradock first, then download and extract the Roundcube package from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Roundcube needs a web server and a database for its own data. The web server pul
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

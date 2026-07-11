@@ -43,7 +43,7 @@ For Sulu specifically, Laradock wires a production-style NGINX + PHP-FPM stack, 
 ```bash
 cd my-sulu-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Sulu project yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Every Sulu project needs a web server, PHP-FPM and a database; add Elasticsearch
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

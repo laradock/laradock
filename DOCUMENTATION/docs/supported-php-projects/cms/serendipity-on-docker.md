@@ -43,7 +43,7 @@ Concretely, for Serendipity it gives you a production-style NGINX + PHP-FPM stac
 ```bash
 cd my-serendipity-blog
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Serendipity files yet? Clone Laradock first, then download Serendipity from the [releases page](https://github.com/s9y/Serendipity/releases) into your project root.)
@@ -63,6 +63,7 @@ Serendipity needs a web server and a database. Start exactly those (the web serv
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

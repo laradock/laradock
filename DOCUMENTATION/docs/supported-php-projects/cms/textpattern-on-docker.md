@@ -43,7 +43,7 @@ Concretely, for Textpattern it gives you a production-style NGINX + PHP-FPM stac
 ```bash
 cd my-textpattern-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Textpattern files yet? Clone Laradock first, then download Textpattern from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Textpattern needs a web server and a database. The web server pulls in PHP-FPM a
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

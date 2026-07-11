@@ -43,7 +43,7 @@ Concretely, for ThinkPHP it gives you a production-style NGINX + PHP-FPM stack, 
 ```bash
 cd my-thinkphp-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No ThinkPHP app yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Most ThinkPHP apps need a web server and a database. Start exactly those (the we
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

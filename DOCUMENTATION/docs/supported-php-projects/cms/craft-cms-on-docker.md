@@ -43,7 +43,7 @@ For Craft CMS specifically, Laradock wires a production-style NGINX + PHP-FPM st
 ```bash
 cd my-craft-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Craft project yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Craft CMS needs a web server and a database; there is no flat-file mode, so pick
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

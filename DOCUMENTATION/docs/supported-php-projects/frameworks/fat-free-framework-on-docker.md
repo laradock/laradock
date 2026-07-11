@@ -43,7 +43,7 @@ Concretely, for Fat-Free Framework it gives you a production-style NGINX + PHP-F
 ```bash
 cd my-f3-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No F3 files yet? Clone Laradock first, then install the framework from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Most F3 apps need a web server and a database. Start exactly those (the web serv
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

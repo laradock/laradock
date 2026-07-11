@@ -43,7 +43,7 @@ For Invoice Ninja specifically, Laradock wires a production-style NGINX + PHP-FP
 ```bash
 cd my-invoiceninja-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Invoice Ninja source yet? Clone Laradock first, then pull the Invoice Ninja source into your project directory from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Invoice Ninja needs a web server and a database. The web server pulls in PHP-FPM
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

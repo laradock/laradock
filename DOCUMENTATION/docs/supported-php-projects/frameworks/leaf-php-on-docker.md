@@ -43,7 +43,7 @@ For Leaf PHP specifically, Laradock wires a production-style NGINX + PHP-FPM sta
 ```bash
 cd my-leaf-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Leaf app yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Most Leaf MVC apps need a web server and a database (the web server pulls in PHP
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

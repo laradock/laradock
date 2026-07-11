@@ -48,7 +48,7 @@ Laravel has its own official Docker tools (Sail) and native runtimes (Herd, Vale
 ```bash
 cd my-laravel-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Laravel app yet? Clone Laradock first, then [create one from the workspace container](#starting-a-brand-new-laravel-app).)
@@ -68,6 +68,7 @@ Most Laravel apps need a web server, a database, and Redis. Start exactly those 
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 

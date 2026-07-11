@@ -43,7 +43,7 @@ For LinkAce specifically, Laradock wires a production-style NGINX + PHP-FPM stac
 ```bash
 cd my-linkace-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No LinkAce files yet? Clone Laradock first, then clone LinkAce from [its GitHub repo](https://github.com/Kovah/LinkAce) into your project directory.)
@@ -63,6 +63,7 @@ LinkAce needs a web server, PHP and a database. Start exactly those (the web ser
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

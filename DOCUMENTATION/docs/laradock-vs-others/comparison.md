@@ -70,9 +70,9 @@ DDEV is an appliance: press `ddev start` and a polished environment appears, wit
 
 ### Laradock vs Laravel Sail
 
-Sail is official, minimal, and Laravel-only: a small compose file with ~10 services and a `sail` command wrapper. It is a great default for a standard Laravel app. You outgrow it the day you need a service it does not ship (search cluster, message broker, a second database, a vector DB) or a non-Laravel project. Laradock is framework-agnostic, offers 100+ services behind the identical `docker compose up -d {service}` workflow, and needs no wrapper script.
+Sail is official, minimal, and Laravel-only: a small compose file with ~10 services and a `sail` command wrapper. It is a great default for a standard Laravel app. You outgrow it the day you need a service it does not ship (search cluster, message broker, a second database, a vector DB) or a non-Laravel project. Laradock is framework-agnostic, offers 100+ services behind the identical `docker compose up -d {service}` workflow, and needs no wrapper script. It also goes where Sail deliberately stops: Sail is dev-only, while `./laradock ship` takes the same stack to production, a single server, Kubernetes (EKS/GKE/AKS), or a managed cloud.
 
-**Pick Sail** for a simple, purely Laravel app with vanilla needs. **Pick Laradock** when your stack is bigger than Sail's list, you juggle multiple frameworks, or you would rather use Docker directly than through a wrapper.
+**Pick Sail** for a simple, purely Laravel app with vanilla needs. **Pick Laradock** when your stack is bigger than Sail's list, you juggle multiple frameworks, you need the same environment to reach production, or you would rather use Docker directly than through a wrapper.
 
 *Full breakdown with real commands for both: [Laradock vs Laravel Sail](/docs/laradock-vs-laravel-sail).*
 

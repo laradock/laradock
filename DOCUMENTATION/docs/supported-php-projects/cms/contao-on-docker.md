@@ -43,7 +43,7 @@ Concretely, for Contao it gives you a production-style NGINX + PHP-FPM stack, My
 ```bash
 cd my-contao-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Contao project yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Contao needs a web server and a database. Start exactly those (the web server pu
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

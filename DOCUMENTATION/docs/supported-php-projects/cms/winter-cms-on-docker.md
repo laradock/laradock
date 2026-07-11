@@ -43,7 +43,7 @@ Concretely, for Winter CMS it gives you a production-style NGINX + PHP-FPM stack
 ```bash
 cd my-winter-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Winter CMS files yet? Clone Laradock first, then create the project from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Most Winter CMS sites need a web server, a database, and Redis for cache. The we
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 

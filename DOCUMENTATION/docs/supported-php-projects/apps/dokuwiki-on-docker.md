@@ -43,7 +43,7 @@ Concretely, for DokuWiki it gives you a production-style NGINX + PHP-FPM stack a
 ```bash
 cd my-dokuwiki-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No DokuWiki files yet? Clone Laradock first, then download and extract the DokuWiki package from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ DokuWiki only needs a web server; there is no database to start. The web server 
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx workspace
 ```
 

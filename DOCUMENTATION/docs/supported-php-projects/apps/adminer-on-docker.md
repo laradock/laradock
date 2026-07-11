@@ -43,7 +43,7 @@ Concretely, Laradock's Adminer service is pre-wired to talk to your database con
 ```bash
 cd my-project
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 ### 2. Start your database and Adminer
@@ -61,6 +61,7 @@ Adminer needs a database to point at. Start both together:
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d mysql adminer
 ```
 

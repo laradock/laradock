@@ -43,7 +43,7 @@ Concretely, for ProcessWire it gives you a production-style NGINX + PHP-FPM stac
 ```bash
 cd my-processwire-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No ProcessWire files yet? Clone Laradock first, then download ProcessWire into your project root from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ ProcessWire needs a web server and a database. Start exactly those (the web serv
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

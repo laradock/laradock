@@ -43,7 +43,7 @@ Concretely, for Akaunting it gives you a production-style NGINX + PHP-FPM stack,
 ```bash
 cd my-akaunting-instance
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Akaunting codebase yet? Clone Laradock first, then pull one down from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Akaunting needs a web server and a database; add Redis for cache. The web server
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 

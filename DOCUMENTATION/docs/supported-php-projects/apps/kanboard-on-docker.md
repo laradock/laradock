@@ -43,7 +43,7 @@ Concretely, for Kanboard it gives you a production-style NGINX + PHP-FPM stack, 
 ```bash
 cd my-kanboard-instance
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Kanboard codebase yet? Clone Laradock first, then pull one down from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Kanboard's biggest difference from the rest of this list: it needs no database s
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx workspace
 ```
 

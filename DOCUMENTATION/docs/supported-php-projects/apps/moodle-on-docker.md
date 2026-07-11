@@ -43,7 +43,7 @@ Concretely, for Moodle it gives you a production-style NGINX + PHP-FPM stack, My
 ```bash
 cd my-moodle-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Moodle files yet? Clone Laradock first, then download the Moodle package from the `workspace` container in the next steps.)
@@ -63,6 +63,7 @@ Moodle needs a web server and a database; Redis is optional but recommended once
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 

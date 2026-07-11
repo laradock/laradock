@@ -43,7 +43,7 @@ For API Platform specifically, Laradock wires a production-style NGINX + PHP-FPM
 ```bash
 cd my-api-platform-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No API Platform app yet? Clone Laradock first, then [create one from the workspace container](#4-install-and-run-your-app).)
@@ -63,6 +63,7 @@ Most API Platform apps need a web server and a database. Start exactly those (th
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx postgres workspace
 ```
 

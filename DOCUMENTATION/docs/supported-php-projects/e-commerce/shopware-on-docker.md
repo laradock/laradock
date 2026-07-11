@@ -43,7 +43,7 @@ For Shopware specifically, Laradock wires a production-style NGINX + PHP-FPM sta
 ```bash
 cd my-shopware-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Shopware project yet? Clone Laradock first, then install one from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ A typical Shopware 6 install needs a web server, a database, and Redis. Start ex
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 

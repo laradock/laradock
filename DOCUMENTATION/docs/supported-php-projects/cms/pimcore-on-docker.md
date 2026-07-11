@@ -43,7 +43,7 @@ For Pimcore specifically, Laradock wires a production-style NGINX + PHP-FPM stac
 ```bash
 cd my-pimcore-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Pimcore project yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Every Pimcore project needs a web server, PHP-FPM and a database; add Elasticsea
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

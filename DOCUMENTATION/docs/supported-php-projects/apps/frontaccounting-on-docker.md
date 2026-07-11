@@ -43,7 +43,7 @@ Concretely, for FrontAccounting it gives you a production-style NGINX + PHP-FPM 
 ```bash
 cd my-frontaccounting-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No FrontAccounting files yet? Clone Laradock first, then download the FrontAccounting release from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ FrontAccounting needs a web server and a MySQL database; the web server pulls in
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

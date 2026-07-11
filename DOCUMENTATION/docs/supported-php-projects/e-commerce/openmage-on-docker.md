@@ -43,7 +43,7 @@ For OpenMage specifically, Laradock wires an NGINX + PHP-FPM stack pinned to the
 ```bash
 cd my-openmage-store
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No OpenMage files yet? Clone Laradock first, then download OpenMage from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ OpenMage needs a web server and a database; it does not require Elasticsearch or
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

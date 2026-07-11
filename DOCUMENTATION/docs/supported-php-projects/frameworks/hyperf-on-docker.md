@@ -43,7 +43,7 @@ For Hyperf specifically, Laradock's `workspace` container has a `WORKSPACE_INSTA
 ```bash
 cd my-hyperf-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Hyperf app yet? Clone Laradock first, then [create one from the workspace container](#4-install-and-run-your-app).)
@@ -86,6 +86,7 @@ docker compose build workspace
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d mysql redis workspace
 ```
 

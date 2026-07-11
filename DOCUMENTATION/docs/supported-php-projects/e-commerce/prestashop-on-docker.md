@@ -43,7 +43,7 @@ Concretely, for PrestaShop it gives you a production-style NGINX or Apache + PHP
 ```bash
 cd my-prestashop-store
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No PrestaShop files yet? Clone Laradock first, then download PrestaShop from the `workspace` container in the next steps.)
@@ -63,6 +63,7 @@ PrestaShop needs a web server and a database. Redis is optional; add it when you
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

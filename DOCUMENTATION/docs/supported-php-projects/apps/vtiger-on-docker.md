@@ -43,7 +43,7 @@ Concretely, for Vtiger it gives you a production-style NGINX + PHP-FPM stack, My
 ```bash
 cd my-vtiger-instance
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Vtiger files yet? Clone Laradock first, then download and extract the Vtiger package from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Vtiger needs a web server and a MySQL database. The web server pulls in PHP-FPM 
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

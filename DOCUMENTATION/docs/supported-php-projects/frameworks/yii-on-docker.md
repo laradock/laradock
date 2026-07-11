@@ -43,7 +43,7 @@ Concretely, for Yii it gives you a production-style NGINX + PHP-FPM stack, MySQL
 ```bash
 cd my-yii-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Yii app yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Most Yii apps need a web server and a database (the web server pulls in PHP-FPM 
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

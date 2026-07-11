@@ -43,7 +43,7 @@ For Joomla specifically, Laradock wires a production-style NGINX + PHP-FPM stack
 ```bash
 cd my-joomla-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Joomla files yet? Clone Laradock first, then download Joomla from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Joomla needs a web server and a database; add Redis for caching. The web server 
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 

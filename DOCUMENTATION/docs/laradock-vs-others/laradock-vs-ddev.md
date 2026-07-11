@@ -9,6 +9,8 @@ keywords:
   - ddev laravel setup
   - ddev tutorial
   - php docker development environment
+  - ddev production deployment
+  - ddev vs laradock production
 ---
 
 import Tabs from '@theme/Tabs';
@@ -104,6 +106,7 @@ Day to day you talk to Docker itself: `./laradock enter workspace`, `./laradock 
 | Commands | `ddev *` vocabulary | standard `docker compose *` |
 | Multi-project isolation | Automatic per project | Manual (`COMPOSE_PROJECT_NAME` + `DATA_PATH_HOST` per project) |
 | Frameworks | CMS-focused presets (Drupal, TYPO3, WordPress, Laravel) | Any PHP project, framework-agnostic |
+| Production deployment | Local dev tool (generated files don't leave your machine) | `./laradock ship` → hardened image for a server, Kubernetes (EKS/GKE/AKS), or managed cloud |
 | Skills you build | DDEV-specific | Transferable Docker |
 
 ## Choose DDEV if...
@@ -118,6 +121,7 @@ Day to day you talk to Docker itself: `./laradock enter workspace`, `./laradock 
 - Your stack goes beyond the add-on registry (message brokers, search clusters, local LLMs, monitoring).
 - You want to learn real Docker while you work, and keep those skills in production.
 - You do not want to install or trust another binary between you and your containers.
+- **You want dev and production to be the same containers.** DDEV is a local tool; Laradock's `./laradock ship` deploys the exact stack you built to a server, Kubernetes, or a managed cloud. See [Deploy to Production](/docs/production).
 
 ## Already on DDEV? Migrating takes minutes
 

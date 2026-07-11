@@ -43,7 +43,7 @@ Concretely, for Magento it gives you a production-style NGINX + PHP-FPM stack, M
 ```bash
 cd my-magento-store
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Magento files yet? Clone Laradock first, then pull Magento via Composer from the `workspace` container in the next steps; you will need your Adobe Commerce Marketplace authentication keys for the private repo.)
@@ -63,6 +63,7 @@ Magento needs a web server, a database, and a search engine (OpenSearch is what 
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql opensearch redis workspace
 ```
 
@@ -172,4 +173,4 @@ The containers are production-style (real NGINX + PHP-FPM), so it is far closer 
 
 ---
 
-Comparing environments? See the full **[Laradock vs Others](/docs/laradock-alternatives)** breakdown. Ready to start? **[Getting Started](/docs/getting-started)** takes about five minutes.
+Comparing environments? See **[Laradock vs docker-magento and Warden](/docs/laradock-vs-docker-magento)** and the full **[Laradock vs Others](/docs/laradock-alternatives)** breakdown. Ready to start? **[Getting Started](/docs/getting-started)** takes about five minutes.

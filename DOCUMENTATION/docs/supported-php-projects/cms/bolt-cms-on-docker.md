@@ -43,7 +43,7 @@ Concretely, for Bolt it gives you a production-style NGINX + PHP-FPM stack, a `w
 ```bash
 cd my-bolt-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Bolt project yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Bolt defaults to SQLite, which is just a file, so a fresh install only needs a w
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx workspace
 ```
 

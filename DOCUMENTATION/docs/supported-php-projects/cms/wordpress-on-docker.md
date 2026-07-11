@@ -27,7 +27,7 @@ The catch: wiring those containers together yourself (base images, PHP extension
 
 ## Why Laradock is the best fit for WordPress
 
-Unlike Laravel, WordPress has no official Docker tool or first-party runtime of its own, so a ready-made, no-lock-in environment matters even more. Here is why Laradock is the best fit:
+Unlike Laravel with Sail, WordPress has no single official Docker environment: the core team's `wp-env` targets plugin/theme development, and the official `wordpress` image is a bare runtime you wire yourself ([full comparison](/docs/laradock-vs-wordpress-docker)). So a ready-made, no-lock-in environment matters even more. Here is why Laradock is the best fit:
 
 - **You are never locked into one ecosystem.** Laradock is framework-agnostic. Run WordPress today, add a Laravel API, a Symfony service, or a plain PHP script beside it tomorrow, all in the same environment with the same commands.
 - **Far more flexibility.** 100+ ready services and any PHP version from 5.6 to 8.5, so a legacy theme and a modern site each get exactly the runtime they need.
@@ -43,7 +43,7 @@ Concretely, for WordPress it gives you a production-style NGINX + PHP-FPM stack,
 ```bash
 cd my-wordpress-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No WordPress files yet? Clone Laradock first, then download WordPress from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ WordPress needs a web server and a database; add Redis for object caching. The w
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 
@@ -168,4 +169,4 @@ The containers are production-style (real NGINX + PHP-FPM), so it is far closer 
 
 ---
 
-Comparing local WordPress environments? See **[Laradock vs Local WP](/docs/laradock-vs-local-wp)** and the full **[Laradock vs Others](/docs/laradock-alternatives)** breakdown. Ready to start? **[Getting Started](/docs/getting-started)** takes about five minutes.
+Comparing local WordPress environments? See **[Laradock vs the Official WordPress Docker Setup](/docs/laradock-vs-wordpress-docker)** (wp-env & the official image), **[Laradock vs Local WP](/docs/laradock-vs-local-wp)**, and the full **[Laradock vs Others](/docs/laradock-alternatives)** breakdown. Ready to start? **[Getting Started](/docs/getting-started)** takes about five minutes.

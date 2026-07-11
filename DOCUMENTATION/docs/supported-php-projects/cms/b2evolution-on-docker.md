@@ -43,7 +43,7 @@ Concretely, for b2evolution it gives you a production-style NGINX + PHP-FPM stac
 ```bash
 cd my-b2evolution-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No b2evolution files yet? Clone Laradock first, then download b2evolution from the [releases page](https://github.com/b2evolution/b2evolution/releases) into your project root.)
@@ -63,6 +63,7 @@ b2evolution needs a web server and a database. Start exactly those (the web serv
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

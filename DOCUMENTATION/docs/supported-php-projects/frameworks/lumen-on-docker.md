@@ -43,7 +43,7 @@ For Lumen specifically, Laradock wires a production-style NGINX + PHP-FPM stack,
 ```bash
 cd my-lumen-service
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Lumen app yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Most Lumen APIs need a web server, a database, and Redis for cache and queues. S
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 

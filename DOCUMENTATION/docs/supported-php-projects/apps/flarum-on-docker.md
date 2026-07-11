@@ -43,7 +43,7 @@ Concretely, for Flarum it gives you a production-style NGINX + PHP-FPM stack, My
 ```bash
 cd my-flarum-forum
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Flarum files yet? Clone Laradock first, then create the Flarum project from the `workspace` container in the next steps.)
@@ -63,6 +63,7 @@ Flarum needs a web server and a database. The web server pulls in PHP-FPM automa
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

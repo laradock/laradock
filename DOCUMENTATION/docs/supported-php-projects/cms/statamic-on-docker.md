@@ -43,7 +43,7 @@ Concretely, for Statamic it gives you a production-style NGINX + PHP-FPM stack, 
 ```bash
 cd my-statamic-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Statamic project yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Statamic's default flat-file mode needs nothing but a web server; PHP-FPM comes 
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx workspace
 ```
 

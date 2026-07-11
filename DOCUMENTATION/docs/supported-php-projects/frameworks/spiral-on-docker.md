@@ -43,7 +43,7 @@ For Spiral specifically, Laradock ships a dedicated `roadrunner` service (it run
 ```bash
 cd my-spiral-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Spiral app yet? Clone Laradock first, then [create one from the workspace container](#4-install-and-run-your-app).)
@@ -63,6 +63,7 @@ Spiral apps run through the `roadrunner` service instead of NGINX + PHP-FPM; add
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d roadrunner postgres redis workspace
 ```
 

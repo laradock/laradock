@@ -43,7 +43,7 @@ Concretely, for AvoRed it gives you a production-style NGINX + PHP-FPM stack, My
 ```bash
 cd my-avored-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Laravel app yet? Clone Laradock first, then create one from the `workspace` container in the next steps; AvoRed is added into it as a Composer package.)
@@ -63,6 +63,7 @@ AvoRed needs whatever a Laravel app needs: a web server and a database. Redis is
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 

@@ -43,7 +43,7 @@ Concretely, for SMF it gives you a production-style NGINX + PHP-FPM stack, MySQL
 ```bash
 cd my-smf-forum
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No SMF files yet? Clone Laradock first, then download and extract the SMF package from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ SMF needs a web server and a database. The web server pulls in PHP-FPM automatic
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

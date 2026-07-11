@@ -43,7 +43,7 @@ For Symfony specifically, Laradock wires a production-style NGINX + PHP-FPM stac
 ```bash
 cd my-symfony-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Symfony app yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Most Symfony apps need a web server, a database, and PHP-FPM (the web server pul
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -174,4 +175,4 @@ The containers are production-style (real NGINX + PHP-FPM, or FrankenPHP if you 
 
 ---
 
-Comparing environments? See the full **[Laradock vs Others](/docs/laradock-alternatives)** breakdown. Ready to start? **[Getting Started](/docs/getting-started)** takes about five minutes.
+Comparing environments? See **[Laradock vs Symfony Docker](/docs/laradock-vs-symfony-docker)** (the FrankenPHP-based template and the Symfony CLI) and the full **[Laradock vs Others](/docs/laradock-alternatives)** breakdown. Ready to start? **[Getting Started](/docs/getting-started)** takes about five minutes.

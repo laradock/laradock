@@ -43,7 +43,7 @@ For Swoole specifically, Laradock gives you the extension pre-matched to your PH
 ```bash
 cd my-swoole-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 ### 2. Enable the Swoole extension
@@ -65,6 +65,7 @@ WORKSPACE_INSTALL_SWOOLE=true
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d workspace
 ```
 

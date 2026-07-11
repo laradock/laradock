@@ -43,7 +43,7 @@ Concretely, for Mezzio it gives you a production-style NGINX + PHP-FPM stack, My
 ```bash
 cd my-mezzio-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Mezzio app yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Most Mezzio apps need a web server and a database. Start exactly those (the web 
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

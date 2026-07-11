@@ -43,7 +43,7 @@ For Grav specifically, Laradock wires a production-style NGINX + PHP-FPM stack a
 ```bash
 cd my-grav-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Grav files yet? Clone Laradock first, then create the site from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Grav has no database, so a web server is the whole stack; PHP-FPM comes with it 
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx workspace
 ```
 

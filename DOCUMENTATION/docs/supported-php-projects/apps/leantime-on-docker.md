@@ -43,7 +43,7 @@ Concretely, for Leantime it gives you a production-style NGINX + PHP-FPM stack, 
 ```bash
 cd my-leantime-instance
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Leantime codebase yet? Clone Laradock first, then pull one down from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Leantime needs a web server and a database (it will not run without one). The we
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

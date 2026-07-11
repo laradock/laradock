@@ -43,7 +43,7 @@ Concretely, for e107 it gives you a production-style NGINX + PHP-FPM stack, MySQ
 ```bash
 cd my-e107-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No e107 files yet? Clone Laradock first, then download e107 from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ e107 needs a web server and a database. The web server pulls in PHP-FPM automati
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

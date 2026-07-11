@@ -43,7 +43,7 @@ Concretely, for CubeCart it gives you a production-style NGINX + PHP-FPM stack, 
 ```bash
 cd my-cubecart-store
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No CubeCart files yet? Clone Laradock first, then download CubeCart from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ CubeCart needs a web server and a database. The web server pulls in PHP-FPM auto
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

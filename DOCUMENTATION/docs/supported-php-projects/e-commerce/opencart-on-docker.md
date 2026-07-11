@@ -43,7 +43,7 @@ Concretely, for OpenCart it gives you a production-style NGINX or Apache + PHP-F
 ```bash
 cd my-opencart-store
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No OpenCart files yet? Clone Laradock first, then download an OpenCart release from the `workspace` container in the next steps.)
@@ -63,6 +63,7 @@ OpenCart needs a web server and a database, nothing else is required out of the 
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

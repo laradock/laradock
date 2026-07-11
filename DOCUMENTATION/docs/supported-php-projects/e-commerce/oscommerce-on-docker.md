@@ -43,7 +43,7 @@ Concretely, for osCommerce it gives you an NGINX + PHP-FPM stack pinned to which
 ```bash
 cd my-oscommerce-store
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No osCommerce files yet? Clone Laradock first, then download osCommerce from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ osCommerce needs a web server and a database. The web server pulls in PHP-FPM au
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

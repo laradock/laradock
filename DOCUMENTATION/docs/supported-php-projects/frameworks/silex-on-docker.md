@@ -43,7 +43,7 @@ For Silex specifically, Laradock wires a production-style NGINX + PHP-FPM stack,
 ```bash
 cd my-silex-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 ### 2. Pick the services your app needs
@@ -61,6 +61,7 @@ Most Silex apps need a web server and a database (the web server pulls in PHP-FP
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

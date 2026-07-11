@@ -43,7 +43,7 @@ Concretely, for ExpressionEngine it gives you a production-style NGINX + PHP-FPM
 ```bash
 cd my-expressionengine-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No ExpressionEngine files yet? Clone Laradock first, then download ExpressionEngine from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ ExpressionEngine needs a web server and a database. The web server pulls in PHP-
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

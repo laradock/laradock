@@ -43,7 +43,7 @@ Concretely, for TYPO3 it gives you a production-style NGINX + PHP-FPM stack, MyS
 ```bash
 cd my-typo3-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No TYPO3 project yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Most TYPO3 sites need a web server, a database, and Redis for caching. Start exa
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 

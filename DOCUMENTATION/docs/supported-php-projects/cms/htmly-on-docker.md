@@ -43,7 +43,7 @@ Concretely, for HTMLy it gives you a production-style NGINX + PHP-FPM stack, no 
 ```bash
 cd my-htmly-blog
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No HTMLy files yet? Clone Laradock first, then download HTMLy from the [releases page](https://github.com/danpros/htmly/releases) into your project root.)
@@ -63,6 +63,7 @@ HTMLy has no database, so it only needs a web server. Start that (it pulls in PH
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx workspace
 ```
 

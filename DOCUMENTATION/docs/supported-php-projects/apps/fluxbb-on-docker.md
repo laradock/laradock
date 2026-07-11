@@ -43,7 +43,7 @@ Concretely, for FluxBB it gives you a production-style NGINX + PHP-FPM stack, My
 ```bash
 cd my-fluxbb-forum
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No FluxBB files yet? Clone Laradock first, then download and extract the FluxBB package from the `workspace` container in the next steps.)
@@ -63,6 +63,7 @@ FluxBB needs a web server and a database. The web server pulls in PHP-FPM automa
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

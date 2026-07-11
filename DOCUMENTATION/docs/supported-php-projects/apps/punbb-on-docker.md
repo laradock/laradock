@@ -43,7 +43,7 @@ Concretely, for PunBB it gives you a production-style NGINX + PHP-FPM stack, MyS
 ```bash
 cd my-punbb-forum
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No PunBB files yet? Clone Laradock first, then download and extract the PunBB package from the `workspace` container in the next steps.)
@@ -63,6 +63,7 @@ PunBB needs a web server and a database. The web server pulls in PHP-FPM automat
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

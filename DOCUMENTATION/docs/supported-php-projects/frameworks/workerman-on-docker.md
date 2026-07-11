@@ -43,7 +43,7 @@ For Workerman specifically, Laradock's `php-worker` container already compiles `
 ```bash
 cd my-workerman-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 ### 2. Pick the services your app needs
@@ -61,6 +61,7 @@ For development, the `workspace` container is enough; add a database only if you
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d workspace mysql
 ```
 

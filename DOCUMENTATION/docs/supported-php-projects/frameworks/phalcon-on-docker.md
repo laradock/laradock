@@ -43,7 +43,7 @@ Concretely, for Phalcon it gives you a production-style NGINX + PHP-FPM stack wi
 ```bash
 cd my-phalcon-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 ### 2. Turn on the Phalcon extension and pick your services
@@ -68,6 +68,7 @@ Then start a web server, a database, and the workspace (the web server pulls in 
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d --build nginx mysql workspace
 ```
 

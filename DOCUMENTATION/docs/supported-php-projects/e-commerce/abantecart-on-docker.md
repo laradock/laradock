@@ -43,7 +43,7 @@ Concretely, for AbanteCart it gives you a production-style NGINX + PHP-FPM stack
 ```bash
 cd my-abantecart-store
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No AbanteCart files yet? Clone Laradock first, then download AbanteCart from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ AbanteCart needs a web server and a database. The web server pulls in PHP-FPM au
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

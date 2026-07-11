@@ -9,6 +9,11 @@ keywords:
   - laravel sail setup
   - laravel docker environment
   - sail vs docker compose
+  - laravel sail production
+  - laravel sail production deployment
+  - laravel sail limitations
+  - laravel sail vs laradock production
+  - deploy laravel to production docker
 ---
 
 import Tabs from '@theme/Tabs';
@@ -86,6 +91,37 @@ Change PHP version: `PHP_VERSION=8.3` in `.env`, then `./laradock rebuild php-fp
 | Adding a service later | Only if Sail supports it (else hand-edit compose.yaml) | `docker compose up -d {service}` |
 | Dev shell | none (commands via `sail`) | `workspace` container with Composer, Node, git, and dozens of tools |
 | Config | one compose.yaml in your repo | per-service folders + one `.env` |
+| Production deployment | **Dev only** — Sail is explicitly not meant for production | `./laradock ship` → hardened image for a server, **Kubernetes** (EKS/GKE/AKS), or managed cloud (ECS, Cloud Run, Fly) |
+
+## Command-to-command map
+
+Everything you do with `sail` has a Laradock equivalent. Sail routes every action through one `sail` wrapper; Laradock uses plain-English verbs for the stack and runs your dev tools inside the `workspace` container (or via a one-off `exec`). Same capabilities, no wrapper lock-in.
+
+| Task | Laravel Sail | Laradock |
+|---|---|---|
+| Start the stack | `sail up -d` | `./laradock start` |
+| Stop the stack | `sail stop` | `./laradock stop` |
+| Restart | `sail restart` | `./laradock restart` |
+| Rebuild images | `sail build --no-cache` | `./laradock rebuild` |
+| Open a shell in the app container | `sail shell` / `sail root-shell` | `./laradock workspace` / `./laradock workspace --root` |
+| Run Artisan | `sail artisan migrate` | `./laradock exec workspace php artisan migrate` |
+| Run Composer | `sail composer require ...` | `./laradock exec workspace composer require ...` |
+| Run a raw PHP command | `sail php script.php` | `./laradock exec workspace php script.php` |
+| Run Node / NPM | `sail npm run dev` | `./laradock exec workspace npm run dev` |
+| Run the test suite | `sail test` | `./laradock test` (auto: artisan → pest → phpunit) |
+| Browser tests | `sail dusk` | `./laradock start selenium` + `./laradock test` |
+| REPL | `sail tinker` | `./laradock exec workspace php artisan tinker` |
+| Open a database shell | (connect manually with creds) | `./laradock db` (auto-detects MySQL/MariaDB/Postgres) |
+| Open the app in a browser | (type `http://localhost`) | `./laradock open` (or `open mailpit`, `open phpmyadmin`) |
+| Public URL for your local site | `sail share` | `./laradock share` (cloudflared / ngrok) |
+| Preview sent emails | Mailpit UI (bundled) | `./laradock start mailpit` → `./laradock open mailpit` |
+| See what's running | `sail ps` | `./laradock info` |
+| Change PHP version | edit `compose.yaml` + `sail build` | `./laradock set PHP_VERSION=8.4` + `./laradock rebuild` |
+| Add a service | `sail add` (from Sail's menu) | `./laradock start {service}` (100+ available) |
+| Deploy to production | not supported (dev-only) | `./laradock ship` → server / Kubernetes / cloud |
+| Drop to raw Docker | `sail` hides it | `./laradock <anything>` passes straight to `docker compose` |
+
+Two differences worth noting: Sail bundles every tool call under the `sail` verb, while Laradock keeps your dev tools (`artisan`, `composer`, `npm`) *inside* the `workspace` shell, so a single `./laradock workspace` drops you where they all live, and you type them exactly as you would anywhere else. And where Sail stops at your laptop, the same Laradock stack keeps going all the way to production.
 
 ## Choose Sail if...
 
@@ -100,6 +136,7 @@ Change PHP version: `PHP_VERSION=8.3` in `.env`, then `./laradock rebuild php-fp
 - You want a production-style web server (NGINX/Apache/Caddy) instead of `artisan serve` in a container.
 - You maintain legacy apps on PHP 5.6/7.x that Sail cannot run.
 - You prefer no wrapper: what you learn is plain Docker Compose.
+- **You want the same stack to reach production.** Sail is explicitly dev-only; Laradock's `./laradock ship` builds a hardened image of your app and deploys it to a single server, Kubernetes (EKS/GKE/AKS), or a managed cloud (AWS ECS, Cloud Run, Fly), the exact containers you developed against. See [Deploy to Production](/docs/production).
 
 ## Already on Sail? The service names even match
 

@@ -44,7 +44,7 @@ For Firefly III, Laradock wires a production-style NGINX + PHP-FPM stack, MySQL/
 git clone https://github.com/firefly-iii/firefly-iii.git my-firefly-iii
 cd my-firefly-iii
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 ### 2. Pick the services Firefly III needs
@@ -62,6 +62,7 @@ Firefly III needs a web server and a database. Redis is optional but recommended
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 

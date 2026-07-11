@@ -43,7 +43,7 @@ Concretely, for Cachet it gives you a production-style NGINX + PHP-FPM stack, My
 ```bash
 cd my-cachet-instance
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Cachet codebase yet? Clone Laradock first, then pull one down from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Cachet needs a web server and a database. The web server pulls in PHP-FPM automa
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

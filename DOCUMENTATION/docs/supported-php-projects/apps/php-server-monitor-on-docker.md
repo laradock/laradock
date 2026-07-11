@@ -43,7 +43,7 @@ Concretely, for PHP Server Monitor it gives you a production-style NGINX + PHP-F
 ```bash
 cd my-phpservermon-instance
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No PHP Server Monitor codebase yet? Clone Laradock first, then pull one down from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ PHP Server Monitor needs a web server and a database. The web server pulls in PH
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

@@ -43,7 +43,7 @@ Concretely, for Pydio 8 it gives you an NGINX + PHP-FPM stack pinned to an older
 ```bash
 cd my-pydio-instance
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Pydio 8 codebase yet? Clone Laradock first, then place your existing install into the workspace container in the next steps. If you are starting fresh, use Pydio Cells instead, it is outside PHP and outside the scope of Laradock.)
@@ -63,6 +63,7 @@ Pydio 8 needs a web server and a database. The web server pulls in PHP-FPM autom
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

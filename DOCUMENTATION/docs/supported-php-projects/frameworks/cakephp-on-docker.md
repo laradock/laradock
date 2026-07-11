@@ -43,7 +43,7 @@ Concretely, for CakePHP it gives you a production-style NGINX + PHP-FPM stack, M
 ```bash
 cd my-cakephp-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No CakePHP app yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -63,6 +63,7 @@ Most CakePHP apps need a web server and a database (the web server pulls in PHP-
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 

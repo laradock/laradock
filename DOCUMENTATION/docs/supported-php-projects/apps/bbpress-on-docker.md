@@ -43,7 +43,7 @@ Concretely, for bbPress it gives you a production-style NGINX + PHP-FPM stack, M
 ```bash
 cd my-bbpress-forum
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No WordPress files yet? Clone Laradock first, then download WordPress from the `workspace` container in the next steps; bbPress is installed on top of it as a plugin.)
@@ -63,6 +63,7 @@ bbPress needs everything WordPress needs, plus Redis for object caching once for
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 

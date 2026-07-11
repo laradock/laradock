@@ -43,7 +43,7 @@ Concretely, for Sylius it gives you a production-style NGINX + PHP-FPM stack, My
 ```bash
 cd my-sylius-store
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Sylius app yet? Clone Laradock first, then scaffold one from the `workspace` container in the next steps.)
@@ -63,6 +63,7 @@ Sylius needs a web server and a database, either MySQL/MariaDB or PostgreSQL. Re
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx postgres redis workspace
 ```
 
