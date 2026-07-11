@@ -58,7 +58,7 @@ cd laradock
 ./laradock start
 ```
 
-The first time, `start` runs the setup wizard for you: it detects your framework, then lets you pick your project from one searchable list of 100+ frameworks, CMSs, e-commerce platforms and apps grouped by type (just type its name to filter), your PHP version, and your stack (web server, database, cache). Every answer is pre-selected, so you can press Enter through it, and it can point your app's `.env` at the services for you. Then it starts. After that, `./laradock start` just starts what you chose and prints their URLs and credentials. Re-run the wizard anytime with `./laradock setup`.
+The first time, `start` runs a setup wizard: pick your framework, PHP version, and stack (web server, database, cache) from pre-selected menus, then hit Enter. After that, `./laradock start` just starts your stack and prints its URLs and credentials. Re-run the wizard anytime with `./laradock setup`.
 
 4 - Enter the Laradock Workspace (a dev shell with `php`, `composer`, `node`, and `git` inside):
 

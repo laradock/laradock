@@ -157,6 +157,14 @@
   color: #ffc24d;
   font-family: var(--ifm-font-family-monospace);
 }
+/* Maintainers grid: equal columns, no label-column styling. */
+.markdown table.maintainers td:first-child,
+.markdown table.maintainers th:first-child {
+  width: auto;
+  min-width: 0;
+  color: inherit;
+  font-family: inherit;
+}
 
 /* A touch more room between list items on dense pages. */
 .markdown li + li {

@@ -6,13 +6,8 @@ import Layout from "@theme/Layout";
 import styles from "./index.module.css";
 import SponsorsPage from "../components/SponsorsPage";
 import SupportBanner from "../components/SupportBanner";
-
-const STATS = [
-  { num: "100+ Services", label: "Pre-configured containers" },
-  { num: "5M+ Downloads", label: "From Docker Hub" },
-  { num: "450+ Contributors", label: "Built by the community" },
-  { num: "10+ Years", label: "Battle-tested since 2015" },
-];
+import TerminalDemo from "../components/TerminalDemo";
+import StatsTicker from "../components/StatsTicker";
 
 const svg = (paths: ReactNode) => (
   <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round">
@@ -179,42 +174,17 @@ export default function Home(): ReactNode {
                   12K ★ on GitHub
                 </Link>
               </div>
-              <div className={styles.heroTerminal}>
-                <div className={styles.terminal}>
-                  <div className={styles.terminalBar}>
-                    <span />
-                    <span />
-                    <span />
-                    <em>bash</em>
-                  </div>
-                  <div className={styles.terminalBody}>
-                    <div>
-                      <span className={styles.prompt}>$</span>git clone https://github.com/laradock/laradock.git
-                    </div>
-                    <div>
-                      <span className={styles.prompt}>$</span>cd laradock
-                    </div>
-                    <div>
-                      <span className={styles.prompt}>$</span>./laradock start
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
 
             <div className={styles.heroSide}>
               <span className={styles.motto}>Use Docker first · Learn it later</span>
-              <div className={styles.stats}>
-                {STATS.map((s) => (
-                  <div className={styles.stat} key={s.label}>
-                    <span className={styles.statNum}>{s.num}</span>
-                    <span className={styles.statLabel}>{s.label}</span>
-                  </div>
-                ))}
-              </div>
+              <TerminalDemo />
             </div>
           </div>
         </header>
+
+        {/* ===== STATS TICKER ===== */}
+        <StatsTicker />
 
         {/* ===== SERVICES BY TYPE ===== */}
         <section className={styles.services}>

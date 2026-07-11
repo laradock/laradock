@@ -1,0 +1,85 @@
+/* Continuously-scrolling stats strip, sits between the hero and the services
+   section. Self-contained tokens so it doesn't depend on the page module. */
+.ticker {
+  --amber: #f9ae1a;
+  --crimson: #f0496a;
+  --purple: #a47ee6;
+  --orange: #f26e25;
+  --dim: #968caa;
+  --line: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, #100b1a, #0c0914);
+  /* fade the strip out at both edges */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
+
+.track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  gap: 3.25rem;
+  padding: 1.35rem 1.6rem;
+  animation: scroll 50s linear infinite;
+}
+.ticker:hover .track { animation-play-state: paused; }
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.staticRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.6rem 3.25rem;
+  padding: 1.6rem 1.5rem;
+}
+
+.item {
+  --acc: var(--amber);
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex: 0 0 auto;
+}
+.item:nth-child(4n + 1) { --acc: var(--amber); }
+.item:nth-child(4n + 2) { --acc: var(--crimson); }
+.item:nth-child(4n + 3) { --acc: var(--purple); }
+.item:nth-child(4n)     { --acc: var(--orange); }
+
+.diamond {
+  width: 9px;
+  height: 9px;
+  flex: 0 0 auto;
+  border-radius: 2px;
+  transform: rotate(45deg);
+  background: var(--acc);
+  box-shadow: 0 0 14px -2px var(--acc);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+.num {
+  font-family: "Chakra Petch", var(--font-display), sans-serif;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--acc);
+}
+.label {
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  color: var(--dim);
+  margin-top: 0.25rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track { animation: none; }
+}

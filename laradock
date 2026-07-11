@@ -918,15 +918,28 @@ cmd_ship() {
   [ -f production/Dockerfile ] || die "no production/ folder in this laradock" \
      "update laradock to get the production deploy files."
 
-  local push=0 tag=""
-  for a in "$@"; do
-    case "$a" in
-      --push) push=1 ;;
-      -*)     die "unknown option: $a" "usage: ./laradock ship [image:tag] [--push]" ;;
-      *)      tag="$a" ;;
+  local push=0 tag="" platform=""
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      --push)        push=1 ;;
+      --platform)    shift; platform=${1:-} ;;
+      --platform=*)  platform=${1#*=} ;;
+      -*)            die "unknown option: $1" "usage: ./laradock ship [image:tag] [--platform os/arch] [--push]" ;;
+      *)             tag="$1" ;;
     esac
+    shift
   done
   [ -n "$tag" ] || tag="laradock-app:latest"   # matches APP_IMAGE default in production/compose.yml
+
+  # Apple-Silicon guard: most servers & k8s run amd64; an arm64 image fails there ("exec format error").
+  if [ -z "$platform" ]; then
+    case "$(uname -m)" in
+      arm64|aarch64)
+        note "you're on arm (Apple Silicon) — most servers & k8s run amd64, so building for linux/amd64"
+        say  "     ${C_DIM}force native with${C_RESET} ${C_CYAN}./laradock ship --platform linux/arm64${C_RESET}"
+        platform="linux/amd64" ;;
+    esac
+  fi
 
   # app code lives where dev mounts it from (APP_CODE_PATH_HOST, default ../)
   local app_rel; app_rel=$(env_get APP_CODE_PATH_HOST); app_rel=${app_rel:-../}
@@ -943,10 +956,18 @@ cmd_ship() {
   bold ""
   bold "  Building production image  ${tag}"
   say  "  ${C_DIM}app: ${app_root}${C_RESET}"
-  printf '  %s%s docker build -f production/Dockerfile -t %s %s%s\n' \
-    "$C_DIM" "$ARROW" "$tag" "$app_root" "$C_RESET"
-  docker build -f "$PWD/production/Dockerfile" -t "$tag" "$app_root" || exit $?
-  ok "built  ${tag}"
+  [ -n "$platform" ] && say "  ${C_DIM}platform: ${platform}${C_RESET}"
+  if [ -n "$platform" ]; then
+    printf '  %s%s docker build --platform %s -f production/Dockerfile -t %s %s%s\n' \
+      "$C_DIM" "$ARROW" "$platform" "$tag" "$app_root" "$C_RESET"
+    docker build --platform "$platform" -f "$PWD/production/Dockerfile" -t "$tag" "$app_root" || exit $?
+  else
+    printf '  %s%s docker build -f production/Dockerfile -t %s %s%s\n' \
+      "$C_DIM" "$ARROW" "$tag" "$app_root" "$C_RESET"
+    docker build -f "$PWD/production/Dockerfile" -t "$tag" "$app_root" || exit $?
+  fi
+  local size; size=$(docker image inspect "$tag" --format '{{.Size}}' 2>/dev/null | awk '{printf "%.0fMB", $1/1048576}')
+  ok "built  ${tag}${size:+  ($size)}"
 
   if [ "$push" = 1 ]; then
     printf '  %s%s docker push %s%s\n' "$C_DIM" "$ARROW" "$tag" "$C_RESET"
@@ -956,7 +977,7 @@ cmd_ship() {
 
   say ""
   say "  ${OK} image ready. Deploy it anywhere that runs a container:"
-  say "     ${C_DIM}single server${C_RESET}       docker compose -f production/compose.yml up -d"
+  say "     ${C_DIM}single server${C_RESET}       APP_IMAGE=${tag} docker compose -f production/compose.yml up -d"
   say "     ${C_DIM}kamal · k8s · paas${C_RESET}  see production/README.md"
 }
 
@@ -1074,31 +1095,44 @@ case "$cmd" in
   ship)    cmd_ship "$@" ;;
   version|--version|-v) say "laradock cli $VERSION" ;;
   help|--help|-h)
-    bold ""
-    bold "  Laradock CLI — plain-English commands for your Docker stack"
-    say  ""
-    say  "    ./laradock setup              set up your project (asks a few simple questions)"
-    say  "    ./laradock start [services]  start your stack (or just the services you name)"
-    say  "    ./laradock stop  [services]  stop them (your data is kept)"
-    say  "    ./laradock restart [services]  restart them"
-    say  "    ./laradock remove  [services]  delete the containers (data on disk is kept)"
-    say  "    ./laradock rebuild [services]  apply a version/config change"
-    say  "    ./laradock logs  [services]  show recent logs"
-    say  "    ./laradock set KEY=VALUE     change a setting (writes it to your .env)"
-    say  "    ./laradock settings [service]  see all settings, and what you changed"
-    say  "    ./laradock unset KEY         undo a change (back to the default)"
-    say  "    ./laradock edit [service]   open your .env, or a service's Dockerfile"
-    say  "    ./laradock enter <service>   open a terminal inside a container (e.g. mysql)"
-    say  "    ./laradock exec <service> <command>  run one command inside a container"
-    say  "    ./laradock workspace [--root]  the dev shell (php, composer, node, git)"
-    say  "    ./laradock info              what's running: URLs, ports, passwords"
-    say  "    ./laradock doctor            check for common problems"
-    say  "    ./laradock ship [--push]     build a production image of your app to deploy"
-    say  ""
-    say  "    ${C_DIM}Advanced: anything else is passed straight to docker compose"
-    say  "    (./laradock ps, ./laradock config ...). Plain docker compose works too.${C_RESET}"
-    say  "    Flags: --yes (-y) accept all defaults (CI-friendly). NO_COLOR honored."
-    say  ""
+    # hrow "verb + args" "description" — pads the plain command text (color codes
+    # would break %-Ns width), then colors it so every description column lines up.
+    hrow() { printf '    %s%-22s%s%s\n' "$C_CYAN" "$1" "$C_RESET" "$2"; }
+    hsec() { printf '\n  %s%s%s\n' "$C_BOLD$C_YELLOW" "$1" "$C_RESET"; }
+    printf '\n  %sLaradock CLI%s %s· plain-English commands for your Docker stack%s\n' \
+      "$C_BOLD" "$C_RESET" "$C_DIM" "$C_RESET"
+
+    hsec "Everyday"
+    hrow "setup"              "set up your project (asks a few simple questions)"
+    hrow "start [services]"   "start your stack (or just the services you name)"
+    hrow "stop [services]"    "stop them (your data is kept)"
+    hrow "restart [services]" "restart them"
+    hrow "logs [services]"    "show recent logs"
+    hrow "info"               "what's running: URLs, ports, passwords"
+    hrow "doctor"             "check for common problems"
+
+    hsec "Containers"
+    hrow "remove [services]"  "delete the containers (data on disk is kept)"
+    hrow "rebuild [services]" "apply a version/config change"
+
+    hsec "Settings"
+    hrow "set KEY=VALUE"      "change a setting (writes it to your .env)"
+    hrow "unset KEY"          "undo a change (back to the default)"
+    hrow "settings [service]" "see all settings, and what you changed"
+    hrow "edit [service]"     "open your .env, or a service's Dockerfile"
+
+    hsec "Shell"
+    hrow "enter <service>"    "open a terminal inside a container (e.g. mysql)"
+    hrow "exec <service> ..." "run one command inside a container"
+    hrow "workspace [--root]" "the dev shell (php, composer, node, git)"
+
+    hsec "Deploy"
+    hrow "ship [--push]"      "build a deployable production image (amd64-safe on Apple Silicon)"
+
+    printf '\n  %sAdvanced: anything else is passed straight to docker compose\n' "$C_DIM"
+    printf '  (./laradock ps, ./laradock config ...). Plain docker compose works too.%s\n' "$C_RESET"
+    printf '  %sFlags:%s --yes (-y) accept all defaults (CI-friendly). NO_COLOR honored.\n\n' \
+      "$C_BOLD" "$C_RESET"
     ;;
   *)
     # transparent pass-through to docker compose

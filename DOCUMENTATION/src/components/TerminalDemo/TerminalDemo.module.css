@@ -1,0 +1,86 @@
+/* Self-contained animated terminal. The card is always dark (like a real
+   terminal), so it reads well on both the dark landing section and light docs
+   pages. Reused on the landing page and in MDX docs via MDXComponents. */
+.wrap {
+  --term-amber: #f9ae1a;
+  --term-green: #46d39a;
+  --term-text: #d7cfe4;
+  --term-dim: #8a8199;
+  --term-white: #f4f0fb;
+  --term-line: rgba(255, 255, 255, 0.09);
+  max-width: 46rem;
+  margin: 0 auto;
+}
+
+.terminal {
+  border: 1px solid var(--term-line);
+  border-radius: 13px;
+  background: linear-gradient(180deg, rgba(19, 13, 29, 0.97), rgba(11, 8, 19, 0.97));
+  box-shadow: 0 30px 70px -30px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+  text-align: left;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid var(--term-line);
+  background: rgba(249, 174, 26, 0.05);
+}
+.bar span { width: 11px; height: 11px; border-radius: 50%; }
+.bar span:nth-child(1) { background: #ce2047; }
+.bar span:nth-child(2) { background: #f9ae1a; }
+.bar span:nth-child(3) { background: #7d57c2; }
+.bar em {
+  margin-left: auto;
+  font-style: normal;
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.72rem;
+  color: var(--term-dim);
+}
+
+.body {
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: clamp(0.78rem, 1.55vw, 0.9rem);
+  line-height: 1.85;
+  padding: 1.15rem 1.35rem 1.35rem;
+  color: var(--term-text);
+}
+/* every line is always in the DOM (hidden until its turn) so the card is a fixed
+   size from the first frame — width and height never grow or shrink */
+.body div { white-space: pre; overflow-x: auto; min-height: 1.85em; }
+.body div::-webkit-scrollbar { display: none; }
+.hidden { visibility: hidden; }
+
+.prompt { color: var(--term-amber); margin-right: 0.6rem; user-select: none; }
+.ok { color: var(--term-green); }
+.pickLabel { display: inline-block; min-width: 7rem; color: var(--term-dim); }
+.pickArrow { color: var(--term-amber); margin-right: 0.55rem; }
+.pickVal { color: var(--term-white); font-weight: 500; }
+.optActive { color: var(--term-white); font-weight: 600; }
+.status { color: var(--term-green); }
+.bold { color: var(--term-white); font-weight: 600; }
+.dim { color: var(--term-dim); }
+.link { color: var(--term-amber); }
+.urlLabel {
+  display: inline-block;
+  min-width: 5rem;
+  color: var(--term-amber);
+}
+
+.caret {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.05em;
+  margin-left: 0.05em;
+  vertical-align: text-bottom;
+  background: var(--term-amber);
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .caret { animation: none; }
+}

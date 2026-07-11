@@ -77,8 +77,9 @@
   max-width: 1160px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1.4fr 0.7fr;
-  gap: 3rem;
+  /* right column keeps a hard floor so the terminal never shrinks/wraps */
+  grid-template-columns: minmax(0, 1fr) minmax(500px, 0.95fr);
+  gap: 2.5rem;
   align-items: center;
 }
 
@@ -175,7 +176,8 @@
 .btnGhost:hover { color: var(--white); border-color: var(--purple-bright); background: rgba(125, 87, 194, 0.16); transform: translateY(-2px); }
 
 /* stats card (right of title) */
-.heroSide { display: flex; flex-direction: column; }
+.heroSide { display: flex; flex-direction: column; align-items: stretch; }
+.heroSide > :last-child { width: 100%; }
 .motto {
   font-family: var(--font-mono);
   font-size: 0.92rem;
@@ -186,38 +188,6 @@
   padding-left: 0.8rem;
   border-left: 3px solid transparent;
   border-image: linear-gradient(180deg, var(--crimson), var(--amber), var(--purple)) 1;
-}
-.stats {
-  display: flex;
-  flex-direction: column;
-  gap: 1.4rem;
-  width: 100%;
-  padding: 1.7rem 1.9rem;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background:
-    radial-gradient(70% 60% at 50% 0%, rgba(206, 32, 71, 0.1), transparent 70%),
-    var(--bg-2);
-  box-shadow: inset 0 1px 0 rgba(249, 174, 26, 0.06), 0 30px 70px -34px rgba(125, 87, 194, 0.4);
-}
-.stat { display: flex; flex-direction: column; }
-.stat:not(:last-child) { padding-bottom: 1.4rem; border-bottom: 1px solid var(--line); }
-.statNum {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.85rem;
-  line-height: 1.1;
-}
-.stat:nth-child(1) .statNum { color: var(--amber); }
-.stat:nth-child(2) .statNum { color: var(--crimson-bright); }
-.stat:nth-child(3) .statNum { color: var(--purple-bright); }
-.stat:nth-child(4) .statNum { color: #f26e25; }
-.statLabel {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.06em;
-  color: var(--text-dim);
-  margin-top: 0.45rem;
 }
 
 /* ---------- SERVICES (full width, cards by type) ---------- */
@@ -482,4 +452,6 @@
 @media screen and (max-width: 940px) {
   .heroInner { grid-template-columns: 1fr; gap: 2.2rem; }
   .hero { padding: 4rem 1.25rem 3rem; }
+  /* single column: center the motto + terminal instead of a lonely left card */
+  .heroSide { align-items: center; }
 }

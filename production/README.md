@@ -25,6 +25,11 @@ What you get vs. your dev container: code **baked in** (no bind mount),
 `composer install --no-dev`, opcache with `validate_timestamps=0`, **no xdebug**,
 production `php.ini`. Same PHP version and base extensions as dev.
 
+> **On Apple Silicon (arm64):** most servers and Kubernetes run amd64, so an
+> arm64 image fails there with `exec format error`. `./laradock ship` builds
+> `linux/amd64` automatically (override with `--platform linux/arm64`); with
+> plain `docker build`, add `--platform linux/amd64` yourself.
+
 > Enabled extra extensions in dev (redis, pdo_pgsql, gd…)? Add them in
 > `Dockerfile` (there's a commented line), or point `--build-arg BASE_IMAGE=` at
 > your locally-built laradock php-fpm image for exact parity.
