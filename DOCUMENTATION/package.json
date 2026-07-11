@@ -33,6 +33,11 @@
     "gh-pages": "^6.1.1",
     "typescript": "~6.0.3"
   },
+  "resolutions": {
+    "js-yaml": "3.15.0",
+    "serialize-javascript": "7.0.5",
+    "uuid": "11.1.1"
+  },
   "browserslist": {
     "production": [
       ">0.5%",
