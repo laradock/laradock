@@ -11,11 +11,11 @@ Source: https://laradock.io/docs/Intro
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-**Laradock** is a full PHP development environment for Docker. Everything your app needs is already built and wired, so you skip the setup and start coding in seconds.
+**Laradock** is a complete Docker environment for PHP. Everything your application needs is already configured, so you can skip setup and start building in seconds.
 
 ![Laradock](https://laradock.io/img/laradock/laradock-logo.png)
 
-Standing up a PHP stack by hand burns hours: matching versions, wiring databases and queues, chasing "works on my machine." Laradock hands you the whole environment ready to run, so you skip the setup and get straight to code.
+Standing up a PHP stack by hand burns hours: matching versions, wiring databases and queues, chasing "works on my machine." Laradock hands you the whole environment ready to run, so you skip the setup and get straight to code. Start with the `./laradock` CLI, no Docker knowledge required, and drop to plain `docker compose` whenever you want full control, it's the same files underneath. And the same stack follows you all the way to production.
 
 Instead of installing and configuring Nginx, databases, caches, and queues by hand, you get them all as ready-made containers you can switch on and off per project. It works with any PHP project (Laravel, Symfony, WordPress, or plain PHP) and behaves the same on Linux, macOS, and Windows, so your whole team shares one identical setup.
 
@@ -110,7 +110,7 @@ Done.
 - **Any PHP Version**: Run any version from 5.6 to 8.5. Set `PHP_VERSION` in `.env`, rebuild, and you're on it.
 - **100+ Ready-made Services**: Databases, caches, queues, search engines, and more, all pre-configured and waiting.
 - **All-in-One Dev Shell**: Run Artisan, Composer, Node, and any CLI inside the `workspace` container, nothing on your host.
-- **Deploy to Production**: Turn your dev stack into a hardened image with `./laradock ship`, then run it anywhere.
+- **Deploy to Production**: Turn your dev stack into a hardened image with `./laradock ship`, then run it anywhere: a server, Kubernetes, or ECS and Cloud Run.
 - **Pick Your Database**: MySQL, PostgreSQL, MariaDB, MongoDB, Redis, and many others, ready to switch on.
 - **Framework-Agnostic**: Works great with Laravel, and Symfony, WordPress, Magento, Drupal, or plain PHP, on the same stack.
 - **Local AI, Built In**: Run LLMs and vector search locally with Ollama, LiteLLM, pgvector, Qdrant, and more, no keys or cloud bills.

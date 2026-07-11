@@ -52,14 +52,14 @@ const BENEFITS: { icon: string; title: string; text: string }[] = [
   { icon: "layers", title: "100+ Ready-made Services", text: "Databases, caches, queues, search engines, and more, all pre-configured and waiting." },
   { icon: "ide", title: "All-in-One Dev Shell", text: "Run Artisan, Composer, Node, and any CLI inside workspace container, nothing on host." },
   { icon: "db", title: "Pick Your Database", text: "MySQL, PostgreSQL, MariaDB, MongoDB, Redis, and many others, ready to switch on." },
-  { icon: "cross", title: "Framework-Agnostic", text: "Works great with Laravel, Symfony, WordPress, Magento, Drupal, or plain PHP, on the same stack." },
-  { icon: "ai", title: "Local AI, Built In", text: "Run LLMs and vector search locally with Ollama, LiteLLM, pgvector, Qdrant, and more, no keys or cloud bills." },
+  { icon: "cross", title: "Framework-Agnostic", text: "Works with Laravel, Symfony, WordPress, Magento, Drupal, or plain PHP." },
+  { icon: "ai", title: "Local AI, Built In", text: "Run LLMs and vector search locally with Ollama, LiteLLM, pgvector, Qdrant, no cloud bills." },
   { icon: "toggle", title: "Toggle Services On Demand", text: "Start only what a project needs with docker compose up, and stop them easily." },
   { icon: "cloud", title: "One Environment Everywhere", text: "Identical setup on Linux, macOS, and Windows, so your team shares the same stack." },
   { icon: "file", title: "Configure From One File", text: "Every service ships pre-configured; override any setting with 1 line in .env, always wins." },
   { icon: "web", title: "Web Server Ready", text: "NGINX, Apache, and Caddy come pre-configured to serve your code out of the box." },
   { icon: "stack", title: "One or Many Projects", text: "Run a dedicated Laradock per project, or share a single setup across all of them." },
-  { icon: "rocket", title: "Deploy to Production", text: "Turn your dev stack into a hardened image with ./laradock ship, then run it anywhere, a server, Kubernetes (EKS/GKE), or managed clouds like AWS ECS and Cloud Run." },
+  { icon: "rocket", title: "Deploy to Production", text: "Turn your dev stack into a hardened image with ./laradock ship, then deploy anywhere." },
 ];
 
 // SYNC: this service list is one of THREE places that list Laradock services.

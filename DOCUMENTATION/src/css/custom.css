@@ -193,6 +193,9 @@
 }
 
 /* Current release badge in the navbar. */
+.navbar-version-badge:empty {
+  display: none;
+}
 .navbar-version-badge {
   display: inline-flex;
   align-items: center;

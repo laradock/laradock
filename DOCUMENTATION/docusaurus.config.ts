@@ -1,27 +1,13 @@
-import {execFileSync} from 'node:child_process';
 import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
-
-// Only letters/digits/dots/dashes/underscores: keeps an untrusted tag name out of the raw HTML string below.
-const SAFE_VERSION_TAG = /^[\w.-]+$/;
-
-function getCurrentVersion(): string {
-  try {
-    const tag = execFileSync('git', ['describe', '--tags', '--abbrev=0'], {cwd: __dirname}).toString().trim();
-    return SAFE_VERSION_TAG.test(tag) ? tag : '';
-  } catch {
-    // ponytail: shallow clone or no tags reachable (e.g. some CI checkouts) - badge just hides itself
-    return '';
-  }
-}
-
-const currentVersion = getCurrentVersion();
 
 const config: Config = {
   title: 'Laradock',
   tagline: 'A Docker setup that lets you run a full PHP development environment in seconds.',
   favicon: 'laradock.ico',
+
+  clientModules: ['./src/clientModules/versionBadge.ts'],
 
   // Set the production url of your site here
   url: 'https://laradock.io/',
@@ -290,15 +276,12 @@ const config: Config = {
       },
       items: [
         { type: 'doc', docId: 'Intro', label: 'Docs', position: 'right' },
-        ...(currentVersion
-          ? [
-              {
-                type: 'html' as const,
-                position: 'right' as const,
-                value: `<a class="navbar-version-badge" href="https://github.com/laradock/laradock/releases/tag/${currentVersion}">${currentVersion}</a>`,
-              },
-            ]
-          : []),
+        {
+          // Filled at runtime by src/clientModules/versionBadge.ts (empty = hidden via CSS).
+          type: 'html' as const,
+          position: 'right' as const,
+          value: `<a class="navbar-version-badge" href="https://github.com/laradock/laradock/releases" aria-label="Latest release"></a>`,
+        },
         {
           href: 'https://github.com/laradock/laradock',
           position: 'right',
