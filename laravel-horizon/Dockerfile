@@ -263,7 +263,10 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
         pecl install mongo; \
         docker-php-ext-enable mongo; \
       else \
-        pecl install mongodb-1.21.0; \
+        # pecl's downloader truncates the ~2MB tarball on some CI networks; fetch with curl and install the local file
+        curl -fSL --retry 3 --retry-delay 2 -o /tmp/mongodb.tgz "https://pecl.php.net/get/mongodb-1.21.0.tgz"; \
+        pecl install /tmp/mongodb.tgz; \
+        rm -f /tmp/mongodb.tgz; \
         docker-php-ext-enable mongodb; \
       fi; \
     fi

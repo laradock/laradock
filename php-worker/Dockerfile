@@ -166,21 +166,25 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
     else \
       if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
         if [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ] || [ $(php -r "echo PHP_MINOR_VERSION;") = "1" ]; then \
-          pecl install mongodb-1.9.2; \
+          MONGO_VERSION=1.9.2; \
         else \
           if [ $(php -r "echo PHP_MINOR_VERSION;") = "4" ]; then \
-            pecl install mongodb-1.20.1; \
+            MONGO_VERSION=1.20.1; \
           else \
-            pecl install mongodb-1.16.2; \
+            MONGO_VERSION=1.16.2; \
           fi; \
         fi; \
       else \
         if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] && [ $(php -r "echo PHP_MINOR_VERSION;") = "0" ]; then \
-            pecl install mongodb-1.20.1; \
+            MONGO_VERSION=1.20.1; \
         else \
-            pecl install mongodb-1.21.0; \
+            MONGO_VERSION=1.21.0; \
         fi; \
       fi; \
+      # pecl's downloader truncates the ~2MB tarball on some CI networks; fetch with curl and install the local file
+      curl -fSL --retry 3 --retry-delay 2 -o /tmp/mongodb.tgz "https://pecl.php.net/get/mongodb-${MONGO_VERSION}.tgz"; \
+      pecl install /tmp/mongodb.tgz; \
+      rm -f /tmp/mongodb.tgz; \
       docker-php-ext-enable mongodb; \
       php -m | grep -oiE '^mongodb$'; \
     fi; \
