@@ -2559,6 +2559,7 @@ Reworked or trimmed-down versions of Laradock itself.
 * [Laradock Lite](https://github.com/yangliuyu/laradock-lite): A Docker based laravel development environment with minimal dependencies. (by [Liu Yang](https://github.com/yangliuyu))
 * [Stylemix's Laradock](https://github.com/stylemix/laradock): Alternate laradock for multiproject purpose. (by [Stylemix LLC](https://github.com/stylemix))
 * [Klaradock](https://github.com/poyhsiao/Klaradock): A customized Laradock. (by [Kim Hsiao](https://github.com/poyhsiao))
+* [fyvri/laradock](https://github.com/fyvri/laradock): A customizable Laravel environment with Docker Compose, PHP-FPM, and Nginx, built for easy adjustment of PHP versions and dependencies. (by [Azis Alvriyanto](https://github.com/fyvri))
 
 ## Guides, Examples & Starter Kits
 
