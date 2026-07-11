@@ -67,7 +67,7 @@ const config: Config = {
         isAccessibleForFree: true,
         keywords:
           'Docker, PHP, Laravel, development environment, Docker Compose, Nginx, MySQL, Redis',
-        image: 'https://laradock.io/img/laradock/laradock-logo.jpg',
+        image: 'https://laradock.io/img/laradock/og-image.jpg',
         downloadUrl: 'https://github.com/laradock/laradock',
         softwareHelp: 'https://laradock.io/docs/Intro',
         description:
@@ -258,7 +258,7 @@ const config: Config = {
   ],
 
   themeConfig: {
-    image: '/img/laradock/laradock-logo.jpg',
+    image: '/img/laradock/og-image.jpg',
     metadata: [
       {
         name: 'keywords',

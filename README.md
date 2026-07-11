@@ -34,6 +34,10 @@ It works with **any PHP project** and behaves the same on Linux, macOS, and Wind
 
 Environment setup is where PHP projects lose their first day. Laradock gives it back: one clone, one command, a full stack running.
 
+<p align="center">
+    <img src="/.github/home-page-images/laradock-demo.gif?raw=true" alt="Laradock Demo"/>
+</p>
+
 ### Quick Start
 
 Requires [Docker](https://www.docker.com/products/docker-desktop/) with Compose v2.20+. Two ways to set up; both use the exact same files, pick one and switch any time:
