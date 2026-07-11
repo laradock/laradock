@@ -106,6 +106,18 @@ Done.
   <a className="button button--secondary button--lg" href="/docs/containers">Usage and Commands</a>
 </div>
 
+## What's New (2026)
+
+Laradock has been battle-tested since 2015, and it isn't standing still. The last few releases turned it from a local-dev tool into a full **local-to-production** platform. If you used it years ago, it's far more powerful today:
+
+- **Deploy to production (v20).** `./laradock ship` turns your exact dev stack into a hardened image you deploy to a single server, [Kubernetes](https://laradock.io/docs/production) (EKS/GKE/AKS), or a managed cloud (AWS ECS, Cloud Run, Fly). Sail, Herd, Valet, and XAMPP stop at your laptop; Laradock follows you all the way to production.
+- **A real CLI (v19).** `./laradock start` runs a setup wizard and boots your stack in plain English, no Docker knowledge required, and prints every real `docker compose` command it runs so nothing is hidden. See [The Laradock CLI](https://laradock.io/docs/cli).
+- **A local AI stack, 20+ new services (v18).** Ollama, LocalAI, LiteLLM, and vector databases (pgvector, Qdrant, Weaviate, Chroma) for LLMs and RAG on your machine, plus FrankenPHP, RoadRunner, Laravel Reverb, OpenSearch, and more, 100+ services in all.
+- **PHP 5.6 → 8.5.** Every current PHP version, plus legacy runtimes no native tool will touch.
+- **Cleaner internals (v18.1).** Per-service compose files and a small shared `.env`, with **zero breaking changes**, verified byte-identical.
+
+Full history in the [release notes](https://github.com/laradock/laradock/releases).
+
 ## Features
 
 
@@ -128,7 +140,7 @@ Done.
 
 
 
-## Support PHP Projects
+## Supported PHP Projects
 
 Laradock provides the PHP runtime, web server, databases, and background services your app needs, so it runs virtually any PHP framework, CMS, or e-commerce platform, right down to plain framework-free PHP.
 
@@ -269,6 +281,10 @@ Laradock doesn't stop at your laptop. When your app is ready, `./laradock ship` 
 :::info[How it's organized]
 One folder per service; each holds that service's `compose.yml` (container definition), `defaults.env` (pre-filled settings), and `Dockerfile`. Change any setting by adding one line to your `.env`, it always wins. Full map in [Getting Started](https://laradock.io/docs/getting-started).
 :::
+
+## The Story: Laravel + Docker = Laradock
+
+Laradock started in 2015 as exactly what the name says: **Lara**vel + **Dock**er, a simple way to run a Laravel app in containers back when Laravel had no official Docker answer of its own. Then the demand grew. Developers wanted more databases, caches, queues, and search engines, and wanted to run projects that were never Laravel at all (Symfony, WordPress, Magento, plain PHP). So Laradock grew with them, from one Laravel stack into 100+ pre-configured services for any PHP project, and now all the way to production with `./laradock ship`. Laravel eventually shipped its own minimal, Laravel-only [Sail](https://laravel.com/docs/sail); Laradock is where you go when you outgrow it.
 
 ## How Laradock Compares {#laradock-alternatives}
 
@@ -1063,9 +1079,9 @@ DDEV is an appliance: press `ddev start` and a polished environment appears, wit
 
 ### Laradock vs Laravel Sail
 
-Sail is official, minimal, and Laravel-only: a small compose file with ~10 services and a `sail` command wrapper. It is a great default for a standard Laravel app. You outgrow it the day you need a service it does not ship (search cluster, message broker, a second database, a vector DB) or a non-Laravel project. Laradock is framework-agnostic, offers 100+ services behind the identical `docker compose up -d {service}` workflow, and needs no wrapper script.
+Sail is official, minimal, and Laravel-only: a small compose file with ~10 services and a `sail` command wrapper. It is a great default for a standard Laravel app. You outgrow it the day you need a service it does not ship (search cluster, message broker, a second database, a vector DB) or a non-Laravel project. Laradock is framework-agnostic, offers 100+ services behind the identical `docker compose up -d {service}` workflow, and needs no wrapper script. It also goes where Sail deliberately stops: Sail is dev-only, while `./laradock ship` takes the same stack to production, a single server, Kubernetes (EKS/GKE/AKS), or a managed cloud.
 
-**Pick Sail** for a simple, purely Laravel app with vanilla needs. **Pick Laradock** when your stack is bigger than Sail's list, you juggle multiple frameworks, or you would rather use Docker directly than through a wrapper.
+**Pick Sail** for a simple, purely Laravel app with vanilla needs. **Pick Laradock** when your stack is bigger than Sail's list, you juggle multiple frameworks, you need the same environment to reach production, or you would rather use Docker directly than through a wrapper.
 
 *Full breakdown with real commands for both: [Laradock vs Laravel Sail](https://laradock.io/docs/laradock-vs-laravel-sail).*
 
@@ -1263,6 +1279,7 @@ Day to day you talk to Docker itself: `./laradock enter workspace`, `./laradock 
 | Commands | `ddev *` vocabulary | standard `docker compose *` |
 | Multi-project isolation | Automatic per project | Manual (`COMPOSE_PROJECT_NAME` + `DATA_PATH_HOST` per project) |
 | Frameworks | CMS-focused presets (Drupal, TYPO3, WordPress, Laravel) | Any PHP project, framework-agnostic |
+| Production deployment | Local dev tool (generated files don't leave your machine) | `./laradock ship` → hardened image for a server, Kubernetes (EKS/GKE/AKS), or managed cloud |
 | Skills you build | DDEV-specific | Transferable Docker |
 
 ## Choose DDEV if...
@@ -1277,6 +1294,7 @@ Day to day you talk to Docker itself: `./laradock enter workspace`, `./laradock 
 - Your stack goes beyond the add-on registry (message brokers, search clusters, local LLMs, monitoring).
 - You want to learn real Docker while you work, and keep those skills in production.
 - You do not want to install or trust another binary between you and your containers.
+- **You want dev and production to be the same containers.** DDEV is a local tool; Laradock's `./laradock ship` deploys the exact stack you built to a server, Kubernetes, or a managed cloud. See [Deploy to Production](https://laradock.io/docs/production).
 
 ## Already on DDEV? Migrating takes minutes
 
@@ -1393,6 +1411,37 @@ Change PHP version: `PHP_VERSION=8.3` in `.env`, then `./laradock rebuild php-fp
 | Adding a service later | Only if Sail supports it (else hand-edit compose.yaml) | `docker compose up -d {service}` |
 | Dev shell | none (commands via `sail`) | `workspace` container with Composer, Node, git, and dozens of tools |
 | Config | one compose.yaml in your repo | per-service folders + one `.env` |
+| Production deployment | **Dev only** — Sail is explicitly not meant for production | `./laradock ship` → hardened image for a server, **Kubernetes** (EKS/GKE/AKS), or managed cloud (ECS, Cloud Run, Fly) |
+
+## Command-to-command map
+
+Everything you do with `sail` has a Laradock equivalent. Sail routes every action through one `sail` wrapper; Laradock uses plain-English verbs for the stack and runs your dev tools inside the `workspace` container (or via a one-off `exec`). Same capabilities, no wrapper lock-in.
+
+| Task | Laravel Sail | Laradock |
+|---|---|---|
+| Start the stack | `sail up -d` | `./laradock start` |
+| Stop the stack | `sail stop` | `./laradock stop` |
+| Restart | `sail restart` | `./laradock restart` |
+| Rebuild images | `sail build --no-cache` | `./laradock rebuild` |
+| Open a shell in the app container | `sail shell` / `sail root-shell` | `./laradock workspace` / `./laradock workspace --root` |
+| Run Artisan | `sail artisan migrate` | `./laradock exec workspace php artisan migrate` |
+| Run Composer | `sail composer require ...` | `./laradock exec workspace composer require ...` |
+| Run a raw PHP command | `sail php script.php` | `./laradock exec workspace php script.php` |
+| Run Node / NPM | `sail npm run dev` | `./laradock exec workspace npm run dev` |
+| Run the test suite | `sail test` | `./laradock test` (auto: artisan → pest → phpunit) |
+| Browser tests | `sail dusk` | `./laradock start selenium` + `./laradock test` |
+| REPL | `sail tinker` | `./laradock exec workspace php artisan tinker` |
+| Open a database shell | (connect manually with creds) | `./laradock db` (auto-detects MySQL/MariaDB/Postgres) |
+| Open the app in a browser | (type `http://localhost`) | `./laradock open` (or `open mailpit`, `open phpmyadmin`) |
+| Public URL for your local site | `sail share` | `./laradock share` (cloudflared / ngrok) |
+| Preview sent emails | Mailpit UI (bundled) | `./laradock start mailpit` → `./laradock open mailpit` |
+| See what's running | `sail ps` | `./laradock info` |
+| Change PHP version | edit `compose.yaml` + `sail build` | `./laradock set PHP_VERSION=8.4` + `./laradock rebuild` |
+| Add a service | `sail add` (from Sail's menu) | `./laradock start {service}` (100+ available) |
+| Deploy to production | not supported (dev-only) | `./laradock ship` → server / Kubernetes / cloud |
+| Drop to raw Docker | `sail` hides it | `./laradock <anything>` passes straight to `docker compose` |
+
+Two differences worth noting: Sail bundles every tool call under the `sail` verb, while Laradock keeps your dev tools (`artisan`, `composer`, `npm`) *inside* the `workspace` shell, so a single `./laradock workspace` drops you where they all live, and you type them exactly as you would anywhere else. And where Sail stops at your laptop, the same Laradock stack keeps going all the way to production.
 
 ## Choose Sail if...
 
@@ -1407,6 +1456,7 @@ Change PHP version: `PHP_VERSION=8.3` in `.env`, then `./laradock rebuild php-fp
 - You want a production-style web server (NGINX/Apache/Caddy) instead of `artisan serve` in a container.
 - You maintain legacy apps on PHP 5.6/7.x that Sail cannot run.
 - You prefer no wrapper: what you learn is plain Docker Compose.
+- **You want the same stack to reach production.** Sail is explicitly dev-only; Laradock's `./laradock ship` builds a hardened image of your app and deploys it to a single server, Kubernetes (EKS/GKE/AKS), or a managed cloud (AWS ECS, Cloud Run, Fly), the exact containers you developed against. See [Deploy to Production](https://laradock.io/docs/production).
 
 ## Already on Sail? The service names even match
 
@@ -3348,6 +3398,219 @@ APP_CODE_CONTAINER_FLAG=:delegated
 
 
 ================================================================
+# Laradock vs docker-magento and Warden
+Source: https://laradock.io/docs/laradock-vs-docker-magento
+================================================================
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## What are docker-magento and Warden?
+
+Magento 2 is heavy: it needs specific PHP extensions, a search engine (OpenSearch/Elasticsearch), Redis, RabbitMQ, and often Varnish. Two community setups are tuned for exactly that:
+
+- [**Mark Shust's docker-magento**](https://github.com/markshust/docker-magento) is the most popular Magento-specific Docker environment: a Compose stack plus `bin/` helper scripts pre-configured with the extensions, search, cache, and SSL a Magento 2 store expects.
+- [**Warden**](https://warden.dev/) is a CLI that runs shared services (Traefik, Portainer, dnsmasq, an SSL CA) once on your machine and layers per-project environments on top, popular in Magento agencies juggling many stores.
+
+This page compares them with Laradock, which serves the same Magento stack but as one framework-agnostic environment rather than a Magento-only tool.
+
+*docker-magento and Warden are Magento specialists, pre-tuned and excellent at that one job. Laradock is the generalist that also runs Magento, plus every other PHP project, with the same 100+ services and a path to production. This page sets Magento up on Laradock.*
+
+**TL;DR:** pick [docker-magento](https://github.com/markshust/docker-magento) or [Warden](https://warden.dev/) if Magento is essentially all you do and you want a stack pre-tuned for it. Pick Laradock when Magento is one of several project types you work on, you want a single environment across all of them, or you want the same containers to reach production.
+
+## Setting up with docker-magento
+
+```bash
+curl -s https://raw.githubusercontent.com/markshust/docker-magento/master/lib/onelinesetup | bash -s -- magento.test 2.4.7
+```
+
+That one-liner provisions a full Magento-tuned stack (PHP with the right extensions, OpenSearch, Redis, RabbitMQ, Varnish, MailHog, SSL) and installs Magento. Day to day you use its `bin/` helpers: `bin/magento`, `bin/composer`, `bin/cli`. It is superb for Magento and only Magento; the stack and scripts assume a Magento project.
+
+## The same thing with Laradock
+
+```bash
+cd my-store
+git clone https://github.com/laradock/laradock.git
+cd laradock
+```
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql redis opensearch rabbitmq workspace
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+cp .env.example .env
+docker compose up -d nginx mysql redis opensearch rabbitmq workspace
+docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Everything Magento needs is a service you switch on: OpenSearch/Elasticsearch, Redis, RabbitMQ, and Varnish are all in the catalog, and the `workspace` container runs Composer and `bin/magento`. The difference is scope: the exact same Laradock also runs your Laravel API, a WordPress marketing site, or a Symfony service, no second tool. Full walkthrough: **[Run Magento on Docker](https://laradock.io/docs/magento-on-docker)**.
+
+## Side by side
+
+| | **docker-magento** | **Warden** | **Laradock** |
+|---|---|---|---|
+| Focus | Magento only | Magento / PHP (agency multi-project) | Any PHP project |
+| Install | Clone + `bin/` scripts | The `warden` binary | Nothing (git clone) |
+| Commands | `bin/magento`, `bin/composer` | `warden` CLI | Plain `docker compose` (+ optional `./laradock`) |
+| Magento tuning | ✅ pre-configured | ✅ pre-configured | You start the services (OpenSearch, Redis, RabbitMQ, Varnish) |
+| Shared services model | Per-project | ✅ shared (Traefik/dnsmasq) | Per-project (or share one Laradock) |
+| Runs non-Magento projects | ❌ | Limited | ✅ 100+ services, any framework |
+| Auto HTTPS + `.test` domains | ✅ | ✅ | Via Caddy/Traefik service |
+| Production path | Dev-focused | Dev-focused | `./laradock ship` → server / Kubernetes / cloud |
+
+## Choose docker-magento or Warden if...
+
+- Magento 2 is essentially all you build, and you want a stack pre-tuned for it out of the box.
+- You value Magento-specific helper commands and defaults over a general-purpose environment.
+- (Warden) You run many Magento stores and want shared Traefik/dnsmasq/SSL handled once.
+
+## Choose Laradock if...
+
+- Magento is one of several project types you touch, and you want **one** environment for all of them.
+- You prefer plain `docker compose` and readable files over a Magento-specific CLI vocabulary.
+- You want the broadest service catalog (100+), including things a Magento stack does not ship.
+- You want the same containers to reach production with `./laradock ship`.
+
+## Frequently Asked Questions
+
+### Can Laradock run Magento 2?
+
+Yes. Start `opensearch` (or `elasticsearch`), `redis`, `rabbitmq`, and optionally `varnish` alongside `nginx`, `mysql`, and `workspace`, then install Magento with Composer inside the workspace. See **[Run Magento on Docker](https://laradock.io/docs/magento-on-docker)**.
+
+### Is docker-magento better than Laradock for Magento?
+
+For a pure-Magento shop, docker-magento arrives pre-tuned and is hard to beat on convenience. Laradock wins when Magento is not your only project type, when you want one environment across frameworks, or when you want a direct path to production with the same containers.
+
+### Does Warden replace Laradock?
+
+They overlap for Magento agencies. Warden optimizes for many similar Magento stores with shared services; Laradock optimizes for breadth (any PHP project, 100+ services) and transparency (plain Docker files you own).
+
+See the full landscape: **[Laradock vs DDEV](https://laradock.io/docs/laradock-vs-ddev)** and **[Laradock vs Others](https://laradock.io/docs/laradock-alternatives)**. Ready to try it? **[Run Magento on Docker](https://laradock.io/docs/magento-on-docker)** walks through it end to end.
+
+
+================================================================
+# Laradock vs Drupal Docker (DDEV and the official image)
+Source: https://laradock.io/docs/laradock-vs-drupal-docker
+================================================================
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## How Drupal is usually run in Docker
+
+Drupal has no single official Docker tool, but the community has clear defaults:
+
+- [**DDEV**](https://ddev.com/) is the de-facto standard the Drupal community recommends: install one binary, run `ddev start`, and a Drupal-ready environment appears with automatic HTTPS and per-project domains. (Lando is a close cousin, popular for the same reason.)
+- The [**official `drupal` Docker image**](https://hub.docker.com/_/drupal) is a bare runtime you pair with a database in a `docker-compose.yml` you write yourself.
+
+This page compares those with Laradock. For the general, tool-level DDEV comparison see **[Laradock vs DDEV](https://laradock.io/docs/laradock-vs-ddev)**; here the focus is Drupal specifically.
+
+*DDEV/Lando generate and hide the Docker machinery behind a CLI; the official image is a building block you wire yourself; Laradock hands you the machinery pre-wired and readable, for Drupal and every other PHP project. This page sets Drupal up on Laradock.*
+
+**TL;DR:** pick [DDEV](https://ddev.com/) if you run many Drupal sites and never want to see a Dockerfile. Wire the [official image](https://hub.docker.com/_/drupal) yourself if your needs are tiny. Pick Laradock if you want full control over readable Docker files, services beyond DDEV's add-ons, one environment across frameworks, or a direct path to production.
+
+## Setting up Drupal with DDEV
+
+```bash
+mkdir my-drupal && cd my-drupal
+ddev config --project-type=drupal --docroot=web
+ddev start
+ddev composer create drupal/recommended-project
+ddev drush site:install -y
+ddev launch
+```
+
+Live at `https://my-drupal.ddev.site` with trusted HTTPS. The Docker files live in `.ddev/`, generated and regenerated on every start, so they are DDEV's to manage, not yours to edit directly.
+
+## The same thing with Laradock
+
+```bash
+cd my-drupal
+git clone https://github.com/laradock/laradock.git
+cd laradock
+```
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx postgres redis workspace
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+cp .env.example .env
+docker compose up -d nginx postgres redis workspace
+docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Inside the workspace, `composer create-project drupal/recommended-project .` and `drush site:install` just work (the workspace ships Composer, Drush, and Drupal Console). Every file involved (`nginx/compose.yml`, `php-fpm/Dockerfile`, ...) is readable and yours to edit. Full walkthrough: **[Run Drupal on Docker](https://laradock.io/docs/drupal-on-docker)**.
+
+## Side by side
+
+| | **DDEV** | **Official image** | **Laradock** |
+|---|---|---|---|
+| Install | `ddev` binary | Nothing (write compose) | Nothing (git clone) |
+| Docker files | Generated & hidden in `.ddev/` | Yours (you wrote them) | Plain files you own and edit |
+| Commands | `ddev *` vocabulary | Plain `docker compose` | Plain `docker compose` (+ optional `./laradock`) |
+| HTTPS + `.site`/`.test` domains | ✅ automatic | Manual | Via Caddy/Traefik service |
+| Drush / Drupal Console | ✅ | Add a service | ✅ in `workspace` |
+| Services | ~50 curated add-ons | Only what you wire | 100+ shipped |
+| Runs non-Drupal projects | ✅ (CMS-focused presets) | You'd rewrite the compose | ✅ any PHP project |
+| Skills you build | DDEV-specific | Transferable Docker | Transferable Docker |
+| Production path | Dev-focused | Roll your own | `./laradock ship` → server / Kubernetes / cloud |
+
+## Choose DDEV (or Lando) if...
+
+- You run many Drupal sites and want identical, isolated environments with zero Docker exposure.
+- Automatic HTTPS and per-project domains matter more than seeing how they work.
+
+## Choose the official image if...
+
+- Your needs are minimal (Drupal + one database) and you like owning a short compose file.
+
+## Choose Laradock if...
+
+- You want full control: every Dockerfile and config readable and yours to change.
+- Your stack goes beyond DDEV's add-ons (message brokers, search clusters, local LLMs, monitoring).
+- You work across frameworks and want one environment for Drupal, Laravel, WordPress, and the rest.
+- You want the same containers to reach production with `./laradock ship`.
+
+## Frequently Asked Questions
+
+### What is the recommended way to run Drupal in Docker?
+
+The Drupal community most often points to DDEV. It is excellent if you want zero Docker exposure; Laradock is the alternative when you want transparent, editable Docker files, a larger service catalog, and one environment across multiple frameworks.
+
+### Can Laradock run Drupal with PostgreSQL?
+
+Yes. Start `postgres` instead of `mysql` (`./laradock start nginx postgres redis workspace`) and point Drupal's settings at host `postgres`. See **[Run Drupal on Docker](https://laradock.io/docs/drupal-on-docker)**.
+
+### How is this different from the general DDEV comparison?
+
+This page focuses on Drupal specifically. For the broader, tool-level breakdown of DDEV vs Laradock across any project, see **[Laradock vs DDEV](https://laradock.io/docs/laradock-vs-ddev)**.
+
+See the full landscape: **[Laradock vs DDEV](https://laradock.io/docs/laradock-vs-ddev)** and **[Laradock vs Others](https://laradock.io/docs/laradock-alternatives)**. Ready to try it? **[Run Drupal on Docker](https://laradock.io/docs/drupal-on-docker)** takes about five minutes.
+
+
+================================================================
 # Laradock vs Laragon
 Source: https://laradock.io/docs/laradock-vs-laragon
 ================================================================
@@ -3582,6 +3845,122 @@ See the full landscape, including DDEV, Sail, Herd and XAMPP: **[Laradock vs Oth
 
 
 ================================================================
+# Laradock vs Symfony Docker
+Source: https://laradock.io/docs/laradock-vs-symfony-docker
+================================================================
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## What is Symfony Docker?
+
+[Symfony Docker](https://github.com/dunglas/symfony-docker) is a project template by Kévin Dunglas (a Symfony core member and the author of FrankenPHP). It ships a `Dockerfile` and `compose.yaml` built around [FrankenPHP](https://frankenphp.dev/), giving a new Symfony app a modern, production-capable runtime with HTTP/2, HTTPS, and a built-in worker mode. Separately, the [Symfony CLI](https://symfony.com/download) provides a fast local web server (`symfony server:start`) that runs on your host PHP and can read environment variables from Docker services.
+
+This page compares both with Laradock: where Symfony Docker is a single, excellent, Symfony-shaped template, Laradock is a framework-agnostic catalog of 100+ pre-wired services.
+
+*Symfony Docker is a lean, FrankenPHP-based template for one Symfony app, and it is genuinely good. Laradock is the broad, pre-wired environment: 100+ services, any PHP project, and a path to production. This page sets Symfony up on both.*
+
+**TL;DR:** pick [Symfony Docker](https://github.com/dunglas/symfony-docker) for a single modern Symfony app when its FrankenPHP-based stack fits, it is clean and official-adjacent. Pick Laradock when you need services it does not include, you work across multiple frameworks or projects, or you want a legacy PHP version. (Laradock also ships FrankenPHP as a service, so you keep that option either way.)
+
+## Setting up with Symfony Docker
+
+```bash
+git clone https://github.com/dunglas/symfony-docker.git my-app
+cd my-app
+docker compose build --no-cache
+docker compose up -d
+```
+
+Your app runs on FrankenPHP at `https://localhost` with a trusted local certificate. Add a database via the template's documented Compose overrides, and use `docker compose exec php ...` for Composer and the Symfony console. It is tuned for one Symfony application; a second database, a search cluster, a message broker, or a queue worker are additions you make and maintain in the compose file.
+
+## Setting up with the Symfony CLI
+
+```bash
+symfony new my-app
+cd my-app
+symfony server:start
+```
+
+Fast and lightweight, but it runs on **your host's** PHP (not Docker), so PHP versions and extensions are your machine's, and any database/Redis/search service is something you install or run separately.
+
+## The same thing with Laradock
+
+```bash
+cd my-app
+git clone https://github.com/laradock/laradock.git
+cd laradock
+```
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql redis workspace
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+cp .env.example .env
+docker compose up -d nginx mysql redis workspace
+docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+Inside the workspace, `composer create-project symfony/skeleton .` (or `symfony console ...`) just works. Want FrankenPHP instead of NGINX + PHP-FPM? It is a Laradock service too: `./laradock start frankenphp`. Need Messenger backed by RabbitMQ, or Meilisearch/Typesense for search? Each is one word. Full walkthrough: **[Run Symfony on Docker](https://laradock.io/docs/symfony-on-docker)**.
+
+## Side by side
+
+| | **Symfony Docker** | **Symfony CLI** | **Laradock** |
+|---|---|---|---|
+| What it is | FrankenPHP-based project template | Native local web server | Pre-wired Docker environment |
+| Runtime | FrankenPHP (in Docker) | Your host PHP | PHP-FPM + NGINX/Apache/Caddy, or FrankenPHP/RoadRunner |
+| Services included | PHP + you add the rest | None (host) | 100+ (databases, caches, queues, search, mail, monitoring) |
+| Frameworks | Symfony-shaped | Symfony | Any PHP project |
+| PHP versions | Recent (image-based) | Whatever is on your host | 5.6 - 8.5 |
+| HTTPS | ✅ automatic (FrankenPHP) | ✅ (`symfony server:ca:install`) | Via Caddy/Traefik/certbot services |
+| Adding a service later | Edit `compose.yaml` yourself | Install/run it separately | `docker compose up -d {service}` |
+| Production path | ✅ FrankenPHP image | ❌ dev server | `./laradock ship` → server / Kubernetes / cloud |
+
+## Choose Symfony Docker if...
+
+- You are building a single Symfony app and its FrankenPHP-based stack is what you want.
+- You value a small, Symfony-official-adjacent template maintained by a core contributor.
+- Your service needs are modest and you are comfortable extending the compose file.
+
+## Choose the Symfony CLI if...
+
+- You want the fastest possible local loop and are happy managing PHP and services on your host.
+
+## Choose Laradock if...
+
+- You need services beyond the template: multiple databases, RabbitMQ/Kafka, Elasticsearch/Meilisearch, monitoring, local LLMs, each one `up` command away.
+- You work on more than one framework or project and want a single environment for all of them.
+- You need a specific or legacy PHP version.
+- You want the same stack to go to production with `./laradock ship`, and you can still choose FrankenPHP as the runtime.
+
+## Frequently Asked Questions
+
+### Is Symfony Docker official?
+
+It is maintained by Kévin Dunglas, a Symfony core team member, and is the setup the Symfony documentation points to for Docker. It is best described as official-adjacent rather than a first-party Symfony product.
+
+### Can I use FrankenPHP with Laradock?
+
+Yes. FrankenPHP is one of Laradock's built-in services (`./laradock start frankenphp`), alongside RoadRunner and the classic NGINX/Apache/Caddy + PHP-FPM options, so choosing Laradock does not mean giving up FrankenPHP.
+
+### Does Symfony Docker handle databases and search?
+
+It focuses on the PHP runtime; a database, search engine, or message broker are additions you wire into its `compose.yaml`. Laradock ships those as ready-to-start services.
+
+See the full landscape: **[Laradock vs Laravel Sail](https://laradock.io/docs/laradock-vs-laravel-sail)** and **[Laradock vs Others](https://laradock.io/docs/laradock-alternatives)**. Ready to try it? **[Run Symfony on Docker](https://laradock.io/docs/symfony-on-docker)** takes about five minutes.
+
+
+================================================================
 # Laradock vs Laravel Valet
 Source: https://laradock.io/docs/laradock-vs-valet
 ================================================================
@@ -3707,6 +4086,132 @@ No. Valet only handles PHP and the web server; you install MySQL, PostgreSQL, Re
 Yes, per site: use `valet use php@8.3` inside a project, or drop a `.valetphprc` file containing the version number so Valet picks it automatically.
 
 See the full landscape, including DDEV, Sail, Lando and XAMPP: **[Laradock vs Others](https://laradock.io/docs/laradock-alternatives)**. Ready to try it? **[Getting Started](https://laradock.io/docs/getting-started)** takes about five minutes.
+
+
+================================================================
+# Laradock vs the Official WordPress Docker Setup
+Source: https://laradock.io/docs/laradock-vs-wordpress-docker
+================================================================
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+Unlike Laravel with Sail, WordPress has no single official Docker environment. Instead you have three common paths: the WordPress core team's [`wp-env`](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/), the community-maintained [official `wordpress` Docker image](https://hub.docker.com/_/wordpress) wired up with a hand-written `docker-compose.yml`, and vendor images like [Bitnami WordPress](https://hub.docker.com/r/bitnami/wordpress). This page compares those with Laradock.
+
+*`wp-env` is a zero-config, plugin/theme-development tool. The official image is a bare building block you wire yourself. Laradock is a full, pre-wired environment with real NGINX/MySQL/Redis and 100+ optional services. This page sets WordPress up on each.*
+
+**TL;DR:** use [`wp-env`](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/) if you build plugins or themes and want a throwaway WordPress in one command. Wire the [official image](https://hub.docker.com/_/wordpress) yourself if your stack is tiny and you enjoy writing compose files. Pick Laradock when you want a production-style stack (real web server, Redis object cache, any PHP version), run more than WordPress, or want the same environment to reach production.
+
+## Setting up with wp-env
+
+`wp-env` is a Node package that spins up WordPress + MySQL in Docker with no configuration:
+
+```bash
+npm -g install @wordpress/env
+cd my-plugin
+wp-env start
+```
+
+WordPress comes up at `http://localhost:8888`, with your plugin/theme folder mapped in. Configure via a `.wp-env.json` (PHP version, WordPress version, mapped plugins/themes). It is purpose-built for **development of** WordPress extensions, not for running a real site: no NGINX (PHP built-in server), no Redis, no mail catcher, and the service list is fixed.
+
+## Setting up with the official WordPress image
+
+You write the compose file yourself:
+
+```yaml
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_ROOT_PASSWORD: secret
+  wordpress:
+    image: wordpress:php8.3-apache
+    ports: ["8080:80"]
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_PASSWORD: secret
+    depends_on: [db]
+```
+
+`docker compose up -d` and you are live at `http://localhost:8080`. Full control, but everything beyond WordPress + one database (Redis, a real NGINX config, WP-CLI, a mail catcher, HTTPS) is yours to add and maintain.
+
+## The same thing with Laradock
+
+```bash
+cd my-site
+git clone https://github.com/laradock/laradock.git
+cd laradock
+```
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start nginx mysql redis workspace
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+cp .env.example .env
+docker compose up -d nginx mysql redis workspace
+docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+The `workspace` container ships WP-CLI, so `wp core download`, `wp config create`, and `wp core install` all work inside it. You get a real NGINX in front, Redis for object caching, and any PHP version from 5.6 to 8.5. Full walkthrough: **[Run WordPress on Docker](https://laradock.io/docs/wordpress-on-docker)**.
+
+## Side by side
+
+| | **wp-env** | **Official image** | **Laradock** |
+|---|---|---|---|
+| Install | Node + `@wordpress/env` | Nothing (write compose) | Nothing (git clone) |
+| Config | `.wp-env.json` | Your `docker-compose.yml` | per-service folders + one `.env` |
+| Web server | PHP built-in server | Apache (image default) | Real NGINX / Apache / Caddy |
+| Object cache (Redis) | ❌ | Add it yourself | ✅ one word |
+| WP-CLI | ✅ (`wp-env run cli`) | Add a `wordpress:cli` service | ✅ in `workspace` |
+| Other services | None (fixed) | Whatever you wire | 100+ (search, queues, mail, monitoring) |
+| PHP versions | Recent only | Image tags | 5.6 - 8.5 |
+| Runs non-WordPress projects | ❌ | You'd rewrite the compose | ✅ any PHP project |
+| Production path | ❌ dev tool | Roll your own | `./laradock ship` → server / Kubernetes / cloud |
+
+## Choose wp-env if...
+
+- You develop WordPress plugins, themes, or contribute to core, and want a disposable instance in one command.
+- You do not need a production-like stack, just WordPress running against your code.
+
+## Choose the official image if...
+
+- Your needs are minimal (WordPress + one database) and you like owning a short compose file.
+- You do not mind wiring Redis, NGINX, WP-CLI, and mail yourself as the project grows.
+
+## Choose Laradock if...
+
+- You want a **production-style** local stack: real NGINX, Redis object caching, HTTPS via Caddy/Traefik.
+- You run WordPress **and** other PHP projects and want one environment for all of them.
+- You need a specific or legacy PHP version WordPress must run on.
+- You want the same containers to reach production with `./laradock ship`, not just live on your laptop.
+
+## Frequently Asked Questions
+
+### Does WordPress have an official Docker setup?
+
+Not one, but two building blocks: the WordPress core team publishes [`wp-env`](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/) (aimed at extension/core development) and maintains the [official `wordpress` image](https://hub.docker.com/_/wordpress) on Docker Hub (a bare runtime you wire into a compose file). Neither is a full local-development environment the way Laradock is.
+
+### Is wp-env good for running a real WordPress site?
+
+No. `wp-env` is designed for developing plugins, themes, and WordPress core, so it deliberately omits a production-style web server, Redis, and mail. For a site that resembles production, use the official image with your own services, or Laradock.
+
+### Can I add Redis object caching?
+
+With `wp-env` and the official image you add it yourself. With Laradock, Redis is one word in the start command (`./laradock start redis`), and the `workspace` container has WP-CLI to install the object-cache drop-in.
+
+See the full landscape, including native GUI tools: **[Laradock vs Local WP](https://laradock.io/docs/laradock-vs-local-wp)** and **[Laradock vs Others](https://laradock.io/docs/laradock-alternatives)**. Ready to try it? **[Run WordPress on Docker](https://laradock.io/docs/wordpress-on-docker)** takes about five minutes.
 
 
 ================================================================
@@ -27117,7 +27622,7 @@ Concretely, Laradock's Adminer service is pre-wired to talk to your database con
 ```bash
 cd my-project
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 ### 2. Start your database and Adminer
@@ -27135,6 +27640,7 @@ Adminer needs a database to point at. Start both together:
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d mysql adminer
 ```
 
@@ -27258,7 +27764,7 @@ Concretely, for Akaunting it gives you a production-style NGINX + PHP-FPM stack,
 ```bash
 cd my-akaunting-instance
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Akaunting codebase yet? Clone Laradock first, then pull one down from the workspace container in the next steps.)
@@ -27278,6 +27784,7 @@ Akaunting needs a web server and a database; add Redis for cache. The web server
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 
@@ -27418,7 +27925,7 @@ For Aureus ERP specifically, Laradock wires a production-style NGINX + PHP-FPM s
 ```bash
 cd my-aureus-erp-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Aureus ERP files yet? Clone Laradock first, then pull Aureus ERP from the workspace container in the next steps.)
@@ -27438,6 +27945,7 @@ Aureus ERP needs a web server, a database, and Redis once you go beyond a single
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 
@@ -27622,7 +28130,7 @@ Concretely, for bbPress it gives you a production-style NGINX + PHP-FPM stack, M
 ```bash
 cd my-bbpress-forum
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No WordPress files yet? Clone Laradock first, then download WordPress from the `workspace` container in the next steps; bbPress is installed on top of it as a plugin.)
@@ -27642,6 +28150,7 @@ bbPress needs everything WordPress needs, plus Redis for object caching once for
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 
@@ -27785,7 +28294,7 @@ Concretely, for BookStack it gives you a production-style NGINX + PHP-FPM stack,
 ```bash
 cd my-bookstack-instance
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No BookStack codebase yet? Clone Laradock first, then pull one down from the workspace container in the next steps.)
@@ -27805,6 +28314,7 @@ BookStack needs a web server and a database. The web server pulls in PHP-FPM aut
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -27951,7 +28461,7 @@ Concretely, for Cachet it gives you a production-style NGINX + PHP-FPM stack, My
 ```bash
 cd my-cachet-instance
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Cachet codebase yet? Clone Laradock first, then pull one down from the workspace container in the next steps.)
@@ -27971,6 +28481,7 @@ Cachet needs a web server and a database. The web server pulls in PHP-FPM automa
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -28118,7 +28629,7 @@ Concretely, for Crater it gives you a production-style NGINX + PHP-FPM stack, My
 ```bash
 cd my-crater-instance
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Crater codebase yet? Clone Laradock first, then pull one down from the workspace container in the next steps.)
@@ -28138,6 +28649,7 @@ Crater needs a web server and a database. The web server pulls in PHP-FPM automa
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -28283,7 +28795,7 @@ Concretely, for DokuWiki it gives you a production-style NGINX + PHP-FPM stack a
 ```bash
 cd my-dokuwiki-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No DokuWiki files yet? Clone Laradock first, then download and extract the DokuWiki package from the workspace container in the next steps.)
@@ -28303,6 +28815,7 @@ DokuWiki only needs a web server; there is no database to start. The web server 
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx workspace
 ```
 
@@ -28430,7 +28943,7 @@ Concretely, for Dolibarr it gives you a production-style NGINX (or Apache) + PHP
 ```bash
 cd my-dolibarr-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Dolibarr files yet? Clone Laradock first, then download Dolibarr from the [official releases](https://www.dolibarr.org/downloads) or via the workspace container in the next steps.)
@@ -28450,6 +28963,7 @@ Dolibarr needs a web server and a database; add Redis if you want caching. The w
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 
@@ -28586,7 +29100,7 @@ Concretely, for EspoCRM it gives you a production-style NGINX + PHP-FPM stack, M
 ```bash
 cd my-espocrm-instance
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No EspoCRM files yet? Clone Laradock first, then download and extract the EspoCRM package from the workspace container in the next steps.)
@@ -28606,6 +29120,7 @@ EspoCRM needs a web server and a database. The web server pulls in PHP-FPM autom
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -28747,7 +29262,7 @@ For Firefly III, Laradock wires a production-style NGINX + PHP-FPM stack, MySQL/
 git clone https://github.com/firefly-iii/firefly-iii.git my-firefly-iii
 cd my-firefly-iii
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 ### 2. Pick the services Firefly III needs
@@ -28765,6 +29280,7 @@ Firefly III needs a web server and a database. Redis is optional but recommended
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 
@@ -28913,7 +29429,7 @@ Concretely, for Flarum it gives you a production-style NGINX + PHP-FPM stack, My
 ```bash
 cd my-flarum-forum
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Flarum files yet? Clone Laradock first, then create the Flarum project from the `workspace` container in the next steps.)
@@ -28933,6 +29449,7 @@ Flarum needs a web server and a database. The web server pulls in PHP-FPM automa
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -29077,7 +29594,7 @@ Concretely, for FluxBB it gives you a production-style NGINX + PHP-FPM stack, My
 ```bash
 cd my-fluxbb-forum
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No FluxBB files yet? Clone Laradock first, then download and extract the FluxBB package from the `workspace` container in the next steps.)
@@ -29097,6 +29614,7 @@ FluxBB needs a web server and a database. The web server pulls in PHP-FPM automa
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -29234,7 +29752,7 @@ Concretely, for FrontAccounting it gives you a production-style NGINX + PHP-FPM 
 ```bash
 cd my-frontaccounting-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No FrontAccounting files yet? Clone Laradock first, then download the FrontAccounting release from the workspace container in the next steps.)
@@ -29254,6 +29772,7 @@ FrontAccounting needs a web server and a MySQL database; the web server pulls in
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -29396,7 +29915,7 @@ For Invoice Ninja specifically, Laradock wires a production-style NGINX + PHP-FP
 ```bash
 cd my-invoiceninja-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Invoice Ninja source yet? Clone Laradock first, then pull the Invoice Ninja source into your project directory from the workspace container in the next steps.)
@@ -29416,6 +29935,7 @@ Invoice Ninja needs a web server and a database. The web server pulls in PHP-FPM
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -29559,7 +30079,7 @@ Concretely, for Kanboard it gives you a production-style NGINX + PHP-FPM stack, 
 ```bash
 cd my-kanboard-instance
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Kanboard codebase yet? Clone Laradock first, then pull one down from the workspace container in the next steps.)
@@ -29579,6 +30099,7 @@ Kanboard's biggest difference from the rest of this list: it needs no database s
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx workspace
 ```
 
@@ -29737,7 +30258,7 @@ For Koel specifically, Laradock wires a production-style NGINX + PHP-FPM stack, 
 ```bash
 cd my-koel-server
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Koel files yet? Clone Laradock first, then clone Koel from [its GitHub repo](https://github.com/koel/koel) into your project directory.)
@@ -29757,6 +30278,7 @@ Koel needs a web server, PHP and a database. Start exactly those (the web server
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -29902,7 +30424,7 @@ Concretely, for Leantime it gives you a production-style NGINX + PHP-FPM stack, 
 ```bash
 cd my-leantime-instance
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Leantime codebase yet? Clone Laradock first, then pull one down from the workspace container in the next steps.)
@@ -29922,6 +30444,7 @@ Leantime needs a web server and a database (it will not run without one). The we
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -30067,7 +30590,7 @@ For LinkAce specifically, Laradock wires a production-style NGINX + PHP-FPM stac
 ```bash
 cd my-linkace-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No LinkAce files yet? Clone Laradock first, then clone LinkAce from [its GitHub repo](https://github.com/Kovah/LinkAce) into your project directory.)
@@ -30087,6 +30610,7 @@ LinkAce needs a web server, PHP and a database. Start exactly those (the web ser
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -30233,7 +30757,7 @@ For Lychee specifically, Laradock wires a production-style NGINX + PHP-FPM stack
 ```bash
 cd my-lychee-gallery
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Lychee files yet? Clone Laradock first, then clone Lychee from [its GitHub repo](https://github.com/LycheeOrg/Lychee) into your project directory.)
@@ -30253,6 +30777,7 @@ Lychee needs a web server, PHP and a database. Start exactly those (the web serv
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -30398,7 +30923,7 @@ Concretely, for Matomo it gives you a production-style NGINX + PHP-FPM stack, My
 ```bash
 cd my-matomo-install
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Matomo files yet? Clone Laradock first, then download the Matomo package from the `workspace` container in the next steps.)
@@ -30418,6 +30943,7 @@ Matomo needs a web server and a database. The web server pulls in PHP-FPM automa
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -30554,7 +31080,7 @@ Concretely, for Mautic it gives you a production-style NGINX + PHP-FPM stack, My
 ```bash
 cd my-mautic-instance
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Mautic codebase yet? Clone Laradock first, then pull one down from the workspace container in the next steps.)
@@ -30574,6 +31100,7 @@ Mautic needs a web server and a database. The web server pulls in PHP-FPM automa
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -30723,7 +31250,7 @@ Concretely, for MediaWiki it gives you a production-style NGINX + PHP-FPM stack,
 ```bash
 cd my-wiki
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No MediaWiki files yet? Clone Laradock first, then download the MediaWiki tarball from the `workspace` container in the next steps.)
@@ -30743,6 +31270,7 @@ MediaWiki needs a web server and a database. The web server pulls in PHP-FPM aut
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -30888,7 +31416,7 @@ Concretely, for Monica it gives you a production-style NGINX + PHP-FPM stack, My
 ```bash
 cd my-monica-instance
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Monica codebase yet? Clone Laradock first, then pull one down from the workspace container in the next steps.)
@@ -30908,6 +31436,7 @@ Monica needs a web server and a database. The web server pulls in PHP-FPM automa
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -31054,7 +31583,7 @@ Concretely, for Moodle it gives you a production-style NGINX + PHP-FPM stack, My
 ```bash
 cd my-moodle-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Moodle files yet? Clone Laradock first, then download the Moodle package from the `workspace` container in the next steps.)
@@ -31074,6 +31603,7 @@ Moodle needs a web server and a database; Redis is optional but recommended once
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 
@@ -31222,7 +31752,7 @@ Concretely, for MyBB it gives you a production-style NGINX + PHP-FPM stack, MySQ
 ```bash
 cd my-mybb-forum
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No MyBB files yet? Clone Laradock first, then download and extract the MyBB package from the `workspace` container in the next steps.)
@@ -31242,6 +31772,7 @@ MyBB needs a web server and a database. The web server pulls in PHP-FPM automati
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -31379,7 +31910,7 @@ Concretely, for Nextcloud, Laradock wires a production-style NGINX + PHP-FPM sta
 ```bash
 cd my-nextcloud-install
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Nextcloud files yet? Clone Laradock first, then download the Nextcloud server archive from the workspace container in the next steps.)
@@ -31399,6 +31930,7 @@ Nextcloud needs a web server and a database; add Redis for caching and file lock
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 
@@ -31548,7 +32080,7 @@ Concretely, for ownCloud it gives you a production-style NGINX + PHP-FPM stack, 
 ```bash
 cd my-owncloud-instance
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No ownCloud codebase yet? Clone Laradock first, then pull one down from the workspace container in the next steps.)
@@ -31568,6 +32100,7 @@ ownCloud needs a web server and a database. The web server pulls in PHP-FPM auto
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -31713,7 +32246,7 @@ Concretely, for PHP Server Monitor it gives you a production-style NGINX + PHP-F
 ```bash
 cd my-phpservermon-instance
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No PHP Server Monitor codebase yet? Clone Laradock first, then pull one down from the workspace container in the next steps.)
@@ -31733,6 +32266,7 @@ PHP Server Monitor needs a web server and a database. The web server pulls in PH
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -31857,7 +32391,7 @@ Concretely, for phpBB it gives you a production-style NGINX + PHP-FPM stack, MyS
 ```bash
 cd my-phpbb-forum
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No phpBB files yet? Clone Laradock first, then download and extract the phpBB package from the `workspace` container in the next steps.)
@@ -31877,6 +32411,7 @@ phpBB needs a web server and a database. The web server pulls in PHP-FPM automat
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -32014,7 +32549,7 @@ Concretely, Laradock's phpMyAdmin service is pre-wired to the `mysql` or `mariad
 ```bash
 cd my-project
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 ### 2. Start your database and phpMyAdmin
@@ -32032,6 +32567,7 @@ phpMyAdmin needs a database to point at. Start both together:
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d mysql phpmyadmin
 ```
 
@@ -32172,7 +32708,7 @@ Concretely, for PunBB it gives you a production-style NGINX + PHP-FPM stack, MyS
 ```bash
 cd my-punbb-forum
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No PunBB files yet? Clone Laradock first, then download and extract the PunBB package from the `workspace` container in the next steps.)
@@ -32192,6 +32728,7 @@ PunBB needs a web server and a database. The web server pulls in PHP-FPM automat
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -32329,7 +32866,7 @@ Concretely, for Pydio 8 it gives you an NGINX + PHP-FPM stack pinned to an older
 ```bash
 cd my-pydio-instance
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Pydio 8 codebase yet? Clone Laradock first, then place your existing install into the workspace container in the next steps. If you are starting fresh, use Pydio Cells instead, it is outside PHP and outside the scope of Laradock.)
@@ -32349,6 +32886,7 @@ Pydio 8 needs a web server and a database. The web server pulls in PHP-FPM autom
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -32491,7 +33029,7 @@ Concretely, for Roundcube's own layer, Laradock gives you a production-style NGI
 ```bash
 cd my-roundcube-instance
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Roundcube files yet? Clone Laradock first, then download and extract the Roundcube package from the workspace container in the next steps.)
@@ -32511,6 +33049,7 @@ Roundcube needs a web server and a database for its own data. The web server pul
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -32656,7 +33195,7 @@ Concretely, for SMF it gives you a production-style NGINX + PHP-FPM stack, MySQL
 ```bash
 cd my-smf-forum
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No SMF files yet? Clone Laradock first, then download and extract the SMF package from the workspace container in the next steps.)
@@ -32676,6 +33215,7 @@ SMF needs a web server and a database. The web server pulls in PHP-FPM automatic
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -32813,7 +33353,7 @@ Concretely, for SuiteCRM it gives you a production-style NGINX + PHP-FPM stack, 
 ```bash
 cd my-suitecrm-instance
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No SuiteCRM files yet? Clone Laradock first, then download and extract the SuiteCRM package from the workspace container in the next steps.)
@@ -32833,6 +33373,7 @@ SuiteCRM needs a web server and a database. The web server pulls in PHP-FPM auto
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -32976,7 +33517,7 @@ Concretely, for Vanilla Forums it gives you a production-style NGINX + PHP-FPM s
 ```bash
 cd my-vanilla-forum
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Vanilla files yet? Clone Laradock first, then download Vanilla Forums from [its GitHub repo](https://github.com/vanilla/vanilla) into your project directory.)
@@ -32996,6 +33537,7 @@ Vanilla needs a web server, PHP and a database. Start exactly those (the web ser
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -33113,7 +33655,7 @@ Concretely, for Vtiger it gives you a production-style NGINX + PHP-FPM stack, My
 ```bash
 cd my-vtiger-instance
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Vtiger files yet? Clone Laradock first, then download and extract the Vtiger package from the workspace container in the next steps.)
@@ -33133,6 +33675,7 @@ Vtiger needs a web server and a MySQL database. The web server pulls in PHP-FPM 
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -33269,7 +33812,7 @@ Concretely, for webERP it gives you a production-style NGINX + PHP-FPM stack, My
 ```bash
 cd my-weberp-install
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No webERP files yet? Clone Laradock first, then download webERP from the [official GitHub repository](https://github.com/timschofield/webERP) into your project root in the next steps.)
@@ -33289,6 +33832,7 @@ webERP needs a web server and a database; the web server pulls in PHP-FPM automa
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -33424,7 +33968,7 @@ Concretely, for X2CRM it gives you a web server (NGINX or Apache) paired with PH
 ```bash
 cd my-x2crm-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No X2CRM files yet? Clone the [X2CRM repository](https://github.com/X2Engine/X2CRM) into your project root first, then continue below.)
@@ -33444,6 +33988,7 @@ X2CRM needs a web server and a MySQL database. The web server pulls in PHP-FPM a
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -33578,7 +34123,7 @@ Concretely, for YOURLS it gives you a production-style NGINX (or Apache) + PHP-F
 ```bash
 cd my-yourls-shortener
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No YOURLS files yet? Clone Laradock first, then download YOURLS into your project directory from the [YOURLS releases page](https://github.com/YOURLS/YOURLS/releases) or via `git clone`.)
@@ -33598,6 +34143,7 @@ YOURLS needs a web server, PHP, and a database. Start exactly those (the web ser
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -33721,7 +34267,7 @@ Concretely, for b2evolution it gives you a production-style NGINX + PHP-FPM stac
 ```bash
 cd my-b2evolution-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No b2evolution files yet? Clone Laradock first, then download b2evolution from the [releases page](https://github.com/b2evolution/b2evolution/releases) into your project root.)
@@ -33741,6 +34287,7 @@ b2evolution needs a web server and a database. Start exactly those (the web serv
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -33864,7 +34411,7 @@ For Backdrop CMS specifically, Laradock wires a production-style NGINX + PHP-FPM
 ```bash
 cd my-backdrop-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Backdrop files yet? Clone Laradock first, then download Backdrop from the workspace container in the next steps.)
@@ -33884,6 +34431,7 @@ Backdrop CMS needs a web server and a database. The web server pulls in PHP-FPM 
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -34024,7 +34572,7 @@ Concretely, for Bolt it gives you a production-style NGINX + PHP-FPM stack, a `w
 ```bash
 cd my-bolt-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Bolt project yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -34044,6 +34592,7 @@ Bolt defaults to SQLite, which is just a file, so a fresh install only needs a w
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx workspace
 ```
 
@@ -34189,7 +34738,7 @@ Concretely, for Concrete CMS it gives you a production-style NGINX + PHP-FPM sta
 ```bash
 cd my-concrete-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Concrete CMS files yet? Clone Laradock first, then download Concrete CMS from the workspace container in the next steps.)
@@ -34209,6 +34758,7 @@ Concrete CMS needs a web server and a database. The web server pulls in PHP-FPM 
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -34351,7 +34901,7 @@ Concretely, for Contao it gives you a production-style NGINX + PHP-FPM stack, My
 ```bash
 cd my-contao-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Contao project yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -34371,6 +34921,7 @@ Contao needs a web server and a database. Start exactly those (the web server pu
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -34513,7 +35064,7 @@ For Craft CMS specifically, Laradock wires a production-style NGINX + PHP-FPM st
 ```bash
 cd my-craft-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Craft project yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -34533,6 +35084,7 @@ Craft CMS needs a web server and a database; there is no flat-file mode, so pick
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -34677,7 +35229,7 @@ For Drupal specifically, Laradock wires a production-style NGINX + PHP-FPM stack
 ```bash
 cd my-drupal-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Drupal codebase yet? Clone Laradock first, then build one from the workspace container in the next steps.)
@@ -34697,6 +35249,7 @@ Most Drupal sites need a web server, a database, and Redis for caching. Start ex
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 
@@ -34801,7 +35354,7 @@ The containers are production-style (real NGINX + PHP-FPM), so it is far closer 
 
 ---
 
-Comparing environments? See the full **[Laradock vs Others](https://laradock.io/docs/laradock-alternatives)** breakdown. Ready to start? **[Getting Started](https://laradock.io/docs/getting-started)** takes about five minutes.
+Comparing environments? See **[Laradock vs Drupal Docker](https://laradock.io/docs/laradock-vs-drupal-docker)** (DDEV & the official image) and the full **[Laradock vs Others](https://laradock.io/docs/laradock-alternatives)** breakdown. Ready to start? **[Getting Started](https://laradock.io/docs/getting-started)** takes about five minutes.
 
 
 ================================================================
@@ -34840,7 +35393,7 @@ Concretely, for e107 it gives you a production-style NGINX + PHP-FPM stack, MySQ
 ```bash
 cd my-e107-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No e107 files yet? Clone Laradock first, then download e107 from the workspace container in the next steps.)
@@ -34860,6 +35413,7 @@ e107 needs a web server and a database. The web server pulls in PHP-FPM automati
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -35000,7 +35554,7 @@ Concretely, for ExpressionEngine it gives you a production-style NGINX + PHP-FPM
 ```bash
 cd my-expressionengine-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No ExpressionEngine files yet? Clone Laradock first, then download ExpressionEngine from the workspace container in the next steps.)
@@ -35020,6 +35574,7 @@ ExpressionEngine needs a web server and a database. The web server pulls in PHP-
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -35162,7 +35717,7 @@ For Grav specifically, Laradock wires a production-style NGINX + PHP-FPM stack a
 ```bash
 cd my-grav-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Grav files yet? Clone Laradock first, then create the site from the workspace container in the next steps.)
@@ -35182,6 +35737,7 @@ Grav has no database, so a web server is the whole stack; PHP-FPM comes with it 
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx workspace
 ```
 
@@ -35314,7 +35870,7 @@ Concretely, for HTMLy it gives you a production-style NGINX + PHP-FPM stack, no 
 ```bash
 cd my-htmly-blog
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No HTMLy files yet? Clone Laradock first, then download HTMLy from the [releases page](https://github.com/danpros/htmly/releases) into your project root.)
@@ -35334,6 +35890,7 @@ HTMLy has no database, so it only needs a web server. Start that (it pulls in PH
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx workspace
 ```
 
@@ -35450,7 +36007,7 @@ For Joomla specifically, Laradock wires a production-style NGINX + PHP-FPM stack
 ```bash
 cd my-joomla-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Joomla files yet? Clone Laradock first, then download Joomla from the workspace container in the next steps.)
@@ -35470,6 +36027,7 @@ Joomla needs a web server and a database; add Redis for caching. The web server 
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 
@@ -35611,7 +36169,7 @@ Concretely, for Kirby it gives you a production-style NGINX + PHP-FPM stack, no 
 ```bash
 cd my-kirby-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Kirby files yet? Clone Laradock first, then pull in Kirby from the workspace container in the next steps.)
@@ -35631,6 +36189,7 @@ Kirby has no database, so it only needs a web server. Start that (it pulls in PH
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx workspace
 ```
 
@@ -35770,7 +36329,7 @@ Concretely, for Neos it gives you a production-style NGINX + PHP-FPM stack, MySQ
 ```bash
 cd my-neos-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Neos project yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -35790,6 +36349,7 @@ Every Neos project needs a web server, PHP-FPM and a database:
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -35935,7 +36495,7 @@ Concretely, for Nucleus CMS it gives you a production-style NGINX + PHP-FPM stac
 ```bash
 cd my-nucleus-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Nucleus files yet? Clone Laradock first, then pull your existing Nucleus files into your project root.)
@@ -35955,6 +36515,7 @@ Nucleus needs a web server and a database. Start exactly those (the web server p
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -36078,7 +36639,7 @@ Concretely, for October CMS it gives you a production-style NGINX + PHP-FPM stac
 ```bash
 cd my-october-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No October CMS project yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -36098,6 +36659,7 @@ Most October CMS sites need a web server, a database, and Redis for cache and qu
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 
@@ -36237,7 +36799,7 @@ Concretely, for Pico it gives you a production-style NGINX + PHP-FPM stack, no d
 ```bash
 cd my-pico-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Pico files yet? Clone Laradock first, then pull in Pico from the workspace container in the next steps.)
@@ -36257,6 +36819,7 @@ Pico has no database, so it only needs a web server. Start that (it pulls in PHP
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx workspace
 ```
 
@@ -36392,7 +36955,7 @@ For Pimcore specifically, Laradock wires a production-style NGINX + PHP-FPM stac
 ```bash
 cd my-pimcore-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Pimcore project yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -36412,6 +36975,7 @@ Every Pimcore project needs a web server, PHP-FPM and a database; add Elasticsea
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -36550,7 +37114,7 @@ Concretely, for Pligg it gives you an NGINX + PHP-FPM stack pinned to an old PHP
 ```bash
 cd my-pligg-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Pligg files yet? Clone Laradock first, then download Pligg from the workspace container in the next steps.)
@@ -36570,6 +37134,7 @@ Pligg needs a web server and a database. The web server pulls in PHP-FPM automat
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -36697,7 +37262,7 @@ Concretely, for ProcessWire it gives you a production-style NGINX + PHP-FPM stac
 ```bash
 cd my-processwire-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No ProcessWire files yet? Clone Laradock first, then download ProcessWire into your project root from the workspace container in the next steps.)
@@ -36717,6 +37282,7 @@ ProcessWire needs a web server and a database. Start exactly those (the web serv
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -36861,7 +37427,7 @@ Concretely, for Serendipity it gives you a production-style NGINX + PHP-FPM stac
 ```bash
 cd my-serendipity-blog
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Serendipity files yet? Clone Laradock first, then download Serendipity from the [releases page](https://github.com/s9y/Serendipity/releases) into your project root.)
@@ -36881,6 +37447,7 @@ Serendipity needs a web server and a database. Start exactly those (the web serv
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -37004,7 +37571,7 @@ Concretely, for Statamic it gives you a production-style NGINX + PHP-FPM stack, 
 ```bash
 cd my-statamic-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Statamic project yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -37024,6 +37591,7 @@ Statamic's default flat-file mode needs nothing but a web server; PHP-FPM comes 
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx workspace
 ```
 
@@ -37156,7 +37724,7 @@ For Sulu specifically, Laradock wires a production-style NGINX + PHP-FPM stack, 
 ```bash
 cd my-sulu-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Sulu project yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -37176,6 +37744,7 @@ Every Sulu project needs a web server, PHP-FPM and a database; add Elasticsearch
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -37318,7 +37887,7 @@ Concretely, for Textpattern it gives you a production-style NGINX + PHP-FPM stac
 ```bash
 cd my-textpattern-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Textpattern files yet? Clone Laradock first, then download Textpattern from the workspace container in the next steps.)
@@ -37338,6 +37907,7 @@ Textpattern needs a web server and a database. The web server pulls in PHP-FPM a
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -37481,7 +38051,7 @@ Concretely, for TYPO3 it gives you a production-style NGINX + PHP-FPM stack, MyS
 ```bash
 cd my-typo3-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No TYPO3 project yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -37501,6 +38071,7 @@ Most TYPO3 sites need a web server, a database, and Redis for caching. Start exa
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 
@@ -37645,7 +38216,7 @@ Concretely, for Winter CMS it gives you a production-style NGINX + PHP-FPM stack
 ```bash
 cd my-winter-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Winter CMS files yet? Clone Laradock first, then create the project from the workspace container in the next steps.)
@@ -37665,6 +38236,7 @@ Most Winter CMS sites need a web server, a database, and Redis for cache. The we
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 
@@ -37788,7 +38360,7 @@ The catch: wiring those containers together yourself (base images, PHP extension
 
 ## Why Laradock is the best fit for WordPress
 
-Unlike Laravel, WordPress has no official Docker tool or first-party runtime of its own, so a ready-made, no-lock-in environment matters even more. Here is why Laradock is the best fit:
+Unlike Laravel with Sail, WordPress has no single official Docker environment: the core team's `wp-env` targets plugin/theme development, and the official `wordpress` image is a bare runtime you wire yourself ([full comparison](https://laradock.io/docs/laradock-vs-wordpress-docker)). So a ready-made, no-lock-in environment matters even more. Here is why Laradock is the best fit:
 
 - **You are never locked into one ecosystem.** Laradock is framework-agnostic. Run WordPress today, add a Laravel API, a Symfony service, or a plain PHP script beside it tomorrow, all in the same environment with the same commands.
 - **Far more flexibility.** 100+ ready services and any PHP version from 5.6 to 8.5, so a legacy theme and a modern site each get exactly the runtime they need.
@@ -37804,7 +38376,7 @@ Concretely, for WordPress it gives you a production-style NGINX + PHP-FPM stack,
 ```bash
 cd my-wordpress-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No WordPress files yet? Clone Laradock first, then download WordPress from the workspace container in the next steps.)
@@ -37824,6 +38396,7 @@ WordPress needs a web server and a database; add Redis for object caching. The w
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 
@@ -37929,7 +38502,7 @@ The containers are production-style (real NGINX + PHP-FPM), so it is far closer 
 
 ---
 
-Comparing local WordPress environments? See **[Laradock vs Local WP](https://laradock.io/docs/laradock-vs-local-wp)** and the full **[Laradock vs Others](https://laradock.io/docs/laradock-alternatives)** breakdown. Ready to start? **[Getting Started](https://laradock.io/docs/getting-started)** takes about five minutes.
+Comparing local WordPress environments? See **[Laradock vs the Official WordPress Docker Setup](https://laradock.io/docs/laradock-vs-wordpress-docker)** (wp-env & the official image), **[Laradock vs Local WP](https://laradock.io/docs/laradock-vs-local-wp)**, and the full **[Laradock vs Others](https://laradock.io/docs/laradock-alternatives)** breakdown. Ready to start? **[Getting Started](https://laradock.io/docs/getting-started)** takes about five minutes.
 
 
 ================================================================
@@ -37968,7 +38541,7 @@ Concretely, for AbanteCart it gives you a production-style NGINX + PHP-FPM stack
 ```bash
 cd my-abantecart-store
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No AbanteCart files yet? Clone Laradock first, then download AbanteCart from the workspace container in the next steps.)
@@ -37988,6 +38561,7 @@ AbanteCart needs a web server and a database. The web server pulls in PHP-FPM au
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -38128,7 +38702,7 @@ Concretely, for an Aimeos-powered app it gives you a production-style NGINX + PH
 ```bash
 cd my-aimeos-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Laravel app yet? Clone Laradock first, then [create one from the workspace container](https://laradock.io/docs/laravel-on-docker); Aimeos is added into it in the steps below.)
@@ -38148,6 +38722,7 @@ Aimeos needs whatever your host Laravel app needs: a web server, a database, and
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 
@@ -38289,7 +38864,7 @@ Concretely, for AvoRed it gives you a production-style NGINX + PHP-FPM stack, My
 ```bash
 cd my-avored-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Laravel app yet? Clone Laradock first, then create one from the `workspace` container in the next steps; AvoRed is added into it as a Composer package.)
@@ -38309,6 +38884,7 @@ AvoRed needs whatever a Laravel app needs: a web server and a database. Redis is
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 
@@ -38450,7 +39026,7 @@ Concretely, for Bagisto it gives you a production-style NGINX + PHP-FPM stack, M
 ```bash
 cd my-bagisto-store
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Bagisto app yet? Clone Laradock first, then create one from the `workspace` container in the next steps.)
@@ -38470,6 +39046,7 @@ Bagisto needs a web server and a database. Redis is optional but recommended for
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 
@@ -38609,7 +39186,7 @@ Concretely, for CubeCart it gives you a production-style NGINX + PHP-FPM stack, 
 ```bash
 cd my-cubecart-store
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No CubeCart files yet? Clone Laradock first, then download CubeCart from the workspace container in the next steps.)
@@ -38629,6 +39206,7 @@ CubeCart needs a web server and a database. The web server pulls in PHP-FPM auto
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -38769,7 +39347,7 @@ Concretely, for LiteCart it gives you a production-style NGINX + PHP-FPM stack, 
 ```bash
 cd my-litecart-store
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No LiteCart files yet? Clone Laradock first, then download LiteCart from the workspace container in the next steps.)
@@ -38789,6 +39367,7 @@ LiteCart needs a web server and a database. The web server pulls in PHP-FPM auto
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -38931,7 +39510,7 @@ Concretely, for Magento it gives you a production-style NGINX + PHP-FPM stack, M
 ```bash
 cd my-magento-store
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Magento files yet? Clone Laradock first, then pull Magento via Composer from the `workspace` container in the next steps; you will need your Adobe Commerce Marketplace authentication keys for the private repo.)
@@ -38951,6 +39530,7 @@ Magento needs a web server, a database, and a search engine (OpenSearch is what 
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql opensearch redis workspace
 ```
 
@@ -39060,7 +39640,7 @@ The containers are production-style (real NGINX + PHP-FPM), so it is far closer 
 
 ---
 
-Comparing environments? See the full **[Laradock vs Others](https://laradock.io/docs/laradock-alternatives)** breakdown. Ready to start? **[Getting Started](https://laradock.io/docs/getting-started)** takes about five minutes.
+Comparing environments? See **[Laradock vs docker-magento and Warden](https://laradock.io/docs/laradock-vs-docker-magento)** and the full **[Laradock vs Others](https://laradock.io/docs/laradock-alternatives)** breakdown. Ready to start? **[Getting Started](https://laradock.io/docs/getting-started)** takes about five minutes.
 
 
 ================================================================
@@ -39099,7 +39679,7 @@ Concretely, for OpenCart it gives you a production-style NGINX or Apache + PHP-F
 ```bash
 cd my-opencart-store
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No OpenCart files yet? Clone Laradock first, then download an OpenCart release from the `workspace` container in the next steps.)
@@ -39119,6 +39699,7 @@ OpenCart needs a web server and a database, nothing else is required out of the 
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -39255,7 +39836,7 @@ For OpenMage specifically, Laradock wires an NGINX + PHP-FPM stack pinned to the
 ```bash
 cd my-openmage-store
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No OpenMage files yet? Clone Laradock first, then download OpenMage from the workspace container in the next steps.)
@@ -39275,6 +39856,7 @@ OpenMage needs a web server and a database; it does not require Elasticsearch or
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -39417,7 +39999,7 @@ For OroCommerce specifically, Laradock wires a production-style NGINX + PHP-FPM 
 ```bash
 cd my-orocommerce-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No OroCommerce project yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -39437,6 +40019,7 @@ A typical OroCommerce install needs a web server, a database, and Redis; add Ela
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx postgres redis workspace
 ```
 
@@ -39582,7 +40165,7 @@ Concretely, for osCommerce it gives you an NGINX + PHP-FPM stack pinned to which
 ```bash
 cd my-oscommerce-store
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No osCommerce files yet? Clone Laradock first, then download osCommerce from the workspace container in the next steps.)
@@ -39602,6 +40185,7 @@ osCommerce needs a web server and a database. The web server pulls in PHP-FPM au
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -39744,7 +40328,7 @@ Concretely, for PrestaShop it gives you a production-style NGINX or Apache + PHP
 ```bash
 cd my-prestashop-store
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No PrestaShop files yet? Clone Laradock first, then download PrestaShop from the `workspace` container in the next steps.)
@@ -39764,6 +40348,7 @@ PrestaShop needs a web server and a database. Redis is optional; add it when you
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -39896,7 +40481,7 @@ For Shopware specifically, Laradock wires a production-style NGINX + PHP-FPM sta
 ```bash
 cd my-shopware-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Shopware project yet? Clone Laradock first, then install one from the workspace container in the next steps.)
@@ -39916,6 +40501,7 @@ A typical Shopware 6 install needs a web server, a database, and Redis. Start ex
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 
@@ -40056,7 +40642,7 @@ Concretely, for Sylius it gives you a production-style NGINX + PHP-FPM stack, My
 ```bash
 cd my-sylius-store
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Sylius app yet? Clone Laradock first, then scaffold one from the `workspace` container in the next steps.)
@@ -40076,6 +40662,7 @@ Sylius needs a web server and a database, either MySQL/MariaDB or PostgreSQL. Re
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx postgres redis workspace
 ```
 
@@ -40214,7 +40801,7 @@ Concretely, for WooCommerce it gives you a production-style NGINX + PHP-FPM stac
 ```bash
 cd my-woocommerce-store
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No WordPress files yet? Clone Laradock first, then download WordPress from the `workspace` container in the next steps; WooCommerce is installed on top of it as a plugin.)
@@ -40234,6 +40821,7 @@ WooCommerce needs everything WordPress needs, plus Redis for object caching once
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 
@@ -40379,7 +40967,7 @@ Concretely, for Zen Cart it gives you an NGINX + PHP-FPM stack pinned to whichev
 ```bash
 cd my-zen-cart-store
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Zen Cart files yet? Clone Laradock first, then download Zen Cart from the workspace container in the next steps.)
@@ -40399,6 +40987,7 @@ Zen Cart needs a web server and a database. The web server pulls in PHP-FPM auto
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -40539,7 +41128,7 @@ For API Platform specifically, Laradock wires a production-style NGINX + PHP-FPM
 ```bash
 cd my-api-platform-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No API Platform app yet? Clone Laradock first, then [create one from the workspace container](#4-install-and-run-your-app).)
@@ -40559,6 +41148,7 @@ Most API Platform apps need a web server and a database. Start exactly those (th
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx postgres workspace
 ```
 
@@ -40700,7 +41290,7 @@ Concretely, for CakePHP it gives you a production-style NGINX + PHP-FPM stack, M
 ```bash
 cd my-cakephp-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No CakePHP app yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -40720,6 +41310,7 @@ Most CakePHP apps need a web server and a database (the web server pulls in PHP-
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -40867,7 +41458,7 @@ Concretely, for CodeIgniter it gives you a production-style NGINX + PHP-FPM stac
 ```bash
 cd my-codeigniter-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No CodeIgniter app yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -40887,6 +41478,7 @@ Most CodeIgniter apps need a web server and a database (the web server pulls in 
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -41031,7 +41623,7 @@ Concretely, for Fat-Free Framework it gives you a production-style NGINX + PHP-F
 ```bash
 cd my-f3-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No F3 files yet? Clone Laradock first, then install the framework from the workspace container in the next steps.)
@@ -41051,6 +41643,7 @@ Most F3 apps need a web server and a database. Start exactly those (the web serv
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -41190,7 +41783,7 @@ Concretely, for Flight it gives you a production-style NGINX + PHP-FPM stack, My
 ```bash
 cd my-flight-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Flight app yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -41210,6 +41803,7 @@ Most Flight apps need a web server and a database. Start exactly those (the web 
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -41354,7 +41948,7 @@ Concretely, for FuelPHP it gives you a production-style NGINX + PHP-FPM stack, M
 ```bash
 cd my-fuelphp-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No FuelPHP app yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -41374,6 +41968,7 @@ FuelPHP needs a web server and a database. The web server pulls in PHP-FPM autom
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -41519,7 +42114,7 @@ For Hyperf specifically, Laradock's `workspace` container has a `WORKSPACE_INSTA
 ```bash
 cd my-hyperf-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Hyperf app yet? Clone Laradock first, then [create one from the workspace container](#4-install-and-run-your-app).)
@@ -41562,6 +42157,7 @@ docker compose build workspace
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d mysql redis workspace
 ```
 
@@ -41710,7 +42306,7 @@ Concretely, for Laminas it gives you a production-style NGINX + PHP-FPM stack, M
 ```bash
 cd my-laminas-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Laminas app yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -41730,6 +42326,7 @@ Most Laminas apps need a web server and a database (the web server pulls in PHP-
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -41880,7 +42477,7 @@ Laravel has its own official Docker tools (Sail) and native runtimes (Herd, Vale
 ```bash
 cd my-laravel-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Laravel app yet? Clone Laradock first, then [create one from the workspace container](#starting-a-brand-new-laravel-app).)
@@ -41900,6 +42497,7 @@ Most Laravel apps need a web server, a database, and Redis. Start exactly those 
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 
@@ -42109,7 +42707,7 @@ For Leaf PHP specifically, Laradock wires a production-style NGINX + PHP-FPM sta
 ```bash
 cd my-leaf-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Leaf app yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -42129,6 +42727,7 @@ Most Leaf MVC apps need a web server and a database (the web server pulls in PHP
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -42270,7 +42869,7 @@ For Lumen specifically, Laradock wires a production-style NGINX + PHP-FPM stack,
 ```bash
 cd my-lumen-service
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Lumen app yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -42290,6 +42889,7 @@ Most Lumen APIs need a web server, a database, and Redis for cache and queues. S
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql redis workspace
 ```
 
@@ -42431,7 +43031,7 @@ Concretely, for Mezzio it gives you a production-style NGINX + PHP-FPM stack, My
 ```bash
 cd my-mezzio-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Mezzio app yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -42451,6 +43051,7 @@ Most Mezzio apps need a web server and a database. Start exactly those (the web 
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -42598,7 +43199,7 @@ For Nette specifically, Laradock wires a production-style NGINX + PHP-FPM stack,
 ```bash
 cd my-nette-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Nette app yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -42618,6 +43219,7 @@ Most Nette apps need a web server and a database (the web server pulls in PHP-FP
 <TabItem value="compose" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -42757,7 +43359,7 @@ Concretely, for Phalcon it gives you a production-style NGINX + PHP-FPM stack wi
 ```bash
 cd my-phalcon-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 ### 2. Turn on the Phalcon extension and pick your services
@@ -42782,6 +43384,7 @@ Then start a web server, a database, and the workspace (the web server pulls in 
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d --build nginx mysql workspace
 ```
 
@@ -42927,7 +43530,7 @@ For Silex specifically, Laradock wires a production-style NGINX + PHP-FPM stack,
 ```bash
 cd my-silex-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 ### 2. Pick the services your app needs
@@ -42945,6 +43548,7 @@ Most Silex apps need a web server and a database (the web server pulls in PHP-FP
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -43088,7 +43692,7 @@ For SilverStripe specifically, Laradock wires a production-style NGINX + PHP-FPM
 ```bash
 cd my-silverstripe-site
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No SilverStripe files yet? Clone Laradock first, then create the project from the workspace container in the next steps.)
@@ -43108,6 +43712,7 @@ SilverStripe needs a web server and a database (the web server pulls in PHP-FPM 
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -43251,7 +43856,7 @@ Concretely, for Slim it gives you a production-style NGINX + PHP-FPM stack, any 
 ```bash
 cd my-slim-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Slim app yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -43271,6 +43876,7 @@ A Slim API often needs nothing more than a web server (the web server pulls in P
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx workspace
 ```
 
@@ -43413,7 +44019,7 @@ For Spiral specifically, Laradock ships a dedicated `roadrunner` service (it run
 ```bash
 cd my-spiral-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Spiral app yet? Clone Laradock first, then [create one from the workspace container](#4-install-and-run-your-app).)
@@ -43433,6 +44039,7 @@ Spiral apps run through the `roadrunner` service instead of NGINX + PHP-FPM; add
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d roadrunner postgres redis workspace
 ```
 
@@ -43573,7 +44180,7 @@ For Swoole specifically, Laradock gives you the extension pre-matched to your PH
 ```bash
 cd my-swoole-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 ### 2. Enable the Swoole extension
@@ -43595,6 +44202,7 @@ WORKSPACE_INSTALL_SWOOLE=true
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d workspace
 ```
 
@@ -43733,7 +44341,7 @@ For Symfony specifically, Laradock wires a production-style NGINX + PHP-FPM stac
 ```bash
 cd my-symfony-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Symfony app yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -43753,6 +44361,7 @@ Most Symfony apps need a web server, a database, and PHP-FPM (the web server pul
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -43864,7 +44473,7 @@ The containers are production-style (real NGINX + PHP-FPM, or FrankenPHP if you 
 
 ---
 
-Comparing environments? See the full **[Laradock vs Others](https://laradock.io/docs/laradock-alternatives)** breakdown. Ready to start? **[Getting Started](https://laradock.io/docs/getting-started)** takes about five minutes.
+Comparing environments? See **[Laradock vs Symfony Docker](https://laradock.io/docs/laradock-vs-symfony-docker)** (the FrankenPHP-based template and the Symfony CLI) and the full **[Laradock vs Others](https://laradock.io/docs/laradock-alternatives)** breakdown. Ready to start? **[Getting Started](https://laradock.io/docs/getting-started)** takes about five minutes.
 
 
 ================================================================
@@ -43903,7 +44512,7 @@ Concretely, for ThinkPHP it gives you a production-style NGINX + PHP-FPM stack, 
 ```bash
 cd my-thinkphp-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No ThinkPHP app yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -43923,6 +44532,7 @@ Most ThinkPHP apps need a web server and a database. Start exactly those (the we
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -44065,7 +44675,7 @@ For Ubiquity specifically, Laradock gives you a production-style NGINX + PHP-FPM
 ```bash
 cd my-ubiquity-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Ubiquity project yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -44085,6 +44695,7 @@ A Ubiquity app needs a web server and a database (the web server pulls in PHP-FP
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
@@ -44231,7 +44842,7 @@ For Workerman specifically, Laradock's `php-worker` container already compiles `
 ```bash
 cd my-workerman-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 ### 2. Pick the services your app needs
@@ -44249,6 +44860,7 @@ For development, the `workspace` container is enough; add a database only if you
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d workspace mysql
 ```
 
@@ -44391,7 +45003,7 @@ Concretely, for Yii it gives you a production-style NGINX + PHP-FPM stack, MySQL
 ```bash
 cd my-yii-app
 git clone https://github.com/laradock/laradock.git
-cd laradock && cp .env.example .env
+cd laradock
 ```
 
 (No Yii app yet? Clone Laradock first, then create one from the workspace container in the next steps.)
@@ -44411,6 +45023,7 @@ Most Yii apps need a web server and a database (the web server pulls in PHP-FPM 
 <TabItem value="docker" label="Docker Compose">
 
 ```bash
+cp .env.example .env
 docker compose up -d nginx mysql workspace
 ```
 
