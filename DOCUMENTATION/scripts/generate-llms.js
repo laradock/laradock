@@ -62,9 +62,14 @@ function parseDoc(filename) {
     return m ? m[1].trim().replace(/^['"]|['"]$/g, '') : '';
   };
   const slug = (get('slug') || id).replace(/^\//, '');
-  const body = raw
-    .slice(match ? match[0].length : 0)
-    .replace(/<!--[\s\S]*?-->/g, '')
+  let body = raw.slice(match ? match[0].length : 0);
+  // Strip HTML comments until stable, so nested/overlapping <!-- --> can't survive one pass.
+  let previousBody;
+  do {
+    previousBody = body;
+    body = body.replace(/<!--[\s\S]*?-->/g, '');
+  } while (body !== previousBody);
+  body = body
     // Absolute URLs so the file makes sense fetched on its own.
     .replace(/\]\(\//g, `](${SITE}/`)
     .replace(/src="\//g, `src="${SITE}/`)
