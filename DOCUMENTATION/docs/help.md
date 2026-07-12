@@ -29,6 +29,12 @@ Can't find your issue below? Reach out:
 - Need something directly? **mahmoud@zalt.me**
 - Security vulnerabilities: follow the [Security Policy](https://github.com/laradock/laradock/blob/master/SECURITY.md).
 
+## Upgrading
+
+### I pulled the latest and see a huge diff or git conflicts
+
+Nothing is broken. Laradock's files were reorganized, the one big `docker-compose.yml` and `.env.example` became small per-service files, but everything you run is unchanged and your `.env` is left untouched. The [Upgrade Guide](/docs/upgrade-guide) explains the change, resolves any conflict in one step, and includes a copy-paste prompt that lets an AI agent migrate your setup for you.
+
 ## Pages & display
 
 ### I see a blank (white) page instead of the Laravel welcome page

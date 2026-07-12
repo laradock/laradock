@@ -51,6 +51,8 @@ Battle-tested since 2015, and still growing. Recent highlights:
 
 See the [release notes](https://github.com/laradock/laradock/releases) for the full history.
 
+Already on an older version? Jumping straight to the latest is safe, nothing you run changes. See the **[Upgrade Guide](https://laradock.io/docs/upgrade-guide)** for the one structural change to know about.
+
 ### Quick Start
 
 Requires [Docker](https://www.docker.com/products/docker-desktop/) with Compose v2.20+.

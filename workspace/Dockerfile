@@ -755,7 +755,7 @@ RUN if [ ${INSTALL_IONCUBE} = true ]; then \
     if [ ${LARADOCK_PHP_VERSION} != "8.5" ] \
       && [ ${LARADOCK_PHP_VERSION} != "8.0" ]; then \
       # Install the php ioncube loader
-      curl -L -o /tmp/ioncube_loaders_lin_x86-64.tar.gz https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
+      curl -fSL --http1.1 --retry 5 --retry-delay 2 --retry-all-errors -o /tmp/ioncube_loaders_lin_x86-64.tar.gz https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
       && tar zxpf /tmp/ioncube_loaders_lin_x86-64.tar.gz -C /tmp \
       && mv /tmp/ioncube/ioncube_loader_lin_${LARADOCK_PHP_VERSION}.so $(php -r "echo ini_get('extension_dir');")/ioncube_loader.so \
       && echo "zend_extension=ioncube_loader.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/ioncube.ini \

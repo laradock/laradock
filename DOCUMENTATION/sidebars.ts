@@ -457,6 +457,7 @@ const sidebars: SidebarsConfig = {
         "laradock-vs-others/laradock-vs-drupal-docker",
       ],
     },
+    "upgrade-guide",
     "help",
     "community",
     "related-projects",
