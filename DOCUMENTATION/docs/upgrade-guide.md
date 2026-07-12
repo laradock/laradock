@@ -1,6 +1,6 @@
 ---
 title: Upgrade Guide
-description: Upgrading Laradock from an older version to a modern one. Everything you already run keeps working. This explains the one structural change (monolithic to modular), why the git diff looks huge, and how to migrate safely, including a copy-paste prompt that lets an AI agent do it for you.
+description: Upgrading Laradock from any older version to the current v20+ line. Everything you already run keeps working. This explains the one structural change (monolithic to modular), why the git diff looks huge, and how to migrate safely, including a copy-paste prompt that lets an AI agent do it for you.
 keywords:
   - laradock upgrade
   - upgrade laradock
@@ -11,13 +11,18 @@ keywords:
 
 # Upgrade Guide
 
+**v20+ is today's Laradock**, modular, with a plain-English CLI, built-in local-AI services, and one-command production deploys. This guide gets you there safely from any older version, whatever number you're on.
+
 Pulled a newer Laradock and the diff looks enormous, maybe with merge conflicts? **Don't panic.** Nothing you actually run has changed. At one point Laradock reorganized its files, one giant `docker-compose.yml` and `.env.example` became many small per-service files, so an upgrade that crosses that point shows a huge diff. But it's a **reorganization, not a rewrite.**
+
+<div style={{display: 'flex', gap: '0.9rem', flexWrap: 'wrap', alignItems: 'center', margin: '1.75rem 0'}}>
+  <a className="button button--primary button--lg" href="#let-an-ai-agent-do-it-for-you">🤖 Let an AI agent upgrade for me</a>
+  <span style={{opacity: 0.85}}>Grabs the copy-paste prompt below. It backs up first, never touches your <code>.env</code>, and asks before changing anything, so you don't have to read the rest.</span>
+</div>
 
 :::tip The whole upgrade, in one line
 `git pull` and keep your existing `.env`. Everything runs exactly as before, the Docker Compose config Laradock generates is byte-for-byte identical to what you had.
 :::
-
-**In a hurry? Don't read any of this, [let an AI agent do the whole migration for you →](#let-an-ai-agent-do-it-for-you)** It backs up first, never touches your `.env`, and stops to ask if anything is unclear. The rest of this page is just the manual explanation, for if you ever want it.
 
 ## Nothing breaks. Here's why.
 
@@ -32,19 +37,15 @@ So this isn't a typical upgrade guide with a checklist of things that will break
 
 Two structural changes landed when Laradock went modular (the **v18 series**). Both are pure reorganization, no behavior change.
 
-### 1. One giant file → a small root file + one file per service
+### 1. One giant file → one small file per service
 
-**Before:** a single **2,394-line** `docker-compose.yml`.
-
-**Now:** a ~340-line root `docker-compose.yml` (shared networks/volumes + an `include:` list) plus one small `compose.yml` inside each service's folder, 100+ of them: `nginx/compose.yml`, `mysql/compose.yml`, `redis/compose.yml`, and so on.
+The old single, huge `docker-compose.yml` was split up. Now there's a small root `docker-compose.yml` (just shared networks/volumes and an `include:` list) plus one small `compose.yml` inside each service's folder: `nginx/compose.yml`, `mysql/compose.yml`, `redis/compose.yml`, and so on.
 
 Docker stitches them all back together with `include:` when you run it, so the result is identical. The only new requirement: **Docker Compose v2.20+** (the version that added `include:`).
 
-### 2. The ~1,200-line `.env.example` → ~160 lines
+### 2. One giant `.env.example` → per-service defaults
 
-**Before:** every setting for every service crammed into one **~1,200-line** `.env.example`.
-
-**Now:** `.env.example` holds only the **shared** settings (paths, PHP version, project name). Each service ships its own ready-to-run defaults in `<service>/defaults.env` (e.g. `mysql/defaults.env`), you never copy or edit those.
+The old huge `.env.example` was slimmed down to just the shared settings (paths, PHP version, project name). Each service now ships its own ready-to-run defaults in `<service>/defaults.env` (e.g. `mysql/defaults.env`), which you never copy or edit.
 
 **Your `.env` still wins over every `defaults.env`.** To change any setting, add that one line to your `.env`, exactly like before. Example: `MYSQL_PORT=3307`.
 
@@ -81,24 +82,27 @@ A clean clone you only ever `git pull` (never committed local edits) won't confl
 
 ## Which versions does this apply to?
 
-There's really just **one pivot point** in Laradock's history that matters for upgrading: the move from the old **monolithic** layout to today's **modular** per-service layout (the v18 series).
+**v20+ is the current, modern line** you'll land on: modular layout, the `./laradock` CLI, local-AI services, and one-command production deploys. The one pivot that matters is the move from the old **monolithic** layout to today's **modular** one, which landed in the **v18** series:
 
-- **Coming from anything older** → you cross the pivot on your next pull, so you see the big one-time diff this page explains. Nothing breaks.
-- **Already on a modular version** → you're past it. Every upgrade from here is uneventful: same files, just newer.
+| You're on | What happens when you upgrade |
+| --- | --- |
+| **v17 or earlier** (old monolithic layout) | Your next pull crosses the pivot, so you see the big one-time diff this page explains. Nothing breaks. |
+| **v18 – v19** (already modular) | Moving up to v20+ just adds the CLI and production tooling. Uneventful. |
+| **v20+** (current line) | You're already here. Future upgrades stay uneventful: same files, just newer. |
 
-Either way there are no breaking changes to work through, no matter which version you start from or land on. For exactly what changed in any given release, see the [release notes](https://github.com/laradock/laradock/releases).
+No breaking changes at any step, whatever version you start from or land on. For exactly what changed in each release, see the [release notes](https://github.com/laradock/laradock/releases).
 
 ## What you gain by upgrading
 
 All optional, all opt-in, none of it required to upgrade. Recent Laradock also added:
 
-- **The `./laradock` CLI** — run Laradock without knowing Docker Compose: setup wizard, `start`, `workspace` shell, `doctor` health check, and more. → [CLI Reference](/docs/cli)
-- **A full local-AI stack** — Ollama, LocalAI, LiteLLM, and vector databases (pgvector, Qdrant, Weaviate, Chroma), plus modern runtimes like FrankenPHP, RoadRunner, and Laravel Reverb. → [Supported Services](/docs/Intro#supported-services)
-- **Production deploy** — take the same stack to a real server, a managed cloud, or Kubernetes with a hardened image. → [Deploy to Production](/docs/production)
+- **The `./laradock` CLI** *(v19)* — run Laradock without knowing Docker Compose: setup wizard, `start`, `workspace` shell, `doctor` health check, and more. → [CLI Reference](/docs/cli)
+- **A full local-AI stack** *(v18)* — Ollama, LocalAI, LiteLLM, and vector databases (pgvector, Qdrant, Weaviate, Chroma), plus modern runtimes like FrankenPHP, RoadRunner, and Laravel Reverb. → [Supported Services](/docs/Intro#supported-services)
+- **One-command production deploy** *(v20)* — take the same stack to a real server, a managed cloud, or Kubernetes with a hardened image. → [Deploy to Production](/docs/production)
 
 ## Let an AI agent do it for you
 
-Rather not touch it by hand? Open your AI coding agent (Claude Code, Cursor, or similar) inside your Laradock folder and paste the prompt below. It migrates your whole setup in one go — safely, backing up first, never touching your `.env`, and stopping to ask if anything is unclear.
+Rather not touch it by hand? Open your AI coding agent (Claude Code, Cursor, or similar) inside your Laradock folder and paste the prompt below. It migrates your whole setup in one go; safely, backing up first, never touching your `.env`, and stopping to ask if anything is unclear.
 
 ```text
 You are upgrading my existing Laradock setup to the latest version, in one go, safely.
