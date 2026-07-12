@@ -1,0 +1,183 @@
+# Tomcat
+
+Source: https://laradock.io/docs/services/tomcat
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## What is Tomcat?
+
+[Apache Tomcat](https://tomcat.apache.org) is a Java Servlet container that runs Java web applications packaged as WAR files. Laradock runs it from the official `tomcat` Docker image.
+
+## Start Tomcat
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start tomcat
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d tomcat
+```
+
+</TabItem>
+</Tabs>
+
+## Stop Tomcat
+
+Stopping just pauses the container; your deployed WAR files and logs are untouched (they live on your host, under `DATA_PATH_HOST`):
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock stop tomcat
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose stop tomcat
+```
+
+</TabItem>
+</Tabs>
+
+To delete the container entirely (your webapps and logs on disk are still untouched):
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock remove tomcat
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose rm -sf tomcat
+```
+
+</TabItem>
+</Tabs>
+
+## Configuration
+
+Settings live in `tomcat/defaults.env` and can be overridden in your own `.env`:
+
+| Variable | Default | What it does |
+|---|---|---|
+| `TOMCAT_VERSION` | `9.0` | Image tag from the [official `tomcat` Docker Hub page](https://hub.docker.com/_/tomcat). |
+| `TOMCAT_HOST_HTTP_PORT` | `8080` | Host port Tomcat is published on (container always listens on `8080` internally). |
+
+Tomcat runs from a prebuilt image (no local Dockerfile), so after changing `.env` a restart is enough, no rebuild step exists for this service:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock restart tomcat
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose restart tomcat
+```
+
+</TabItem>
+</Tabs>
+
+## Deploy a WAR file
+
+Drop a `.war` file into `DATA_PATH_HOST/tomcat/webapps`, it's mounted straight into Tomcat's own `webapps` directory, so Tomcat picks it up and auto-deploys it without a rebuild:
+
+```bash
+cp your-app.war "${DATA_PATH_HOST}/tomcat/webapps/"
+```
+
+Open [http://localhost:8080](http://localhost:8080) to reach the Tomcat welcome page, or `http://localhost:8080/your-app` once your WAR has deployed. Logs are written to `DATA_PATH_HOST/tomcat/logs`, also mounted from the host.
+
+## Undeploy a WAR file
+
+Tomcat auto-deploys by unpacking the WAR into a matching folder next to it. To remove an app, delete both the archive and its exploded folder, then Tomcat drops it on the next check:
+
+```bash
+rm -rf "${DATA_PATH_HOST}/tomcat/webapps/your-app.war" "${DATA_PATH_HOST}/tomcat/webapps/your-app"
+```
+
+To see everything currently deployed:
+
+```bash
+ls "${DATA_PATH_HOST}/tomcat/webapps"
+```
+
+## Tune JVM memory (heap size)
+
+Tomcat's startup script (`catalina.sh`, which the official image runs) reads the `JAVA_OPTS` environment variable for JVM flags like heap size. Laradock's `tomcat/compose.yml` doesn't set one by default, add it yourself under the `tomcat` service:
+
+```yaml
+services:
+    tomcat:
+      environment:
+        - JAVA_OPTS=-Xms256m -Xmx1024m
+```
+
+Then apply it:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock restart tomcat
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d tomcat
+```
+
+</TabItem>
+</Tabs>
+
+## View logs
+
+Tomcat's own deployment/application logs (`catalina.out`, per-app logs) are written to `DATA_PATH_HOST/tomcat/logs` on your host, read them directly or tail them with your usual tools. For the container's own stdout/stderr (startup messages, JVM errors before logging is set up):
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock logs tomcat
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose logs --tail=100 tomcat
+```
+
+</TabItem>
+</Tabs>
+
+## Common issues
+
+- **WAR file doesn't deploy.** Check `DATA_PATH_HOST/tomcat/logs` for deployment errors, malformed WAR files or Java errors surface there, not in `./laradock logs tomcat`.
+- **Changing `TOMCAT_VERSION` doesn't take effect.** Tomcat runs from a prebuilt image (no local Dockerfile to rebuild), so a plain restart after changing `.env` is enough: `./laradock restart tomcat`.
+- **Port already in use on your host.** Change `TOMCAT_HOST_HTTP_PORT` in `.env` and restart: `./laradock restart tomcat`.
+- **Undeploying a WAR doesn't remove it.** Delete both the `.war` file and its exploded folder from `DATA_PATH_HOST/tomcat/webapps`, deleting only one of the two leaves Tomcat confused about the app's state.
+
+---
+
+New to Laradock? Start at **[Getting Started](https://laradock.io/docs/getting-started)**.

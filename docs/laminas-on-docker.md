@@ -1,0 +1,173 @@
+# Run Laminas (Zend Framework) on Docker
+
+Source: https://laradock.io/docs/laminas-on-docker
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## What is Laminas?
+
+[Laminas](https://getlaminas.org) (the successor to Zend Framework) is a collection of enterprise-grade PHP components and an MVC application skeleton used for large, modular applications, and it also underpins projects like Mezzio and parts of Magento's ecosystem. A Laminas MVC app needs a web server, a PHP runtime, and, once `laminas-db` is added, a database; MySQL and PostgreSQL are the most common choices.
+
+## Why run Laminas in Docker?
+
+Docker packages each of those pieces (NGINX, PHP-FPM, MySQL) into isolated containers that run the same on every machine. Instead of installing PHP and MySQL onto your laptop, where versions collide between projects and "works on my machine" starts, you run disposable containers that mirror production and vanish cleanly when you delete them. One project can run PHP 8.3 while a legacy Zend Framework app runs 7.4, on the same computer, with nothing installed globally.
+
+The catch: wiring those containers together yourself (base images, PHP extensions, networking, permissions) is a week of fiddly Docker work. That is exactly what Laradock removes.
+
+## Why Laradock is the best fit for Laminas
+
+Laminas has no official multi-service Docker environment or first-party local-dev tool of its own, so a ready-made, no-lock-in environment matters even more. Here is why Laradock is the best fit:
+
+- **You are never locked into one ecosystem.** Laradock is framework-agnostic. Run Laminas today, add a Laravel API, a WordPress site, or a plain PHP script beside it tomorrow, all in the same environment with the same commands.
+- **Far more flexibility.** 100+ ready services and any PHP version from 5.6 to 8.5, so a legacy Zend Framework app and a modern Laminas app each get exactly the runtime they need.
+- **Nothing is hidden and you own everything.** No generated files, no magic, no wrapper binary between you and Docker. Every Dockerfile and compose file is right there for you to read and edit.
+- **Nothing new to learn.** What you use is plain `docker compose`, knowledge that transfers straight to production. Our [CLI](https://laradock.io/docs/cli) is an optional nicety, never a requirement.
+
+Concretely, for Laminas it gives you a production-style NGINX + PHP-FPM stack, MySQL/PostgreSQL already wired, a `workspace` container with Composer and git installed, and any PHP version behind a single line of config.
+
+## Run Laminas on Docker with Laradock
+
+### 1. Add Laradock to your project
+
+```bash
+cd my-laminas-app
+git clone https://github.com/laradock/laradock.git
+cd laradock
+```
+
+(No Laminas app yet? Clone Laradock first, then create one from the workspace container in the next steps.)
+
+### 2. Pick the services your app needs
+
+Most Laminas apps need a web server and a database (the web server pulls in PHP-FPM automatically):
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock start nginx mysql workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
+```bash
+cp .env.example .env
+docker compose up -d nginx mysql workspace
+```
+
+</TabItem>
+</Tabs>
+
+Prefer PostgreSQL? Swap the name: `./laradock start nginx postgres workspace` (or `docker compose up -d nginx postgres workspace`). The full catalog is [here](https://laradock.io/docs/Intro#supported-services).
+
+Prefer to be asked? The optional [CLI](https://laradock.io/docs/cli) detects Laminas and pre-selects nginx/mysql for you: `./laradock setup`, then `./laradock start`. It prints every real command it runs.
+
+### 3. Point Laminas at the containers
+
+If your app uses `laminas-db`, its adapter config (typically under `config/autoload/global.php` or `local.php`) takes the service name as the hostname:
+
+```php
+return [
+    'db' => [
+        'driver'   => 'Pdo_Mysql',
+        'hostname' => 'mysql',
+        'database' => 'default',
+        'username' => 'default',
+        'password' => 'secret',
+    ],
+];
+```
+
+The default database, user and password live in Laradock's `mysql/defaults.env`; override any of them by adding the line to Laradock's `.env` (it always wins).
+
+### 4. Run your app from the workspace
+
+Enter the shell where Composer and git live, and run the usual commands:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
+```bash
+docker compose exec workspace bash
+```
+
+</TabItem>
+</Tabs>
+
+```bash
+composer create-project -s dev laminas/laminas-mvc-skeleton .   # only if you have no Laminas app yet
+```
+
+The skeleton installer will interactively ask which optional components to add, including `laminas-db` for database support. Then open [http://localhost](http://localhost). That is a full Laminas app running on Docker.
+
+## Change the PHP version anytime
+
+This is where a native install hurts and Laradock shines. Set the version in Laradock's `.env` and rebuild:
+
+```env
+PHP_VERSION=8.2
+```
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI" default>
+
+```bash
+./laradock rebuild php-fpm workspace
+```
+
+</TabItem>
+<TabItem value="compose" label="Docker Compose">
+
+```bash
+docker compose build php-fpm workspace
+```
+
+</TabItem>
+</Tabs>
+
+The current Laminas MVC skeleton targets PHP 8.1 and newer, and Laradock covers anything from PHP 5.6 to 8.5, so the same tool runs a legacy Zend Framework 2 codebase and a current Laminas app side by side, each isolated, none of it installed on your machine.
+
+## Take your app live
+
+When your app is ready, the same Laradock stack becomes your deployment. You build one hardened image of your app and ship it to the host of your choice:
+
+```bash
+./laradock ship
+```
+
+Then pick a target and follow its short guide, a single server, a managed platform, or Kubernetes: **[Deploy to Production](https://laradock.io/docs/production)** lists every provider (Fly.io, Render, Railway, DigitalOcean, AWS, Google Cloud, Azure, Kamal, Kubernetes) with a ready config file for each. There is no per-provider magic to learn; a Docker image runs the same everywhere.
+
+## Frequently Asked Questions
+
+### Do I need to install PHP or Composer to run Laminas with Laradock?
+
+No. Everything lives inside the containers. Composer and git are both in the `workspace` container; you never install PHP on your host.
+
+### Which services should I start for a typical Laminas app?
+
+`nginx mysql workspace` covers most apps: web server, database, and a shell. Swap `mysql` for `postgres` if you prefer.
+
+### Can I run multiple Laminas apps on different PHP versions?
+
+Yes. Give each its own Laradock with a unique `COMPOSE_PROJECT_NAME` and `DATA_PATH_HOST`, set a different `PHP_VERSION` in each, and they run independently on the same machine.
+
+### Does this work the same on macOS, Windows and Linux?
+
+Yes. Laradock runs anywhere Docker runs. On macOS/Windows, file-sync speed depends on Docker Desktop (VirtioFS helps a lot); it is a Docker Desktop trait, not specific to Laradock.
+
+### Is this the same Docker setup I would use in production?
+
+The containers are production-style (real NGINX + PHP-FPM), so it is far closer to production than the built-in PHP development server. See [Prepare Laradock for Production](https://laradock.io/docs/production#prepare-laradock-for-production) for the hardening steps.
+
+---
+
+Comparing environments? See the full **[Laradock vs Others](https://laradock.io/docs/laradock-alternatives)** breakdown. Ready to start? **[Getting Started](https://laradock.io/docs/getting-started)** takes about five minutes.
