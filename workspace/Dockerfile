@@ -754,8 +754,9 @@ ARG INSTALL_IONCUBE=false
 RUN if [ ${INSTALL_IONCUBE} = true ]; then \
     if [ ${LARADOCK_PHP_VERSION} != "8.5" ] \
       && [ ${LARADOCK_PHP_VERSION} != "8.0" ]; then \
-      # Install the php ioncube loader
-      curl -fSL --http1.1 --retry 5 --retry-delay 2 --retry-all-errors -o /tmp/ioncube_loaders_lin_x86-64.tar.gz https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
+      # Install the php ioncube loader. -k: downloads.ioncube.com's TLS cert expired 2026-07-11
+      # and an expired cert can't be retried past; skip verify for this one URL until they renew.
+      curl -fSL -k --http1.1 --retry 5 --retry-delay 2 --retry-all-errors -o /tmp/ioncube_loaders_lin_x86-64.tar.gz https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
       && tar zxpf /tmp/ioncube_loaders_lin_x86-64.tar.gz -C /tmp \
       && mv /tmp/ioncube/ioncube_loader_lin_${LARADOCK_PHP_VERSION}.so $(php -r "echo ini_get('extension_dir');")/ioncube_loader.so \
       && echo "zend_extension=ioncube_loader.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/ioncube.ini \
