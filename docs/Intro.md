@@ -19,6 +19,22 @@ Instead of installing and configuring Nginx, databases, caches, and queues by ha
 
 Laradock is free, open-source under the MIT license, and has been battle-tested in real-world PHP projects since 2015.
 
+<div style={{
+  display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '1rem',
+  margin: '1.75rem 0', padding: '1.1rem 1.3rem',
+  background: 'linear-gradient(135deg, rgba(153,110,225,0.16), rgba(153,110,225,0.06))',
+  border: '1px solid rgba(153,110,225,0.45)', borderRadius: '12px'
+}}>
+  <div style={{flex: '1 1 240px', lineHeight: 1.5}}>
+    <strong style={{fontSize: '1.05rem'}}>Already running an older version of Laradock?</strong><br />
+    Upgrade straight to the latest, with AI, in one go. It's safe, nothing you already run changes.
+  </div>
+  <div style={{display: 'flex', gap: '0.7rem', flexWrap: 'wrap', alignItems: 'center'}}>
+    <a className="button button--primary button--lg" href="/docs/upgrade-guide#let-an-ai-agent-do-it-for-you">🤖 Upgrade with AI</a>
+    <a href="/docs/upgrade-guide" style={{fontWeight: 600, whiteSpace: 'nowrap'}}>Upgrade Guide →</a>
+  </div>
+</div>
+
 > **Use Docker first. Learn about it later.**
 
 
