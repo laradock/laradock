@@ -1,0 +1,99 @@
+.wrap {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.group {
+  display: inline-flex;
+  align-items: stretch;
+}
+
+.main,
+.chevron {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ifm-color-content-secondary);
+  background: var(--ifm-background-surface-color);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  cursor: pointer;
+  transition: background var(--ifm-transition-fast), color var(--ifm-transition-fast),
+    border-color var(--ifm-transition-fast);
+}
+
+/* Pill: rounded outer ends, seam in the middle. */
+.main {
+  border-radius: 999px 0 0 999px;
+}
+
+.chevron {
+  border-radius: 0 999px 999px 0;
+  border-left: none;
+  padding-left: 0.55rem;
+  padding-right: 0.7rem;
+}
+
+.main:hover,
+.chevron:hover {
+  color: var(--ifm-color-content);
+  background: var(--ifm-color-emphasis-100);
+  border-color: var(--ifm-color-emphasis-400);
+}
+
+.main:focus-visible,
+.chevron:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+  z-index: 1;
+}
+
+.icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  right: 0;
+  z-index: 10;
+  min-width: 15rem;
+  padding: 0.35rem;
+  background: var(--ifm-background-surface-color);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 0.75rem;
+  box-shadow: var(--ifm-global-shadow-md);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.5rem 0.65rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: left;
+  color: var(--ifm-color-content);
+  background: none;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.item:hover {
+  color: var(--ifm-color-content);
+  background: var(--ifm-color-emphasis-100);
+  text-decoration: none;
+}
+
+.sep {
+  height: 1px;
+  margin: 0.35rem 0.2rem;
+  background: var(--ifm-color-emphasis-200);
+}

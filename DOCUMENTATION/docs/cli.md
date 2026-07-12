@@ -156,9 +156,31 @@ The CLI is **not** a black box or a new system to learn. It's a small, readable 
 
 That's why, throughout these docs, most tasks show **two ways** to do them: the easy CLI command first, and the manual `docker compose` equivalent right below it. Use whichever you like, they do the exact same thing, and you can mix and switch any time.
 
-| | **Easy: the CLI** | **Full control: Docker Compose** |
+Here's the full map: every CLI command and the exact `docker compose` it runs underneath (`[services]` is optional, `<service>` is required):
+
+| Task | Easy: the CLI | Full control: Docker Compose |
 |---|---|---|
-| Set up | `./laradock setup` | `cp .env.example .env`, edit as needed |
-| Start | `./laradock start` | `docker compose up -d nginx mysql redis workspace` |
+| Set up | `./laradock setup` | `cp .env.example .env`, then edit (the wizard only writes `.env`) |
+| Start | `./laradock start [services]` | `docker compose up -d [services]` |
+| Stop | `./laradock stop [services]` | `docker compose stop [services]` |
+| Restart | `./laradock restart [services]` | `docker compose restart [services]` |
+| Delete containers | `./laradock remove [services]` | `docker compose rm -sf [services]` |
+| Rebuild | `./laradock rebuild [services]` | `docker compose build [services]` |
+| View logs | `./laradock logs [services]` | `docker compose logs --tail=100 [services]` |
+| What's running | `./laradock info` | `docker compose ps` (plus URLs, ports, passwords) |
+| Enter a container | `./laradock enter <service>` | `docker compose exec <service> bash` |
+| Run one command | `./laradock exec <service> <cmd>` | `docker compose exec <service> <cmd>` |
 | Enter the dev shell | `./laradock workspace` | `docker compose exec workspace bash` |
-| Best for | Getting productive in 2 minutes | Owning every detail |
+| Open a SQL shell | `./laradock db` | `docker compose exec mysql mysql …` (auto-detects MySQL / MariaDB / PostgreSQL) |
+| Run your tests | `./laradock test` | `docker compose exec -u laradock workspace php artisan test` (auto-detects Artisan / Pest / PHPUnit) |
+| Change a setting | `./laradock set KEY=VALUE` | Writes the line to your `.env` (no container command; you'd edit `.env` by hand) |
+| Undo a setting | `./laradock unset KEY` | Removes the line from your `.env` |
+| See settings | `./laradock settings [service]` | Reads each `defaults.env` + your `.env` (nothing to run) |
+| Edit a file | `./laradock edit [service]` | Opens `.env` (or a service's `Dockerfile`) in your editor |
+| Open in browser | `./laradock open [ui]` | Opens the URL, e.g. `http://localhost` (no container command) |
+| Public preview URL | `./laradock share` | Runs `cloudflared` or `ngrok` against your local port |
+| Health check | `./laradock doctor` | Runs local checks and suggests fixes |
+| Build a prod image | `./laradock ship [tag]` | `docker build` a deployable image, see [Deploy to Production](/docs/production) |
+| Anything else | `./laradock <cmd> …` | `docker compose <cmd> …` (pass-through: `ps`, `config`, `top`, …) |
+
+The CLI prints the real `docker compose` line before it runs it, so you can watch (and learn) exactly what each command does.

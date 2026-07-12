@@ -24,4 +24,4 @@ Use the `./laradock` CLI (plain-English verbs that hide the Docker flags). Run *
 
 ## Docs
 
-Full docs https://laradock.io · machine index https://laradock.io/llms.txt · source in `DOCUMENTATION/`. No application code lives here.
+Full docs https://laradock.io · machine index https://laradock.io/llms.txt · source in `DOCUMENTATION/`. No application code lives here. Any docs page returns raw Markdown by appending `.md` (e.g. https://laradock.io/docs/getting-started.md).

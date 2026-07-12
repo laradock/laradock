@@ -1,0 +1,24 @@
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Let long breadcrumb trails shrink/scroll instead of shoving the button off. */
+.crumbs {
+  min-width: 0;
+  flex: 1;
+  overflow-x: auto;
+}
+
+/* The breadcrumbs nav owns the row's bottom spacing; drop its own margin. */
+.crumbs :global(.theme-doc-breadcrumbs) {
+  margin-bottom: 0;
+}
+
+@media (max-width: 480px) {
+  .row {
+    gap: 0.5rem;
+  }
+}

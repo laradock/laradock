@@ -391,6 +391,8 @@ const sidebars: SidebarsConfig = {
       collapsed: true,
       items: [
         "containers",
+        "customizing-images",
+        "volumes",
         "environment",
         "networking",
         "xdebug-ide",

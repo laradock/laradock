@@ -38,7 +38,7 @@ Laradock is free, open-source under the MIT license, and has been battle-tested 
 <br />
 <br />
 
-:::tip[Let your AI coding agent do the setup]
+:::tip[Let AI use it]
 This repo ships agent instructions ([`AGENTS.md`](https://github.com/laradock/laradock/blob/master/AGENTS.md), plus matching rule files for [Claude Code](https://claude.com/claude-code), [Gemini CLI](https://github.com/google-gemini/gemini-cli), [Cursor](https://cursor.com), [Cline](https://cline.bot), and [Windsurf](https://windsurf.com)), so any of them can read the layout and run the whole setup for you. Clone Laradock into your project, open it in your agent, and ask: *"Set up Laradock for this project."*
 :::
 
@@ -119,7 +119,7 @@ Done.
 
 <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', margin: '1.5rem 0' }}>
   <a className="button button--primary button--lg" href="/docs/getting-started">Full Getting Started Guide</a>
-  <a className="button button--secondary button--lg" href="/docs/containers">Usage and Commands</a>
+  <a className="button button--secondary button--lg" href="/docs/cli">Usage and Commands</a>
 </div>
 
 ## What's New (2026)
@@ -324,7 +324,7 @@ Laradock doesn't stop at your laptop. When your app is ready, `./laradock ship` 
 
 
 :::info[How it's organized]
-One folder per service; each holds that service's `compose.yml` (container definition), `defaults.env` (pre-filled settings), and `Dockerfile`. Change any setting by adding one line to your `.env`, it always wins. Full map in [Getting Started](/docs/getting-started).
+One folder per service; each holds that service's `compose.yml` (container definition), `defaults.env` (pre-filled settings), and `Dockerfile`. Change any setting by adding one line to your `.env`, it always wins. Full map in [Getting Started](/docs/getting-started). Going deeper? [Customizing Images](/docs/customizing-images) covers changing what's inside a container, and [Data & Volumes](/docs/volumes) covers where your data lives.
 :::
 
 ## The Story: Laravel + Docker = Laradock
@@ -334,6 +334,8 @@ Laradock started in 2015 as exactly what the name says: **Lara**vel + **Dock**er
 ## How Laradock Compares {#laradock-alternatives}
 
 Every other option either installs software on your machine (XAMPP, MAMP, Herd) or puts a tool between you and Docker (DDEV, Lando, Sail). Laradock does neither: **it is raw Docker with the wiring already done.** Nothing to install, no new commands to learn, nothing generated or hidden; you use `docker compose` directly on plain, readable files you fully own. That makes it the lightest option to adopt and the easiest one to inspect, debug, and bend to your will.
+
+And today it goes further than any of them combine: an [AI agent can operate the whole stack](https://github.com/laradock/laradock/blob/master/AGENTS.md) (`AGENTS.md` + [`llms.txt`](https://laradock.io/llms.txt)), a one-click local AI stack ([Ollama](/docs/services/ollama), vector databases) is built in, and [`./laradock ship`](/docs/production) carries the same environment to production. Each rival wins on a single axis (Herd on native speed, DDEV on automatic HTTPS); Laradock wins on the combination.
 
 See the full honest breakdown, including when the other tools are the better choice: **[Laradock vs Others](/docs/laradock-alternatives)** (DDEV, Sail, Herd, Lando, XAMPP, and more).
 

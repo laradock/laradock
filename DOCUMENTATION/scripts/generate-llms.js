@@ -40,6 +40,8 @@ const HEADER = `# Laradock
 
 Motto: "Use Docker first. Learn about it later." Free, open-source (MIT), 12k+ GitHub stars, maintained since 2015.
 Created and maintained by Mahmoud Zalt (https://zalt.me).
+
+Raw Markdown: append \`.md\` to any docs page URL to fetch its clean Markdown, e.g. ${SITE}/docs/getting-started -> ${SITE}/docs/getting-started.md
 `;
 
 function walk(dir) {
@@ -105,6 +107,8 @@ const llmsFull = [
   `# Laradock - Full Documentation
 
 > A full PHP development environment for Docker. All documentation pages concatenated for AI agents. Source: https://github.com/laradock/laradock
+
+Tip: append \`.md\` to any page URL (e.g. ${SITE}/docs/getting-started.md) to fetch that single page's raw Markdown.
 `,
   ...docs.map(
     (d) => `
@@ -120,4 +124,14 @@ ${d.body}
 
 fs.writeFileSync(path.join(STATIC_DIR, 'llms.txt'), llms);
 fs.writeFileSync(path.join(STATIC_DIR, 'llms-full.txt'), llmsFull);
-console.log(`llms.txt + llms-full.txt generated from ${docs.length} docs pages.`);
+
+// One clean .md per page for the "Copy page" button, served at /docs/<slug>.md.
+const PAGES_DIR = path.join(STATIC_DIR, 'docs');
+for (const d of docs) {
+  const slug = d.url.replace(`${SITE}/docs/`, '');
+  const out = path.join(PAGES_DIR, `${slug}.md`);
+  fs.mkdirSync(path.dirname(out), { recursive: true });
+  fs.writeFileSync(out, `# ${d.title}\n\nSource: ${d.url}\n\n${d.body}\n`);
+}
+
+console.log(`llms.txt + llms-full.txt + ${docs.length} per-page .md files generated.`);

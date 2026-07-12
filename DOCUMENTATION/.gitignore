@@ -7,6 +7,8 @@
 # Generated files
 .docusaurus
 .cache-loader
+# Per-page markdown emitted by scripts/generate-llms.js for the Copy page button
+/static/docs
 
 # Misc
 .DS_Store

@@ -2,6 +2,8 @@
 
 > A full PHP development environment for Docker. All documentation pages concatenated for AI agents. Source: https://github.com/laradock/laradock
 
+Tip: append `.md` to any page URL (e.g. https://laradock.io/docs/getting-started.md) to fetch that single page's raw Markdown.
+
 
 ================================================================
 # Introduction
@@ -35,7 +37,7 @@ Laradock is free, open-source under the MIT license, and has been battle-tested 
 <br />
 <br />
 
-:::tip[Let your AI coding agent do the setup]
+:::tip[Let AI use it]
 This repo ships agent instructions ([`AGENTS.md`](https://github.com/laradock/laradock/blob/master/AGENTS.md), plus matching rule files for [Claude Code](https://claude.com/claude-code), [Gemini CLI](https://github.com/google-gemini/gemini-cli), [Cursor](https://cursor.com), [Cline](https://cline.bot), and [Windsurf](https://windsurf.com)), so any of them can read the layout and run the whole setup for you. Clone Laradock into your project, open it in your agent, and ask: *"Set up Laradock for this project."*
 :::
 
@@ -116,7 +118,7 @@ Done.
 
 <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', margin: '1.5rem 0' }}>
   <a className="button button--primary button--lg" href="/docs/getting-started">Full Getting Started Guide</a>
-  <a className="button button--secondary button--lg" href="/docs/containers">Usage and Commands</a>
+  <a className="button button--secondary button--lg" href="/docs/cli">Usage and Commands</a>
 </div>
 
 ## What's New (2026)
@@ -321,7 +323,7 @@ Laradock doesn't stop at your laptop. When your app is ready, `./laradock ship` 
 
 
 :::info[How it's organized]
-One folder per service; each holds that service's `compose.yml` (container definition), `defaults.env` (pre-filled settings), and `Dockerfile`. Change any setting by adding one line to your `.env`, it always wins. Full map in [Getting Started](https://laradock.io/docs/getting-started).
+One folder per service; each holds that service's `compose.yml` (container definition), `defaults.env` (pre-filled settings), and `Dockerfile`. Change any setting by adding one line to your `.env`, it always wins. Full map in [Getting Started](https://laradock.io/docs/getting-started). Going deeper? [Customizing Images](https://laradock.io/docs/customizing-images) covers changing what's inside a container, and [Data & Volumes](https://laradock.io/docs/volumes) covers where your data lives.
 :::
 
 ## The Story: Laravel + Docker = Laradock
@@ -749,7 +751,7 @@ Source: https://laradock.io/docs/getting-started
 
 This guide gets Laradock running for your project. The fastest path is the **Laradock CLI**, a short wizard that sets everything up for you, so start there. If you would rather wire things up by hand with plain `docker compose`, jump to [Manual setup](#manual-setup) at the bottom, it is meant for advanced users who want full control.
 
-:::tip[Let your AI coding agent do the setup]
+:::tip[Let AI use it]
 This repo ships agent instructions ([`AGENTS.md`](https://github.com/laradock/laradock/blob/master/AGENTS.md), plus matching rule files for [Claude Code](https://claude.com/claude-code), [Gemini CLI](https://github.com/google-gemini/gemini-cli), [Cursor](https://cursor.com), [Cline](https://cline.bot), and [Windsurf](https://windsurf.com)), so any of them can read the layout and run the whole setup for you. Clone Laradock into your project, open it in your agent, and ask: *"Set up Laradock for this project."*
 :::
 
@@ -2905,12 +2907,34 @@ The CLI is **not** a black box or a new system to learn. It's a small, readable 
 
 That's why, throughout these docs, most tasks show **two ways** to do them: the easy CLI command first, and the manual `docker compose` equivalent right below it. Use whichever you like, they do the exact same thing, and you can mix and switch any time.
 
-| | **Easy: the CLI** | **Full control: Docker Compose** |
+Here's the full map: every CLI command and the exact `docker compose` it runs underneath (`[services]` is optional, `<service>` is required):
+
+| Task | Easy: the CLI | Full control: Docker Compose |
 |---|---|---|
-| Set up | `./laradock setup` | `cp .env.example .env`, edit as needed |
-| Start | `./laradock start` | `docker compose up -d nginx mysql redis workspace` |
+| Set up | `./laradock setup` | `cp .env.example .env`, then edit (the wizard only writes `.env`) |
+| Start | `./laradock start [services]` | `docker compose up -d [services]` |
+| Stop | `./laradock stop [services]` | `docker compose stop [services]` |
+| Restart | `./laradock restart [services]` | `docker compose restart [services]` |
+| Delete containers | `./laradock remove [services]` | `docker compose rm -sf [services]` |
+| Rebuild | `./laradock rebuild [services]` | `docker compose build [services]` |
+| View logs | `./laradock logs [services]` | `docker compose logs --tail=100 [services]` |
+| What's running | `./laradock info` | `docker compose ps` (plus URLs, ports, passwords) |
+| Enter a container | `./laradock enter <service>` | `docker compose exec <service> bash` |
+| Run one command | `./laradock exec <service> <cmd>` | `docker compose exec <service> <cmd>` |
 | Enter the dev shell | `./laradock workspace` | `docker compose exec workspace bash` |
-| Best for | Getting productive in 2 minutes | Owning every detail |
+| Open a SQL shell | `./laradock db` | `docker compose exec mysql mysql …` (auto-detects MySQL / MariaDB / PostgreSQL) |
+| Run your tests | `./laradock test` | `docker compose exec -u laradock workspace php artisan test` (auto-detects Artisan / Pest / PHPUnit) |
+| Change a setting | `./laradock set KEY=VALUE` | Writes the line to your `.env` (no container command; you'd edit `.env` by hand) |
+| Undo a setting | `./laradock unset KEY` | Removes the line from your `.env` |
+| See settings | `./laradock settings [service]` | Reads each `defaults.env` + your `.env` (nothing to run) |
+| Edit a file | `./laradock edit [service]` | Opens `.env` (or a service's `Dockerfile`) in your editor |
+| Open in browser | `./laradock open [ui]` | Opens the URL, e.g. `http://localhost` (no container command) |
+| Public preview URL | `./laradock share` | Runs `cloudflared` or `ngrok` against your local port |
+| Health check | `./laradock doctor` | Runs local checks and suggests fixes |
+| Build a prod image | `./laradock ship [tag]` | `docker build` a deployable image, see [Deploy to Production](https://laradock.io/docs/production) |
+| Anything else | `./laradock <cmd> …` | `docker compose <cmd> …` (pass-through: `ps`, `config`, `top`, …) |
+
+The CLI prints the real `docker compose` line before it runs it, so you can watch (and learn) exactly what each command does.
 
 
 ================================================================
@@ -2956,13 +2980,26 @@ import TabItem from '@theme/TabItem';
 
 The core commands you use every day to start, stop, inspect, and rebuild your stack.
 
+**Configuring one specific service?** The commands here work on any container, but each service also has its own page with its `.env` flags, ports, and default credentials:
+
+<div className="install-grid">
+  <a href="/docs/services/mysql">MySQL</a>
+  <a href="/docs/services/postgres">PostgreSQL</a>
+  <a href="/docs/services/mariadb">MariaDB</a>
+  <a href="/docs/services/redis">Redis</a>
+  <a href="/docs/services/mongo">MongoDB</a>
+  <a href="/docs/services/nginx">NGINX</a>
+  <a href="/docs/services/apache2">Apache</a>
+  <a href="/docs/services/elasticsearch">Elasticsearch</a>
+  <a href="/docs/services/meilisearch">Meilisearch</a>
+  <a href="/docs/services/mailpit">Mailpit</a>
+  <a href="/docs/services/php-fpm">PHP-FPM</a>
+  <a href="/docs/services/workspace">Workspace</a>
+</div>
+
+Not listed? Browse the [full catalog of 100+ services](https://laradock.io/docs/Intro#supported-services).
+
 ## List running containers
-
-```bash
-docker ps
-```
-
-To see only the containers from this project:
 
 <Tabs groupId="interface">
 <TabItem value="cli" label="Laradock CLI">
@@ -2978,6 +3015,9 @@ Shows what's running, plus the URLs, ports, and passwords to reach each service.
 
 ```bash
 docker compose ps
+
+# Or use Docker directly (all containers, not just this project):
+docker ps
 ```
 
 </TabItem>
@@ -3088,7 +3128,7 @@ docker compose down
 </TabItem>
 </Tabs>
 
-Your data on disk is untouched either way, it lives under `DATA_PATH_HOST`, outside the containers. `docker compose down` additionally tears down the project's network, rarely something you need to think about for local dev.
+Your data on disk is untouched either way, it lives under `DATA_PATH_HOST`, outside the containers (see [Data & Volumes](https://laradock.io/docs/volumes)). `docker compose down` additionally tears down the project's network, rarely something you need to think about for local dev.
 
 ## View logs
 
@@ -3215,9 +3255,88 @@ REDIS_PORT=1111
 2. Edit it as you like.
 3. Rebuild the container: `./laradock rebuild mysql` (or `docker compose build mysql`).
 
+For the common cases, toggling a bundled feature, installing a PHP extension, or adding a system package, see [Customizing Images](https://laradock.io/docs/customizing-images).
+
 ## Add more services
 
-To add a new service (software), create a folder for it containing a `compose.yml` with your container definition (plus a `defaults.env` for its settings, if any), then register it in the root `docker-compose.yml` by adding an `include` entry like the existing ones. You'll want to be familiar with the [Docker Compose file syntax](https://docs.docker.com/compose/compose-file/).
+Chances are the service you want already ships with Laradock, browse the [full catalog of 100+ services](https://laradock.io/docs/Intro#supported-services) first. To add a genuinely new one, create a folder for it containing a `compose.yml` with your container definition (plus a `defaults.env` for its settings, if any), then register it in the root `docker-compose.yml` by adding an `include` entry like the existing ones. You'll want to be familiar with the [Docker Compose file syntax](https://docs.docker.com/compose/compose-file/).
+
+
+================================================================
+# Customizing Images
+Source: https://laradock.io/docs/customizing-images
+================================================================
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+Every container is built from a plain, readable `Dockerfile` in that service's folder (`php-fpm/Dockerfile`, `workspace/Dockerfile`, and so on), and you own all of them. So you can change what goes inside any image. There are three levels, from "no file editing" to "edit the Dockerfile"; pick the lowest one that does the job.
+
+## Level 1: toggle a bundled feature from `.env`
+
+Most of what you'd want is already in the image, behind an off switch. Each container's `defaults.env` lists its build flags; flip one in your `.env` and rebuild. Nothing about the mechanism is hidden: that flag is passed into the Dockerfile as a **build argument** (`PHP_FPM_INSTALL_GMP` in your `.env` becomes the `INSTALL_GMP` arg in `php-fpm/compose.yml`), and the Dockerfile installs the feature when it's `true`.
+
+```env
+PHP_FPM_INSTALL_GMP=true
+```
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild php-fpm
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose build php-fpm
+```
+
+</TabItem>
+</Tabs>
+
+## Level 2: install a PHP extension
+
+PHP extensions are just Level-1 flags, one per extension, in `php-fpm/defaults.env`, `workspace/defaults.env`, and `php-worker/defaults.env`. Set the flag in your `.env` and rebuild that container. The [PHP-FPM page](https://laradock.io/docs/services/php-fpm#install-php-extensions) has the full list and the per-extension notes (some need extra settings).
+
+## Level 3: add your own system package
+
+For something Laradock has no flag for, edit that service's `Dockerfile` directly. To add a system package to the Workspace, add an `apt-get install` line to `workspace/Dockerfile`:
+
+```dockerfile
+RUN apt-get update && apt-get install -yqq \
+    your-package \
+    && apt-get clean
+```
+
+Then rebuild the container so the change is baked in:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild workspace
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose build workspace
+```
+
+</TabItem>
+</Tabs>
+
+:::tip
+A `Dockerfile` change only takes effect after a rebuild. If a change seems stuck (a cached layer), force a clean build with `./laradock rebuild --no-cache workspace` (or `docker compose build --no-cache workspace`).
+:::
+
+## Keep your changes upstream-safe
+
+Editing files inside Laradock means your changes live in the Laradock repo, not your app. To keep them under version control while still pulling updates, track Laradock as your own fork, see [Track your own changes](https://laradock.io/docs/maintenance#track-your-own-changes).
 
 
 ================================================================
@@ -4489,28 +4608,40 @@ See the full landscape, including native GUI tools: **[Laradock vs Local WP](htt
 Source: https://laradock.io/docs/maintenance
 ================================================================
 
-Two recurring maintenance tasks: keeping your own customizations tracked against upstream, and moving an older Laradock install onto the current tooling.
+Keeping Laradock current, and keeping your own customizations tracked alongside it.
 
-## Track your Laradock changes
+## Update Laradock
 
-To keep your Laradock customizations under version control while staying able to pull upstream updates:
+A Laradock update is just newer commits on `master`: new services, version bumps, and fixes. To pull them into your project:
+
+1. Pull the latest: `git pull origin master` (or `git submodule update --remote` if you run Laradock as a submodule).
+2. Rebuild so image changes take effect: `./laradock rebuild` (or `docker compose build`).
+3. Start again: `./laradock start` (or `docker compose up -d`).
+
+:::tip
+After a big update, skim your `.env` against the refreshed `.env.example`, new services occasionally add new variables. Your `.env` always wins, so nothing is overwritten; you're only checking for options worth turning on.
+:::
+
+## Track your own changes
+
+To keep your Laradock customizations under version control while still pulling upstream updates:
 
 1. Fork the Laradock repository.
-2. Use your fork as a submodule.
+2. Use your fork as a submodule inside your project.
 3. Commit your changes to your fork.
-4. Pull from the main repository periodically.
+4. Pull from the upstream repository periodically to stay current.
 
-## Upgrade Laradock
+## Upgrading from a very old Laradock
 
-Moving from Docker Toolbox (VirtualBox) to Docker Desktop, and Laradock v3 to v4:
+Only relevant if you're coming from a pre-Docker-Desktop setup (Docker Toolbox / VirtualBox) or Laradock v3:
 
-1. Stop the docker VM: `docker-machine stop {default}`.
+1. Stop the old Docker VM: `docker-machine stop {default}`.
 2. Install [Docker Desktop for Mac](https://docs.docker.com/docker-for-mac/) or [Windows](https://docs.docker.com/docker-for-windows/).
-3. Upgrade Laradock to `v4.*.*`: `git pull origin master`.
+3. Update Laradock: `git pull origin master`.
 4. Use Laradock as usual: `./laradock start nginx mysql` (or `docker compose up -d nginx mysql`).
 
 :::warning
-If the last step fails, rebuild everything with `./laradock rebuild --no-cache` (or `docker compose build --no-cache`). **Warning:** container data might be lost.
+If the last step fails, rebuild everything with `./laradock rebuild --no-cache` (or `docker compose build --no-cache`). **Warning:** container data might be lost, [back it up first](https://laradock.io/docs/volumes#back-up-a-services-data).
 :::
 
 
@@ -4519,7 +4650,38 @@ If the last step fails, rebuild everything with `./laradock rebuild --no-cache` 
 Source: https://laradock.io/docs/networking
 ================================================================
 
-Laradock defaults to plain `localhost` access, but most projects eventually need a real-looking domain or trusted certificates inside the workspace. Both are quick, host-level changes.
+How the pieces of your stack reach each other, how to swap plain `localhost` for a real-looking domain, and how to trust your own certificates inside the workspace.
+
+## Connect your app to a service
+
+Inside Laradock's network, every container is reachable by its **service name** used as the hostname. So your application talks to a service by its name, not `localhost`. In your project's `.env`:
+
+```env
+DB_HOST=mysql
+REDIS_HOST=redis
+QUEUE_HOST=beanstalkd
+```
+
+The same rule holds for every service: `postgres`, `mongo`, `elasticsearch`, and so on are each reachable at their own name from your app and from inside the `workspace`. Each service's own [service page](https://laradock.io/docs/Intro#supported-services) lists its exact hostname and default port.
+
+From your **host** machine (a GUI client, a browser, a tool outside Docker), reach the same services at `localhost` on their published port instead, for example `localhost:3306` for MySQL. To go the other way, from inside a container back to something running on your host, use `host.docker.internal` as the hostname.
+
+## Change a service's port
+
+Every service publishes its host port through a variable in your `.env`, so you never edit a compose file to move a port. To serve MySQL on `3307` instead of the default `3306`:
+
+```env
+MYSQL_PORT=3307
+```
+
+Restart the service for it to take effect. Each service page lists its own port variable, and they all follow the same `<SERVICE>_PORT` pattern.
+
+### "Port is already in use"
+
+If a container won't start and Docker reports `bind: address already in use`, something else on your host already holds that port, usually a native install of the same software (a local MySQL or Postgres) or another Laradock project. Two ways out:
+
+- **Move Laradock's port.** Set a free port in your `.env` (for example `MYSQL_PORT=3307`) and connect to that from the host. The container network is unchanged, so `DB_HOST=mysql` still talks to the service on its standard port.
+- **Free the port.** Stop whatever else is using it. Find the culprit with `lsof -i :3306` (macOS/Linux) or `netstat -ano | findstr :3306` (Windows).
 
 ## Use a custom domain
 
@@ -52924,6 +53086,91 @@ The containers are production-style (real NGINX + PHP-FPM), so it is far closer 
 ---
 
 Comparing environments? See the full **[Laradock vs Others](https://laradock.io/docs/laradock-alternatives)** breakdown. Ready to start? **[Getting Started](https://laradock.io/docs/getting-started)** takes about five minutes.
+
+
+================================================================
+# Data & Volumes
+Source: https://laradock.io/docs/volumes
+================================================================
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+Where Laradock keeps your data, why it survives rebuilds, and how to back it up or wipe it.
+
+## The two kinds of storage
+
+Laradock mounts exactly two things from your host into the containers:
+
+- **Your code**, bind-mounted live. `APP_CODE_PATH_HOST` (default `../`, the folder that holds Laradock) is mounted at `APP_CODE_PATH_CONTAINER` (`/var/www`). Edit a file on your host and the container sees it instantly, which is why there's no "copy into the container" step.
+- **Service data** (databases, caches, uploads), stored under `DATA_PATH_HOST` (default `~/.laradock/data`). Each service gets its own sub-folder: MySQL in `~/.laradock/data/mysql`, PostgreSQL in `~/.laradock/data/postgres`, Redis in `~/.laradock/data/redis`, and so on.
+
+Because both live on your **host**, not inside the containers, your data is safe when you stop, delete, or rebuild containers.
+
+## Your data survives rebuilds
+
+Stopping or deleting containers never touches your data:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock remove
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose down
+```
+
+</TabItem>
+</Tabs>
+
+Both remove the running containers but leave everything under `DATA_PATH_HOST` on disk. Start the services again and your databases are exactly where you left them. The only things that erase data are deleting its folder yourself (below) or a `--no-cache` rebuild that reinitializes a volume.
+
+## Back up a service's data
+
+Since data is just files on your host, a backup is a copy of the folder. Stop the service first so the files are consistent:
+
+```bash
+./laradock stop mysql          # or: docker compose stop mysql
+cp -r ~/.laradock/data/mysql ~/mysql-backup
+```
+
+For databases, a logical dump is more portable across versions than copying raw files. Run it from inside the container:
+
+```bash
+./laradock exec mysql mysqldump -udefault -psecret mydatabase > backup.sql
+```
+
+## Reset or wipe one service
+
+To start a service from a clean slate, for example to apply a new database password (credentials are only baked in on the **first** boot) or to clear a corrupted database, delete that service's data folder:
+
+```bash
+./laradock stop mysql          # or: docker compose stop mysql
+rm -rf ~/.laradock/data/mysql
+./laradock start mysql         # or: docker compose up -d mysql
+```
+
+The service reinitializes fresh on the next start. This affects only the service you delete; the rest are untouched.
+
+:::warning
+Deleting a data folder is permanent. Back it up first if there's any chance you'll want it.
+:::
+
+## Separate data per project
+
+Running more than one Laradock at once? Give each project its own `DATA_PATH_HOST` (and `COMPOSE_PROJECT_NAME`) in its `.env` so their databases never mix:
+
+```env
+COMPOSE_PROJECT_NAME=myproject
+DATA_PATH_HOST=~/.laradock/data-myproject
+```
+
+See [Running multiple projects](https://laradock.io/docs/getting-started#running-multiple-projects) for the full setup.
 
 
 ================================================================

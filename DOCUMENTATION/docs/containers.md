@@ -17,13 +17,26 @@ import TabItem from '@theme/TabItem';
 
 The core commands you use every day to start, stop, inspect, and rebuild your stack.
 
+**Configuring one specific service?** The commands here work on any container, but each service also has its own page with its `.env` flags, ports, and default credentials:
+
+<div className="install-grid">
+  <a href="/docs/services/mysql">MySQL</a>
+  <a href="/docs/services/postgres">PostgreSQL</a>
+  <a href="/docs/services/mariadb">MariaDB</a>
+  <a href="/docs/services/redis">Redis</a>
+  <a href="/docs/services/mongo">MongoDB</a>
+  <a href="/docs/services/nginx">NGINX</a>
+  <a href="/docs/services/apache2">Apache</a>
+  <a href="/docs/services/elasticsearch">Elasticsearch</a>
+  <a href="/docs/services/meilisearch">Meilisearch</a>
+  <a href="/docs/services/mailpit">Mailpit</a>
+  <a href="/docs/services/php-fpm">PHP-FPM</a>
+  <a href="/docs/services/workspace">Workspace</a>
+</div>
+
+Not listed? Browse the [full catalog of 100+ services](/docs/Intro#supported-services).
+
 ## List running containers
-
-```bash
-docker ps
-```
-
-To see only the containers from this project:
 
 <Tabs groupId="interface">
 <TabItem value="cli" label="Laradock CLI">
@@ -39,6 +52,9 @@ Shows what's running, plus the URLs, ports, and passwords to reach each service.
 
 ```bash
 docker compose ps
+
+# Or use Docker directly (all containers, not just this project):
+docker ps
 ```
 
 </TabItem>
@@ -149,7 +165,7 @@ docker compose down
 </TabItem>
 </Tabs>
 
-Your data on disk is untouched either way, it lives under `DATA_PATH_HOST`, outside the containers. `docker compose down` additionally tears down the project's network, rarely something you need to think about for local dev.
+Your data on disk is untouched either way, it lives under `DATA_PATH_HOST`, outside the containers (see [Data & Volumes](/docs/volumes)). `docker compose down` additionally tears down the project's network, rarely something you need to think about for local dev.
 
 ## View logs
 
@@ -276,6 +292,8 @@ REDIS_PORT=1111
 2. Edit it as you like.
 3. Rebuild the container: `./laradock rebuild mysql` (or `docker compose build mysql`).
 
+For the common cases, toggling a bundled feature, installing a PHP extension, or adding a system package, see [Customizing Images](/docs/customizing-images).
+
 ## Add more services
 
-To add a new service (software), create a folder for it containing a `compose.yml` with your container definition (plus a `defaults.env` for its settings, if any), then register it in the root `docker-compose.yml` by adding an `include` entry like the existing ones. You'll want to be familiar with the [Docker Compose file syntax](https://docs.docker.com/compose/compose-file/).
+Chances are the service you want already ships with Laradock, browse the [full catalog of 100+ services](/docs/Intro#supported-services) first. To add a genuinely new one, create a folder for it containing a `compose.yml` with your container definition (plus a `defaults.env` for its settings, if any), then register it in the root `docker-compose.yml` by adding an `include` entry like the existing ones. You'll want to be familiar with the [Docker Compose file syntax](https://docs.docker.com/compose/compose-file/).

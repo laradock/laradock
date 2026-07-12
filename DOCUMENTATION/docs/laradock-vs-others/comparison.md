@@ -40,23 +40,65 @@ Setting up a local PHP environment in 2026, you have four paths. This page lays 
 
 That is Laradock's position in one sentence: **it IS option 4, raw Docker, with the boring wiring done for you.** The lightest possible layer: zero installation, zero new commands, zero magic, and every file open for you to read, edit, or break.
 
+## Why pick Laradock in 2026
+
+If you last used Laradock as "just Laravel plus Docker," it has grown well past that. Four things now set it apart, and **no competing tool combines all four**:
+
+- 🤖 **An AI agent can run it for you.** Laradock ships [`AGENTS.md`](https://github.com/laradock/laradock/blob/master/AGENTS.md) plus rule files for Claude Code, Cursor, Gemini CLI, Cline, and Windsurf, a machine-readable [`llms.txt`](https://laradock.io/llms.txt), and raw-Markdown docs (append `.md` to any page). Open the repo in your coding agent and say *"Set up Laradock for this project"*: it reads the layout and drives the whole stack for you. No other PHP dev environment ships this.
+- 🧠 **A one-click local AI stack.** `./laradock start ollama` runs a local LLM; vector databases ([Qdrant](/docs/services/qdrant), [Weaviate](/docs/services/weaviate), [Chroma](/docs/services/chroma), [pgvector](/docs/services/pgvector)), a model gateway ([LiteLLM](/docs/services/litellm)), and agent automation ([n8n](/docs/services/n8n), [Flowise](/docs/services/flowise)) are one command each. Build AI features on your own machine with no cloud bills. No competitor bundles these.
+- 🗣️ **A plain-English CLI, no Docker knowledge needed.** `./laradock start`, `stop`, `logs`, `db`, `test`, `share`. As easy as the appliance tools (DDEV, Lando), but it hides nothing: it prints the real `docker compose` command before running it, installs no binary, and writes only your `.env`.
+- 🚀 **It follows you to production.** [`./laradock ship`](/docs/production) builds one hardened image that runs on a server, Kamal, Kubernetes, or any managed cloud. The dev-only tools (Sail, Herd, Valet, XAMPP) stop at your laptop.
+
+Each competitor still wins on its one thing: Herd on raw native speed, DDEV on automatic HTTPS routing, Laragon on Windows polish, Local WP on pure WordPress. Laradock's edge is the **combination**: transparent *and* easy, dev *and* production, human *and* AI-operable. The honest per-tool breakdown is below.
+
 ## Laradock alternatives at a glance
 
-| | **Laradock** | **Your own Compose** | **Laravel Sail** | **DDEV** | **Lando** | **Herd** | **XAMPP / MAMP** |
-|---|---|---|---|---|---|---|---|
-| What it is | Pre-wired Docker Compose files | DIY Docker files | Laravel's Docker scaffold | CLI that generates Docker | CLI that generates Docker | Native PHP/Nginx app | Native Apache/PHP bundle |
-| You install | Nothing (git clone) | Nothing | Nothing (ships with Laravel) | The `ddev` binary | The `lando` binary | Desktop app | Desktop app |
-| Commands you use | Plain `docker compose` | Plain `docker compose` | `sail` wrapper | `ddev` CLI | `lando` CLI | GUI + `herd` | GUI |
-| Guided setup wizard | ✅ optional (`./laradock setup`) | ❌ | ✅ | ✅ | ✅ | ✅ (GUI) | ✅ (GUI) |
-| Docker files visible & editable | ✅ All of them | ✅ You wrote them | ✅ Published into your app | ❌ Generated & hidden | ❌ Generated & hidden | No Docker | No Docker |
-| Ready-made services | 100+ | 0 (you write each) | ~10 | ~50 add-ons | ~15 recipes | A handful (Pro) | Apache + MySQL |
-| Works with any PHP project | ✅ | ✅ | Laravel only | ✅ (CMS focus) | ✅ (CMS focus) | Laravel focus | ✅ |
-| Platforms | Linux, macOS, Windows | Linux, macOS, Windows | Linux, macOS, Windows | Linux, macOS, Windows | Linux, macOS, Windows | macOS, Windows only | Linux, macOS, Windows |
-| Per-project PHP version | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ (global switch) |
-| Auto HTTPS + `.test` domains | Manual (or Traefik/Caddy service) | Manual | Manual | ✅ Automatic | ✅ Automatic | ✅ Automatic | ❌ |
-| Skills you build | Real Docker (transferable) | Real Docker (transferable) | Sail-specific | DDEV-specific | Lando-specific | None | None |
-| Production parity | High (same containers) | High | High | Medium | Medium | None (native) | None (native) |
-| Price | Free, MIT | Free | Free | Free | Free | Free / Pro paid | Free |
+Laradock lives in the "use Docker directly" camp, so the fairest comparison splits into two groups: the other **Docker-based tools** you'd weigh it against, and the **native tools** that install PHP straight onto your machine.
+
+### Docker-based tools
+
+Laradock vs the other ways to run PHP in Docker: your own hand-written Compose, Laravel's Sail, and the generate-it-for-you CLIs (DDEV, Lando).
+
+| | **Laradock** | **Your own Compose** | **Laravel Sail** | **DDEV** | **Lando** |
+|---|---|---|---|---|---|
+| What it is | Pre-wired Docker Compose files | DIY Docker files | Laravel's Docker scaffold | CLI that generates Docker | CLI that generates Docker |
+| You install | Nothing (git clone) | Nothing | Nothing (ships with Laravel) | The `ddev` binary | The `lando` binary |
+| Commands you use | `./laradock` (plain English) or `docker compose` | Plain `docker compose` | `sail` wrapper | `ddev` CLI | `lando` CLI |
+| Guided setup wizard | ✅ optional (`./laradock setup`) | ❌ | ✅ | ✅ | ✅ |
+| Docker files visible & editable | ✅ All of them | ✅ You wrote them | ✅ Published into your app | ❌ Generated & hidden | ❌ Generated & hidden |
+| Ready-made services | 100+ | 0 (you write each) | ~10 | ~50 add-ons | ~15 recipes |
+| Works with any PHP project | ✅ | ✅ | Laravel only | ✅ (CMS focus) | ✅ (CMS focus) |
+| Per-project PHP version | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Auto HTTPS + `.test` domains | Manual (or Traefik/Caddy service) | Manual | Manual | ✅ Automatic | ✅ Automatic |
+| Skills you build | Real Docker (transferable) | Real Docker (transferable) | Sail-specific | DDEV-specific | Lando-specific |
+| Production parity | High (same containers) | High | High | Medium | Medium |
+| **Ships to production** | ✅ `./laradock ship` | ⚠️ DIY | ❌ dev-only | ⚠️ limited | ⚠️ limited |
+| **One-click AI services** (LLM + vector DB) | ✅ Ollama, Qdrant, pgvector… | ❌ DIY | ❌ | ❌ | ❌ |
+| **AI agent-operable** (`AGENTS.md` + `llms.txt`) | ✅ | ❌ | ❌ | ❌ | ❌ |
+| Price | Free, | Free | Free | Free | Free |
+
+### Native (no-Docker) tools
+
+Laradock vs the tools that install PHP, a web server, and a database straight onto your OS. They're fast and simple to start, but nothing is isolated and nothing resembles your production server.
+
+| | **Laradock** | **Herd** | **Laragon** | **Valet** | **XAMPP / MAMP** |
+|---|---|---|---|---|---|
+| What it is | Pre-wired Docker Compose files | Native PHP/Nginx app | Native bundle (Windows) | Native Nginx + DnsMasq | Native Apache/PHP bundle |
+| You install | Nothing (git clone) | Desktop app | Desktop app | CLI (Composer + Homebrew) | Desktop app |
+| Commands you use | `./laradock` (plain English) or `docker compose` | GUI + `herd` | GUI | `valet` CLI | GUI |
+| Guided setup wizard | ✅ optional (`./laradock setup`) | ✅ (GUI) | ✅ (GUI) | ❌ | ✅ (GUI) |
+| Runs in isolated containers | ✅ | ❌ native | ❌ native | ❌ native | ❌ native |
+| Keeps your machine clean | ✅ nothing on host | ❌ installs on host | ❌ installs on host | ❌ installs on host | ❌ installs on host |
+| Ready-made services | 100+ | A handful (Pro) | One-click installers | None (add via Homebrew) | Apache + MySQL |
+| Works with any PHP project | ✅ | Laravel focus | ✅ | ✅ | ✅ |
+| Platforms | Linux, macOS, Windows | macOS, Windows only | Windows only | macOS only | Linux, macOS, Windows |
+| Per-project PHP version | ✅ | ✅ | ✅ | ✅ | ❌ (global switch) |
+| Auto HTTPS + `.test` domains | Manual (or Traefik/Caddy service) | ✅ Automatic | ✅ Automatic | ✅ Automatic | ❌ |
+| Production parity | High (same containers) | None (native) | None (native) | None (native) | None (native) |
+| **Ships to production** | ✅ `./laradock ship` | ❌ dev-only | ❌ dev-only | ❌ dev-only | ❌ dev-only |
+| **One-click AI services** (LLM + vector DB) | ✅ Ollama, Qdrant, pgvector… | ❌ | ❌ | ❌ | ❌ |
+| **AI agent-operable** (`AGENTS.md` + `llms.txt`) | ✅ | ❌ | ❌ | ❌ | ❌ |
+| Price | Free | Free / Pro paid | Free | Free | Free |
 
 ## Head-to-head
 
@@ -162,6 +204,8 @@ Writing your own compose file is the purist path and exactly what Laradock is, m
 - **Solo Laravel developer on macOS/Windows who wants maximum speed** → Herd.
 - **Simple Laravel app, vanilla needs, official tooling** → Sail.
 - **You want control, breadth, production parity, transferable skills, and zero extra tooling** → **Laradock**.
+- **You want an environment an AI agent can fully operate, or a one-click local AI / vector stack** → **Laradock** (no other tool ships this today).
+- **You need the same environment to reach production, not just your laptop** → **Laradock** (`./laradock ship`).
 - **Docker unavailable** → XAMPP/MAMP/Laragon, or a manual native install.
 - **WordPress only, want the smoothest GUI, especially on WP Engine/Flywheel** → Local WP.
 - **macOS minimalist who wants the leanest native footprint** → Valet.

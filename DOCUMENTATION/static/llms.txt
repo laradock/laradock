@@ -5,6 +5,8 @@
 Motto: "Use Docker first. Learn about it later." Free, open-source (MIT), 12k+ GitHub stars, maintained since 2015.
 Created and maintained by Mahmoud Zalt (https://zalt.me).
 
+Raw Markdown: append `.md` to any docs page URL to fetch its clean Markdown, e.g. https://laradock.io/docs/getting-started -> https://laradock.io/docs/getting-started.md
+
 ## Docs
 
 - [Introduction](https://laradock.io/docs/Intro): Laradock is a full PHP development environment for Docker. Spin up a ready-to-use stack in seconds with 100+ pre-configured services for Laravel, Symfony, WordPress, or plain PHP.
@@ -15,6 +17,7 @@ Created and maintained by Mahmoud Zalt (https://zalt.me).
 - [The Laradock CLI](https://laradock.io/docs/cli): The Laradock CLI is the easy, plain-English way to run your PHP stack, no Docker commands or flags to learn. Set up, start, stop, and manage everything with one simple command.
 - [Community](https://laradock.io/docs/community): Where the Laradock community lives. Gitter's done, our community of 2,000+ active members has a new home on GitHub Discussions.
 - [Managing Containers](https://laradock.io/docs/containers): The core Docker Compose commands for running Laradock day to day: list, enter, stop, delete, and rebuild containers, view logs, edit a service's config, and add new services.
+- [Customizing Images](https://laradock.io/docs/customizing-images): Change what's inside a Laradock container. Toggle a bundled feature from .env, install a PHP extension, or add your own system package by editing a Dockerfile, then rebuild.
 - [Deploy to a Single Server](https://laradock.io/docs/deploy-to-a-server): Deploy any PHP app (Laravel, Symfony, WordPress) to a single server (VPS, EC2, droplet) with Laradock and Docker Compose. Build one image with ./laradock ship and run it with one command.
 - [Deploy to AWS App Runner](https://laradock.io/docs/deploy-to-aws-app-runner): Deploy any PHP app (Laravel, Symfony, WordPress) to AWS App Runner with Laradock. Build one image with ./laradock ship, push to ECR, and go live with a ready-made service config.
 - [Deploy to AWS ECS / Fargate](https://laradock.io/docs/deploy-to-aws-ecs): Deploy any PHP app (Laravel, Symfony, WordPress) to AWS ECS Fargate with Laradock. Build one image with ./laradock ship, push to ECR, and run it with a ready-made task definition.
@@ -245,6 +248,7 @@ Created and maintained by Mahmoud Zalt (https://zalt.me).
 - [Run Ubiquity on Docker](https://laradock.io/docs/ubiquity-on-docker): Run a Ubiquity PHP app on Docker in minutes with Laradock. What Docker gives a Ubiquity project, why Laradock is the fastest way to get NGINX, PHP and a database running, and the exact commands, with any PHP version, without installing anything on your machine.
 - [Run Workerman on Docker](https://laradock.io/docs/workerman-on-docker): Run a Workerman server on Docker in minutes with Laradock. What Docker gives a Workerman app, why Laradock's supervisord-based worker container is a natural fit, and the exact commands, without installing anything on your machine.
 - [Run Yii on Docker](https://laradock.io/docs/yii-on-docker): Run any Yii app on Docker in minutes with Laradock. What Docker gives a Yii project, why Laradock is the fastest way to get NGINX, PHP and MySQL running, and the exact commands, with any PHP version, without installing anything on your machine.
+- [Data & Volumes](https://laradock.io/docs/volumes): Where Laradock stores your databases and files, why data survives rebuilds, and how to back up, move, or wipe a single service's data.
 - [Debug with Xdebug (IDE setup)](https://laradock.io/docs/xdebug-ide): Wire PhpStorm or VS Code to Laradock's Xdebug so breakpoints hit. Covers the connection port, IDE key, and the host-to-container path mapping that trips most people up.
 
 ## Comparisons (Laradock vs alternatives)

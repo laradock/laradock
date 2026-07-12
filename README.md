@@ -214,7 +214,9 @@ Why it's a big deal:
 
 Laradock started in 2015 as exactly what the name says: **Lara**vel + **Dock**er, a simple way to run a Laravel app in containers back when Laravel had no official Docker answer of its own. Then the demand grew. Developers wanted more databases, caches, queues, search engines, and to run projects that were never Laravel at all: Symfony, WordPress, Magento, plain PHP. So Laradock grew with them, from one Laravel stack into 100+ pre-configured services that work with any PHP project, and now all the way to production with `./laradock ship`.
 
-That's the difference from Laravel's own [Sail](https://laravel.com/docs/sail), which stays deliberately small and Laravel-only: Laradock is where you go when you outgrow it. See the full, honest breakdown in **[Laradock vs Others](https://laradock.io/docs/laradock-alternatives)** (Sail, DDEV, Herd, Lando, XAMPP, and more).
+That's the difference from Laravel's own [Sail](https://laravel.com/docs/sail), which stays deliberately small and Laravel-only: Laradock is where you go when you outgrow it.
+
+Beyond breadth, three things set today's Laradock apart from every alternative, and no other tool combines them: an **AI agent can run it for you** ([`AGENTS.md`](https://github.com/laradock/laradock/blob/master/AGENTS.md) + [`llms.txt`](https://laradock.io/llms.txt), just say *"Set up Laradock for this project"*), a **local AI stack** (Ollama, LiteLLM, vector databases) is one command away, and **`./laradock ship`** carries the same environment to production. See the full, honest breakdown in **[Laradock vs Others](https://laradock.io/docs/laradock-alternatives)** (Sail, DDEV, Herd, Lando, XAMPP, and more).
 
 ---
 
