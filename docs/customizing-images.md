@@ -69,6 +69,10 @@ docker compose build workspace
 A `Dockerfile` change only takes effect after a rebuild. If a change seems stuck (a cached layer), force a clean build with `./laradock rebuild --no-cache workspace` (or `docker compose build --no-cache workspace`).
 :::
 
+## Run more than one PHP version
+
+Changing `PHP_VERSION` switches the version for the whole stack. To run **two versions at the same time** (for example a legacy app on PHP 7.4 next to a new project on PHP 8.3), Laradock ships an opt-in overlay, see [Multiple PHP Versions](https://laradock.io/docs/multiple-php-versions).
+
 ## Keep your changes upstream-safe
 
 Editing files inside Laradock means your changes live in the Laradock repo, not your app. To keep them under version control while still pulling updates, track Laradock as your own fork, see [Track your own changes](https://laradock.io/docs/maintenance#track-your-own-changes).

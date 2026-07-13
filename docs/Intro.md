@@ -74,7 +74,7 @@ cd laradock
 ./laradock start
 ```
 
-The first time, `start` runs a setup wizard: pick your framework, PHP version, and stack (web server, database, cache) from pre-selected menus, then hit Enter. After that, `./laradock start` just starts your stack and prints its URLs and credentials. Re-run the wizard anytime with `./laradock setup`.
+The first time, `start` runs a short setup wizard, then launches your stack. Full walkthrough and all options: [Getting Started](https://laradock.io/docs/getting-started#get-started).
 
 4 - Enter the Laradock Workspace (a dev shell with `php`, `composer`, `node`, and `git` inside):
 

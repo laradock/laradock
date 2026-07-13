@@ -82,7 +82,7 @@ cd laradock
 ./laradock start
 ```
 
-The first time, `start` runs a setup wizard: pick your framework, PHP version, and stack (web server, database, cache) from pre-selected menus, then hit Enter. After that, `./laradock start` just starts your stack and prints its URLs and credentials. Re-run the wizard anytime with `./laradock setup`.
+The first time, `start` runs a short setup wizard, then launches your stack. Full walkthrough and all options: [Getting Started](https://laradock.io/docs/getting-started#get-started).
 
 4 - Enter the Laradock Workspace (a dev shell with `php`, `composer`, `node`, and `git` inside):
 
@@ -769,7 +769,7 @@ You can support us using any of the methods below:
 Source: https://laradock.io/docs/getting-started
 ================================================================
 
-This guide gets Laradock running for your project. The fastest path is the **Laradock CLI**, a short wizard that sets everything up for you, so start there. If you would rather wire things up by hand with plain `docker compose`, jump to [Manual setup](#manual-setup) at the bottom, it is meant for advanced users who want full control.
+This guide gets Laradock running for your project. The fastest path is the **Laradock CLI**, a short wizard that sets everything up for you, so start there. If you would rather wire things up by hand with plain `docker compose`, see [Manual setup](https://laradock.io/docs/manual-setup), it is meant for advanced users who want full control.
 
 :::tip[Let AI use it]
 This repo ships agent instructions ([`AGENTS.md`](https://github.com/laradock/laradock/blob/master/AGENTS.md), plus matching rule files for [Claude Code](https://claude.com/claude-code), [Gemini CLI](https://github.com/google-gemini/gemini-cli), [Cursor](https://cursor.com), [Cline](https://cline.bot), and [Windsurf](https://windsurf.com)), so any of them can read the layout and run the whole setup for you. Clone Laradock into your project, open it in your agent, and ask: *"Set up Laradock for this project."*
@@ -799,7 +799,7 @@ Not one of these? Browse the [full list of 100+ supported projects](https://lara
 - [Git](https://git-scm.com/downloads)
 - [Docker](https://www.docker.com/products/docker-desktop/) (with Docker Compose v2.20 or newer)
 
-## Get started
+## Get started with CLI {#get-started}
 
 1 - Clone Laradock inside your PHP project (or anywhere, if you don't have one yet):
 
@@ -814,7 +814,7 @@ cd laradock
 ./laradock start
 ```
 
-On the **first run**, `start` walks you through a short setup wizard: it detects your framework and lets you pick your project, PHP version, and services (web server, database, cache), everything pre-answered, then points your app's `.env` at those services and starts the stack. After that, `./laradock start` just starts. Re-run the wizard any time with `./laradock setup`.
+On the **first run**, `start` walks you through a short setup wizard: it detects your framework and lets you pick your project, PHP version, and services (web server, database, cache), everything pre-answered, then points your app's `.env` at those services, starts the stack, and prints its URLs and credentials. After that, `./laradock start` just starts and reprints them. Re-run the wizard any time with `./laradock setup`.
 
 3 - Enter the workspace, a dev shell with `php`, `composer`, `node`, and `git` inside:
 
@@ -877,69 +877,15 @@ The root `docker-compose.yml` pulls every service in via Compose `include`, whic
 
 ## Running multiple projects
 
-By default each container is named after the current folder (e.g. `laradock_workspace_1`), so one Laradock serves one project. To run more than one Laradock on the same machine, set **both** of these per project in your `.env`, or the projects will share the same databases on disk:
+One Laradock can serve one project, or many. Run an **isolated** Laradock per project (separate containers and data), or serve **several sites from one** Laradock with a web-server config each. Different PHP versions per project are supported too.
 
-```env
-COMPOSE_PROJECT_NAME=myproject               # separates the containers
-DATA_PATH_HOST=~/.laradock/data-myproject    # separates the stored data
-```
-
-To serve several sites from a **single** Laradock instead, point `APP_CODE_PATH_HOST` at the parent folder and add one web-server config per site:
-
-```env
-APP_CODE_PATH_HOST=../
-```
-
-For **Nginx** add configs under `nginx/sites`, for **Apache2** under `apache2/sites` (each ships `*.conf.example` samples to copy). Then map the domains in your `hosts` file:
-
-```
-127.0.0.1  project-1.test
-127.0.0.1  project-2.test
-```
-
-Don't use `.dev` for local domains (browsers force HTTPS on it). Use `.localhost`, `.invalid`, `.test`, or `.example` instead.
+→ Full guide: [Running Multiple Projects](https://laradock.io/docs/multiple-projects) · [Multiple PHP Versions](https://laradock.io/docs/multiple-php-versions)
 
 ## Manual setup (advanced, full control) {#manual-setup}
 
-Prefer to skip the CLI? Everything it does, you can do by hand with plain `docker compose`, same files, same result.
+Rather wire things up by hand? Everything the CLI does, you can do with plain `docker compose`, same files, same result. It's the path for advanced users who want full control over exactly which containers run and how they're configured.
 
-1 - Copy the shared settings template:
-
-```bash
-cp .env.example .env
-```
-
-Set `APP_CODE_PATH_HOST` to your project path (for example `../project-z/`, or `../` to serve [multiple projects](#running-multiple-projects)). See [How Laradock configuration works](#how-laradock-configuration-works) for the full model.
-
-2 - Start the containers you need, for example NGINX (web server) and MySQL (database):
-
-```bash
-docker compose up -d nginx mysql
-```
-
-Web-server containers (`nginx`, `apache2`, ...) depend on `php-fpm` and start it automatically, so you don't list it explicitly. Pick any combination from the [available services](https://laradock.io/docs/Intro#supported-services).
-
-3 - Enter the workspace to run Artisan, Composer, PHPUnit, and friends:
-
-```bash
-docker compose exec --user=laradock workspace bash
-```
-
-`--user=laradock` makes files come out owned by you, not root. On Windows PowerShell you can also enter any running container with `docker exec -it {workspace-container-id} bash`. Change the user with `WORKSPACE_PUID` / `WORKSPACE_PGID` in your `.env` (defaults in `workspace/defaults.env`).
-
-4 - Point your app at the database. In your PHP project's `.env`, set the host to the service name:
-
-```env
-DB_HOST=mysql
-```
-
-Use Laradock's default DB credentials from `mysql/defaults.env`, or override them in your `.env` and rebuild. Installing Laravel? See [How to Install Laravel in a Docker Container](https://laradock.io/docs/laravel-on-docker).
-
-5 - Open [http://localhost](http://localhost) (or `http://project-1.test/` etc. if you set up multiple projects).
-
-:::warning Upgrading from an older Laradock?
-Rebuild the containers you use to avoid errors, [see how to rebuild a container](https://laradock.io/docs/containers#build-or-rebuild-containers).
-:::
+→ Full guide: [Manual Setup (without the CLI)](https://laradock.io/docs/manual-setup)
 
 
 ================================================================
@@ -3404,6 +3350,10 @@ docker compose build workspace
 A `Dockerfile` change only takes effect after a rebuild. If a change seems stuck (a cached layer), force a clean build with `./laradock rebuild --no-cache workspace` (or `docker compose build --no-cache workspace`).
 :::
 
+## Run more than one PHP version
+
+Changing `PHP_VERSION` switches the version for the whole stack. To run **two versions at the same time** (for example a legacy app on PHP 7.4 next to a new project on PHP 8.3), Laradock ships an opt-in overlay, see [Multiple PHP Versions](https://laradock.io/docs/multiple-php-versions).
+
 ## Keep your changes upstream-safe
 
 Editing files inside Laradock means your changes live in the Laradock repo, not your app. To keep them under version control while still pulling updates, track Laradock as your own fork, see [Track your own changes](https://laradock.io/docs/maintenance#track-your-own-changes).
@@ -4713,6 +4663,170 @@ Only relevant if you're coming from a pre-Docker-Desktop setup (Docker Toolbox /
 :::warning
 If the last step fails, rebuild everything with `./laradock rebuild --no-cache` (or `docker compose build --no-cache`). **Warning:** container data might be lost, [back it up first](https://laradock.io/docs/volumes#back-up-a-services-data).
 :::
+
+
+================================================================
+# Manual Setup (without the CLI)
+Source: https://laradock.io/docs/manual-setup
+================================================================
+
+Prefer to skip the CLI? Everything it does, you can do by hand with plain `docker compose`, same files, same result. This path is meant for advanced users who want full control over exactly which containers run and how they're configured. For the fast path, see [Getting Started](https://laradock.io/docs/getting-started).
+
+1 - Copy the shared settings template:
+
+```bash
+cp .env.example .env
+```
+
+Set `APP_CODE_PATH_HOST` to your project path (for example `../project-z/`, or `../` to serve [multiple projects](https://laradock.io/docs/multiple-projects)). See [How Laradock configuration works](https://laradock.io/docs/getting-started#how-laradock-configuration-works) for the full model.
+
+2 - Start the containers you need, for example NGINX (web server) and MySQL (database):
+
+```bash
+docker compose up -d nginx mysql
+```
+
+Web-server containers (`nginx`, `apache2`, ...) depend on `php-fpm` and start it automatically, so you don't list it explicitly. Pick any combination from the [available services](https://laradock.io/docs/Intro#supported-services).
+
+3 - Enter the workspace to run Artisan, Composer, PHPUnit, and friends:
+
+```bash
+docker compose exec --user=laradock workspace bash
+```
+
+`--user=laradock` makes files come out owned by you, not root. On Windows PowerShell you can also enter any running container with `docker exec -it {workspace-container-id} bash`. Change the user with `WORKSPACE_PUID` / `WORKSPACE_PGID` in your `.env` (defaults in `workspace/defaults.env`).
+
+4 - Point your app at the database. In your PHP project's `.env`, set the host to the service name:
+
+```env
+DB_HOST=mysql
+```
+
+Use Laradock's default DB credentials from `mysql/defaults.env`, or override them in your `.env` and rebuild. Installing Laravel? See [How to Install Laravel in a Docker Container](https://laradock.io/docs/laravel-on-docker).
+
+5 - Open [http://localhost](http://localhost) (or `http://project-1.test/` etc. if you set up [multiple projects](https://laradock.io/docs/multiple-projects)).
+
+:::warning Upgrading from an older Laradock?
+Rebuild the containers you use to avoid errors, [see how to rebuild a container](https://laradock.io/docs/containers#build-or-rebuild-containers).
+:::
+
+
+================================================================
+# Multiple PHP Versions
+Source: https://laradock.io/docs/multiple-php-versions
+================================================================
+
+Laradock builds **one** PHP version by default, `PHP_VERSION` in your `.env`, shared by every PHP container (`php-fpm`, `workspace`, `php-worker`, `laravel-horizon`). There are two very different "multiple versions" needs, and they have different answers.
+
+## Different projects, different versions
+
+If each version belongs to a **separate project**, don't run them in one stack. Give each project its own Laradock copy and its own `.env`, then set `PHP_VERSION` per project. Switching a project's version is one line plus a rebuild:
+
+```env
+PHP_VERSION=7.4
+```
+
+```bash
+./laradock rebuild        # or: docker compose build
+```
+
+This is the normal, fully-supported setup. See [Running Multiple Projects](https://laradock.io/docs/multiple-projects) for how to keep several Laradock instances (or several sites in one instance) side by side without them clashing.
+
+## Two versions at once, in one stack
+
+Sometimes a **single** setup genuinely needs two versions running at the same time, a legacy app on PHP 7.4 next to a new project on PHP 8.3, or one project whose services (microservices) target different versions. For that, use the opt-in `docker-compose.multi-php.yml` overlay. It adds `php-fpm-83` and `workspace-83` alongside your primary services and **changes nothing** about the default single-version setup: if you never load it, it doesn't exist.
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.multi-php.yml up -d \
+    nginx php-fpm workspace php-fpm-83 workspace-83
+```
+
+To avoid repeating the `-f` flags, set this once in your `.env` so every `docker compose` command (and the Laradock CLI) picks up both files:
+
+```env
+COMPOSE_FILE=docker-compose.yml:docker-compose.multi-php.yml
+```
+
+### Route each site to a version
+
+Point a site at a specific version by editing its Nginx config (`nginx/sites/your-site.conf`):
+
+```nginx
+fastcgi_pass php-fpm-83:9000;
+```
+
+Sites left on the default `php-upstream` keep using your primary `php-fpm`. On Apache2, set the matching `SetHandler "proxy:fcgi://php-fpm-83:9000"` in that site's vhost.
+
+### Run CLI on the alternate version
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.multi-php.yml exec workspace-83 bash
+```
+
+You now have `composer`, `artisan`, and `php` on 8.3 in `workspace-83`, and your primary version in `workspace`.
+
+### Add a third (or fourth) version
+
+The alternate services inherit the real `php-fpm` / `workspace` build args via Compose [`extends`](https://docs.docker.com/reference/compose-file/services/#extends), so there is **no duplicated config to maintain**, the only thing overridden is the PHP version. To add another version, copy a pair of blocks in `multi-php/compose.yml` and change `83` to the version you want in both the service name and `LARADOCK_PHP_VERSION`:
+
+```yaml
+    php-fpm-74:
+      extends:
+        file: ../php-fpm/compose.yml
+        service: php-fpm
+      build:
+        context: ../php-fpm
+        args:
+          - LARADOCK_PHP_VERSION=7.4
+```
+
+Queue workers and Horizon on an alternate version follow the identical pattern, extend `php-worker` / `laravel-horizon` the same way.
+
+:::tip
+Each extra version is a full PHP image. Two or three side by side is fine; if you find yourself wanting many, that's a sign the versions belong to separate projects, use one Laradock per project instead (see above).
+:::
+
+
+================================================================
+# Running Multiple Projects
+Source: https://laradock.io/docs/multiple-projects
+================================================================
+
+By default each container is named after the current folder (e.g. `laradock_workspace_1`), so one Laradock serves one project. There are two ways to run more than one, pick based on whether the projects should be **isolated** or can **share** a stack.
+
+## One Laradock per project (isolated)
+
+To run more than one Laradock on the same machine, set **both** of these per project in your `.env`, or the projects will share the same databases on disk:
+
+```env
+COMPOSE_PROJECT_NAME=myproject               # separates the containers
+DATA_PATH_HOST=~/.laradock/data-myproject    # separates the stored data
+```
+
+Each project gets its own containers, its own data, and can run its own PHP version and services independently. This is the cleanest option when projects shouldn't touch each other.
+
+## Many sites from one Laradock (shared)
+
+To serve several sites from a **single** Laradock instead, point `APP_CODE_PATH_HOST` at the parent folder and add one web-server config per site:
+
+```env
+APP_CODE_PATH_HOST=../
+```
+
+For **Nginx** add configs under `nginx/sites`, for **Apache2** under `apache2/sites` (each ships `*.conf.example` samples to copy). Then map the domains in your `hosts` file:
+
+```
+127.0.0.1  project-1.test
+127.0.0.1  project-2.test
+```
+
+:::tip Local domains
+Don't use `.dev` for local domains (browsers force HTTPS on it). Use `.localhost`, `.invalid`, `.test`, or `.example` instead.
+:::
+
+## Different PHP versions per project
+
+Need those projects (or one project's microservices) on **different PHP versions at the same time**? See [Multiple PHP Versions](https://laradock.io/docs/multiple-php-versions).
 
 
 ================================================================
@@ -53386,7 +53500,7 @@ COMPOSE_PROJECT_NAME=myproject
 DATA_PATH_HOST=~/.laradock/data-myproject
 ```
 
-See [Running multiple projects](https://laradock.io/docs/getting-started#running-multiple-projects) for the full setup.
+See [Running Multiple Projects](https://laradock.io/docs/multiple-projects) for the full setup.
 
 
 ================================================================
