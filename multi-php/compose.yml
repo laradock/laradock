@@ -1,0 +1,35 @@
+# Alternate-version PHP services. Each inherits the REAL php-fpm / workspace
+# definition via `extends`, so there is no duplicated build-arg list to keep in
+# sync: the ONLY thing overridden is LARADOCK_PHP_VERSION.
+#
+# Do not load this file directly. It is pulled in by ../docker-compose.multi-php.yml,
+# which supplies the php-fpm / workspace defaults.env needed for the inherited
+# build args to resolve. See that file for usage.
+#
+# Add another version: copy a pair of blocks, change 83 -> 74 (or whatever) in
+# both the service name and LARADOCK_PHP_VERSION.
+
+services:
+
+    # PHP 8.3 web (FPM). Route a site to it with: fastcgi_pass php-fpm-83:9000;
+    php-fpm-83:
+      extends:
+        file: ../php-fpm/compose.yml
+        service: php-fpm
+      build:
+        # The base compose sets `context: ./php-fpm` assuming project_directory
+        # is the repo root; via `extends` that resolves wrong, so pin it here.
+        context: ../php-fpm
+        args:
+          - LARADOCK_PHP_VERSION=8.3
+
+    # PHP 8.3 CLI (composer / artisan / tinker):
+    #   docker compose ... exec workspace-83 bash
+    workspace-83:
+      extends:
+        file: ../workspace/compose.yml
+        service: workspace
+      build:
+        context: ../workspace
+        args:
+          - LARADOCK_PHP_VERSION=8.3

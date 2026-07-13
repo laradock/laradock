@@ -31,7 +31,7 @@ const sidebars: SidebarsConfig = {
       collapsed: true,
       items: [
         { type: "link", label: "Requirements", href: "/docs/getting-started#requirements" },
-        { type: "link", label: "Get Started", href: "/docs/getting-started#get-started" },
+        { type: "link", label: "Get Started with CLI", href: "/docs/getting-started#get-started" },
         { type: "link", label: "How It Works", href: "/docs/getting-started#how-it-works" },
         { type: "link", label: "Manual Setup", href: "/docs/getting-started#manual-setup" },
       ],
@@ -392,6 +392,9 @@ const sidebars: SidebarsConfig = {
       items: [
         "containers",
         "customizing-images",
+        "multiple-projects",
+        "multiple-php-versions",
+        "manual-setup",
         "volumes",
         "environment",
         "networking",

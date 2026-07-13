@@ -88,4 +88,4 @@ COMPOSE_PROJECT_NAME=myproject
 DATA_PATH_HOST=~/.laradock/data-myproject
 ```
 
-See [Running multiple projects](/docs/getting-started#running-multiple-projects) for the full setup.
+See [Running Multiple Projects](/docs/multiple-projects) for the full setup.

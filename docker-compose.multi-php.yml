@@ -1,0 +1,33 @@
+# Run multiple PHP versions side by side. OPT-IN: changes nothing by default.
+#
+# Your normal single-version setup keeps working exactly as before. Only load
+# this file when you need a second (or third) PHP version at the same time, for
+# example a legacy app on PHP 7.4 next to a new project on PHP 8.3.
+#
+#   # build + start your primary stack plus the 8.3 services:
+#   docker compose -f docker-compose.yml -f docker-compose.multi-php.yml up -d \
+#       nginx php-fpm workspace php-fpm-83 workspace-83
+#
+#   # run CLI on the alternate version:
+#   docker compose -f docker-compose.yml -f docker-compose.multi-php.yml exec workspace-83 bash
+#
+# Point a site at a specific version by editing its nginx config
+# (nginx/sites/your-site.conf):   fastcgi_pass php-fpm-83:9000;
+# Sites left on the default `php-upstream` keep using your primary php-fpm.
+#
+# Tip: set COMPOSE_FILE=docker-compose.yml:docker-compose.multi-php.yml in your
+# .env to avoid repeating the -f flags on every command.
+#
+# The alternate services live in multi-php/compose.yml and inherit the real
+# php-fpm / workspace build args via `extends`. This `include` supplies the same
+# defaults.env files the base services use, so those inherited args resolve
+# correctly (without it, extended services build with empty INSTALL_* flags).
+#
+# Queue workers / Horizon on an alternate version follow the identical pattern:
+# extend php-worker / laravel-horizon in multi-php/compose.yml.
+
+include:
+  - path: multi-php/compose.yml
+    env_file:
+      - php-fpm/defaults.env
+      - workspace/defaults.env
