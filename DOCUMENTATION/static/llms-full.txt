@@ -53,8 +53,13 @@ Laradock is free, open-source under the MIT license, and has been battle-tested 
 <br />
 <br />
 
+{/* SYNC: keep this tip identical in docs/Intro.md and docs/getting-started.md */}
 :::tip[Let AI use it]
-This repo ships agent instructions ([`AGENTS.md`](https://github.com/laradock/laradock/blob/master/AGENTS.md), plus matching rule files for [Claude Code](https://claude.com/claude-code), [Gemini CLI](https://github.com/google-gemini/gemini-cli), [Cursor](https://cursor.com), [Cline](https://cline.bot), and [Windsurf](https://windsurf.com)), so any of them can read the layout and run the whole setup for you. Clone Laradock into your project, open it in your agent, and ask: *"Set up Laradock for this project."*
+Three ways to point your AI assistant at Laradock:
+
+- **Run it for you** - the repo ships agent instructions ([`AGENTS.md`](https://github.com/laradock/laradock/blob/master/AGENTS.md) + rule files for [Claude Code](https://claude.com/claude-code), [Gemini CLI](https://github.com/google-gemini/gemini-cli), [Cursor](https://cursor.com), [Cline](https://cline.bot), and [Windsurf](https://windsurf.com)). Open the repo in your agent and say *"Set up Laradock for this project."*
+- **Ask about it, no clone** - add the docs as an MCP server: `https://gitmcp.io/laradock/laradock`.
+- **Read a walkthrough** - browse the AI-generated overview on [DeepWiki](https://deepwiki.com/laradock/laradock), starting with its [architecture diagram](https://deepwiki.com/laradock/laradock/1-overview-of-laradock#system-architecture).
 :::
 
 ## Quick Start
@@ -134,6 +139,7 @@ Done.
 
 <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', margin: '1.5rem 0' }}>
   <a className="button button--primary button--lg" href="/docs/getting-started">Full Getting Started Guide</a>
+  <a className="button button--secondary button--lg" href="/docs/getting-started#the-stack">See How It Works</a>
   <a className="button button--secondary button--lg" href="/docs/cli">Usage and Commands</a>
 </div>
 
@@ -184,13 +190,11 @@ New here? Jump straight to a step-by-step guide for the most popular platforms:
   <a href="/docs/symfony-on-docker">Symfony</a>
   <a href="/docs/drupal-on-docker">Drupal</a>
   <a href="/docs/magento-on-docker">Magento</a>
-  <a href="/docs/joomla-on-docker">Joomla</a>
   <a href="/docs/woocommerce-on-docker">WooCommerce</a>
   <a href="/docs/moodle-on-docker">Moodle</a>
   <a href="/docs/codeigniter-on-docker">CodeIgniter</a>
   <a href="/docs/nextcloud-on-docker">Nextcloud</a>
   <a href="/docs/prestashop-on-docker">PrestaShop</a>
-  <a href="/docs/yii-on-docker">Yii</a>
 </div>
 
 Not listed? Pick from the full catalog of 100+ supported projects below.
@@ -771,8 +775,13 @@ Source: https://laradock.io/docs/getting-started
 
 This guide gets Laradock running for your project. The fastest path is the **Laradock CLI**, a short wizard that sets everything up for you, so start there. If you would rather wire things up by hand with plain `docker compose`, see [Manual setup](https://laradock.io/docs/manual-setup), it is meant for advanced users who want full control.
 
+{/* SYNC: keep this tip identical in docs/Intro.md and docs/getting-started.md */}
 :::tip[Let AI use it]
-This repo ships agent instructions ([`AGENTS.md`](https://github.com/laradock/laradock/blob/master/AGENTS.md), plus matching rule files for [Claude Code](https://claude.com/claude-code), [Gemini CLI](https://github.com/google-gemini/gemini-cli), [Cursor](https://cursor.com), [Cline](https://cline.bot), and [Windsurf](https://windsurf.com)), so any of them can read the layout and run the whole setup for you. Clone Laradock into your project, open it in your agent, and ask: *"Set up Laradock for this project."*
+Three ways to point your AI assistant at Laradock:
+
+- **Run it for you** - the repo ships agent instructions ([`AGENTS.md`](https://github.com/laradock/laradock/blob/master/AGENTS.md) + rule files for [Claude Code](https://claude.com/claude-code), [Gemini CLI](https://github.com/google-gemini/gemini-cli), [Cursor](https://cursor.com), [Cline](https://cline.bot), and [Windsurf](https://windsurf.com)). Open the repo in your agent and say *"Set up Laradock for this project."*
+- **Ask about it, no clone** - add the docs as an MCP server: `https://gitmcp.io/laradock/laradock`.
+- **Read a walkthrough** - browse the AI-generated overview on [DeepWiki](https://deepwiki.com/laradock/laradock), starting with its [architecture diagram](https://deepwiki.com/laradock/laradock/1-overview-of-laradock#system-architecture).
 :::
 
 **Building something specific?** Jump straight to a guide tailored to the most popular platforms:
@@ -783,13 +792,11 @@ This repo ships agent instructions ([`AGENTS.md`](https://github.com/laradock/la
   <a href="/docs/symfony-on-docker">Symfony</a>
   <a href="/docs/drupal-on-docker">Drupal</a>
   <a href="/docs/magento-on-docker">Magento</a>
-  <a href="/docs/joomla-on-docker">Joomla</a>
   <a href="/docs/woocommerce-on-docker">WooCommerce</a>
   <a href="/docs/moodle-on-docker">Moodle</a>
   <a href="/docs/codeigniter-on-docker">CodeIgniter</a>
   <a href="/docs/nextcloud-on-docker">Nextcloud</a>
   <a href="/docs/prestashop-on-docker">PrestaShop</a>
-  <a href="/docs/yii-on-docker">Yii</a>
 </div>
 
 Not one of these? Browse the [full list of 100+ supported projects](https://laradock.io/docs/Intro#supported-php-projects), then follow its guide. Otherwise the generic steps below work for any PHP app.
@@ -832,6 +839,66 @@ The CLI hides nothing: it prints every real `docker compose` command it runs, ke
 
 ## How it works
 
+### The stack
+
+Here is the whole picture from where you sit. You work two ways: open your app in a **browser** (Nginx serves it through PHP-FPM), or drop into the **Workspace** terminal to run `artisan`, `composer`, `npm`. Both act on the **same codebase**, mounted straight from your machine. Your code talks to whatever **services** you switch on, add as many as you need, and the same setup ships to production. Click any node to open its source.
+
+```mermaid
+flowchart LR
+  you(["You<br/>(your machine)"])
+
+  subgraph docker["Laradock &middot; your containers on Docker"]
+    direction TB
+    nginx["Nginx<br/>web server"]
+    php["PHP-FPM<br/>runs your PHP"]
+    workspace["Workspace<br/>terminal: php, composer, node, git"]
+    code[/"Your codebase<br/>mounted from your machine"/]
+
+    subgraph services["Switch on the services you need"]
+      direction LR
+      db[("Database<br/>(MySQL)")]
+      cache[("Cache<br/>(Redis)")]
+      queue["Queue<br/>(RabbitMQ)"]
+      search[("Search<br/>(Meilisearch)")]
+      ai["Local AI<br/>(Ollama)"]
+      more["&hellip;100+ more"]
+    end
+  end
+
+  ship["Ship to production<br/>any server / cloud"]
+
+  you -->|"in your browser"| nginx
+  you -->|"in your terminal"| workspace
+  nginx -->|"FastCGI"| php
+  php -->|"executes"| code
+  workspace -->|"develops"| code
+  code -.-> db
+  code -.-> cache
+  code -.-> queue
+  code -.-> search
+  code -.-> ai
+  code -.-> more
+  docker -->|"./laradock ship"| ship
+
+  click nginx "https://github.com/laradock/laradock/blob/master/nginx/compose.yml"
+  click php "https://github.com/laradock/laradock/tree/master/php-fpm/Dockerfile"
+  click workspace "https://github.com/laradock/laradock/blob/master/workspace/compose.yml"
+  click more "/docs/Intro#supported-services"
+  click ship "/docs/production"
+
+  classDef toneBlue fill:#dbeafe,stroke:#2563eb,stroke-width:1.5px,color:#172554
+  classDef toneAmber fill:#fef3c7,stroke:#d97706,stroke-width:1.5px,color:#78350f
+  classDef toneMint fill:#dcfce7,stroke:#16a34a,stroke-width:1.5px,color:#14532d
+  classDef toneRose fill:#ffe4e6,stroke:#e11d48,stroke-width:1.5px,color:#881337
+  class you toneBlue
+  class nginx,php,workspace toneAmber
+  class code toneRose
+  class db,cache,queue,search,ai,more toneMint
+  class ship toneBlue
+```
+
+Solid arrows are how you drive it; dashed arrows are the optional services your code uses. Each service is its own container, switch them on and off per project and they never conflict, and add as many as you like from the [100+ available](https://laradock.io/docs/Intro#supported-services).
+
 ### How Laradock configuration works
 
 - Your `.env` (created on first run, or `cp .env.example .env` by hand) holds the **shared settings**: paths, PHP version, project name.
@@ -843,6 +910,35 @@ The CLI hides nothing: it prints every real `docker compose` command it runs, ke
 :::warning One exception: database passwords are set on first run only
 `MYSQL_PASSWORD`, `POSTGRES_PASSWORD`, and the other database credentials are applied the **first time** that database starts, when it creates its data files on disk. Changing them in `.env` later (even with `./laradock rebuild`) does **not** update an existing database; the old password keeps working. To change a database password for real, either run the change inside the database itself (for example `ALTER USER`), or delete that service's data folder under `DATA_PATH_HOST` so it initializes fresh (this erases that database's data).
 :::
+
+### How a request flows
+
+Here is what actually happens when a browser hits your app: Nginx hands the request to PHP-FPM, which runs your code and talks to whichever services you enabled, then hands the response back. Anything you queue is passed to the worker and finishes in the background.
+
+```mermaid
+sequenceDiagram
+  autonumber
+  actor Browser
+  participant Nginx
+  participant PHP as PHP-FPM
+  participant DB as Database (MySQL)
+  participant Cache as Cache (Redis)
+  participant Worker as PHP worker
+
+  Browser->>Nginx: HTTP request
+  Nginx->>PHP: FastCGI (runs your code)
+  PHP->>DB: query data
+  DB-->>PHP: rows
+  PHP->>Cache: read / write cache
+  Cache-->>PHP: value
+  PHP->>Cache: push queued job
+  PHP-->>Nginx: response
+  Nginx-->>Browser: HTML
+  Cache-->>Worker: deliver job
+  Worker->>DB: process in background
+```
+
+The database and cache here are whatever you enabled (Postgres, Valkey, and so on): the shape stays the same.
 
 ### How the repository is organized
 
@@ -875,6 +971,52 @@ So when you want to:
 
 The root `docker-compose.yml` pulls every service in via Compose `include`, which requires Docker Compose v2.20 or newer. Every top-level folder in the repo is a runnable container, so the folder list is always the up-to-date list of [available services](https://laradock.io/docs/Intro#supported-services).
 
+### How networking works
+
+Containers sit on two Docker networks. The **web server** faces the outside on the `frontend` network; **everything else** (PHP-FPM, your database, cache, queue, search, and the background worker) lives on the `backend` network, out of reach from outside. The web server bridges the two so it can pass requests through to PHP-FPM.
+
+```mermaid
+flowchart LR
+  browser["Client browser"]
+
+  subgraph frontend["frontend network"]
+    web["Web server<br/>(Nginx / Apache)"]
+  end
+
+  subgraph backend["backend network"]
+    php["PHP-FPM<br/>(your code)"]
+    db[("Database<br/>(MySQL)")]
+    cache[("Cache<br/>(Redis)")]
+    broker["Message broker<br/>(RabbitMQ)"]
+    search[("Search<br/>(Meilisearch)")]
+    worker["Worker<br/>(background jobs)"]
+  end
+
+  browser -->|"published ports"| web
+  web -->|"FastCGI"| php
+  php --> db
+  php --> cache
+  php --> broker
+  php --> search
+  broker -.->|"jobs"| worker
+  worker -.-> db
+
+  click web "https://github.com/laradock/laradock/blob/master/nginx/compose.yml"
+  click php "https://github.com/laradock/laradock/blob/master/php-fpm/compose.yml"
+  click db "https://github.com/laradock/laradock/blob/master/mysql/compose.yml"
+  click cache "https://github.com/laradock/laradock/blob/master/redis/compose.yml"
+  click broker "https://github.com/laradock/laradock/blob/master/rabbitmq/compose.yml"
+  click search "https://github.com/laradock/laradock/blob/master/meilisearch/compose.yml"
+  click worker "https://github.com/laradock/laradock/blob/master/php-worker/compose.yml"
+
+  classDef toneAmber fill:#fef3c7,stroke:#d97706,stroke-width:1.5px,color:#78350f
+  classDef toneMint fill:#dcfce7,stroke:#16a34a,stroke-width:1.5px,color:#14532d
+  class web,php,worker toneAmber
+  class db,cache,broker,search toneMint
+```
+
+The browser reaches the web server through **published ports**, not a Docker network. Switch the driver for both networks with `NETWORKS_DRIVER` in your `.env`. More: [Networking](https://laradock.io/docs/networking).
+
 ## Running multiple projects
 
 One Laradock can serve one project, or many. Run an **isolated** Laradock per project (separate containers and data), or serve **several sites from one** Laradock with a web-server config each. Different PHP versions per project are supported too.
@@ -892,6 +1034,8 @@ Rather wire things up by hand? Everything the CLI does, you can do with plain `d
 # Laradock vs Others
 Source: https://laradock.io/docs/laradock-alternatives
 ================================================================
+
+import DocCardList from '@theme/DocCardList';
 
 *Laradock vs DDEV, Laravel Sail, Laravel Herd, Laravel Valet, Lando, Laragon, Local WP, XAMPP / MAMP, Homestead / Vagrant, Dev Containers, manual installs, and writing your own Docker Compose.*
 
@@ -1083,6 +1227,12 @@ Writing your own compose file is the purist path and exactly what Laradock is, m
 - **Still on Homestead/Vagrant** → Laradock is the modern equivalent, same philosophy without the VM.
 
 If you picked Laradock, the [Getting Started guide](https://laradock.io/docs/getting-started) takes about five minutes.
+
+## Head-to-head comparisons
+
+Read the detailed comparison for the tool you're weighing Laradock against:
+
+<DocCardList />
 
 
 ================================================================
@@ -3007,8 +3157,6 @@ The core commands you use every day to start, stop, inspect, and rebuild your st
   <a href="/docs/services/nginx">NGINX</a>
   <a href="/docs/services/apache2">Apache</a>
   <a href="/docs/services/elasticsearch">Elasticsearch</a>
-  <a href="/docs/services/meilisearch">Meilisearch</a>
-  <a href="/docs/services/mailpit">Mailpit</a>
   <a href="/docs/services/php-fpm">PHP-FPM</a>
   <a href="/docs/services/workspace">Workspace</a>
 </div>
@@ -3804,6 +3952,28 @@ APP_CODE_CONTAINER_FLAG=:delegated
 **3. Keep large directories out of the bind mount.** The real cost is bind-mounting tens of thousands of files. Directories your host doesn't need to read, such as `vendor/` and `node_modules/`, are best kept in a Docker volume instead of the host mount so they never cross the file-sharing boundary.
 
 **4. Still too slow? Use Mutagen.** For very large codebases, [Mutagen](https://mutagen.io) syncs your files into a native container volume in the background, giving near-Linux speed. It is the maintained successor to the old `docker-sync` approach.
+
+
+================================================================
+# How-To Guides
+Source: https://laradock.io/docs/how-to-guides
+================================================================
+
+import DocCardList from '@theme/DocCardList';
+
+Once Laradock is running, these are the things you'll actually reach for. Each guide is short and task-focused: one problem, the commands to solve it, and the reasoning behind them.
+
+## Start here
+
+If you're new, do these in order: bring up your [containers](https://laradock.io/docs/containers), learn how [volumes](https://laradock.io/docs/volumes) persist your data, and skim [environment](https://laradock.io/docs/environment) so you know where settings live. That's enough to be productive.
+
+## Then reach for the rest as needed
+
+The other guides answer specific questions as they come up, running [multiple projects](https://laradock.io/docs/multiple-projects) or [multiple PHP versions](https://laradock.io/docs/multiple-php-versions) side by side, [customizing images](https://laradock.io/docs/customizing-images), wiring up [Xdebug in your IDE](https://laradock.io/docs/xdebug-ide), or [networking](https://laradock.io/docs/networking) between containers. You don't need to read them front to back; jump to the one that matches what you're stuck on.
+
+## All guides
+
+<DocCardList />
 
 
 ================================================================
@@ -4893,6 +5063,8 @@ To install your own CA certificates, drop them in the `workspace/ca-certificates
 Source: https://laradock.io/docs/production
 ================================================================
 
+import DocCardList from '@theme/DocCardList';
+
 Laradock's default `docker-compose.yml` is tuned for local development: your code is bind-mounted, Xdebug is available, opcache re-checks files on every request. Production wants the opposite, code baked into an immutable image, Xdebug gone, opcache frozen.
 
 The [`production/`](https://github.com/laradock/laradock/tree/master/production) folder does exactly that, for **any** PHP app: Laravel, Symfony, WordPress, Moodle, Drupal, or plain PHP.
@@ -5057,6 +5229,12 @@ A smoke test builds the image against a throwaway app and asserts nginx serves a
 ```
 
 These files are a **reference**, deliberately plain. Copy them into your project and adjust, they're a starting line, not a framework to learn.
+
+## Deploy to your platform
+
+Step-by-step guides for every target:
+
+<DocCardList />
 
 
 ================================================================
@@ -19472,6 +19650,34 @@ Then start the container again with your normal `./laradock start swagger-ui` (o
 ---
 
 Writing the spec by hand? See **[Swagger Editor](https://laradock.io/docs/services/swagger-editor)**. New to Laradock? Start at **[Getting Started](https://laradock.io/docs/getting-started)**.
+
+
+================================================================
+# Supported Services
+Source: https://laradock.io/docs/supported-services
+================================================================
+
+import HubCardList from '@site/src/components/HubCardList';
+
+Laradock ships dozens of services as pre-configured containers: databases, caches and queues, search engines, web servers, mail catchers, AI/ML stacks, monitoring, and developer tools. You don't install any of them on your machine, they run in Docker, isolated and disposable.
+
+## Enable only what you need
+
+Nothing runs until you ask for it. You name the services you want when you start Laradock, and only those containers come up:
+
+```bash
+./laradock start nginx mysql redis
+```
+
+Need Postgres and Elasticsearch on a different project? Start those instead. Your host machine stays clean, and two projects can use completely different stacks without conflicting.
+
+## Configured, not just installed
+
+Each service comes wired into the Laradock network with sane defaults, the workspace container can already reach `mysql`, `redis`, and the rest by hostname, and credentials live in one `.env` file. The per-service guides below cover the specifics: default ports, how to connect from your app, and the settings worth changing.
+
+## Browse by category
+
+<HubCardList />
 
 
 ================================================================
@@ -53270,6 +53476,30 @@ The containers are production-style (real NGINX + PHP-FPM), so it is far closer 
 ---
 
 Comparing environments? See the full **[Laradock vs Others](https://laradock.io/docs/laradock-alternatives)** breakdown. Ready to start? **[Getting Started](https://laradock.io/docs/getting-started)** takes about five minutes.
+
+
+================================================================
+# Supported PHP Projects
+Source: https://laradock.io/docs/supported-php-projects
+================================================================
+
+import HubCardList from '@site/src/components/HubCardList';
+
+Laradock is not tied to one framework. It's a Docker environment for **PHP itself**, so anything that runs on PHP-FPM and a web server runs on Laradock: a modern framework, a legacy CMS, or a hand-rolled app with no framework at all.
+
+## One environment, every project
+
+The setup is the same no matter what you're building. You point Laradock at your code (`APP_CODE_PATH_HOST`), start the services your project needs (nginx or apache, MySQL or Postgres, Redis, and so on), and open the site. The per-project guides below only differ in the small details: the document root, which database driver to enable, and any framework-specific commands.
+
+That means the skills transfer. Learn Laradock once for a Laravel app and you already know how to run a WordPress site or a Symfony API next to it, on the same machine, without reinstalling anything.
+
+## Don't see your project?
+
+If it's PHP, it works, even if there's no dedicated guide yet. Start from the [Getting Started guide](https://laradock.io/docs/getting-started), set your document root, and enable a database. The framework and CMS guides below are shortcuts, not requirements.
+
+## Browse by type
+
+<HubCardList />
 
 
 ================================================================

@@ -15,6 +15,8 @@ keywords:
   - docker database port security
 ---
 
+import DocCardList from '@theme/DocCardList';
+
 Laradock's default `docker-compose.yml` is tuned for local development: your code is bind-mounted, Xdebug is available, opcache re-checks files on every request. Production wants the opposite, code baked into an immutable image, Xdebug gone, opcache frozen.
 
 The [`production/`](https://github.com/laradock/laradock/tree/master/production) folder does exactly that, for **any** PHP app: Laravel, Symfony, WordPress, Moodle, Drupal, or plain PHP.
@@ -179,3 +181,9 @@ A smoke test builds the image against a throwaway app and asserts nginx serves a
 ```
 
 These files are a **reference**, deliberately plain. Copy them into your project and adjust, they're a starting line, not a framework to learn.
+
+## Deploy to your platform
+
+Step-by-step guides for every target:
+
+<DocCardList />

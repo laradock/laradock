@@ -1,58 +1,19 @@
 import type { SidebarsConfig } from "@docusaurus/plugin-content-docs";
 
 /**
- * Manual sidebar. Long single-page docs (Intro, Getting Started) expose their
- * sections as in-page anchor links so the sidebar stays useful without splitting
- * content across pages (easier to search / copy / feed to an AI agent).
+ * Manual sidebar. The long single-page docs (Intro, Getting Started, CLI) are
+ * plain links: each page's own on-page table of contents carries its sections,
+ * so the sidebar stays flat and never drifts out of sync with the headings.
  */
 const sidebars: SidebarsConfig = {
   tutorialSidebar: [
-    {
-      type: "category",
-      label: "Introduction",
-      link: { type: "doc", id: "Intro" },
-      collapsible: true,
-      collapsed: false,
-      items: [
-        { type: "link", label: "Quick Start", href: "/docs/Intro#quick-start" },
-        { type: "link", label: "Features", href: "/docs/Intro#features" },
-        { type: "link", label: "Supported Services", href: "/docs/Intro#supported-services" },
-        { type: "link", label: "How Laradock Compares", href: "/docs/Intro#laradock-alternatives" },
-        { type: "link", label: "Awesome People", href: "/docs/Intro#awesome-people" },
-        { type: "link", label: "Sponsors", href: "/docs/Intro#sponsors" },
-        { type: "link", label: "License", href: "/docs/Intro#license" },
-      ],
-    },
-    {
-      type: "category",
-      label: "Getting Started",
-      link: { type: "doc", id: "getting-started" },
-      collapsible: true,
-      collapsed: true,
-      items: [
-        { type: "link", label: "Requirements", href: "/docs/getting-started#requirements" },
-        { type: "link", label: "Get Started with CLI", href: "/docs/getting-started#get-started" },
-        { type: "link", label: "How It Works", href: "/docs/getting-started#how-it-works" },
-        { type: "link", label: "Manual Setup", href: "/docs/getting-started#manual-setup" },
-      ],
-    },
-    {
-      type: "category",
-      label: "CLI Reference",
-      link: { type: "doc", id: "cli" },
-      collapsible: true,
-      collapsed: true,
-      items: [
-        { type: "link", label: "Get Started in One Command", href: "/docs/cli#get-started-in-one-command" },
-        { type: "link", label: "Commands You'll Actually Use", href: "/docs/cli#the-commands-youll-actually-use" },
-        { type: "link", label: "The Setup Wizard", href: "/docs/cli#the-setup-wizard" },
-        { type: "link", label: "Changing Things Later", href: "/docs/cli#changing-things-later" },
-        { type: "link", label: "Advanced: Nothing Is Hidden", href: "/docs/cli#advanced-nothing-is-hidden" },
-      ],
-    },
+    { type: "doc", id: "Intro", label: "Introduction" },
+    { type: "doc", id: "getting-started", label: "Getting Started" },
+    { type: "doc", id: "cli", label: "CLI Reference" },
     {
       type: "category",
       label: "Supported PHP Projects",
+      link: { type: "doc", id: "supported-php-projects/index" },
       collapsible: true,
       collapsed: true,
       items: [
@@ -202,6 +163,7 @@ const sidebars: SidebarsConfig = {
     {
       type: "category",
       label: "Supported Services",
+      link: { type: "doc", id: "services/index" },
       collapsible: true,
       collapsed: true,
       items: [
@@ -387,6 +349,7 @@ const sidebars: SidebarsConfig = {
     {
       type: "category",
       label: "How-To Guides",
+      link: { type: "doc", id: "how-to-guides" },
       collapsible: true,
       collapsed: true,
       items: [
@@ -409,30 +372,18 @@ const sidebars: SidebarsConfig = {
       collapsible: true,
       collapsed: true,
       items: [
-        { type: "link", label: "Build the Image", href: "/docs/production#build" },
-        { type: "link", label: "Pick a Platform", href: "/docs/production#deploy" },
-        {
-          type: "category",
-          label: "By Platform",
-          collapsible: true,
-          collapsed: true,
-          items: [
-            "deploy/deploy-to-kubernetes",
-            "deploy/deploy-to-aws-ecs",
-            "deploy/deploy-to-aws-app-runner",
-            "deploy/deploy-to-google-cloud-run",
-            "deploy/deploy-to-azure-container-apps",
-            "deploy/deploy-to-fly-io",
-            "deploy/deploy-to-render",
-            "deploy/deploy-to-railway",
-            "deploy/deploy-to-digitalocean",
-            "deploy/deploy-to-heroku",
-            "deploy/deploy-to-kamal",
-            "deploy/deploy-to-a-server",
-          ],
-        },
-        { type: "link", label: "Frameworks (Laravel, WordPress, Moodle)", href: "/docs/production#frameworks" },
-        { type: "link", label: "Security", href: "/docs/production#security" },
+        "deploy/deploy-to-kubernetes",
+        "deploy/deploy-to-aws-ecs",
+        "deploy/deploy-to-aws-app-runner",
+        "deploy/deploy-to-google-cloud-run",
+        "deploy/deploy-to-azure-container-apps",
+        "deploy/deploy-to-fly-io",
+        "deploy/deploy-to-render",
+        "deploy/deploy-to-railway",
+        "deploy/deploy-to-digitalocean",
+        "deploy/deploy-to-heroku",
+        "deploy/deploy-to-kamal",
+        "deploy/deploy-to-a-server",
       ],
     },
     {

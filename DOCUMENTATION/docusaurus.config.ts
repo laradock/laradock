@@ -23,6 +23,7 @@ const config: Config = {
 
   onBrokenLinks: 'throw',
   markdown: {
+    mermaid: true,
     hooks: {
       onBrokenMarkdownLinks: 'warn',
     },
@@ -211,6 +212,7 @@ const config: Config = {
   ],
 
   themes: [
+    '@docusaurus/theme-mermaid',
     [
       require.resolve('@easyops-cn/docusaurus-search-local'),
       {
@@ -260,6 +262,10 @@ const config: Config = {
   ],
 
   themeConfig: {
+    // Allow the architecture diagram's `click` node links to open source files.
+    mermaid: {
+      options: { securityLevel: 'loose' },
+    },
     image: '/img/laradock/og-image.jpg',
     metadata: [
       {

@@ -1,0 +1,54 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.card {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 0.75rem;
+  padding: 1rem 1.1rem 0.85rem;
+  background: var(--ifm-background-surface-color);
+  transition: border-color 0.15s ease;
+}
+
+.card:hover {
+  border-color: var(--ifm-color-primary);
+}
+
+.title {
+  margin: 0 0 0.6rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ifm-color-primary);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.list li {
+  margin: 0;
+}
+
+.list a {
+  display: block;
+  padding: 0.22rem 0;
+  font-size: 0.875rem;
+  line-height: 1.3;
+  color: var(--ifm-font-color-base);
+  text-decoration: none;
+  border-radius: 0.25rem;
+}
+
+.list a:hover {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+}

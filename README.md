@@ -212,6 +212,62 @@ Why it's a big deal:
 
 ---
 
+## How It Works
+
+Here is Laradock from where you sit. You work two ways, open your app in a browser (Nginx serves it through PHP-FPM) or drop into the Workspace terminal (`artisan`, `composer`, `npm`), and both act on the same codebase mounted from your machine. Your code talks to whatever services you switch on, add as many as you need, and the same setup ships to production.
+
+```mermaid
+flowchart LR
+  you(["You<br/>(your machine)"])
+
+  subgraph docker["Laradock &middot; your containers on Docker"]
+    direction TB
+    nginx["Nginx<br/>web server"]
+    php["PHP-FPM<br/>runs your PHP"]
+    workspace["Workspace<br/>terminal: php, composer, node, git"]
+    code[/"Your codebase<br/>mounted from your machine"/]
+
+    subgraph services["Switch on the services you need"]
+      direction LR
+      db[("Database<br/>(MySQL)")]
+      cache[("Cache<br/>(Redis)")]
+      queue["Queue<br/>(RabbitMQ)"]
+      search[("Search<br/>(Meilisearch)")]
+      ai["Local AI<br/>(Ollama)"]
+      more["&hellip;100+ more"]
+    end
+  end
+
+  ship["Ship to production<br/>any server / cloud"]
+
+  you -->|"in your browser"| nginx
+  you -->|"in your terminal"| workspace
+  nginx -->|"FastCGI"| php
+  php -->|"executes"| code
+  workspace -->|"develops"| code
+  code -.-> db
+  code -.-> cache
+  code -.-> queue
+  code -.-> search
+  code -.-> ai
+  code -.-> more
+  docker -->|"./laradock ship"| ship
+
+  classDef toneBlue fill:#dbeafe,stroke:#2563eb,stroke-width:1.5px,color:#172554
+  classDef toneAmber fill:#fef3c7,stroke:#d97706,stroke-width:1.5px,color:#78350f
+  classDef toneMint fill:#dcfce7,stroke:#16a34a,stroke-width:1.5px,color:#14532d
+  classDef toneRose fill:#ffe4e6,stroke:#e11d48,stroke-width:1.5px,color:#881337
+  class you toneBlue
+  class nginx,php,workspace toneAmber
+  class code toneRose
+  class db,cache,queue,search,ai,more toneMint
+  class ship toneBlue
+```
+
+More diagrams in the docs: [how a request flows](https://laradock.io/docs/getting-started#how-a-request-flows) and [how the two Docker networks isolate your services](https://laradock.io/docs/getting-started#how-networking-works).
+
+---
+
 ## The Story: Laravel + Docker = Laradock
 
 Laradock started in 2015 as exactly what the name says: **Lara**vel + **Dock**er, a simple way to run a Laravel app in containers back when Laravel had no official Docker answer of its own. Then the demand grew. Developers wanted more databases, caches, queues, search engines, and to run projects that were never Laravel at all: Symfony, WordPress, Magento, plain PHP. So Laradock grew with them, from one Laravel stack into 100+ pre-configured services that work with any PHP project, and now all the way to production with `./laradock ship`.
