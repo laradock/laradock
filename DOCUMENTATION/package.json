@@ -32,7 +32,7 @@
     "@docusaurus/tsconfig": "^3.10.2",
     "@docusaurus/types": "^3.10.1",
     "gh-pages": "^6.1.1",
-    "typescript": "~6.0.3"
+    "typescript": "~7.0.2"
   },
   "resolutions": {
     "js-yaml": "3.15.0",
