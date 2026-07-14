@@ -18,8 +18,6 @@ The core commands you use every day to start, stop, inspect, and rebuild your st
   <a href="/docs/services/nginx">NGINX</a>
   <a href="/docs/services/apache2">Apache</a>
   <a href="/docs/services/elasticsearch">Elasticsearch</a>
-  <a href="/docs/services/meilisearch">Meilisearch</a>
-  <a href="/docs/services/mailpit">Mailpit</a>
   <a href="/docs/services/php-fpm">PHP-FPM</a>
   <a href="/docs/services/workspace">Workspace</a>
 </div>

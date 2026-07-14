@@ -2,6 +2,8 @@
 
 Source: https://laradock.io/docs/laradock-alternatives
 
+import DocCardList from '@theme/DocCardList';
+
 *Laradock vs DDEV, Laravel Sail, Laravel Herd, Laravel Valet, Lando, Laragon, Local WP, XAMPP / MAMP, Homestead / Vagrant, Dev Containers, manual installs, and writing your own Docker Compose.*
 
 Setting up a local PHP environment in 2026, you have four paths. This page lays out every Laradock alternative honestly, compares the popular tools on each path, and tells you when Laradock is the right choice and when it is not.
@@ -192,3 +194,9 @@ Writing your own compose file is the purist path and exactly what Laradock is, m
 - **Still on Homestead/Vagrant** → Laradock is the modern equivalent, same philosophy without the VM.
 
 If you picked Laradock, the [Getting Started guide](https://laradock.io/docs/getting-started) takes about five minutes.
+
+## Head-to-head comparisons
+
+Read the detailed comparison for the tool you're weighing Laradock against:
+
+<DocCardList />

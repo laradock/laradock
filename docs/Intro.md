@@ -45,8 +45,13 @@ Laradock is free, open-source under the MIT license, and has been battle-tested 
 <br />
 <br />
 
+{/* SYNC: keep this tip identical in docs/Intro.md and docs/getting-started.md */}
 :::tip[Let AI use it]
-This repo ships agent instructions ([`AGENTS.md`](https://github.com/laradock/laradock/blob/master/AGENTS.md), plus matching rule files for [Claude Code](https://claude.com/claude-code), [Gemini CLI](https://github.com/google-gemini/gemini-cli), [Cursor](https://cursor.com), [Cline](https://cline.bot), and [Windsurf](https://windsurf.com)), so any of them can read the layout and run the whole setup for you. Clone Laradock into your project, open it in your agent, and ask: *"Set up Laradock for this project."*
+Three ways to point your AI assistant at Laradock:
+
+- **Run it for you** - the repo ships agent instructions ([`AGENTS.md`](https://github.com/laradock/laradock/blob/master/AGENTS.md) + rule files for [Claude Code](https://claude.com/claude-code), [Gemini CLI](https://github.com/google-gemini/gemini-cli), [Cursor](https://cursor.com), [Cline](https://cline.bot), and [Windsurf](https://windsurf.com)). Open the repo in your agent and say *"Set up Laradock for this project."*
+- **Ask about it, no clone** - add the docs as an MCP server: `https://gitmcp.io/laradock/laradock`.
+- **Read a walkthrough** - browse the AI-generated overview on [DeepWiki](https://deepwiki.com/laradock/laradock), starting with its [architecture diagram](https://deepwiki.com/laradock/laradock/1-overview-of-laradock#system-architecture).
 :::
 
 ## Quick Start
@@ -126,6 +131,7 @@ Done.
 
 <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', margin: '1.5rem 0' }}>
   <a className="button button--primary button--lg" href="/docs/getting-started">Full Getting Started Guide</a>
+  <a className="button button--secondary button--lg" href="/docs/getting-started#the-stack">See How It Works</a>
   <a className="button button--secondary button--lg" href="/docs/cli">Usage and Commands</a>
 </div>
 
@@ -176,13 +182,11 @@ New here? Jump straight to a step-by-step guide for the most popular platforms:
   <a href="/docs/symfony-on-docker">Symfony</a>
   <a href="/docs/drupal-on-docker">Drupal</a>
   <a href="/docs/magento-on-docker">Magento</a>
-  <a href="/docs/joomla-on-docker">Joomla</a>
   <a href="/docs/woocommerce-on-docker">WooCommerce</a>
   <a href="/docs/moodle-on-docker">Moodle</a>
   <a href="/docs/codeigniter-on-docker">CodeIgniter</a>
   <a href="/docs/nextcloud-on-docker">Nextcloud</a>
   <a href="/docs/prestashop-on-docker">PrestaShop</a>
-  <a href="/docs/yii-on-docker">Yii</a>
 </div>
 
 Not listed? Pick from the full catalog of 100+ supported projects below.
