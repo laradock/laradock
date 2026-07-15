@@ -1,6 +1,6 @@
 ---
 sidebar_position: 50
-title: Laradock Ecosystem
+title: Ecosystem
 description: Community-built tools that extend Laradock, GUIs, CLIs, Kubernetes playbooks, framework ports, and monitoring helpers that simplify how you manage your Dockerized PHP environment.
 keywords:
   - laradock tools

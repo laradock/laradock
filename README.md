@@ -1,24 +1,24 @@
 <p align="center">
-    <img src="/.github/home-page-images/laradock-logo.png?raw=true" alt="Laradock Logo"/>
+    <img src="/.github/home-page-images/laradock-logo.png?raw=true" alt="Laradock - full PHP development environment based on Docker"/>
 </p>
 
 <p align="center">
    <a href="https://laradock.io/contributing"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" alt="contributions welcome"></a>
    <a href="https://github.com/laradock/laradock/network"><img src="https://img.shields.io/github/forks/laradock/laradock.svg" alt="GitHub forks"></a>
    <a href="https://github.com/laradock/laradock/issues"><img src="https://img.shields.io/github/issues/laradock/laradock.svg" alt="GitHub issues"></a>
-   <a href="https://github.com/laradock/laradock/stargazers"><a href="#backers" alt="sponsors on Open Collective"><img src="https://opencollective.com/laradock/backers/badge.svg" /></a> <a href="#sponsors" alt="Sponsors on Open Collective"><img src="https://opencollective.com/laradock/sponsors/badge.svg" /></a> <img src="https://img.shields.io/github/stars/laradock/laradock.svg" alt="GitHub stars"></a>
+   <a href="#backers"><img src="https://opencollective.com/laradock/backers/badge.svg" alt="Laradock backers on Open Collective" /></a>
+   <a href="#sponsors"><img src="https://opencollective.com/laradock/sponsors/badge.svg" alt="Laradock sponsors on Open Collective" /></a>
+   <a href="https://github.com/laradock/laradock/stargazers"><img src="https://img.shields.io/github/stars/laradock/laradock.svg" alt="Laradock GitHub stars"></a>
    <a href="https://github.com/laradock/laradock/actions/workflows/main-ci.yml"><img src="https://github.com/laradock/laradock/actions/workflows/main-ci.yml/badge.svg" alt="GitHub CI"></a>
    <a href="https://raw.githubusercontent.com/laradock/laradock/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="GitHub license"></a>
 </p>
-
-<p align="center"><b>Full PHP development environment based on Docker.</b></p>
 
 <p align="center">
   🌐 <b>Languages:</b> <b>English</b> · <a href="./README-zh.md">简体中文</a> · <a href="./README-ar.md">العربية</a> · <a href="./README-es.md">Español</a>
 </p>
 
 <p align="center">
-    <a href="https://zalt.me"><img src="http://forthebadge.com/images/badges/built-by-developers.svg" alt="forthebadge" width="180"></a>
+    <a href="https://zalt.me"><img src="http://forthebadge.com/images/badges/built-by-developers.svg" alt="Built by developers" width="180"></a>
 </p>
 
 <br>
@@ -26,34 +26,31 @@
 
 <h2 align="center" style="color:#7d58c2">Use Docker First - Learn About It Later!</h2>
 
-<h3 align="center">The easiest way to run PHP on Docker.</h3>
+<img src="/.github/home-page-images/separator.png?raw=true" width="100%" height="9" alt="">
 
 ## Overview
 
-Laradock is a full PHP development environment for Docker. It ships pre-configured, ready-to-use containers for everything a PHP application needs ([Nginx](https://laradock.io/docs/services/nginx), [PHP-FPM](https://laradock.io/docs/services/php-fpm), [MySQL](https://laradock.io/docs/services/mysql), [PostgreSQL](https://laradock.io/docs/services/postgres), [Redis](https://laradock.io/docs/services/redis), and many more), so you can launch a complete local stack in seconds without any manual setup.
+**Laradock is a full PHP development environment for Docker.** Clone it into any PHP project, run one command, and you have a complete local stack running.
 
-It works with **any PHP project** and behaves the same on Linux, macOS, and Windows.
+It ships pre-configured containers for everything a PHP application needs: a web server ([Nginx](https://laradock.io/docs/services/nginx)), the PHP runtime ([PHP-FPM](https://laradock.io/docs/services/php-fpm)), a database ([MySQL](https://laradock.io/docs/services/mysql)), caching ([Redis](https://laradock.io/docs/services/redis)), background jobs ([PHP Worker](https://laradock.io/docs/services/php-worker)), search ([Elasticsearch](https://laradock.io/docs/services/elasticsearch)), mail testing ([Mailpit](https://laradock.io/docs/services/mailpit)), and [100+ additional services](https://laradock.io/docs/Intro#supported-services), all ready to use with zero manual configuration.
 
-Environment setup is where PHP projects lose their first day. Laradock gives it back: one clone, one command, a full stack running.
+Whether you're using the built-in **Laradock CLI** or plain Docker Compose, the same stack works with **any PHP project**, including [Laravel](https://laradock.io/docs/laravel-on-docker), [WordPress](https://laradock.io/docs/wordpress-on-docker), [Symfony](https://laradock.io/docs/symfony-on-docker), [Drupal](https://laradock.io/docs/drupal-on-docker), [Magento](https://laradock.io/docs/magento-on-docker), [100+ other](https://laradock.io/docs/supported-php-projects) frameworks and applications, or plain PHP. Every developer gets the same environment on Linux, macOS, and Windows, eliminating setup differences and "works on my machine" problems.
+
+Laradock doesn't stop at local development. The same platform includes a developer-friendly CLI for managing your stack, plus built-in production deployment with `./laradock ship`, allowing you to package your application and deploy it to [Kubernetes](https://laradock.io/docs/deploy-to-kubernetes), [Google Cloud Run](https://laradock.io/docs/deploy-to-google-cloud-run), [AWS ECS](https://laradock.io/docs/deploy-to-aws-ecs), [your own server](https://laradock.io/docs/deploy-to-a-server), and [many more](https://laradock.io/docs/production), without switching tools or rebuilding your environment.
+
+<br>
+
+**The easiest way to run PHP on Docker.**
 
 <p align="center">
-    <img src="/.github/home-page-images/laradock-demo.gif?raw=true" alt="Laradock Demo"/>
+    <img src="/.github/home-page-images/laradock-demo.gif?raw=true" alt="Laradock demo: running ./laradock start to launch a full PHP stack on Docker"/>
 </p>
 
-### What's New (2026)
+Trusted by 100K+ developers, Laradock is free and open-source under the MIT license, and has been battle-tested in real-world PHP projects since 2015.
 
-Battle-tested since 2015, and still growing. Recent highlights:
+<img src="/.github/home-page-images/separator.png?raw=true" width="100%" height="9" alt="">
 
-- **Deploy to production**, `./laradock ship` builds an image for any server or cloud.
-- **A plain-English CLI**, `./laradock start` runs your whole stack, no Docker needed.
-- **Local AI built in**, run LLMs and vector databases on your own machine.
-- **100+ services ready**, plus every PHP version from 5.6 to 8.5.
-
-See the [release notes](https://github.com/laradock/laradock/releases) for the full history.
-
-Already on an older version? Jumping straight to the latest is safe, nothing you run changes. See the **[Upgrade Guide](https://laradock.io/docs/upgrade-guide)** for the one structural change to know about.
-
-### Quick Start
+## Quick Start
 
 Requires [Docker](https://www.docker.com/products/docker-desktop/) with Compose v2.20+.
 
@@ -75,7 +72,7 @@ cd laradock
 ./laradock start
 ```
 
-The first time, `start` runs a setup wizard: pick your framework, PHP version, and stack (web server, database, cache) from pre-selected menus, then hit Enter. After that, `./laradock start` just starts your stack and prints its URLs and credentials. Re-run the wizard anytime with `./laradock setup`.
+The first run opens a wizard: pick your framework, PHP version, and stack, then hit Enter. After that, `start` just runs your stack and prints its URLs and credentials (`./laradock setup` reopens the wizard).
 
 4 - Enter the Laradock Workspace (a dev shell with `php`, `composer`, `node`, and `git` inside):
 
@@ -89,21 +86,17 @@ The CLI is optional, transparent sugar: it prints every real `docker compose` co
 
 Prefer plain Docker? Skip the CLI and run `docker compose` directly, same files, same result. See the [manual setup guide](https://laradock.io/docs/getting-started#manual-setup).
 
-### Supported PHP Projects
+<br>
 
-Laradock provides the PHP runtime, web server, databases, and background services your app needs, so it runs virtually any PHP framework, CMS, or e-commerce platform:
+<p align="center">
+  <a href="https://laradock.io">
+     <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/documentation-button.png" width="300px" alt="Read the Laradock documentation"/>
+  </a>
+</p>
 
-<!-- SYNC: one of THREE places listing supported projects. Keep in sync with the "Supported PHP Projects" table in DOCUMENTATION/docs/Intro.md AND the projects_* functions in the ./laradock CLI script. Add a project = update all three. -->
-| Type | Projects |
-|------|----------|
-| **Frameworks** | [Laravel](https://laradock.io/docs/laravel-on-docker) · [Symfony](https://laradock.io/docs/symfony-on-docker) · [CodeIgniter](https://laradock.io/docs/codeigniter-on-docker) · [Yii](https://laradock.io/docs/yii-on-docker) · [Laminas (Zend Framework)](https://laradock.io/docs/laminas-on-docker) · [CakePHP](https://laradock.io/docs/cakephp-on-docker) · [Phalcon](https://laradock.io/docs/phalcon-on-docker) · [Slim](https://laradock.io/docs/slim-on-docker) · [Lumen](https://laradock.io/docs/lumen-on-docker) · [FuelPHP](https://laradock.io/docs/fuelphp-on-docker) · [Spiral](https://laradock.io/docs/spiral-on-docker) · [Hyperf](https://laradock.io/docs/hyperf-on-docker) · [API Platform](https://laradock.io/docs/api-platform-on-docker) · [Mezzio](https://laradock.io/docs/mezzio-on-docker) · [Flight](https://laradock.io/docs/flight-on-docker) · [Fat-Free Framework (F3)](https://laradock.io/docs/fat-free-framework-on-docker) · [ThinkPHP](https://laradock.io/docs/thinkphp-on-docker) · [Silex](https://laradock.io/docs/silex-on-docker) · [Swoole](https://laradock.io/docs/swoole-on-docker) · [Workerman](https://laradock.io/docs/workerman-on-docker) · [Ubiquity](https://laradock.io/docs/ubiquity-on-docker) · [SilverStripe](https://laradock.io/docs/silverstripe-on-docker) · [Nette](https://laradock.io/docs/nette-on-docker) · [Leaf PHP](https://laradock.io/docs/leaf-php-on-docker) |
-| **CMS** | [WordPress](https://laradock.io/docs/wordpress-on-docker) · [Drupal](https://laradock.io/docs/drupal-on-docker) · [Joomla](https://laradock.io/docs/joomla-on-docker) · [October CMS](https://laradock.io/docs/october-cms-on-docker) · [Statamic](https://laradock.io/docs/statamic-on-docker) · [Craft CMS](https://laradock.io/docs/craft-cms-on-docker) · [TYPO3](https://laradock.io/docs/typo3-on-docker) · [Concrete CMS](https://laradock.io/docs/concrete-cms-on-docker) · [Grav](https://laradock.io/docs/grav-on-docker) · [Backdrop CMS](https://laradock.io/docs/backdrop-cms-on-docker) · [HTMLy](https://laradock.io/docs/htmly-on-docker) · [Kirby](https://laradock.io/docs/kirby-on-docker) · [ProcessWire](https://laradock.io/docs/processwire-on-docker) · [Pico](https://laradock.io/docs/pico-on-docker) · [Bolt CMS](https://laradock.io/docs/bolt-cms-on-docker) · [Contao](https://laradock.io/docs/contao-on-docker) · [b2evolution](https://laradock.io/docs/b2evolution-on-docker) · [Serendipity](https://laradock.io/docs/serendipity-on-docker) · [Nucleus](https://laradock.io/docs/nucleus-cms-on-docker) · [e107](https://laradock.io/docs/e107-on-docker) · [Pligg](https://laradock.io/docs/pligg-on-docker) · [Sulu CMS](https://laradock.io/docs/sulu-cms-on-docker) · [Pimcore](https://laradock.io/docs/pimcore-on-docker) · [Winter CMS](https://laradock.io/docs/winter-cms-on-docker) · [Neos CMS](https://laradock.io/docs/neos-cms-on-docker) · [Textpattern](https://laradock.io/docs/textpattern-on-docker) · [ExpressionEngine](https://laradock.io/docs/expressionengine-on-docker) |
-| **E-commerce** | [Magento](https://laradock.io/docs/magento-on-docker) · [WooCommerce](https://laradock.io/docs/woocommerce-on-docker) · [PrestaShop](https://laradock.io/docs/prestashop-on-docker) · [OpenCart](https://laradock.io/docs/opencart-on-docker) · [Sylius](https://laradock.io/docs/sylius-on-docker) · [Bagisto](https://laradock.io/docs/bagisto-on-docker) · [Aimeos](https://laradock.io/docs/aimeos-on-docker) · [Avored](https://laradock.io/docs/avored-on-docker) · [OroCommerce](https://laradock.io/docs/orocommerce-on-docker) · [Zen Cart](https://laradock.io/docs/zen-cart-on-docker) · [osCommerce](https://laradock.io/docs/oscommerce-on-docker) · [AbanteCart](https://laradock.io/docs/abantecart-on-docker) · [CubeCart](https://laradock.io/docs/cubecart-on-docker) · [Shopware](https://laradock.io/docs/shopware-on-docker) · [LiteCart](https://laradock.io/docs/litecart-on-docker) · [OpenMage](https://laradock.io/docs/openmage-on-docker) |
-| **Apps** | [Moodle](https://laradock.io/docs/moodle-on-docker) · [MediaWiki](https://laradock.io/docs/mediawiki-on-docker) · [phpBB](https://laradock.io/docs/phpbb-on-docker) · [Matomo](https://laradock.io/docs/matomo-on-docker) · [MyBB](https://laradock.io/docs/mybb-on-docker) · [FluxBB](https://laradock.io/docs/fluxbb-on-docker) · [PunBB](https://laradock.io/docs/punbb-on-docker) · [Flarum](https://laradock.io/docs/flarum-on-docker) · [bbPress](https://laradock.io/docs/bbpress-on-docker) · [Simple Machines Forum (SMF)](https://laradock.io/docs/smf-on-docker) · [DokuWiki](https://laradock.io/docs/dokuwiki-on-docker) · [BookStack](https://laradock.io/docs/bookstack-on-docker) · [Roundcube](https://laradock.io/docs/roundcube-on-docker) · [phpMyAdmin](https://laradock.io/docs/phpmyadmin-on-docker) · [Adminer](https://laradock.io/docs/adminer-on-docker) · [SuiteCRM](https://laradock.io/docs/suitecrm-on-docker) · [EspoCRM](https://laradock.io/docs/espocrm-on-docker) · [Vtiger](https://laradock.io/docs/vtiger-on-docker) · [Dolibarr](https://laradock.io/docs/dolibarr-on-docker) · [Aureus ERP](https://laradock.io/docs/aureus-erp-on-docker) · [WebERP](https://laradock.io/docs/weberp-on-docker) · [FrontAccounting](https://laradock.io/docs/frontaccounting-on-docker) · [Kanboard](https://laradock.io/docs/kanboard-on-docker) · [Firefly III](https://laradock.io/docs/firefly-iii-on-docker) · [Invoice Ninja](https://laradock.io/docs/invoice-ninja-on-docker) · [X2CRM](https://laradock.io/docs/x2crm-on-docker) · [Nextcloud](https://laradock.io/docs/nextcloud-on-docker) · [ownCloud](https://laradock.io/docs/owncloud-on-docker) · [Pydio](https://laradock.io/docs/pydio-on-docker) · [Mautic](https://laradock.io/docs/mautic-on-docker) · [Crater](https://laradock.io/docs/crater-on-docker) · [Akaunting](https://laradock.io/docs/akaunting-on-docker) · [Monica CRM](https://laradock.io/docs/monica-crm-on-docker) · [Leantime](https://laradock.io/docs/leantime-on-docker) · [Cachet](https://laradock.io/docs/cachet-on-docker) · [PHP Server Monitor](https://laradock.io/docs/php-server-monitor-on-docker) · [YOURLS](https://laradock.io/docs/yourls-on-docker) · [LinkAce](https://laradock.io/docs/linkace-on-docker) · [Koel](https://laradock.io/docs/koel-on-docker) · [AzuraCast](https://laradock.io/docs/azuracast-on-docker) · [Lychee](https://laradock.io/docs/lychee-on-docker) · [Vanilla Forums](https://laradock.io/docs/vanilla-forums-on-docker) |
+<img src="/.github/home-page-images/separator.png?raw=true" width="100%" height="9" alt="">
 
-…or plain, framework-free PHP.
-
-### Key Features
+## Key Features
 
 <!-- SYNC: keep this list identical to the "Features" list in /DOCUMENTATION/docs/Intro.md -->
 
@@ -123,7 +116,40 @@ Laradock provides the PHP runtime, web server, databases, and background service
 - **One or Many Projects**: Run a dedicated Laradock per project, or share a single setup across all of them.
 - **Yours to Edit**: Every `Dockerfile` and config is plain, readable, and open for you to change.
 
-### Supported Services
+<img src="/.github/home-page-images/separator.png?raw=true" width="100%" height="9" alt="">
+
+## What's New (2026)
+
+Battle-tested since 2015, and still growing. Recent highlights:
+
+- **Deploy to production**, `./laradock ship` builds an image for any server or cloud.
+- **A plain-English CLI**, `./laradock start` runs your whole stack, no Docker needed.
+- **Local AI built in**, run LLMs and vector databases on your own machine.
+- **100+ services ready**, plus every PHP version from 5.6 to 8.5.
+
+See the [release notes](https://github.com/laradock/laradock/releases) for the full history.
+
+Already on an older version? Jumping straight to the latest is safe, nothing you run changes. See the **[Upgrade Guide](https://laradock.io/docs/upgrade-guide)** for the one structural change to know about.
+
+<img src="/.github/home-page-images/separator.png?raw=true" width="100%" height="9" alt="">
+
+## Supported PHP Projects
+
+Laradock provides the PHP runtime, web server, databases, and background services your app needs, so it runs virtually any PHP framework, CMS, or e-commerce platform:
+
+<!-- SYNC: one of THREE places listing supported projects. Keep in sync with the "Supported PHP Projects" table in DOCUMENTATION/docs/Intro.md AND the projects_* functions in the ./laradock CLI script. Add a project = update all three. -->
+| Type | Projects |
+|------|----------|
+| **Frameworks** | [Laravel](https://laradock.io/docs/laravel-on-docker) · [Symfony](https://laradock.io/docs/symfony-on-docker) · [CodeIgniter](https://laradock.io/docs/codeigniter-on-docker) · [Yii](https://laradock.io/docs/yii-on-docker) · [Laminas (Zend Framework)](https://laradock.io/docs/laminas-on-docker) · [CakePHP](https://laradock.io/docs/cakephp-on-docker) · [Phalcon](https://laradock.io/docs/phalcon-on-docker) · [Slim](https://laradock.io/docs/slim-on-docker) · [Lumen](https://laradock.io/docs/lumen-on-docker) · [FuelPHP](https://laradock.io/docs/fuelphp-on-docker) · [Spiral](https://laradock.io/docs/spiral-on-docker) · [Hyperf](https://laradock.io/docs/hyperf-on-docker) · [API Platform](https://laradock.io/docs/api-platform-on-docker) · [Mezzio](https://laradock.io/docs/mezzio-on-docker) · [Flight](https://laradock.io/docs/flight-on-docker) · [Fat-Free Framework (F3)](https://laradock.io/docs/fat-free-framework-on-docker) · [ThinkPHP](https://laradock.io/docs/thinkphp-on-docker) · [Silex](https://laradock.io/docs/silex-on-docker) · [Swoole](https://laradock.io/docs/swoole-on-docker) · [Workerman](https://laradock.io/docs/workerman-on-docker) · [Ubiquity](https://laradock.io/docs/ubiquity-on-docker) · [SilverStripe](https://laradock.io/docs/silverstripe-on-docker) · [Nette](https://laradock.io/docs/nette-on-docker) · [Leaf PHP](https://laradock.io/docs/leaf-php-on-docker) |
+| **CMS** | [WordPress](https://laradock.io/docs/wordpress-on-docker) · [Drupal](https://laradock.io/docs/drupal-on-docker) · [Joomla](https://laradock.io/docs/joomla-on-docker) · [October CMS](https://laradock.io/docs/october-cms-on-docker) · [Statamic](https://laradock.io/docs/statamic-on-docker) · [Craft CMS](https://laradock.io/docs/craft-cms-on-docker) · [TYPO3](https://laradock.io/docs/typo3-on-docker) · [Concrete CMS](https://laradock.io/docs/concrete-cms-on-docker) · [Grav](https://laradock.io/docs/grav-on-docker) · [Backdrop CMS](https://laradock.io/docs/backdrop-cms-on-docker) · [HTMLy](https://laradock.io/docs/htmly-on-docker) · [Kirby](https://laradock.io/docs/kirby-on-docker) · [ProcessWire](https://laradock.io/docs/processwire-on-docker) · [Pico](https://laradock.io/docs/pico-on-docker) · [Bolt CMS](https://laradock.io/docs/bolt-cms-on-docker) · [Contao](https://laradock.io/docs/contao-on-docker) · [b2evolution](https://laradock.io/docs/b2evolution-on-docker) · [Serendipity](https://laradock.io/docs/serendipity-on-docker) · [Nucleus](https://laradock.io/docs/nucleus-cms-on-docker) · [e107](https://laradock.io/docs/e107-on-docker) · [Pligg](https://laradock.io/docs/pligg-on-docker) · [Sulu CMS](https://laradock.io/docs/sulu-cms-on-docker) · [Pimcore](https://laradock.io/docs/pimcore-on-docker) · [Winter CMS](https://laradock.io/docs/winter-cms-on-docker) · [Neos CMS](https://laradock.io/docs/neos-cms-on-docker) · [Textpattern](https://laradock.io/docs/textpattern-on-docker) · [ExpressionEngine](https://laradock.io/docs/expressionengine-on-docker) |
+| **E-commerce** | [Magento](https://laradock.io/docs/magento-on-docker) · [WooCommerce](https://laradock.io/docs/woocommerce-on-docker) · [PrestaShop](https://laradock.io/docs/prestashop-on-docker) · [OpenCart](https://laradock.io/docs/opencart-on-docker) · [Sylius](https://laradock.io/docs/sylius-on-docker) · [Bagisto](https://laradock.io/docs/bagisto-on-docker) · [Aimeos](https://laradock.io/docs/aimeos-on-docker) · [Avored](https://laradock.io/docs/avored-on-docker) · [OroCommerce](https://laradock.io/docs/orocommerce-on-docker) · [Zen Cart](https://laradock.io/docs/zen-cart-on-docker) · [osCommerce](https://laradock.io/docs/oscommerce-on-docker) · [AbanteCart](https://laradock.io/docs/abantecart-on-docker) · [CubeCart](https://laradock.io/docs/cubecart-on-docker) · [Shopware](https://laradock.io/docs/shopware-on-docker) · [LiteCart](https://laradock.io/docs/litecart-on-docker) · [OpenMage](https://laradock.io/docs/openmage-on-docker) |
+| **Apps** | [Moodle](https://laradock.io/docs/moodle-on-docker) · [MediaWiki](https://laradock.io/docs/mediawiki-on-docker) · [phpBB](https://laradock.io/docs/phpbb-on-docker) · [Matomo](https://laradock.io/docs/matomo-on-docker) · [MyBB](https://laradock.io/docs/mybb-on-docker) · [FluxBB](https://laradock.io/docs/fluxbb-on-docker) · [PunBB](https://laradock.io/docs/punbb-on-docker) · [Flarum](https://laradock.io/docs/flarum-on-docker) · [bbPress](https://laradock.io/docs/bbpress-on-docker) · [Simple Machines Forum (SMF)](https://laradock.io/docs/smf-on-docker) · [DokuWiki](https://laradock.io/docs/dokuwiki-on-docker) · [BookStack](https://laradock.io/docs/bookstack-on-docker) · [Roundcube](https://laradock.io/docs/roundcube-on-docker) · [phpMyAdmin](https://laradock.io/docs/phpmyadmin-on-docker) · [Adminer](https://laradock.io/docs/adminer-on-docker) · [SuiteCRM](https://laradock.io/docs/suitecrm-on-docker) · [EspoCRM](https://laradock.io/docs/espocrm-on-docker) · [Vtiger](https://laradock.io/docs/vtiger-on-docker) · [Dolibarr](https://laradock.io/docs/dolibarr-on-docker) · [Aureus ERP](https://laradock.io/docs/aureus-erp-on-docker) · [WebERP](https://laradock.io/docs/weberp-on-docker) · [FrontAccounting](https://laradock.io/docs/frontaccounting-on-docker) · [Kanboard](https://laradock.io/docs/kanboard-on-docker) · [Firefly III](https://laradock.io/docs/firefly-iii-on-docker) · [Invoice Ninja](https://laradock.io/docs/invoice-ninja-on-docker) · [X2CRM](https://laradock.io/docs/x2crm-on-docker) · [Nextcloud](https://laradock.io/docs/nextcloud-on-docker) · [ownCloud](https://laradock.io/docs/owncloud-on-docker) · [Pydio](https://laradock.io/docs/pydio-on-docker) · [Mautic](https://laradock.io/docs/mautic-on-docker) · [Crater](https://laradock.io/docs/crater-on-docker) · [Akaunting](https://laradock.io/docs/akaunting-on-docker) · [Monica CRM](https://laradock.io/docs/monica-crm-on-docker) · [Leantime](https://laradock.io/docs/leantime-on-docker) · [Cachet](https://laradock.io/docs/cachet-on-docker) · [PHP Server Monitor](https://laradock.io/docs/php-server-monitor-on-docker) · [YOURLS](https://laradock.io/docs/yourls-on-docker) · [LinkAce](https://laradock.io/docs/linkace-on-docker) · [Koel](https://laradock.io/docs/koel-on-docker) · [AzuraCast](https://laradock.io/docs/azuracast-on-docker) · [Lychee](https://laradock.io/docs/lychee-on-docker) · [Vanilla Forums](https://laradock.io/docs/vanilla-forums-on-docker) |
+
+…or plain, framework-free PHP.
+
+<img src="/.github/home-page-images/separator.png?raw=true" width="100%" height="9" alt="">
+
+## Supported Services
 
 A **service** is one piece of software (a database, web server, cache, queue) that Laradock runs for you in its own isolated **container**, already configured. Switch on the ones your project needs, leave the rest off; isolated, they never conflict. To start one: `./laradock start {container-name}` (or `docker compose up -d {container-name}`); the container name matches its folder name, e.g. `php-fpm`.
 
@@ -164,18 +190,9 @@ A **service** is one piece of software (a database, web server, cache, queue) th
 
 See the [full service list and usage docs](https://laradock.io/docs/Intro#supported-services).
 
-### Deploy Anywhere
+<img src="/.github/home-page-images/separator.png?raw=true" width="100%" height="9" alt="">
 
-Laradock follows your app to production. Build one image with `./laradock ship`, then run that same image on any of these:
-
-| Where | Platforms |
-|-------|-----------|
-| **Managed clouds** | [Google Cloud Run](https://laradock.io/docs/deploy-to-google-cloud-run) · [AWS ECS](https://laradock.io/docs/deploy-to-aws-ecs) · [AWS App Runner](https://laradock.io/docs/deploy-to-aws-app-runner) · [Azure Container Apps](https://laradock.io/docs/deploy-to-azure-container-apps) · [Fly.io](https://laradock.io/docs/deploy-to-fly-io) · [Render](https://laradock.io/docs/deploy-to-render) · [Railway](https://laradock.io/docs/deploy-to-railway) · [DigitalOcean](https://laradock.io/docs/deploy-to-digitalocean) · [Heroku](https://laradock.io/docs/deploy-to-heroku) |
-| **Your own infrastructure** | [Kubernetes](https://laradock.io/docs/deploy-to-kubernetes) · [Kamal](https://laradock.io/docs/deploy-to-kamal) · [A single server](https://laradock.io/docs/deploy-to-a-server) |
-
-Start here: [Deploy to Production](https://laradock.io/docs/production).
-
-### Your All-in-One Dev Workspace
+## Your All-in-One Dev Workspace
 
 Laradock ships a **Workspace**: a ready-to-use Linux command line with PHP, Composer, Node, Git, and dozens of dev tools already installed. You run every command your project needs *inside* it, so nothing gets installed on your own machine.
 
@@ -191,26 +208,18 @@ or plain Docker Compose:
 docker compose exec workspace bash
 ```
 
-`artisan`, `composer`, `phpunit`, `npm`, and `git` all just work, with nothing installed on your host: no PHP, no Composer, no Node, no version conflicts. Stop the project and **zero traces are left on your device.**
+`artisan`, `composer`, `phpunit`, `npm`, and `git` all just work. Stop the project and **zero traces are left on your device.**
 
-> Built from two prebuilt base images, each in its own repo: [`laradock/workspace`](https://github.com/laradock/workspace) (this dev shell) and [`laradock/php-fpm`](https://github.com/laradock/php-fpm) (the PHP runtime).
+### What You Get From It
 
-Why it's a big deal:
-
-- **Start in seconds.** Every tool is already installed and configured, so there's nothing to set up; clone a project and get to work.
-- **Keep your machine spotless.** Run everything inside the container; your host never gets PHP, Composer, Node, or any CLI, and nothing is left behind when you're done.
+- **Start in seconds.** Nothing to install or configure; clone a project and get to work.
+- **Keep your machine spotless.** Your host never gets PHP, Composer, Node, or any CLI, and nothing is left behind when you're done.
 - **Isolate every project.** Each one runs on its own PHP and database versions with no conflicts between them.
 - **Revive old projects.** Run legacy apps on older PHP (5.6, 7.x) without touching your system's PHP version.
 
-<br>
+> Built from two prebuilt base images, each in its own repo: [`laradock/workspace`](https://github.com/laradock/workspace) (this dev shell) and [`laradock/php-fpm`](https://github.com/laradock/php-fpm) (the PHP runtime).
 
-<p align="center">
-  <a href="https://laradock.io">
-     <img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/documentation-button.png" width="300px" alt="Laradock Documentation"/>
-  </a>
-</p>
-
----
+<img src="/.github/home-page-images/separator.png?raw=true" width="100%" height="9" alt="">
 
 ## How It Works
 
@@ -264,9 +273,22 @@ flowchart LR
   class ship toneBlue
 ```
 
-More diagrams in the docs: [how a request flows](https://laradock.io/docs/getting-started#how-a-request-flows) and [how the two Docker networks isolate your services](https://laradock.io/docs/getting-started#how-networking-works).
+The docs go deeper into [how a request flows](https://laradock.io/docs/getting-started#how-a-request-flows) and [how the two Docker networks isolate your services](https://laradock.io/docs/getting-started#how-networking-works).
 
----
+<img src="/.github/home-page-images/separator.png?raw=true" width="100%" height="9" alt="">
+
+## Deploy Anywhere
+
+Laradock follows your app to production. Build one image with `./laradock ship`, then run that same image on any of these:
+
+| Where | Platforms |
+|-------|-----------|
+| **Managed clouds** | [Google Cloud Run](https://laradock.io/docs/deploy-to-google-cloud-run) · [AWS ECS](https://laradock.io/docs/deploy-to-aws-ecs) · [AWS App Runner](https://laradock.io/docs/deploy-to-aws-app-runner) · [Azure Container Apps](https://laradock.io/docs/deploy-to-azure-container-apps) · [Fly.io](https://laradock.io/docs/deploy-to-fly-io) · [Render](https://laradock.io/docs/deploy-to-render) · [Railway](https://laradock.io/docs/deploy-to-railway) · [DigitalOcean](https://laradock.io/docs/deploy-to-digitalocean) · [Heroku](https://laradock.io/docs/deploy-to-heroku) |
+| **Your own infrastructure** | [Kubernetes](https://laradock.io/docs/deploy-to-kubernetes) · [Kamal](https://laradock.io/docs/deploy-to-kamal) · [A single server](https://laradock.io/docs/deploy-to-a-server) |
+
+Start here: [Deploy to Production](https://laradock.io/docs/production).
+
+<img src="/.github/home-page-images/separator.png?raw=true" width="100%" height="9" alt="">
 
 ## The Story: Laravel + Docker = Laradock
 
@@ -276,7 +298,7 @@ That's the difference from Laravel's own [Sail](https://laravel.com/docs/sail), 
 
 Beyond breadth, three things set today's Laradock apart from every alternative, and no other tool combines them: an **AI agent can run it for you** ([`AGENTS.md`](https://github.com/laradock/laradock/blob/master/AGENTS.md) + [`llms.txt`](https://laradock.io/llms.txt), just say *"Set up Laradock for this project"*), a **local AI stack** (Ollama, LiteLLM, vector databases) is one command away, and **`./laradock ship`** carries the same environment to production. See the full, honest breakdown in **[Laradock vs Others](https://laradock.io/docs/laradock-alternatives)** (Sail, DDEV, Herd, Lando, XAMPP, and more).
 
----
+<img src="/.github/home-page-images/separator.png?raw=true" width="100%" height="9" alt="">
 
 ## Awesome People
 
@@ -294,35 +316,35 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
   <tbody>
      <tr>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/mahmoudz.png?s=150">
+            <img width="125" height="125" src="https://github.com/mahmoudz.png?s=150" alt="Mahmoud Zalt, Laradock maintainer">
             <br>
             <strong>Mahmoud Zalt</strong>
             <br>
             <a href="https://github.com/Mahmoudz">@mahmoudz</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/bestlong.png?s=150">
+            <img width="125" height="125" src="https://github.com/bestlong.png?s=150" alt="Yu-Lung Shao (Allen), Laradock maintainer">
             <br>
             <strong>Yu-Lung Shao (Allen)</strong>
             <br>
             <a href="https://github.com/bestlong">@bestlong</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/winfried-van-loon.png?s=150">
+            <img width="125" height="125" src="https://github.com/winfried-van-loon.png?s=150" alt="Winfried van Loon, Laradock maintainer">
             <br>
             <strong>Winfried van Loon</strong>
             <br>
             <a href="https://github.com/winfried-van-loon">@winfried-van-loon</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/appleboy.png?s=150">
+            <img width="125" height="125" src="https://github.com/appleboy.png?s=150" alt="Bo-Yi Wu, Laradock maintainer">
             <br>
             <strong>Bo-Yi Wu</strong>
             <br>
             <a href="https://github.com/appleboy">@appleboy</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/vlauciani.png?s=150">
+            <img width="125" height="125" src="https://github.com/vlauciani.png?s=150" alt="Valentino Lauciani, Laradock maintainer">
             <br>
             <strong>Valentino Lauciani</strong>
             <br>
@@ -331,35 +353,35 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
      </tr>
      <tr>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/arianacosta.png?s=150">
+            <img width="125" height="125" src="https://github.com/arianacosta.png?s=150" alt="Arian Acosta, Laradock maintainer">
             <br>
             <strong>Arian Acosta</strong>
             <br>
             <a href="https://github.com/arianacosta">@arianacosta</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/erikn69.png?s=150">
+            <img width="125" height="125" src="https://github.com/erikn69.png?s=150" alt="Erik, Laradock maintainer">
             <br>
             <strong>Erik</strong>
             <br>
             <a href="https://github.com/erikn69">@erikn69</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/zeroc0d3.png?s=150">
+            <img width="125" height="125" src="https://github.com/zeroc0d3.png?s=150" alt="Dwi Fahni Denni, Laradock maintainer">
             <br>
             <strong>Dwi Fahni Denni</strong>
             <br>
             <a href="https://github.com/zeroc0d3">@zeroc0d3</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/makowskid.png?s=150">
+            <img width="125" height="125" src="https://github.com/makowskid.png?s=150" alt="Dawid Makowski, Laradock maintainer">
             <br>
             <strong>Dawid Makowski</strong>
             <br>
             <a href="https://github.com/makowskid">@makowskid</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/iamlucianojr.png?s=150">
+            <img width="125" height="125" src="https://github.com/iamlucianojr.png?s=150" alt="Luciano Jr, Laradock maintainer">
             <br>
             <strong>Luciano Jr</strong>
             <br>
@@ -368,35 +390,35 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
      </tr>
      <tr>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/PavelSavushkinMix.png?s=150">
+            <img width="125" height="125" src="https://github.com/PavelSavushkinMix.png?s=150" alt="Pavel Savushkin, Laradock maintainer">
             <br>
             <strong>Pavel Savushkin</strong>
             <br>
             <a href="https://github.com/PavelSavushkinMix">@PavelSavushkinMix</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/philtrep.png?s=150">
+            <img width="125" height="125" src="https://github.com/philtrep.png?s=150" alt="Philippe Trépanier, Laradock maintainer">
             <br>
             <strong>Philippe Trépanier</strong>
             <br>
             <a href="https://github.com/philtrep">@philtrep</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/ahkui.png?s=150">
+            <img width="125" height="125" src="https://github.com/ahkui.png?s=150" alt="Ahkui, Laradock maintainer">
             <br>
             <strong>Ahkui</strong>
             <br>
             <a href="https://github.com/ahkui">@ahkui</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/mikeerickson.png?s=150">
+            <img width="125" height="125" src="https://github.com/mikeerickson.png?s=150" alt="Mike Erickson, Laradock maintainer">
             <br>
             <strong>Mike Erickson</strong>
             <br>
             <a href="https://github.com/mikeerickson">@mikeerickson</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/lanphan.png?s=150">
+            <img width="125" height="125" src="https://github.com/lanphan.png?s=150" alt="Lan Phan, Laradock maintainer">
             <br>
             <strong>Lan Phan</strong>
             <br>
@@ -405,35 +427,35 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
      </tr>
      <tr>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/zhushaolong.png?s=150">
+            <img width="125" height="125" src="https://github.com/zhushaolong.png?s=150" alt="zhushaolong, Laradock maintainer">
             <br>
             <strong>zhushaolong</strong>
             <br>
             <a href="https://github.com/zhushaolong">@zhushaolong</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/kideny.png?s=150">
+            <img width="125" height="125" src="https://github.com/kideny.png?s=150" alt="Frank Yuan, Laradock maintainer">
             <br>
             <strong>Frank Yuan</strong>
             <br>
             <a href="https://github.com/kideny">@kideny</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/xiagw.png?s=150">
+            <img width="125" height="125" src="https://github.com/xiagw.png?s=150" alt="xiagw, Laradock maintainer">
             <br>
             <strong>xiagw</strong>
             <br>
             <a href="https://github.com/xiagw">@xiagw</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/Omranic.png?s=150">
+            <img width="125" height="125" src="https://github.com/Omranic.png?s=150" alt="Abdelrahman Omran, Laradock maintainer">
             <br>
             <strong>Abdelrahman Omran</strong>
             <br>
             <a href="https://github.com/Omranic">@Omranic</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/sixlive.png?s=150">
+            <img width="125" height="125" src="https://github.com/sixlive.png?s=150" alt="TJ Miller, Laradock maintainer">
             <br>
             <strong>TJ Miller</strong>
             <br>
@@ -442,35 +464,35 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
      </tr>
      <tr>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/thorerik.png?s=150">
+            <img width="125" height="125" src="https://github.com/thorerik.png?s=150" alt="Thor Erik, Laradock maintainer">
             <br>
             <strong>Thor Erik</strong>
             <br>
             <a href="https://github.com/thorerik">@thorerik</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/urukalo.png?s=150">
+            <img width="125" height="125" src="https://github.com/urukalo.png?s=150" alt="Milan Urukalo, Laradock maintainer">
             <br>
             <strong>Milan Urukalo</strong>
             <br>
             <a href="https://github.com/urukalo">@urukalo</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/vwchu.png?s=150">
+            <img width="125" height="125" src="https://github.com/vwchu.png?s=150" alt="Vince Chu, Laradock maintainer">
             <br>
             <strong>Vince Chu</strong>
             <br>
             <a href="https://github.com/vwchu">@vwchu</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://github.com/zuohuadong.png?s=150">
+            <img width="125" height="125" src="https://github.com/zuohuadong.png?s=150" alt="Huadong Zuo, Laradock maintainer">
             <br>
             <strong>Huadong Zuo</strong>
             <br>
             <a href="https://github.com/zuohuadong">@zuohuadong</a>
         </td>
         <td align="center" valign="top">
-            <img width="125" height="125" src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/join-us.png">
+            <img width="125" height="125" src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/join-us.png" alt="Join the Laradock maintainers team">
             <br>
             <strong>< Join Us ></strong>
             <br>
@@ -489,18 +511,7 @@ Laradock is an MIT-licensed open source project with its ongoing development mad
 
 [![Open Collective backers](https://opencollective.com/laradock/tiers/awesome-backers.svg?width=800&avatarHeight=65&button=false&isActive=false)](https://opencollective.com/laradock#contributors)
 
-
-
-
-## Contact
-
-Have a question, found a problem, or need something? **mahmoud@zalt.me**
-
-For security vulnerabilities, see [SECURITY.md](SECURITY.md).
-
-## Community
-
-Gitter's done. Our community of 2,000+ active members has a new home on [GitHub Discussions](https://github.com/laradock/laradock/discussions).
+<img src="/.github/home-page-images/separator.png?raw=true" width="100%" height="9" alt="">
 
 ## Sponsors
 
@@ -514,44 +525,44 @@ Laradock powers local development for developers and companies worldwide: 100K+ 
 - **Companies** get your logo on this README with a real dofollow backlink.
 - **Pay by invoice or bank transfer** if a sponsor button won't clear your finance team: [Open Collective](https://opencollective.com/laradock) issues invoices and takes bank transfers so your organization can pay Laradock directly.
 
-[**❤️ Sponsor on GitHub**](https://github.com/sponsors/laradock) &nbsp;·&nbsp; [**Sponsor / invoice via Open Collective**](https://opencollective.com/laradock) &nbsp;·&nbsp; custom or annual agreements: **mahmoud@zalt.me**
+[**❤️ Sponsor on GitHub**](https://github.com/sponsors/laradock) &nbsp;·&nbsp; [**Sponsor via Open Collective**](https://opencollective.com/laradock) &nbsp;·&nbsp; custom or annual agreements: **mahmoud@zalt.me**
 
 ### Diamond Sponsors
 
 <p align="left">
   <a href="https://sistava.com/?utm_source=docs_laradock&utm_medium=sponsor&utm_campaign=github_readme_page" target="_blank"><img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/sista-ai-icon.png" height="165px" alt="Sistava - Hire AI Employees to Run Your Business." style="margin-right: 4em;"></a><a href="http://apiato.io/" target="_blank"><img src="https://raw.githubusercontent.com/laradock/laradock/master/.github/home-page-images/custom-sponsors/apiato.png" height="135px" alt="Apiato - A powerful PHP framework for building scalable, enterprise-grade APIs!"></a>
   <!-- Diamond auto-slots: paid Diamond sponsors auto-populate from Open Collective (dofollow, largest logo); empty slots render blank. Same mechanism as Gold. -->
-  <a href="https://opencollective.com/laradock/tiers/diamond-sponsors/0/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/diamond-sponsors/0/avatar.png?isActive=true&avatarHeight=130" height="150" style="margin-right: 1em;"></a>
-  <a href="https://opencollective.com/laradock/tiers/diamond-sponsors/1/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/diamond-sponsors/1/avatar.png?isActive=true&avatarHeight=130" height="150" style="margin-right: 1em;"></a>
-  <a href="https://opencollective.com/laradock/tiers/diamond-sponsors/2/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/diamond-sponsors/2/avatar.png?isActive=true&avatarHeight=130" height="150" style="margin-right: 1em;"></a>
-  <a href="https://opencollective.com/laradock/tiers/diamond-sponsors/3/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/diamond-sponsors/3/avatar.png?isActive=true&avatarHeight=130" height="150" style="margin-right: 1em;"></a>
-  <a href="https://opencollective.com/laradock/tiers/diamond-sponsors/4/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/diamond-sponsors/4/avatar.png?isActive=true&avatarHeight=130" height="150" style="margin-right: 1em;"></a>
+  <a href="https://opencollective.com/laradock/tiers/diamond-sponsors/0/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/diamond-sponsors/0/avatar.png?isActive=true&avatarHeight=130" height="150" alt="Laradock Diamond Sponsor" style="margin-right: 1em;"></a>
+  <a href="https://opencollective.com/laradock/tiers/diamond-sponsors/1/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/diamond-sponsors/1/avatar.png?isActive=true&avatarHeight=130" height="150" alt="Laradock Diamond Sponsor" style="margin-right: 1em;"></a>
+  <a href="https://opencollective.com/laradock/tiers/diamond-sponsors/2/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/diamond-sponsors/2/avatar.png?isActive=true&avatarHeight=130" height="150" alt="Laradock Diamond Sponsor" style="margin-right: 1em;"></a>
+  <a href="https://opencollective.com/laradock/tiers/diamond-sponsors/3/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/diamond-sponsors/3/avatar.png?isActive=true&avatarHeight=130" height="150" alt="Laradock Diamond Sponsor" style="margin-right: 1em;"></a>
+  <a href="https://opencollective.com/laradock/tiers/diamond-sponsors/4/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/diamond-sponsors/4/avatar.png?isActive=true&avatarHeight=130" height="150" alt="Laradock Diamond Sponsor" style="margin-right: 1em;"></a>
 </p>
 
 
 ### Gold Sponsors
 
 <div style="display: flex; flex-wrap: wrap; gap: 25px; justify-content: left; align-items: left;">
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/0/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/0/avatar.png?isActive=true&avatarHeight=100" height="115" /></a>
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/1/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/1/avatar.png?isActive=true&avatarHeight=100" height="115" /></a>
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/2/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/2/avatar.png?isActive=true&avatarHeight=100" height="115" /></a>
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/3/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/3/avatar.png?isActive=true&avatarHeight=100" height="115" /></a>
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/4/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/4/avatar.png?isActive=true&avatarHeight=100" height="115" /></a>
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/5/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/5/avatar.png?isActive=true&avatarHeight=100" height="115" /></a>
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/6/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/6/avatar.png?isActive=true&avatarHeight=100" height="115" /></a>
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/7/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/7/avatar.png?isActive=true&avatarHeight=100" height="115" /></a>
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/8/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/8/avatar.png?isActive=true&avatarHeight=100" height="115" /></a>
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/9/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/9/avatar.png?isActive=true&avatarHeight=100" height="115" /></a>
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/10/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/10/avatar.png?isActive=true&avatarHeight=100" height="115" /></a>
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/11/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/11/avatar.png?isActive=true&avatarHeight=100" height="115" /></a>
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/12/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/12/avatar.png?isActive=true&avatarHeight=100" height="115" /></a>
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/13/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/13/avatar.png?isActive=true&avatarHeight=100" height="115" /></a>
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/14/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/14/avatar.png?isActive=true&avatarHeight=100" height="115" /></a>
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/15/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/15/avatar.png?isActive=true&avatarHeight=100" height="115" /></a>
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/16/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/16/avatar.png?isActive=true&avatarHeight=100" height="115" /></a>
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/17/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/17/avatar.png?isActive=true&avatarHeight=100" height="115" /></a>
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/18/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/18/avatar.png?isActive=true&avatarHeight=100" height="115" /></a>
-  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/19/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/19/avatar.png?isActive=true&avatarHeight=100" height="115" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/0/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/0/avatar.png?isActive=true&avatarHeight=100" height="115" alt="Laradock Gold Sponsor" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/1/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/1/avatar.png?isActive=true&avatarHeight=100" height="115" alt="Laradock Gold Sponsor" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/2/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/2/avatar.png?isActive=true&avatarHeight=100" height="115" alt="Laradock Gold Sponsor" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/3/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/3/avatar.png?isActive=true&avatarHeight=100" height="115" alt="Laradock Gold Sponsor" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/4/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/4/avatar.png?isActive=true&avatarHeight=100" height="115" alt="Laradock Gold Sponsor" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/5/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/5/avatar.png?isActive=true&avatarHeight=100" height="115" alt="Laradock Gold Sponsor" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/6/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/6/avatar.png?isActive=true&avatarHeight=100" height="115" alt="Laradock Gold Sponsor" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/7/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/7/avatar.png?isActive=true&avatarHeight=100" height="115" alt="Laradock Gold Sponsor" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/8/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/8/avatar.png?isActive=true&avatarHeight=100" height="115" alt="Laradock Gold Sponsor" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/9/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/9/avatar.png?isActive=true&avatarHeight=100" height="115" alt="Laradock Gold Sponsor" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/10/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/10/avatar.png?isActive=true&avatarHeight=100" height="115" alt="Laradock Gold Sponsor" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/11/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/11/avatar.png?isActive=true&avatarHeight=100" height="115" alt="Laradock Gold Sponsor" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/12/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/12/avatar.png?isActive=true&avatarHeight=100" height="115" alt="Laradock Gold Sponsor" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/13/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/13/avatar.png?isActive=true&avatarHeight=100" height="115" alt="Laradock Gold Sponsor" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/14/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/14/avatar.png?isActive=true&avatarHeight=100" height="115" alt="Laradock Gold Sponsor" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/15/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/15/avatar.png?isActive=true&avatarHeight=100" height="115" alt="Laradock Gold Sponsor" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/16/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/16/avatar.png?isActive=true&avatarHeight=100" height="115" alt="Laradock Gold Sponsor" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/17/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/17/avatar.png?isActive=true&avatarHeight=100" height="115" alt="Laradock Gold Sponsor" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/18/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/18/avatar.png?isActive=true&avatarHeight=100" height="115" alt="Laradock Gold Sponsor" /></a>
+  <a href="https://opencollective.com/laradock/tiers/gold-sponsors/19/website" target="_blank"><img src="https://opencollective.com/laradock/tiers/gold-sponsors/19/avatar.png?isActive=true&avatarHeight=100" height="115" alt="Laradock Gold Sponsor" /></a>
 </div>
 
 ### Silver Sponsors
@@ -566,6 +577,23 @@ Laradock powers local development for developers and companies worldwide: 100K+ 
 
 ![Bronze Sponsors](https://opencollective.com/laradock/tiers/bronze-sponsors.svg?avatarHeight=65&width=800&format=svg&button=false&background=%231B1B1D&isActive=false)
 
+<img src="/.github/home-page-images/separator.png?raw=true" width="100%" height="9" alt="">
+
+## Community
+
+Ask questions, share your setup, and get help from other Laradock developers on [GitHub Discussions](https://github.com/laradock/laradock/discussions).
+
+> *We moved off Gitter in 2026. GitHub Discussions is our only home now.*
+
+<img src="/.github/home-page-images/separator.png?raw=true" width="100%" height="9" alt="">
+
+## Contact
+
+Have a question, found a problem, or need something? **mahmoud@zalt.me**
+
+For security vulnerabilities, see [SECURITY.md](SECURITY.md).
+
+<img src="/.github/home-page-images/separator.png?raw=true" width="100%" height="9" alt="">
 
 ## License
 
