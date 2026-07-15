@@ -7,17 +7,19 @@ import TabItem from '@theme/TabItem';
 import TerminalDemo from '@site/src/components/TerminalDemo';
 import { GoalBar } from '@site/src/components/SupportBanner';
 
-### The easiest way to run PHP on Docker.
+<p style={{fontSize: '1.4rem', fontWeight: 700, marginBottom: '1.5rem'}}>The easiest way to run PHP on Docker.</p>
 
-**Laradock** is a complete Docker environment for PHP. Everything your application needs is already configured, so you can skip setup and start building in seconds. Works with almost every [PHP project](#supported-php-projects), from [Laravel](https://laradock.io/docs/laravel-on-docker) to [WordPress](https://laradock.io/docs/wordpress-on-docker).
+**Laradock is a complete Docker environment for PHP.** Clone it into any PHP project, run one command, and you have a complete local stack running.
 
-![Laradock](https://laradock.io/img/laradock/laradock-logo.png)
+![Laradock - full PHP development environment based on Docker](https://laradock.io/img/laradock/laradock-logo.png)
 
-Standing up a PHP stack by hand burns hours: matching versions, wiring databases and queues, chasing "works on my machine." Laradock hands you the whole environment ready to run, so you skip the setup and get straight to code. Start with the `./laradock` CLI, no Docker knowledge required, and drop to plain `docker compose` whenever you want full control, it's the same files underneath. And the same stack follows you all the way to production.
+It ships pre-configured containers for everything a PHP application needs: a web server ([Nginx](https://laradock.io/docs/services/nginx)), the PHP runtime ([PHP-FPM](https://laradock.io/docs/services/php-fpm)), a database ([MySQL](https://laradock.io/docs/services/mysql)), caching ([Redis](https://laradock.io/docs/services/redis)), background jobs ([PHP Worker](https://laradock.io/docs/services/php-worker)), search ([Elasticsearch](https://laradock.io/docs/services/elasticsearch)), mail testing ([Mailpit](https://laradock.io/docs/services/mailpit)), and [100+ additional services](#supported-services), all ready to use with zero manual configuration.
 
-Instead of installing and configuring Nginx, databases, caches, and queues by hand, you get them all as ready-made containers you can switch on and off per project. It works with any PHP project (Laravel, Symfony, WordPress, or plain PHP) and behaves the same on Linux, macOS, and Windows, so your whole team shares one identical setup.
+Whether you're using the built-in [Laradock CLI](https://laradock.io/docs/cli), no Docker knowledge required, or plain `docker compose` when you want full control, the same stack works with **any PHP project**, including [Laravel](https://laradock.io/docs/laravel-on-docker), [WordPress](https://laradock.io/docs/wordpress-on-docker), [Symfony](https://laradock.io/docs/symfony-on-docker), [Drupal](https://laradock.io/docs/drupal-on-docker), [Magento](https://laradock.io/docs/magento-on-docker), [100+ other](https://laradock.io/docs/supported-php-projects) frameworks and applications, or plain PHP. Every developer gets the same environment on Linux, macOS, and Windows, eliminating setup differences and "works on my machine" problems.
 
-Laradock is free, open-source under the MIT license, and has been battle-tested in real-world PHP projects since 2015.
+Laradock doesn't stop at local development. Built-in production deployment with [`./laradock ship`](https://laradock.io/docs/production) packages your application and deploys it to [Kubernetes](https://laradock.io/docs/deploy-to-kubernetes), [Google Cloud Run](https://laradock.io/docs/deploy-to-google-cloud-run), [AWS ECS](https://laradock.io/docs/deploy-to-aws-ecs), [your own server](https://laradock.io/docs/deploy-to-a-server), and [many more](https://laradock.io/docs/production), without switching tools or rebuilding your environment.
+
+Trusted by 100K+ developers, it's free and open-source under the MIT license, and has been battle-tested in real-world PHP projects since 2015.
 
 <div style={{
   display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '1rem',
@@ -134,6 +136,8 @@ Done.
   <a className="button button--secondary button--lg" href="/docs/getting-started#the-stack">See How It Works</a>
   <a className="button button--secondary button--lg" href="/docs/cli">Usage and Commands</a>
 </div>
+
+<img src="https://laradock.io/img/laradock/separator.png" width="100%" height="9" alt="" />
 
 ## What's New (2026)
 

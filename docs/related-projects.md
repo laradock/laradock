@@ -1,4 +1,4 @@
-# Laradock Ecosystem
+# Ecosystem
 
 Source: https://laradock.io/docs/related-projects
 
