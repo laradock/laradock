@@ -100,7 +100,7 @@ The first time, `start` runs a short setup wizard, then launches your stack. Ful
 
 Then open `http://localhost`. Done.
 
-The CLI is optional, transparent sugar: it prints every real `docker compose` command it runs, keeps no state, and writes nothing but your `.env`. Full reference: [The Laradock CLI](/docs/cli).
+The CLI is optional, transparent sugar: it prints every `docker compose` command it runs, keeps no state, and writes nothing but your `.env`. Full reference: [The Laradock CLI](/docs/cli).
 
 </TabItem>
 <TabItem value="docker" label="Docker Compose">
@@ -166,16 +166,16 @@ Already on an older version? Jumping straight to the latest is safe, nothing you
 <!-- SYNC: keep this list identical to the "Key Features" list in /README.md -->
 
 - **Any PHP Version**: Run any version from 5.6 to 8.5. Set `PHP_VERSION` in `.env`, rebuild, and you're on it.
-- **100+ Ready-made Services**: Databases, caches, queues, search engines, and more, all pre-configured and waiting.
-- **All-in-One Dev Shell**: Run Artisan, Composer, Node, and any CLI inside the `workspace` container, nothing on your host.
-- **Deploy to Production**: Turn your dev stack into a hardened image with `./laradock ship`, then deploy anywhere.
+- **100+ Ready-made Services**: Databases, caches, queues, search engines, and more, pre-configured and waiting.
+- **All-in-One Dev Shell**: Run Artisan, Composer, Node, and any CLI inside the `workspace` container, nothing on host.
+- **Deploy to Production**: Turn your stack into a hardened image with `./laradock ship`, then deploy anywhere.
 - **Pick Your Database**: MySQL, PostgreSQL, MariaDB, MongoDB, Redis, and many others, ready to switch on.
 - **Framework-Agnostic**: Works with Laravel, Symfony, WordPress, Magento, Drupal, or plain PHP.
 - **Local AI, Built In**: Run LLMs and vector search locally with Ollama, LiteLLM, pgvector, Qdrant, no cloud bills.
 - **Toggle Services On Demand**: Start only what a project needs with `docker compose up`, and stop them easily.
-- **One Environment Everywhere**: Identical setup on Linux, macOS, and Windows, so your team shares the same stack.
+- **One Environment Everywhere**: Identical setup on Linux, macOS, and Windows, so your team shares the stack.
 - **A Container Per Service**: Every service is isolated, so nothing conflicts and each piece is easy to manage.
-- **Configure From One File**: Every service ships pre-configured; override any setting with 1 line in your `.env`, always wins.
+- **Configure From One File**: Every service ships pre-configured; override any setting with 1 line in `.env`, always wins.
 - **Official Base Images**: Every image builds on a trusted upstream source for reliability and security.
 - **Web Server Ready**: NGINX, Apache, and Caddy come pre-configured to serve your code out of the box.
 - **One or Many Projects**: Run a dedicated Laradock per project, or share a single setup across all of them.
@@ -355,13 +355,13 @@ One folder per service; each holds that service's `compose.yml` (container defin
 
 ## The Story: Laravel + Docker = Laradock
 
-Laradock started in 2015 as exactly what the name says: **Lara**vel + **Dock**er, a simple way to run a Laravel app in containers back when Laravel had no official Docker answer of its own. Then the demand grew. Developers wanted more databases, caches, queues, and search engines, and wanted to run projects that were never Laravel at all (Symfony, WordPress, Magento, plain PHP). So Laradock grew with them, from one Laravel stack into 100+ pre-configured services for any PHP project, and now all the way to production with `./laradock ship`. Laravel eventually shipped its own minimal, Laravel-only [Sail](https://laravel.com/docs/sail); Laradock is where you go when you outgrow it.
+Laradock started in 2015 as exactly what the name says: **Lara**vel + **Dock**er, back when Laravel had no official Docker answer of its own. Then developers wanted more: more databases, caches, queues, search engines, and projects that were never Laravel at all ([Symfony](/docs/symfony-on-docker), [WordPress](/docs/wordpress-on-docker), [Magento](/docs/magento-on-docker), [plain PHP](/docs/getting-started)). So Laradock grew with them, from one Laravel stack into [100+ pre-configured services](/docs/supported-services) for [any PHP project](/docs/supported-php-projects), and now all the way to production with `./laradock ship`. Laravel later shipped its own [Sail](/docs/laradock-vs-laravel-sail), deliberately small and Laravel-only; Laradock covers the ground it doesn't.
 
 ## How Laradock Compares {#laradock-alternatives}
 
 Every other option either installs software on your machine (XAMPP, MAMP, Herd) or puts a tool between you and Docker (DDEV, Lando, Sail). Laradock does neither: **it is raw Docker with the wiring already done.** Nothing to install, no new commands to learn, nothing generated or hidden; you use `docker compose` directly on plain, readable files you fully own. That makes it the lightest option to adopt and the easiest one to inspect, debug, and bend to your will.
 
-And today it goes further than any of them combine: an [AI agent can operate the whole stack](https://github.com/laradock/laradock/blob/master/AGENTS.md) (`AGENTS.md` + [`llms.txt`](https://laradock.io/llms.txt)), a one-click local AI stack ([Ollama](/docs/services/ollama), vector databases) is built in, and [`./laradock ship`](/docs/production) carries the same environment to production. Each rival wins on a single axis (Herd on native speed, DDEV on automatic HTTPS); Laradock wins on the combination.
+And today it goes further than any of them combine: you pick the services you want and they come wired together, no setup of your own, with a [`workspace`](/docs/services/workspace) shell that already has every PHP tool in it; [`./laradock ship`](/docs/production) carries this exact environment to production; a local AI stack ([Ollama](/docs/services/ollama), [LiteLLM](/docs/services/litellm), [Qdrant](/docs/services/qdrant)) is one command away; and an [AI agent can set it up for you](https://github.com/laradock/laradock/blob/master/AGENTS.md) (`AGENTS.md` + [`llms.txt`](https://laradock.io/llms.txt)). Each rival wins on a single axis (Herd on native speed, DDEV on automatic HTTPS); Laradock wins on the combination.
 
 See the full honest breakdown, including when the other tools are the better choice: **[Laradock vs Others](/docs/laradock-alternatives)** (DDEV, Sail, Herd, Lando, XAMPP, and more).
 
