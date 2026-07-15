@@ -40,11 +40,15 @@ Raw Markdown: append `.md` to any docs page URL to fetch its clean Markdown, e.g
 - [Production & Deployment](https://laradock.io/docs/production): Turn your Laradock dev stack into a hardened, portable production image with one command, then deploy it to a single server, Kamal, Kubernetes, or any PaaS.
 - [Chroma](https://laradock.io/docs/services/chroma): Run Chroma in Laradock, a lightweight open-source vector database with a simple HTTP API for semantic search and RAG.
 - [Flowise](https://laradock.io/docs/services/flowise): Run Flowise in Laradock, a visual, low-code builder for LLM apps and AI agents.
+- [Langflow](https://laradock.io/docs/services/langflow): Run Langflow in Laradock, a visual builder for LLM apps and AI agents with a Python-native component model.
 - [LiteLLM](https://laradock.io/docs/services/litellm): Run LiteLLM in Laradock, an LLM proxy/gateway exposing one OpenAI-compatible endpoint that routes to any provider.
 - [LocalAI](https://laradock.io/docs/services/localai): Run LocalAI in Laradock, a free, self-hosted drop-in replacement for the OpenAI REST API on your own hardware.
+- [MCP](https://laradock.io/docs/services/mcp): Run an MCP server in Laradock, giving Claude, Cursor, and other AI coding agents read-only access to your database schema and data.
 - [n8n](https://laradock.io/docs/services/n8n): Run n8n in Laradock, a workflow-automation platform with first-class AI/agent nodes for building agentic flows visually.
 - [Ollama](https://laradock.io/docs/services/ollama): Run Ollama in Laradock for local LLM inference with an OpenAI-compatible API, no external calls or per-token cost.
+- [Open WebUI](https://laradock.io/docs/services/open-webui): Run Open WebUI in Laradock, a ChatGPT-style web interface for your local Ollama or LocalAI models, with no cloud account.
 - [Qdrant](https://laradock.io/docs/services/qdrant): Run Qdrant in Laradock, a high-performance vector database for storing and querying embeddings over a REST or gRPC API.
+- [vLLM](https://laradock.io/docs/services/vllm): Run vLLM in Laradock for high-throughput local LLM inference on an NVIDIA GPU, with an OpenAI-compatible API.
 - [Weaviate](https://laradock.io/docs/services/weaviate): Run Weaviate in Laradock, an open-source vector database with REST and GraphQL APIs for embeddings and RAG.
 - [Aerospike](https://laradock.io/docs/services/aerospike): Run Aerospike in Laradock. Start and stop the container, configure ports and storage, back up and restore data, and connect the PHP extension to the server.
 - [Beanstalkd Console](https://laradock.io/docs/services/beanstalkd-console): Run the Beanstalkd Console web UI in Laradock to inspect tubes, jobs, and workers on your Beanstalkd server.

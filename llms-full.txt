@@ -254,8 +254,8 @@ docker compose up -d php-fpm
 | **Vector Databases**  | [pgvector](https://laradock.io/docs/services/pgvector), [Qdrant](https://laradock.io/docs/services/qdrant), [Weaviate](https://laradock.io/docs/services/weaviate), [Chroma](https://laradock.io/docs/services/chroma) |
 | **Graph / Multi-model Databases**  | [Neo4j](https://laradock.io/docs/services/neo4j), [ArangoDB](https://laradock.io/docs/services/arangodb), [SurrealDB](https://laradock.io/docs/services/surrealdb) |
 | **Time-series Databases**  | [InfluxDB](https://laradock.io/docs/services/influxdb) |
-| **AI / LLM**  | [Ollama](https://laradock.io/docs/services/ollama), [LocalAI](https://laradock.io/docs/services/localai), [LiteLLM](https://laradock.io/docs/services/litellm) |
-| **Agentic / Automation**  | [n8n](https://laradock.io/docs/services/n8n), [Flowise](https://laradock.io/docs/services/flowise) |
+| **AI / LLM**  | [Ollama](https://laradock.io/docs/services/ollama), [vLLM](https://laradock.io/docs/services/vllm), [LocalAI](https://laradock.io/docs/services/localai), [LiteLLM](https://laradock.io/docs/services/litellm), [Open WebUI](https://laradock.io/docs/services/open-webui), [MCP](https://laradock.io/docs/services/mcp) |
+| **Agentic / Automation**  | [n8n](https://laradock.io/docs/services/n8n), [Flowise](https://laradock.io/docs/services/flowise), [Langflow](https://laradock.io/docs/services/langflow) |
 | **PHP Extensions**  | [Swoole](https://laradock.io/docs/swoole-on-docker), [Blackfire](https://laradock.io/docs/services/blackfire), [Phalcon](https://laradock.io/docs/phalcon-on-docker), [PHP Worker](https://laradock.io/docs/services/php-worker), [Laravel Horizon](https://laradock.io/docs/services/laravel-horizon) |
 | **Mail Servers**  | [Mailu](https://laradock.io/docs/services/mailu), [MailCatcher](https://laradock.io/docs/services/mailcatcher), [Mailhog](https://laradock.io/docs/services/mailhog), [MailDev](https://laradock.io/docs/services/maildev), [Mailpit](https://laradock.io/docs/services/mailpit) |
 | **Real-time Communication**  | [Laravel Echo](https://laradock.io/docs/services/laravel-echo-server), [Laravel Reverb](https://laradock.io/docs/services/laravel-reverb), [Mercure](https://laradock.io/docs/services/mercure), [Soketi](https://laradock.io/docs/services/soketi) |
@@ -1062,7 +1062,7 @@ That is Laradock's position in one sentence: **it IS option 4, raw Docker, with 
 If you last used Laradock as "just Laravel plus Docker," it has grown well past that. Four things now set it apart, and **no competing tool combines all four**:
 
 - 🤖 **An AI agent can run it for you.** Laradock ships [`AGENTS.md`](https://github.com/laradock/laradock/blob/master/AGENTS.md) plus rule files for Claude Code, Cursor, Gemini CLI, Cline, and Windsurf, a machine-readable [`llms.txt`](https://laradock.io/llms.txt), and raw-Markdown docs (append `.md` to any page). Open the repo in your coding agent and say *"Set up Laradock for this project"*: it reads the layout and drives the whole stack for you. No other PHP dev environment ships this.
-- 🧠 **A one-click local AI stack.** `./laradock start ollama` runs a local LLM; vector databases ([Qdrant](https://laradock.io/docs/services/qdrant), [Weaviate](https://laradock.io/docs/services/weaviate), [Chroma](https://laradock.io/docs/services/chroma), [pgvector](https://laradock.io/docs/services/pgvector)), a model gateway ([LiteLLM](https://laradock.io/docs/services/litellm)), and agent automation ([n8n](https://laradock.io/docs/services/n8n), [Flowise](https://laradock.io/docs/services/flowise)) are one command each. Build AI features on your own machine with no cloud bills. No competitor bundles these.
+- 🧠 **A one-click local AI stack.** `./laradock start ollama` runs a local LLM; vector databases ([Qdrant](https://laradock.io/docs/services/qdrant), [Weaviate](https://laradock.io/docs/services/weaviate), [Chroma](https://laradock.io/docs/services/chroma), [pgvector](https://laradock.io/docs/services/pgvector)), a model gateway ([LiteLLM](https://laradock.io/docs/services/litellm)), agent automation ([n8n](https://laradock.io/docs/services/n8n), [Flowise](https://laradock.io/docs/services/flowise)), and an [MCP server](https://laradock.io/docs/services/mcp) that lets your coding agent read your real database schema are one command each. Build AI features on your own machine with no cloud bills. No competitor bundles these.
 - 🗣️ **A plain-English CLI, no Docker knowledge needed.** `./laradock start`, `stop`, `logs`, `db`, `test`, `share`. As easy as the appliance tools (DDEV, Lando), but it hides nothing: it prints the real `docker compose` command before running it, installs no binary, and writes only your `.env`.
 - 🚀 **It follows you to production.** [`./laradock ship`](https://laradock.io/docs/production) builds one hardened image that runs on a server, Kamal, Kubernetes, or any managed cloud. The dev-only tools (Sail, Herd, Valet, XAMPP) stop at your laptop.
 
@@ -3008,35 +3008,68 @@ Flags: `--yes` (`-y`) accepts every default (handy for scripts/CI). `NO_COLOR` i
 
 Setup asks a few simple questions, and **every one is pre-answered with a sensible default**, so pressing Enter straight through gives you a working stack. Each question also shows a short plain-English note explaining what it is and why the default is a safe choice.
 
-It first detects your project (Laravel, WordPress, Symfony, Drupal, or plain PHP) and pre-selects it. For each question it prints the full list of what's available (grouped, so you can see everything at a glance), then gives you a dropdown to pick from: arrow keys to move, type to filter, Enter to choose. The order:
+It first detects your project (Laravel, WordPress, Symfony, Drupal, or plain PHP) and pre-selects it. Each of the ten steps gets its own screen: a header telling you where you are, a plain-English note on what you're choosing and why the default is safe, the full list of what's available (grouped), then a picker. Arrow keys to move, type to filter, Enter to choose.
 
 1. **Project** (search the full 100+ catalog),
 2. **PHP version**,
 3. **PHP runtime** (defaults to `php-fpm`, the standard choice),
-4. **Web server**, **Database**, **Cache** (each with a "none" option),
-5. **Extra services** (optional, add any of the ~90 others: search, queues, AI, mail, monitoring, admin tools),
-6. a **review screen** where you can change any answer before anything is saved.
+4. **Web server**, 5. **Database**, 6. **Cache** (each with a "none" option),
+7. **Extra services** (optional, add any of the ~90 others: search, queues, AI, mail, monitoring, admin tools),
+8. **Workspace tools** (the ~87 tools inside your dev shell: Xdebug, database clients, WP-CLI, see the [Workspace guide](https://laradock.io/docs/services/workspace)),
+9. **Project name**, 10. **App path**,
+
+then a **review screen** where you can change any answer before anything is saved.
 
 ```
-  Laradock setup
-  ─────────────────────────────────────────────
-  ✓ Docker running · Compose v2.39 (needs 2.20+)
-  ✓ Detected: laravel  (at ../)
+  ──────────────────────────────────────────────────────────────
+  Step 8 of 10  Workspace tools
+  ──────────────────────────────────────────────────────────────
+  The workspace is your dev shell: the container you run php, composer,
+  artisan, npm and git inside (./laradock workspace). These are the tools
+  baked into it.
 
-  Review your choices:
-    1) Project        laravel
-    2) PHP version    8.4
-    3) PHP runtime    php-fpm
-    4) Web server     nginx
-    5) Database       mysql
-    6) Cache          redis
-    7) Extra services (none)
-    8) Project name   my-app
-    9) App path       ../
-  Enter = apply · 1-9 = change that answer · q = quit
+  Debug & testing
+    xdebug     pcov       phpdbg     dusk-deps  taint
+  ...
+  type to filter · ↑↓ move · space toggles on/off · enter when done
+```
+
+The review screen groups your answers and shows the stack they add up to, before anything is written:
+
+```
+  ──────────────────────────────────────────────────────────────
+  Review your choices  nothing is written yet
+  ──────────────────────────────────────────────────────────────
+
+  ▸ Your app
+    1) Project          laravel
+
+  ▸ PHP
+    2) Version          8.4
+    3) Runtime          php-fpm
+
+  ▸ Services to run
+    4) Web server       nginx
+    5) Database         mysql
+    6) Cache            redis
+    7) Extras           none
+
+  ▸ Dev shell
+    8) Workspace tools  9 tools  (node, yarn, npm-gulp +6 more)
+
+  ▸ Naming & location
+    9) Project name     my-app
+   10) App path         ../
+
+  ──────────────────────────────────────────────────────────────
+  Starts 5 containers: nginx php-fpm mysql redis workspace
+  ──────────────────────────────────────────────────────────────
+  Enter = apply · 1-10 = change that answer · q = quit
 ```
 
 Nothing is written until you confirm. When it finishes, it offers to point your app at the services and to **start your stack right there**, so a first run really can be just `./laradock start`.
+
+**Run it again any time you change your mind.** `./laradock setup` is not just a first-run wizard: it pre-fills every answer with the stack you already have, so the review screen shows what you're actually running. Press `7` to add or drop extra services, `5` to switch database, `8` to add a tool like Xdebug, `2` to switch PHP version, and Enter to apply. Anything you don't touch stays exactly as it was. If you already know the name of what you want, `./laradock start <service>` skips the wizard entirely.
 
 What it writes into `.env` (and nothing else):
 
@@ -5656,6 +5689,225 @@ Want a more general-purpose automation/workflow tool alongside AI nodes? See **[
 
 
 ================================================================
+# Langflow
+Source: https://laradock.io/docs/services/langflow
+================================================================
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## What is Langflow?
+
+[Langflow](https://langflow.org) is a visual builder for LLM apps and AI agents. You wire components together on a canvas, then call the finished flow from Laravel over HTTP. Its components are plain Python, so you can drop into code for a custom step instead of being limited to the built-in nodes.
+
+Langflow and **[Flowise](https://laradock.io/docs/services/flowise)** solve the same problem in different ecosystems, the same way Laradock ships both MySQL and PostgreSQL. Pick whichever fits: Langflow if you want Python-native components, Flowise if you want a Node-based builder.
+
+## Start Langflow
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start langflow
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d langflow
+```
+
+</TabItem>
+</Tabs>
+
+First boot takes a minute or two while Langflow initializes its database.
+
+## Stop Langflow
+
+Stopping just pauses the container; **your flows are safe** (kept in the `langflow` Docker volume):
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock stop langflow
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose stop langflow
+```
+
+</TabItem>
+</Tabs>
+
+To delete the container entirely (the `langflow` volume, and everything in it, is still untouched):
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock remove langflow
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose rm -sf langflow
+```
+
+</TabItem>
+</Tabs>
+
+## Configuration
+
+All settings live in `langflow/defaults.env` and can be overridden by adding the same line to your own `.env`:
+
+| Variable | Default | What it does |
+|---|---|---|
+| `LANGFLOW_VERSION` | `latest` | Image tag from the [`langflowai/langflow`](https://hub.docker.com/r/langflowai/langflow) Docker Hub image. |
+| `LANGFLOW_HOST_PORT` | `3021` | Host-side port the Langflow builder/API is published on (container port `7860`). |
+| `LANGFLOW_SUPERUSER` | `admin` | Username for the Langflow admin account. |
+| `LANGFLOW_SUPERUSER_PASSWORD` | `secret` | Password for the Langflow admin account. **Change this if the port is reachable by anyone but you.** |
+
+Langflow refuses to boot without a superuser set, so Laradock ships `admin` / `secret` by default to keep first run zero-config. Those defaults are for local development only, override both in your `.env` before exposing Langflow beyond localhost.
+
+The account is created from these values on **first boot only**, when the database in the `langflow` volume is initialized. Changing them later won't update an existing account; change the password from inside the Langflow UI, or wipe the volume (see [Start completely fresh](#start-completely-fresh-wipe-all-data)) to re-seed.
+
+Flows, credentials, and run history persist in the `langflow` volume at `/app/langflow` across restarts.
+
+## Change the Langflow version
+
+Set the version in your `.env`:
+
+```env
+LANGFLOW_VERSION=latest
+```
+
+Then apply the change:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock rebuild langflow
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose build langflow
+```
+
+</TabItem>
+</Tabs>
+
+Flows and credentials live in the `langflow` volume, separate from the image, so changing versions doesn't touch your data. Restart the container after rebuilding: `./laradock restart langflow`.
+
+## Connect
+
+Open the builder at [http://localhost:3021](http://localhost:3021) and log in with `admin` / `secret` (or whatever you set `LANGFLOW_SUPERUSER` and `LANGFLOW_SUPERUSER_PASSWORD` to). Health check: `/health` returns `{"status":"ok"}`. Once you've built a flow, call it from your app at `/api/v1/run/{flow_id}` (the Langflow UI shows the exact endpoint and payload for each flow under its API panel); from inside another container that's reachable at `http://langflow:7860`.
+
+## Use it with the rest of your stack
+
+Langflow talks to the other Laradock AI services over the `backend` network, so point its components at container names rather than `localhost`:
+
+- **[Ollama](https://laradock.io/docs/services/ollama)** for local models: `http://ollama:11434`
+- **[Qdrant](https://laradock.io/docs/services/qdrant)** for vector storage: `http://qdrant:6333`
+- **[LiteLLM](https://laradock.io/docs/services/litellm)** as one OpenAI-compatible endpoint in front of every provider: `http://litellm:4000`
+
+## Backup and restore
+
+Langflow stores flows, credentials, and run history in a named Docker volume (not a bind-mounted host folder), so back it up by copying the container's data directory out to your host while the container is running:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock cp langflow:/app/langflow ./langflow-backup
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose cp langflow:/app/langflow ./langflow-backup
+```
+
+</TabItem>
+</Tabs>
+
+To restore, copy a backup folder back in (the container must already exist), then restart:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock cp ./langflow-backup/. langflow:/app/langflow
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose cp ./langflow-backup/. langflow:/app/langflow
+```
+
+</TabItem>
+</Tabs>
+
+Restart afterward: `./laradock restart langflow`.
+
+## Start completely fresh (wipe all data)
+
+To throw away every flow, credential, and run history and start Langflow from a clean, empty state (⚠️ this **permanently deletes** everything in the `langflow` volume, back up first if you need anything):
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock stop langflow
+./laradock remove langflow
+docker volume rm $(docker volume ls -q --filter name=langflow)
+./laradock start langflow
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose stop langflow
+docker compose rm -sf langflow
+docker volume rm $(docker volume ls -q --filter name=langflow)
+docker compose up -d langflow
+```
+
+</TabItem>
+</Tabs>
+
+Langflow's data lives in a named Docker volume, not a `DATA_PATH_HOST` folder, so removing the container alone doesn't touch it, you have to remove the volume too. The filter matches on the volume name containing `langflow`, if you run multiple Laradock projects on the same machine, check `docker volume ls | grep langflow` first and remove the exact one for this project.
+
+## Common issues
+
+- **Builder is blank or errors on first load.** Langflow initializes its database on first boot and the UI can be reachable before that finishes. Give it a minute, then reload; check progress with `./laradock logs langflow`.
+- **Container keeps restarting with `ValueError: Username and password must be set`.** Langflow won't boot without a superuser. Laradock sets one in `langflow/defaults.env`, so this means both values resolved to empty, usually from an override in your own `.env`. Set `LANGFLOW_SUPERUSER` and `LANGFLOW_SUPERUSER_PASSWORD` to non-empty values. Note Langflow also rejects its own legacy default password (`langflow`), pick anything else.
+- **Login fails with the credentials in your `.env`.** The account is seeded on first boot only. If you changed the values after the volume already existed, the old account is still in force. Change the password in the UI, or wipe the volume to re-seed.
+- **Can't reach the API from your Laravel app.** From inside another container, use `http://langflow:7860`, not `localhost:3021`, the host port only applies from outside Docker.
+- **A flow can't reach Ollama or a vector DB.** Use the container name (`http://ollama:11434`), not `localhost`. Inside the Langflow container, `localhost` is Langflow itself.
+- **Port already in use on your host.** Change `LANGFLOW_HOST_PORT` in `.env` and restart: `./laradock restart langflow`.
+- **Flows disappeared after recreating the container.** Data lives in the `langflow` named volume, not the container itself, so `./laradock remove langflow` followed by `./laradock start langflow` is safe. It's only gone if the volume itself was removed (see [Start completely fresh](#start-completely-fresh-wipe-all-data) above), or if you ran raw `docker compose down -v` for the whole project, which removes volumes for every service.
+
+---
+
+Prefer a Node-based builder for the same job? See **[Flowise](https://laradock.io/docs/services/flowise)**. Want general-purpose automation with AI nodes attached? See **[n8n](https://laradock.io/docs/services/n8n)**. New to Laradock? Start with **[Getting Started](https://laradock.io/docs/getting-started)**.
+
+
+================================================================
 # LiteLLM
 Source: https://laradock.io/docs/services/litellm
 ================================================================
@@ -6038,6 +6290,270 @@ Use `docker volume ls | grep localai` (as above) to get the exact `<volume-name>
 ---
 
 Prefer Ollama's simpler model-pull workflow? See **[Ollama](https://laradock.io/docs/services/ollama)**. Need to route between multiple providers behind one endpoint? See **[LiteLLM](https://laradock.io/docs/services/litellm)**. New to Laradock? Start with **[Getting Started](https://laradock.io/docs/getting-started)**.
+
+
+================================================================
+# MCP
+Source: https://laradock.io/docs/services/mcp
+================================================================
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## What is MCP?
+
+[MCP](https://modelcontextprotocol.io) (Model Context Protocol) is the standard way AI coding agents connect to external tools. Laradock's `mcp` service runs [DBHub](https://github.com/bytebase/dbhub), a database MCP server, so agents like Claude Code and Cursor can inspect your schema and query your data directly instead of guessing at your table structure.
+
+Your agent already reads your code from disk. What it can't see is your database. This closes that gap: ask *"why is this query slow?"* or *"what columns does the orders table have?"* and the agent looks at the real schema rather than inferring it from your migrations.
+
+Queries are **read-only by default**: agents can `SELECT`, never `INSERT`, `UPDATE`, `DELETE`, or `DROP`.
+
+## Start MCP
+
+The `mcp` service exposes a database, so start one alongside it:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start mcp mysql
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d mcp mysql
+```
+
+</TabItem>
+</Tabs>
+
+`mcp` points at MySQL out of the box. To expose a different database, change `MCP_DSN` (see [Point at a different database](#point-at-a-different-database)).
+
+## Stop MCP
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock stop mcp
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose stop mcp
+```
+
+</TabItem>
+</Tabs>
+
+To remove the container:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock remove mcp
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose rm -sf mcp
+```
+
+</TabItem>
+</Tabs>
+
+`mcp` stores nothing of its own: it reads whichever database `MCP_DSN` points at. Removing the container touches no data.
+
+## Configuration
+
+All settings live in `mcp/defaults.env` and can be overridden by adding the same line to your own `.env`:
+
+| Variable | Default | What it does |
+|---|---|---|
+| `MCP_VERSION` | `latest` | Image tag from [`bytebase/dbhub`](https://hub.docker.com/r/bytebase/dbhub). |
+| `MCP_HOST_PORT` | `8321` | Host-side port the MCP server is published on (container port `8080`). |
+| `MCP_DSN` | `mysql://default:secret@mysql:3306/default` | Which database to expose, as a connection string. |
+
+`mcp/dbhub.toml` is bind-mounted into the container and controls which tools agents get. Edits take effect on the next restart, no rebuild needed.
+
+## Connect your agent
+
+The server speaks MCP over HTTP at `http://localhost:8321/mcp`.
+
+### Claude Code
+
+```bash
+claude mcp add --transport http laradock-db http://localhost:8321/mcp
+```
+
+Or commit it to your project by creating `.mcp.json` in your project root, so the whole team picks it up:
+
+```json
+{
+  "mcpServers": {
+    "laradock-db": {
+      "type": "http",
+      "url": "http://localhost:8321/mcp"
+    }
+  }
+}
+```
+
+### Cursor
+
+Create `.cursor/mcp.json` in your project root:
+
+```json
+{
+  "mcpServers": {
+    "laradock-db": {
+      "url": "http://localhost:8321/mcp"
+    }
+  }
+}
+```
+
+### Anything else
+
+Any MCP client supporting HTTP transport works. Point it at `http://localhost:8321/mcp`.
+
+Once connected, your agent gets two tools:
+
+| Tool | What it does |
+|---|---|
+| `search_objects` | Explore tables, columns, and indexes. |
+| `execute_sql` | Run a read-only query (max 1000 rows). |
+
+## Point at a different database
+
+`MCP_DSN` accepts MySQL, MariaDB, PostgreSQL, SQL Server, and SQLite. The host is the Laradock service name, so start that service too. Set it in your `.env`:
+
+```env
+MCP_DSN=postgres://default:secret@postgres:5432/default
+```
+
+Then start both:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start mcp postgres
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d mcp postgres
+```
+
+</TabItem>
+</Tabs>
+
+Other formats follow the same shape:
+
+```env
+MCP_DSN=mariadb://default:secret@mariadb:3306/default
+MCP_DSN=sqlserver://sa:yourStrong(!)Password@mssql:1433/master
+```
+
+## Let agents write to the database
+
+Off by default, and worth keeping that way: an agent that can `DROP TABLE` eventually will. If you do want it, edit `mcp/dbhub.toml` and remove the `readonly` line:
+
+```toml
+[[tools]]
+name = "execute_sql"
+source = "laradock"
+max_rows = 1000
+```
+
+Then restart:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock restart mcp
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose restart mcp
+```
+
+</TabItem>
+</Tabs>
+
+Only do this against a local development database you can afford to lose.
+
+## Test the server
+
+Confirm it's up and can reach your database, without wiring up an agent first:
+
+```bash
+curl -s http://localhost:8321/mcp \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"curl","version":"1"}}}'
+```
+
+A JSON response naming `dbhub` means the server is running and connected.
+
+## Change the MCP version
+
+Set the version in your `.env`:
+
+```env
+MCP_VERSION=0.23.0
+```
+
+`mcp` runs a pulled image, not a local build, so pull the new tag first:
+
+```bash
+docker compose pull mcp
+```
+
+Then recreate the container on it:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start mcp
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d mcp
+```
+
+</TabItem>
+</Tabs>
+
+## Common issues
+
+- **Container keeps restarting.** It exits when the database isn't reachable and retries until it is. If it never settles, the database named in `MCP_DSN` probably isn't running: start it (`./laradock start mysql`). Check with `./laradock logs mcp`.
+- **`ECONNREFUSED` in the logs.** The host in `MCP_DSN` must be the Laradock service name (`mysql`, `postgres`), not `localhost`. From inside a container, `localhost` is that container itself.
+- **Agent doesn't see the tools.** Confirm the container is running (`./laradock logs mcp`), then restart your agent: most MCP clients only connect at startup.
+- **"Read-only mode is enabled" error.** Working as intended, the agent tried to write. See [Let agents write to the database](#let-agents-write-to-the-database) if that's genuinely what you want.
+- **Port 8321 already taken.** Change `MCP_HOST_PORT` in your `.env` and update your agent's config URL to match.
+
+---
+
+Want a local LLM to go with it? See **[Ollama](https://laradock.io/docs/services/ollama)**. Building AI features on your data? Pair it with a vector database like **[pgvector](https://laradock.io/docs/services/pgvector)** or **[Qdrant](https://laradock.io/docs/services/qdrant)**. New to Laradock? Start with **[Getting Started](https://laradock.io/docs/getting-started)**.
 
 
 ================================================================
@@ -6522,6 +7038,195 @@ Need a unified gateway across multiple LLM providers instead? See **[LiteLLM](ht
 
 
 ================================================================
+# Open WebUI
+Source: https://laradock.io/docs/services/open-webui
+================================================================
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## What is Open WebUI?
+
+[Open WebUI](https://openwebui.com) is a ChatGPT-style web interface for local models. [Ollama](https://laradock.io/docs/services/ollama) gives you an API; Open WebUI gives you the chat window in front of it: pick a model, hold a conversation, upload a document to ask questions about, all in the browser with no cloud account and no per-token bill.
+
+## Start Open WebUI
+
+Open WebUI is a front end, so it needs a model backend running behind it. By default that's Ollama:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start open-webui ollama
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d open-webui ollama
+```
+
+</TabItem>
+</Tabs>
+
+Then open [http://localhost:8322](http://localhost:8322).
+
+On first visit you'll be asked to create an account. It's stored locally in the container's own volume, nothing is sent anywhere.
+
+## Pull a model first
+
+A fresh Ollama has no models, so the model dropdown will be empty until you pull one:
+
+```bash
+docker compose exec ollama ollama pull llama3.2
+```
+
+Refresh Open WebUI and `llama3.2` appears in the model picker. See [Ollama](https://laradock.io/docs/services/ollama) for more on managing models.
+
+## Stop Open WebUI
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock stop open-webui
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose stop open-webui
+```
+
+</TabItem>
+</Tabs>
+
+To remove the container:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock remove open-webui
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose rm -sf open-webui
+```
+
+</TabItem>
+</Tabs>
+
+Your accounts, chat history, and settings live in the `open-webui` Docker volume, so removing the container keeps them: starting it again picks up where you left off.
+
+## Configuration
+
+All settings live in `open-webui/defaults.env` and can be overridden by adding the same line to your own `.env`:
+
+| Variable | Default | What it does |
+|---|---|---|
+| `OPEN_WEBUI_VERSION` | `main` | Image tag from [`ghcr.io/open-webui/open-webui`](https://github.com/open-webui/open-webui/pkgs/container/open-webui). |
+| `OPEN_WEBUI_PORT` | `8322` | Host-side port Open WebUI is published on (container port `8080`). |
+| `OPEN_WEBUI_LLM_ENGINE` | `ollama` | Which Laradock model service to talk to. |
+| `OPEN_WEBUI_LLM_PORT` | `11434` | Port that service listens on. |
+| `OPEN_WEBUI_AUTH` | `true` | `false` skips the login screen entirely. |
+
+## Point it at LocalAI instead
+
+`OPEN_WEBUI_LLM_ENGINE` is the service name Open WebUI talks to, so it retargets without editing any compose file. To use [LocalAI](https://laradock.io/docs/services/localai) instead of Ollama, set both the engine and its port in your `.env`:
+
+```env
+OPEN_WEBUI_LLM_ENGINE=localai
+OPEN_WEBUI_LLM_PORT=8080
+```
+
+Then start the pair:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start open-webui localai
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d open-webui localai
+```
+
+</TabItem>
+</Tabs>
+
+## Skip the login screen
+
+Signing in on every fresh volume gets old on a dev machine. Setting `OPEN_WEBUI_AUTH=false` in your `.env` drops the account system entirely and opens straight into the chat:
+
+```env
+OPEN_WEBUI_AUTH=false
+```
+
+Only do this when nothing else can reach the port. With auth off, anyone who can open `http://localhost:8322` gets full access, including any machine on your network if the port isn't firewalled.
+
+Decide before the first boot, because the switch sticks in both directions: once an account exists Open WebUI refuses to turn auth off, and once you've run without it, turning it back on locks you out of the account it created for you. Either way the way out is a fresh volume:
+
+```bash
+docker volume rm laradock_open-webui
+```
+
+## Change the Open WebUI version
+
+Set the version in your `.env`:
+
+```env
+OPEN_WEBUI_VERSION=v0.5.20
+```
+
+`open-webui` runs a pulled image, not a local build, so pull the new tag first:
+
+```bash
+docker compose pull open-webui
+```
+
+Then recreate the container on it:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start open-webui
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d open-webui
+```
+
+</TabItem>
+</Tabs>
+
+## Common issues
+
+- **Model dropdown is empty.** Ollama has no models until you pull one: `docker compose exec ollama ollama pull llama3.2`.
+- **"Server connection failed".** The backend isn't running. Start it (`./laradock start ollama`) and confirm `OPEN_WEBUI_LLM_ENGINE` matches a real Laradock service name.
+- **Blank page or slow first load.** The image is large and the first boot builds its local database. Watch progress with `./laradock logs open-webui`.
+- **Replies are very slow.** The model runs on CPU unless a GPU is wired up, and larger models are slower. Try a smaller one (`llama3.2:1b`) or see [Ollama](https://laradock.io/docs/services/ollama) for GPU notes.
+- **Port 8322 already taken.** Change `OPEN_WEBUI_PORT` in your `.env`.
+
+---
+
+Need the model engine itself? See **[Ollama](https://laradock.io/docs/services/ollama)** or **[LocalAI](https://laradock.io/docs/services/localai)**. Routing to cloud providers too? **[LiteLLM](https://laradock.io/docs/services/litellm)** puts one OpenAI-compatible endpoint in front of everything. New to Laradock? Start with **[Getting Started](https://laradock.io/docs/getting-started)**.
+
+
+================================================================
 # Qdrant
 Source: https://laradock.io/docs/services/qdrant
 ================================================================
@@ -6729,6 +7434,222 @@ Each Laradock project is its own isolated Docker network by default, so a second
 ---
 
 Comparing vector databases? See **[Weaviate](https://laradock.io/docs/services/weaviate)** and **[Chroma](https://laradock.io/docs/services/chroma)**. New to Laradock? Start with **[Getting Started](https://laradock.io/docs/getting-started)**.
+
+
+================================================================
+# vLLM
+Source: https://laradock.io/docs/services/vllm
+================================================================
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## What is vLLM?
+
+[vLLM](https://docs.vllm.ai) is a high-throughput inference server for open LLMs, exposing an OpenAI-compatible HTTP API. Like [Ollama](https://laradock.io/docs/services/ollama), it keeps inference local, no external calls, no per-token cost. Unlike Ollama, it's built for serving many concurrent requests efficiently, which is what you want once an LLM feature is in production rather than on your laptop.
+
+Point [Prism](https://prism.echolabs.dev), [Neuron AI](https://github.com/inspector-apm/neuron-ai), [LLPhant](https://github.com/theodo-group/LLPhant), or [openai-php](https://github.com/openai-php/client) at it, and pair it with `pgvector` for fully local RAG.
+
+## Ollama or vLLM?
+
+They solve the same problem at different ends. Pick one:
+
+| | **Ollama** | **vLLM** |
+|---|---|---|
+| **Hardware** | CPU or GPU | **NVIDIA GPU required** |
+| **Models** | Pulled on demand, swap anytime | One model, chosen at startup |
+| **Best at** | Local development, trying models out | Serving concurrent traffic |
+| **Setup cost** | Start it, pull a model | Needs a GPU host and the NVIDIA Container Toolkit |
+
+If you're on a laptop, or you don't know which you want, use **Ollama**. Reach for vLLM when throughput on a real GPU is the point.
+
+## Requirements
+
+vLLM has **no usable CPU path**, the container will not start without a GPU. You need:
+
+- An NVIDIA GPU with enough VRAM for your chosen model.
+- The [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) installed on the host.
+
+Verify Docker can see the GPU before you start:
+
+```bash
+docker run --rm --gpus all nvidia/cuda:12.4.0-base-ubuntu22.04 nvidia-smi
+```
+
+If that prints your GPU, you're ready. If it doesn't, fix that first, vLLM won't work until it does.
+
+## Start vLLM
+
+Unlike Ollama, vLLM loads its model **at startup**, so the first boot downloads the model before the API answers. Watch the logs to know when it's ready.
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock start vllm
+./laradock logs vllm
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose up -d vllm
+docker compose logs -f vllm
+```
+
+</TabItem>
+</Tabs>
+
+The default model (`Qwen/Qwen2.5-1.5B-Instruct`) is small and ungated, so it starts with no token and no extra configuration.
+
+## Stop vLLM
+
+Stopping just pauses the container; downloaded model weights are safe (they live in the `vllm` Docker volume, not in the container itself):
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock stop vllm
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose stop vllm
+```
+
+</TabItem>
+</Tabs>
+
+To delete the container entirely (the `vllm` volume, and every weight in it, is still untouched):
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock remove vllm
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose rm -sf vllm
+```
+
+</TabItem>
+</Tabs>
+
+## Configuration
+
+All settings live in `vllm/defaults.env` and can be overridden by adding the same line to your own `.env`:
+
+| Variable | Default | What it does |
+|---|---|---|
+| `VLLM_VERSION` | `latest` | Image tag from the [`vllm/vllm-openai`](https://hub.docker.com/r/vllm/vllm-openai) Docker Hub image. |
+| `VLLM_HOST_PORT` | `8000` | Host-side port vLLM is published on (container port `8000`). |
+| `VLLM_MODEL` | `Qwen/Qwen2.5-1.5B-Instruct` | Hugging Face model loaded at startup. |
+| `VLLM_HUGGING_FACE_HUB_TOKEN` | *(empty)* | Required only for gated models (Llama, Gemma, ...). |
+| `VLLM_SHM_SIZE` | `8gb` | Shared memory for the container. Raise it for large or multi-GPU models. |
+
+Weights are cached in the `vllm` named Docker volume at `/root/.cache/huggingface`, not under `DATA_PATH_HOST`, so they persist across container restarts but aren't visible directly on your host filesystem.
+
+:::note Port 8000 is also FrankenPHP's default
+If you run `frankenphp` and `vllm` at the same time, change one of them, for example `VLLM_HOST_PORT=8001` in your `.env`.
+:::
+
+## Change the model
+
+vLLM serves **one model per container**, set at startup. To switch, change the setting and restart:
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock set VLLM_MODEL=mistralai/Mistral-7B-Instruct-v0.3
+./laradock restart vllm
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+# add VLLM_MODEL=mistralai/Mistral-7B-Instruct-v0.3 to your .env
+docker compose up -d --force-recreate vllm
+```
+
+</TabItem>
+</Tabs>
+
+For a **gated** model (most Llama and Gemma releases), accept the licence on its Hugging Face page, then set a [token](https://huggingface.co/settings/tokens):
+
+```bash
+./laradock set VLLM_HUGGING_FACE_HUB_TOKEN=hf_xxxxxxxxxxxx
+./laradock restart vllm
+```
+
+## Use the API
+
+The API is at `http://localhost:8000` from your host, or `http://vllm:8000` from other containers. It's OpenAI-compatible under `http://vllm:8000/v1`, so most OpenAI PHP SDKs work by just pointing the base URL there.
+
+Check it's up and see which model is loaded:
+
+```bash
+curl http://localhost:8000/v1/models
+```
+
+The model name in your API calls must match `VLLM_MODEL` exactly, including the org prefix (`Qwen/Qwen2.5-1.5B-Instruct`, not `qwen`).
+
+## Start completely fresh (wipe all weights)
+
+To throw away every downloaded model and start from a clean volume (this **permanently deletes** everything in the `vllm` volume):
+
+<Tabs groupId="interface">
+<TabItem value="cli" label="Laradock CLI">
+
+```bash
+./laradock stop vllm
+./laradock remove vllm
+docker volume ls | grep vllm
+docker volume rm <the-name-you-found-above>
+./laradock start vllm
+```
+
+</TabItem>
+<TabItem value="docker" label="Docker Compose">
+
+```bash
+docker compose stop vllm
+docker compose rm -sf vllm
+docker volume ls | grep vllm
+docker volume rm <the-name-you-found-above>
+docker compose up -d vllm
+```
+
+</TabItem>
+</Tabs>
+
+The volume name is prefixed with your project name (`COMPOSE_PROJECT_NAME`), so it's usually something like `<project>_vllm`, `docker volume ls | grep vllm` shows the exact name on your machine.
+
+## Common issues
+
+- **Container exits immediately.** Almost always no GPU visible to Docker. Run the `nvidia-smi` check in [Requirements](#requirements) above.
+- **First start takes a long time.** The model downloads before the API answers. Follow `./laradock logs vllm` and wait for the startup line; subsequent starts reuse the cached weights.
+- **`401` or "gated repo" in the logs.** The model needs a licence acceptance plus `VLLM_HUGGING_FACE_HUB_TOKEN`. See [Change the model](#change-the-model).
+- **Out of memory / CUDA OOM.** The model is too large for your VRAM. Use a smaller model or a quantised build.
+- **Port 8000 already in use.** FrankenPHP publishes the same port, set `VLLM_HOST_PORT=8001`.
+- **App can't connect but the container is running.** Use the container name `vllm`, not `localhost`, from inside another container.
+
+## Run vLLM on a non-NVIDIA host
+
+The `deploy.resources` block in `vllm/compose.yml` reserves an NVIDIA device. For AMD ROCm, swap the image tag for a ROCm build and replace that block per the [vLLM installation docs](https://docs.vllm.ai/en/latest/getting_started/installation.html). On a machine with no GPU at all, use **[Ollama](https://laradock.io/docs/services/ollama)** instead, it's the CPU-friendly option.
+
+---
+
+Want to pull models on demand, or don't have a GPU? See **[Ollama](https://laradock.io/docs/services/ollama)**. Need a unified gateway across multiple LLM providers? See **[LiteLLM](https://laradock.io/docs/services/litellm)**. New to Laradock? Start with **[Getting Started](https://laradock.io/docs/getting-started)**.
 
 
 ================================================================
@@ -25448,9 +26369,37 @@ A handful of `WORKSPACE_INSTALL_*` / `WORKSPACE_*` flags in `workspace/defaults.
 | `WORKSPACE_COMPOSER_GLOBAL_INSTALL` | `true` | Runs `composer global install` at build time. |
 | `WORKSPACE_COMPOSER_VERSION` | `2` | Composer major version (`1`, `2`, `2.2`, or a specific version string). |
 
+## Pick your tools with the CLI
+
+The wizard asks about workspace tools directly, so you don't have to know a flag name to find a tool. Step 8 of `./laradock setup` is a searchable, grouped picker over every tool below, with what you already have pre-ticked:
+
+```bash
+./laradock setup
+```
+
+```
+  ----------------------------------------------------------------------
+  Step 8 of 10  Workspace tools
+  ----------------------------------------------------------------------
+  The workspace is your dev shell: the container you run php, composer, artisan,
+  npm and git inside (./laradock workspace). These are the tools baked into it.
+
+  Debug & testing
+    [ ] xdebug
+    [x] pcov
+  Node & frontend
+    [x] node
+  ...
+  type to filter · arrows move · space toggles on/off · enter when done
+```
+
+Type to filter (`xde` finds `xdebug`), space to toggle, enter to accept. Only the tools you actually change are written to your `.env`, so it stays a short diff of your choices rather than a copy of all ~87 flags. When you change something, the CLI reminds you to rebuild.
+
+It's safe to re-run `./laradock setup` any time to add or remove tools later; your current answers are pre-filled.
+
 ## The `WORKSPACE_INSTALL_*` toggle pattern
 
-Everything else, well over 60 tools and PHP extensions, follows the same on/off pattern in `workspace/defaults.env`: `WORKSPACE_INSTALL_<THING>=false`. Flip one to `true` in your `.env`, then rebuild:
+If you'd rather not use the wizard, every tool is just an on/off flag in `workspace/defaults.env`: `WORKSPACE_INSTALL_<THING>=false`. Flip one to `true` in your `.env`, then rebuild:
 
 ```env
 WORKSPACE_INSTALL_XDEBUG=true
@@ -25494,7 +26443,150 @@ docker compose up -d workspace
 </TabItem>
 </Tabs>
 
-These flags cover things like Xdebug/pcov/phpdbg, database clients (MySQL, Postgres, MSSQL), extensions (LDAP, SOAP, XSL, IMAP, SMB, Mongo, AMQP, Cassandra, ZMQ, Gearman, Swoole, Phalcon), framework tooling (Drush, Drupal Console, WP-CLI, Laravel Envoy, Laravel Installer, Symfony), package managers (pnpm, Bower, Angular CLI, npm-check-updates), and misc utilities (ImageMagick, FFmpeg, wkhtmltopdf, Terraform, Docker CLI, GitHub CLI, MinIO client, GNU Parallel, Supervisor, Oh My Zsh).
+To turn one back off, either untick it in `./laradock setup`, or:
+
+```bash
+./laradock unset WORKSPACE_INSTALL_XDEBUG   # back to the shipped default
+./laradock rebuild workspace
+```
+
+Removing a tool rebuilds the image without it. Your code and database are untouched: the workspace holds no data of its own, only tools.
+
+## Every tool you can install
+
+The complete list, grouped the same way the `./laradock setup` picker groups them. **On** = installed unless you turn it off. Names in the first column are what you type in the picker; the flag is what you'd set by hand.
+
+### Debug & testing
+
+| Tool | Flag | Default | What it does |
+|---|---|---|---|
+| `xdebug` | `WORKSPACE_INSTALL_XDEBUG` | off | Step debugger and profiler. See the [Xdebug + IDE guide](https://laradock.io/docs/xdebug-ide). |
+| `pcov` | `WORKSPACE_INSTALL_PCOV` | off | Fast code-coverage driver for PHPUnit (much quicker than Xdebug's). |
+| `phpdbg` | `WORKSPACE_INSTALL_PHPDBG` | off | PHP's built-in interactive debugger, also usable for coverage. |
+| `dusk-deps` | `WORKSPACE_INSTALL_DUSK_DEPS` | off | Chrome and the libraries Laravel Dusk needs for browser tests (amd64 only). |
+| `taint` | `WORKSPACE_INSTALL_TAINT` | off | Static analysis extension that flags possible XSS in strings. |
+
+### Node & frontend
+
+| Tool | Flag | Default | What it does |
+|---|---|---|---|
+| `node` | `WORKSPACE_INSTALL_NODE` | **on** | Node.js via NVM. Version set by `WORKSPACE_NODE_VERSION`. |
+| `yarn` | `WORKSPACE_INSTALL_YARN` | **on** | Yarn package manager. |
+| `pnpm` | `WORKSPACE_INSTALL_PNPM` | off | pnpm package manager. |
+| `npm-gulp` | `WORKSPACE_INSTALL_NPM_GULP` | **on** | Gulp task runner CLI, installed globally. |
+| `npm-vue-cli` | `WORKSPACE_INSTALL_NPM_VUE_CLI` | **on** | Vue CLI, installed globally. |
+| `npm-angular-cli` | `WORKSPACE_INSTALL_NPM_ANGULAR_CLI` | off | Angular CLI, installed globally. |
+| `npm-bower` | `WORKSPACE_INSTALL_NPM_BOWER` | off | Bower, the legacy frontend package manager. |
+| `npm-check-updates-cli` | `WORKSPACE_INSTALL_NPM_CHECK_UPDATES_CLI` | off | `ncu`, checks your `package.json` for newer versions. |
+
+### Database clients & drivers
+
+| Tool | Flag | Default | What it does |
+|---|---|---|---|
+| `mysql-client` | `WORKSPACE_INSTALL_MYSQL_CLIENT` | off | The `mysql` command, for a SQL shell or `mysqldump` from the workspace. |
+| `pg-client` | `WORKSPACE_INSTALL_PG_CLIENT` | off | The `psql` command and Postgres client tools. |
+| `mongo` | `WORKSPACE_INSTALL_MONGO` | off | PHP MongoDB driver. |
+| `mssql` | `WORKSPACE_INSTALL_MSSQL` | off | PHP SQL Server driver (`sqlsrv`/`pdo_sqlsrv`). |
+| `oci8` | `WORKSPACE_INSTALL_OCI8` | off | PHP Oracle driver. Needs the Instant Client files. |
+| `cassandra` | `WORKSPACE_INSTALL_CASSANDRA` | off | PHP Cassandra driver. |
+| `aerospike` | `WORKSPACE_INSTALL_AEROSPIKE` | off | PHP Aerospike driver. |
+| `ssdb` | `WORKSPACE_INSTALL_SSDB` | off | PHP SSDB client. |
+| `rdkafka` | `WORKSPACE_INSTALL_RDKAFKA` | off | PHP Kafka client. See [the section below](#install-the-rdkafka-extension). |
+| `zookeeper` | `WORKSPACE_INSTALL_ZOOKEEPER` | off | PHP ZooKeeper client. |
+
+### PHP extensions
+
+| Tool | Flag | Default | What it does |
+|---|---|---|---|
+| `phpredis` | `WORKSPACE_INSTALL_PHPREDIS` | **on** | Redis extension, so Artisan and CLI scripts can talk to Redis. |
+| `memcached` | `WORKSPACE_INSTALL_MEMCACHED` | **on** | Memcached extension. |
+| `apcu` | `WORKSPACE_INSTALL_APCU` | off | In-memory user cache (APCu). |
+| `amqp` | `WORKSPACE_INSTALL_AMQP` | off | AMQP extension, for RabbitMQ. |
+| `gearman` | `WORKSPACE_INSTALL_GEARMAN` | off | Gearman job-queue client. |
+| `event` | `WORKSPACE_INSTALL_EVENT` | off | libevent bindings for async PHP. |
+| `swoole` | `WORKSPACE_INSTALL_SWOOLE` | off | Coroutine/async runtime used by Octane, Hyperf. |
+| `soap` | `WORKSPACE_INSTALL_SOAP` | off | SOAP client/server. |
+| `gnupg` | `WORKSPACE_INSTALL_GNUPG` | off | GnuPG encryption bindings. |
+| `gmp` | `WORKSPACE_INSTALL_GMP` | off | Arbitrary-precision maths. |
+| `bz2` | `WORKSPACE_INSTALL_BZ2` | off | bzip2 compression. |
+| `imap` | `WORKSPACE_INSTALL_IMAP` | off | IMAP mailbox access. |
+| `ldap` | `WORKSPACE_INSTALL_LDAP` | off | LDAP / Active Directory auth. |
+| `mailparse` | `WORKSPACE_INSTALL_MAILPARSE` | off | Parse raw email messages. |
+| `phpdecimal` | `WORKSPACE_INSTALL_PHPDECIMAL` | off | Correctly-rounded decimal maths, for money. |
+| `ssh2` | `WORKSPACE_INSTALL_SSH2` | off | SSH/SFTP from PHP. |
+| `xmlrpc` | `WORKSPACE_INSTALL_XMLRPC` | off | XML-RPC client/server. |
+| `xsl` | `WORKSPACE_INSTALL_XSL` | off | XSLT transforms. |
+| `yaml` | `WORKSPACE_INSTALL_YAML` | off | Fast YAML parsing. |
+| `zmq` | `WORKSPACE_INSTALL_ZMQ` | off | ZeroMQ messaging. |
+| `trader` | `WORKSPACE_INSTALL_TRADER` | off | Technical-analysis functions. |
+| `xlswriter` | `WORKSPACE_INSTALL_XLSWRITER` | off | Write large Excel files quickly. |
+| `v8js` | `WORKSPACE_INSTALL_V8JS` | off | Run JavaScript from PHP via V8. |
+| `phalcon` | `WORKSPACE_INSTALL_PHALCON` | off | The Phalcon framework extension. |
+| `ast` | `WORKSPACE_INSTALL_AST` | **on** | Exposes PHP's syntax tree. Needed by Phan and other static analysers. |
+| `ioncube` | `WORKSPACE_INSTALL_IONCUBE` | off | ionCube loader for encoded PHP. Not available on PHP 8.0 or 8.4+. |
+
+### Framework CLIs
+
+| Tool | Flag | Default | What it does |
+|---|---|---|---|
+| `laravel-installer` | `WORKSPACE_INSTALL_LARAVEL_INSTALLER` | off | The `laravel new` command. |
+| `laravel-envoy` | `WORKSPACE_INSTALL_LARAVEL_ENVOY` | off | Envoy task runner for remote deploys. |
+| `symfony` | `WORKSPACE_INSTALL_SYMFONY` | off | The Symfony CLI. |
+| `deployer` | `WORKSPACE_INSTALL_DEPLOYER` | off | Deployer, the PHP deployment tool. |
+| `drush` | `WORKSPACE_INSTALL_DRUSH` | off | Drupal's command line. |
+| `drupal-console` | `WORKSPACE_INSTALL_DRUPAL_CONSOLE` | off | Drupal Console. |
+| `wp-cli` | `WORKSPACE_INSTALL_WP_CLI` | off | The `wp` command, for WordPress. |
+| `prestissimo` | `WORKSPACE_INSTALL_PRESTISSIMO` | off | Parallel downloads for Composer 1. Pointless on Composer 2. |
+
+### Media & documents
+
+| Tool | Flag | Default | What it does |
+|---|---|---|---|
+| `imagemagick` | `WORKSPACE_INSTALL_IMAGEMAGICK` | off | Image manipulation, plus the PHP `imagick` extension. |
+| `libpng` | `WORKSPACE_INSTALL_LIBPNG` | off | PNG libraries some image tools need. |
+| `ffmpeg` | `WORKSPACE_INSTALL_FFMPEG` | off | Audio/video transcoding. |
+| `audiowaveform` | `WORKSPACE_INSTALL_AUDIOWAVEFORM` | off | BBC waveform data generator. |
+| `image-optimizers` | `WORKSPACE_INSTALL_IMAGE_OPTIMIZERS` | off | jpegoptim, optipng, pngquant, svgo and friends. |
+| `wkhtmltopdf` | `WORKSPACE_INSTALL_WKHTMLTOPDF` | off | Render HTML to PDF. |
+| `poppler-utils` | `WORKSPACE_INSTALL_POPPLER_UTILS` | off | `pdftotext` and other PDF tools. |
+| `graphviz` | `WORKSPACE_INSTALL_GRAPHVIZ` | off | Render `.dot` graphs to images. |
+
+### Shell & tools
+
+| Tool | Flag | Default | What it does |
+|---|---|---|---|
+| `git-prompt` | `WORKSPACE_INSTALL_GIT_PROMPT` | off | Show the current branch in your shell prompt. |
+| `powerline` | `WORKSPACE_INSTALL_POWERLINE` | off | Powerline status line for the prompt. |
+| `mc` | `WORKSPACE_INSTALL_MC` | off | Midnight Commander, a terminal file manager. |
+| `lnav` | `WORKSPACE_INSTALL_LNAV` | off | Log file navigator. |
+| `linuxbrew` | `WORKSPACE_INSTALL_LINUXBREW` | off | Homebrew for Linux, for anything not listed here. |
+| `gnu-parallel` | `WORKSPACE_INSTALL_GNU_PARALLEL` | off | Run shell jobs in parallel. |
+| `fswatch` | `WORKSPACE_INSTALL_FSWATCH` | off | Watch files and react to changes. |
+| `inotify` | `WORKSPACE_INSTALL_INOTIFY` | off | PHP inotify bindings for file watching. |
+| `ping` | `WORKSPACE_INSTALL_PING` | off | The `ping` command. |
+| `dnsutils` | `WORKSPACE_INSTALL_DNSUTILS` | **on** | `dig`, `nslookup`, for debugging container DNS. |
+| `sshpass` | `WORKSPACE_INSTALL_SSHPASS` | off | Non-interactive SSH passwords, for scripts. |
+| `subversion` | `WORKSPACE_INSTALL_SUBVERSION` | off | The `svn` client. |
+| `smb` | `WORKSPACE_INSTALL_SMB` | off | SMB/CIFS client, for Windows shares. |
+| `supervisor` | `WORKSPACE_INSTALL_SUPERVISOR` | off | Keep queue workers and daemons running. |
+
+### DevOps
+
+| Tool | Flag | Default | What it does |
+|---|---|---|---|
+| `docker-client` | `WORKSPACE_INSTALL_DOCKER_CLIENT` | off | The `docker` command inside the workspace. See [Docker-in-Docker](#docker-cli-inside-the-workspace-docker-in-docker). |
+| `terraform` | `WORKSPACE_INSTALL_TERRAFORM` | off | The Terraform CLI. |
+| `github-cli` | `WORKSPACE_INSTALL_GITHUB_CLI` | off | The `gh` command. |
+| `protoc` | `WORKSPACE_INSTALL_PROTOC` | off | Protocol Buffers compiler. |
+| `workspace-ssh` | `WORKSPACE_INSTALL_WORKSPACE_SSH` | off | Run an SSH server in the workspace. See [SSH into the Workspace](#ssh-into-the-workspace). |
+
+### Other languages
+
+| Tool | Flag | Default | What it does |
+|---|---|---|---|
+| `python` | `WORKSPACE_INSTALL_PYTHON` | off | Python 2 and pip. |
+| `python3` | `WORKSPACE_INSTALL_PYTHON3` | off | Python 3 and pip3. |
+| `jdk` | `WORKSPACE_INSTALL_JDK` | **on** | Java Development Kit. Only needed for tools that run on Java. |
 
 See the sections below for setup instructions on individual tools, and the **[PHP-FPM guide](https://laradock.io/docs/services/php-fpm)** for extension-specific install/config guides (Xdebug, pcov, phpdbg, YAML, rdkafka, ionCube, etc.) that apply to `workspace` as well as `php-fpm`.
 
