@@ -1,0 +1,17 @@
+services:
+
+    open-webui:
+      restart: always
+      image: ghcr.io/open-webui/open-webui:${OPEN_WEBUI_VERSION}
+      environment:
+        - OLLAMA_BASE_URL=http://${OPEN_WEBUI_LLM_ENGINE}:${OPEN_WEBUI_LLM_PORT}
+        - WEBUI_AUTH=${OPEN_WEBUI_AUTH}
+      volumes:
+        - open-webui:/app/backend/data
+      ports:
+        - "${OPEN_WEBUI_PORT}:8080"
+      depends_on:
+        - "${OPEN_WEBUI_LLM_ENGINE}"
+      networks:
+        - frontend
+        - backend

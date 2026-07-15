@@ -1,0 +1,17 @@
+services:
+
+    mcp:
+      # Exits if the database isn't accepting connections yet; restart until it is.
+      # No depends_on: MCP_DSN may point at any database service.
+      restart: always
+      image: bytebase/dbhub:${MCP_VERSION}
+      command: ["--config=/app/dbhub.toml", "--transport=http", "--port=8080"]
+      volumes:
+        - ./mcp/dbhub.toml:/app/dbhub.toml
+      environment:
+        - MCP_DSN=${MCP_DSN}
+      ports:
+        - "${MCP_HOST_PORT}:8080"
+      networks:
+        - frontend
+        - backend

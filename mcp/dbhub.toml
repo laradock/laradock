@@ -1,0 +1,19 @@
+# Which database DBHub exposes, and what agents may do with it.
+# The DSN comes from MCP_DSN in mcp/defaults.env.
+
+[[sources]]
+id = "laradock"
+dsn = "${MCP_DSN}"
+
+# readonly: agents can SELECT but never INSERT/UPDATE/DELETE/DROP. Rejected at the
+# engine level, not just filtered. Remove the line to let agents write.
+[[tools]]
+name = "execute_sql"
+source = "laradock"
+readonly = true
+max_rows = 1000
+
+# Schema exploration: tables, columns, indexes.
+[[tools]]
+name = "search_objects"
+source = "laradock"

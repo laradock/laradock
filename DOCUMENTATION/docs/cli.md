@@ -87,35 +87,68 @@ Flags: `--yes` (`-y`) accepts every default (handy for scripts/CI). `NO_COLOR` i
 
 Setup asks a few simple questions, and **every one is pre-answered with a sensible default**, so pressing Enter straight through gives you a working stack. Each question also shows a short plain-English note explaining what it is and why the default is a safe choice.
 
-It first detects your project (Laravel, WordPress, Symfony, Drupal, or plain PHP) and pre-selects it. For each question it prints the full list of what's available (grouped, so you can see everything at a glance), then gives you a dropdown to pick from: arrow keys to move, type to filter, Enter to choose. The order:
+It first detects your project (Laravel, WordPress, Symfony, Drupal, or plain PHP) and pre-selects it. Each of the ten steps gets its own screen: a header telling you where you are, a plain-English note on what you're choosing and why the default is safe, the full list of what's available (grouped), then a picker. Arrow keys to move, type to filter, Enter to choose.
 
 1. **Project** (search the full 100+ catalog),
 2. **PHP version**,
 3. **PHP runtime** (defaults to `php-fpm`, the standard choice),
-4. **Web server**, **Database**, **Cache** (each with a "none" option),
-5. **Extra services** (optional, add any of the ~90 others: search, queues, AI, mail, monitoring, admin tools),
-6. a **review screen** where you can change any answer before anything is saved.
+4. **Web server**, 5. **Database**, 6. **Cache** (each with a "none" option),
+7. **Extra services** (optional, add any of the ~90 others: search, queues, AI, mail, monitoring, admin tools),
+8. **Workspace tools** (the ~87 tools inside your dev shell: Xdebug, database clients, WP-CLI, see the [Workspace guide](/docs/services/workspace)),
+9. **Project name**, 10. **App path**,
+
+then a **review screen** where you can change any answer before anything is saved.
 
 ```
-  Laradock setup
-  ─────────────────────────────────────────────
-  ✓ Docker running · Compose v2.39 (needs 2.20+)
-  ✓ Detected: laravel  (at ../)
+  ──────────────────────────────────────────────────────────────
+  Step 8 of 10  Workspace tools
+  ──────────────────────────────────────────────────────────────
+  The workspace is your dev shell: the container you run php, composer,
+  artisan, npm and git inside (./laradock workspace). These are the tools
+  baked into it.
 
-  Review your choices:
-    1) Project        laravel
-    2) PHP version    8.4
-    3) PHP runtime    php-fpm
-    4) Web server     nginx
-    5) Database       mysql
-    6) Cache          redis
-    7) Extra services (none)
-    8) Project name   my-app
-    9) App path       ../
-  Enter = apply · 1-9 = change that answer · q = quit
+  Debug & testing
+    xdebug     pcov       phpdbg     dusk-deps  taint
+  ...
+  type to filter · ↑↓ move · space toggles on/off · enter when done
+```
+
+The review screen groups your answers and shows the stack they add up to, before anything is written:
+
+```
+  ──────────────────────────────────────────────────────────────
+  Review your choices  nothing is written yet
+  ──────────────────────────────────────────────────────────────
+
+  ▸ Your app
+    1) Project          laravel
+
+  ▸ PHP
+    2) Version          8.4
+    3) Runtime          php-fpm
+
+  ▸ Services to run
+    4) Web server       nginx
+    5) Database         mysql
+    6) Cache            redis
+    7) Extras           none
+
+  ▸ Dev shell
+    8) Workspace tools  9 tools  (node, yarn, npm-gulp +6 more)
+
+  ▸ Naming & location
+    9) Project name     my-app
+   10) App path         ../
+
+  ──────────────────────────────────────────────────────────────
+  Starts 5 containers: nginx php-fpm mysql redis workspace
+  ──────────────────────────────────────────────────────────────
+  Enter = apply · 1-10 = change that answer · q = quit
 ```
 
 Nothing is written until you confirm. When it finishes, it offers to point your app at the services and to **start your stack right there**, so a first run really can be just `./laradock start`.
+
+**Run it again any time you change your mind.** `./laradock setup` is not just a first-run wizard: it pre-fills every answer with the stack you already have, so the review screen shows what you're actually running. Press `7` to add or drop extra services, `5` to switch database, `8` to add a tool like Xdebug, `2` to switch PHP version, and Enter to apply. Anything you don't touch stays exactly as it was. If you already know the name of what you want, `./laradock start <service>` skips the wizard entirely.
 
 What it writes into `.env` (and nothing else):
 

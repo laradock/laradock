@@ -16,6 +16,8 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   influxdb:
     driver: ${VOLUMES_DRIVER}
+  langflow:
+    driver: ${VOLUMES_DRIVER}
   localai:
     driver: ${VOLUMES_DRIVER}
   mssql:
@@ -24,11 +26,15 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   ollama:
     driver: ${VOLUMES_DRIVER}
+  open-webui:
+    driver: ${VOLUMES_DRIVER}
   prometheus:
     driver: ${VOLUMES_DRIVER}
   qdrant:
     driver: ${VOLUMES_DRIVER}
   surrealdb:
+    driver: ${VOLUMES_DRIVER}
+  vllm:
     driver: ${VOLUMES_DRIVER}
   weaviate:
     driver: ${VOLUMES_DRIVER}
@@ -134,6 +140,9 @@ include:
   - path: kibana/compose.yml
     project_directory: .
     env_file: kibana/defaults.env
+  - path: langflow/compose.yml
+    project_directory: .
+    env_file: langflow/defaults.env
   - path: laravel-echo-server/compose.yml
     project_directory: .
     env_file: laravel-echo-server/defaults.env
@@ -170,6 +179,9 @@ include:
   - path: mariadb/compose.yml
     project_directory: .
     env_file: mariadb/defaults.env
+  - path: mcp/compose.yml
+    project_directory: .
+    env_file: mcp/defaults.env
   - path: meilisearch/compose.yml
     project_directory: .
     env_file: meilisearch/defaults.env
@@ -220,6 +232,9 @@ include:
   - path: onedev/compose.yml
     project_directory: .
     env_file: onedev/defaults.env
+  - path: open-webui/compose.yml
+    project_directory: .
+    env_file: open-webui/defaults.env
   - path: openresty/compose.yml
     project_directory: .
     env_file: openresty/defaults.env
@@ -329,6 +344,9 @@ include:
   - path: varnish/compose.yml
     project_directory: .
     env_file: varnish/defaults.env
+  - path: vllm/compose.yml
+    project_directory: .
+    env_file: vllm/defaults.env
   - path: weaviate/compose.yml
     project_directory: .
     env_file: weaviate/defaults.env

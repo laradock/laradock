@@ -1,0 +1,16 @@
+services:
+
+    langflow:
+      restart: always
+      image: langflowai/langflow:${LANGFLOW_VERSION}
+      environment:
+        - LANGFLOW_CONFIG_DIR=/app/langflow
+        - LANGFLOW_SUPERUSER=${LANGFLOW_SUPERUSER}
+        - LANGFLOW_SUPERUSER_PASSWORD=${LANGFLOW_SUPERUSER_PASSWORD}
+      volumes:
+        - langflow:/app/langflow
+      ports:
+        - "${LANGFLOW_HOST_PORT}:7860"
+      networks:
+        - frontend
+        - backend

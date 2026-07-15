@@ -33,9 +33,11 @@ setup_color() {
     C_YELLOW=$(printf '\033[33m'); C_CYAN=$(printf '\033[36m'); C_INV=$(printf '\033[7m')
   fi
   OK="${C_GREEN}✓${C_RESET}"; BAD="${C_RED}✗${C_RESET}"; WARN_SYM="${C_YELLOW}⚠${C_RESET}"; ARROW="→"
+  LINE_CH="─"; TICK="▸"
   case "${LANG:-}${LC_ALL:-}" in
     *UTF-8*|*utf8*) : ;;
-    *) OK="${C_GREEN}[ok]${C_RESET}"; BAD="${C_RED}[x]${C_RESET}"; WARN_SYM="${C_YELLOW}[!]${C_RESET}"; ARROW="->" ;;
+    *) OK="${C_GREEN}[ok]${C_RESET}"; BAD="${C_RED}[x]${C_RESET}"; WARN_SYM="${C_YELLOW}[!]${C_RESET}"; ARROW="->"
+       LINE_CH="-"; TICK=">" ;;
   esac
 }
 
@@ -106,6 +108,16 @@ env_set() {  # env_set KEY VALUE — update in place or append (preserves everyt
   fi
 }
 
+# Compose is strict about project names: lowercase alphanumerics, - and _ only, and it
+# must start with a letter or digit. We default the name to the parent folder, and folder
+# names like "My-App" or "-Open-Source" are perfectly normal, so fold it into something
+# compose accepts instead of letting `up` die with a wall of docker text on first run.
+sanitize_project_name() {
+  local _n
+  _n=$(printf '%s' "$1" | tr 'A-Z' 'a-z' | tr -c 'a-z0-9_-' '-' | sed 's/^[^a-z0-9]*//; s/[^a-z0-9]*$//')
+  printf '%s' "${_n:-my-app}"
+}
+
 default_of() {  # default_of KEY — value from .env, else .env.example, else $2
   local _v
   _v=$(env_get "$1" .env)
@@ -164,6 +176,20 @@ detect_framework() {  # prints: laravel|wordpress|symfony|drupal|php|none
 
 # -------------------------------------------------------------- cmd: setup
 
+# The stack your answers add up to: web server + PHP runtime + database + cache + extras,
+# and always the workspace. The review screen shows this before anything is written, so
+# "what am I actually getting" is answered on screen instead of after the fact.
+build_services() {
+  local _s=""
+  [ "$W_WS" != none ] && _s="$W_WS"
+  [ -n "$W_RUNTIME" ] && _s="$_s $W_RUNTIME"
+  [ "$W_DB" != none ] && _s="$_s $W_DB"
+  [ "$W_CACHE" != none ] && _s="$_s $W_CACHE"
+  [ -n "$W_EXTRAS" ] && _s="$_s $W_EXTRAS"
+  _s="$_s workspace"
+  printf '%s' "$_s" | sed 's/^ *//;s/  */ /g'
+}
+
 cmd_setup() {
   require_laradock_dir
   bold ""
@@ -187,48 +213,76 @@ cmd_setup() {
   esac
 
   name_def=$(env_get COMPOSE_PROJECT_NAME)
-  case "$name_def" in ''|laradock) name_def=$parent_name ;; esac
+  case "$name_def" in ''|laradock) name_def=$(sanitize_project_name "$parent_name") ;; esac
 
   # answers (globals so ask_* helpers can re-ask any single one)
-  W_CAT='' W_TYPE='' W_PHP='' W_RUNTIME='' W_WS='' W_DB='' W_CACHE='' W_EXTRAS='' W_NAME='' W_PATH=''
+  W_CAT='' W_TYPE='' W_PHP='' W_RUNTIME='' W_WS='' W_DB='' W_CACHE='' W_EXTRAS='' W_TOOLS='' W_NAME='' W_PATH=''
+  seed_from_env   # re-run: pre-fill with the stack you already have
 
   say ""
-  ask_type;  ask_php;  ask_runtime;  ask_ws;  ask_db;  ask_cache;  ask_extras;  ask_name;  ask_path
+  say "  ${C_DIM}Ten questions. Every one has a sensible answer pre-selected, so if you're not${C_RESET}"
+  say "  ${C_DIM}sure, press enter and move on. You get to review everything before it's saved.${C_RESET}"
+  STEP_TOTAL=10
+  ask_type;  ask_php;  ask_runtime;  ask_ws;  ask_db;  ask_cache;  ask_extras;  ask_tools;  ask_name;  ask_path
+  STEP_N=''
+  tools_before=$(ws_tools_on)   # to tell you afterwards whether workspace needs a rebuild
 
   # -- review screen: change anything before applying
   if [ "$ASSUME_YES" != 1 ] && is_tty; then
     while :; do
       say ""
-      bold "  Review your choices:"
-      say "    1) Project        $W_TYPE"
-      say "    2) PHP version    $W_PHP"
-      say "    3) PHP runtime    $W_RUNTIME"
-      say "    4) Web server     $W_WS"
-      say "    5) Database       $W_DB"
-      say "    6) Cache          $W_CACHE"
-      say "    7) Extra services ${W_EXTRAS:-(none)}"
-      say "    8) Project name   $W_NAME"
-      say "    9) App path       $W_PATH"
-      printf '  %sEnter = apply · 1-9 = change that answer · q = quit%s ' "$C_CYAN" "$C_RESET"
+      # Grouped, because ten flat rows is a list to audit; five little groups is a thing
+      # you recognise. Numbers stay in order so they still read 1..10 top to bottom.
+      local _line; _line=$(rule)
+      printf '  %s%s%s\n' "$C_DIM" "$_line" "$C_RESET"
+      printf '  %sReview your choices%s  %snothing is written yet%s\n' "$C_BOLD" "$C_RESET" "$C_DIM" "$C_RESET"
+      printf '  %s%s%s\n' "$C_DIM" "$_line" "$C_RESET"
+      _rgrp() { printf '\n  %s%s %s%s\n' "$C_YELLOW$C_BOLD" "$TICK" "$1" "$C_RESET"; }
+      _rrow() { printf '   %s%2s)%s %-16s %s%s%s\n' "$C_DIM" "$1" "$C_RESET" "$2" "$C_GREEN" "$3" "$C_RESET"; }
+      # A list too long for one row gets wrapped under it, never truncated: this screen is
+      # the last look before it's written, so "+7 more" is exactly what you can't hide.
+      _rlist() {
+        local _w _l; _w=$(tput cols 2>/dev/null || echo 80); [ "$_w" -gt 74 ] && _w=74
+        # `|| [ -n "$_l" ]`: paste/fold leave the last line without a newline, and a plain
+        # `read` returns false at EOF and would silently drop it — the exact truncation
+        # this function exists to prevent.
+        printf '%s' "$1" | tr ' ' '\n' | paste -sd, - | sed 's/,/, /g' | fold -s -w $((_w - 24)) |
+          while IFS= read -r _l || [ -n "$_l" ]; do printf '%*s%s%s%s\n' 24 '' "$C_GREEN" "${_l% }" "$C_RESET"; done
+      }
+      _rgrp "Your app"
+      _rrow 1 Project          "$W_TYPE"
+      _rgrp "PHP"
+      _rrow 2 "Version"        "$W_PHP"
+      _rrow 3 "Runtime"        "$W_RUNTIME"
+      _rgrp "Services to run"
+      _rrow 4 "Web server"     "$W_WS"
+      _rrow 5 "Database"       "$W_DB"
+      _rrow 6 "Cache"          "$W_CACHE"
+      if [ -n "$W_EXTRAS" ]; then _rrow 7 "Extras" "$(printf '%s' "$W_EXTRAS" | wc -w | tr -d ' ') selected"; _rlist "$W_EXTRAS"
+      else _rrow 7 "Extras" "none"; fi
+      _rgrp "Dev shell"
+      if [ -n "$W_TOOLS" ]; then _rrow 8 "Workspace tools" "$(printf '%s' "$W_TOOLS" | wc -w | tr -d ' ') installed"; _rlist "$W_TOOLS"
+      else _rrow 8 "Workspace tools" "none"; fi
+      _rgrp "Naming & location"
+      _rrow 9 "Project name"   "$W_NAME"
+      _rrow 10 "App path"      "$W_PATH"
+      say ""
+      printf '  %s%s%s\n' "$C_DIM" "$_line" "$C_RESET"
+      printf '  %sStarts %s containers:%s %s%s%s\n' "$C_DIM" "$(build_services | wc -w | tr -d ' ')" "$C_RESET" "$C_CYAN" "$(build_services)" "$C_RESET"
+      printf '  %s%s%s\n' "$C_DIM" "$_line" "$C_RESET"
+      printf '  %sEnter%s = apply · %s1-10%s = change that answer · %sq%s = quit ' \
+        "$C_CYAN" "$C_RESET" "$C_CYAN" "$C_RESET" "$C_CYAN" "$C_RESET"
       IFS= read -r _r || _r=''
       case "$_r" in
         '') break ;;
         1) ask_type ;;  2) ask_php ;;  3) ask_runtime ;;  4) ask_ws ;;  5) ask_db ;;
-        6) ask_cache ;; 7) ask_extras ;; 8) ask_name ;; 9) ask_path ;;
+        6) ask_cache ;; 7) ask_extras ;; 8) ask_tools ;; 9) ask_name ;; 10) ask_path ;;
         q|Q) say "  nothing written."; exit 0 ;;
       esac
     done
   fi
 
-  local services=""
-  [ "$W_WS" != none ] && services="$W_WS"
-  # the chosen PHP runtime serves your code behind the web server (php-fpm by default)
-  [ -n "$W_RUNTIME" ] && services="$services $W_RUNTIME"
-  [ "$W_DB" != none ] && services="$services $W_DB"
-  [ "$W_CACHE" != none ] && services="$services $W_CACHE"
-  [ -n "$W_EXTRAS" ] && services="$services $W_EXTRAS"
-  services="$services workspace"
-  services=$(printf '%s' "$services" | sed 's/^ *//;s/  */ /g')
+  local services; services=$(build_services)
 
   # -- write laradock .env (only the overrides)
   say ""
@@ -243,7 +297,27 @@ cmd_setup() {
             "PHP_VERSION=$W_PHP" "APP_CODE_PATH_HOST=$W_PATH" "LARADOCK_SERVICES=\"$services\""; do
     say "    $kv"
   done
+  # Workspace tools: write only what you changed. A tool left on its shipped value gets
+  # no line at all (and any stale override is dropped), so .env stays a diff of your
+  # choices rather than a copy of all ~80 flags.
+  local _t _k _d _want
+  for _t in $(ws_all_tools); do
+    _k=$(ws_tool_key "$_t"); _d=$(ws_tool_default "$_t")
+    case " $W_TOOLS " in *" $_t "*) _want=true ;; *) _want=false ;; esac
+    if [ "$_want" = "$_d" ]; then
+      grep -q "^${_k}=" .env 2>/dev/null \
+        && { sed "/^${_k}=/d" .env > .env.tmp.$$ && mv .env.tmp.$$ .env; say "    $_k back to default ($_d)"; }
+    else
+      env_set "$_k" "$_want"; say "    $_k=$_want"
+    fi
+  done
   say "    ${C_DIM}(everything else keeps its shipped default from <service>/defaults.env)${C_RESET}"
+
+  # A tool change only lands when the workspace image is rebuilt; docker won't say so.
+  if [ "$(ws_tools_on)" != "$tools_before" ] && docker compose ps -q workspace 2>/dev/null | grep -q .; then
+    say ""
+    note "workspace tools changed — run ${C_CYAN}./laradock rebuild workspace${C_RESET} to apply them."
+  fi
 
   # -- offer to patch the app's .env
   patch_app_env "$W_PATH" "$W_DB" "$W_CACHE" "$W_EXTRAS"
@@ -342,7 +416,7 @@ Message queues|rabbitmq beanstalkd beanstalkd-console mosquitto gearman nats kaf
 Search & logs|elasticsearch opensearch solr manticore typesense meilisearch dejavu kibana logstash
 Vector databases|qdrant weaviate chroma
 Time-series|influxdb
-AI & automation|ollama localai litellm n8n flowise
+AI & automation|ollama vllm localai litellm open-webui mcp n8n flowise langflow
 Mail|mailu mailcatcher mailhog maildev mailpit
 Realtime|laravel-echo-server laravel-reverb mercure soketi
 Monitoring|grafana netdata prometheus graylog
@@ -350,7 +424,11 @@ DevOps & CI|jenkins sonarqube gitlab gitlab-runner onedev portainer docker-regis
 Cloud & tools|aws-eb-cli minio thumbor certbot keycloak selenium ide-theia swagger-ui swagger-editor metabase confluence
 GROUPS
 }
-known_services() { ls -d */compose.yml 2>/dev/null | sed 's#/compose.yml##'; }
+# Every service the dev stack can actually start = every folder docker-compose.yml
+# includes. Reading the include list (not the folders) keeps standalone compose files
+# out: production/ is its own project (./laradock ship), multi-php/ is pulled in by
+# docker-compose.multi-php.yml. Neither can be `start`ed, so neither is ever offered.
+known_services() { sed -n 's#^  - path: \(.*\)/compose.yml$#\1#p' docker-compose.yml; }
 service_other() {  # folders not categorized above and not workspace
   local _cat _s
   _cat=" $(service_groups | sed 's/^[^|]*|//' | tr '\n' ' ') "
@@ -383,6 +461,32 @@ print_cols() {
 #   MODE=one|multi · ROWSFN echoes "H|Header" and "I|value" lines (grouped, ordered)
 #   PRESET: one -> default value to highlight · multi -> space-separated preselected
 #   HELP: one plain-English line shown under the prompt (what this is / why the default is fine)
+# step_header "Title" "blurb"  — the same banner above every setup question, so each step
+# is visibly its own thing instead of scrolling into the last one. STEP_N is set by the
+# caller (not auto-incremented) so re-asking one answer from the review screen still shows
+# that answer's own number. Blurb may contain \n for a second line.
+rule() {  # rule [width] — a horizontal line, unicode where the terminal can take it
+  local _w=${1:-0} _i _out=""
+  [ "$_w" -gt 0 ] || { _w=$(tput cols 2>/dev/null || echo 80); [ "$_w" -gt 72 ] && _w=72; _w=$((_w - 2)); }
+  for _i in $(seq 1 "$_w"); do _out="$_out$LINE_CH"; done
+  printf '%s' "$_out"
+}
+
+step_header() {
+  local _t=$1 _blurb=${2:-} _line
+  _line=$(rule)
+  say ""
+  printf '  %s%s%s\n' "$C_DIM" "$_line" "$C_RESET"
+  if [ -n "${STEP_N:-}" ]; then
+    printf '  %sStep %s of %s%s  %s%s%s\n' "$C_DIM" "$STEP_N" "${STEP_TOTAL:-10}" "$C_RESET" "$C_BOLD" "$_t" "$C_RESET"
+  else
+    printf '  %s%s%s\n' "$C_BOLD" "$_t" "$C_RESET"
+  fi
+  printf '  %s%s%s\n' "$C_DIM" "$_line" "$C_RESET"
+  [ -n "$_blurb" ] && printf '  %s%b%s\n' "$C_DIM" "$_blurb" "$C_RESET"
+  say ""
+}
+
 imenu() {
   local _mode=$1 _var=$2 _prompt=$3 _rowsfn=$4 _preset=$5 _help=${6:-}
   local _ak=() _av=() _k _v
@@ -396,10 +500,11 @@ imenu() {
     eval "$_var=\"\$_pv\""
     printf '  %-14s %s[%s]%s\n' "$_prompt" "$C_CYAN" "${_pv:-none}" "$C_RESET"; return
   fi
-  # show the FULL catalog first (everything available), then the dropdown below
-  say ""
-  bold "  $_prompt"
-  [ -n "$_help" ] && say "  ${C_DIM}${_help}${C_RESET}"
+  # A step reads top to bottom: what am I choosing -> what's on offer -> pick one.
+  # Say each thing exactly once: the header names the step, the blurb explains it in
+  # plain English, the keys line is the only place keys are mentioned.
+  step_header "$_prompt" "$_help"
+  say "  ${C_DIM}Everything Laradock offers here:${C_RESET}"
   local _ci _cbuf=""
   for _ci in $(seq 0 $((_na - 1))); do
     if [ "${_ak[$_ci]}" = H ]; then
@@ -410,13 +515,17 @@ imenu() {
     fi
   done
   [ -n "$_cbuf" ] && print_cols "$_cbuf"
-  say "  ${C_DIM}--- now pick below (type to filter, arrows to move, enter to select) ---${C_RESET}"
   local _selset=" " _p
   [ "$_mode" = multi ] && for _p in $_preset; do _selset="$_selset$_p "; done
   local _query="" _key _cur=0 _start=0 _win=14 _first=1 _seeded=0
-  printf '  %s%s%s ' "$C_BOLD" "$_prompt" "$C_RESET"
-  if [ "$_mode" = multi ]; then printf '%s(type to filter · arrows move · space toggles · enter = done)%s\n' "$C_DIM" "$C_RESET"
-  else printf '%s(type to filter · arrows move · enter = select)%s\n' "$C_DIM" "$C_RESET"; fi
+  say ""
+  if [ "$_mode" = multi ]; then
+    printf '  %stype%s to filter · %s↑↓%s move · %sspace%s toggles on/off · %senter%s when done\n' \
+      "$C_CYAN" "$C_RESET" "$C_CYAN" "$C_RESET" "$C_CYAN" "$C_RESET" "$C_CYAN" "$C_RESET"
+  else
+    printf '  %stype%s to filter · %s↑↓%s move · %senter%s to pick\n' \
+      "$C_CYAN" "$C_RESET" "$C_CYAN" "$C_RESET" "$C_CYAN" "$C_RESET"
+  fi
   printf '\033[?25l'
   trap 'printf "\033[?25h"' RETURN 2>/dev/null || true
   local _rk _rv _nr _lc _i _r _snap _p2 _mn _dv _j _pendhdr _hasitem _mk _out
@@ -500,6 +609,70 @@ runtime_rows() { flat_rows "php-fpm roadrunner"; }
 ws_rows()    { flat_rows "nginx apache2 caddy openresty frankenphp tomcat none"; }
 db_rows()    { flat_rows "mysql postgres mariadb mongo mssql percona pgvector postgres-postgis neo4j couchdb rethinkdb cassandra clickhouse tarantool arangodb surrealdb none"; }
 cache_rows() { flat_rows "redis valkey dragonfly memcached aerospike varnish ssdb none"; }
+_in_rows()   { case " $($1 | sed 's/^I|//' | tr '\n' ' ') " in *" $2 "*) return 0 ;; esac; return 1; }
+# Seed the answers from the stack already in .env, so re-running setup shows what you
+# actually run instead of starting from scratch. Without this the review screen reports
+# "Extra services (none)" while you have three running, and applying silently drops them
+# (same for a non-default web server, database or cache). Inverse of how LARADOCK_SERVICES
+# is assembled below: web server + runtime + database + cache + extras + workspace.
+seed_from_env() {
+  local _t _s
+  _s=$(env_get LARADOCK_SERVICES | tr -d '"')
+  [ -z "$_s" ] && return 0
+  for _t in $_s; do
+    [ "$_t" = workspace ] && continue
+    if   _in_rows ws_rows      "$_t"; then W_WS="$_t"
+    elif _in_rows runtime_rows "$_t"; then W_RUNTIME="$_t"
+    elif _in_rows db_rows      "$_t"; then W_DB="$_t"
+    elif _in_rows cache_rows   "$_t"; then W_CACHE="$_t"
+    else W_EXTRAS="${W_EXTRAS:+$W_EXTRAS }$_t"
+    fi
+  done
+}
+# --- workspace tools ---------------------------------------------------------
+# The workspace (your dev shell) ships a few tools on by default and ~80 more behind
+# WORKSPACE_INSTALL_* flags. These groups only decide how the picker is laid out; the
+# tool list itself is read from workspace/defaults.env, so a tool added there shows up
+# on its own (under "Other" until it's grouped here).
+ws_tool_groups() {
+  cat <<'WSTOOLS'
+Debug & testing|xdebug pcov phpdbg dusk-deps taint
+Node & frontend|node yarn pnpm npm-gulp npm-vue-cli npm-angular-cli npm-bower npm-check-updates-cli
+Database clients & drivers|mysql-client pg-client mongo mssql oci8 cassandra aerospike ssdb rdkafka zookeeper
+PHP extensions|phpredis memcached apcu amqp gearman event swoole soap gnupg gmp bz2 imap ldap mailparse phpdecimal ssh2 xmlrpc xsl yaml zmq trader xlswriter v8js phalcon ast ioncube
+Framework CLIs|laravel-installer laravel-envoy symfony deployer drush drupal-console wp-cli prestissimo
+Media & documents|imagemagick libpng ffmpeg audiowaveform image-optimizers wkhtmltopdf poppler-utils graphviz
+Shell & tools|git-prompt powerline mc lnav linuxbrew gnu-parallel fswatch inotify ping dnsutils sshpass subversion smb supervisor
+DevOps|docker-client terraform github-cli protoc workspace-ssh
+Other languages|python python3 jdk
+WSTOOLS
+}
+ws_tool_key()  { printf 'WORKSPACE_INSTALL_%s' "$(printf '%s' "$1" | tr 'a-z-' 'A-Z_')"; }
+ws_all_tools() { sed -n 's/^WORKSPACE_INSTALL_\([A-Z0-9_]*\)=.*/\1/p' workspace/defaults.env | tr 'A-Z_' 'a-z-'; }
+ws_tool_default() {  # ws_tool_default <tool> -> true|false, as shipped
+  case "$(env_get "$(ws_tool_key "$1")" workspace/defaults.env)" in true*) printf 'true' ;; *) printf 'false' ;; esac
+}
+ws_tools_on() {  # tools switched on right now: your .env override, else the shipped default
+  local _x _v
+  for _x in $(ws_all_tools); do
+    _v=$(env_get "$(ws_tool_key "$_x")" .env); [ -n "$_v" ] || _v=$(ws_tool_default "$_x")
+    case "$_v" in true*) printf '%s ' "$_x" ;; esac
+  done
+}
+
+ws_tool_rows() {
+  local _label _items _x _cat _rest=""
+  _cat=" $(ws_tool_groups | sed 's/^[^|]*|//' | tr '\n' ' ') "
+  ws_tool_groups | while IFS='|' read -r _label _items; do
+    printf 'H|%s\n' "$_label"; for _x in $_items; do printf 'I|%s\n' "$_x"; done
+  done
+  for _x in $(ws_all_tools); do
+    case "$_cat" in *" $_x "*) : ;; *) _rest="$_rest $_x" ;; esac
+  done
+  [ -n "$_rest" ] && { printf 'H|Other\n'; for _x in $_rest; do printf 'I|%s\n' "$_x"; done; }
+  return 0
+}
+
 extra_service_rows() {  # every non-essential service, grouped (web/db/cache handled separately)
   local _label _items _x _o
   service_groups | while IFS='|' read -r _label _items; do
@@ -513,22 +686,29 @@ extra_service_rows() {  # every non-essential service, grouped (web/db/cache han
 # --- single-question helpers (each re-askable from the review screen) --------
 # Each passes a short plain-English HELP line so a first-timer knows what they're
 # choosing and why the pre-selected default is a safe bet.
-ask_type()    { imenu one W_TYPE "Which project are you setting up?" project_rows "${W_TYPE:-$fw_item_def}" \
-  "The app you'll run. Just type to filter (e.g. \"word\" -> wordpress). Detected picks are pre-selected."; W_CAT=$(category_of "$W_TYPE"); }
-ask_php()     { imenu one W_PHP "PHP language version" php_rows "${W_PHP:-$(default_of PHP_VERSION 8.4)}" \
-  "The version of PHP your code runs on. Newer = faster; 8.4 is the current default and works for most apps."; }
-ask_runtime() { imenu one W_RUNTIME "PHP runtime" runtime_rows "${W_RUNTIME:-php-fpm}" \
-  "How PHP is served behind your web server. php-fpm is the standard choice; leave it unless you know you need RoadRunner."; }
-ask_ws()      { imenu one W_WS "Web server" ws_rows "${W_WS:-$(ws_default_for "$W_CAT" "$W_TYPE")}" \
-  "Serves your site over http and hands PHP to the runtime. nginx is the common default; pick \"none\" for CLI-only."; }
-ask_db()      { imenu one W_DB "Database" db_rows "${W_DB:-$(db_default_for "$W_TYPE")}" \
-    "Where your app stores its data (users, posts, orders). mysql is the safe default; \"none\" if your app has no database."; }
-ask_cache()   { imenu one W_CACHE "Cache" cache_rows "${W_CACHE:-redis}" \
-  "In-memory store for sessions, queues and speed. redis is the standard pick; \"none\" if you don't need one yet."; }
-ask_extras()  { imenu multi W_EXTRAS "Additional services (optional - space to toggle, enter to skip)" extra_service_rows "${W_EXTRAS:-$(rec_extras_for "$W_TYPE")}" \
-  "Everything else Laradock offers (mail, search, queues, tools). Anything your project needs is pre-selected; you can add more later with ./laradock start <name>."; }
-ask_name()   { ask W_NAME "Project name" "${W_NAME:-$name_def}"; }
-ask_path()   { ask W_PATH "App path" "${W_PATH:-$app_path}"; }
+ask_type()    { STEP_N=1; imenu one W_TYPE "What are you building?" project_rows "${W_TYPE:-$fw_item_def}" \
+  "Laradock tunes the rest of the setup around this: your framework decides which\n  web server, database and tools get pre-selected for you.\n  ${C_DIM}Pick \"php\" for a plain PHP app, or anything not in the list.${C_RESET}"; W_CAT=$(category_of "$W_TYPE"); }
+ask_php()     { STEP_N=2; imenu one W_PHP "PHP version" php_rows "${W_PHP:-$(default_of PHP_VERSION 8.4)}" \
+  "The version of PHP your code runs on, the same number you'd see in \`php -v\`.\n  ${C_DIM}Newer is faster. 8.4 suits most apps. Pick an older one only if your app\n  or a package needs it (legacy client, old Laravel).${C_RESET}"; }
+ask_runtime() { STEP_N=3; imenu one W_RUNTIME "PHP runtime" runtime_rows "${W_RUNTIME:-php-fpm}" \
+  "The program that actually executes your PHP when a request comes in, sitting\n  behind the web server.\n  ${C_DIM}php-fpm is the standard, boring, correct answer. Only take roadrunner if you\n  already know you want a long-running worker.${C_RESET}"; }
+ask_ws()      { STEP_N=4; imenu one W_WS "Web server" ws_rows "${W_WS:-$(ws_default_for "$W_CAT" "$W_TYPE")}" \
+  "Answers http://localhost in your browser and hands PHP requests to the runtime.\n  ${C_DIM}nginx is the common pick. Choose apache2 if your app ships .htaccess rules\n  (lots of WordPress setups do). \"none\" = CLI-only, no website.${C_RESET}"; }
+ask_db()      { STEP_N=5; imenu one W_DB "Database" db_rows "${W_DB:-$(db_default_for "$W_TYPE")}" \
+  "Where your app keeps its data: users, posts, orders. Laradock runs it for you\n  and can write the connection details into your app's .env.\n  ${C_DIM}mysql is the safe default. \"none\" if your app has no database yet.${C_RESET}"; }
+ask_cache()   { STEP_N=6; imenu one W_CACHE "Cache" cache_rows "${W_CACHE:-redis}" \
+  "An in-memory store your app uses for sessions, queues and caching, so it isn't\n  hitting the database for everything.\n  ${C_DIM}redis is the standard pick. \"none\" is fine if you don't need one yet.${C_RESET}"; }
+ask_extras()  { STEP_N=7; imenu multi W_EXTRAS "Extra services" extra_service_rows "${W_EXTRAS:-$(rec_extras_for "$W_TYPE")}" \
+  "Extra containers to run alongside your app: mail catchers, search engines,\n  queues, database UIs. Each one you tick is a container that starts with your stack.\n  ${C_DIM}What your project usually needs is already ticked. Nothing here is permanent,\n  add one later with ./laradock start <name>.${C_RESET}"; }
+ask_tools()   { STEP_N=8; imenu multi W_TOOLS "Workspace tools" ws_tool_rows "${W_TOOLS:-$(ws_tools_on)}" \
+  "The workspace is your dev shell: the container you run php, composer, artisan,\n  npm and git inside (./laradock workspace). These are the tools baked into it.\n  ${C_DIM}Already ticked = what you have today. Common adds: xdebug (step debugging),\n  mysql-client (a db shell), wp-cli (WordPress). Changing these rebuilds the\n  workspace image, which takes a few minutes.${C_RESET}"; }
+ask_name()   { STEP_N=9;  step_header "Project name" \
+  "Names your containers and keeps this project's data separate from your other\n  Laradock projects.\n  ${C_DIM}Docker only allows lowercase letters, numbers, - and _ here.${C_RESET}"
+  ask W_NAME "Project name" "${W_NAME:-$name_def}"
+  local _clean; _clean=$(sanitize_project_name "$W_NAME")
+  [ "$_clean" = "$W_NAME" ] || { note "docker won't take \"$W_NAME\", using ${C_CYAN}${_clean}${C_RESET} instead."; W_NAME=$_clean; }; }
+ask_path()   { STEP_N=10; step_header "App path" \
+  "Where your code lives on this machine, relative to this folder. Laradock mounts\n  it into the containers, so edits on your laptop are live in the stack.\n  ${C_DIM}\"../\" means the folder next to laradock/, the usual layout.${C_RESET}"; ask W_PATH "App path" "${W_PATH:-$app_path}"; }
 
 # patch_app_env app_path db cache extras — diff + confirm + backup + markers
 patch_app_env() {
@@ -711,6 +891,15 @@ default_value_of() {  # shipped default: any defaults.env first, else .env.examp
   printf '%s' "$_d"
 }
 
+# Some settings are compiled into the image (the WORKSPACE_INSTALL_* tools, PHP_VERSION,
+# any *_VERSION): changing one does nothing until the image is rebuilt, and a restart
+# silently keeps the old one. Both `set` and `unset` ask this, so they can't disagree
+# about what a user has to do next.
+is_build_time_key() {
+  case "$1" in PHP_VERSION|INSTALL_*|*_INSTALL_*|*_VERSION) return 0 ;; esac
+  return 1
+}
+
 cmd_set() {  # set KEY=VALUE [KEY=VALUE ...] — write overrides into laradock/.env
   require_laradock_dir
   [ $# -gt 0 ] || die "What do you want to set?" \
@@ -741,7 +930,7 @@ cmd_set() {  # set KEY=VALUE [KEY=VALUE ...] — write overrides into laradock/.
     # help apply it: build-time settings need a rebuild, the rest just a restart
     case "$k" in
       PHP_VERSION|INSTALL_*|*_INSTALL_*|*_VERSION)
-        say "  ${C_DIM}This is baked into the image. Apply it with:${C_RESET} ${C_CYAN}./laradock rebuild ${svc:-<service>}${C_RESET}" ;;
+        say "  ${C_DIM}This is baked into the image. Apply it with:${C_RESET} ${C_CYAN}./laradock rebuild ${svc:-workspace}${C_RESET}" ;;
       *)
         if [ -n "$svc" ] && docker compose ps --services --status running 2>/dev/null | grep -qx "$svc"; then
           if confirm "Restart ${svc} now so it takes effect?" Y; then run up -d "$svc"; fi
@@ -802,13 +991,14 @@ cmd_unset() {  # unset KEY [KEY ...] — remove your override, back to the defau
   require_laradock_dir
   [ $# -gt 0 ] || die "Which setting do you want back on its default?" \
       "${C_DIM}Example:${C_RESET} ${C_CYAN}./laradock unset REDIS_PORT${C_RESET} ${C_DIM}(see your changes: ./laradock settings)${C_RESET}"
-  local k d changed=0
+  local k d changed=0 rebuild=""
   for k in "$@"; do
     if ! grep -q "^${k}=" .env 2>/dev/null; then
       note "${k} is not set in your .env; nothing to undo."
       continue
     fi
     changed=1
+    is_build_time_key "$k" && rebuild="${rebuild:+$rebuild }$(svc_of_key "$k")"
     d=$(grep -h "^${k}=" ./*/defaults.env 2>/dev/null | head -1 | cut -d= -f2-)
     if [ -n "$d" ]; then
       # a service default exists: safe to drop the override entirely
@@ -823,7 +1013,14 @@ cmd_unset() {  # unset KEY [KEY ...] — remove your override, back to the defau
       ok "removed ${k} from .env"
     fi
   done
-  [ "$changed" = 0 ] || say "  ${C_DIM}Takes effect the next time the affected service starts.${C_RESET}"
+  [ "$changed" = 0 ] && return
+  if [ -n "$rebuild" ]; then
+    # removing a tool means rebuilding the image without it; a restart would keep it
+    rebuild=$(printf '%s\n' $rebuild | sort -u | tr '\n' ' ' | sed 's/ *$//')
+    say "  ${C_DIM}This is baked into the image. Apply it with:${C_RESET} ${C_CYAN}./laradock rebuild ${rebuild:-workspace}${C_RESET}"
+  else
+    say "  ${C_DIM}Takes effect the next time the affected service starts.${C_RESET}"
+  fi
 }
 
 # --------------------------------------------------------------- cmd: edit
@@ -878,6 +1075,7 @@ cmd_info() {
   case "$running" in *phpmyadmin*) say "    phpMyAdmin   http://localhost:$(default_of PMA_PORT 8081)  (server: mysql, user: default, pass: secret)" ;; esac
   case "$running" in *adminer*)    say "    Adminer      http://localhost:$(default_of ADM_PORT 8080)" ;; esac
   case "$running" in *mailpit*)    say "    Mailpit      http://localhost:$(default_of MAILPIT_HTTP_PORT 8125)" ;; esac
+  case "$running" in *open-webui*) say "    Open WebUI   http://localhost:$(default_of OPEN_WEBUI_PORT 8322)" ;; esac
   case "$running" in *mysql*)      say "    MySQL        localhost:$(default_of MYSQL_PORT 3306)  db: $(default_of MYSQL_DATABASE default)  user: $(default_of MYSQL_USER default)  pass: $(default_of MYSQL_PASSWORD secret) (root: $(default_of MYSQL_ROOT_PASSWORD root))" ;; esac
   case "$running" in *postgres*)   say "    Postgres     localhost:$(default_of POSTGRES_PORT 5432)  db: $(default_of POSTGRES_DB default)  user: $(default_of POSTGRES_USER default)  pass: $(default_of POSTGRES_PASSWORD secret)" ;; esac
   case "$running" in *redis*)      say "    Redis        localhost:$(default_of REDIS_PORT 6379)  pass: $(default_of REDIS_PASSWORD secret_redis)" ;; esac
@@ -886,6 +1084,7 @@ cmd_info() {
   case "$running" in *mysql*) _dbhost=mysql ;; *postgres*) _dbhost=postgres ;; *mariadb*) _dbhost=mariadb ;; esac
   bold "  Inside your app, reach services by NAME (DB_HOST=${_dbhost}, REDIS_HOST=redis)."
   bold "  Next:  ./laradock workspace     (dev shell: php, composer, node, git)"
+  say  "  ${C_DIM}Add or drop services (mail, search, AI, phpMyAdmin...):${C_RESET} ${C_CYAN}./laradock setup${C_RESET}"
   say ""
 }
 
@@ -915,6 +1114,9 @@ cmd_enter() {
   local svc=${1:-}
   [ -n "$svc" ] || die "Which service do you want a terminal in?" \
                        "${C_DIM}Example:${C_RESET} ${C_CYAN}./laradock enter mysql${C_RESET}"
+  # the workspace has a dedicated command: it lands you as `laradock`, not root,
+  # so composer/npm don't leave root-owned files on the host.
+  [ "$svc" = workspace ] && { shift; cmd_workspace "$@"; }
   if ! docker compose ps --services --status running 2>/dev/null | grep -qx "$svc"; then
     if confirm "$svc is not running. Start it?" Y; then run up -d "$svc" || exit $?; else exit 1; fi
   fi
@@ -1178,8 +1380,8 @@ case "$cmd" in
   setup)   cmd_setup "$@" ;;
   up|start) cmd_up "$@" ;;
   # plain-English verbs so non-technical users never meet a docker flag
-  stop)    require_laradock_dir; run stop "$@" ;;
-  restart) require_laradock_dir; run restart "$@" ;;
+  # (stop/restart aren't here: they're already the docker verb, so the pass-through
+  #  at the bottom handles them identically. They stay listed in `help` regardless.)
   remove|delete) require_laradock_dir; run rm -sf "$@" ;;   # stop + remove; no scary -f to type
   logs)    require_laradock_dir; run logs "${@:---tail=100}" ;;
   rebuild) require_laradock_dir; run build "$@" ;;
@@ -1206,7 +1408,7 @@ case "$cmd" in
       "$C_BOLD" "$C_RESET" "$C_DIM" "$C_RESET"
 
     hsec "Everyday"
-    hrow "setup"              "set up your project (asks a few simple questions)"
+    hrow "setup"              "set up your project, or change it later (add/drop services and tools, switch database or PHP version)"
     hrow "start [services]"   "start your stack (or just the services you name)"
     hrow "stop [services]"    "stop them (your data is kept)"
     hrow "restart [services]" "restart them"
@@ -1227,7 +1429,6 @@ case "$cmd" in
 
     hsec "Shell"
     hrow "enter <service>"    "open a terminal inside a container (e.g. mysql)"
-    hrow "exec <service> ..." "run one command inside a container"
     hrow "workspace [--root]" "the dev shell (php, composer, node, git)"
     hrow "db"                 "open a SQL shell in your database"
 

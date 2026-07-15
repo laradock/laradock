@@ -72,7 +72,7 @@ cd laradock
 ./laradock start
 ```
 
-The first run opens a wizard: pick your framework, PHP version, and stack, then hit Enter. After that, `start` just runs your stack and prints its URLs and credentials (`./laradock setup` reopens the wizard).
+The first run opens a wizard: pick your framework, PHP version, stack, and the tools in your dev shell, then hit Enter. Every question comes with a sensible answer pre-selected, so you can hold Enter and get a working stack. After that, `start` just runs your stack and prints its URLs and credentials (`./laradock setup` reopens the wizard any time, to add a service, switch PHP version, or add a tool like Xdebug).
 
 4 - Enter the Laradock Workspace (a dev shell with `php`, `composer`, `node`, and `git` inside):
 
@@ -169,8 +169,8 @@ A **service** is one piece of software (a database, web server, cache, queue) th
 | **Vector Databases**  | [pgvector](https://laradock.io/docs/services/pgvector), [Qdrant](https://laradock.io/docs/services/qdrant), [Weaviate](https://laradock.io/docs/services/weaviate), [Chroma](https://laradock.io/docs/services/chroma) |
 | **Graph / Multi-model Databases**  | [Neo4j](https://laradock.io/docs/services/neo4j), [ArangoDB](https://laradock.io/docs/services/arangodb), [SurrealDB](https://laradock.io/docs/services/surrealdb) |
 | **Time-series Databases**  | [InfluxDB](https://laradock.io/docs/services/influxdb) |
-| **AI / LLM**  | [Ollama](https://laradock.io/docs/services/ollama), [LocalAI](https://laradock.io/docs/services/localai), [LiteLLM](https://laradock.io/docs/services/litellm) |
-| **Agentic / Automation**  | [n8n](https://laradock.io/docs/services/n8n), [Flowise](https://laradock.io/docs/services/flowise) |
+| **AI / LLM**  | [Ollama](https://laradock.io/docs/services/ollama), [vLLM](https://laradock.io/docs/services/vllm), [LocalAI](https://laradock.io/docs/services/localai), [LiteLLM](https://laradock.io/docs/services/litellm), [Open WebUI](https://laradock.io/docs/services/open-webui), [MCP](https://laradock.io/docs/services/mcp) |
+| **Agentic / Automation**  | [n8n](https://laradock.io/docs/services/n8n), [Flowise](https://laradock.io/docs/services/flowise), [Langflow](https://laradock.io/docs/services/langflow) |
 | **PHP Extensions**  | [Swoole](https://laradock.io/docs/swoole-on-docker), [Blackfire](https://laradock.io/docs/services/blackfire), [Phalcon](https://laradock.io/docs/phalcon-on-docker), [PHP Worker](https://laradock.io/docs/services/php-worker), [Laravel Horizon](https://laradock.io/docs/services/laravel-horizon) |
 | **Mail Servers**  | [Mailu](https://laradock.io/docs/services/mailu), [MailCatcher](https://laradock.io/docs/services/mailcatcher), [Mailhog](https://laradock.io/docs/services/mailhog), [MailDev](https://laradock.io/docs/services/maildev), [Mailpit](https://laradock.io/docs/services/mailpit) |
 | **Real-time Communication**  | [Laravel Echo](https://laradock.io/docs/services/laravel-echo-server), [Laravel Reverb](https://laradock.io/docs/services/laravel-reverb), [Mercure](https://laradock.io/docs/services/mercure), [Soketi](https://laradock.io/docs/services/soketi) |

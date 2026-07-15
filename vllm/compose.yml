@@ -1,0 +1,24 @@
+services:
+
+    vllm:
+      image: vllm/vllm-openai:${VLLM_VERSION}
+      command: --model ${VLLM_MODEL}
+      # ponytail: NVIDIA only. vLLM has no usable CPU path; ROCm/CPU users
+      # swap the image tag and drop this block.
+      deploy:
+        resources:
+          reservations:
+            devices:
+              - driver: nvidia
+                count: all
+                capabilities: [gpu]
+      shm_size: ${VLLM_SHM_SIZE}
+      environment:
+        - HUGGING_FACE_HUB_TOKEN=${VLLM_HUGGING_FACE_HUB_TOKEN}
+      volumes:
+        - vllm:/root/.cache/huggingface
+      ports:
+        - "${VLLM_HOST_PORT}:8000"
+      networks:
+        - frontend
+        - backend

@@ -105,9 +105,37 @@ A handful of `WORKSPACE_INSTALL_*` / `WORKSPACE_*` flags in `workspace/defaults.
 | `WORKSPACE_COMPOSER_GLOBAL_INSTALL` | `true` | Runs `composer global install` at build time. |
 | `WORKSPACE_COMPOSER_VERSION` | `2` | Composer major version (`1`, `2`, `2.2`, or a specific version string). |
 
+## Pick your tools with the CLI
+
+The wizard asks about workspace tools directly, so you don't have to know a flag name to find a tool. Step 8 of `./laradock setup` is a searchable, grouped picker over every tool below, with what you already have pre-ticked:
+
+```bash
+./laradock setup
+```
+
+```
+  ----------------------------------------------------------------------
+  Step 8 of 10  Workspace tools
+  ----------------------------------------------------------------------
+  The workspace is your dev shell: the container you run php, composer, artisan,
+  npm and git inside (./laradock workspace). These are the tools baked into it.
+
+  Debug & testing
+    [ ] xdebug
+    [x] pcov
+  Node & frontend
+    [x] node
+  ...
+  type to filter · arrows move · space toggles on/off · enter when done
+```
+
+Type to filter (`xde` finds `xdebug`), space to toggle, enter to accept. Only the tools you actually change are written to your `.env`, so it stays a short diff of your choices rather than a copy of all ~87 flags. When you change something, the CLI reminds you to rebuild.
+
+It's safe to re-run `./laradock setup` any time to add or remove tools later; your current answers are pre-filled.
+
 ## The `WORKSPACE_INSTALL_*` toggle pattern
 
-Everything else, well over 60 tools and PHP extensions, follows the same on/off pattern in `workspace/defaults.env`: `WORKSPACE_INSTALL_<THING>=false`. Flip one to `true` in your `.env`, then rebuild:
+If you'd rather not use the wizard, every tool is just an on/off flag in `workspace/defaults.env`: `WORKSPACE_INSTALL_<THING>=false`. Flip one to `true` in your `.env`, then rebuild:
 
 ```env
 WORKSPACE_INSTALL_XDEBUG=true
@@ -151,7 +179,150 @@ docker compose up -d workspace
 </TabItem>
 </Tabs>
 
-These flags cover things like Xdebug/pcov/phpdbg, database clients (MySQL, Postgres, MSSQL), extensions (LDAP, SOAP, XSL, IMAP, SMB, Mongo, AMQP, Cassandra, ZMQ, Gearman, Swoole, Phalcon), framework tooling (Drush, Drupal Console, WP-CLI, Laravel Envoy, Laravel Installer, Symfony), package managers (pnpm, Bower, Angular CLI, npm-check-updates), and misc utilities (ImageMagick, FFmpeg, wkhtmltopdf, Terraform, Docker CLI, GitHub CLI, MinIO client, GNU Parallel, Supervisor, Oh My Zsh).
+To turn one back off, either untick it in `./laradock setup`, or:
+
+```bash
+./laradock unset WORKSPACE_INSTALL_XDEBUG   # back to the shipped default
+./laradock rebuild workspace
+```
+
+Removing a tool rebuilds the image without it. Your code and database are untouched: the workspace holds no data of its own, only tools.
+
+## Every tool you can install
+
+The complete list, grouped the same way the `./laradock setup` picker groups them. **On** = installed unless you turn it off. Names in the first column are what you type in the picker; the flag is what you'd set by hand.
+
+### Debug & testing
+
+| Tool | Flag | Default | What it does |
+|---|---|---|---|
+| `xdebug` | `WORKSPACE_INSTALL_XDEBUG` | off | Step debugger and profiler. See the [Xdebug + IDE guide](/docs/xdebug-ide). |
+| `pcov` | `WORKSPACE_INSTALL_PCOV` | off | Fast code-coverage driver for PHPUnit (much quicker than Xdebug's). |
+| `phpdbg` | `WORKSPACE_INSTALL_PHPDBG` | off | PHP's built-in interactive debugger, also usable for coverage. |
+| `dusk-deps` | `WORKSPACE_INSTALL_DUSK_DEPS` | off | Chrome and the libraries Laravel Dusk needs for browser tests (amd64 only). |
+| `taint` | `WORKSPACE_INSTALL_TAINT` | off | Static analysis extension that flags possible XSS in strings. |
+
+### Node & frontend
+
+| Tool | Flag | Default | What it does |
+|---|---|---|---|
+| `node` | `WORKSPACE_INSTALL_NODE` | **on** | Node.js via NVM. Version set by `WORKSPACE_NODE_VERSION`. |
+| `yarn` | `WORKSPACE_INSTALL_YARN` | **on** | Yarn package manager. |
+| `pnpm` | `WORKSPACE_INSTALL_PNPM` | off | pnpm package manager. |
+| `npm-gulp` | `WORKSPACE_INSTALL_NPM_GULP` | **on** | Gulp task runner CLI, installed globally. |
+| `npm-vue-cli` | `WORKSPACE_INSTALL_NPM_VUE_CLI` | **on** | Vue CLI, installed globally. |
+| `npm-angular-cli` | `WORKSPACE_INSTALL_NPM_ANGULAR_CLI` | off | Angular CLI, installed globally. |
+| `npm-bower` | `WORKSPACE_INSTALL_NPM_BOWER` | off | Bower, the legacy frontend package manager. |
+| `npm-check-updates-cli` | `WORKSPACE_INSTALL_NPM_CHECK_UPDATES_CLI` | off | `ncu`, checks your `package.json` for newer versions. |
+
+### Database clients & drivers
+
+| Tool | Flag | Default | What it does |
+|---|---|---|---|
+| `mysql-client` | `WORKSPACE_INSTALL_MYSQL_CLIENT` | off | The `mysql` command, for a SQL shell or `mysqldump` from the workspace. |
+| `pg-client` | `WORKSPACE_INSTALL_PG_CLIENT` | off | The `psql` command and Postgres client tools. |
+| `mongo` | `WORKSPACE_INSTALL_MONGO` | off | PHP MongoDB driver. |
+| `mssql` | `WORKSPACE_INSTALL_MSSQL` | off | PHP SQL Server driver (`sqlsrv`/`pdo_sqlsrv`). |
+| `oci8` | `WORKSPACE_INSTALL_OCI8` | off | PHP Oracle driver. Needs the Instant Client files. |
+| `cassandra` | `WORKSPACE_INSTALL_CASSANDRA` | off | PHP Cassandra driver. |
+| `aerospike` | `WORKSPACE_INSTALL_AEROSPIKE` | off | PHP Aerospike driver. |
+| `ssdb` | `WORKSPACE_INSTALL_SSDB` | off | PHP SSDB client. |
+| `rdkafka` | `WORKSPACE_INSTALL_RDKAFKA` | off | PHP Kafka client. See [the section below](#install-the-rdkafka-extension). |
+| `zookeeper` | `WORKSPACE_INSTALL_ZOOKEEPER` | off | PHP ZooKeeper client. |
+
+### PHP extensions
+
+| Tool | Flag | Default | What it does |
+|---|---|---|---|
+| `phpredis` | `WORKSPACE_INSTALL_PHPREDIS` | **on** | Redis extension, so Artisan and CLI scripts can talk to Redis. |
+| `memcached` | `WORKSPACE_INSTALL_MEMCACHED` | **on** | Memcached extension. |
+| `apcu` | `WORKSPACE_INSTALL_APCU` | off | In-memory user cache (APCu). |
+| `amqp` | `WORKSPACE_INSTALL_AMQP` | off | AMQP extension, for RabbitMQ. |
+| `gearman` | `WORKSPACE_INSTALL_GEARMAN` | off | Gearman job-queue client. |
+| `event` | `WORKSPACE_INSTALL_EVENT` | off | libevent bindings for async PHP. |
+| `swoole` | `WORKSPACE_INSTALL_SWOOLE` | off | Coroutine/async runtime used by Octane, Hyperf. |
+| `soap` | `WORKSPACE_INSTALL_SOAP` | off | SOAP client/server. |
+| `gnupg` | `WORKSPACE_INSTALL_GNUPG` | off | GnuPG encryption bindings. |
+| `gmp` | `WORKSPACE_INSTALL_GMP` | off | Arbitrary-precision maths. |
+| `bz2` | `WORKSPACE_INSTALL_BZ2` | off | bzip2 compression. |
+| `imap` | `WORKSPACE_INSTALL_IMAP` | off | IMAP mailbox access. |
+| `ldap` | `WORKSPACE_INSTALL_LDAP` | off | LDAP / Active Directory auth. |
+| `mailparse` | `WORKSPACE_INSTALL_MAILPARSE` | off | Parse raw email messages. |
+| `phpdecimal` | `WORKSPACE_INSTALL_PHPDECIMAL` | off | Correctly-rounded decimal maths, for money. |
+| `ssh2` | `WORKSPACE_INSTALL_SSH2` | off | SSH/SFTP from PHP. |
+| `xmlrpc` | `WORKSPACE_INSTALL_XMLRPC` | off | XML-RPC client/server. |
+| `xsl` | `WORKSPACE_INSTALL_XSL` | off | XSLT transforms. |
+| `yaml` | `WORKSPACE_INSTALL_YAML` | off | Fast YAML parsing. |
+| `zmq` | `WORKSPACE_INSTALL_ZMQ` | off | ZeroMQ messaging. |
+| `trader` | `WORKSPACE_INSTALL_TRADER` | off | Technical-analysis functions. |
+| `xlswriter` | `WORKSPACE_INSTALL_XLSWRITER` | off | Write large Excel files quickly. |
+| `v8js` | `WORKSPACE_INSTALL_V8JS` | off | Run JavaScript from PHP via V8. |
+| `phalcon` | `WORKSPACE_INSTALL_PHALCON` | off | The Phalcon framework extension. |
+| `ast` | `WORKSPACE_INSTALL_AST` | **on** | Exposes PHP's syntax tree. Needed by Phan and other static analysers. |
+| `ioncube` | `WORKSPACE_INSTALL_IONCUBE` | off | ionCube loader for encoded PHP. Not available on PHP 8.0 or 8.4+. |
+
+### Framework CLIs
+
+| Tool | Flag | Default | What it does |
+|---|---|---|---|
+| `laravel-installer` | `WORKSPACE_INSTALL_LARAVEL_INSTALLER` | off | The `laravel new` command. |
+| `laravel-envoy` | `WORKSPACE_INSTALL_LARAVEL_ENVOY` | off | Envoy task runner for remote deploys. |
+| `symfony` | `WORKSPACE_INSTALL_SYMFONY` | off | The Symfony CLI. |
+| `deployer` | `WORKSPACE_INSTALL_DEPLOYER` | off | Deployer, the PHP deployment tool. |
+| `drush` | `WORKSPACE_INSTALL_DRUSH` | off | Drupal's command line. |
+| `drupal-console` | `WORKSPACE_INSTALL_DRUPAL_CONSOLE` | off | Drupal Console. |
+| `wp-cli` | `WORKSPACE_INSTALL_WP_CLI` | off | The `wp` command, for WordPress. |
+| `prestissimo` | `WORKSPACE_INSTALL_PRESTISSIMO` | off | Parallel downloads for Composer 1. Pointless on Composer 2. |
+
+### Media & documents
+
+| Tool | Flag | Default | What it does |
+|---|---|---|---|
+| `imagemagick` | `WORKSPACE_INSTALL_IMAGEMAGICK` | off | Image manipulation, plus the PHP `imagick` extension. |
+| `libpng` | `WORKSPACE_INSTALL_LIBPNG` | off | PNG libraries some image tools need. |
+| `ffmpeg` | `WORKSPACE_INSTALL_FFMPEG` | off | Audio/video transcoding. |
+| `audiowaveform` | `WORKSPACE_INSTALL_AUDIOWAVEFORM` | off | BBC waveform data generator. |
+| `image-optimizers` | `WORKSPACE_INSTALL_IMAGE_OPTIMIZERS` | off | jpegoptim, optipng, pngquant, svgo and friends. |
+| `wkhtmltopdf` | `WORKSPACE_INSTALL_WKHTMLTOPDF` | off | Render HTML to PDF. |
+| `poppler-utils` | `WORKSPACE_INSTALL_POPPLER_UTILS` | off | `pdftotext` and other PDF tools. |
+| `graphviz` | `WORKSPACE_INSTALL_GRAPHVIZ` | off | Render `.dot` graphs to images. |
+
+### Shell & tools
+
+| Tool | Flag | Default | What it does |
+|---|---|---|---|
+| `git-prompt` | `WORKSPACE_INSTALL_GIT_PROMPT` | off | Show the current branch in your shell prompt. |
+| `powerline` | `WORKSPACE_INSTALL_POWERLINE` | off | Powerline status line for the prompt. |
+| `mc` | `WORKSPACE_INSTALL_MC` | off | Midnight Commander, a terminal file manager. |
+| `lnav` | `WORKSPACE_INSTALL_LNAV` | off | Log file navigator. |
+| `linuxbrew` | `WORKSPACE_INSTALL_LINUXBREW` | off | Homebrew for Linux, for anything not listed here. |
+| `gnu-parallel` | `WORKSPACE_INSTALL_GNU_PARALLEL` | off | Run shell jobs in parallel. |
+| `fswatch` | `WORKSPACE_INSTALL_FSWATCH` | off | Watch files and react to changes. |
+| `inotify` | `WORKSPACE_INSTALL_INOTIFY` | off | PHP inotify bindings for file watching. |
+| `ping` | `WORKSPACE_INSTALL_PING` | off | The `ping` command. |
+| `dnsutils` | `WORKSPACE_INSTALL_DNSUTILS` | **on** | `dig`, `nslookup`, for debugging container DNS. |
+| `sshpass` | `WORKSPACE_INSTALL_SSHPASS` | off | Non-interactive SSH passwords, for scripts. |
+| `subversion` | `WORKSPACE_INSTALL_SUBVERSION` | off | The `svn` client. |
+| `smb` | `WORKSPACE_INSTALL_SMB` | off | SMB/CIFS client, for Windows shares. |
+| `supervisor` | `WORKSPACE_INSTALL_SUPERVISOR` | off | Keep queue workers and daemons running. |
+
+### DevOps
+
+| Tool | Flag | Default | What it does |
+|---|---|---|---|
+| `docker-client` | `WORKSPACE_INSTALL_DOCKER_CLIENT` | off | The `docker` command inside the workspace. See [Docker-in-Docker](#docker-cli-inside-the-workspace-docker-in-docker). |
+| `terraform` | `WORKSPACE_INSTALL_TERRAFORM` | off | The Terraform CLI. |
+| `github-cli` | `WORKSPACE_INSTALL_GITHUB_CLI` | off | The `gh` command. |
+| `protoc` | `WORKSPACE_INSTALL_PROTOC` | off | Protocol Buffers compiler. |
+| `workspace-ssh` | `WORKSPACE_INSTALL_WORKSPACE_SSH` | off | Run an SSH server in the workspace. See [SSH into the Workspace](#ssh-into-the-workspace). |
+
+### Other languages
+
+| Tool | Flag | Default | What it does |
+|---|---|---|---|
+| `python` | `WORKSPACE_INSTALL_PYTHON` | off | Python 2 and pip. |
+| `python3` | `WORKSPACE_INSTALL_PYTHON3` | off | Python 3 and pip3. |
+| `jdk` | `WORKSPACE_INSTALL_JDK` | **on** | Java Development Kit. Only needed for tools that run on Java. |
 
 See the sections below for setup instructions on individual tools, and the **[PHP-FPM guide](/docs/services/php-fpm)** for extension-specific install/config guides (Xdebug, pcov, phpdbg, YAML, rdkafka, ionCube, etc.) that apply to `workspace` as well as `php-fpm`.
 

@@ -255,8 +255,8 @@ docker compose up -d php-fpm
 | **Vector Databases**  | [pgvector](/docs/services/pgvector), [Qdrant](/docs/services/qdrant), [Weaviate](/docs/services/weaviate), [Chroma](/docs/services/chroma) |
 | **Graph / Multi-model Databases**  | [Neo4j](/docs/services/neo4j), [ArangoDB](/docs/services/arangodb), [SurrealDB](/docs/services/surrealdb) |
 | **Time-series Databases**  | [InfluxDB](/docs/services/influxdb) |
-| **AI / LLM**  | [Ollama](/docs/services/ollama), [LocalAI](/docs/services/localai), [LiteLLM](/docs/services/litellm) |
-| **Agentic / Automation**  | [n8n](/docs/services/n8n), [Flowise](/docs/services/flowise) |
+| **AI / LLM**  | [Ollama](/docs/services/ollama), [vLLM](/docs/services/vllm), [LocalAI](/docs/services/localai), [LiteLLM](/docs/services/litellm), [Open WebUI](/docs/services/open-webui), [MCP](/docs/services/mcp) |
+| **Agentic / Automation**  | [n8n](/docs/services/n8n), [Flowise](/docs/services/flowise), [Langflow](/docs/services/langflow) |
 | **PHP Extensions**  | [Swoole](/docs/swoole-on-docker), [Blackfire](/docs/services/blackfire), [Phalcon](/docs/phalcon-on-docker), [PHP Worker](/docs/services/php-worker), [Laravel Horizon](/docs/services/laravel-horizon) |
 | **Mail Servers**  | [Mailu](/docs/services/mailu), [MailCatcher](/docs/services/mailcatcher), [Mailhog](/docs/services/mailhog), [MailDev](/docs/services/maildev), [Mailpit](/docs/services/mailpit) |
 | **Real-time Communication**  | [Laravel Echo](/docs/services/laravel-echo-server), [Laravel Reverb](/docs/services/laravel-reverb), [Mercure](/docs/services/mercure), [Soketi](/docs/services/soketi) |
