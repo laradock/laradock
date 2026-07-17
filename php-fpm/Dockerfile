@@ -27,10 +27,13 @@ ENV DEBIAN_FRONTEND noninteractive
 
 ARG CHANGE_SOURCE=false
 RUN if [ ${CHANGE_SOURCE} = true ]; then \
+    apt_file=/etc/apt/sources.list;
+    [ "${LARADOCK_PHP_VERSION//./}" -ge 80 ] && apt_file=/etc/apt/sources.list.d/debian.sources;
     # Change application source from deb.debian.org to aliyun source
-    sed -i 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/' /etc/apt/sources.list && \
-    sed -i 's/security.debian.org/mirrors.tuna.tsinghua.edu.cn/' /etc/apt/sources.list && \
-    sed -i 's/security-cdn.debian.org/mirrors.tuna.tsinghua.edu.cn/' /etc/apt/sources.list \
+    sed -i \
+    -e 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/' \
+    -e 's/security.debian.org/mirrors.tuna.tsinghua.edu.cn/' \
+    -e 's/security-cdn.debian.org/mirrors.tuna.tsinghua.edu.cn/' $apt_file \
 ;fi
 
 RUN if [ "$LARADOCK_PHP_VERSION" = "7.1" ] || [ ${LARADOCK_PHP_VERSION} = "7.2" ]; then \
