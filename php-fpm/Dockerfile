@@ -26,11 +26,16 @@ ENV DEBIAN_FRONTEND noninteractive
 # If you're in China, or you need to change sources, will be set CHANGE_SOURCE to true in .env.
 
 ARG CHANGE_SOURCE=false
-RUN if [ ${CHANGE_SOURCE} = true ]; then \
+RUN if [ "${CHANGE_SOURCE}" = "true" ]; then \
+    apt_file=/etc/apt/sources.list; \
+    if [ "$(echo "$LARADOCK_PHP_VERSION" | tr -d .)" -ge 80 ]; then \
+      apt_file=/etc/apt/sources.list.d/debian.sources; \
+    fi; \
     # Change application source from deb.debian.org to aliyun source
-    sed -i 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/' /etc/apt/sources.list && \
-    sed -i 's/security.debian.org/mirrors.tuna.tsinghua.edu.cn/' /etc/apt/sources.list && \
-    sed -i 's/security-cdn.debian.org/mirrors.tuna.tsinghua.edu.cn/' /etc/apt/sources.list \
+    sed -i \
+    -e 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/' \
+    -e 's/security.debian.org/mirrors.tuna.tsinghua.edu.cn/' \
+    -e 's/security-cdn.debian.org/mirrors.tuna.tsinghua.edu.cn/' $apt_file \
 ;fi
 
 RUN if [ "$LARADOCK_PHP_VERSION" = "7.1" ] || [ ${LARADOCK_PHP_VERSION} = "7.2" ]; then \
