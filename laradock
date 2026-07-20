@@ -104,6 +104,10 @@ env_set() {  # env_set KEY VALUE — update in place or append (preserves everyt
     # portable in-place edit (BSD/GNU sed differ; use tmp file)
     sed "s|^${_k}=.*|${_k}=${_v}|" .env > .env.tmp.$$ && mv .env.tmp.$$ .env
   else
+    ## if .env does not have an empty line at the end, add one first, otherwise the last line will be overwritten
+    if [ -s .env ] && [ "$(tail -c 1 .env)" != "" ]; then
+      printf '\n' >> .env
+    fi
     printf '%s=%s\n' "$_k" "$_v" >> .env
   fi
 }
