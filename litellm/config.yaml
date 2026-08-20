@@ -12,6 +12,15 @@ model_list:
       model: openai/mock-gpt
       api_base: http://localhost:4000
       api_key: sk-mock
+  # OrcaRouter: one OpenAI-compatible gateway that routes to multiple model
+  # providers from a single endpoint. Set ORCAROUTER_API_KEY in your .env and
+  # restart litellm (the key is passed through in litellm/compose.yml).
+  # Docs: https://www.orcarouter.ai
+  - model_name: orcarouter/auto
+    litellm_params:
+      model: openai/orcarouter/auto
+      api_base: https://api.orcarouter.ai/v1
+      api_key: os.environ/ORCAROUTER_API_KEY
 
 litellm_settings:
   drop_params: true
