@@ -88,6 +88,7 @@ All settings live in `litellm/defaults.env` and can be overridden by adding the 
 | `LITELLM_VERSION` | `main-latest` | Image tag from [`ghcr.io/berriai/litellm`](https://github.com/BerriAI/litellm/pkgs/container/litellm). |
 | `LITELLM_HOST_PORT` | `4000` | Host-side port LiteLLM is published on (container port `4000`). |
 | `LITELLM_MASTER_KEY` | `sk-laradock` | Auth key required on every request to the proxy. |
+| `ORCAROUTER_API_KEY` | *(empty)* | Optional OrcaRouter key passed through to the container for the `orcarouter/auto` entry in `config.yaml`. |
 
 `litellm/config.yaml` is bind-mounted straight into the container at `/app/config.yaml`, so edits on your host take effect on the next container restart, no rebuild needed.
 
@@ -123,6 +124,39 @@ docker compose restart litellm
 </Tabs>
 
 The commented-out Ollama block already in `config.yaml` follows the same pattern (`ollama/llama3.2` with `api_base: http://ollama:11434`), uncomment it once the [Ollama](/docs/services/ollama) service has that model pulled.
+
+## Route through OrcaRouter
+
+[OrcaRouter](https://www.orcarouter.ai) is an OpenAI-compatible LLM gateway that exposes every major model provider from one endpoint (`https://api.orcarouter.ai/v1`). It also runs gateway-level, zero-trust security for AI agents on the same endpoint — screening every prompt/response and governing every tool call on a default-deny basis, with no application code changes.
+
+Laradock's `litellm/config.yaml` ships with a ready-to-use `orcarouter/auto` entry that mirrors the pattern above:
+
+```yaml
+model_list:
+  # OrcaRouter: one OpenAI-compatible gateway that routes to multiple model
+  # providers from a single endpoint.
+  - model_name: orcarouter/auto
+    litellm_params:
+      model: openai/orcarouter/auto
+      api_base: https://api.orcarouter.ai/v1
+      api_key: os.environ/ORCAROUTER_API_KEY
+```
+
+The key is already passed through to the container (`ORCAROUTER_API_KEY` is in `litellm/compose.yml`), so you only need to:
+
+1. Set `ORCAROUTER_API_KEY=sk-orca-...` in your `.env`.
+2. Restart the service.
+
+Then hit the proxy as usual, swapping `mock-gpt` for `orcarouter/auto`:
+
+```bash
+curl http://localhost:4000/v1/chat/completions \
+  -H "Authorization: Bearer sk-laradock" \
+  -H "Content-Type: application/json" \
+  -d '{"model": "orcarouter/auto", "messages": [{"role": "user", "content": "hello"}]}'
+```
+
+`orcarouter/auto` is OrcaRouter's smart-routing model: it dispatches each request to the best available upstream model. To pin a specific upstream model, add another entry with the model's gateway ID (for example `model_name: orcarouter/deepseek/deepseek-v4-pro` with `model: openai/orcarouter/deepseek/deepseek-v4-pro`).
 
 ## Change the LiteLLM version
 

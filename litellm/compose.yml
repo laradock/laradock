@@ -7,6 +7,7 @@ services:
         - ./litellm/config.yaml:/app/config.yaml
       environment:
         - LITELLM_MASTER_KEY=${LITELLM_MASTER_KEY}
+        - ORCAROUTER_API_KEY=${ORCAROUTER_API_KEY}
       ports:
         - "${LITELLM_HOST_PORT}:4000"
       networks:
