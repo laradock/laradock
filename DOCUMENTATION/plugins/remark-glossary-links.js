@@ -55,6 +55,7 @@ const ALIASES = {
   "/services/ide-theia": ["Theia"],
   "/services/redis-webui": ["Redis Web UI"],
   "/services/mongo-webui": ["MongoDB Web UI"],
+  "/services/mongo-express": ["Mongo Express"],
   "/services/mongo": ["Mongo"],
   "/services/postgres": ["Postgres"],
   "/services/php-fpm": ["PHP FPM"],

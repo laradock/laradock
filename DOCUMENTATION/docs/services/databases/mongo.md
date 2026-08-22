@@ -286,7 +286,7 @@ Each Laradock project is its own isolated Docker network by default, so a second
 
 Inside Laradock, other containers reach MongoDB by container name: `DB_HOST=mongo`. From your own machine, connect a GUI client (Compass, Studio 3T) to `localhost` on `MONGODB_PORT` (`27017` by default) using `MONGO_USERNAME`/`MONGO_PASSWORD`.
 
-Want a browser-based admin UI instead of a desktop client? See **[Mongo WebUI](/docs/services/mongo-webui)**.
+Want a browser-based admin UI instead of a desktop client? See **[Mongo WebUI](/docs/services/mongo-webui)** or **[Mongo Express](/docs/services/mongo-express)**.
 
 ## Common issues
 

@@ -203,6 +203,9 @@ include:
   - path: mongo-webui/compose.yml
     project_directory: .
     env_file: mongo-webui/defaults.env
+  - path: mongo-express/compose.yml
+    project_directory: .
+    env_file: mongo-express/defaults.env
   - path: mosquitto/compose.yml
     project_directory: .
     env_file: mosquitto/defaults.env

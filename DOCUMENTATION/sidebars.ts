@@ -179,6 +179,7 @@ const sidebars: SidebarsConfig = {
             "services/databases/postgres-postgis",
             "services/databases/mongo",
             "services/databases/mongo-webui",
+            "services/databases/mongo-express",
             "services/databases/rethinkdb",
             "services/databases/cassandra",
             "services/databases/couchdb",

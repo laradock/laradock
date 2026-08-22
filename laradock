@@ -410,7 +410,7 @@ Web servers|nginx apache2 caddy openresty frankenphp tomcat
 Load balancers|haproxy traefik
 PHP workers & tools|php-worker laravel-horizon blackfire
 Databases|mysql mariadb percona postgres postgres-postgis pgvector mssql mongo neo4j couchdb rethinkdb cassandra clickhouse tarantool arangodb surrealdb
-Database tools|phpmyadmin adminer pgadmin mongo-webui tarantool-admin pgbackups
+Database tools|phpmyadmin adminer pgadmin mongo-webui mongo-express tarantool-admin pgbackups
 Cache|redis redis-webui redis-cluster valkey dragonfly memcached aerospike varnish ssdb
 Message queues|rabbitmq beanstalkd beanstalkd-console mosquitto gearman nats kafka kafka-manager sqs zookeeper
 Search & logs|elasticsearch opensearch solr manticore typesense meilisearch dejavu kibana logstash

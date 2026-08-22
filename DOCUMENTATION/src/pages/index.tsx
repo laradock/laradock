@@ -77,7 +77,7 @@ const LAYERS: Card[][] = [
   ],
   [
     { type: "Database Management Systems", icon: "db", items: ["MySQL", "PostgreSQL", "PostGIS", "pgvector", "MariaDB", "Percona", "MSSQL", "MongoDB", "Neo4j", "CouchDB", "RethinkDB", "Cassandra", "ClickHouse", "Tarantool"] },
-    { type: "Database Management Tools", icon: "gui", items: ["PhpMyAdmin", "Adminer", "PgAdmin", "MongoDB Web UI", "Tarantool Admin", "pgbackups"] },
+    { type: "Database Management Tools", icon: "gui", items: ["PhpMyAdmin", "Adminer", "PgAdmin", "MongoDB Web UI", "Mongo Express", "Tarantool Admin", "pgbackups"] },
   ],
   [
     { type: "Vector Databases", icon: "ai", items: ["pgvector", "Qdrant", "Weaviate", "Chroma"] },
