@@ -1,0 +1,14 @@
+services:
+
+    mailrider:
+      image: petrfilip/mailrider:latest
+      ports:
+        - "${MAILRIDER_SMTP_PORT}:2587"  # SMTP
+        - "${MAILRIDER_IMAP_PORT}:143"   # IMAP
+        - "${MAILRIDER_WEBUI_PORT}:8082" # Web UI
+      volumes:
+        - mailrider:/var/mail/mailrider
+      restart: unless-stopped
+      networks:
+        - frontend
+        - backend

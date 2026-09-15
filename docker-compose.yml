@@ -20,6 +20,8 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   localai:
     driver: ${VOLUMES_DRIVER}
+  mailrider:
+    driver: ${VOLUMES_DRIVER}
   mssql:
     driver: ${VOLUMES_DRIVER}
   n8n:
@@ -170,6 +172,9 @@ include:
   - path: mailpit/compose.yml
     project_directory: .
     env_file: mailpit/defaults.env
+  - path: mailrider/compose.yml
+    project_directory: .
+    env_file: mailrider/defaults.env
   - path: mailu/compose.yml
     project_directory: .
     env_file: mailu/defaults.env
