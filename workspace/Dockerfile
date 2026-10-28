@@ -758,7 +758,7 @@ RUN if [ ${INSTALL_IONCUBE} = true ]; then \
       # is required to fetch at all; the pinned SHA-256 then guarantees integrity so a MITM cannot
       # swap in a malicious loader (mismatch aborts the build). Revert both when their cert renews.
       curl -fSL -k --http1.1 --retry 5 --retry-delay 2 --retry-all-errors -o /tmp/ioncube_loaders_lin_x86-64.tar.gz https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
-      && echo "e2193a63a87e2388a71854b0114de4fc71e2e40bcf0794faf74bb562691e5b62  /tmp/ioncube_loaders_lin_x86-64.tar.gz" | sha256sum -c - \
+      && echo "739962bd012e77ee82bf01f77a9641f050e4be057f0a5d1a95fe59ce11fd62ba  /tmp/ioncube_loaders_lin_x86-64.tar.gz" | sha256sum -c - \
       && tar zxpf /tmp/ioncube_loaders_lin_x86-64.tar.gz -C /tmp \
       && mv /tmp/ioncube/ioncube_loader_lin_${LARADOCK_PHP_VERSION}.so $(php -r "echo ini_get('extension_dir');")/ioncube_loader.so \
       && echo "zend_extension=ioncube_loader.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/ioncube.ini \
