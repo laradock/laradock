@@ -69,15 +69,16 @@ RUN PECL_BIN="$(command -v pecl)"; \
       > "$PECL_BIN"; \
     chmod +x "$PECL_BIN"
 
-# always run apt update when start and after add new source list, then clean up at end.
+# The base image already has the PECL channel definition. Do not refresh it during builds:
+# its endpoint can intermittently return HTML instead of the XML PECL expects.
+# Always run apt update when start and after adding a new source list, then clean up at end.
 RUN set -xe; \
     if [ ${WORKSPACE_ALLOW_RELEASE_INFO_CHANGE} = true ]; then \
       APT_GET_UPDATE_OPTIONS="--allow-releaseinfo-change"; \
     else \
       APT_GET_UPDATE_OPTIONS=""; \
     fi; \
-    apt-get update -yqq ${APT_GET_UPDATE_OPTIONS} && \
-    pecl channel-update pecl.php.net && \
+    apt-get update -yqq ${APT_GET_UPDATE_OPTIONS}; \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ] && [ $(php -r "echo PHP_MINOR_VERSION;") != "0" ]; then \
       groupmod --new-name laradock -g ${PGID} ubuntu; \
       usermod --login laradock -u ${PUID} --move-home --home /home/laradock ubuntu; \
