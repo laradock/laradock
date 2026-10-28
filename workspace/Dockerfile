@@ -1212,7 +1212,7 @@ ARG INSTALL_MC=false
 
 RUN if [ ${INSTALL_MC} = true ]; then \
     MC_ARCH=$(dpkg --print-architecture) && \
-    curl -fsSL -o /usr/local/bin/mc https://dl.min.io/client/mc/release/linux-${MC_ARCH}/mc && \
+    curl -fsSL -o /usr/local/bin/mc  && \
     chmod +x /usr/local/bin/mc \
 ;fi
 
