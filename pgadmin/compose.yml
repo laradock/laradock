@@ -10,8 +10,6 @@ services:
         - "${PGADMIN_PORT}:80"
       volumes:
         - ${DATA_PATH_HOST}/pgadmin:/var/lib/pgadmin
-      depends_on:
-        - postgres
       networks:
         - frontend
         - backend
