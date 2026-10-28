@@ -1212,7 +1212,15 @@ ARG INSTALL_MC=false
 
 RUN if [ ${INSTALL_MC} = true ]; then \
     MC_ARCH=$(dpkg --print-architecture) && \
-    curl -fsSL -o /usr/local/bin/mc  && \
+    case "$MC_ARCH" in \
+      amd64) MC_RELEASE_ARCH=amd64; MC_SHA256=01f866e9c5f9b87c2b09116fa5d7c06695b106242d829a8bb32990c00312e891 ;; \
+      arm64) MC_RELEASE_ARCH=arm64; MC_SHA256=14c8c9616cfce4636add161304353244e8de383b2e2752c0e9dad01d4c27c12c ;; \
+      ppc64el) MC_RELEASE_ARCH=ppc64le; MC_SHA256=0cf8776e6e1b1e2cd8a5c9e43ab26a1e2fbe57f57f51c9d99accaee3b0a2152b ;; \
+      *) echo "Unsupported MinIO Client architecture: $MC_ARCH" >&2; exit 1 ;; \
+    esac && \
+    MC_RELEASE=RELEASE.2025-08-13T08-35-41Z && \
+    curl -fsSL -o /usr/local/bin/mc "https://github.com/minio/mc/releases/download/$MC_RELEASE/mc.linux-$MC_RELEASE_ARCH.$MC_RELEASE" && \
+    echo "$MC_SHA256  /usr/local/bin/mc" | sha256sum -c - && \
     chmod +x /usr/local/bin/mc \
 ;fi
 
