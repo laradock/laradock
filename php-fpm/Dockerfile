@@ -41,6 +41,19 @@ RUN if [ "$LARADOCK_PHP_VERSION" = "7.1" ] || [ ${LARADOCK_PHP_VERSION} = "7.2" 
       /etc/apt/sources.list; \
 fi
 
+# PHP 7.4 uses an EOL Debian Bullseye base. Pinning a snapshot keeps package
+# metadata and binaries consistent instead of following removed moving repositories.
+RUN if [ "${LARADOCK_PHP_VERSION}" = "7.4" ]; then \
+    printf '%s\n' \
+      'deb [check-valid-until=no] https://snapshot.debian.org/archive/debian/20261028T000000Z/ bullseye main' \
+      'deb [check-valid-until=no] https://snapshot.debian.org/archive/debian/20261028T000000Z/ bullseye-updates main' \
+      'deb [check-valid-until=no] https://snapshot.debian.org/archive/debian-security/20261028T000000Z/ bullseye-security main' \
+      > /etc/apt/sources.list && \
+    rm -rf /var/lib/apt/lists/* && \
+    apt-get clean && \
+    apt-get -o Acquire::Check-Valid-Until=false update; \
+fi
+
 # pecl.php.net downloads intermittently truncate on CI (Fastly/HTTP flakiness), breaking
 # `pecl install` with "unable to unpack". Wrap pecl once so every install retries after clearing
 # the partial-download cache; all pecl call sites below become resilient with no other changes.
