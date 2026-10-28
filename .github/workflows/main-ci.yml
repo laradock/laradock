@@ -10,7 +10,7 @@ on:
       - 'DOCUMENTATION/**'
   pull_request:
   schedule:
-    - cron: '0 0 * * 0'→ Runs at 00:00, only on Sunday
+    - cron: '0 0 * * 0'
 
 
 
