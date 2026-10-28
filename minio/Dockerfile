@@ -1,4 +1,4 @@
-FROM minio/minio
+FROM quay.io/minio/minio
 
 LABEL maintainer="Thor Erik Lie <thor@thorerik.com>"
 
