@@ -1,0 +1,30 @@
+name: ionCube TLS smoke
+
+on:
+  push:
+    branches: [fix/ioncube-verify-tls]
+  pull_request:
+    paths:
+      - 'php-fpm/Dockerfile'
+      - 'workspace/Dockerfile'
+      - '.github/workflows/ioncube-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  loader:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build and verify both ionCube loaders
+        run: |
+          set -eux
+          cp .env.example .env
+          printf '\nPHP_VERSION=8.3\nPHP_FPM_INSTALL_IONCUBE=true\nWORKSPACE_INSTALL_IONCUBE=true\n' >> .env
+          docker compose config -q
+          docker compose build php-fpm workspace
+          docker compose run --rm --no-deps --entrypoint php php-fpm -m | grep -i '^ioncube loader$'
+          docker compose run --rm --no-deps --entrypoint php workspace -m | grep -i '^ioncube loader$'
