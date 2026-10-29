@@ -1,11 +1,6 @@
 name: Apache runtime smoke
 
 on:
-  push:
-    branches: [ fix/apache-alpine-runtime ]
-    paths:
-      - 'apache2/**'
-      - '.github/workflows/apache-runtime-smoke.yml'
   pull_request:
     paths:
       - 'apache2/**'
@@ -38,5 +33,5 @@ jobs:
             -v /tmp/laradock-apache-logs:/var/log/apache2 \
             -v "$PWD/apache2/sites":/etc/apache2/sites-available:ro \
             laradock-apache-smoke
-          trap 'docker logs apache-smoke || true; docker rm -f apache-smoke || true' EXIT
-          curl --fail --retry 20 --retry-connrefused --retry-delay 1 -H 'Host: laradock.test' http://127.0.0.1:18080/ | grep -F apache-smoke
+          trap 'docker logs apache-smoke || true; cat /tmp/laradock-apache-logs/error.log || true; docker rm -f apache-smoke || true' EXIT
+          curl --fail --retry 20 --retry-all-errors --retry-delay 1 -H 'Host: laradock.test' http://127.0.0.1:18080/ | grep -F apache-smoke
