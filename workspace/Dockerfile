@@ -755,10 +755,10 @@ ARG INSTALL_IONCUBE=false
 RUN if [ ${INSTALL_IONCUBE} = true ]; then \
     if [ ${LARADOCK_PHP_VERSION} != "8.5" ] \
       && [ ${LARADOCK_PHP_VERSION} != "8.0" ]; then \
-      # Install the php ioncube loader. downloads.ioncube.com's TLS cert expired 2026-07-11, so -k
-      # is required to fetch at all; the pinned SHA-256 then guarantees integrity so a MITM cannot
-      # swap in a malicious loader (mismatch aborts the build). Revert both when their cert renews.
-      curl -fSL -k --http1.1 --retry 5 --retry-delay 2 --retry-all-errors -o /tmp/ioncube_loaders_lin_x86-64.tar.gz https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
+      # Verify the vendor's TLS certificate and pinned SHA-256 before installing.
+      # The hash detects unexpected changes to the vendor's mutable archive.
+      # Update the pin only after authenticating a replacement archive.
+      curl -fSL --http1.1 --retry 5 --retry-delay 2 --retry-all-errors -o /tmp/ioncube_loaders_lin_x86-64.tar.gz https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
       && echo "739962bd012e77ee82bf01f77a9641f050e4be057f0a5d1a95fe59ce11fd62ba  /tmp/ioncube_loaders_lin_x86-64.tar.gz" | sha256sum -c - \
       && tar zxpf /tmp/ioncube_loaders_lin_x86-64.tar.gz -C /tmp \
       && mv /tmp/ioncube/ioncube_loader_lin_${LARADOCK_PHP_VERSION}.so $(php -r "echo ini_get('extension_dir');")/ioncube_loader.so \
