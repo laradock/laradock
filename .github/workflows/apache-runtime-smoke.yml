@@ -19,7 +19,7 @@ jobs:
         http2: [ 'false', 'true' ]
     steps:
       - uses: actions/checkout@v7
-      - name: Start Apache with the Compose mounts
+      - name: Start Apache and PHP-FPM with the Compose mounts
         env:
           HTTP2: ${{ matrix.http2 }}
         run: |
@@ -27,12 +27,16 @@ jobs:
           docker build --build-arg APACHE_INSTALL_HTTP2="$HTTP2" -t laradock-apache-smoke ./apache2
           mkdir -p /tmp/laradock-apache-www /tmp/laradock-apache-logs
           echo apache-smoke > /tmp/laradock-apache-www/index.html
-          docker run -d --name apache-smoke -p 127.0.0.1:18080:80 \
-            --add-host php-fpm:127.0.0.1 \
+          echo "<?php echo 'php-smoke';" > /tmp/laradock-apache-www/smoke.php
+          docker network create laradock-apache-smoke
+          trap 'docker logs apache-smoke || true; docker logs php-fpm || true; cat /tmp/laradock-apache-logs/error.log || true; docker rm -f apache-smoke php-fpm || true; docker network rm laradock-apache-smoke || true' EXIT
+          docker run -d --name php-fpm --network laradock-apache-smoke \
+            -v /tmp/laradock-apache-www:/var/www php:8.3-fpm-alpine
+          docker run -d --name apache-smoke --network laradock-apache-smoke -p 127.0.0.1:18080:80 \
             -v /tmp/laradock-apache-www:/var/www \
             -v /tmp/laradock-apache-logs:/var/log/apache2 \
             -v "$PWD/apache2/sites":/etc/apache2/sites-available:ro \
             -v "$PWD/apache2/ssl":/etc/apache2/ssl \
             laradock-apache-smoke
-          trap 'docker logs apache-smoke || true; cat /tmp/laradock-apache-logs/error.log || true; docker rm -f apache-smoke || true' EXIT
           curl --fail --retry 20 --retry-all-errors --retry-delay 1 -H 'Host: laradock.test' http://127.0.0.1:18080/ | grep -F apache-smoke
+          curl --fail --retry 20 --retry-all-errors --retry-delay 1 -H 'Host: laradock.test' http://127.0.0.1:18080/smoke.php | grep -Fx php-smoke
