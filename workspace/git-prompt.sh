@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # Settings info at https://github.com/magicmonty/bash-git-prompt
 if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
     # Set config variables first
