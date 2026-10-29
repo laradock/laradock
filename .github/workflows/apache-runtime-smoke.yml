@@ -1,0 +1,42 @@
+name: Apache runtime smoke
+
+on:
+  push:
+    branches: [ fix/apache-alpine-runtime ]
+    paths:
+      - 'apache2/**'
+      - '.github/workflows/apache-runtime-smoke.yml'
+  pull_request:
+    paths:
+      - 'apache2/**'
+      - '.github/workflows/apache-runtime-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  apache-startup:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        http2: [ 'false', 'true' ]
+    steps:
+      - uses: actions/checkout@v7
+      - name: Start Apache with a mounted application
+        env:
+          HTTP2: ${{ matrix.http2 }}
+        run: |
+          set -eux
+          docker build --build-arg APACHE_INSTALL_HTTP2="$HTTP2" -t laradock-apache-smoke ./apache2
+          mkdir -p /tmp/laradock-apache-www /tmp/laradock-apache-logs
+          echo apache-smoke > /tmp/laradock-apache-www/index.html
+          docker run -d --name apache-smoke -p 127.0.0.1:18080:80 \
+            --add-host php-fpm:127.0.0.1 \
+            -v /tmp/laradock-apache-www:/var/www \
+            -v /tmp/laradock-apache-logs:/var/log/apache2 \
+            -v "$PWD/apache2/sites":/etc/apache2/sites-available:ro \
+            laradock-apache-smoke
+          trap 'docker logs apache-smoke || true; docker rm -f apache-smoke || true' EXIT
+          curl --fail --retry 20 --retry-connrefused --retry-delay 1 -H 'Host: laradock.test' http://127.0.0.1:18080/ | grep -F apache-smoke
