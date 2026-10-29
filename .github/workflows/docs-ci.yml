@@ -1,0 +1,26 @@
+name: Documentation CI
+
+on:
+  pull_request:
+    paths:
+      - 'DOCUMENTATION/**'
+      - '.github/workflows/build-deploy-docs.yml'
+      - '.github/workflows/docs-ci.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: DOCUMENTATION
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '20'
+      - run: corepack enable
+      - run: yarn install --frozen-lockfile --non-interactive
+      - run: yarn build
