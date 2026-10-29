@@ -45,9 +45,9 @@ fi
 # metadata and binaries consistent instead of following removed moving repositories.
 RUN if [ "${LARADOCK_PHP_VERSION}" = "7.4" ]; then \
     printf '%s\n' \
-      'deb [check-valid-until=no] https://snapshot.debian.org/archive/debian/20261028T000000Z/ bullseye main' \
-      'deb [check-valid-until=no] https://snapshot.debian.org/archive/debian/20261028T000000Z/ bullseye-updates main' \
-      'deb [check-valid-until=no] https://snapshot.debian.org/archive/debian-security/20261028T000000Z/ bullseye-security main' \
+      'deb [check-valid-until=no] https://snapshot.debian.org/archive/debian/20260831T000000Z/ bullseye main' \
+      'deb [check-valid-until=no] https://snapshot.debian.org/archive/debian/20260831T000000Z/ bullseye-updates main' \
+      'deb [check-valid-until=no] https://snapshot.debian.org/archive/debian-security/20260831T000000Z/ bullseye-security main' \
       > /etc/apt/sources.list && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get clean && \
