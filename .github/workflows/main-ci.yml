@@ -93,5 +93,6 @@ jobs:
           cat ${{ matrix.service }}/defaults.env >> .env
           sed -i -- 's/=false/=true/g' .env
           sed -i -- 's/CHANGE_SOURCE=true/CHANGE_SOURCE=false/g' .env
+          sed -i -- 's/APACHE_FOR_MAC_M1=true/APACHE_FOR_MAC_M1=false/g' .env
           docker buildx bake ${{ matrix.service }} --progress=plain --set *.output=type=cacheonly
 
