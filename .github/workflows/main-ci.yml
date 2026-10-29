@@ -1,5 +1,6 @@
 name: CI
 
+
 on:
   push:
     branches: '**'
@@ -11,8 +12,11 @@ on:
   schedule:
     - cron: '0 0 * * 0'
 
+
+
 permissions:
   contents: read # to fetch code (actions/checkout)
+
 
 jobs:
   compose-validate:
@@ -25,6 +29,7 @@ jobs:
           docker compose version
           cp .env.example .env
           docker compose config -q
+
 
   build-php:
     # Don't trigger on schedule event when in a fork
@@ -69,6 +74,7 @@ jobs:
           sed -i -- 's/NEW_RELIC=true/NEW_RELIC=false/g' .env
           docker buildx bake ${{ matrix.service }} --progress=plain --set *.output=type=cacheonly
 
+
   build-other:
     # Don't trigger on schedule event when in a fork
     if: github.event_name != 'schedule' || (github.event_name == 'schedule' && github.repository == 'laradock/laradock')
@@ -76,7 +82,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        service: [ 'nginx', 'redis', 'mysql', 'mariadb', 'percona', 'minio', 'mongo' ]
+        service: [ 'nginx', 'redis', 'mysql', 'mariadb', 'percona', 'minio', 'mongo', 'apache2' ]
     steps:
       - uses: actions/checkout@v7
       - uses: docker/setup-buildx-action@v4
@@ -87,4 +93,6 @@ jobs:
           cat ${{ matrix.service }}/defaults.env >> .env
           sed -i -- 's/=false/=true/g' .env
           sed -i -- 's/CHANGE_SOURCE=true/CHANGE_SOURCE=false/g' .env
+          sed -i -- 's/APACHE_FOR_MAC_M1=true/APACHE_FOR_MAC_M1=false/g' .env
           docker buildx bake ${{ matrix.service }} --progress=plain --set *.output=type=cacheonly
+

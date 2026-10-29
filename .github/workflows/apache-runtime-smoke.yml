@@ -1,0 +1,54 @@
+name: Apache runtime smoke
+
+on:
+  pull_request:
+    paths:
+      - 'apache2/**'
+      - '.github/workflows/apache-runtime-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  apache-startup:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        http2: [ 'false', 'true' ]
+    steps:
+      - uses: actions/checkout@v7
+      - name: Start Apache and PHP-FPM with the Compose mounts
+        env:
+          HTTP2: ${{ matrix.http2 }}
+        run: |
+          set -eux
+          docker build --build-arg APACHE_INSTALL_HTTP2="$HTTP2" -t laradock-apache-smoke ./apache2
+          mkdir -p /tmp/laradock-apache-www /tmp/laradock-apache-logs /tmp/laradock-apache-sites /tmp/laradock-apache-ssl
+          echo apache-smoke > /tmp/laradock-apache-www/index.html
+          echo "<?php echo 'php-smoke';" > /tmp/laradock-apache-www/smoke.php
+          if [ "$HTTP2" = true ]; then
+            cp apache2/sites/default.apache.ssl.example /tmp/laradock-apache-sites/default.conf
+          else
+            cp apache2/sites/default.apache.conf /tmp/laradock-apache-sites/default.conf
+          fi
+          docker network create laradock-apache-smoke
+          trap 'docker logs apache-smoke || true; docker logs php-fpm || true; cat /tmp/laradock-apache-logs/error.log || true; docker rm -f apache-smoke php-fpm || true; docker network rm laradock-apache-smoke || true' EXIT
+          docker run -d --name php-fpm --network laradock-apache-smoke \
+            -v /tmp/laradock-apache-www:/var/www php:8.3-fpm-alpine
+          docker run -d --name apache-smoke --network laradock-apache-smoke \
+            -p 127.0.0.1:18080:80 -p 127.0.0.1:18443:443 \
+            -v /tmp/laradock-apache-www:/var/www \
+            -v /tmp/laradock-apache-logs:/var/log/apache2 \
+            -v /tmp/laradock-apache-sites:/etc/apache2/sites-available:ro \
+            -v /tmp/laradock-apache-ssl:/etc/apache2/ssl \
+            laradock-apache-smoke
+          if [ "$HTTP2" = true ]; then
+            curl --fail --retry 20 --retry-all-errors --retry-delay 1 --noproxy '*' --insecure --http2 --resolve laradock.test:18443:127.0.0.1 https://laradock.test:18443/ | grep -F apache-smoke
+            curl --fail --noproxy '*' --insecure --http2 --resolve laradock.test:18443:127.0.0.1 https://laradock.test:18443/smoke.php | grep -Fx php-smoke
+            [ "$(curl --silent --noproxy '*' --insecure --http2 --resolve laradock.test:18443:127.0.0.1 -o /dev/null -w '%{http_version}' https://laradock.test:18443/)" = 2 ]
+          else
+            curl --fail --retry 20 --retry-all-errors --retry-delay 1 -H 'Host: laradock.test' http://127.0.0.1:18080/ | grep -F apache-smoke
+            curl --fail -H 'Host: laradock.test' http://127.0.0.1:18080/smoke.php | grep -Fx php-smoke
+          fi
