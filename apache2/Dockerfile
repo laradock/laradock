@@ -19,7 +19,9 @@ ENV LOG_STDERR=/var/log/apache2/error.log
 # Keep Apache's ServerRoot and dynamic modules outside the /var/www bind mount.
 RUN set -eux; \
     ln -sfn /usr/lib/apache2 /etc/apache2/modules; \
-    sed -i 's|^ServerRoot /var/www$|ServerRoot /etc/apache2|' /etc/apache2/httpd.conf
+    sed -i 's|^ServerRoot /var/www$|ServerRoot /etc/apache2|' /etc/apache2/httpd.conf; \
+    grep -q '^DocumentRoot "/var/www/localhost/htdocs"' /etc/apache2/httpd.conf; \
+    sed -i 's|^DocumentRoot "/var/www/localhost/htdocs"|DocumentRoot "/var/www"|' /etc/apache2/httpd.conf
 
 # The base image's entrypoint expands the WEB_* values in this config at startup.
 COPY vhost.conf /opt/docker/etc/httpd/conf.d/99-laradock-vhosts.conf
