@@ -22,6 +22,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      - name: Prepare empty script placeholders for ShellCheck
+        run: |
+          # Empty shell placeholders contain no code to lint.
+          while IFS= read -r -d '' file; do
+            printf '#!/bin/sh\n' > "$file"
+          done < <(find . -path ./.git -prune -o -type f -name '*.sh' -empty -print0)
       - name: Run ShellCheck
         uses: ludeeus/action-shellcheck@2.0.0
         with:
