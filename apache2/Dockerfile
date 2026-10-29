@@ -25,9 +25,10 @@ RUN set -eux; \
 
 # The base image's entrypoint expands the WEB_* values in this config at startup.
 COPY vhost.conf /opt/docker/etc/httpd/conf.d/99-laradock-vhosts.conf
+COPY startup.sh /opt/docker/provision/entrypoint.d/50-laradock-tls.sh
 
 RUN if [ "${APACHE_INSTALL_HTTP2}" = true ]; then \
-      apk add --no-cache apache2-http2; \
+      apk add --no-cache apache2-http2 openssl; \
       sed -i 's|^#LoadModule http2_module|LoadModule http2_module|' /etc/apache2/httpd.conf; \
       printf '%s\n' 'Protocols h2 http/1.1' > /opt/docker/etc/httpd/conf.d/20-http2.conf; \
     fi
