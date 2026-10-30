@@ -1213,7 +1213,7 @@ ARG INSTALL_MC=false
 
 RUN if [ ${INSTALL_MC} = true ]; then \
     MC_ARCH=$(dpkg --print-architecture) && \
-    curl -fsSL -o /usr/local/bin/mc https://dl.min.io/client/mc/release/linux-${MC_ARCH}/mc && \
+    case "${MC_ARCH}" in amd64) MC_SHA=801cd199d1aef6afaac3be3dc9012f9b399e388dbde28f0e52f68eef6c40834c ;; arm64) MC_SHA=b8ac31a2f5dac19486ba6155f8020fa9cd9255b603b3b4f3ea426d3b17e61ea2 ;; *) echo "mcli unavailable for ${MC_ARCH}" >&2; exit 1 ;; esac && curl -fsSL -o /tmp/mcli.deb "https://github.com/pgsty/mc/releases/download/RELEASE.2026-10-26T00-00-00Z/mcli_20261026000000.0.0_${MC_ARCH}.deb" && echo "${MC_SHA}  /tmp/mcli.deb" | sha256sum -c - && dpkg-deb -x /tmp/mcli.deb /tmp/mcli-package && install -m 755 /tmp/mcli-package/usr/local/bin/mcli /usr/local/bin/mc && rm -rf /tmp/mcli-package /tmp/mcli.deb && \
     chmod +x /usr/local/bin/mc \
 ;fi
 
