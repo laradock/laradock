@@ -1,0 +1,43 @@
+name: Silo candidate smoke test
+on:
+  push:
+    branches: [test/silo-candidate]
+    paths: [.github/workflows/silo-candidate-smoke.yml]
+permissions:
+  contents: read
+jobs:
+  object-storage:
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-24.04, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 15
+    steps:
+      - name: Test object storage and restart persistence
+        shell: bash
+        run: |
+          set -euo pipefail
+          image='pgsty/silo@sha256:7bb2aff6b89efe1cb1303c10fc21d579447434ed06649ac9ec05a5e2dbf30ad7'
+          mkdir -p "$RUNNER_TEMP/silo-data"
+          docker run -d --name silo-test -p 127.0.0.1:9000:9000 \
+            -e MINIO_ROOT_USER=testuser -e MINIO_ROOT_PASSWORD=testpassword123 \
+            -v "$RUNNER_TEMP/silo-data:/export" "$image" server /export
+          trap 'docker logs silo-test || true' EXIT
+          for i in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:9000/minio/health/ready >/dev/null; then break; fi
+            sleep 1
+          done
+          curl -fsS http://127.0.0.1:9000/minio/health/ready >/dev/null
+          docker exec silo-test mc alias set test http://127.0.0.1:9000 testuser testpassword123
+          docker exec silo-test mc mb test/smoke
+          docker exec silo-test sh -c 'printf "laradock persistence test\n" > /tmp/payload'
+          docker exec silo-test mc cp /tmp/payload test/smoke/payload
+          docker restart silo-test
+          for i in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:9000/minio/health/ready >/dev/null; then break; fi
+            sleep 1
+          done
+          docker exec silo-test mc cat test/smoke/payload | grep -Fx 'laradock persistence test'
+          docker exec silo-test mc rm test/smoke/payload
+          docker exec silo-test mc rb test/smoke
