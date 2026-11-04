@@ -648,7 +648,7 @@ RUN set -eux; \
       make install &&\
       rm /tmp/libevent.tar.gz &&\
       docker-php-ext-install sockets  &&\
-      curl -L -o /tmp/event.tar.gz http://pecl.php.net/get/event-3.0.6.tgz &&\
+      curl -fsSL --proto '=https' --proto-redir '=https' -o /tmp/event.tar.gz https://pecl.php.net/get/event-3.0.6.tgz && echo '04de37c3274f40109595adbd6283ea29256285264290b00880365bf8235079cc  /tmp/event.tar.gz' | sha256sum -c - &&\
       mkdir -p /tmp/event-php &&\
       tar -C /tmp/event-php -zxvf /tmp/event.tar.gz --strip 1 &&\
       cd /tmp/event-php &&\
