@@ -1295,7 +1295,7 @@ ARG NEW_RELIC_KEY=${NEW_RELIC_KEY}
 ARG NEW_RELIC_APP_NAME=${NEW_RELIC_APP_NAME}
 
 RUN if [ ${NEW_RELIC} = true ]; then \
-  curl -L http://download.newrelic.com/php_agent/archive/10.15.0.4/newrelic-php5-10.15.0.4-linux.tar.gz | tar -C /tmp -zx && \
+  curl -fsSL --proto '=https' --proto-redir '=https' -o /tmp/newrelic.tar.gz https://download.newrelic.com/php_agent/archive/10.15.0.4/newrelic-php5-10.15.0.4-linux.tar.gz && echo '34376c0fcae9c125b28d29091609765447ed951b5eab18ba7ec8666030318e97  /tmp/newrelic.tar.gz' | sha256sum -c - && tar -C /tmp -zxf /tmp/newrelic.tar.gz && rm /tmp/newrelic.tar.gz && \
   export NR_INSTALL_USE_CP_NOT_LN=1 && \
   export NR_INSTALL_SILENT=1 && \
   /tmp/newrelic-php5-*/newrelic-install install && \
@@ -1401,7 +1401,7 @@ RUN set -eux; \
       make install &&\
       rm /tmp/libevent.tar.gz &&\
       docker-php-ext-install sockets  &&\
-      curl -L -o /tmp/event.tar.gz http://pecl.php.net/get/event-3.0.6.tgz &&\
+      curl -fsSL --proto '=https' --proto-redir '=https' -o /tmp/event.tar.gz https://pecl.php.net/get/event-3.0.6.tgz && echo '04de37c3274f40109595adbd6283ea29256285264290b00880365bf8235079cc  /tmp/event.tar.gz' | sha256sum -c - &&\
       mkdir -p /tmp/event-php &&\
       tar -C /tmp/event-php -zxvf /tmp/event.tar.gz --strip 1 &&\
       cd /tmp/event-php &&\
