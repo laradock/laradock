@@ -1,0 +1,20 @@
+name: Verify upstream download hashes
+on:
+  push:
+    branches: [fix/secure-build-downloads]
+    paths: [.github/workflows/download-integrity-check.yml]
+permissions:
+  contents: read
+jobs:
+  hashes:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Hash official HTTPS downloads
+        run: |
+          set -eu
+          curl --fail --show-error --location --proto =https --proto-redir =https -o /tmp/event.tgz https://pecl.php.net/get/event-3.0.6.tgz
+          curl --fail --show-error --location --proto =https --proto-redir =https -o /tmp/newrelic.tar.gz https://download.newrelic.com/php_agent/archive/10.15.0.4/newrelic-php5-10.15.0.4-linux.tar.gz
+          sha256sum /tmp/event.tgz /tmp/newrelic.tar.gz
+          tar -tzf /tmp/event.tgz > /dev/null
+          tar -tzf /tmp/newrelic.tar.gz > /dev/null
