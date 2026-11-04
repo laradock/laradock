@@ -1,0 +1,31 @@
+name: Secure download smoke
+on:
+  push:
+    branches: [fix/secure-build-downloads]
+    paths: [.github/workflows/secure-downloads-smoke.yml]
+  pull_request:
+    paths: [workspace/Dockerfile, php-worker/Dockerfile, php-fpm/Dockerfile, .github/workflows/secure-downloads-smoke.yml]
+permissions:
+  contents: read
+jobs:
+  builds:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        service: [workspace, php-worker, php-fpm]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build with Event and New Relic enabled
+        env:
+          SERVICE: ${{ matrix.service }}
+        run: |
+          set -eu
+          cp .env.example .env
+          printf '\nPHP_VERSION=8.3\nWORKSPACE_INSTALL_EVENT=true\nPHP_WORKER_INSTALL_EVENT=true\nPHP_FPM_INSTALL_EVENT=true\nPHP_FPM_NEW_RELIC=true\nPHP_FPM_NEW_RELIC_KEY=0000\nPHP_FPM_NEW_RELIC_APP_NAME=smoke\n' >> .env
+          docker compose build "$SERVICE"
+          docker compose run --rm --no-deps --entrypoint php "$SERVICE" -m | grep -i '^event$'
+          if [ "$SERVICE" = php-fpm ]; then
+            docker compose run --rm --no-deps --entrypoint php "$SERVICE" -m | grep -i '^newrelic$'
+          fi
