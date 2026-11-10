@@ -16,7 +16,7 @@ jobs:
       matrix:
         service: [workspace, php-worker, php-fpm]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Build with Event and New Relic enabled
         env:
           SERVICE: ${{ matrix.service }}
