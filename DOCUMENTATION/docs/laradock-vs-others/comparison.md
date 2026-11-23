@@ -200,6 +200,12 @@ Writing your own compose file is the purist path and exactly what Laradock is, m
 
 *Full breakdown: [Laradock vs Plain Docker Compose](/docs/laradock-vs-docker-compose).*
 
+### Laradock vs DevWorkspace Pro
+
+DevWorkspace Pro is a paid desktop app for macOS, Windows and Linux that keeps all your local projects in one place. You use it together with Laradock: open the `laradock` folder in DevWorkspace Pro, and the Services card starts, stops and shows logs for its containers.
+
+**Pick DevWorkspace Pro** if you want a desktop app to start, stop and read the logs of your Laradock containers.
+
 ## So which one should you choose?
 
 - **Agency with many similar CMS sites, allergic to Docker details** → DDEV (or Lando).
